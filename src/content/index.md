@@ -1,9 +1,9 @@
 ---
-title: Flutter documentation
-shortTitle: Docs
+title: Flutter 文件
+shortTitle: 文件
 description: >-
-  Get started with Flutter. Widgets, examples, updates, and API docs to
-  help you write your first Flutter app.
+  開始使用 Flutter。提供元件（Widgets）、範例、更新與 API 文件，
+  協助你撰寫第一個 Flutter 應用程式。
 ---
 
 <div class="card-grid">
@@ -19,48 +19,45 @@ description: >-
 {% endfor -%}
 </div>
 
-**To see changes to the site since our last release,
-see [What's new][].**
+**若要查看自上次版本發佈以來的網站變更，
+請參閱[最新動態][].**
 
 [What's new]: /release/whats-new
 
-## New to Flutter?
+## 初次接觸 Flutter？
 
-Ready to build beautiful, multiplatform apps from a single codebase?
-This video walks you through the fundamentals of Flutter and shows you how to get started.
+準備好從單一程式碼庫打造美觀、多平台的應用程式了嗎？
+這段影片將帶你了解 Flutter 的基礎，並教你如何開始。
 
-Once you've [Set up Flutter][],
-you should follow the 
-[Write your first Flutter app][] codelab 
-and read [Flutter fundamentals][]. 
-These resources are opinionated documentation 
-that guide you through the most important
-parts of building a Flutter app.
+完成[設定 Flutter][]後，
+建議你依序參考
+[撰寫你的第一個 Flutter 應用程式][]教學
+以及閱讀[Flutter 基礎][]
+這些資源是經過精心設計的文件，
+會引導你掌握建立 Flutter 應用程式最重要的部分。
 
 [Write your first Flutter app]: /get-started/codelab
 [Flutter fundamentals]: /get-started/fundamentals
 
-### Docs
+### 文件
 
-Coming from another platform? Check out Flutter for:
-[Android][], [SwiftUI][], [UIKit][], [React Native][], and
-[Xamarin.Forms][] developers.
+來自其他平台嗎？請參考針對下列開發者的 Flutter 指南：
+[Android][], [SwiftUI][], [UIKit][], [React Native][]，以及
+[Xamarin.Forms][] 開發者。
 
-[Building layouts][]
-: Learn how to create layouts in Flutter,
-  where everything is a widget.
+[建立版面][]
+：學習如何在 Flutter 中建立版面配置，
+  在這裡一切皆為元件（Widget）。
 
-[Understanding constraints][]
-: Once you understand that "Constraints
-  flow down. Sizes flow up. Parents set
-  positions", then you are well on your
-  way to understanding Flutter's layout model.
+[理解限制條件][]
+：只要你理解「限制條件向下傳遞，尺寸向上回報，父元件設定位置」，
+  就能掌握 Flutter 的版面配置模型。
 
-[Adding interactivity to your Flutter app][interactivity]
-: Learn how to add a stateful widget to your app.
+[為你的 Flutter 應用程式加入互動性][interactivity]
+：學習如何為應用程式新增有狀態元件（Stateful Widget）。
 
-[FAQ][]
-: Get the answers to frequently asked questions.
+[常見問題][]
+：取得常見問題的解答。
 
 [Android]: /get-started/flutter-for/android-devs
 [Building layouts]: /ui/layout
@@ -73,16 +70,16 @@ Coming from another platform? Check out Flutter for:
 [Understanding constraints]: /ui/layout/constraints
 [Xamarin.Forms]: /get-started/flutter-for/xamarin-forms-devs
 
-### Videos
+### 影片
 
 {% videoWrapper 'Check out what\'s new in Flutter at Google I/O 2025!' %}
 {% ytEmbed 'v6Rzo5khNE8', 'What\'s new in Flutter', true %}
 {% endvideoWrapper %}
 <br>
 
-For more Flutter at Google I/O 2025, check out
-[How to build agentic apps with Flutter and Firebase AI Logic][] 
-and [How Flutter makes the most of your platforms][].
+想了解更多 Google I/O 2025 的 Flutter 內容，請參閱
+[如何使用 Flutter 與 Firebase AI Logic 打造 Agentic 應用程式][]
+以及[Flutter 如何充分發揮各平台優勢][]。
 
 <div class="card-grid">
   <div class="card wrapped-card outlined-card">
@@ -100,10 +97,10 @@ and [How Flutter makes the most of your platforms][].
 [How to build agentic apps with Flutter and Firebase AI Logic]: {{site.yt.watch}}?v=xo271p-Fl_4
 [How Flutter makes the most of your platforms]: {{site.yt.watch}}?v=flwULzNYRac
 
-To learn about all of the Flutter video series, see our [videos][] page.
+想了解所有 Flutter 影片系列，請參閱我們的[影片][]頁面。
 
-We release new videos almost every week!
+我們幾乎每週都會推出新影片！
 
-<a class="filled-button" target="_blank" href="https://www.youtube.com/@flutterdev">Check out the Flutter YouTube channel</a>
+<a class="filled-button" target="_blank" href="https://www.youtube.com/@flutterdev">前往 Flutter YouTube 頻道</a>
 
 [videos]: /resources/videos
