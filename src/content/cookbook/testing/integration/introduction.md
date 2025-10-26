@@ -1,56 +1,51 @@
 ---
-title: Integration testing concepts
-description: Learn about integration testing in Flutter.
-shortTitle: Introduction
+title: 整合測試概念
+description: 了解 Flutter 中的整合測試。
+shortTitle: 介紹
 ---
 
 <?code-excerpt path-base="cookbook/testing/integration/introduction/"?>
 
-Unit tests and widget tests validate individual classes,
-functions, or widgets.
-They don't validate how individual pieces work
-together in whole or capture the performance
-of an app running on a real device.
-To perform these tasks, use *integration tests*.
+單元測試（Unit tests）與元件測試（Widget tests）用於驗證個別的類別、函式或元件（Widgets）。
+但它們無法驗證各個部分在整個應用程式中如何協同運作，也無法評估應用程式在真實裝置上運行時的效能。
+若要執行這些任務，請使用*整合測試（integration tests）*。
 
-Integration tests verify the behavior of the complete app.
-This test can also be called end-to-end testing or GUI testing.
+整合測試（integration tests）用於驗證完整應用程式的行為。
+這類測試也稱為端對端測試（end-to-end testing）或 GUI 測試（GUI testing）。
 
-The Flutter SDK includes the [integration_test][] package.
+Flutter SDK（Flutter 軟體開發套件）內建 [integration_test][integration_test] 套件。
 
-## Terminology
+## 術語說明
 
-**host machine**
-: The system on which you develop your app, like a desktop computer.
+**host machine（主機）**
+: 你開發應用程式所使用的系統，例如桌上型電腦。
 
-**target device**
-: The mobile device, browser, or desktop application that runs
-your Flutter app.
+**target device（目標裝置）**
+: 執行你的 Flutter 應用程式的行動裝置、瀏覽器或桌面應用程式。
 
-  If you run your app in a web browser or as a desktop application,
-  the host machine and the target device are the same.
+  如果你在網頁瀏覽器或桌面應用程式中執行應用程式，主機（host machine）與目標裝置（target device）即為同一台設備。
 
-## Dependent package
+## 相依套件
 
-To run integration tests, add the `integration_test` package
-as a dependency for your Flutter app test file.
+若要執行整合測試，請將 `integration_test` 套件
+新增為 Flutter 應用程式測試檔案的相依套件。
 
-To migrate existing projects that use `flutter_driver`,
-consult the [Migrating from flutter_driver][] guide.
+若需將現有使用 `flutter_driver` 的專案進行遷移，
+請參考 [Migrating from flutter_driver][Migrating from flutter_driver] 指南。
 
-Tests written with the `integration_test` package 
-can perform the following tasks.
+使用 `integration_test` 套件撰寫的測試
+可以執行以下任務：
 
-* Run on the target device.
-  To test multiple Android or iOS devices, use Firebase Test Lab.
-* Run from the host machine with `flutter test integration_test`.
-* Use `flutter_test` APIs. This makes integration tests
-  similar to writing [widget tests][].
+* 在目標裝置（target device）上執行。
+  若要測試多台 Android 或 iOS 裝置，請使用 Firebase Test Lab。
+* 透過主機（host machine）使用 `flutter test integration_test` 執行。
+* 使用 `flutter_test` API。這讓整合測試的寫法
+  與 [元件測試（widget tests）][widget tests] 類似。
 
-## Use cases for integration testing
+## 整合測試的使用情境
 
-The other guides in this section explain how to use integration tests to validate
-[functionality][] and [performance][].
+本節的其他指南將說明如何利用整合測試來驗證
+[功能][functionality]與[效能][performance]。
 
 [functionality]: /testing/integration-tests/
 [performance]: /cookbook/testing/integration/profiling/

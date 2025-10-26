@@ -1,53 +1,31 @@
 ---
-title: Create with AI
+title: 使用 AI 創建
 description: >
-  Learn how to use AI to build Flutter apps, from powerful SDKs that integrate
-  AI features directly into your app to tools that accelerate your development
-  workflow.
+  學習如何運用 AI 建構 Flutter 應用程式，從將 AI 功能直接整合進應用的強大 SDK，到加速開發流程的工具。
 ---
 
-This guide covers how you can leverage AI tools to build AI-powered features for
-your Flutter apps and streamline your Flutter and Dart development.
+本指南介紹如何運用 AI 工具，為你的 Flutter 應用程式打造 AI 驅動的功能，並簡化 Flutter 與 Dart 的開發流程。
 
-## Overview
+## 概覽
 
-AI can be used for building AI-powered apps with Flutter and for accelerating
-your development workflow. You can integrate AI-powered features like natural
-language understanding and content generation directly into your Flutter app
-using powerful SDKs, like the Firebase SDK for Generative AI. You can also use
-AI tools, such as Gemini Code Assist and Gemini CLI, to help with code
-generation and scaffolding. These tools are powered by the Dart and Flutter MCP
-Server, which provides AI with a rich context about your codebase. The Flutter
-Extension for Gemini CLI makes it easy to leverage official rules, the MCP server,
-and custom commands for building your app. Additionally, rules files help
-fine-tune the AI's behavior and enforce project-specific best practices.
+AI 可用於打造 AI 驅動的 Flutter 應用程式，也能加速你的開發流程。你可以透過強大的 SDK（如 Firebase AI Logic 的 Firebase SDK for Generative AI），將自然語言理解與內容生成等 AI 功能直接整合到 Flutter 應用程式中。你也可以使用 AI 工具，例如 Gemini Code Assist 和 Gemini CLI，協助程式碼生成與腳手架建構。這些工具由 Dart 與 Flutter MCP Server 提供支援，讓 AI 能夠取得你程式碼庫的豐富上下文。Flutter Extension for Gemini CLI 讓你輕鬆運用官方規則、MCP server 及自訂指令來建構應用程式。此外，rules 檔案有助於微調 AI 行為並強制執行專案特定的最佳實踐。
 
-## Build AI-powered experiences with Flutter
+## 使用 Flutter 打造 AI 驅動體驗
 
-Using AI in your Flutter app unlocks new user experiences that allow your app to
-support natural language understanding and content generation. 
+在 Flutter 應用程式中運用 AI，能解鎖全新使用者體驗，讓你的應用支援自然語言理解與內容生成。
 
-To get started building AI-powered experiences in Flutter, check out these 
-resources:
+若要開始在 Flutter 中打造 AI 驅動體驗，請參考以下資源：
 
-* [Firebase AI Logic][] - The official Firebase SDK for using generative AI
-  features directly in Flutter. Compatible with the Gemini Developer API or
-  Vertex AI. To get started, check out the
-  [official documentation][firebase-ai-logic-docs].
-* [Flutter AI Toolkit][] - A sample app with pre-built widgets to help you build
-  AI-powered features in Flutter
+* [Firebase AI Logic][Firebase AI Logic] - 官方 Firebase SDK，可直接在 Flutter 中使用生成式 AI 功能。相容於 Gemini Developer API 或 Vertex AI。請參閱[官方文件][firebase-ai-logic-docs]以開始使用。
+* [Flutter AI Toolkit][Flutter AI Toolkit] - 一個範例應用，內建多種元件（Widgets），協助你在 Flutter 中打造 AI 驅動功能
 
 [Firebase AI Logic]: {{site.firebase}}/docs/ai-logic
 [firebase-ai-logic-docs]: {{site.firebase}}/docs/ai-logic/get-started
 [Flutter AI Toolkit]: {{site.url}}/ai-toolkit
 
-## AI development tools
+## AI 開發工具
 
-AI isn't only a feature in your app, but can also be a powerful assistant in
-your development workflow.  Tools like [Gemini Code
-Assist](#gemini-code-assist), [Gemini CLI](#gemini-cli), [Claude Code][],
-[Cursor][], and [Windsurf][] can help you write code faster, understand complex
-concepts, and reduce boilerplate.
+AI 不僅能成為你應用程式中的一項功能，也能成為開發流程中的強大助手。像是 [Gemini Code Assist](#gemini-code-assist)、[Gemini CLI](#gemini-cli)、[Claude Code][Claude Code]、[Cursor][Cursor] 以及 [Windsurf][Windsurf] 等工具，能協助你更快撰寫程式碼、理解複雜概念並減少樣板程式碼。
 
 [Claude Code]: https://www.claude.com/product/claude-code
 [Cursor]: https://cursor.com/
@@ -55,82 +33,57 @@ concepts, and reduce boilerplate.
 
 ### Gemini Code Assist
 
-[Gemini Code Assist][] is an AI-powered collaborator available in Visual Studio
-Code and JetBrains IDEs (including Android Studio).  It has a deep understanding
-of your project's codebase and can help you with:
+[Gemini Code Assist][Gemini Code Assist] 是一款 AI 驅動的協作工具，可在 Visual Studio Code 與 JetBrains IDE（包含 Android Studio）中使用。它能深入理解你專案的程式碼庫，協助你：
 
-* **Code completion and generation**: It suggests and generates entire blocks of
-  code based on the context of what you're writing.
-* **In-editor chat**: You can ask questions about your code, Flutter concepts,
-  or best practices directly within your IDE.
-* **Debugging and explanation**: If you encounter an error, you can ask Gemini
-  Code Assist to explain it and suggest a fix, and
+* **程式碼補全與生成**：根據你正在撰寫的內容，建議並生成整段程式碼區塊。
+* **編輯器內對話**：你可以直接在 IDE 內詢問有關程式碼、Flutter 概念或最佳實踐的問題。
+* **除錯與說明**：遇到錯誤時，你可以請 Gemini Code Assist 解釋錯誤並提出修正建議，並且
   [Dart and Flutter MCP Server][dart-mcp-flutter-docs]
 
 [Gemini Code Assist]: https://codeassist.google/
 
 ### Gemini CLI
 
-The [Gemini CLI][] is a command-line AI workflow tool. It allows you to interact
-with Gemini models for a variety of tasks without leaving your development
-environment. You can use it to:
+[Gemini CLI][Gemini CLI] 是一款命令列 AI 工作流程工具。它讓你能在不離開開發環境的情況下，與 Gemini 模型互動完成各種任務。你可以用它來：
 
-* Quickly scaffold a new Flutter widget, Dart function, or a complete app.
-* Use MCP server tools, such as the Dart and Flutter MCP server
-* Automate tasks like committing and pushing changes to a Git repository
+* 快速建立 Flutter 元件（Widget）、Dart 函式或完整應用程式的腳手架。
+* 使用 MCP server 工具，例如 Dart 與 Flutter MCP server
+* 自動化像是提交（commit）與推送（push）變更到 Git 儲存庫等任務
 
-To get started, visit the [Gemini CLI][] website, or try this
-[Gemini CLI codelab][].
+若要開始使用，請造訪 [Gemini CLI][Gemini CLI] 官方網站，或試試這個 [Gemini CLI codelab][Gemini CLI codelab]。
 
 [Gemini CLI]: https://geminicli.com/
 [Gemini CLI codelab]: https://codelabs.developers.google.com/gemini-cli-hands-on
 
 ## Flutter Extension for Gemini CLI
 
-The [Flutter Extension for Gemini CLI][flutter-extension] combines the [Dart and
-Flutter MCP Server][dart-mcp-dart-docs] with rules and commands. It uses the
-default set of [AI rules for Flutter and Dart][], adds commands like
-`/create-app` and `/modify` to make structured changes to your app, and
-automatically configures the [Dart and Flutter MCP Server][dart-mcp-dart-docs].
+[Flutter Extension for Gemini CLI][flutter-extension] 結合了 [Dart and Flutter MCP Server][dart-mcp-dart-docs]、rules 及指令。它預設採用 [AI rules for Flutter and Dart][AI rules for Flutter and Dart]，並新增像是 `/create-app` 與 `/modify` 等指令，協助你有結構地變更應用程式，同時自動設定 [Dart and Flutter MCP Server][dart-mcp-dart-docs]。
 
-You can install it by running the following command:
+你可以透過下列指令安裝：
 
 ```bash
 gemini extensions install https://github.com/gemini-cli-extensions/flutter
 ```
 
-To learn more, see the [blog post][flutter-extension-blog] or 
-the [README][flutter-extension].
+欲了解更多資訊，請參閱 [blog post][flutter-extension-blog] 或 [README][flutter-extension]。
 
 [flutter-extension]: {{site.github}}/gemini-cli-extensions/flutter
 [flutter-extension-blog]: https://blog.flutter.dev/meet-the-flutter-extension-for-gemini-cli-f8be3643eaad
 
-## Dart and Flutter MCP Server
+## Dart 與 Flutter MCP Server
 
-To provide assistance during Flutter development, AI tools
-need to communicate with Dart and Flutter's developer tools.
-The Dart and Flutter MCP Server facilitates this communication.
-The MCP (model context protocol) specification outlines how
-development tools can share the context of a user's code with an AI model,
-which allows the AI to better understand and interact with the code.
+為了在 Flutter 開發過程中提供協助，AI 工具需要與 Dart 與 Flutter 的開發者工具進行溝通。Dart 與 Flutter MCP Server（MCP 伺服器）即是用來促進這種溝通的橋樑。MCP（model context protocol，模型上下文協定）規範說明了開發工具如何將使用者程式碼的上下文分享給 AI 模型，讓 AI 能更好地理解並互動於程式碼之中。
 
-The Dart and Flutter MCP server provides a growing list of tools to analyze
-and fix errors, hot reload, get the selected widget, and more.
-This bridges the gap between the AI's natural language understanding,
-and Dart and Flutter's suite of developer tools.
+Dart 與 Flutter MCP Server 提供越來越多的工具，協助分析與修正錯誤、熱重載（hot reload）、取得所選元件（Widget）等功能。這有效銜接了 AI 的自然語言理解能力與 Dart、Flutter 開發者工具套件之間的鴻溝。
 
-To get started, check out the official documentation for the
-[Dart and Flutter MCP server][dart-mcp-dart-docs]
-on dart.dev and the [Dart and Flutter MCP repository][dart-mcp-github].
+若要開始使用，請參閱 dart.dev 上的 [Dart and Flutter MCP server][dart-mcp-dart-docs] 官方文件，以及 [Dart and Flutter MCP repository][dart-mcp-github]。
 
 [dart-mcp-dart-docs]: {{site.dart-site}}/tools/mcp-server
 [dart-mcp-github]: {{site.github}}/dart-lang/ai/tree/main/pkgs/dart_mcp_server
-[dart-mcp-flutter-docs]: #dart-and-flutter-mcp-server
+[dart-mcp-flutter-docs]: #dart-與-flutter-mcp-server
 
-## Rules for Flutter and Dart
+## Flutter 與 Dart 的規則檔
 
-You can use a rules file with AI-powered editors to provide
-context and instructions to an underlying LLM. To get
-started, see the [AI rules for Flutter and Dart][] guide.
+你可以在支援 AI 的編輯器中使用規則檔，為底層的大型語言模型 (LLM) 提供上下文與指令。欲開始使用，請參閱 [AI rules for Flutter and Dart][AI rules for Flutter and Dart] 指南。
 
 [AI rules for Flutter and Dart]: /ai/ai-rules

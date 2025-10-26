@@ -1,53 +1,51 @@
+```markdown
 ---
-title: New CupertinoIcons has icon glyph changes
+title: 新版 CupertinoIcons 有圖示字形變更
 description: >
-  Once you update to cupertino_icons 1.0.0, some old glyphs are
-  automapped to the new glyphs. Consider double-checking visually.
+  一旦你升級到 cupertino_icons 1.0.0，部分舊有字形會自動對應到新的字形。建議進行視覺上的再次確認。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-The existing cupertino_icons [0.1.3 icons][]
-are based on iOS 11 aesthetics with sharp angles and thin lines.
+現有的 cupertino_icons [0.1.3 圖示][0.1.3 icons]
+是以 iOS 11 的美學為基礎，具有銳利的角度與細線條。
 
-As Apple's iconography updates with new OS versions,
-the `cupertino_icons` package is also refreshed.
+隨著 Apple 的圖示設計隨新作業系統版本更新，
+`cupertino_icons` 套件也會同步更新。
 
-Generally, all previous glyphs referenced from the
-[`CupertinoIcons`][] API are automatically mapped to
-very similar looking icons in the new SF Symbols
-style (featuring rounder, thicker lines).
+一般來說，所有先前透過
+[`CupertinoIcons`][`CupertinoIcons`] API 參考的字形，
+都會自動對應到新 SF Symbols 風格中
+外觀非常相似的圖示（特色為更圓潤且線條較粗）。
 
-Some icons that have no equivalents in the
-new SF Symbols style are left as is.
+部分在新 SF Symbols 風格中沒有對應圖示的，
+則維持原樣。
 
-Some icons that have less variation
-(such as thickness, alternative looks, and so on)
-are automapped and collapsed to the best matching
-variation in the new SF Symbols style but should be
-double checked to determine whether they preserve the
-intended visual effect.
+部分變化較少的圖示
+（如線條粗細、替代外觀等），
+會自動對應並合併到新 SF Symbols 風格中
+最接近的變體，但建議你再次確認，
+以確保其視覺效果是否仍符合預期。
 
-## Description of change
+## 變更說明
 
-The new `cupertino_icons 1.0.0` font is handcrafted
-to best preserve the intent and aesthetic of the
-symbology through the transition. All existing
-`CupertinoIcons`' static `IconData` fields
-(and thus all of the font `.ttf`'s codepoints)
-continue to work and point to a reasonable new icon.
+新的 `cupertino_icons 1.0.0` 字型是手工設計，
+以最大程度保留圖示在轉換過程中的設計意圖與美感。
+所有現有的
+`CupertinoIcons` 的靜態 `IconData` 欄位
+（因此所有字型 `.ttf` 的 codepoint）
+都能繼續使用，並指向合理的新圖示。
 
-The new cupertino_icons 1.0.0 package also has ~1,000
-more icons to choose from.
+新版 cupertino_icons 1.0.0 套件也新增了約 1,000
+個可選用的圖示。
 
-### Unchanged icons
+### 未變更的圖示
 
-No SF Symbols styled alternatives exist
-for the icons in the following list.
-The previous cupertino_icons 0.1.3 icons
-have been kept as is in 1.0.0.
+下列圖示在 SF Symbols 風格中沒有對應的替代品。
+cupertino_icons 0.1.3 的這些圖示
+在 1.0.0 版本中維持不變。
 
 * bluetooth
 * bus
@@ -62,15 +60,15 @@ have been kept as is in 1.0.0.
 * train_style_one
 * train_style_two
 
-### Merged icons
+### 合併的圖示
 
-Icons within the same group are now the exact same
-icon in 1.0.0. In other words, the distinctions
-between those icon variations that existed in 0.1.3 is
-lost and now renders the same SF Symbols
-styled icon that represents the theme of the group.
+同一組內的圖示在 1.0.0 版本中
+現在都會顯示為完全相同的圖示。
+換句話說，0.1.3 版本中這些圖示變體的差異
+已經消失，現在會渲染為代表該主題的
+相同 SF Symbols 風格圖示。
 
-This affects the following icon groups:
+這影響到以下圖示組：
 
 * share, share_up
 * battery_charging, battery_full, battery_75_percent
@@ -86,17 +84,18 @@ This affects the following icon groups:
 * tag, tags
 * tag_solid, tags_solid
 
-This is mainly due to some artistic liberties taken
-when creating the original `cupertino_icons` set that
-no longer match the variations diversity of the more
-formal SF Symbols icon set for some of the icons.
+這主要是因為原始 `cupertino_icons` 集合在設計時
+採取了一些藝術上的自由，
+但這些變體的多樣性已不再符合
+SF Symbols 較為正式的圖示集。
 
-## Migration guide
+## 遷移指南
 
-After upgrading to 1.22,
-if you also upgrade the `cupertino_icons`
-pubspec dependency from 0.1.3 to 1.0.0,
-for example, by changing:
+升級到 1.22 之後，
+如果你也將 `cupertino_icons`
+在 pubspec 依賴項從 0.1.3 升級到 1.0.0，
+例如，將以下內容修改為：
+```
 
 ```yaml
 dependencies:
@@ -112,23 +111,18 @@ dependencies:
   cupertino_icons: ^1.0.0
 ```
 
-All your `CupertinoIcons` should automatically
-update to the new aesthetic (except for the
-[unchanged icons](#unchanged-icons) listed above).
+你所有的 `CupertinoIcons` 應會自動更新為新的美學風格（除了上方所列的[未變更圖示](#unchanged-icons)）。
 
-At this point, you can also explore [`CupertinoIcons`][]
-for new icons to use in your application.
+此時，你也可以探索 [`CupertinoIcons`][`CupertinoIcons`]，尋找可在應用程式中使用的新圖示。
 
-You're encouraged to verify your application after
-migrating to ensure that the automatically mapped
-new icons are suitable for your desired aesthetics.
+建議你在遷移後檢查你的應用程式，以確保自動對應的新圖示符合你所期望的美學風格。
 
-## Timeline
+## 時程
 
-Landed in: 1.22.0-10.0.pre.65<br>
-In stable release: 1.22
+合併於：1.22.0-10.0.pre.65<br>  
+正式版釋出：1.22
 
-## References
+## 參考資料
 
-[0.1.3 icons]: https://raw.githubusercontent.com/flutter/cupertino_icons/master/map.png
+[0.1.3 icons]: https://raw.githubusercontent.com/flutter/cupertino_icons/master/map.png  
 [`CupertinoIcons`]: {{site.api}}/flutter/cupertino/CupertinoIcons-class.html

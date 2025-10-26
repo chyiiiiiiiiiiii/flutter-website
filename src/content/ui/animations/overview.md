@@ -1,329 +1,224 @@
 ---
-title: Animations API overview
-shortTitle: API overview
-description: An overview of animation concepts.
+title: 動畫 API 概覽
+shortTitle: API 概覽
+description: 動畫概念總覽。
 ---
 
-The animation system in Flutter is based on typed
-[`Animation`][] objects. Widgets can either
-incorporate these animations in their build
-functions directly by reading their current value and listening to their
-state changes or they can use the animations as the basis of more elaborate
-animations that they pass along to other widgets.
+Flutter 的動畫系統是基於型別化的
+[`Animation`][`Animation`] 物件。元件（Widgets）可以直接在其 build
+函式中讀取這些動畫的當前值並監聽其狀態變化，或是將這些動畫作為更複雜動畫的基礎，並傳遞給其他元件。
 
-## Animation
+## 動畫（Animation）
 
-The primary building block of the animation system is the
-[`Animation`][] class. An animation represents a value
-of a specific type that can change over the lifetime of
-the animation. Most widgets that perform an animation
-receive an `Animation` object as a parameter,
-from which they read the current value of the animation
-and to which they listen for changes to that value.
+動畫系統的主要構建基礎是
+[`Animation`][`Animation`] 類別。動畫（Animation）代表一個特定型別的值，該值可以在動畫生命週期中變化。大多數執行動畫的元件會以參數形式接收一個 `Animation` 物件，
+從中讀取動畫的當前值，並監聽該值的變化。
 
 ### `addListener`
 
-Whenever the animation's value changes,
-the animation notifies all the listeners added with
-[`addListener`][]. Typically, a [`State`][]
-object that listens to an animation calls
-[`setState`][] on itself in its listener callback
-to notify the widget system that it needs to
-rebuild with the new value of the animation.
+每當動畫的值發生變化時，
+動畫會通知所有使用
+[`addListener`][`addListener`] 新增的監聽器。通常，監聽動畫的 [`State`][`State`]
+物件會在其監聽回呼中呼叫
+[`setState`][`setState`] 來通知元件系統需要
+以動畫的新值重新建構。
 
-This pattern is so common that there are two widgets
-that help widgets rebuild when animations change value:
-[`AnimatedWidget`][] and [`AnimatedBuilder`][].
-The first, `AnimatedWidget`, is most useful for
-stateless animated widgets. To use `AnimatedWidget`,
-simply subclass it and implement the [`build`][] function.
-The second, `AnimatedBuilder`, is useful for more complex widgets
-that wish to include an animation as part of a larger build function.
-To use `AnimatedBuilder`, simply construct the widget
-and pass it a `builder` function.
+這種模式非常常見，因此有兩個元件
+可以協助元件在動畫值變化時自動重建：
+[`AnimatedWidget`][`AnimatedWidget`] 和 [`AnimatedBuilder`][`AnimatedBuilder`]。
+第一個 `AnimatedWidget`，最適合用於
+無狀態動畫元件。要使用 `AnimatedWidget`，
+只需繼承它並實作 [`build`][`build`] 函式。
+第二個 `AnimatedBuilder`，適用於希望在較大 build 函式中納入動畫的複雜元件。
+要使用 `AnimatedBuilder`，只需建立該元件
+並傳入一個 `builder` 函式。
 
 ### `addStatusListener`
 
-Animations also provide an [`AnimationStatus`][],
-which indicates how the animation will evolve over time.
-Whenever the animation's status changes,
-the animation notifies all the listeners added with
-[`addStatusListener`][]. Typically, animations start
-out in the `dismissed` status, which means they're
-at the beginning of their range. For example,
-animations that progress from 0.0 to 1.0
-will be `dismissed` when their value is 0.0.
-An animation might then run `forward` (from 0.0 to 1.0)
-or perhaps in `reverse` (from 1.0 to 0.0).
-Eventually, if the animation reaches the end of its range
-(1.0), the animation reaches the `completed` status.
+動畫也提供一個 [`AnimationStatus`][`AnimationStatus`]，
+用於指示動畫如何隨時間演化。
+每當動畫的狀態改變時，
+動畫會通知所有使用
+[`addStatusListener`][`addStatusListener`] 新增的監聽器。通常，動畫會以 `dismissed` 狀態開始，這表示它們
+處於範圍的起始點。例如，
+從 0.0 進展到 1.0 的動畫，
+當其值為 0.0 時會是 `dismissed` 狀態。
+動畫接著可能會進行 `forward`（從 0.0 到 1.0），
+或是在 `reverse`（從 1.0 到 0.0）。
+最終，若動畫達到其範圍的終點
+（1.0），動畫會進入 `completed` 狀態。
 
 ## Animation&shy;Controller
 
-To create an animation, first create an [`AnimationController`][].
-As well as being an animation itself, an `AnimationController`
-lets you control the animation. For example,
-you can tell the controller to play the animation
-[`forward`][] or [`stop`][] the animation.
-You can also [`fling`][] animations,
-which uses a physical simulation, such as a spring,
-to drive the animation.
+要建立動畫，首先需建立一個 [`AnimationController`][`AnimationController`]。
+`AnimationController` 不僅本身是一個動畫，還能讓你控制動畫。例如，
+你可以指示控制器播放動畫
+[`forward`][`forward`] 或 [`stop`][`stop`] 動畫。
+你也可以 [`fling`][`fling`] 動畫，
+這會使用物理模擬（如彈簧）來驅動動畫。
 
-Once you've created an animation controller,
-you can start building other animations based on it.
-For example, you can create a [`ReverseAnimation`][]
-that mirrors the original animation but runs in the
-opposite direction (from 1.0 to 0.0).
-Similarly, you can create a [`CurvedAnimation`][]
-whose value is adjusted by a [`Curve`][].
+建立動畫控制器後，
+你可以基於它構建其他動畫。
+例如，你可以建立一個 [`ReverseAnimation`][`ReverseAnimation`]，
+它會鏡像原始動畫但以相反方向運行（從 1.0 到 0.0）。
+同樣地，你可以建立一個 [`CurvedAnimation`][`CurvedAnimation`]，
+其值會由 [`Curve`][`Curve`] 進行調整。
 
 ## Tweens
 
-To animate beyond the 0.0 to 1.0 interval, you can use a
-[`Tween<T>`][], which interpolates between its
-[`begin`][] and [`end`][] values. Many types have specific
-`Tween` subclasses that provide type-specific interpolation.
-For example, [`ColorTween`][] interpolates between colors and
-[`RectTween`][] interpolates between rects.
-You can define your own interpolations by creating
-your own subclass of `Tween` and overriding its
-[`lerp`][] function.
+若要實現超出 0.0 到 1.0 區間的動畫，可以使用
+[`Tween<T>`][`Tween<T>`]，它會在其
+[`begin`][`begin`] 和 [`end`][`end`] 值之間進行插值。許多型別都有專屬的
+`Tween` 子類別，提供型別專屬的插值方式。
+例如，[`ColorTween`][`ColorTween`] 可在顏色之間插值，
+[`RectTween`][`RectTween`] 可在矩形之間插值。
+你也可以透過建立自己的 `Tween` 子類別並覆寫其
+[`lerp`][`lerp`] 函式來自訂插值方式。
 
-By itself, a tween just defines how to interpolate
-between two values. To get a concrete value for the
-current frame of an animation, you also need an
-animation to determine the current state.
-There are two ways to combine a tween
-with an animation to get a concrete value:
+單獨來看，tween 只定義了如何在兩個值之間插值。要取得動畫當前幀的具體值，還需要一個動畫來決定當前狀態。
+有兩種方式可以將 tween 與動畫結合以取得具體值：
 
-1. You can [`evaluate`][] the tween at the current
-   value of an animation. This approach is most useful
-   for widgets that are already listening to the animation and hence
-   rebuilding whenever the animation changes value.
+1. 你可以在動畫的當前值上 [`evaluate`][`evaluate`] tween。這種方式最適合已經在監聽動畫且會在動畫值變化時重建的元件。
 
-2. You can [`animate`][] the tween based on the animation.
-   Rather than returning a single value, the animate function
-   returns a new `Animation` that incorporates the tween.
-   This approach is most useful when you want to give the
-   newly created animation to another widget,
-   which can then read the current value that incorporates
-   the tween as well as listen for changes to the value.
+2. 你可以根據動畫 [`animate`][`animate`] tween。
+   `animate` 函式不會回傳單一值，而是回傳一個包含 tween 的新 `Animation`。
+   當你想將新建立的動畫傳遞給其他元件時，這種方式最為實用，
+   這樣其他元件就能讀取包含 tween 的當前值並監聽值的變化。
 
-## Architecture
+## 架構
 
-Animations are actually built from a number of core building blocks.
+動畫實際上是由多個核心構件組成。
 
-### Scheduler
+### Scheduler（排程器）
 
-The [`SchedulerBinding`][] is a singleton class
-that exposes the Flutter scheduling primitives.
+[`SchedulerBinding`][`SchedulerBinding`] 是一個單例類別，
+提供 Flutter 排程原語。
 
-For this discussion, the key primitive is the frame callbacks.
-Each time a frame needs to be shown on the screen,
-Flutter's engine triggers a "begin frame" callback that
-the scheduler multiplexes to all the listeners registered using
-[`scheduleFrameCallback()`][]. All these callbacks are
-given the official time stamp of the frame, in
-the form of a `Duration` from some arbitrary epoch. Since all the
-callbacks have the same time, any animations triggered from these
-callbacks will appear to be exactly synchronised even
-if they take a few milliseconds to be executed.
+在這裡，關鍵的原語是 frame callbacks（畫格回呼）。
+每當需要在螢幕上顯示一個畫格時，
+Flutter 引擎會觸發一個 "begin frame" 回呼，
+排程器會將其多工分發給所有使用
+[`scheduleFrameCallback()`][`scheduleFrameCallback()`] 註冊的監聽器。所有這些回呼都會
+收到該畫格的官方時間戳記，
+以 `Duration` 的形式（來自某個任意紀元）。由於所有回呼收到的時間相同，任何從這些回呼中觸發的動畫都會看起來完全同步，即使它們的執行有幾毫秒的差異。
 
-### Tickers
+### Tickers（計時器）
 
-The [`Ticker`][] class hooks into the scheduler's
-[`scheduleFrameCallback()`][]
-mechanism to invoke a callback every tick.
+[`Ticker`][`Ticker`] 類別會連接到排程器的
+[`scheduleFrameCallback()`][`scheduleFrameCallback()`]
+機制，每個 tick 觸發一次回呼。
 
-A `Ticker` can be started and stopped. When started,
-it returns a `Future` that will resolve when it is stopped.
+`Ticker` 可以啟動和停止。啟動時，
+會回傳一個 `Future`，當停止時會完成。
 
-Each tick, the `Ticker` provides the callback with the
-duration since the first tick after it was started. 
+每個 tick，`Ticker` 會提供自啟動後第一個 tick 起算的經過時間給回呼。
 
-Because tickers always give their elapsed time relative to the first
-tick after they were started; tickers are all synchronised. If you
-start three tickers at different times between two ticks, they will all
-nonetheless be synchronised with the same starting time, and will
-subsequently tick in lockstep. Like people at a bus-stop,
-all the tickers wait for a regularly occurring event
-(the tick) to begin moving (counting time).
+由於計時器總是以啟動後的第一個 tick 作為相對時間起點，因此所有計時器都是同步的。如果你在兩個 tick 之間的不同時刻啟動三個計時器，它們仍會以相同的起始時間同步，並隨後保持步調一致。就像在公車站等車的人一樣，
+所有計時器都在等待一個定期發生的事件
+（tick）來開始計時。
 
-### Simulations
+### Simulations（模擬）
 
-The [`Simulation`][] abstract class maps a
-relative time value (an elapsed time) to a
-double value, and has a notion of completion.
+[`Simulation`][`Simulation`] 抽象類別會將
+相對時間值（經過時間）對應到一個
+double 值，並具有完成的概念。
 
-In principle simulations are stateless but in practice
-some simulations (for example,
-[`BouncingScrollSimulation`][] and
-[`ClampingScrollSimulation`][])
-change state irreversibly when queried.
+理論上模擬是無狀態的，但實務上
+有些模擬（例如，
+[`BouncingScrollSimulation`][`BouncingScrollSimulation`] 和
+[`ClampingScrollSimulation`][`ClampingScrollSimulation`]）
+在被查詢時會不可逆地改變狀態。
 
-There are [various concrete implementations][]
-of the `Simulation` class for different effects.
+`Simulation` 類別針對不同效果有[多種具體實作][various concrete implementations]。
 
-### Animatables
+### Animatables（可動畫物件）
 
-The [`Animatable`][] abstract class maps a
-double to a value of a particular type.
+[`Animatable`][`Animatable`] 抽象類別會將一個
+double 對應到特定型別的值。
 
-`Animatable` classes are stateless and immutable.
+`Animatable` 類別是無狀態且不可變的。
 
 #### Tweens
 
-The [`Tween<T>`][] abstract class maps a double
-value nominally in the range 0.0-1.0 to a typed value
-(for example, a `Color`, or another double).
-It is an `Animatable`.
+[`Tween<T>`][`Tween<T>`] 抽象類別會將名義上在 0.0-1.0 區間內的 double
+值對應到一個型別化的值
+（例如 `Color`，或另一個 double）。
+它是一個 `Animatable`。
 
-It has a notion of an output type (`T`),
-a `begin` value and an `end` value of that type,
-and a way to interpolate (`lerp`) between the begin
-and end values for a given input value (the double nominally in
-the range 0.0-1.0).
+它具有輸出型別（`T`）、`begin` 值和 `end` 值，
+並提供一種在起始值與結束值之間插值（`lerp`）的方法，
+針對給定的輸入值（名義上在 0.0-1.0 區間的 double）。
 
-`Tween` classes are stateless and immutable.
+`Tween` 類別是無狀態且不可變的。
 
-#### Composing animatables
+#### 組合 animatables
 
-Passing an `Animatable<double>` (the parent) to an `Animatable`'s
-`chain()` method creates a new `Animatable` subclass that applies the
-parent's mapping then the child's mapping.
+將一個 `Animatable<double>`（父物件）傳給 `Animatable` 的
+`chain()` 方法，會建立一個新的 `Animatable` 子類別，該子類別會先套用父物件的對應，再套用子物件的對應。
 
-### Curves
+### Curves（曲線）
 
-The [`Curve`][] abstract class maps doubles
-nominally in the range 0.0-1.0 to doubles
-nominally in the range 0.0-1.0.
+[`Curve`][`Curve`] 抽象類別會將名義上在 0.0-1.0 區間的 double
+對應到名義上在 0.0-1.0 區間的 double。
 
-`Curve` classes are stateless and immutable.
+`Curve` 類別是無狀態且不可變的。
 
-### Animations
+### Animations（動畫）
 
-The [`Animation`][] abstract class provides a
-value of a given type, a concept of animation
-direction and animation status, and a listener interface to
-register callbacks that get invoked when the value or status change.
+[`Animation`][`Animation`] 抽象類別提供
+特定型別的值、動畫方向與動畫狀態的概念，以及一個監聽介面，可註冊在值或狀態變化時被呼叫的回呼。
 
-Some subclasses of `Animation` have values that never change
-([`kAlwaysCompleteAnimation`][], [`kAlwaysDismissedAnimation`][],
-[`AlwaysStoppedAnimation`][]); registering callbacks on
-these has no effect as the callbacks are never called.
+部分 `Animation` 子類別的值永遠不會改變
+（[`kAlwaysCompleteAnimation`][`kAlwaysCompleteAnimation`]、[`kAlwaysDismissedAnimation`][`kAlwaysDismissedAnimation`]、
+[`AlwaysStoppedAnimation`][`AlwaysStoppedAnimation`]）；在這些類別上註冊回呼沒有任何效果，因為回呼永遠不會被呼叫。
 
-The `Animation<double>` variant is special because it can be used to
-represent a double nominally in the range 0.0-1.0, which is the input
-expected by `Curve` and `Tween` classes, as well as some further
-subclasses of `Animation`.
+`Animation<double>` 變體很特別，因為它可以用來
+表示名義上在 0.0-1.0 區間的 double，這正是 `Curve` 和 `Tween` 類別，以及部分 `Animation` 子類別所預期的輸入。
 
-Some `Animation` subclasses are stateless,
-merely forwarding listeners to their parents.
-Some are very stateful.
+有些 `Animation` 子類別是無狀態的，
+僅將監聽器轉發給其父物件。
+有些則非常有狀態。
 
-#### Composable animations
+#### 可組合動畫（Composable animations）
 
-Most `Animation` subclasses take an explicit "parent"
-`Animation<double>`. They are driven by that parent.
+大多數 `Animation` 子類別會明確接收一個「父」`Animation<double>`。它們由該父物件驅動。
 
-The `CurvedAnimation` subclass takes an `Animation<double>` class (the
-parent) and a couple of `Curve` classes (the forward and reverse
-curves) as input, and uses the value of the parent as input to the
-curves to determine its output. `CurvedAnimation` is immutable and
-stateless.
+`CurvedAnimation` 子類別會接收一個 `Animation<double>` 類別（父物件）以及一對 `Curve` 類別（正向與反向曲線）作為輸入，並將父物件的值作為曲線的輸入來決定其輸出。`CurvedAnimation` 是不可變且無狀態的。
 
-The `ReverseAnimation` subclass takes an
-`Animation<double>` class as its parent and reverses
-all the values of the animation. It assumes the parent
-is using a value nominally in the range 0.0-1.0 and returns
-a value in the range 1.0-0.0. The status and direction of the parent
-animation are also reversed. `ReverseAnimation` is immutable and
-stateless.
+`ReverseAnimation` 子類別會接收一個
+`Animation<double>` 類別作為父物件，並將動畫的所有值反轉。它假設父物件使用名義上在 0.0-1.0 區間的值，並回傳 1.0-0.0 區間的值。父動畫的狀態與方向也會被反轉。`ReverseAnimation` 是不可變且無狀態的。
 
-The `ProxyAnimation` subclass takes an `Animation<double>` class as
-its parent and merely forwards the current state of that parent.
-However, the parent is mutable.
+`ProxyAnimation` 子類別會接收一個 `Animation<double>` 類別作為父物件，僅轉發該父物件的當前狀態。
+但父物件是可變的。
 
-The `TrainHoppingAnimation` subclass takes two parents,
-and switches between them when their values cross.
+`TrainHoppingAnimation` 子類別會接收兩個父物件，
+並在它們的值交叉時切換。
 
-#### Animation controllers
+#### 動畫控制器（Animation controllers）
 
-The [`AnimationController`][] is a stateful
-`Animation<double>` that uses a `Ticker` to give itself life.
-It can be started and stopped. At each tick, it takes the time
-elapsed since it was started and passes it to a `Simulation` to obtain
-a value. That is then the value it reports. If the `Simulation`
-reports that at that time it has ended, then the controller stops
-itself.
+[`AnimationController`][`AnimationController`] 是一個有狀態的
+`Animation<double>`，它使用 `Ticker` 來賦予自身生命。
+它可以啟動與停止。每個 tick 時，會取得自啟動以來經過的時間並傳給 `Simulation` 以取得值。該值即為其回報的值。如果 `Simulation`
+回報該時刻已結束，控制器會自動停止。
 
-The animation controller can be given a lower and upper bound to
-animate between, and a duration.
+動畫控制器可設定下界與上界，
+並於兩者間進行動畫，以及動畫持續時間。
 
-In the simple case (using `forward()` or `reverse()`), the animation controller simply does a linear
-interpolation from the lower bound to the upper bound (or vice versa,
-for the reverse direction) over the given duration.
+簡單情境下（使用 `forward()` 或 `reverse()`），動畫控制器會在給定的持續時間內，於下界與上界（或反向時相反）之間進行線性插值。
 
-When using `repeat()`, the animation controller uses a linear
-interpolation between the given bounds over the given duration, but
-does not stop.
+使用 `repeat()` 時，動畫控制器會在給定的持續時間內於指定範圍內進行線性插值，但不會自動停止。
 
-When using `animateTo()`, the animation controller does a linear
-interpolation over the given duration from the current value to the
-given target. If no duration is given to the method, the default
-duration of the controller and the range described by the controller's
-lower bound and upper bound is used to determine the velocity of the
-animation.
+使用 `animateTo()` 時，動畫控制器會在給定的持續時間內，從當前值線性插值到指定目標。如果未指定持續時間，則會使用控制器的預設持續時間以及下界與上界描述的範圍來決定動畫速度。
 
-When using `fling()`, a `Force` is used to create a specific
-simulation which is then used to drive the controller.
+使用 `fling()` 時，會用 `Force` 建立特定模擬，並用來驅動控制器。
 
-When using `animateWith()`, the given simulation is used to drive the
-controller.
+使用 `animateWith()` 時，會用給定的模擬來驅動控制器。
 
-These methods all return the future that the `Ticker` provides and
-which will resolve when the controller next stops or changes
-simulation.
+這些方法都會回傳 `Ticker` 提供的 future，
+該 future 會在控制器下次停止或更換模擬時完成。
 
-#### Attaching animatables to animations
+#### 將 animatables 附加到動畫
 
-Passing an `Animation<double>` (the new parent) to an `Animatable`'s
-`animate()` method creates a new `Animation` subclass that acts like
-the `Animatable` but is driven from the given parent.
-
-
-[`addListener`]: {{site.api}}/flutter/animation/Animation/addListener.html
-[`addStatusListener`]: {{site.api}}/flutter/animation/Animation/addStatusListener.html
-[`AlwaysStoppedAnimation`]: {{site.api}}/flutter/animation/AlwaysStoppedAnimation-class.html
-[`Animatable`]: {{site.api}}/flutter/animation/Animatable-class.html
-[`animate`]: {{site.api}}/flutter/animation/Animatable/animate.html
-[`AnimatedBuilder`]: {{site.api}}/flutter/widgets/AnimatedBuilder-class.html
-[`AnimationController`]: {{site.api}}/flutter/animation/AnimationController-class.html
-[`AnimatedWidget`]: {{site.api}}/flutter/widgets/AnimatedWidget-class.html
-[`Animation`]: {{site.api}}/flutter/animation/Animation-class.html
-[`AnimationStatus`]: {{site.api}}/flutter/animation/AnimationStatus.html
-[`begin`]: {{site.api}}/flutter/animation/Tween/begin.html
-[`BouncingScrollSimulation`]: {{site.api}}/flutter/widgets/BouncingScrollSimulation-class.html
-[`build`]: {{site.api}}/flutter/widgets/AnimatedWidget/build.html
-[`ClampingScrollSimulation`]: {{site.api}}/flutter/widgets/ClampingScrollSimulation-class.html
-[`ColorTween`]: {{site.api}}/flutter/animation/ColorTween-class.html
-[`Curve`]: {{site.api}}/flutter/animation/Curves-class.html
-[`CurvedAnimation`]: {{site.api}}/flutter/animation/CurvedAnimation-class.html
-[`end`]: {{site.api}}/flutter/animation/Tween/end.html
-[`evaluate`]: {{site.api}}/flutter/animation/Animatable/evaluate.html
-[`fling`]: {{site.api}}/flutter/animation/AnimationController/fling.html
-[`forward`]: {{site.api}}/flutter/animation/AnimationController/forward.html
-[`kAlwaysCompleteAnimation`]: {{site.api}}/flutter/animation/kAlwaysCompleteAnimation-constant.html
-[`kAlwaysDismissedAnimation`]: {{site.api}}/flutter/animation/kAlwaysDismissedAnimation-constant.html
-[`lerp`]: {{site.api}}/flutter/animation/Tween/lerp.html
-[`RectTween`]: {{site.api}}/flutter/animation/RectTween-class.html
-[`ReverseAnimation`]: {{site.api}}/flutter/animation/ReverseAnimation-class.html
-[`scheduleFrameCallback()`]: {{site.api}}/flutter/scheduler/SchedulerBinding/scheduleFrameCallback.html
-[`SchedulerBinding`]: {{site.api}}/flutter/scheduler/SchedulerBinding-mixin.html
-[`setState`]: {{site.api}}/flutter/widgets/State/setState.html
-[`Simulation`]: {{site.api}}/flutter/physics/Simulation-class.html
-[`State`]: {{site.api}}/flutter/widgets/State-class.html
-[`stop`]: {{site.api}}/flutter/animation/AnimationController/stop.html
-[`Ticker`]: {{site.api}}/flutter/scheduler/Ticker-class.html
-[`Tween<T>`]: {{site.api}}/flutter/animation/Tween-class.html
-[various concrete implementations]: {{site.api}}/flutter/physics/physics-library.html
+將一個 `Animation<double>`（新父物件）傳給 `Animatable` 的
+`animate()` 方法，會建立一個新的 `Animation` 子類別，該子類別的行為如同
+`Animatable`，但由給定的父物件驅動。

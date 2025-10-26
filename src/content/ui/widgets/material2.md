@@ -1,23 +1,23 @@
 ---
-title: Material 2 component widgets
+title: Material 2 元件 (Widgets)
 shortTitle: Material 2
-description: > 
-  A catalog of Flutter's widgets implementing the Material 2 design guidelines.
+description: >
+  一份實作 [Material 2][Material 2] 設計指引的 Flutter 元件 (Widgets) 目錄。
 ---
 
-Flutter provides a variety of widgets
-that implement the [Material 2][] design guidelines,
-enabling you to create intuitive and beautiful apps.
+Flutter 提供多種元件 (Widgets)，
+實現了 [Material 2][Material 2] 設計指引，
+讓你能夠打造直覺且美觀的應用程式。
 
 :::version-note
-[Material 3][], the latest version of Material Design, is
-Flutter's default design language as of Flutter 3.16.
+[Material 3][Material 3]，即最新版本的 Material Design，
+自 Flutter 3.16 起已成為 Flutter 的預設設計語言。
 
-Material 2 will eventually be deprecated.
-To learn more about this transition, check out
-the [Migrate to Material 3][] migration guide.
+Material 2 最終將會被淘汰。
+若想了解此轉換過程，請參閱
+[遷移至 Material 3][Migrate to Material 3] 遷移指南。
 
-Also check out the [Material 3 widget catalog][].
+你也可以參考 [Material 3 元件 (Widgets) 目錄][Material 3 widget catalog]。
 :::
 
 [Material 3]: https://m3.material.io/

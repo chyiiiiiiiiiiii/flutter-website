@@ -1,28 +1,28 @@
 ---
-title: Introduce new ColorScheme roles for Material 3
+title: 為 Material 3 引入全新 ColorScheme 角色
 description: >-
-  'ColorScheme' introduces new color roles to
-  better align with Material Design 3.
-  The 'ColorScheme.fromSeed' method is also updated to
-  support the newly added colors.
+  `ColorScheme` 引入了新的顏色角色，
+  以更好地符合 Material Design 3。
+  `ColorScheme.fromSeed` 方法也已更新，
+  以支援新加入的顏色。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-New color roles in `ColorScheme` include
-seven tone-based surfaces and containers, and twelve accent colors for
-primary, secondary, and tertiary groups.
-This update deprecates three existing color roles:
-`background`, `onBackground`, and `surfaceVariant`.
-The `ColorScheme` constructed by the updated `ColorScheme.fromSeed` method now
-generates different values compared to the previous version,
-adapting to the Material Design 3 guidelines.
+`ColorScheme` 中新增的顏色角色包含
+七種基於色調的表面（surface）與容器（container），以及
+主色（primary）、次色（secondary）、第三色（tertiary）群組的十二種強調色（accent colors）。
+此次更新也棄用了三個現有的顏色角色：
+`background`、`onBackground` 和 `surfaceVariant`。
+經由更新後的 `ColorScheme.fromSeed` 方法所建構的 `ColorScheme`
+現在會產生與先前版本不同的值，
+以符合 Material Design 3 的設計指引。
 
-## Background
+## 背景
 
-The tone-based surface colors include: 
+基於色調的表面顏色包括：
 
 - `surfaceBright`
 - `surfaceDim`
@@ -32,33 +32,28 @@ The tone-based surface colors include:
 - `surfaceContainerHigh`
 - `surfaceContainerHighest`
 
-These changes help eliminate the use of widgets' `surfaceTintColor`, and
-replaces the old opacity-based model that applied a tinted overlay
-on top of surfaces based on their elevation.  
+這些變更有助於消除元件（Widgets）`surfaceTintColor` 的使用，
+並取代舊有的透明度模型，
+該模型會根據元件的高度（elevation）在表面上套用帶色彩的覆蓋層。
 
-The default `surfaceTintColor` for all widgets is now `null` and
-their default background color is now
-based on the new tone-based surface colors.
+所有元件（Widgets）的預設 `surfaceTintColor` 現在為 `null`，
+其預設背景顏色也改為基於新的色調表面顏色。
 
-`ColorScheme.fromSeed` has also been updated to use the latest algorithm
-from the [Material color utilities][] package.
-This change prevents the constructed `ColorScheme` from being too bright,
-even if the source color looks bright and
-had a high chroma (contained little black, white, and shades of grey).
+`ColorScheme.fromSeed` 也已更新，採用 [Material color utilities][Material color utilities] 套件的最新演算法。
+此變更可避免建構出的 `ColorScheme` 過於明亮，
+即使來源顏色本身很亮且具有高彩度（即幾乎不含黑、白及灰階）。
 
 [Material color utilities]: {{site.pub-pkg}}/material_color_utilities
 
-## Migration guide
+## 遷移指南
 
-The differences caused by the updated `ColorScheme.fromSeed` and
-the new color roles should be small and acceptable.
-However, when providing a brighter seed color to `ColorScheme.fromSeed`,
-it might construct a relatively darker version of `ColorScheme`.
-To force the output to still be bright,
-set `dynamicSchemeVariant: DynamicSchemeVariant.fidelity` in
-`ColorScheme.fromSeed`. For example:
+由於更新後的 `ColorScheme.fromSeed` 及新顏色角色所造成的差異應該很小且可接受。
+但若在 `ColorScheme.fromSeed` 提供較亮的種子顏色時，
+可能會產生相對較暗版本的 `ColorScheme`。
+若希望輸出仍然保持明亮，
+請在 `ColorScheme.fromSeed` 中設定 `dynamicSchemeVariant: DynamicSchemeVariant.fidelity`。例如：
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 ColorScheme.fromSeed(
@@ -66,7 +61,7 @@ ColorScheme.fromSeed(
 )
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 ColorScheme.fromSeed(
@@ -75,14 +70,14 @@ ColorScheme.fromSeed(
 )
 ```
 
-Material Design 3 removes 3 colors.
+Material Design 3 移除了 3 種顏色。
 
-To configure the appearance of the material components,
-`background` should be replaced with `surface`,
-`onBackground` should be replaced with `onSurface`, and
-`surfaceVariant` should be migrated to `surfaceContainerHighest`.
+若要設定 Material 元件 (Material components) 的外觀，
+`background` 應替換為 `surface`，
+`onBackground` 應替換為 `onSurface`，
+`surfaceVariant` 則應遷移至 `surfaceContainerHighest`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 final ColorScheme colorScheme = ColorScheme();
@@ -99,7 +94,7 @@ MaterialApp(
 )
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 final ColorScheme colorScheme = ColorScheme();
@@ -116,12 +111,9 @@ MaterialApp(
 )
 ```
 
-Custom components that used to look up `ColorScheme.background`,
-`ColorScheme.onBackground`, and `ColorScheme.surfaceVariant` can look up
-`ColorScheme.surface`, `ColorScheme.onSurface` and
-`ColorScheme.surfaceContainerHighest` instead.
+先前自訂元件（Widget）會查找 `ColorScheme.background`、`ColorScheme.onBackground` 和 `ColorScheme.surfaceVariant`，現在可以改為查找 `ColorScheme.surface`、`ColorScheme.onSurface` 和 `ColorScheme.surfaceContainerHighest`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 Color myColor1 = Theme.of(context).colorScheme.background;
@@ -129,7 +121,7 @@ Color myColor2 = Theme.of(context).colorScheme.onBackground;
 Color myColor3 = Theme.of(context).colorScheme.surfaceVariant;
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 Color myColor1 = Theme.of(context).colorScheme.surface;
@@ -137,23 +129,23 @@ Color myColor2 = Theme.of(context).colorScheme.onSurface;
 Color myColor3 = Theme.of(context).colorScheme.surfaceContainerHighest;
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.21.0-4.0.pre<br>
-In stable release: 3.22.0
+合併於版本：3.21.0-4.0.pre<br>  
+進入穩定版：3.22.0
 
-## References
+## 參考資料
 
-Relevant issues:
+相關議題：
 
-* [Support tone-based surface and surface container ColorScheme roles][]
-* [Support fidelity variant for ColorScheme.fromSeed][]
+* [Support tone-based surface and surface container ColorScheme roles][Support tone-based surface and surface container ColorScheme roles]
+* [Support fidelity variant for ColorScheme.fromSeed][Support fidelity variant for ColorScheme.fromSeed]
 
-Relevant PRs:
+相關 PR：
 
-* [Introduce tone-based surfaces and accent color add-ons - Part 1][]
-* [Introduce tone-based surfaces and accent color add-ons - Part 2][]
-* [Enhance ColorScheme.fromSeed with a new variant parameter][]
+* [Introduce tone-based surfaces and accent color add-ons - Part 1][Introduce tone-based surfaces and accent color add-ons - Part 1]
+* [Introduce tone-based surfaces and accent color add-ons - Part 2][Introduce tone-based surfaces and accent color add-ons - Part 2]
+* [Enhance ColorScheme.fromSeed with a new variant parameter][Enhance ColorScheme.fromSeed with a new variant parameter]
 
 [Support tone-based surface and surface container ColorScheme roles]: {{site.repo.flutter}}/issues/115912
 [Support fidelity variant for ColorScheme.fromSeed]: {{site.repo.flutter}}/issues/144649

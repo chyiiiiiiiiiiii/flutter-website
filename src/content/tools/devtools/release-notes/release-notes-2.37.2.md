@@ -1,6 +1,6 @@
 ---
-shortTitle: 2.37.2 release notes
-description: Release notes for Dart and Flutter DevTools version 2.37.2.
+shortTitle: 2.37.2 版本發行說明
+description: Dart 與 Flutter DevTools 2.37.2 版本發行說明。
 showToc: false
 ---
 

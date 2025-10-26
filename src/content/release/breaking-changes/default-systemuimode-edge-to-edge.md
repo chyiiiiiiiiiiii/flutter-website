@@ -1,88 +1,77 @@
 ---
-title: Set default of `SystemUiMode` to edge-to-edge
+title: 將`SystemUiMode`的預設值設為 edge-to-edge
 description: >-
-    By default, apps targeting Android SDK 15+ will opt
-    in to edge-to-edge mode.
+    預設情況下，目標為 Android SDK 15+ 的應用程式將自動啟用
+    edge-to-edge 模式。
 ---
 
 {% render docs/breaking-changes.md %}
 
 :::note
-You might have found this page because you see a warning in the Google Play
-Console concerning "Edge-to-edge may not display for all users" or "Your app
-uses deprecated APIs or parameters for edge-to-edge".
-These warnings **will not** impact users.
+你可能是因為在 Google Play Console 看到「Edge-to-edge 可能不會對所有使用者顯示」或「你的應用程式使用了已淘汰的 edge-to-edge API 或參數」等警告而來到這個頁面。
+這些警告**不會**影響使用者。
 
-This warning references deprecated code used in the Flutter engine to implement
-edge-to-edge mode. The engine relies on this deprecated code to avoid breaking
-changes for users, so it will continue to work should you set edge-to-edge
-mode in your app. See [flutter#169810] for more information.
+這些警告是指 Flutter 引擎中用於實作 edge-to-edge 模式的已淘汰程式碼。該引擎依賴這些已淘汰的程式碼，以避免對使用者造成破壞性變更，因此如果你在應用程式中設定 edge-to-edge 模式，它仍然可以正常運作。詳情請參閱 [flutter#169810]。
 :::
 
-## Summary
+## 摘要
 
-If your Flutter app targets Android SDK version 15,
-your app automatically displays in edge-to-edge mode,
-as documented on the [`SystemUiMode`][] API page.
-To maintain non-edge-to-edge app behavior
-(including an unset `SystemUiMode`),
-follow the steps in [migration guide](#migration-guide).
+如果你的 Flutter 應用程式目標為 Android SDK 版本 15，
+你的應用程式將自動以 edge-to-edge 模式顯示，
+詳見 [`SystemUiMode`][`SystemUiMode`] API 文件頁面。
+若要維持非 edge-to-edge 的應用程式行為
+（包括未設定 `SystemUiMode`），
+請依照 [遷移指南](#遷移指南) 進行。
 
 :::note
-If your Flutter app targets Android SDK version 16 or later,
-your app automatically displays in edge-to-edge mode, and you
-cannot opt-out. To learn more about this change, check out the
-[Android 16 release notes][].
+如果你的 Flutter 應用程式目標為 Android SDK 版本 16 或以上，
+你的應用程式將自動以 edge-to-edge 模式顯示，且無法選擇退出。想了解此變更的更多資訊，請參閱
+[Android 16 發行說明][Android 16 release notes]。
 :::
 
 [`SystemUiMode`]: {{site.api}}/flutter/services/SystemUiMode.html
 
-## Context
+## 背景說明
 
-By default, Android enforces [edge-to-edge mode][] for all apps that
-target Android 15 or later.
-To learn more about this change, check out the [Android 15 release notes][].
-This impacts devices running on Android SDK 15+ or API 35+.
+預設情況下，Android 會對所有目標為 Android 15 或以上的應用程式強制啟用 [edge-to-edge 模式][edge-to-edge mode]。
+如需此變更的更多資訊，請參閱 [Android 15 發行說明][Android 15 release notes]。
+這會影響運行於 Android SDK 15+ 或 API 35+ 的裝置。
 
-Prior to Flutter 3.27, Flutter apps target Android 14 by default and
-won't opt into edge-to-edge mode automatically, but
-your app _will_ be impacted when you choose to target Android 15.
-If your app targets `flutter.targetSdkVersion` (as it does by default),
-then it targets Android 15 starting with Flutter version 3.27,
-automatically opting your app in to edge-to-edge.
+在 Flutter 3.27 之前，Flutter 應用程式預設目標為 Android 14，
+不會自動啟用 edge-to-edge 模式，但
+當你選擇將應用程式目標設為 Android 15 時，_仍然_會受到影響。
+如果你的應用程式目標為 `flutter.targetSdkVersion`（預設即如此），
+那麼從 Flutter 3.27 開始就會以 Android 15 為目標，
+並自動啟用 edge-to-edge 模式。
 
-If your app explicitly sets `SystemUiMode.edgeToEdge` to run in
-edge-to-edge mode by calling [`SystemChrome.setEnabledSystemUIMode`][],
-then your app is already migrated. Apps needing more time to migrate to
-edge-to-edge mode must use the following steps to opt out on
-devices running Android SDK 15.
+如果你的應用程式已明確設定 `SystemUiMode.edgeToEdge`，
+並透過呼叫 [`SystemChrome.setEnabledSystemUIMode`][`SystemChrome.setEnabledSystemUIMode`] 以 edge-to-edge 模式運行，
+那麼你的應用程式已完成遷移。需要更多時間遷移至 edge-to-edge 模式的應用程式，必須依照下列步驟，在運行 Android SDK 15 的裝置上選擇退出。
 
-Be aware of the following:
+請注意下列事項：
 
- 1. Android plans for the workaround detailed here to be temporary.
- 2. Flutter plans to align with Android (and iOS) to
-    support edge-to-edge by default within the year, so
-    **migrate to edge-to-edge mode before the operating system
-    removes the ability to opt out**.
+ 1. Android 計劃僅暫時提供此處所述的解決方法。
+ 2. Flutter 計劃在今年內與 Android（以及 iOS）保持一致，
+    預設支援 edge-to-edge，因此
+    **請在作業系統移除退出選項前完成 edge-to-edge 模式的遷移**。
 
 [edge-to-edge mode]: {{site.android-dev}}/develop/ui/views/layout/edge-to-edge
 [Android 15 release notes]: {{site.android-dev}}/about/versions/15/behavior-changes-15#edge-to-edge
 [Android 16 release notes]: {{site.android-dev}}/about/versions/16/behavior-changes-16#edge-to-edge
 [`SystemChrome.setEnabledSystemUIMode`]: {{site.api}}/flutter/services/SystemChrome/setEnabledSystemUIMode.html
 
-## Migration guide
+## 遷移指南
 
-To opt out of edge-to-edge on SDK 15, specify
-the new style attribute in each activity that requires it.
-If you have a parent style that child styles need to opt out of,
-you can modify the parent only.
-In the following example,
-update the style configuration generated from `flutter create`.
+若要在 SDK 15 上選擇退出 edge-to-edge，請在每個需要的 activity 中指定新的 style 屬性。
+如果你有父層 style，且子 style 也需要選擇退出，
+你可以只修改父層 style。
+以下範例中，
+請更新由 `flutter create` 產生的 style 設定。
 
-By default, the styles used in a Flutter app are set in
-the Android manifest file (`your_app/android/app/src/main/AndroidManifest.xml`).
-Generally, styles are denoted by `@style` and help theme your app.
-Modify these default styles in your manifest file:
+預設情況下，Flutter 應用程式所使用的 style 設定於
+Android manifest 檔案（`your_app/android/app/src/main/AndroidManifest.xml`）中。
+一般來說，style 以 `@style` 表示，並協助主題化你的應用程式。
+請在 manifest 檔案中修改這些預設 style：
 
 ```xml title="AndroidManifest.xml" highlightLines=5-8
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
@@ -98,10 +87,10 @@ Modify these default styles in your manifest file:
 </manifest>
 ```
 
-Locate the style definition in:
-`your_app/android/app/src/main/res/values/styles.xml`.
+在以下位置找到樣式（style）定義：
+`your_app/android/app/src/main/res/values/styles.xml`。
 
-Add the following attribute to the appropriate styles:
+在適當的樣式中新增以下屬性：
 
 ```xml title="styles.xml" highlightLines=6,12
 <?xml version="1.0" encoding="utf-8"?>
@@ -120,31 +109,31 @@ Add the following attribute to the appropriate styles:
 </resources>
 ```
 
-Make sure to apply the same change in the night mode styles file as well:
-`your_app/android/app/src/main/res/values-night/styles.xml`.
+請確保在夜間模式樣式檔案中也套用相同的變更：
+`your_app/android/app/src/main/res/values-night/styles.xml`。
 
-Ensure both styles are updated consistently in both files.
+請確保這兩個檔案中的樣式都已一致更新。
 
-This modified style opts your app out of edge-to-edge for
-apps targeting Android SDK 15.
-So now you're done!
+這個修改後的樣式會讓你的應用程式在
+目標為 Android SDK 15 的應用程式中，不再啟用 edge-to-edge。
+這樣就完成了！
 
-## Timeline
+## 時程表
 
-Starting in Flutter 3.27, Flutter apps target Android 15 by default, so
-if you wish to use this version and not manually set
-a lower target SDK version for your Flutter app,
-follow the preceding [migration steps](#migration-guide) to
-maintain an unset or non-edge-to-edge `SystemUiMode`.
+從 Flutter 3.27 開始，Flutter 應用程式預設會以 Android 15 為目標，
+因此如果你希望使用這個版本，且不想手動將
+Flutter 應用程式的目標 SDK 版本設為較低版本，
+請依照前述的[遷移步驟](#遷移指南)操作，
+以維持未設定或非 edge-to-edge 的 `SystemUiMode`。
 
-Landed in version: 3.26.0-0.0.pre<br>
-Stable release: 3.27
+納入版本：3.26.0-0.0.pre<br>
+穩定版發佈：3.27
 
-## References
+## 參考資料
 
-* [The supported Flutter `SystemUiMode`s][]
-* [The Android 15 edge-to-edge behavior changes guide][]
-* [The Android 16 edge-to-edge behavior changes guide][]
+* [支援的 Flutter `SystemUiMode`][The supported Flutter `SystemUiMode`s]
+* [Android 15 edge-to-edge 行為變更指南][The Android 15 edge-to-edge behavior changes guide]
+* [Android 16 edge-to-edge 行為變更指南][The Android 16 edge-to-edge behavior changes guide]
 
 [The supported Flutter `SystemUiMode`s]: {{site.api}}/flutter/services/SystemUiMode.html
 [The Android 15 edge-to-edge behavior changes guide]: {{site.android-dev}}/about/versions/15/behavior-changes-15#edge-to-edge

@@ -1,29 +1,28 @@
 ---
-title: Migrate a Windows project to ensure the window is shown
-description: How to update a Windows project to ensure the window is shown
+title: 將 Windows 專案遷移以確保視窗顯示
+description: 如何更新 Windows 專案以確保視窗顯示
 ---
 
 {% render docs/breaking-changes.md %}
 
-Flutter 3.13 fixed a [bug][] that could result in the window not being shown.
-Windows projects created using Flutter 3.7 or Flutter 3.10 need to be migrated
-to fix this issue.
+Flutter 3.13 修正了一個[錯誤][bug]，該錯誤可能導致視窗無法顯示。
+使用 Flutter 3.7 或 Flutter 3.10 建立的 Windows 專案需要進行遷移，
+以修復此問題。
 
 [bug]: {{site.repo.flutter}}/issues/119415
 
-## Migration steps
+## 遷移步驟
 
-Verify you are on Flutter version 3.13 or newer using `flutter --version`.
-If needed, use `flutter upgrade` to update to the latest version of the
-Flutter SDK.
+請使用 `flutter --version` 確認你目前的 Flutter 版本為 3.13 或更新版本。
+如有需要，請使用 `flutter upgrade` 將 Flutter SDK（Flutter 軟體開發套件）更新至最新版。
 
-Projects that have not modified their `windows/runner/flutter_window.cpp` file
-will be migrated automatically by `flutter run` or `flutter build windows`.
+尚未修改過 `windows/runner/flutter_window.cpp` 檔案的專案，
+將會由 `flutter run` 或 `flutter build windows` 自動完成遷移。
 
-Projects that have modified their `windows/runner/flutter_window.cpp` file might
-need to migrate manually.
+若專案已修改過 `windows/runner/flutter_window.cpp` 檔案，
+則可能需要手動進行遷移。
 
-Code before migration:
+遷移前的程式碼如下：
 
 ```cpp
 flutter_controller_->engine()->SetNextFrameCallback([&]() {
@@ -31,7 +30,7 @@ flutter_controller_->engine()->SetNextFrameCallback([&]() {
 });
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```cpp
 flutter_controller_->engine()->SetNextFrameCallback([&]() {
@@ -44,10 +43,10 @@ flutter_controller_->engine()->SetNextFrameCallback([&]() {
 flutter_controller_->ForceRedraw();
 ```
 
-## Example
+## 範例
 
-[PR 995][] shows the migration work for the
-[Flutter Gallery][] app.
+[PR 995][PR 995] 展示了
+[Flutter Gallery][Flutter Gallery] 應用程式的遷移作業。
 
 [PR 995]: {{site.repo.gallery-archive}}/pull/995/files
 [Flutter Gallery]: {{site.gallery-archive}}

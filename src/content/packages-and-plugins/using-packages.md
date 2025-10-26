@@ -1,53 +1,27 @@
 ---
-title: Using packages
-description: How to use packages in your Flutter app.
+title: 使用套件
+description: 如何在你的 Flutter 應用程式中使用套件。
 ---
 
 <?code-excerpt path-base="platform_integration/plugin_api_migration"?>
 
-Flutter supports using shared packages contributed by other developers
-to the Flutter and Dart ecosystems. This allows quickly building
-an app without having to develop everything from scratch.
+Flutter 支援使用其他開發者貢獻給 Flutter 與 Dart 生態系的共用套件。這讓你能夠快速建立應用程式，而不必從零開始開發所有功能。
 
-:::note Difference between packages and plugins
-A plugin is a _type_ of
-package&mdash;the full designation is _plugin package_,
-which is generally shortened to _plugin_.
+:::note 套件與外掛（plugin）的差異
+外掛（plugin）是一種_套件_——完整名稱為_外掛套件（plugin package）_，通常簡稱為_plugin_。
 
-**Packages**
-: At a minimum, a Dart package is a directory
-  containing a `pubspec.yaml` file. Additionally,
-  a package can contain dependencies
-  (listed in the pubspec), Dart libraries, apps,
-  resources, tests, images, fonts, and examples.
-  The [pub.dev][] site lists many packages—developed by Google engineers
-  and generous members of the Flutter and Dart community—
-  that you can use in your app.
+**套件（Packages）**
+: 最基本的 Dart 套件是一個包含 `pubspec.yaml` 檔案的目錄。此外，套件還可以包含相依套件（列在 pubspec 中）、Dart 函式庫、應用程式、資源、測試、圖片、字型和範例。[pub.dev][pub.dev] 網站列出了許多套件——由 Google 工程師及 Flutter 與 Dart 社群的熱心成員開發——你可以在你的應用程式中使用這些套件。
 
-**Plugins**
-: A plugin package is a special kind of package that makes
-  platform functionality available to the app.
-  Plugin packages can be written for Android (using Kotlin or Java),
-  iOS (using Swift or Objective-C), web, macOS, Windows, Linux,
-  or any combination thereof.
-  For example, a plugin might provide Flutter apps
-  with the ability to use a device's camera.
+**外掛（Plugins）**
+: 外掛套件是一種特殊的套件，能讓應用程式存取平台功能。外掛套件可以針對 Android（使用 Kotlin 或 Java）、iOS（使用 Swift 或 Objective-C）、Web、macOS、Windows、Linux 或這些平台的任意組合來撰寫。例如，某個外掛可能為 Flutter 應用程式提供使用裝置相機的能力。
 
 {% ytEmbed 'Y9WifT8aN6o', 'Packages versus plugins | Decoding Flutter' %}
 :::
 
-Existing packages enable many use cases—for example,
-making network requests ([`http`][]),
-navigation/route handling ([`go_router`][]),
-integration with device APIs
-([`url_launcher`][] and [`battery_plus`][]),
-and using third-party platform SDKs like Firebase
-([FlutterFire][]).
+現有的套件可實現許多應用情境——例如，進行網路請求（[`http`][`http`]）、導航／路由處理（[`go_router`][`go_router`]）、整合裝置 API（[`url_launcher`][`url_launcher`] 和 [`battery_plus`][`battery_plus`]），以及使用第三方平台 SDK，如 Firebase（[FlutterFire][FlutterFire]）。
 
-To write a new package, see [developing packages][].
-To add assets, images, or fonts,
-whether stored in files or packages,
-see [Adding assets and images][].
+若要撰寫新的套件，請參閱[開發套件][developing packages]。若要加入資產、圖片或字型（無論是檔案還是套件中的），請參閱[加入資產與圖片][Adding assets and images]。
 
 [Adding assets and images]: /ui/assets/assets-and-images
 [`battery_plus`]: {{site.pub-pkg}}/battery_plus
@@ -59,31 +33,19 @@ see [Adding assets and images][].
 [pub.dev]: {{site.pub}}
 [`url_launcher`]: {{site.pub-pkg}}/url_launcher
 
-## Using packages
+## 使用套件
 
-The following section describes how to use
-existing published packages.
+以下章節說明如何使用現有已發佈的套件。
 
-### Searching for packages
+### 搜尋套件
 
-Packages are published to [pub.dev][].
+套件會發佈到 [pub.dev][pub.dev]。
 
-The [Flutter landing page][] on pub.dev displays
-top packages that are compatible with Flutter
-(those that declare dependencies generally compatible with Flutter),
-and supports searching among all published packages.
+pub.dev 上的 [Flutter 首頁][Flutter landing page] 會顯示與 Flutter 相容的熱門套件（即那些宣告與 Flutter 相容相依性的套件），並支援在所有已發佈套件中搜尋。
 
-The [Flutter Favorites][] page on pub.dev lists
-the plugins and packages that have been identified as
-packages you should first consider using when writing
-your app. For more information on what it means to
-be a Flutter Favorite, see the
-[Flutter Favorites program][].
+pub.dev 上的 [Flutter Favorites][Flutter Favorites] 頁面列出了被認定為你在撰寫應用程式時應優先考慮使用的外掛與套件。關於成為 Flutter Favorite 的意義，請參閱 [Flutter Favorites 計畫][Flutter Favorites program]。
 
-You can also browse the packages on pub.dev by filtering
-on [Android][], [iOS][], [web][],
-[Linux][], [Windows][], [macOS][],
-or any combination thereof.
+你也可以透過在 pub.dev 上篩選 [Android][Android]、[iOS][iOS]、[web][web]、[Linux][Linux]、[Windows][Windows]、[macOS][macOS] 或這些平台的任意組合來瀏覽套件。
 
 [Android]: {{site.pub-pkg}}?q=sdk%3Aflutter+platform%3Aandroid
 [Flutter Favorites]: {{site.pub}}/flutter/favorites
@@ -95,81 +57,58 @@ or any combination thereof.
 [web]: {{site.pub-pkg}}?q=sdk%3Aflutter+platform%3Aweb
 [Windows]: {{site.pub-pkg}}?q=sdk%3Aflutter+platform%3Awindows
 
-### Adding a package dependency to an app using `flutter pub add`
+### 使用 `flutter pub add` 為應用程式新增套件相依
 
-To add the package `css_colors` to an app:
+若要將套件 `css_colors` 新增至應用程式：
 
-1. Use the [`pub add`][] command from inside the project directory
+1. 在專案目錄內使用 [`pub add`][`pub add`] 指令  
    * `flutter pub add css_colors`
 
-1. Import it
-   * Add a corresponding `import` statement in the Dart code.
+1. 匯入套件  
+   * 在 Dart 程式碼中加入對應的 `import` 陳述。
 
-1. Stop and restart the app, if necessary
-   * If the package brings platform-specific code
-     (Kotlin/Java for Android, Swift/Objective-C for iOS),
-     that code must be built into your app.
-     Hot reload and hot restart only update the Dart code,
-     so a full restart of the app might be required to avoid
-     errors like `MissingPluginException` when using the package.
+1. 如有需要，停止並重新啟動應用程式  
+   * 如果該套件包含平台專屬程式碼（Android 的 Kotlin/Java，iOS 的 Swift/Objective-C），這些程式碼必須被建置進你的應用程式。熱重載（hot reload）與熱重啟（hot restart）只會更新 Dart 程式碼，因此可能需要完整重新啟動應用程式，以避免在使用該套件時出現 `MissingPluginException` 等錯誤。
 
 [`pub add`]: {{site.dart-site}}/tools/pub/cmd/pub-add
 
-### Adding a package dependency to an app
+### 為應用程式新增套件相依
 
-To add the package `css_colors` to an app:
+若要將套件 `css_colors` 新增至應用程式：
 
-1. Depend on it
-   * Open the `pubspec.yaml` file located inside the app folder,
-     and add `css_colors: ^1.0.0` under `dependencies`.
+1. 加入相依  
+   * 開啟應用程式資料夾內的 `pubspec.yaml` 檔案，並在 `dependencies` 下方加入 `css_colors: ^1.0.0`。
 
-1. Install it
-   * From the terminal: Run `flutter pub get`.<br/>
-   **OR**
-   * From VS Code: Click **Get Packages** located in right side of the action
-     ribbon at the top of `pubspec.yaml` indicated by the Download icon.
-   * From Android Studio/IntelliJ: Click **Pub get** in the action
-     ribbon at the top of `pubspec.yaml`.
+1. 安裝套件  
+   * 從終端機執行：執行 `flutter pub get`。<br/>  
+   **或**  
+   * 從 VS Code：點擊 `pubspec.yaml` 頂部操作列右側的 **Get Packages**（下載圖示）。  
+   * 從 Android Studio/IntelliJ：點擊 `pubspec.yaml` 頂部操作列的 **Pub get**。
 
-1. Import it
-   * Add a corresponding `import` statement in the Dart code.
+1. 匯入套件  
+   * 在 Dart 程式碼中加入對應的 `import` 陳述。
 
-1. Stop and restart the app, if necessary
-   * If the package brings platform-specific code
-     (Kotlin/Java for Android, Swift/Objective-C for iOS),
-     that code must be built into your app.
-     Hot reload and hot restart only update the Dart code,
-     so a full restart of the app might be required to avoid
-     errors like `MissingPluginException` when using the package.
+1. 如有需要，停止並重新啟動應用程式  
+   * 如果該套件包含平台專屬程式碼（Android 的 Kotlin/Java，iOS 的 Swift/Objective-C），這些程式碼必須被建置進你的應用程式。熱重載（hot reload）與熱重啟（hot restart）只會更新 Dart 程式碼，因此可能需要完整重新啟動應用程式，以避免在使用該套件時出現 `MissingPluginException` 等錯誤。
 
-### Removing a package dependency to an app using `flutter pub remove`
+### 使用 `flutter pub remove` 移除應用程式的套件相依
 
-To remove the package `css_colors` from an app:
+若要從應用程式中移除套件 `css_colors`：
 
-1. Use the [`pub remove`][] command from inside the project directory
+1. 在專案目錄內使用 [`pub remove`][`pub remove`] 指令  
    * `flutter pub remove css_colors`
 
-The [Installing tab][],
-available on any package page on pub.dev,
-is a handy reference for these steps.
+[安裝標籤（Installing tab）][Installing tab] 可在 pub.dev 上任何套件頁面找到，是這些步驟的便利參考。
 
-For a complete example,
-see the [css_colors example][] below.
+完整範例請參考下方的 [css_colors 範例][css_colors example]。
 
 [css_colors example]: #css-example
 [Installing tab]: {{site.pub-pkg}}/css_colors/install
 [`pub remove`]: {{site.dart-site}}/tools/pub/cmd/pub-remove
 
-### Conflict resolution
+### 衝突解決
 
-Suppose you want to use `some_package` and
-`another_package` in an app,
-and both of these depend on `url_launcher`,
-but in different versions.
-That causes a potential conflict.
-The best way to avoid this is for package authors to use
-[version ranges][] rather than specific versions when
-specifying dependencies.
+假設你想在應用程式中同時使用 `some_package` 和 `another_package`，而這兩者都依賴 `url_launcher`，但所需版本不同。這會造成潛在衝突。避免這種情況的最佳做法是套件作者在指定相依時，使用[版本範圍][version ranges]，而非指定特定版本。
 
 ```yaml
 dependencies:
@@ -177,24 +116,21 @@ dependencies:
   image_picker: '5.4.3'   # Not so good, only version 5.4.3 works.
 ```
 
-If `some_package` declares the dependencies above
-and `another_package` declares a compatible
-`url_launcher` dependency like `'5.4.6'` or
-`^5.5.0`, pub resolves the issue automatically.
-Platform-specific dependencies on
-[Gradle modules][] and/or [CocoaPods][]
-are solved in a similar way.
+如果 `some_package` 宣告了上述相依套件，
+而 `another_package` 則宣告了一個相容的
+`url_launcher` 相依套件，例如 `'5.4.6'` 或
+`^5.5.0`，pub 會自動解決這個問題。
+針對 [Gradle modules][Gradle modules] 和／或 [CocoaPods][CocoaPods]
+等平台專屬相依套件，也會以類似方式處理。
 
-Even if `some_package` and `another_package`
-declare incompatible versions for `url_launcher`,
-they might actually use `url_launcher` in
-compatible ways. In this situation,
-the conflict can be resolved by adding
-a dependency override declaration to the app's
-`pubspec.yaml` file, forcing the use of a particular version.
+即使 `some_package` 和 `another_package`
+對 `url_launcher` 宣告了不相容的版本，
+它們實際上可能以相容的方式使用 `url_launcher`。在這種情況下，
+可以透過在應用程式的 `pubspec.yaml` 檔案中加入
+相依套件覆寫（dependency override）宣告，強制使用特定版本來解決衝突。
 
-For example, to force the use of `url_launcher` version `5.4.0`,
-make the following changes to the app's `pubspec.yaml` file:
+例如，若要強制使用 `url_launcher` 的 `5.4.0` 版本，
+請對應用程式的 `pubspec.yaml` 檔案進行以下修改：
 
 ```yaml
 dependencies:
@@ -204,13 +140,9 @@ dependency_overrides:
   url_launcher: '5.4.0'
 ```
 
-If the conflicting dependency is not itself a package,
-but an Android-specific library like `guava`,
-the dependency override declaration must be added to
-Gradle build logic instead.
+如果產生衝突的相依項目本身不是套件（package），而是像 `guava` 這樣的 Android 專用函式庫，則必須將相依項目的覆寫宣告加入到 Gradle 的建置邏輯中。
 
-To force the use of `guava` version `28.0`, make the following
-changes to the app's `android/build.gradle` file:
+若要強制使用 `guava` 版本 `28.0`，請在應用程式的 `android/build.gradle` 檔案中進行以下修改：
 
 ```groovy
 configurations.all {
@@ -220,94 +152,83 @@ configurations.all {
 }
 ```
 
-CocoaPods doesn't currently offer dependency
-override functionality.
+CocoaPods 目前尚未提供相依套件覆寫（dependency override）功能。
 
 [CocoaPods]: https://guides.cocoapods.org/syntax/podspec.html#dependency
 [Gradle modules]: https://docs.gradle.org/current/userguide/declaring_dependencies.html
 [version ranges]: {{site.dart-site}}/tools/pub/dependencies#version-constraints
 
-## Developing new packages
+## 開發新套件
 
-If no package exists for your specific use case,
-you can [write a custom package][].
+如果現有的套件無法滿足您的特定需求，您可以[撰寫自訂套件][write a custom package]。
 
 [write a custom package]: /packages-and-plugins/developing-packages
 
-## Managing package dependencies and versions
+## 管理套件相依性與版本
 
-To minimize the risk of version collisions,
-specify a version range in the `pubspec.yaml` file.
+為了降低版本衝突的風險，請在 `pubspec.yaml` 檔案中指定版本範圍。
 
-### Package versions
+### 套件版本
 
-All packages have a version number, specified in the
-package's `pubspec.yaml` file. The current version of a package
-is displayed next to its name (for example,
-see the [`url_launcher`][] package), as
-well as a list of all prior versions
-(see [`url_launcher` versions][]).
+所有套件都有一個版本號，這個版本號會在套件的 `pubspec.yaml` 檔案中指定。套件的目前版本會顯示在其名稱旁邊（例如，請參閱 [`url_launcher`][`url_launcher`] 套件），同時也會列出所有先前版本（請參閱 [`url_launcher` versions][`url_launcher` versions]）。
 
-To ensure that the app doesn't break when you update a package,
-specify a version range using one of the following formats.
+為了確保在更新套件時應用程式不會發生錯誤，請使用以下其中一種格式來指定版本範圍。
 
-* **Ranged constraints:** Specify a minimum and maximum version.
+* **範圍限制（Ranged constraints）：** 指定最小與最大版本。
 
   ```yaml
   dependencies:
     url_launcher: '>=5.4.0 <6.0.0'
   ```
 
-* **Ranged constraints using the [caret syntax][]:**
-  Specify the version that serves as the inclusive minimum version.
-  This covers all versions from that version to the next major version.
+* **使用 [caret 語法][caret syntax] 的區間限制：**
+  指定作為包含式最小版本的版本號。
+  這樣會涵蓋從該版本到下一個主版本之前的所有版本。
 
   ```yaml
   dependencies:
     collection: '^5.4.0'
   ```
 
-  This syntax means the same as the one noted in the first bullet.
+  這種語法與第一個項目符號中提到的語法具有相同的意義。
 
-To learn more, check out the [package versioning guide][].
+如需進一步了解，請參閱 [套件版本管理指南][package versioning guide]。
 
 [caret syntax]: {{site.dart-site}}/tools/pub/dependencies#caret-syntax
 [package versioning guide]: {{site.dart-site}}/tools/pub/versioning
 [`url_launcher` versions]: {{site.pub-pkg}}/url_launcher/versions
 
-### Updating package dependencies
+### 更新套件相依性
 
-When running `flutter pub get`
-for the first time after adding a package,
-Flutter saves the concrete package version found in the `pubspec.lock`
-[lockfile][]. This ensures that you get the same version again
-if you, or another developer on your team, run `flutter pub get`.
+當你在新增套件後第一次執行 `flutter pub get` 時，
+Flutter 會將找到的具體套件版本儲存在 `pubspec.lock`
+[lockfile][lockfile] 中。這可確保你或團隊中的其他開發者再次執行 `flutter pub get` 時，
+都能取得相同的套件版本。
 
-To upgrade to a new version of the package,
-for example to use new features in that package,
-run `flutter pub upgrade`
-to retrieve the highest available version of the package
-that is allowed by the version constraint specified in
-`pubspec.yaml`.
-Note that this is a different command from
-`flutter upgrade` or `flutter update-packages`,
-which both update Flutter itself.
+若要升級至該套件的新版本，
+例如想使用該套件中的新功能時，
+請執行 `flutter pub upgrade`，
+以取得該套件在
+`pubspec.yaml`
+所指定版本限制下可用的最高版本。
+請注意，這個指令與
+`flutter upgrade` 或 `flutter update-packages`
+不同，後者會更新 Flutter 本身。
 
 [lockfile]: {{site.dart-site}}/tools/pub/glossary#lockfile
 
-### Dependencies on unpublished packages
+### 相依於未發佈的套件
 
-Packages can be used even when not published on pub.dev.
-For private packages, or for packages not ready for publishing,
-additional dependency options are available:
+即使套件尚未發佈到 pub.dev，也可以使用這些套件。
+對於私人套件或尚未準備好發佈的套件，
+還有其他相依性選項可供選擇：
 
-**Path dependency**
-: A Flutter app can depend on a package using a file system
-  `path:` dependency. The path can be either relative or absolute.
-  Relative paths are evaluated relative to the directory
-  containing `pubspec.yaml`. For example, to depend on a
-  package, packageA, located in a directory next to the app,
-  use the following syntax:
+**路徑相依性（Path dependency）**
+: Flutter 應用程式可以透過檔案系統的
+  `path:` 相依性來依賴套件。路徑可以是相對路徑或絕對路徑。
+  相對路徑會以包含 `pubspec.yaml` 的目錄為基準進行解析。例如，若要依賴一個
+  位於應用程式旁邊目錄中的套件 packageA，
+  可以使用以下語法：
 
   ```yaml
     dependencies:
@@ -316,10 +237,10 @@ additional dependency options are available:
   
   ```
 
-**Git dependency**
-: You can also depend on a package stored in a Git repository.
-  If the package is located at the root of the repo,
-  use the following syntax:
+**Git 相依套件（Git dependency）**
+: 你也可以依賴儲存在 Git 儲存庫中的套件。
+  如果該套件位於儲存庫的根目錄，
+  請使用以下語法：
 
   ```yaml
     dependencies:
@@ -328,9 +249,9 @@ additional dependency options are available:
           url: https://github.com/flutter/packageA.git
   ```
 
-**Git dependency using SSH**
-: If the repository is private and you can connect to it using SSH,
-  depend on the package by using the repo's SSH url:
+**使用 SSH 的 Git 相依套件**
+: 如果儲存庫為私有，且你可以透過 SSH 連線，
+  可以使用該儲存庫的 SSH URL 來加入套件相依性：
 
   ```yaml
     dependencies:
@@ -339,11 +260,8 @@ additional dependency options are available:
           url: git@github.com:flutter/packageA.git
   ```
 
-**Git dependency on a package in a folder**
-: Pub assumes the package is located in
-  the root of the Git repository. If that isn't
-  the case, specify the location with the `path` argument.
-  For example:
+**Git 相依於資料夾中的套件**
+: Pub 預設套件位於 Git 儲存庫的根目錄。如果不是這種情況，請使用 `path` 參數來指定位置。例如：
 
   ```yaml
   dependencies:
@@ -353,28 +271,24 @@ additional dependency options are available:
         path: packages/packageA
   ```
 
-  Finally, use the `ref` argument to pin the dependency to a
-  specific git commit, branch, or tag. For more details, see
-  [Package dependencies][].
+  最後，使用 `ref` 參數將相依套件鎖定（pin）到特定的 git commit、分支（branch）或標籤（tag）。如需更多細節，請參閱 [Package dependencies][Package dependencies]。
 
 [Package dependencies]: {{site.dart-site}}/tools/pub/dependencies
 
-## Examples
+## 範例
 
-The following examples walk through the necessary steps for
-using packages.
+以下範例將逐步說明如何使用套件。
 
-### Example: Using the css_colors package {:#css-example}
+### 範例：使用 css_colors 套件 {:#css-example}
 
-The [`css_colors`][] package
-defines color constants for CSS colors, so use the constants
-wherever the Flutter framework expects the `Color` type.
+[`css_colors`][`css_colors`] 套件
+定義了 CSS 顏色的顏色常數，因此可以在 Flutter 框架需要 `Color` 類型的地方使用這些常數。
 
-To use this package:
+要使用此套件，請依下列步驟操作：
 
-1. Create a new project called `cssdemo`.
+1. 建立一個名為 `cssdemo` 的新專案。
 
-1. Open `pubspec.yaml`, and add the `css-colors` dependency:
+1. 開啟 `pubspec.yaml`，並新增 `css-colors` 相依套件：
 
    ```yaml
    dependencies:
@@ -383,10 +297,10 @@ To use this package:
      css_colors: ^1.0.0
    ```
 
-1. Run `flutter pub get` in the terminal,
-   or click **Get Packages** in VS Code.
+1. 在終端機執行 `flutter pub get`，
+   或在 VS Code 中點擊 **Get Packages**。
 
-1. Open `lib/main.dart` and replace its full contents with:
+1. 開啟 `lib/main.dart`，並將其全部內容替換為：
 
     <?code-excerpt "lib/css_colors.dart (css-colors)"?>
     ```dart
@@ -418,23 +332,18 @@ To use this package:
 
 [`css_colors`]: {{site.pub-pkg}}/css_colors
 
-1. Run the app. The app's background should now be orange.
+1. 執行應用程式。應用程式的背景現在應該會變成橘色。
 
-### Example: Using the url_launcher package to launch the browser {:#url-example}
+### 範例：使用 url_launcher 套件開啟瀏覽器 {:#url-example}
 
-The [`url_launcher`][] plugin package enables opening
-the default browser on the mobile platform to display
-a given URL, and is supported on Android, iOS, web,
-Windows, Linux, and macOS.
-This package is a special Dart package called a
-_plugin package_ (or _plugin_),
-which includes platform-specific code.
+[`url_launcher`][`url_launcher`] 插件套件（plugin package）可以在行動平台上開啟預設瀏覽器，顯示指定的 URL，並支援 Android、iOS、Web、Windows、Linux 和 macOS。
+這個套件是一種特殊的 Dart 套件，稱為 _插件套件_（plugin package，或稱 _plugin_），其中包含平台專屬的程式碼。
 
-To use this plugin:
+要使用這個插件，請依照下列步驟：
 
-1. Create a new project called `launchdemo`.
+1. 建立一個名為 `launchdemo` 的新專案。
 
-1. Open `pubspec.yaml`, and add the `url_launcher` dependency:
+1. 開啟 `pubspec.yaml`，並加入 `url_launcher` 相依套件（dependency）：
 
    ```yaml
    dependencies:
@@ -443,11 +352,10 @@ To use this plugin:
      url_launcher: ^5.4.0
    ```
 
-1. Run `flutter pub get` in the terminal,
-   or click **Get Packages get** in VS Code.
+1. 在終端機中執行 `flutter pub get`，
+   或在 VS Code 中點擊 **Get Packages get**。
 
-1. Open `lib/main.dart` and replace its full contents with the
-   following:
+1. 開啟 `lib/main.dart`，並將其全部內容替換為以下內容：
 
     <?code-excerpt "lib/url_launcher.dart (url-launcher)"?>
     ```dart
@@ -488,7 +396,4 @@ To use this plugin:
     }
     ```
 
-1. Run the app (or stop and restart it, if it was already running
-   before adding the plugin). Click **Show Flutter homepage**.
-   You should see the default browser open on the device,
-   displaying the homepage for flutter.dev.
+1. 執行應用程式（如果在加入 plugin 前已經在執行，請先停止再重新啟動）。點擊 **Show Flutter homepage**。你應該會看到預設瀏覽器在裝置上開啟，並顯示 flutter.dev 的首頁。

@@ -1,192 +1,130 @@
 ---
-title: Developing packages & plugins
-shortTitle: Developing
-description: How to write packages and plugins for Flutter.
+title: 開發套件與插件
+shortTitle: 開發
+description: 如何為 Flutter 撰寫套件與插件。
 ---
 
-## Package introduction
+## 套件簡介
 
-Packages enable the creation of modular code that can be shared easily.
-A minimal package consists of the following:
+套件（Packages）讓你能夠建立可輕鬆分享的模組化程式碼。
+一個最小的套件包含以下內容：
 
 **`pubspec.yaml`**
-: A metadata file that declares the package name,
-  version, author, and so on.
+: 一個中繼資料檔案，用於宣告套件名稱、版本、作者等資訊。
 
 **`lib`**
-: The `lib` directory contains the public code in
-  the package, minimally a single `<package-name>.dart` file.
+: `lib` 目錄包含套件中的公開程式碼，最少需有一個 `<package-name>.dart` 檔案。
 
 :::note
-For a list of dos and don'ts when writing an effective plugin,
-see the Medium article by Mehmet Fidanboylu,
-[Writing a good plugin][].
+想了解撰寫高效插件時的注意事項，請參考 Mehmet Fidanboylu 的 Medium 文章
+[Writing a good plugin][Writing a good plugin]。
 :::
 
-### Package types {:#types}
+### 套件類型 {:#types}
 
-Packages can contain more than one kind of content:
+套件可以包含多種類型的內容：
 
-**Dart packages**
-: General packages written in Dart,
-  for example the [`path`][] package.
-  Some of these might contain Flutter specific
-  functionality and thus have a dependency on the
-  Flutter framework, restricting their use to Flutter only,
-  for example the [`fluro`][] package.
+**Dart 套件**
+: 一般以 Dart 撰寫的套件，例如 [`path`][`path`] 套件。
+  其中有些可能包含 Flutter 專屬功能，因此會依賴 Flutter 框架，只能在 Flutter 使用，
+  例如 [`fluro`][`fluro`] 套件。
 
-**Plugin packages**
-: A specialized Dart package that contains an API written in
-  Dart code combined with one or more platform-specific
-  implementations.
+**插件套件（Plugin packages）**
+: 一種特殊的 Dart 套件，包含以 Dart 程式碼撰寫的 API，並結合一個或多個平台專屬的實作。
 
-  Plugin packages can be written for Android
-  (using Kotlin or Java), iOS (using Swift or Objective-C),
-  web, macOS, Windows, or Linux, or any combination
-  thereof.
+  插件套件可以針對 Android（使用 Kotlin 或 Java）、iOS（使用 Swift 或 Objective-C）、Web、macOS、Windows 或 Linux，或其任意組合進行開發。
 
-  A concrete example is the [`url_launcher`][] plugin package.
-  To see how to use the `url_launcher` package, and how it
-  was extended to implement support for web,
-  see the Medium article by Harry Terkelsen,
-  [How to Write a Flutter Web Plugin, Part 1][].
+  一個具體範例是 [`url_launcher`][`url_launcher`] 插件套件。
+  若想了解如何使用 `url_launcher` 套件，以及它如何擴充支援 Web，
+  請參考 Harry Terkelsen 的 Medium 文章
+  [How to Write a Flutter Web Plugin, Part 1][How to Write a Flutter Web Plugin, Part 1]。
 
-**FFI Plugin packages**
-: A specialized Dart package that contains an API written in
-  Dart code combined with one or more platform-specific
-  implementations that use Dart FFI([Android][Android], [iOS][iOS], [macOS][macOS]).
+**FFI 插件套件（FFI Plugin packages）**
+: 一種特殊的 Dart 套件，包含以 Dart 程式碼撰寫的 API，並結合一個或多個使用 Dart FFI（[Android][Android]、[iOS][iOS]、[macOS][macOS]）的平臺專屬實作。
 
-## Developing Dart packages {:#dart}
+## 開發 Dart 套件 {:#dart}
 
-The following instructions explain how to write a Flutter
-package.
+以下說明如何撰寫 Flutter 套件。
 
-### Step 1: Create the package
+### 步驟 1：建立套件
 
-To create a starter Flutter package,
-use the `--template=package` flag with `flutter create`:
+要建立一個入門的 Flutter 套件，
+請在 `flutter create` 指令中加入 `--template=package` 旗標：
 
 ```console
 $ flutter create --template=package hello
 ```
 
-This creates a package project in the `hello`
-folder with the following content:
+這會在`hello`資料夾中建立一個套件專案，內容如下：
 
 **LICENSE**
-: A (mostly) empty license text file.
+: 一個（大多為空白的）授權條款文字檔。
 
 **test/hello_test.dart**
-: The [unit tests][] for the package.
+: 此套件的[單元測試][unit tests]。
 
 **hello.iml**
-: A configuration file used by the IntelliJ IDEs.
+: IntelliJ IDE 所使用的設定檔。
 
 **.gitignore**
-: A hidden file that tells Git which files or
-  folders to ignore in a project.
+: 一個隱藏檔案，用於告訴 Git 在專案中應忽略哪些檔案或資料夾。
 
 **.metadata**
-: A hidden file used by IDEs to track the properties
-  of the Flutter project.
+: 一個隱藏檔案，供 IDE 用來追蹤 Flutter 專案的屬性。
 
 **pubspec.yaml**
-: A yaml file containing metadata that specifies
-  the package's dependencies. Used by the pub tool.
+: 一個 yaml 格式的設定檔，包含指定套件相依性的中繼資料。由 pub 工具使用。
 
 **README.md**
-: A starter markdown file that briefly describes
-  the package's purpose.
+: 一個起始用的 markdown 檔案，簡要描述套件的用途。
 
 **lib/hello.dart**
-: A starter app containing Dart code for the package.
+: 一個起始應用程式，內含此套件的 Dart 程式碼。
 
 **.idea/modules.xml**, **.idea/workspace.xml**
-: A hidden folder containing configuration files
-  for the IntelliJ IDEs.
+: 一個隱藏資料夾，內含 IntelliJ IDE 的設定檔。
 
 **CHANGELOG.md**
-: A (mostly) empty markdown file for tracking
-  version changes to the package.
+: 一個（大多為空白的）markdown 檔案，用於追蹤套件的版本變更。
 
-### Step 2: Implement the package
+### 步驟 2：實作套件
 
-For pure Dart packages, simply add the functionality
-inside the main `lib/<package name>.dart` file,
-or in several files in the `lib` directory.
+對於純 Dart 套件，只需將功能加入主要的`lib/<package name>.dart`檔案，或是放在`lib`目錄下的多個檔案中。
 
-To test the package, add [unit tests][]
-in a `test` directory.
+若要測試套件，請在`test`目錄中新增[單元測試][unit tests]。
 
-For additional details on how to organize the
-package contents,
-see the [Dart library package][] documentation.
+關於如何組織套件內容的更多細節，請參閱 [Dart library package][Dart library package] 文件。
 
-## Developing plugin packages {:#plugin}
+## 開發插件套件 {:#plugin}
 
-If you want to develop a package that calls into
-platform-specific APIs,
-you need to develop a plugin package.
+如果你想開發一個能呼叫平台專屬 API 的套件，你需要開發一個插件套件（plugin package）。
 
-The API is connected to the platform-specific
-implementation(s) using a [platform channel][].
+API 會透過[平台通道（platform channel）][platform channel]連接到平台專屬的實作。
 
-### Federated plugins
+### 聯邦式插件（Federated plugins）
 
-Federated plugins are a way of splitting support for
-different platforms into separate packages.
-So, a federated plugin can use one package for iOS,
-another for Android, another for web,
-and yet another for a car (as an example of an IoT device).
-Among other benefits, this approach allows a domain expert
-to extend an existing plugin to work for the platform they know best.
+聯邦式插件是一種將不同平台支援分割成多個獨立套件的方式。因此，一個聯邦式插件可以針對 iOS 使用一個套件、Android 使用另一個套件、Web 使用另一個套件，甚至針對車用裝置（如 IoT 裝置範例）再用另一個套件。這種方式的好處之一，是讓領域專家可以擴充現有插件，讓其支援自己最熟悉的平台。
 
-A federated plugin requires the following packages:
+一個聯邦式插件需要以下幾個套件：
 
-**app-facing package**
-: The package that plugin users depend on to use the plugin.
-  This package specifies the API used by the Flutter app.
+**面向應用程式的套件（app-facing package）**
+: 插件使用者會依賴此套件來使用該插件。此套件定義 Flutter 應用程式所使用的 API。
 
-**platform package(s)**
-: One or more packages that contain the platform-specific
-  implementation code. The app-facing package calls into
-  these packages&mdash;they aren't included into an app,
-  unless they contain platform-specific functionality
-  accessible to the end user.
+**平台套件（platform package(s)）**
+: 一個或多個包含平台專屬實作程式碼的套件。面向應用程式的套件會呼叫這些套件——這些套件不會被自動納入應用程式，除非它們包含最終使用者可存取的平台專屬功能。
 
-**platform interface package**
-: The package that glues the app-facing package
-  to the platform package(s). This package declares an
-  interface that any platform package must implement to
-  support the app-facing package. Having a single package
-  that defines this interface ensures that all platform
-  packages implement the same functionality in a uniform way.
+**平台介面套件（platform interface package）**
+: 將面向應用程式的套件與平台套件連接起來的套件。此套件宣告一個介面，任何平台套件都必須實作該介面，才能支援面向應用程式的套件。有一個單一套件來定義此介面，可以確保所有平台套件都以一致的方式實作相同功能。
 
-#### Endorsed federated plugin
+#### 被認可的聯邦式插件（Endorsed federated plugin）
 
-Ideally, when adding a platform implementation to
-a federated plugin, you will coordinate with the package
-author to include your implementation.
-In this way, the original author _endorses_ your
-implementation.
+理想情況下，當你為聯邦式插件新增一個平台實作時，應與套件作者協調，將你的實作納入。這樣，原始作者就會_認可（endorse）_你的實作。
 
-For example, say you write a `foobar_windows`
-implementation for the (imaginary) `foobar` plugin.
-In an endorsed plugin, the original `foobar` author
-adds your Windows implementation as a dependency
-in the pubspec for the app-facing package.
-Then, when a developer includes the `foobar` plugin
-in their Flutter app, the Windows implementation,
-as well as the other endorsed implementations,
-are automatically available to the app.
+例如，假設你為（假想的）`foobar`插件撰寫了一個`foobar_windows`實作。在被認可的插件中，原始`foobar`作者會將你的 Windows 實作作為相依性，加入到面向應用程式的套件的 pubspec 檔案中。如此一來，當開發者在他們的 Flutter 應用程式中加入`foobar`插件時，Windows 實作以及其他被認可的實作就會自動對應用程式可用。
 
-#### Non-endorsed federated plugin
+#### 未被認可的聯邦式插件（Non-endorsed federated plugin）
 
-If you can't, for whatever reason, get your implementation
-added by the original plugin author, then your plugin
-is _not_ endorsed. A developer can still use your
-implementation, but must manually add the plugin
-to the app's `pubspec.yaml` file:
+如果因任何原因，你無法讓原始插件作者將你的實作納入，那麼你的插件就_不_被認可。開發者仍然可以使用你的實作，但必須手動將該插件加入應用程式的`pubspec.yaml`檔案中：
 
 ```yaml
 dependencies:
@@ -194,22 +132,13 @@ dependencies:
   foobar_windows: ^1.0.0 # Non-endorsed plugin implementation
 ```
 
-This approach also works for overriding an already
-endorsed plugin implementation of `foobar`.
+這種方法同樣適用於覆寫已經被認可（endorsed）的 `foobar` 插件實作。
 
-For more information on federated plugins,
-why they are useful, and how they are
-implemented, see the Medium article by Harry Terkelsen,
-[How To Write a Flutter Web Plugin, Part 2][].
+如需進一步了解聯邦式插件（federated plugins）、其用途，以及如何實作，請參考 Harry Terkelsen 在 Medium 上的文章：[How To Write a Flutter Web Plugin, Part 2][How To Write a Flutter Web Plugin, Part 2]。
 
-### Specifying a plugin's supported platforms {:#plugin-platforms}
+### 指定插件支援的平台 {:#plugin-platforms}
 
-Plugins can specify the platforms they support by
-adding keys to the `platforms` map in the
-`pubspec.yaml` file. For example,
-the following pubspec file shows the
-`flutter:` map for the `hello` plugin,
-which supports only iOS and Android:
+插件可以透過在 `pubspec.yaml` 檔案中的 `platforms` 對映（map）新增鍵值來指定其支援的平台。例如，以下的 pubspec 檔案顯示了 `hello` 插件的 `flutter:` 對映，該插件僅支援 iOS 和 Android：
 
 ```yaml
 flutter:
@@ -222,11 +151,7 @@ flutter:
         pluginClass: HelloPlugin
 ```
 
-When adding plugin implementations for more platforms,
-the `platforms` map should be updated accordingly.
-For example, here's the map in the pubspec file
-for the `hello` plugin,
-when updated to add support for macOS and web:
+當你要為更多平台新增 plugin 實作時，應相應地更新 `platforms` 對應表（map）。例如，以下是在 pubspec 檔案中，為 `hello` plugin 新增 macOS 和 web 支援後的對應表內容：
 
 ```yaml
 flutter:
@@ -244,14 +169,14 @@ flutter:
         fileName: hello_web.dart
 ```
 
-#### Federated platform packages
+#### 聯邦式平台套件（Federated platform packages）
 
-A platform package uses the same format,
-but includes an `implements` entry indicating
-which app-facing package it implements. For example,
-a `hello_windows` plugin containing the Windows
-implementation for `hello`
-would have the following `flutter:` map:
+平台套件（platform package）使用相同的格式，
+但會包含一個 `implements` 項目，指出
+它實作的是哪一個面向應用程式的套件（app-facing package）。例如，
+一個包含 `hello`
+Windows 實作的 `hello_windows`
+plugin，其 `flutter:` 對應表會如下所示：
 
 ```yaml
 flutter:
@@ -262,12 +187,9 @@ flutter:
         pluginClass: HelloPlugin
 ```
 
-#### Endorsed implementations
+#### 受認可的實作（Endorsed implementations）
 
-An app facing package can endorse a platform package by adding a
-dependency on it, and including it as a `default_package` in the
-`platforms:` map. If the `hello` plugin above endorsed `hello_windows`,
-it would look as follows:
+面向應用程式的套件（app facing package）可以透過新增對平台套件的相依性，並在`platforms:`對映（map）中將其作為`default_package`來納入，以此認可（endorse）某個平台套件。如果上述的`hello`外掛（plugin）認可了`hello_windows`，其寫法如下：
 
 
 ```yaml
@@ -286,18 +208,11 @@ dependencies:
   hello_windows: ^1.0.0
 ```
 
-Note that as shown here, an app-facing package can have
-some platforms implemented within the package,
-and others in endorsed federated implementations.
+請注意，如下所示，一個面向應用程式的套件（app-facing package）可以在套件內部實作部分平台，其他平台則透過被認可（endorsed）的聯邦式實作（federated implementations）來實現。
 
-#### Shared iOS and macOS implementations
+#### iOS 與 macOS 共用實作
 
-Many frameworks support both iOS and macOS with identical
-or mostly identical APIs, making it possible to implement
-some plugins for both iOS and macOS with the same codebase.
-Normally each platform's implementation is in its own
-folder, but the `sharedDarwinSource` option allows iOS
-and macOS to use the same folder instead:
+許多框架同時支援 iOS 和 macOS，且其 API 完全相同或大致相同，因此可以使用相同的程式碼庫為 iOS 和 macOS 實作某些插件（plugin）。通常，每個平台的實作會放在各自的資料夾中，但透過 `sharedDarwinSource` 選項，可以讓 iOS 和 macOS 共用同一個資料夾：
 
 
 ```yaml
@@ -318,15 +233,11 @@ environment:
   flutter: ">=3.7.0"
 ```
 
-When `sharedDarwinSource` is enabled, instead of
-an `ios` directory for iOS and a `macos` directory
-for macOS, both platforms use a shared `darwin`
-directory for all code and resources. When enabling
-this option, you need to move any existing files
-from `ios` and `macos` to the shared directory. You
-also need to update the podspec file to set the
-dependencies and deployment targets for both platforms,
-for example:
+當啟用`sharedDarwinSource`時，iOS 不再使用`ios`目錄，macOS 也不再使用`macos`目錄，這兩個平台會共用一個`darwin`目錄來存放所有程式碼與資源。
+
+啟用這個選項時，你需要將現有的檔案從`ios`和`macos`移動到這個共用目錄。
+
+你也需要更新 podspec 檔案，為兩個平台設定相依套件與部署目標，例如：
 
 ```ruby
   s.ios.dependency 'Flutter'
@@ -335,28 +246,17 @@ for example:
   s.osx.deployment_target = '10.15'
 ```
 
-### Step 1: Create the package
+### 步驟 1：建立套件
 
-To create a plugin package, use the `--template=plugin`
-flag with `flutter create`.
+要建立一個 plugin 套件，請使用 `--template=plugin` 旗標搭配 `flutter create`。
 
-Use the `--platforms=` option followed by a
-comma-separated list to specify the platforms
-that the plugin supports. Available platforms are:
-`android`, `ios`, `web`, `linux`, `macos`, and `windows`.
-If no platforms are specified, the
-resulting project doesn't support any platforms.
+使用 `--platforms=` 選項，後接以逗號分隔的平台清單，以指定該 plugin 支援的平台。可用的平台有：`android`、`ios`、`web`、`linux`、`macos` 和 `windows`。如果未指定任何平台，則產生的專案將不支援任何平台。
 
-Use the `--org` option to specify your organization,
-using reverse domain name notation. This value is used
-in various package and bundle identifiers in the
-generated plugin code.
+使用 `--org` 選項來指定您的組織，格式採用反向網域名稱（reverse domain name）表示法。此值會用於產生的 plugin 程式碼中的各種套件與 bundle 識別碼。
 
-By default, the plugin project uses Swift for iOS code and
-Kotlin for Android code. If you prefer Objective-C or Java,
-you can specify the iOS language using `-i` and the
-Android language using `-a`.
-Please choose **one** of the following:
+預設情況下，plugin 專案會使用 Swift 作為 iOS 程式碼，Kotlin 作為 Android 程式碼。如果您偏好使用 Objective-C 或 Java，可以分別透過 `-i` 指定 iOS 語言，以及 `-a` 指定 Android 語言。
+
+請選擇下列**其中一項**：
 
 ```console
 $ flutter create --org com.example --template=plugin --platforms=android,ios,linux,macos,windows -a kotlin hello
@@ -371,111 +271,106 @@ $ flutter create --org com.example --template=plugin --platforms=android,ios,lin
 $ flutter create --org com.example --template=plugin --platforms=android,ios,linux,macos,windows -i swift hello
 ```
 
-This creates a plugin project in the `hello` folder
-with the following specialized content:
+這會在`hello`資料夾中建立一個 plugin 專案，
+並包含以下專屬內容：
 
 **`lib/hello.dart`**
-: The Dart API for the plugin.
+: plugin 的 Dart API。
 
 **`android/src/main/java/com/example/hello/HelloPlugin.kt`**
-: The Android platform-specific implementation of the plugin API
-  in Kotlin.
+: 以 Kotlin 撰寫的 Android 平台專屬 plugin API 實作。
 
 **`ios/Classes/HelloPlugin.m`**
-: The iOS-platform specific implementation of the plugin API
-  in Objective-C.
+: 以 Objective-C 撰寫的 iOS 平台專屬 plugin API 實作。
 
 **`example/`**
-: A Flutter app that depends on the plugin,
-  and illustrates how to use it.
+: 一個依賴此 plugin 的 Flutter 應用程式，
+  並展示如何使用它。
 
-### Step 2: Implement the package {:#edit-plugin-package}
+### 步驟 2：實作套件 {:#edit-plugin-package}
 
-As a plugin package contains code for several platforms
-written in several programming languages,
-some specific steps are needed to ensure a smooth experience.
+由於 plugin 套件包含多個平台、以多種程式語言撰寫的程式碼，
+因此需要一些特定步驟來確保開發流程順暢。
 
-#### Step 2a: Define the package API (.dart)
+#### 步驟 2a：定義套件 API（.dart）
 
-The API of the plugin package is defined in Dart code.
-Open the main `hello/` folder in your favorite [Flutter editor][].
-Locate the file `lib/hello.dart`.
+plugin 套件的 API 是以 Dart 程式碼定義的。
+請在你喜愛的 [Flutter 編輯器][Flutter editor] 中開啟主要的`hello/`資料夾。
+找到`lib/hello.dart`檔案。
 
-#### Step 2b: Add Android platform code (.kt/.java)
+#### 步驟 2b：新增 Android 平台程式碼（.kt/.java）
 
-We recommend you edit the Android code using Android Studio.
+我們建議你使用 Android Studio 編輯 Android 程式碼。
 
-Before editing the Android platform code in Android Studio,
-first make sure that the code has been built at least once
-(in other words, run the example app from your IDE/editor,
-or in a terminal execute
-`cd hello/example; flutter build apk --config-only`).
+在 Android Studio 編輯 Android 平台程式碼之前，
+請先確保程式碼已經至少建置過一次
+（換句話說，請從你的 IDE/編輯器執行範例應用程式，
+或在終端機執行
+`cd hello/example; flutter build apk --config-only`）。
 
-Then use the following steps:
+然後請依照以下步驟操作：
 
-1. Launch Android Studio.
-1. Select **Open an existing Android Studio Project**
-   in the **Welcome to Android Studio** dialog,
-   or select **File > Open** from the menu,
-   and select the `hello/example/android/build.gradle` file.
-1. In the **Gradle Sync** dialog, select **OK**.
-1. In the **Android Gradle Plugin Update** dialog,
-   select **Don't remind me again for this project**.
+1. 啟動 Android Studio。
+1. 在 **Welcome to Android Studio** 對話框中選擇 **Open an existing Android Studio Project**，
+   或從選單選擇 **File > Open**，
+   並選取`hello/example/android/build.gradle`檔案。
+1. 在 **Gradle Sync** 對話框中，選擇 **OK**。
+1. 在 **Android Gradle Plugin Update** 對話框中，
+   選擇 **Don't remind me again for this project**。
 
-The Android platform code of your plugin is located in
-`hello/java/com.example.hello/HelloPlugin`.
+你的 plugin 的 Android 平台程式碼位於
+`hello/java/com.example.hello/HelloPlugin`。
 
-You can run the example app from Android Studio by
-pressing the run (&#9654;) button.
+你可以在 Android Studio 中按下執行（&#9654;）按鈕來執行範例應用程式。
 
-#### Step 2c: Add iOS platform code (.swift/.h+.m)
+#### 步驟 2c：新增 iOS 平台程式碼（.swift/.h+.m）
 
-We recommend you edit the iOS code using Xcode.
+我們建議你使用 Xcode 編輯 iOS 程式碼。
 
-Before editing the iOS platform code in Xcode,
-first make sure that the code has been built at least once
-(in other words, run the example app from your IDE/editor,
-or in a terminal execute
-`cd hello/example; flutter build ios --no-codesign --config-only`).
+在 Xcode 編輯 iOS 平台程式碼之前，
+請先確保程式碼已經至少建置過一次
+（換句話說，請從你的 IDE/編輯器執行範例應用程式，
+或在終端機執行
+`cd hello/example; flutter build ios --no-codesign --config-only`）。
 
-Then use the following steps:
+然後請依照以下步驟操作：
 
-1. Launch Xcode.
-1. Select **File > Open**, and select the
-   `hello/example/ios/Runner.xcworkspace` file.
+1. 啟動 Xcode。
+1. 選擇 **File > Open**，然後選取
+   `hello/example/ios/Runner.xcworkspace` 檔案。
 
-The iOS platform code for your plugin is located in
+你的 plugin 的 iOS 平台程式碼位於
 `Pods/Development Pods/hello/../../example/ios/.symlinks/plugins/hello/ios/Classes`
-in the Project Navigator. (If you are using `sharedDarwinSource`,
-the path will end with `hello/darwin/Classes` instead.)
+的 Project Navigator 中。（如果你使用的是`sharedDarwinSource`，
+路徑最後會是`hello/darwin/Classes`。）
 
-You can run the example app by pressing the run (&#9654;) button.
+你可以按下執行（&#9654;）按鈕來執行範例應用程式。
 
-##### Add CocoaPod dependencies
+##### 新增 CocoaPod 相依套件
 
 :::warning
-Flutter is migrating to [Swift Package Manager][]
-to manage iOS and macOS native dependencies.
-Flutter's support of Swift Package Manager is under development.
-The implementation might change in the future.
-Swift Package Manager support is only available
-on Flutter's [`main` channel][].
-Flutter continues to support CocoaPods.
+Flutter 正在遷移至 [Swift Package Manager][Swift Package Manager]
+來管理 iOS 與 macOS 的原生相依套件。
+Flutter 對 Swift Package Manager 的支援仍在開發中，
+未來實作方式可能會有所變動。
+Swift Package Manager 僅在 Flutter 的 [`main` 頻道][`main` channel]
+上提供支援。
+Flutter 仍然支援 CocoaPods。
 :::
 
 [Swift Package Manager]: https://www.swift.org/documentation/package-manager/
 [`main` channel]: /install/upgrade#switching-flutter-channels
 
-Use the following instructions to add `HelloPod` with the version `0.0.1`:
+請依照以下說明，新增`HelloPod`，版本為`0.0.1`：
 
-1. Specify the dependency at the end of `ios/hello.podspec`:
+1. 在`ios/hello.podspec`的結尾指定相依套件：
 
    ```ruby
    s.dependency 'HelloPod', '0.0.1'
    ```
 
-   For private pods, refer to
-   [Private CocoaPods][] to ensure repo access:
+   針對私有 pods，請參考
+   [Private CocoaPods][Private CocoaPods] 以確保有存取該 repo 的權限：
 
    ```ruby
    s.source = {
@@ -489,154 +384,114 @@ Use the following instructions to add `HelloPod` with the version `0.0.1`:
 
 [Private CocoaPods]: https://guides.cocoapods.org/making/private-cocoapods.html
 
-2. Installing the plugin
+2. 安裝插件
 
-   - Add the plugin in the project’s `pubspec.yaml` dependencies.
-   - Run `flutter pub get`.
-   - In the project’s `ios/` directory, run `pod install`.
+   - 在專案的 `pubspec.yaml` dependencies 中新增該插件。
+   - 執行 `flutter pub get`。
+   - 在專案的 `ios/` 目錄下執行 `pod install`。
 
-The pod should appear in the installation summary.
+該 pod 應該會出現在安裝摘要中。
 
-If your plugin requires a privacy manifest, for example,
-if it uses any **required reason APIs**,
-update the `PrivacyInfo.xcprivacy` file to
-describe your plugin's privacy impact,
-and add the following to the bottom of your podspec file:
+如果你的插件需要隱私權聲明檔（privacy manifest），例如，
+如果它使用了任何**必要理由 API（required reason APIs）**，
+請更新 `PrivacyInfo.xcprivacy` 檔案以
+描述你的插件對隱私的影響，
+並在 podspec 檔案的底部新增以下內容：
 
 ```ruby
 s.resource_bundles = {'your_plugin_privacy' => ['your_plugin/Sources/your_plugin/Resources/PrivacyInfo.xcprivacy']}
 ```
 
-For more information,
-check out [Privacy manifest files][] on the Apple developer site.
+如需更多資訊，請參閱 Apple 開發者網站上的 [Privacy manifest files][Privacy manifest files]。
 
 [Privacy manifest files]: {{site.apple-dev}}/documentation/bundleresources/privacy_manifest_files
 
-#### Step 2d: Add Linux platform code (.h+.cc)
+#### 步驟 2d：新增 Linux 平台程式碼（.h + .cc）
 
-We recommend you edit the Linux code using an IDE with
-C++ integration. The instructions below are for
-Visual Studio Code with the "C/C++" and "CMake" extensions
-installed, but can be adjusted for other IDEs.
+建議您使用具備 C++ 整合功能的 IDE 來編輯 Linux 程式碼。以下說明以安裝了「C/C++」與「CMake」擴充功能的 Visual Studio Code 為例，但也可依照其他 IDE 進行調整。
 
-Before editing the Linux platform code in an IDE,
-first make sure that the code has been built at least once
-(in other words, run the example app from your Flutter
-IDE/editor, or in a terminal execute
-`cd hello/example; flutter build linux`).
+在 IDE 中編輯 Linux 平台程式碼之前，請先確保程式碼已至少建置過一次（換句話說，請從您的 Flutter IDE/編輯器執行範例應用程式，或在終端機中執行
+`cd hello/example; flutter build linux`）。
 
-Then use the following steps:
+然後依照以下步驟操作：
 
-1. Launch Visual Studio Code.
-1. Open the `hello/example/linux/` directory.
-1. Choose **Yes** in the prompt asking:
-   `Would you like to configure project "linux"?`.
-   This will allow C++ autocomplete to work.
+1. 啟動 Visual Studio Code。
+1. 開啟 `hello/example/linux/` 目錄。
+1. 在提示訊息中選擇 **Yes**，內容為：
+   `Would you like to configure project "linux"?`。
+   這樣可以啟用 C++ 自動完成功能。
 
-The Linux platform code for your plugin is located in
-`flutter/ephemeral/.plugin_symlinks/hello/linux/`.
+您的插件（plugin）在 Linux 平台上的程式碼位於
+`flutter/ephemeral/.plugin_symlinks/hello/linux/`。
 
-You can run the example app using `flutter run`.
-**Note:** Creating a runnable Flutter application
-on Linux requires steps that are part of the `flutter`
-tool, so even if your editor provides CMake
-integration building and running that way won't
-work correctly.
+您可以使用 `flutter run` 執行範例應用程式。
+**注意：** 在 Linux 上建立可執行的 Flutter 應用程式需要透過 `flutter` 工具進行，因此即使您的編輯器支援 CMake 整合，直接用該方式建置與執行也無法正確運作。
 
-#### Step 2e: Add macOS platform code (.swift)
+#### 步驟 2e：新增 macOS 平台程式碼（.swift）
 
-We recommend you edit the macOS code using Xcode.
+建議您使用 Xcode 編輯 macOS 程式碼。
 
-Before editing the macOS platform code in Xcode,
-first make sure that the code has been built at least once
-(in other words, run the example app from your IDE/editor,
-or in a terminal execute
-`cd hello/example; flutter build macos --config-only`).
+在 Xcode 中編輯 macOS 平台程式碼之前，請先確保程式碼已至少建置過一次（換句話說，請從您的 IDE/編輯器執行範例應用程式，或在終端機中執行
+`cd hello/example; flutter build macos --config-only`）。
 
-Then use the following steps:
+然後依照以下步驟操作：
 
-1. Launch Xcode.
-1. Select **File > Open**, and select the
-   `hello/example/macos/Runner.xcworkspace` file.
+1. 啟動 Xcode。
+1. 選擇 **File > Open**，並選取
+   `hello/example/macos/Runner.xcworkspace` 檔案。
 
-The macOS platform code for your plugin is located in
-`Pods/Development Pods/hello/../../example/macos/Flutter/ephemeral/.symlinks/plugins/hello/macos/Classes`
-in the Project Navigator. (If you are using `sharedDarwinSource`,
-the path will end with `hello/darwin/Classes` instead.)
+您的插件（plugin）在 macOS 平台上的程式碼位於
+專案導覽器（Project Navigator）中的 `Pods/Development Pods/hello/../../example/macos/Flutter/ephemeral/.symlinks/plugins/hello/macos/Classes`。
+（如果您使用的是 `sharedDarwinSource`，則路徑會以 `hello/darwin/Classes` 結尾。）
 
-You can run the example app by pressing the run (&#9654;) button.
+您可以按下執行（&#9654;）按鈕來執行範例應用程式。
 
-#### Step 2f: Add Windows platform code (.h+.cpp)
+#### 步驟 2f：新增 Windows 平台程式碼（.h + .cpp）
 
-We recommend you edit the Windows code using Visual Studio.
+建議您使用 Visual Studio 編輯 Windows 程式碼。
 
-Before editing the Windows platform code in Visual Studio,
-first make sure that the code has been built at least once
-(in other words, run the example app from your IDE/editor,
-or in a terminal execute
-`cd hello/example; flutter build windows`).
+在 Visual Studio 中編輯 Windows 平台程式碼之前，請先確保程式碼已至少建置過一次（換句話說，請從您的 IDE/編輯器執行範例應用程式，或在終端機中執行
+`cd hello/example; flutter build windows`）。
 
-Then use the following steps:
+然後依照以下步驟操作：
 
-1. Launch Visual Studio.
-1. Select **Open a project or solution**, and select the
-   `hello/example/build/windows/hello_example.sln` file.
+1. 啟動 Visual Studio。
+1. 選擇 **Open a project or solution**，並選取
+   `hello/example/build/windows/hello_example.sln` 檔案。
 
-The Windows platform code for your plugin is located in
-`hello_plugin/Source Files` and `hello_plugin/Header Files` in
-the Solution Explorer.
+您的插件（plugin）在 Windows 平台上的程式碼位於
+方案總管（Solution Explorer）中的 `hello_plugin/Source Files` 與 `hello_plugin/Header Files`。
 
-You can run the example app by right-clicking `hello_example` in
-the Solution Explorer and selecting **Set as Startup Project**,
-then pressing the run (&#9654;) button. **Important:** After
-making changes to plugin code, you must select
-**Build > Build Solution** before running again, otherwise
-an outdated copy of the built plugin will be run instead
-of the latest version containing your changes.
+您可以在方案總管中右鍵點擊 `hello_example`，選擇 **Set as Startup Project**，然後按下執行（&#9654;）按鈕來執行範例應用程式。**重要：** 修改插件程式碼後，請務必在再次執行前選擇 **Build > Build Solution**，否則將會執行到舊版本的插件，而非包含您最新變更的版本。
 
-#### Step 2g: Connect the API and the platform code
+#### 步驟 2g：串接 API 與平台程式碼
 
-Finally, you need to connect the API written in Dart code with
-the platform-specific implementations.
-This is done using a [platform channel][],
-or through the interfaces defined in a platform
-interface package.
+最後，您需要將以 Dart 程式碼撰寫的 API 與各平台的實作串接起來。
+這可以透過 [平台通道（platform channel）][platform channel]，
+或是透過平台介面套件中定義的介面來完成。
 
-### Add support for platforms in an existing plugin project
+### 在現有插件專案中新增平台支援
 
-To add support for specific platforms to an
-existing plugin project, run `flutter create` with
-the `--template=plugin` flag again in the project directory.
-For example, to add web support in an existing plugin, run:
+若要在現有插件專案中新增特定平台的支援，請在專案目錄下再次執行帶有 `--template=plugin` 旗標的 `flutter create`。
+例如，若要在現有插件中新增 Web 支援，請執行：
 
 ```console
 $ flutter create --template=plugin --platforms=web .
 ```
 
-If this command displays a message about updating the
-`pubspec.yaml` file, follow the provided instructions.
+如果這個指令顯示有關更新`pubspec.yaml`檔案的訊息，請依照提供的指示操作。
 
-### Dart platform implementations
+### Dart 平台實作
 
-In many cases, non-web platform implementations only use the
-platform-specific implementation language, as shown above. However,
-platform implementations can also use platform-specific Dart as well.
+在許多情況下，非 Web 平台的實作只會使用該平台專屬的實作語言，如上所示。然而，平台實作也可以同時使用平台專屬的 Dart。
 
 :::note
-The examples below only apply to non-web platforms. Web
-plugin implementations are always written in Dart, and use
-`pluginClass` and `fileName` for their Dart implementations
-as shown above.
+下方的範例僅適用於非 Web 平台。Web 外掛（plugin）實作一律使用 Dart 撰寫，並如上所示，使用`pluginClass`與`fileName`來進行 Dart 實作。
 :::
 
-#### Dart-only platform implementations
+#### 僅使用 Dart 的平台實作
 
-In some cases, some platforms can be
-implemented entirely in Dart (for example, using FFI).
-For a Dart-only platform implementation on a platform other than web,
-replace the `pluginClass` in pubspec.yaml with a `dartPluginClass`.
-Here is the `hello_windows` example above modified for a
-Dart-only implementation:
+在某些情況下，部分平台可以完全以 Dart 實作（例如，透過 FFI）。若要在非 Web 平台上進行僅使用 Dart 的平台實作，請將 pubspec.yaml（設定檔）中的`pluginClass`替換為`dartPluginClass`。以下是上述`hello_windows`範例，已修改為僅使用 Dart 的實作版本：
 
 ```yaml
 flutter:
@@ -647,11 +502,7 @@ flutter:
         dartPluginClass: HelloPluginWindows
 ```
 
-In this version you would have no C++ Windows code, and would instead
-subclass the `hello` plugin's Dart platform interface class with a
-`HelloPluginWindows` class that includes a static
-`registerWith()` method.  This method is called during startup,
-and can be used to register the Dart implementation:
+在這個版本中，你將不會有任何 C++ Windows 程式碼，而是會以`hello`套件的 Dart 平台介面類別為基礎，建立一個`HelloPluginWindows`類別，並在其中包含一個靜態的`registerWith()`方法。這個方法會在啟動時被呼叫，可用來註冊 Dart 的實作方式：
 
 ```dart
 class HelloPluginWindows extends HelloPluginPlatform {
@@ -661,15 +512,11 @@ class HelloPluginWindows extends HelloPluginPlatform {
   }
 ```
 
-#### Hybrid platform implementations
+#### 混合式平台實作
 
-Platform implementations can also use both Dart and a platform-specific
-language. For example, a plugin could use a different platform channel
-for each platform so that the channels can be customized per platform.
+平台實作也可以同時使用 Dart 以及平台專屬語言。例如，一個 plugin 可以為每個平台使用不同的 platform channel，讓 channel 能針對各平台進行自訂。
 
-A hybrid implementation uses both of the registration systems
-described above. Here is the `hello_windows` example above modified for a
-hybrid implementation:
+混合式實作會同時使用上述兩種註冊系統。以下是將上方 `hello_windows` 範例修改為混合式實作的方式：
 
 ```yaml
 flutter:
@@ -681,63 +528,45 @@ flutter:
         pluginClass: HelloPlugin
 ```
 
-The Dart `HelloPluginWindows` class would use the `registerWith()`
-shown above for Dart-only implementations, while the C++ `HelloPlugin`
-class would be the same as in a C++-only implementation.
+Dart 的 `HelloPluginWindows` 類別會使用上方所示的 `registerWith()`，這適用於僅使用 Dart 的實作；而 C++ 的 `HelloPlugin` 類別則與僅使用 C++ 的實作相同。
 
-### Testing your plugin
+### 測試你的插件
 
-We encourage you test your plugin with automated tests
-to ensure that functionality doesn't regress
-as you make changes to your code.
+我們鼓勵你使用自動化測試來測試你的插件，以確保在你修改程式碼時，功能不會產生回歸問題。
 
-To learn more about testing your plugins,
-check out [Testing plugins][].
-If you are writing tests for your Flutter app
-and plugins are causing crashes,
-check out [Flutter in plugin tests][].
+想進一步了解如何測試你的插件，請參考 [Testing plugins][Testing plugins]。
+如果你正在為 Flutter 應用程式撰寫測試，且插件導致當機，請參考 [Flutter in plugin tests][Flutter in plugin tests]。
 
 [Flutter in plugin tests]: /testing/plugins-in-tests
 [Testing plugins]: /testing/testing-plugins
 
-## Developing FFI plugin packages {:#plugin-ffi}
+## 開發 FFI 插件套件 {:#plugin-ffi}
 
-If you want to develop a package that calls into native APIs using
-Dart's FFI, you need to develop an FFI plugin package.
+如果你想開發一個使用 Dart 的 FFI 呼叫原生 API 的套件，你需要開發一個 FFI 插件套件。
 
-Both FFI plugin packages and non-FFI plugin packages support
-bundling native code. However, FFI plugin packages don't
-support method channels,
-but they _do_ support method channel registration code.
-To implement a plugin that uses both method channels
-_and_ FFI, use a non-FFI plugin.
-Each platform can use either an FFI or non-FFI platform.
+FFI 插件套件與非 FFI 插件套件都支援捆綁原生程式碼。然而，FFI 插件套件不支援 method channels（方法通道），但 _有_ 支援 method channel 註冊程式碼。
+若要實作同時使用 method channels _和_ FFI 的插件，請使用非 FFI 插件。
+每個平台都可以選擇使用 FFI 或非 FFI 的平台實作。
 
-### Step 1: Create the package
+### 步驟 1：建立套件
 
-To create a starter FFI plugin package,
-use the `--template=plugin_ffi` flag with `flutter create`:
+要建立一個 FFI 插件套件的起始範本，請在 `flutter create` 指令中加入 `--template=plugin_ffi` 旗標：
 
 ```console
 $ flutter create --template=plugin_ffi hello
 ```
 
-This creates an FFI plugin project in the `hello`
-folder with the following specialized content:
+這會在`hello`資料夾中建立一個 FFI 插件專案，內容包含以下專屬結構：
 
-**lib**: The Dart code that defines the API of the plugin,
-  and which calls into the native code using `dart:ffi`.
+**lib**：定義插件 API 的 Dart 程式碼，並透過`dart:ffi`呼叫原生程式碼。
 
-**src**: The native source code, and a `CMakeLists.txt`
-  file for building that source code into a dynamic library.
+**src**：原生原始碼，以及一個`CMakeLists.txt`檔案，用於將這些原始碼建置成動態函式庫。
 
-**platform folders** (`android`, `ios`, `windows`, etc.): The
-  build files for building and bundling the native code
-  library with the platform application.
+**平台資料夾**（`android`、`ios`、`windows`等）：用於建置與封裝原生程式庫至各平台應用程式的建置檔案。
 
-### Step 2: Building and bundling native code
+### 步驟 2：建置與封裝原生程式碼
 
-The `pubspec.yaml` specifies FFI plugins as follows:
+`pubspec.yaml`會如下指定 FFI 插件：
 
 ```yaml
   plugin:
@@ -746,13 +575,9 @@ The `pubspec.yaml` specifies FFI plugins as follows:
         ffiPlugin: true
 ```
 
-This configuration invokes the native build
-for the various target platforms and bundles
-the binaries in Flutter applications using these FFI plugins.
+這個設定會針對各個目標平台呼叫原生建置，並將這些 FFI 插件所產生的二進位檔案（binaries）一併打包進 Flutter 應用程式中。
 
-This can be combined with `dartPluginClass`,
-such as when FFI is used for the
-implementation of one platform in a federated plugin:
+這可以與 `dartPluginClass` 結合使用，例如在聯邦式插件（federated plugin）中，若某個平台的實作是透過 FFI 完成時：
 
 ```yaml
   plugin:
@@ -763,7 +588,7 @@ implementation of one platform in a federated plugin:
         ffiPlugin: true
 ```
 
-A plugin can have both FFI and method channels:
+一個 plugin（外掛）可以同時擁有 FFI 和 method channels（方法通道）：
 
 ```yaml
   plugin:
@@ -773,70 +598,59 @@ A plugin can have both FFI and method channels:
         ffiPlugin: true
 ```
 
-The native build systems that are invoked by FFI
-(and method channels) plugins are:
+FFI（以及 method channels）外掛會呼叫的原生建置系統如下：
 
-* For Android: Gradle, which invokes the Android NDK for native builds.
-  * See the documentation in `android/build.gradle`.
-* For iOS and macOS: Xcode, using CocoaPods.
-  * See the documentation in `ios/hello.podspec`.
-  * See the documentation in `macos/hello.podspec`.
-* For Linux and Windows: CMake.
-  * See the documentation in `linux/CMakeLists.txt`.
-  * See the documentation in `windows/CMakeLists.txt`.
+* Android：Gradle，會呼叫 Android NDK 進行原生建置。
+  * 請參閱`android/build.gradle`中的相關文件。
+* iOS 與 macOS：Xcode，並透過 CocoaPods。
+  * 請參閱`ios/hello.podspec`中的相關文件。
+  * 請參閱`macos/hello.podspec`中的相關文件。
+* Linux 與 Windows：CMake。
+  * 請參閱`linux/CMakeLists.txt`中的相關文件。
+  * 請參閱`windows/CMakeLists.txt`中的相關文件。
 
-### Step 3: Binding to native code
+### 步驟 3：綁定原生程式碼
 
-To use the native code, bindings in Dart are needed.
+若要使用原生程式碼，需要在 Dart 中建立綁定（bindings）。
 
-To avoid writing these by hand,
-they are generated from the header file
-(`src/hello.h`) by [`package:ffigen`][].
-Reference the [ffigen docs][] for information
-on how to install this package.
+為了避免手動撰寫這些綁定，可以透過 [`package:ffigen`][`package:ffigen`] 從標頭檔（`src/hello.h`）自動產生。
+有關如何安裝此套件，請參考 [ffigen 文件][ffigen docs]。
 
-To regenerate the bindings, run the following command:
+若要重新產生綁定，請執行以下指令：
 
 ```console
 $ dart run ffigen --config ffigen.yaml
 ```
 
-### Step 4: Invoking native code
+### 步驟 4：呼叫原生程式碼
 
-Very short-running native functions can be directly
-invoked from any isolate.
-For an example, see `sum` in `lib/hello.dart`.
+執行時間非常短的原生函式可以直接從任何 isolate 呼叫。
+範例請參見 `sum` 於 `lib/hello.dart`。
 
-Longer-running functions should be invoked on a
-[helper isolate][] to avoid dropping frames in
-Flutter applications.
-For an example, see `sumAsync` in `lib/hello.dart`.
+執行時間較長的函式，建議在[輔助 isolate][helper isolate] 上呼叫，以避免 Flutter 應用程式出現掉幀現象。
+範例請參見 `sumAsync` 於 `lib/hello.dart`。
 
-## Adding documentation
+## 新增文件
 
-It is recommended practice to add the following documentation
-to all packages:
+建議在所有套件中加入以下文件：
 
-1. A `README.md` file that introduces the package
-1. A `CHANGELOG.md` file that documents changes in each version
-1. A [`LICENSE`] file containing the terms under which the package
-   is licensed
-1. API documentation for all public APIs (see below for details)
+1. 一份 `README.md` 檔案，簡介此套件
+1. 一份 `CHANGELOG.md` 檔案，記錄每個版本的變更
+1. 一份 [`LICENSE`] 檔案，載明套件的授權條款
+1. 所有公開 API 的 API 文件（詳情請見下方）
 
-### API documentation
+### API 文件
 
-When you publish a package,
-API documentation is automatically generated and
-published to pub.dev/documentation.
-For example, see the docs for [`device_info_plus`][].
+當你發佈套件時，
+API 文件會自動產生並發佈至 pub.dev/documentation。
+例如，請參考 [`device_info_plus`][`device_info_plus`] 的文件。
 
-If you wish to generate API documentation locally on
-your development machine, use the following commands:
+如果你希望在本機開發環境產生 API 文件，可以使用下列指令：
 
 <ol>
 <li>
 
-Change directory to the location of your package:
+切換目錄至你的套件所在位置：
 
 ```console
 cd ~/dev/mypackage
@@ -846,9 +660,7 @@ cd ~/dev/mypackage
 
 <li>
 
-Tell the documentation tool where the
-Flutter SDK is located (change the following commands to reflect
-where you placed it):
+告訴文件工具 Flutter SDK（Flutter 軟體開發套件）的位置（請根據你安裝 Flutter SDK 的實際路徑修改下列指令）：
 
 ```console
    export FLUTTER_ROOT=~/dev/flutter  # on macOS or Linux
@@ -857,8 +669,8 @@ where you placed it):
 ```
 </li>
 
-<li>Run the `dart doc` tool
-    (included as part of the Flutter SDK), as follows:
+<li>執行 `dart doc` 工具
+    （隨 Flutter SDK 一同提供），方式如下：
 
 ```console
    $FLUTTER_ROOT/bin/cache/dart-sdk/bin/dart doc   # on macOS or Linux
@@ -868,28 +680,26 @@ where you placed it):
 </li>
 </ol>
 
-For tips on how to write API documentation, see
-[Effective Dart Documentation][].
+關於如何撰寫 API 文件的建議，請參閱
+[Effective Dart Documentation][Effective Dart Documentation]。
 
-### Adding licenses to the LICENSE file
+### 在 LICENSE 檔案中新增授權條款
 
-Individual licenses inside each LICENSE file
-should be separated by 80 hyphens
-on their own on a line.
+每個 LICENSE 檔案中的個別授權條款
+應以 80 個連字號（-）作為分隔，
+每行僅有連字號。
 
-If a LICENSE file contains more than one
-component license, then each component
-license must start with the names of the
-packages to which the component license applies,
-with each package name on its own line,
-and the list of package names separated from
-the actual license text by a blank line.
-(The packages need not match the names of
-the pub package. For example, a package might itself contain
-code from multiple third-party sources,
-and might need to include a license for each one.)
+如果一個 LICENSE 檔案包含多於一個
+元件授權條款，則每個元件授權條款
+必須以該授權條款所適用的套件名稱開頭，
+每個套件名稱各佔一行，
+並以空白行將套件名稱清單
+與實際授權條款內容分隔開來。
+（這些套件名稱不必與 pub 套件名稱相同。例如，一個套件本身可能包含
+來自多個第三方來源的程式碼，
+因此可能需要為每個來源分別附上授權條款。）
 
-The following example shows a well-organized license file:
+以下範例顯示了一個組織良好的授權條款檔案：
 
 ```plaintext
 package_1
@@ -902,7 +712,7 @@ package_2
 <some license text>
 ```
 
-Here is another example of a well-organized license file:
+以下是一個組織良好的授權檔案範例：
 
 ```plaintext
 package_1
@@ -916,7 +726,7 @@ package_2
 <some license text>
 ```
 
-Here is an example of a poorly-organized license file:
+以下是一個組織不良的授權檔案範例：
 
 ```plaintext
 <some license text>
@@ -925,7 +735,7 @@ Here is an example of a poorly-organized license file:
 <some license text>
 ```
 
-Another example of a poorly-organized license file:
+另一個組織不良的授權檔案範例：
 
 ```plaintext
 package_1
@@ -935,79 +745,56 @@ package_1
 <some license text>
 ```
 
-## Publishing your package {:#publish}
+## 發佈你的套件 {:#publish}
 
 :::tip
-Have you noticed that some of the packages and plugins
-on pub.dev are designated as [Flutter Favorites][]?
-These are the packages published by verified developers
-and are identified as the packages and plugins you
-should first consider using when writing your app.
-To learn more,
-see the [Flutter Favorites program][].
+你是否注意到在 pub.dev 上有些套件和外掛被標記為 [Flutter Favorites][Flutter Favorites]？
+這些套件是由經過驗證的開發者所發佈，並被認為是在撰寫應用程式時應優先考慮使用的套件和外掛。
+想了解更多，請參閱 [Flutter Favorites program][Flutter Favorites program]。
 :::
 
-Once you have implemented a package, you can publish it on
-[pub.dev][], so that other developers can easily use it.
+當你完成套件的實作後，可以將其發佈到 [pub.dev][pub.dev]，讓其他開發者能夠輕鬆使用。
 
-Prior to publishing, make sure to review the `pubspec.yaml`,
-`README.md`, and `CHANGELOG.md` files to make sure their
-content is complete and correct. Also, to improve the
-quality and usability of your package (and to make it
-more likely to achieve the status of a Flutter Favorite),
-consider including the following items:
+在發佈之前，請務必檢查 `pubspec.yaml`、`README.md` 和 `CHANGELOG.md` 檔案，確保其內容完整且正確。此外，為了提升你的套件品質與易用性（也更有機會成為 Flutter Favorite），建議包含以下項目：
 
-* Diverse code usage examples
-* Screenshots, animated gifs, or videos
-* A link to the corresponding code repository
+* 多樣化的程式碼使用範例
+* 螢幕截圖、動態 GIF 或影片
+* 對應的原始碼儲存庫連結
 
-Next, run the publish command in `dry-run` mode
-to see if everything passes analysis:
+接下來，請以 `dry-run` 模式執行發佈指令，檢查所有項目是否通過分析：
 
 ```console
 $ flutter pub publish --dry-run
 ```
 
-The next step is publishing to pub.dev,
-but be sure that you are ready because
-[publishing is forever][]:
+下一步是將套件發佈到 pub.dev，但請務必確認你已經準備好，因為[發佈是永久性的][publishing is forever]：
 
 ```console
 $ flutter pub publish
 ```
 
-For more details on publishing, see the
-[publishing docs][] on dart.dev.
+如需有關發佈的更多細節，請參閱 dart.dev 上的
+[發佈文件][publishing docs]。
 
-## Handling package interdependencies {:#dependencies}
+## 處理套件間的相依性 {:#dependencies}
 
-If you are developing a package `hello` that depends on
-the Dart API exposed by another package, you need to add
-that package to the `dependencies` section of your
-`pubspec.yaml` file. The code below makes the Dart API
-of the `url_launcher` plugin available to `hello`:
+如果你正在開發一個依賴於另一個套件所公開 Dart API 的套件 `hello`，你需要將該套件加入到你的
+`pubspec.yaml` 檔案中的 `dependencies` 區段。以下程式碼讓 `url_launcher` 外掛的 Dart API 可供 `hello` 使用：
 
 ```yaml
 dependencies:
   url_launcher: ^6.3.2
 ```
 
-You can now `import 'package:url_launcher/url_launcher.dart'`
-and `launch(someUrl)` in the Dart code of `hello`.
+你現在可以在 `hello` 的 Dart 程式碼中 `import 'package:url_launcher/url_launcher.dart'` 和 `launch(someUrl)`。
 
-This is no different from how you include packages in
-Flutter apps or any other Dart project.
+這和你在 Flutter 應用程式或其他 Dart 專案中引入套件的方式沒有任何不同。
 
-But if `hello` happens to be a _plugin_ package
-whose platform-specific code needs access
-to the platform-specific APIs exposed by `url_launcher`,
-you also need to add suitable dependency declarations
-to your platform-specific build files, as shown below.
+但如果 `hello` 剛好是一個 _plugin_ 套件，且其平台專屬程式碼需要存取 `url_launcher` 所提供的平台專屬 API，那麼你還需要如下面所示，將適當的相依性宣告加入你的平台專屬建置檔案中。
 
 ### Android
 
-The following example sets a dependency for
-`url_launcher` in `hello/android/build.gradle`:
+以下範例在 `hello/android/build.gradle` 中為 `url_launcher` 設定了一個相依性：
 
 ```groovy
 android {
@@ -1018,17 +805,14 @@ android {
 }
 ```
 
-You can now `import io.flutter.plugins.urllauncher.UrlLauncherPlugin`
-and access the `UrlLauncherPlugin`
-class in the source code at `hello/android/src`.
+你現在可以`import io.flutter.plugins.urllauncher.UrlLauncherPlugin`，並在原始碼中的`hello/android/src`位置存取`UrlLauncherPlugin`類別。
 
-For more information on `build.gradle` files, see the
-[Gradle Documentation][] on build scripts.
+如需有關`build.gradle`檔案的更多資訊，請參閱
+[Gradle Documentation][Gradle Documentation]（建置腳本相關說明）。
 
 ### iOS
 
-The following example sets a dependency for
-`url_launcher` in `hello/ios/hello.podspec`:
+以下範例會在`hello/ios/hello.podspec`中為`url_launcher`設定相依性：
 
 ```ruby
 Pod::Spec.new do |s|
@@ -1036,17 +820,14 @@ Pod::Spec.new do |s|
   s.dependency 'url_launcher'
 ```
 
-You can now `#import "UrlLauncherPlugin.h"` and
-access the `UrlLauncherPlugin` class in the source code
-at `hello/ios/Classes`.
+你現在可以`#import "UrlLauncherPlugin.h"`，並在原始碼中的`hello/ios/Classes`位置存取`UrlLauncherPlugin`類別。
 
-For additional details on `.podspec` files, see the
-[CocoaPods Documentation][].
+如需關於`.podspec`檔案的更多細節，請參閱
+[CocoaPods Documentation][CocoaPods Documentation]。
 
 ### Web
 
-All web dependencies are handled by the `pubspec.yaml`
-file, like any other Dart package.
+所有 Web 相關的相依套件都由`pubspec.yaml`檔案管理，這與其他 Dart 套件相同。
 
 {% comment %}
 <!-- Remove until we have better text. -->
@@ -1059,7 +840,7 @@ PENDING
 [Dart library package]: {{site.dart-site}}/guides/libraries/create-library-packages
 [`device_info_plus`]: {{site.pub-api}}/device_info_plus
 [Effective Dart Documentation]: {{site.dart-site}}/guides/language/effective-dart/documentation
-[federated plugins]: #federated-plugins
+[federated plugins]: #聯邦式插件-federated-plugins
 [ffigen docs]: {{site.pub-pkg}}/ffigen/install
 [Android]: /platform-integration/android/c-interop
 [iOS]: /platform-integration/ios/c-interop
@@ -1073,7 +854,7 @@ PENDING
 [How to Write a Flutter Web Plugin, Part 1]: {{site.flutter-medium}}/how-to-write-a-flutter-web-plugin-5e26c689ea1
 [How To Write a Flutter Web Plugin, Part 2]: {{site.flutter-medium}}/how-to-write-a-flutter-web-plugin-part-2-afdddb69ece6
 [issue #33302]: {{site.repo.flutter}}/issues/33302
-[`LICENSE`]: #adding-licenses-to-the-license-file
+[`LICENSE`]: #在-license-檔案中新增授權條款
 [`path`]: {{site.pub}}/packages/path
 [`package:ffigen`]: {{site.pub}}/packages/ffigen
 [platform channel]: /platform-integration/platform-channels

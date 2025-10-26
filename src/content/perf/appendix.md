@@ -1,156 +1,76 @@
+```markdown
 ---
-title: More thoughts about performance
-description: What is performance, and why is performance important
+title: 更多關於效能的思考
+description: 什麼是效能，以及為什麼效能很重要
 ---
 
-## What is performance?
+## 什麼是效能？
 
-Performance is a set of quantifiable properties of a performer.
+效能（Performance）是一組可量化的執行者（performer）屬性。
 
-In this context, performance isn't the execution of an action itself;
-it's how well something or someone performs. Therefore, we use the adjective
- _performant_.
+在這裡，效能並不是指執行某個動作本身；而是指某件事物或某個人執行得有多好。因此，我們會使用形容詞 _performant_（高效能的）。
 
-While the _how well_ part can, in general, be described in natural languages,
-in our limited scope, the focus is on something that is quantifiable as a real
-number. Real numbers include integers and 0/1 binaries as special cases.
-Natural language descriptions are still very important. For example, a news
-article that heavily criticizes Flutter's performance by just using words
-without any numbers (a quantifiable value) could still be meaningful, and it
-could have great impacts. The limited scope is chosen only because of our
-limited resources.
+雖然「有多好」這個部分一般可以用自然語言來描述，但在我們有限的討論範圍內，重點在於那些可以被量化為實數的內容。實數包含整數以及 0/1 二元數作為特例。自然語言描述仍然非常重要。例如，一篇新聞報導即使只是用文字（沒有任何數字或量化的數值）大力批評 Flutter 的效能，也依然有意義，甚至可能產生重大影響。我們之所以限制討論範圍，僅僅是因為資源有限。
 
-The required quantity to describe performance is often referred to as a
-metric.
+用來描述效能所需的量，通常被稱為「指標」（metric）。
 
-To navigate through countless performance issues and metrics, you can categorize
-based on performers.
+為了在無數的效能問題與指標之間導航，你可以根據執行者來分類。
 
-For example, most of the content on this website is about the Flutter app
-performance, where the performer is a Flutter app. Infra performance is also
-important to Flutter, where the performers are build bots and CI task runners:
-they heavily affect how fast Flutter can incorporate code changes, to improve
-the app's performance.
+舉例來說，本網站的大多數內容都是關於 Flutter 應用程式效能，其中執行者就是 Flutter 應用程式。基礎設施（infra）效能對 Flutter 也很重要，這裡的執行者是建置機器人（build bots）和 CI 任務執行器（CI task runners）：它們大幅影響 Flutter 合併程式碼變更的速度，進而提升應用程式的效能。
 
-Here, the scope was intentionally broadened to include performance issues other
-than just app performance issues because they can share many tools regardless of
-who the performers are. For example, Flutter app performance and infra
-performance might share the same dashboard and similar alert mechanisms.
+在這裡，討論範圍被刻意擴大，不僅包含應用程式效能問題，也涵蓋其他效能議題，因為無論執行者是誰，它們都可以共用許多工具。例如，Flutter 應用程式效能與基礎設施效能可能會共用同一個儀表板（dashboard）與類似的警示機制。
 
-Broadening the scope also allows performers to be included that traditionally
-are easy to ignore. Document performance is such an example. The performer
-could be an API doc of the SDK, and a metric could be: the percentage of readers
-who find the API doc useful.
+擴大討論範圍也讓那些傳統上容易被忽略的執行者納入考量。文件效能（document performance）就是一個例子。執行者可以是 SDK 的 API 文件，而一個指標可能是：覺得 API 文件有用的讀者比例。
 
-## Why is performance important?
+## 為什麼效能很重要？
 
-Answering this question is not only crucial for validating the work in
-performance, but also for guiding the performance work in order to be more
-useful. The answer to "why is performance important?" often is also the answer
-to "how is performance useful?"
+回答這個問題不僅對驗證效能相關工作至關重要，也能指引效能工作的方向，使其更有價值。「為什麼效能很重要？」的答案，往往也是「效能有什麼用？」的答案。
 
-Simply speaking, performance is important and useful because, in the scope,
-performance must have quantifiable properties or metrics. This implies:
-1. A performance report is easy to consume.
-2. Performance has little ambiguity.
-3. Performance is comparable and convertible.
-4. Performance is fair.
+簡單來說，效能之所以重要且有用，是因為在我們的討論範圍中，效能必須具備可量化的屬性或指標。這意味著：
+1. 效能報告容易被理解與吸收。
+2. 效能幾乎沒有歧義。
+3. 效能具有可比性與可轉換性。
+4. 效能是公平的。
 
-Not that non-performance, or non-measurable issues or descriptions are not
-important. They're meant to highlight the scenarios where performance can be
-more useful.
+這並不是說非效能、或不可量測的問題或描述就不重要。這裡只是要凸顯效能在某些情境下更具實用性的原因。
 
-### 1. A performance report is easy to consume
+### 1. 效能報告容易被理解與吸收
 
-Performance metrics are numbers. Reading a number is much easier than reading a
-passage. For example, it probably takes an engineer 1 second to consume the
-performance rating as a number from 1 to 5. It probably takes the same engineer
-at least 1 minute to read the full, 500-word feedback summary.
+效能指標是數字。閱讀一個數字遠比閱讀一段文字容易。例如，工程師大概只需 1 秒就能理解 1 到 5 的效能評分；但要閱讀一份 500 字的完整回饋摘要，可能至少需要 1 分鐘。
 
-If there are many numbers, it's easy to summarize or visualize them for quick
-consumption. For example, you can quickly consume millions of numbers by
-looking at its histogram, average, quantiles, and so on. If a metric has a
-history of thousands of data points, then you can easily plot a timeline to
-read its trend.
+如果有很多數字，也很容易將它們彙整或視覺化，方便快速吸收。例如，你可以透過直方圖、平均值、分位數等，快速理解數百萬個數字。如果某個指標有上千筆歷史資料，你可以輕鬆繪製時間線，觀察趨勢。
 
-On the other hand, having _n_ number of 500-word texts almost guarantees an
-_n_-time cost to consume those texts. It would be a daunting task to analyze
-thousands of historical descriptions, each having 500 words.
+反之，若有 _n_ 筆 500 字的文字資料，幾乎就保證需要 _n_ 倍的時間來閱讀這些內容。要分析數千筆、每筆 500 字的歷史描述，將會是一項艱鉅的任務。
 
-### 2. Performance has little ambiguity
+### 2. 效能幾乎沒有歧義
 
-Another advantage of having performance as a set of numbers is its unambiguity.
-When you want an animation to have a performance of 20 ms per frame or
-50 fps, there's little room for different interpretations about the numbers. On
-the other hand, to describe the same animation in words, someone might call it
-good, while someone else might complain that it's bad. Similarly, the same
-word or phrase could be interpreted differently by different people. You might
-interpret an OK frame rate to be 60 fps, while someone else might interpret it
-to be 30 fps.
+效能以數字呈現的另一個優點是明確無歧義。當你希望一個動畫（Animation）每幀效能達到 20 毫秒或 50 fps，這些數字的意義幾乎沒有解讀空間。反之，若用文字描述同一個動畫，有人可能覺得它很好，有人卻可能覺得很差。同樣的詞語，不同人也可能有不同解讀。例如，你認為 OK 的幀率是 60 fps，但別人可能認為是 30 fps。
 
-Numbers can still be noisy. For example, the measured time per frame might
-be a true computation time of this frame, plus a random amount of time (noise)
-that CPU/GPU spends on some unrelated work. Hence, the metric fluctuates.
-Nevertheless, there's no ambiguity of what the number means. And, there are
-also rigorous theory and testing tools to handle such noise. For example, you
-could take multiple measurements to estimate the distribution of a random
-variable, or you could take the average of many measurements to eliminate the
-noise by [the law of large numbers][1].
+數字仍然可能有雜訊。例如，測得的每幀時間可能是實際計算時間加上一些 CPU/GPU 處理無關工作的隨機時間（雜訊），因此指標會波動。然而，數字本身的意義是明確的。而且，也有嚴謹的理論與測試工具來處理這類雜訊。例如，你可以多次測量來估算隨機變數的分布，或取多次測量的平均值，利用[大數法則][1]消除雜訊。
 
-### 3. Performance is comparable and convertible
+### 3. 效能具有可比性與可轉換性
 
-Performance numbers not only have unambiguous meanings, but they also have
-unambiguous comparisons. For example, there's no doubt that 5 is greater than 4.
-On the other hand, it might be subjective to figure out whether excellent is
-better or worse than superb. Similarly, could you figure out whether epic is
-better than legendary? Actually, the phrase _strongly exceeds expectations_
-could be better than _superb_ in someone's interpretation. It only becomes
-unambiguous and comparable after a definition that maps strongly exceeds
-expectations to 4 and superb to 5.
+效能數值不僅意義明確，也能明確比較。例如，5 一定大於 4，這毫無疑問。反之，判斷「excellent」比「superb」好還是壞，則帶有主觀性。同樣地，你能判斷「epic」比「legendary」好嗎？事實上，「strongly exceeds expectations」在某些人看來可能比「superb」更好。只有在明確定義「strongly exceeds expectations」對應 4、「superb」對應 5 之後，才具備明確性與可比性。
 
-Numbers are also easily convertible using formulas and functions. For example,
-60 fps can be converted to 16.67 ms per frame. A frame's rendering
-time _x_ (ms) can be converted to a binary indicator
-`isSmooth = [x <= 16] = (x <= 16 ? 1 :0)`. Such conversion can be compounded or
-chained, so you can get a large variety of quantities using a single
-measurement without any added noise or ambiguity. The converted quantity can
-then be used for further comparisons and consumption. Such conversions are
-almost impossible if you're dealing with natural languages.
+數字也很容易透過公式與函數轉換。例如，60 fps 可以換算為每幀 16.67 毫秒。單幀渲染時間 _x_（毫秒）可以轉換為二元指標
+`isSmooth = [x <= 16] = (x <= 16 ? 1 :0)`。這種轉換可以複合或串接，因此你可以用單一測量值衍生出多種量化結果，且不會引入額外雜訊或歧義。轉換後的數值還可以進一步比較與應用。如果是自然語言，這類轉換幾乎不可能做到。
 
-### 4. Performance is fair
+### 4. 效能是公平的
 
-If issues rely on verbose words to be discovered, then an unfair advantage is
-given to people who are more verbose (more willing to chat or write) or those
-who are closer to the development team, who have a larger bandwidth and lower
-cost for chatting or face-to-face meetings.
+如果問題必須依賴冗長的文字才能被發現，那麼對於那些更健談（願意聊天或寫作）的人，或是與開發團隊距離較近、溝通成本較低的人，無形中就產生了不公平的優勢。
 
-By having the same metrics to detect problems no matter how far away or how
-silent the users are, we can treat all issues fairly. That, in turn,
-allows us to focus on the right issues that have greater impact.
+透過統一的指標來偵測問題，不論使用者多遙遠或多沉默，我們都能公平對待所有問題。如此一來，便能專注於那些真正有影響力的議題。
 
-### How to make performance useful
+### 如何讓效能更有用
 
-The following summarizes the 4 points discussed here, from a slightly different
-perspective:
-1. Make performance metrics easy to consume. Do not overwhelm the readers with a
-   lot of numbers (or words). If there are many numbers, then try to summarize
-   them into a smaller set of numbers (for example, summarize many numbers into
-   a single average number). Only notify readers when the numbers change
-   significantly (for example, automatic alerts on spikes or regressions).
+以下從稍微不同的角度，總結上述四點：
+1. 讓效能指標容易被理解與吸收。不要用大量數字（或文字）淹沒讀者。如果數字很多，盡量彙整成較少的數字（例如，將多個數字取平均）。只有在數值明顯變化時才通知讀者（例如，針對異常或回退自動發出警示）。
 
-2. Make performance metrics as unambiguous as possible. Define the unit that the
-   number is using. Precisely describe how the number is measured. Make the
-   number easily reproducible. When there's a lot of noise, try to show the full
-   distribution, or eliminate the noise as much as possible by aggregating many
-   noisy measurements.
+2. 讓效能指標盡可能明確無歧義。定義數值所用的單位，精確描述數值的測量方式，讓數值容易重現。如果有大量雜訊，盡量呈現完整分布，或透過彙整多筆雜訊數據來消除雜訊。
 
-3. Make it easy to compare performance. For example, provide a timeline to
-   compare the current version with the old version. Provide ways and tools to
-   convert one metric to another. For example, if we can convert both memory
-   increase and fps drops into the number of users dropped or revenue lost in
-   dollars, then we can compare them and make an informed trade-off.
+3. 讓效能比較變得容易。例如，提供時間線來比較目前版本與舊版本。提供方法與工具，將一種指標轉換為另一種。例如，如果我們能將記憶體增加與 fps 降低都轉換為流失的使用者數或損失的營收（以美元計），就能比較它們，並做出明智的取捨。
 
-4. Make performance metrics monitor a population that is as wide as possible,
-   so no one is left behind.
+4. 讓效能指標能監控盡可能廣泛的族群，確保沒有人被遺漏。
 
 [1]: https://en.wikipedia.org/wiki/Law_of_large_numbers
+```

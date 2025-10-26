@@ -1,42 +1,40 @@
 ---
 title: Firebase
-description: How to use Firebase and Firestore with Flutter.
+description: 如何在 Flutter 中使用 Firebase 與 Firestore。
 ---
 
-Firebase is a Backend-as-a-Service (BaaS) app development platform
-that provides hosted backend services such as a realtime database,
-cloud storage, authentication, crash reporting, machine learning,
-remote configuration, and hosting for your static files.
+Firebase 是一個後端即服務（Backend-as-a-Service，BaaS）應用程式開發平台，
+提供託管的後端服務，例如即時資料庫、雲端儲存、驗證、崩潰回報、機器學習、
+遠端設定，以及靜態檔案的託管。
 
-## Flutter and Firebase resources
+## Flutter 與 Firebase 資源
 
-Firebase supports Flutter. To learn more,
-check out the following resources.
+Firebase 支援 Flutter。想進一步了解，請參考以下資源。
 
-### Documentation
+### 文件
 
 * [Getting started with Firebase and Flutter][started]
-* [Firebase plugins][]
+* [Firebase plugins][Firebase plugins]
 
-### Blog Posts
+### 部落格文章
 
 [Use Firebase to host your Flutter app on the web][article]
 
-### Tutorials
+### 教學
 
-Get to know Firebase for Flutter
+認識 Flutter 的 Firebase
 * [tutorial][codelab1]
 * [video workshop][workshop]
 
-## Flutter and Firebase community resources
+## Flutter 與 Firebase 社群資源
 
-The Flutter community created the following useful resources.
+Flutter 社群創建了以下實用資源。
 
-### Blog Posts
+### 部落格文章
 
 [Building chat app with Flutter and Firebase][chat app]
 
-### Videos
+### 影片
 
 * [Using Firestore as a backend to your Flutter app][video]
 * [Live Coding Firebase Authentication with Flutter][video2]

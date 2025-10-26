@@ -1,6 +1,6 @@
 ---
-title: Animate the properties of a container
-description: How to animate properties of a container using implicit animations.
+title: 動畫 (Animate) 容器的屬性
+description: 如何使用隱式動畫 (implicit animations) 來為容器的屬性製作動畫。
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,40 +8,35 @@ js:
 
 <?code-excerpt path-base="cookbook/animation/animated_container/"?>
 
-The [`Container`][] class provides a convenient way
-to create a widget with specific properties:
-width, height, background color, padding, borders, and more.
+[`Container`][`Container`] 類別提供了一個方便的方式，
+可以建立具有特定屬性的元件（Widget）：
+寬度、高度、背景顏色、內距（padding）、邊框（borders）等。
 
-Simple animations often involve changing these properties over time.
-For example,
-you might want to animate the background color from grey to green to
-indicate that an item has been selected by the user.
+簡單的動畫 (Animation) 通常涉及這些屬性隨時間變化。
+例如，
+你可能想要將背景顏色從灰色動畫變成綠色，
+以表示使用者已選取某個項目。
 
-To animate these properties,
-Flutter provides the [`AnimatedContainer`][] widget.
-Like the `Container` widget, `AnimatedContainer` allows you to define
-the width, height, background colors, and more. However, when the
-`AnimatedContainer` is rebuilt with new properties, it automatically
-animates between the old and new values. In Flutter, these types of
-animations are known as "implicit animations."
+為了讓這些屬性產生動畫效果，
+Flutter 提供了 [`AnimatedContainer`][`AnimatedContainer`] 元件（Widget）。
+和 `Container` 元件類似，`AnimatedContainer` 也允許你定義
+寬度、高度、背景顏色等屬性。然而，當
+`AnimatedContainer` 以新屬性重新建構時，會自動在舊值與新值之間產生動畫過渡。在 Flutter 中，這類動畫稱為「隱式動畫 (implicit animations)」。
 
-This recipe describes how to use an `AnimatedContainer` to animate the size,
-background color, and border radius when the user taps a button
-using the following steps:
+本教學將說明如何使用 `AnimatedContainer`，在使用者點擊按鈕時，
+為尺寸、背景顏色和圓角（border radius）製作動畫，步驟如下：
 
-  1. Create a StatefulWidget with default properties.
-  2. Build an `AnimatedContainer` using the properties.
-  3. Start the animation by rebuilding with new properties.
+  1. 建立一個具有預設屬性的 StatefulWidget。
+  2. 使用這些屬性建構 `AnimatedContainer`。
+  3. 透過以新屬性重新建構來啟動動畫。
 
-## 1. Create a StatefulWidget with default properties
+## 1. 建立具有預設屬性的 StatefulWidget
 
-To start, create [`StatefulWidget`][] and [`State`][] classes.
-Use the custom State class to define the properties that change over
-time. In this example, that includes the width, height, color, and border
-radius. You can also define the default value of each property.
+首先，建立 [`StatefulWidget`][`StatefulWidget`] 和 [`State`][`State`] 類別。
+使用自訂的 State 類別來定義會隨時間變化的屬性。在本範例中，包括寬度、高度、顏色和圓角（border radius）。你也可以為每個屬性定義預設值。
 
-These properties belong to a custom `State` class so they
-can be updated when the user taps a button.
+這些屬性屬於自訂的 `State` 類別，
+以便在使用者點擊按鈕時可以更新。
 
 <?code-excerpt "lib/starter.dart (Starter)" remove="return Container();"?>
 ```dart
@@ -67,11 +62,9 @@ class _AnimatedContainerAppState extends State<AnimatedContainerApp> {
 }
 ```
 
-## 2. Build an `AnimatedContainer` using the properties
+## 2. 使用這些屬性建構`AnimatedContainer`
 
-Next, build the `AnimatedContainer` using the properties defined in the
-previous step. Furthermore, provide a `duration` that defines how long
-the animation should run.
+接下來，使用前一步定義的屬性來建構`AnimatedContainer`。此外，還需提供`duration`，用於定義動畫（Animation）執行的時間長度。
 
 <?code-excerpt "lib/main.dart (AnimatedContainer)" replace="/^child: //g;/^\),$/)/g"?>
 ```dart
@@ -90,20 +83,18 @@ AnimatedContainer(
 )
 ```
 
-## 3. Start the animation by rebuilding with new properties
+## 3. 透過以新屬性重建來啟動動畫 (Animation)
 
-Finally, start the animation by rebuilding the
-`AnimatedContainer` with the new properties.
-How to trigger a rebuild?
-Use the [`setState()`][] method.
+最後，透過以新屬性重建`AnimatedContainer`來啟動動畫 (Animation)。
+要如何觸發重建？
+請使用 [`setState()`][`setState()`] 方法。
 
-Add a button to the app. When the user taps the button, update
-the properties with a new width, height, background color and border radius
-inside a call to `setState()`.
+在應用程式中加入一個按鈕。當使用者點擊按鈕時，
+在呼叫`setState()`時，更新寬度、高度、背景顏色與 border radius（圓角半徑）等屬性。
 
-A real app typically transitions between fixed values (for example,
-from a grey to a green background). For this app,
-generate new values each time the user taps the button.
+實際的應用程式通常會在固定值之間進行轉換（例如，
+從灰色背景轉換為綠色背景）。而在本範例中，
+每當使用者點擊按鈕時，則會產生新的屬性值。
 
 <?code-excerpt "lib/main.dart (FAB)" replace="/^floatingActionButton: //g;/^\),$/)/g"?>
 ```dart
@@ -137,7 +128,7 @@ FloatingActionButton(
 )
 ```
 
-## Interactive example
+## 互動範例
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter animated container hands-on example in DartPad" run="true"
@@ -217,7 +208,7 @@ class _AnimatedContainerAppState extends State<AnimatedContainerApp> {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/animated-container.webp" alt="AnimatedContainer demo showing a box growing and shrinking in size while changing color and border radius" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/animated-container.webp" alt="AnimatedContainer 範例展示一個方塊在變大變小的同時，顏色與圓角（border radius）也隨之變化" class="site-mobile-screenshot" />
 </noscript>
 
 

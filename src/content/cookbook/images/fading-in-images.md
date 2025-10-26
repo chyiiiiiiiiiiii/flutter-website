@@ -1,25 +1,25 @@
 ---
-title: Fade in images with a placeholder
-description: How to fade images into view.
+title: 使用佔位圖淡入圖片
+description: 如何讓圖片以淡入方式顯示。
 ---
 
 <?code-excerpt path-base="cookbook/images/fading_in_images"?>
 
-When displaying images using the default `Image` widget,
-you might notice they simply pop onto the screen as they're loaded.
-This might feel visually jarring to your users.
+當你使用預設的 `Image` 元件（Widget）來顯示圖片時，
+你可能會注意到圖片載入時會直接出現在螢幕上。
+這種方式可能會讓使用者感覺視覺上有些突兀。
 
-Instead, wouldn't it be nice to display a placeholder at first,
-and images would fade in as they're loaded? Use the
-[`FadeInImage`][] widget for exactly this purpose.
+那麼，是否可以一開始先顯示一個佔位圖，
+等圖片載入完成後再以淡入效果顯示呢？你可以使用
+[`FadeInImage`][`FadeInImage`] 元件（Widget）來達成這個目的。
 
-`FadeInImage` works with images of any type: in-memory, local assets,
-or images from the internet.
+`FadeInImage` 可以搭配各種類型的圖片使用：記憶體內、在地資源（assets），
+或來自網路的圖片都可以。
 
-## In-Memory
+## 記憶體內圖片
 
-In this example, use the [`transparent_image`][]
-package for a simple transparent placeholder.
+在這個範例中，使用 [`transparent_image`][`transparent_image`]
+套件作為簡單的透明佔位圖。
 
 <?code-excerpt "lib/memory_main.dart (MemoryNetwork)" replace="/^child\: //g"?>
 ```dart
@@ -29,7 +29,7 @@ FadeInImage.memoryNetwork(
 ),
 ```
 
-### Complete example
+### 完整範例
 
 <?code-excerpt "lib/memory_main.dart"?>
 ```dart
@@ -70,11 +70,11 @@ class MyApp extends StatelessWidget {
 
 ![Fading In Image Demo](/assets/images/docs/cookbook/fading-in-images.webp){:.site-mobile-screenshot}
 
-## From asset bundle
+## 從資源包（asset bundle）載入
 
-You can also consider using local assets for placeholders.
-First, add the asset to the project's `pubspec.yaml` file
-(for more details, see [Adding assets and images][]):
+你也可以考慮使用本地資源（assets）作為預設圖片（placeholder）。
+首先，將資源新增到專案的 `pubspec.yaml` 檔案中
+（更多細節請參考 [Adding assets and images][Adding assets and images]）：
 
 ```yaml diff
   flutter:
@@ -82,7 +82,7 @@ First, add the asset to the project's `pubspec.yaml` file
 +     - assets/loading.gif
 ```
 
-Then, use the [`FadeInImage.assetNetwork()`][] constructor:
+然後，使用 [`FadeInImage.assetNetwork()`][`FadeInImage.assetNetwork()`] 建構函式（constructor）：
 
 <?code-excerpt "lib/asset_main.dart (AssetNetwork)" replace="/^child\: //g"?>
 ```dart
@@ -92,7 +92,7 @@ FadeInImage.assetNetwork(
 ),
 ```
 
-### Complete example
+### 完整範例
 
 <?code-excerpt "lib/asset_main.dart"?>
 ```dart
@@ -125,7 +125,7 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-![Asset fade-in](/assets/images/docs/cookbook/fading-in-asset-demo.webp){:.site-mobile-screenshot}
+![資源淡入](/assets/images/docs/cookbook/fading-in-asset-demo.webp){:.site-mobile-screenshot}
 
 
 [Adding assets and images]: /ui/assets/assets-and-images

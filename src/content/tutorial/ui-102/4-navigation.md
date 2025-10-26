@@ -1,15 +1,11 @@
 ---
-title: Stack-based navigation
-description: Learn how to navigate from one page to another in a Flutter app
+title: 基於堆疊的導覽
+description: 學習如何在 Flutter 應用程式中從一個頁面導覽到另一個頁面
 permalink: /tutorial/stack-based-navigation/
 ---
-Now that you understand slivers and scrolling, you can implement
-navigation between screens. In this lesson, you'll update the
-small-screen view such that when a contact group is tapped, it
-navigates to the contact list for that group.
+現在你已經了解 sliver 和滾動（scrolling），可以開始實作螢幕之間的導覽功能。在本課程中，你將會更新小螢幕（small-screen）檢視，讓使用者點擊聯絡人群組（contact group）時，能夠導覽至該群組的聯絡人清單（contact list）。
 
-First, revert changes in the adaptive layout widget so that it
-displays the ContactGroupsPage by default on small screens.
+首先，請將 adaptive layout 元件（widget）的變更還原，讓其在小螢幕上預設顯示 ContactGroupsPage。
 
 ```dart
 // lib/screens/adaptive_layout.dart
@@ -40,15 +36,11 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
 }
 ```
 
-## Add navigation to contact groups
+## 為聯絡人群組新增導覽功能
 
-The `ContactGroupsPage` already uses a `_ContactGroupsView`
-and provides it with a callback. That callback needs to be updated to
-navigate when a group is tapped, rather than printing the group to the
-console.
+`ContactGroupsPage` 已經使用了 `_ContactGroupsView`，並且提供了一個回呼函式（callback）。該回呼函式需要更新，讓當群組被點擊時能夠進行導覽（navigate），而不是僅將群組資訊輸出到主控台。
 
-Ensure that the `onListSelected` callback in
-`lib/screens/contact_groups.dart` is implemented as follows:
+請確保在 `lib/screens/contact_groups.dart` 中的 `onListSelected` 回呼函式按照以下方式實作：
 
 ```dart
 // lib/screens/contact_groups.dart
@@ -70,28 +62,21 @@ class ContactGroupsPage extends StatelessWidget {
 }
 ```
 
-This small code block contains the most important new information on this page.
+這個小型程式碼區塊包含了本頁最重要的新資訊。
 
-`Navigator.of(context)` retrieves the nearest `Navigator` widget from
-the widget tree. The `push` method adds a new route to the
-navigator's stack, and displays the widget returned from the `builder` property. 
+`Navigator.of(context)` 會從元件樹（widget tree）中取得最近的 `Navigator` 元件（Widget）。`push` 方法會將新的 Route 加入 Navigator 的堆疊（stack），並顯示從 `builder` 屬性所回傳的元件（Widget）。
 
-This is the most basic implementation of using stack-based navigation,
-where new screens are pushed on top of the current screen. To navigate
-back to the previous screen, you'd use the `Navigator.pop` method. 
+這是最基本的堆疊式導覽（stack-based navigation）實作方式，新螢幕會被推到目前螢幕的上方。若要返回前一個螢幕，可以使用 `Navigator.pop` 方法。
 
-`CupertinoPageRoute` creates iOS-style page transitions with the following features:
-- A slide-in animation from the right.
-- Automatic back button support.
-- Proper title handling.
-- Swipe-to-go-back gesture support.
+`CupertinoPageRoute` 可建立具有下列特色的 iOS 風格頁面轉場效果（page transitions）：
+- 從右側滑入的動畫（slide-in animation）。
+- 自動支援返回按鈕（back button）。
+- 正確的標題處理。
+- 支援滑動返回（swipe-to-go-back）手勢。
 
-## Create the sidebar component for large screens
+## 為大螢幕建立側邊欄元件（sidebar component）
 
-For large screens, you need a sidebar that doesn't navigate but
-instead updates the main content area. Thanks to the refactoring in
-the previous step, creating this component is simple. Add this widget
-to the bottom of `lib/screens/contact_groups.dart`:
+對於大螢幕，你需要一個不會進行導覽，而是更新主內容區域的側邊欄。多虧了前一步的重構，建立這個元件（component）變得很簡單。請將此元件加入 `lib/screens/contact_groups.dart` 的底部：
 
 ```dart
 // lib/screens/contact_groups.dart
@@ -119,17 +104,11 @@ class ContactGroupsSidebar extends StatelessWidget {
 }
 ```
 
-This sidebar component reuses the `_ContactGroupsView` and provides a
-different callback. Instead of navigating, it calls `onListSelected`
-with the ID of the tapped list. It also passes the `selectedListId` to
-`_ContactGroupsView` so that the selected item can be highlighted.
+這個側邊欄元件（sidebar component）重複使用了`_ContactGroupsView`，並提供了不同的 callback。它不是用來導覽，而是呼叫`onListSelected`，並傳入被點擊清單的 ID。同時，它也會將`selectedListId`傳遞給`_ContactGroupsView`，以便可以突顯選取的項目。
 
-## Create the detail view for large screens
+## 為大螢幕建立詳細檢視（detail view）
 
-For the large screen layout, you need a detail view that doesn't show
-navigation controls. Just like the sidebar, this is easy to create by
-reusing the `_ContactListView`. Add this widget to the bottom of your
-`contacts.dart` file:
+針對大螢幕版面配置，你需要一個不顯示導覽控制項的詳細檢視。就像側邊欄一樣，這可以很容易地透過重複使用`_ContactListView`來建立。請將這個元件（widget）加到你的`contacts.dart`檔案底部：
 
 ```dart
 // lib/screens/contacts.dart
@@ -152,15 +131,15 @@ class ContactListDetail extends StatelessWidget {
 }
 ```
 
-The detail view reuses `_ContactListView` and sets
-`automaticallyImplyLeading: false` to hide the back button, as
-navigation is handled by the sidebar.
+詳細檢視會重複使用 `_ContactListView`，並設定
+`automaticallyImplyLeading: false` 來隱藏返回按鈕，因為
+導覽（navigation）是由側邊欄（sidebar）處理的。
 
-## Connect the sidebar to the adaptive layout
+## 將側邊欄連接到自適應版面配置
 
-Now, connect the sidebar to your adaptive layout. Update your
-`adaptive_layout.dart` to import the necessary files and update the
-large screen layout:
+現在，將側邊欄連接到你的自適應版面配置。請更新你的
+`adaptive_layout.dart`，以匯入必要的檔案並更新
+大螢幕版面配置：
 
 ```dart
 // lib/screens/adaptive_layout.dart
@@ -169,7 +148,7 @@ import 'package:rolodex/screens/contact_groups.dart';
 import 'package:rolodex/screens/contacts.dart';
 ```
 
-Then update the `_buildLargeScreenLayout` method:
+然後更新 `_buildLargeScreenLayout` 方法：
 
 ```dart
 // lib/screens/adaptive_layout.dart
@@ -201,23 +180,20 @@ Widget _buildLargeScreenLayout() {
 }
 ```
 
-This code creates the classic menu-detail layout where the sidebar
-controls the content of the detail area.
+這段程式碼建立了經典的選單-細節（menu-detail）版面配置，其中側邊欄（sidebar）控制細節區域的內容。
 
-## Test the adaptive navigation behavior
+## 測試自適應導覽行為
 
-Hot reload your app and test the navigation:
+熱重載（hot reload）你的應用程式並測試導覽功能：
 
-**Small screens (< 600px width):**
-- Tap contact groups to navigate to contact details.
-- Use the back button or swipe gesture to return.
-- This is a classic stack-based navigation flow.
+**小螢幕（寬度 < 600px）：**
+- 點擊聯絡人群組以導覽至聯絡人詳細資料。
+- 使用返回按鈕或滑動手勢返回上一頁。
+- 這是經典的堆疊式（stack-based）導覽流程。
 
-**Large screens (> 600px width):**
-- Click contact groups in the sidebar to update the detail view.
-- There is no navigation stack. The selection updates the content area.
-- This is a master-detail interface pattern.
+**大螢幕（寬度 > 600px）：**
+- 在側邊欄點擊聯絡人群組以更新細節檢視區。
+- 沒有導覽堆疊，選取項目會直接更新內容區域。
+- 這是主從（master-detail）介面模式。
 
-The app automatically chooses the appropriate navigation pattern based
-on screen size. This provides an optimal experience on both phones and
-tablets.
+應用程式會根據螢幕尺寸自動選擇適合的導覽模式，讓手機和平板皆能獲得最佳體驗。

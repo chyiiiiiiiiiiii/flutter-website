@@ -1,8 +1,7 @@
 ---
-title: "Implicit animations"
+title: "隱式動畫"
 description: >
-  Learn how to use Flutter's implicitly animated widgets
-  through interactive examples and exercises.
+  透過互動範例與練習，學習如何使用 Flutter 的隱式動畫元件 (Widgets)。
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -10,76 +9,75 @@ js:
 
 <?code-excerpt path-base="animation/implicit"?>
 
-Welcome to the implicit animations codelab, where you learn how to use Flutter
-widgets that make it easy to create animations for a specific set of properties.
+歡迎來到隱式動畫教學 (codelab)，在這裡你將學習如何使用 Flutter
+元件 (Widgets) 來輕鬆為特定屬性建立動畫效果。
 
 {% render docs/dartpad-troubleshooting.md, site: site %}
 
-To get the most out of this codelab, you should have basic knowledge about:
+為了讓你能從本教學獲得最大效益，建議你先具備以下基礎知識：
 
-- How to [make a Flutter app][].
-- How to use [stateful widgets][].
+- 如何[建立一個 Flutter 應用程式][make a Flutter app]。
+- 如何使用[有狀態元件 (Stateful Widgets)][stateful widgets]。
 
-This codelab covers the following material:
+本教學涵蓋以下內容：
 
-- Using `AnimatedOpacity` to create a fade-in effect.
-- Using `AnimatedContainer` to animate transitions in size, color, and margin.
-- Overview of implicit animations and techniques for using them.
+- 使用 `AnimatedOpacity` 建立淡入 (fade-in) 效果。
+- 使用 `AnimatedContainer` 動畫化尺寸、顏色與邊距的轉換。
+- 隱式動畫的概述與使用技巧。
 
-**Estimated time to complete this codelab: 15-30 minutes.**
+**完成本教學的預估時間：15-30 分鐘。**
 
-## What are implicit animations?
+## 什麼是隱式動畫？
 
-With Flutter's [animation library][],
-you can add motion and create visual effects
-for the widgets in your UI.
-One widget set in the library manages animations for you.
-These widgets are collectively referred to as _implicit animations_,
-or _implicitly animated widgets_, deriving their name from the
-[ImplicitlyAnimatedWidget][] class that they implement.
-With implicit animations,
-you can animate a widget property by setting a target value;
-whenever that target value changes,
-the widget animates the property from the old value to the new one.
-In this way, implicit animations trade control for convenience&mdash;they
-manage animation effects so that you don't have to.
+透過 Flutter 的[動畫函式庫 (animation library)][animation library]，
+你可以為 UI 中的元件 (Widgets) 增加動態效果與視覺特效。
+函式庫中有一組元件 (Widgets) 會自動為你管理動畫，
+這些元件統稱為 _隱式動畫_ (implicit animations)，
+或稱 _隱式動畫元件 (implicitly animated widgets)_，
+名稱來自它們所實作的
+[ImplicitlyAnimatedWidget][ImplicitlyAnimatedWidget] 類別。
+使用隱式動畫時，
+你只需設定目標屬性值即可讓元件自動產生動畫效果；
+每當目標值改變時，
+元件會自動將屬性從舊值動畫到新值。
+因此，隱式動畫以便利性換取控制權&mdash;它們會自動管理動畫效果，讓你無需自行處理。
 
-## Example: Fade-in text effect
+## 範例：文字淡入效果
 
-The following example shows how to add a fade-in effect to existing UI
-using an implicitly animated widget called [AnimatedOpacity][].
-**The example begins with no animation code**&mdash;it
-consists of a [Material App][] home screen containing:
+以下範例說明如何利用名為 [AnimatedOpacity][AnimatedOpacity] 的隱式動畫元件 (Widget)
+為現有 UI 加入淡入效果。
+**此範例一開始並未包含任何動畫程式碼**&mdash;它
+僅包含一個 [Material App][Material App] 首頁畫面，內容包括：
 
-- A photograph of an owl.
-- One **Show details** button that does nothing when clicked.
-- Description text of the owl in the photograph.
+- 一張貓頭鷹的照片。
+- 一個 **顯示詳細資料** 按鈕，點擊時不會有任何動作。
+- 照片中貓頭鷹的描述文字。
 
-### Fade-in (starter code)
+### 淡入效果（起始程式碼）
 
-To view the example, Click **Run**:
+點選 **Run** 以檢視範例：
 
 {% render docs/implicit-animations/fade-in-starter-code.md %}
 
-### Animate opacity with AnimatedOpacity widget
+### 使用 AnimatedOpacity 元件動畫化透明度
 
-This section contains a list of steps you can use to add an
-implicit animation to the
-[fade-in starter code][]. After the steps, you can also run the
-[fade-in complete][] code with the changes already made.
-The steps outline how to use the `AnimatedOpacity`
-widget to add the following animation feature:
+本節將列出一系列步驟，協助你在
+[淡入效果起始程式碼][fade-in starter code] 中加入隱式動畫。
+步驟說明後，你也可以直接執行
+[淡入效果完成版][fade-in complete] 程式碼，體驗已完成的效果。
+這些步驟將指導你如何使用 `AnimatedOpacity`
+元件 (Widget) 加入下列動畫功能：
 
-- The owl's description text remains hidden until the user clicks
-  **Show details**.
-- When the user clicks **Show details**,
-  the owl's description text fades in.
+- 貓頭鷹的描述文字在使用者點擊
+  **顯示詳細資料** 前保持隱藏。
+- 當使用者點擊 **顯示詳細資料** 時，
+  貓頭鷹的描述文字會以淡入方式顯示。
 
-#### 1. Pick a widget property to animate
+#### 1. 選擇要動畫化的元件屬性
 
-To create a fade-in effect, you can animate the
-`opacity` property using the`AnimatedOpacity` widget. 
-Wrap the `Column` widget in an `AnimatedOpacity` widget:
+若要建立淡入效果，你可以利用
+`opacity` 屬性，並搭配 `AnimatedOpacity` 元件 (Widget) 來實現。
+將 `Column` 元件包裹在 `AnimatedOpacity` 元件中：
 
 ```dart diff
   @override
@@ -114,14 +112,12 @@ Wrap the `Column` widget in an `AnimatedOpacity` widget:
 ```
 
 :::note
-You can reference the line numbers in the example code to help track where
-to make these changes in the [fade-in starter code][].
+你可以參考範例程式碼中的行號，協助追蹤在 [fade-in starter code][fade-in starter code] 中需要進行這些修改的位置。
 :::
 
-#### 2. Initialize a state variable for the animated property
+#### 2. 初始化動畫屬性的狀態變數
 
-To hide the text before the user clicks **Show details**, set
-the starting value for `opacity` to zero:
+為了在使用者點擊 **Show details** 之前隱藏文字，請將 `opacity` 的起始值設為零：
 
 ```dart diff
   class _FadeInDemoState extends State<FadeInDemo> {
@@ -136,11 +132,11 @@ the starting value for `opacity` to zero:
           child: const Column(
 ```
 
-#### 3. Set the duration of the animation
+#### 3. 設定動畫（Animation）的持續時間
 
-In addition to an `opacity` parameter, `AnimatedOpacity` requires a
-[duration][] to use for its animation. For this example,
-you can start with 2 seconds:
+除了 `opacity` 參數之外，`AnimatedOpacity` 還需要指定一個
+[duration][duration]，以用於其動畫（Animation）。在這個範例中，
+你可以先設定為 2 秒：
 
 ```dart diff
   AnimatedOpacity(
@@ -149,13 +145,13 @@ you can start with 2 seconds:
     child: const Column(
 ```
 
-#### 4. Set up a trigger for animation and choose an end value
+#### 4. 設定動畫（Animation）的觸發條件並選擇結束值
 
-Configure the animation to trigger when the user clicks **Show details**.
-To do this, change `opacity` state using the `onPressed()` handler for
-`TextButton`. To make the `FadeInDemo` widget become fully visible when
-the user clicks **Show details**, use the `onPressed()` handler
-to set `opacity` to 1:
+將動畫（Animation）設定為在使用者點擊 **Show details** 時觸發。
+為此，請使用 `onPressed()` 處理函式來變更 `opacity` 狀態，
+並將其綁定到 `TextButton`。
+為了讓 `FadeInDemo` 元件（Widget）在使用者點擊 **Show details** 時完全顯示，
+請在 `onPressed()` 處理函式中將 `opacity` 設為 1：
 
 ```dart diff
   TextButton(
@@ -171,87 +167,75 @@ to set `opacity` to 1:
 ```
 
 :::note
-You only need to set the start and end values of `opacity`.
-The `AnimatedOpacity` widget manages everything in between.
+你只需要設定 `opacity` 的起始值和結束值。
+`AnimatedOpacity` 元件（Widget）會自動管理中間的所有過程。
 :::
 
-### Fade-in (complete)
+### 淡入效果（完成版）
 
-Here's the example with the completed changes you've made.
-Run this example then click **Show details** to trigger the animation.
+以下是你已完成修改後的範例。
+執行此範例，然後點擊 **Show details** 以觸發動畫（Animation）。
 
 {% render docs/implicit-animations/fade-in-complete.md %}
 
-### Putting it all together
+### 整合所有內容
 
-The [Fade-in text effect][] example demonstrates the following features
-of the `AnimatedOpacity` widget.
+[淡入文字效果][Fade-in text effect] 範例展示了 `AnimatedOpacity` 元件（Widget）的以下特性：
 
-- It listens for state changes to its `opacity` property.
-- When the `opacity` property changes,
-  it animates the transition to the new value for `opacity`.
-- It requires a `duration` parameter to define how long
-  the transition between the values should take.
+- 監聽其 `opacity` 屬性的狀態變化。
+- 當 `opacity` 屬性變更時，
+  會針對 `opacity` 的新值進行動畫（Animation）過渡。
+- 需要一個 `duration` 參數來定義
+  值之間過渡所需的時間。
 
 :::note
-- Implicit animations can only animate the
-  properties of a parent stateful widget.
-  The preceding example enables this with the
-  `FadeInDemo` widget that extends `StatefulWidget`.
+- 隱式動畫（Implicit animations）只能對父 StatefulWidget 的屬性進行動畫（Animation）。
+  前述範例透過繼承 `StatefulWidget` 的 `FadeInDemo` 元件（Widget）來實現這一點。
 
-- The `AnimatedOpacity` widget only animates the `opacity` property.
-  Some implicitly animated widgets can animate many properties
-  at the same time. The following example showcases this.
+- `AnimatedOpacity` 元件（Widget）僅能針對 `opacity` 屬性進行動畫（Animation）。
+  有些隱式動畫元件（Widgets）可以同時對多個屬性進行動畫（Animation）。
+  下列範例將展示這一點。
 :::
 
-## Example: Shape-shifting effect
+## 範例：變形（Shape-shifting）效果
 
-The following example shows how to use the [`AnimatedContainer`][] widget to
-animate multiple properties (`margin`, `borderRadius`, and `color`) with
-different types (`double` and `Color`).
-**The example begins with no animation code**.
-It starts with a [Material App][] home screen that contains:
+以下範例展示如何使用 [`AnimatedContainer`][`AnimatedContainer`] 元件（Widget），
+同時針對多個屬性（`margin`、`borderRadius` 和 `color`）
+以及不同型別（`double` 和 `Color`）進行動畫（Animation）。
+**此範例一開始沒有任何動畫（Animation）程式碼**。
+它從一個 [Material App][Material App] 首頁開始，內容包含：
 
-- A `Container` widget configured with a
- `borderRadius`, `margin`, and `color`.
-  These properties are setup to be regenerated 
-  each time you run the example.
-- A **Change** button that does nothing when clicked.
+- 一個已設定 `borderRadius`、`margin` 和 `color` 的 `Container` 元件（Widget）。
+  這些屬性會在每次執行範例時重新產生。
+- 一個 **Change** 按鈕，點擊時目前尚未有任何動作。
 
-### Shape-shifting (starter code)
+### 變形效果（起始程式碼）
 
-To start the example, click **Run**.
+要開始此範例，請點擊 **Run**。
 
 {% render docs/implicit-animations/shape-shifting-starter-code.md %}
 
-### Animate color, borderRadius, and margin with AnimatedContainer
+### 使用 AnimatedContainer 動畫 color、borderRadius 和 margin
 
-This section contains a list of steps you can use to add an
-implicit animation to the [shape-shifting starter code][].
-After completing each step, you can also run the
-[complete shape-shifting example][] with the changes already made.
+本節提供一系列步驟，協助你將隱式動畫（Implicit animation）加入 [變形效果起始程式碼][shape-shifting starter code]。
+每完成一個步驟，也可以直接執行
+[完整變形效果範例][complete shape-shifting example]，檢視已套用變更的結果。
 
-The [shape-shifting starter code][] assigns
-each property in the `Container` widget a random value.
-Associated functions generate the relevant values:
+[變形效果起始程式碼][shape-shifting starter code] 會為 `Container` 元件（Widget）中的每個屬性指派一個隨機值。
+相關函式會產生對應的值：
 
-- The `randomColor()` function generates a
-  `Color` for the `color` property
-- The `randomBorderRadius()` function generates a
-  `double` for the `borderRadius` property.
-- The `randomMargin()` function generates a
-  `double` for the `margin` property.
+- `randomColor()` 函式會為 `color` 屬性產生 `Color`
+- `randomBorderRadius()` 函式會為 `borderRadius` 屬性產生 `double`
+- `randomMargin()` 函式會為 `margin` 屬性產生 `double`
 
-The following steps use the `AnimatedContainer` widget to:
+下列步驟將使用 `AnimatedContainer` 元件（Widget）來：
 
-- Transition to new values for `color`, `borderRadius`,
-  and `margin` whenever the user clicks **Change**.
-- Animate the transition to the new values for `color`,
-  `borderRadius`, and `margin` whenever they are set.
+- 每當使用者點擊 **Change** 時，將 `color`、`borderRadius` 和 `margin` 過渡到新值。
+- 每當 `color`、`borderRadius` 和 `margin` 被設定時，對其進行動畫（Animation）過渡。
 
-#### 1. Add an implicit animation
+#### 1. 新增隱式動畫（Implicit animation）
 
-Change the `Container` widget to an `AnimatedContainer` widget:
+將 `Container` 元件（Widget）更改為 `AnimatedContainer` 元件（Widget）：
 
 ```dart diff
   SizedBox(
@@ -269,18 +253,14 @@ Change the `Container` widget to an `AnimatedContainer` widget:
 ```
 
 :::note
-You can reference the line numbers in the example code to help track where to
-make these changes in the [shape-shifting starter code][].
+你可以參考範例程式碼中的行號，以協助追蹤在[shape-shifting starter code][shape-shifting starter code]中需要進行這些修改的位置。
 :::
 
-#### 2. Set starting values for animated properties
+#### 2. 設定動畫屬性的起始值
 
-The `AnimatedContainer` widget transitions between
-old and new values of its properties when they change.
-To contain the behavior triggered when the user clicks **Change**,
-create a `change()` method.
-The `change()` method can use the `setState()` method to set new values
-for the `color`, `borderRadius`, and `margin` state variables:
+當`AnimatedContainer`元件（Widget）的屬性發生變化時，會在舊值與新值之間進行過渡動畫。  
+為了包覆當使用者點擊 **Change** 時所觸發的行為，請建立一個`change()`方法。  
+`change()`方法可以使用`setState()`方法來設定`color`、`borderRadius`和`margin`這三個 state 變數的新值：
 
 ```dart diff
 + void change() {
@@ -296,10 +276,9 @@ for the `color`, `borderRadius`, and `margin` state variables:
     // ...
 ```
 
-#### 3. Set up a trigger for the animation
+#### 3. 設定動畫 (Animation) 的觸發條件
 
-To set the animation to trigger whenever the user presses **Change**,
-invoke the `change()` method in the `onPressed()` handler:
+若要在使用者按下 **Change** 時觸發動畫 (Animation)，請在 `onPressed()` 處理函式中呼叫 `change()` 方法：
 
 ```dart diff
   ElevatedButton(
@@ -309,10 +288,9 @@ invoke the `change()` method in the `onPressed()` handler:
   ),
 ```
 
-#### 4. Set duration
+#### 4. 設定動畫（Animation）持續時間
 
-Set the `duration` of the animation that powers the transition
-between the old and new values:
+設定`duration`，以決定動畫（Animation）在舊值與新值之間轉換時所需的時間：
 
 ```dart diff
   SizedBox(
@@ -329,38 +307,33 @@ between the old and new values:
   ),
 ```
 
-### Shape-shifting (complete)
+### 形狀變換（完成版）
 
-Here's the example with the completed changes you've made.
-Run the code and click **Change** to trigger the animation.
-Each time you click **Change**, the shape animates to its new values
-for `margin`, `borderRadius`, and `color`.
+以下是你已完成修改後的範例。
+執行程式碼並點擊 **Change** 來觸發動畫（Animation）。
+每次點擊 **Change**，形狀都會針對 `margin`、`borderRadius` 和 `color` 的新值進行動畫過渡。
 
 {% render docs/implicit-animations/shape-shifting-complete.md %}
 
-### Using animation curves
+### 使用動畫曲線（animation curves）
 
-The preceding examples show how:
+前述範例展示了：
 
-- Implicit animations allow you to animate the transition between
-  values for specific widget properties.
-- The `duration` parameter allows you to set how long the animation
-  takes to complete.
+- 隱式動畫（implicit animations）允許你針對特定元件（Widget）屬性的值變化進行動畫過渡。
+- `duration` 參數可用來設定動畫完成所需的時間長度。
 
-Implicit animations also allow you to control changes to **the rate**
-of an animation that occurs during the set `duration`.
-To define this change in rate,
-set the value of the `curve` parameter to
-a [`Curve`][], such as one declared in the [`Curves`][] class.
+隱式動畫同時也允許你控制動畫在設定的 `duration` 期間內**速率的變化**。
+若要定義這個速率變化，
+請將 `curve` 參數設為
+[`Curve`][`Curve`]，例如在 [`Curves`][`Curves`] 類別中所宣告的曲線。
 
-The preceding examples did not specify a value for the `curve` parameter.
-Without a specified curve value,
-the implicit animations apply a [linear animation curve][].
+前述範例並未為 `curve` 參數指定值。
+若未指定曲線（curve）值，
+隱式動畫會套用 [線性動畫曲線（linear animation curve）][linear animation curve]。
 
-Specify a value for the `curve` parameter in
-the [complete shape-shifting example][].
-The animation changes when you pass the
-[`easeInOutBack`][] constant for `curve`,
+你可以在
+[完整的形狀變換範例][complete shape-shifting example] 中，為 `curve` 參數指定值。
+當你將 [`easeInOutBack`][`easeInOutBack`] 常數傳遞給 `curve` 時，動畫會產生變化。
 
 ```dart diff
   SizedBox(
@@ -378,66 +351,34 @@ The animation changes when you pass the
   ),
 ```
 
-When you pass the `Curves.easeInOutBack` constant to the `curve` property
-of the `AnimatedContainer` widget, watch how
-the rates of change for `margin`, `borderRadius`, and `color`
-follow the curve that constant defined.
+當你將 `Curves.easeInOutBack` 常數傳遞給 `curve` 元件的 `AnimatedContainer` 屬性時，請觀察 `margin`、`borderRadius` 和 `color` 的變化速率如何遵循該常數所定義的曲線。
 
 <video style="width:464px; height:192px;" loop="" autoplay disablepictureinpicture playsinline controls controlslist="nodownload noremoteplayback">
-  <source src="{{site.flutter-assets}}/animation/curve_ease_in_out_back.mp4" type="video/mp4">
+  
 </video>
 
-### Putting it all together
+### 整合所有內容
 
-The [complete shape-shifting example][] animates transitions between
-values for `margin`, `borderRadius`, and `color` properties.
-The `AnimatedContainer` widget animates changes to any of its properties.
-These include those you didn't use such as `padding`, `transform`,
-and even `child` and `alignment`!
-By showing additional capabilities of implicit animations,
-the [complete shape-shifting example][] builds upon
-[fade-in complete][] example.
+[完整的形狀變換範例][complete shape-shifting example] 會對 `margin`、`borderRadius` 和 `color` 屬性的值之間的轉換進行動畫處理。
+`AnimatedContainer` 元件可以對其任何屬性的變化進行動畫處理，
+包括你未使用到的屬性，例如 `padding`、`transform`，
+甚至還有 `child` 和 `alignment`！
+透過展示隱式動畫的更多功能，
+[完整的形狀變換範例][complete shape-shifting example] 是在 [fade-in complete][fade-in complete] 範例的基礎上進一步延伸。
 
-To summarize implicit animations:
+總結隱式動畫：
 
-- Some implicit animations, like the `AnimatedOpacity` widget,
-  only animate one property.
-  Others, like the `AnimatedContainer` widget, can animate many properties.
-- Implicit animations animate the transition between the
-  old and new value of a property when it
-  changes using the provided `curve` and `duration`.
-- If you do not specify a `curve`,
-  implicit animations default to a [linear curve][].
+- 有些隱式動畫元件，如 `AnimatedOpacity`，只會針對一個屬性進行動畫處理。
+  其他像 `AnimatedContainer` 這類元件，則可以同時對多個屬性進行動畫處理。
+- 隱式動畫會在屬性值發生變化時，根據所提供的 `curve` 和 `duration`，對新舊值之間的轉換進行動畫處理。
+- 如果你沒有指定 `curve`，隱式動畫會預設使用 [線性曲線][linear curve]。
 
-## What's next?
+## 接下來呢？
 
-Congratulations, you've finished the codelab!
-To learn more, check out these suggestions:
+恭喜你完成了本次 codelab！
+若想進一步學習，請參考以下建議：
 
-- Try the [animations tutorial][].
-- Learn about [hero animations][] and [staggered animations][].
-- Checkout the [animation library][].
-- Explore other [Flutter learning resources][].
-
-[`AnimatedContainer`]: {{site.api}}/flutter/widgets/AnimatedContainer-class.html
-[AnimatedOpacity]: {{site.api}}/flutter/widgets/AnimatedOpacity-class.html
-[animation library]: {{site.api}}/flutter/animation/animation-library.html
-[animations tutorial]: /ui/animations/tutorial
-[Flutter learning resources]: /reference/learning-resources
-[`Curve`]: {{site.api}}/flutter/animation/Curve-class.html
-[`Curves`]: {{site.api}}/flutter/animation/Curves-class.html
-[duration]: {{site.api}}/flutter/widgets/ImplicitlyAnimatedWidget/duration.html
-[`easeInOutBack`]: {{site.api}}/flutter/animation/Curves/easeInOutBack-constant.html
-[fade-in complete]: #fade-in-complete
-[fade-in starter code]: #fade-in-starter-code
-[Fade-in text effect]: #example-fade-in-text-effect
-[hero animations]: /ui/animations/hero-animations
-[ImplicitlyAnimatedWidget]: {{site.api}}/flutter/widgets/ImplicitlyAnimatedWidget-class.html
-[linear animation curve]: {{site.api}}/flutter/animation/Curves/linear-constant.html
-[linear curve]: {{site.api}}/flutter/animation/Curves/linear-constant.html
-[make a Flutter app]: {{site.codelabs}}/codelabs/flutter-codelab-first
-[Material App]: {{site.api}}/flutter/material/MaterialApp-class.html
-[complete shape-shifting example]: #shape-shifting-complete
-[shape-shifting starter code]: #shape-shifting-starter-code
-[staggered animations]: /ui/animations/staggered-animations
-[stateful widgets]: /ui/interactivity#stateful-and-stateless-widgets
+- 嘗試 [animations tutorial][animations tutorial]。
+- 了解 [hero animations][hero animations] 以及 [staggered animations][staggered animations]。
+- 查看 [animation library][animation library]。
+- 探索其他 [Flutter learning resources][Flutter learning resources]。

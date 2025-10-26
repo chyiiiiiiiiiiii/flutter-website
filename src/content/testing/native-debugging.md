@@ -1,49 +1,34 @@
 ---
-title: Use a native language debugger
-shortTitle: debuggers
-description: How to connect a native debugger to your running Flutter app.
+title: 使用原生語言除錯器
+shortTitle: 除錯器
+description: 如何將原生除錯器連接到正在執行的 Flutter 應用程式。
 ---
 
 <?code-excerpt path-base="testing/native_debugging"?>
 
 :::note
-This guide presumes you understand general debugging,
-have installed Flutter and git, and have familiarity
-with the Dart language as well as one of the following
-languages: Java, Kotlin, Swift, or Objective-C.
+本指南假設你已經了解一般除錯流程，並已安裝 Flutter 與 git，同時熟悉 Dart 語言以及下列其中一種語言：Java、Kotlin、Swift 或 Objective-C。
 :::
 
-If you write Flutter apps only with Dart code,
-you can debug your code using your IDE's debugger.
-The Flutter team recommends VS Code.
+如果你只用 Dart 程式碼撰寫 Flutter 應用程式，可以直接使用你的 IDE 除錯器來除錯程式碼。Flutter 團隊推薦使用 VS Code。
 
-If you write a platform-specific plugin or
-use platform-specific libraries, you can debug
-that portion of your code with a native debugger.
+如果你撰寫平台專屬的 plugin 或使用平台專屬的函式庫，你可以使用原生除錯器來除錯這部分的程式碼。
 
-- To debug iOS or macOS code written in Swift or Objective-C,
-  you can use Xcode.
-- To debug Android code written in Java or Kotlin,
-  you can use Android Studio.
-- To debug Windows code written in C++, you can use Visual Studio.
+- 若要除錯以 Swift 或 Objective-C 撰寫的 iOS 或 macOS 程式碼，可以使用 Xcode。
+- 若要除錯以 Java 或 Kotlin 撰寫的 Android 程式碼，可以使用 Android Studio。
+- 若要除錯以 C++ 撰寫的 Windows 程式碼，可以使用 Visual Studio。
 
-This guide shows you how you can connect _two_
-debuggers to your Dart app, one for Dart, and one for the native code.
+本指南將說明如何為你的 Dart 應用程式同時連接「兩個」除錯器，一個用於 Dart，另一個用於原生程式碼。
 
-## Debug Dart code
+## 除錯 Dart 程式碼
 
-This guide describes how to use VS Code to debug your Flutter app.
-You can also use your preferred IDE with the
-Flutter and Dart plugins installed and configured.
+本指南將說明如何使用 VS Code 來除錯你的 Flutter 應用程式。你也可以使用你偏好的 IDE，只要安裝並設定好 Flutter 與 Dart 外掛即可。
 
-## Debug Dart code using VS Code
+## 使用 VS Code 除錯 Dart 程式碼
 
-The following procedure explains how to use the Dart debugger
-with the default sample Flutter app.
-The featured components in VS Code work and appear when
-debugging your own Flutter project as well.
+以下步驟說明如何使用 Dart 除錯器來除錯預設的 Flutter 範例應用程式。這些在 VS Code 中提供的功能元件，在你除錯自己的 Flutter 專案時同樣適用且會顯示。
 
-1. Create a basic Flutter app.
+1. 建立一個基本的 Flutter 應用程式。
 
     ```console
     $ flutter create my_app
@@ -72,129 +57,128 @@ debugging your own Flutter project as well.
     $ cd my_app
     ```
 
-1. Open the `lib\main.dart` file in the Flutter app using
-   VS Code.
+1. 在 Flutter 應用程式中，使用 VS Code 開啟 `lib\main.dart` 檔案。
 
-1. Click the bug icon
-   (![VS Code's bug icon to trigger the debugging mode of a Flutter app](/assets/images/docs/testing/debugging/vscode-ui/icons/debug.png)).
-   This opens the following panes in VS Code:
+1. 點擊錯誤偵錯圖示（bug icon）
+   (![VS Code's bug icon to trigger the debugging mode of a Flutter app](/assets/images/docs/testing/debugging/vscode-ui/icons/debug.png)）。
+   這會在 VS Code 中開啟以下面板：
 
    - **Debug**
    - **Debug Console**
-   - **Widget Inspector**
+   - **Widget Inspector**（元件檢查器）
 
-   The first time you run the debugger takes the longest.
+   第一次執行偵錯工具時，所需時間會比較長。
 
    {% comment %}
    ![VS Code window with debug panes opened](/assets/images/docs/testing/debugging/vscode-ui/screens/vscode-debugger.png){:width="100%"}
    {% endcomment %}
 
-1. Test the debugger.
+1. 測試偵錯工具。
 
-   a. In `main.dart`, click on this line:
+   a. 在 `main.dart` 中，點擊這一行：
 
       ```dart
       _counter++;
       ```
 
-   b. Press <kbd>Shift</kbd> + <kbd>F9</kbd>.
-      This adds a breakpoint where the
-      `_counter` variable increments.
+   b. 按下 <kbd>Shift</kbd> + <kbd>F9</kbd>。
+      這會在
+      `_counter` 變數遞增的地方新增一個中斷點。
 
-   c. In the app, click the **+** button
-      to increment the counter. The app pauses.
+   c. 在應用程式中，點擊 **+** 按鈕
+      來遞增計數器。應用程式會暫停。
 
       {% comment %}
       ![Flutter test app paused](/assets/images/docs/testing/debugging/native/macos/basic-app.png){:width="50%"}
       <div class="figure-caption">
 
-      Default Flutter app as rendered on macOS.
+      預設 Flutter 應用程式於 macOS 上的畫面。
 
       </div>
       {% endcomment %}
 
-    d. At this point, VS Code displays:
+    d. 此時，VS Code 會顯示：
 
-      - In the **Editor Groups**:
-        - The highlighted breakpoint in `main.dart`
-        - The widget hierarchy for the Flutter app
-          in the **Widget Tree** of the **Widget Inspector** 
-      - In the **side bar**:
-        - The state of the app in the **Call Stack** section
-        - The value of the `this` local variable in the **Variables** section
-      - In the **panel**:
-        - The log of the Flutter app in the **Debug console**
+      - 在 **編輯器群組（Editor Groups）** 中：
+        - `main.dart` 中被標記的中斷點
+        - Flutter 應用程式的元件階層（widget hierarchy），
+          顯示於 **Widget Inspector** 的 **Widget Tree**
+      - 在 **側邊欄（side bar）** 中：
+        - **Call Stack** 區段中的應用程式狀態
+        - **Variables** 區段中 `this` 區域變數的值
+      - 在 **面板（panel）** 中：
+        - **Debug console** 中 Flutter 應用程式的日誌
 
       {% comment %}
       ![VS Code window with Flutter app paused](/assets/images/docs/testing/debugging/vscode-ui/screens/vscode-debugger-paused.png){:width="100%"}
       {% endcomment %}
 
-### VS Code Flutter debugger
+### VS Code Flutter 除錯器
 
-The Flutter plugin for VS Code adds a number of components
-to the VS Code user interface.
+Flutter 外掛程式會為 VS Code 增加多項
+使用者介面元件。
 
-#### Changes to VS Code interface
+#### VS Code 介面變更
 
-When launched, the Flutter debugger adds debugging tools to the
-VS Code interface.
+啟動後，Flutter 除錯器會在
+VS Code 介面中加入除錯工具。
 
-The following screenshot and table explain the purpose of each tool.
+下方的螢幕截圖與表格說明了各個工具的用途。
 
 ![VS Code with the Flutter plugin UI additions](/assets/images/docs/testing/debugging/vscode-ui/screens/debugger-parts.png)
 
-| Highlight Color in Screenshot | Bar, Panel, or Tab  | Contents                                                                          |
-|-------------------------------|---------------------|-----------------------------------------------------------------------------------|
-| **Yellow**                    | Variables           | List of current values of variables in the Flutter app                            |
-|                               | Watch               | List of items you chose to track in the Flutter app                               |
-|                               | Call Stack          | Stack of active subroutines in the Flutter app                                    |
-|                               | Breakpoints         | List of exceptions and set breakpoints that you set                               |
-| **Green**                     | `<Flutter files>`   | Files that you are editing                                                        |
-| **Pink**                      | Widget Inspector    | Hierarchy of widgets in the running Flutter app                                   |
-| **Blue**                      | Layout Explorer     | Visual of how Flutter placed the widget you selected in the Widget Inspector      |
-|                               | Widget Details Tree | List of properties of the widget selected in the Widget Inspector                 |
-| **Orange**                    | Problems            | List of issues the Dart analyzer found in the current Dart file                   |
-|                               | Output              | Response that the Flutter app returns when building an app                        |
-|                               | Debug Console       | Logs or error messages that the Flutter app generates while debugging             |
-|                               | Terminal            | System shell prompt contained in VS Code                                          |
+| 螢幕截圖標示顏色           | 列、面板或分頁         | 內容說明                                                                              |
+|----------------------------|------------------------|---------------------------------------------------------------------------------------|
+| **黃色**                   | Variables              | Flutter 應用程式中變數的目前值列表                                                    |
+|                            | Watch                  | 你選擇追蹤的 Flutter 應用程式項目列表                                                 |
+|                            | Call Stack             | Flutter 應用程式中作用中的子程序堆疊                                                  |
+|                            | Breakpoints            | 你所設定的例外與中斷點列表                                                            |
+| **綠色**                   | `<Flutter files>`                  | 你正在編輯的檔案                                                                      |
+| **粉紅色**                 | Widget Inspector       | 執行中的 Flutter 應用程式元件階層                                                     |
+| **藍色**                   | Layout Explorer        | Flutter 如何在 Widget Inspector 中放置你所選元件的視覺化呈現                           |
+|                            | Widget Details Tree    | Widget Inspector 中所選元件的屬性列表                                                 |
+| **橘色**                   | Problems               | Dart 分析器在目前 Dart 檔案中發現的問題列表                                           |
+|                            | Output                 | 建置應用程式時 Flutter 應用程式回傳的回應                                              |
+|                            | Debug Console          | 除錯時 Flutter 應用程式產生的日誌或錯誤訊息                                           |
+|                            | Terminal               | VS Code 內建的系統命令列提示字元                                                      |
 
 {:.table .table-striped}
 
-To change where the panel (in **orange**) appears in VS Code,
-go to **View** > **Appearance** > **Panel Position**.
+若要變更 VS Code 中面板（**橘色**）的位置，
+請前往 **檢視（View）** > **外觀（Appearance）** > **面板位置（Panel Position）**。
 
-#### VS Code Flutter debugging toolbar
+#### VS Code Flutter 除錯工具列
 
-The toolbar allows you to debug using any debugger.
-You can step in, out, and over Dart statements, hot reload, or resume the app.
+此工具列可讓你使用任何除錯器進行除錯。
+你可以逐步執行 Dart 陳述式、熱重載（hot reload）、或繼續執行應用程式。
 
 ![Flutter debugger toolbar in VS Code](/assets/images/docs/testing/debugging/vscode-ui/screens/debug-toolbar.png)
 
-| Icon                                                | Action                | Default keyboard shortcut                             |
-|-----------------------------------------------------|-----------------------|-------------------------------------------------------|
-| {% render docs/vscode-flutter-bar/play.md %}        | Start or Resume       | <kbd>F5</kbd>                                         |
-| {% render docs/vscode-flutter-bar/pause.md %}       | Pause                 | <kbd>F6</kbd>                                         |
-| {% render docs/vscode-flutter-bar/step-over.md %}   | Step Over             | <kbd>F10</kbd>                                        |
-| {% render docs/vscode-flutter-bar/step-into.md %}   | Step Into             | <kbd>F11</kbd>                                        |
-| {% render docs/vscode-flutter-bar/step-out.md %}    | Step Out              | <kbd>Shift</kbd> + <kbd>F11</kbd>                     |
-| {% render docs/vscode-flutter-bar/hot-reload.md %}  | Hot Reload            | <kbd>Ctrl</kbd> + <kbd>F5</kbd>                       |
-| {% render docs/vscode-flutter-bar/hot-restart.md %} | Hot Restart           | <kbd>Shift</kbd> + <kbd>Special</kbd> + <kbd>F5</kbd> |
-| {% render docs/vscode-flutter-bar/stop.md %}        | Stop                  | <kbd>Shift</kbd> + <kbd>F5</kbd>                      |
-| {% render docs/vscode-flutter-bar/inspector.md %}   | Open Widget Inspector |                                                       |
+| 圖示                                              | 動作                    | 預設鍵盤快捷鍵                                         |
+|---------------------------------------------------|-------------------------|--------------------------------------------------------|
+| {% render docs/vscode-flutter-bar/play.md %}        | 啟動或繼續執行          | <kbd>F5</kbd>                                         |
+| {% render docs/vscode-flutter-bar/pause.md %}       | 暫停                    | <kbd>F6</kbd>                                         |
+| {% render docs/vscode-flutter-bar/step-over.md %}   | 單步跳過（Step Over）    | <kbd>F10</kbd>                                        |
+| {% render docs/vscode-flutter-bar/step-into.md %}   | 單步執行（Step Into）    | <kbd>F11</kbd>                                        |
+| {% render docs/vscode-flutter-bar/step-out.md %}    | 單步跳出（Step Out）     | <kbd>Shift</kbd> + <kbd>F11</kbd>                     |
+| {% render docs/vscode-flutter-bar/hot-reload.md %}  | 熱重載（Hot Reload）     | <kbd>Ctrl</kbd> + <kbd>F5</kbd>                       |
+| {% render docs/vscode-flutter-bar/hot-restart.md %} | 熱重啟（Hot Restart）    | <kbd>Shift</kbd> + <kbd>Special</kbd> + <kbd>F5</kbd> |
+| {% render docs/vscode-flutter-bar/stop.md %}        | 停止                    | <kbd>Shift</kbd> + <kbd>F5</kbd>                      |
+| {% render docs/vscode-flutter-bar/inspector.md %}   | 開啟 Widget Inspector   |                                                        |
 
 {:.table .table-striped}
 
-## Update test Flutter app
+## 更新測試用 Flutter 應用程式
 
-For the remainder of this guide, you need to update the
-test Flutter app. This update adds native code to debug.
+在本指南的接下來部分，你需要更新
+測試用 Flutter 應用程式。這次更新會加入可進行原生除錯的程式碼。
 
-1. Open the `lib/main.dart` file using your preferred IDE.
+1. 使用你偏好的 IDE 開啟 `lib/main.dart` 檔案。
 
-1. Replace the contents of `main.dart` with the following code.
+1. 用下列程式碼取代 `main.dart` 的內容。
 
     <details>
-    <summary>Expand to see Flutter code for this example</summary>
+    <summary>展開以檢視本範例的 Flutter 程式碼</summary>
 
     ```dart title="lib/main.dart"
     // Copyright 2023 The Flutter Authors. All rights reserved.
@@ -304,8 +288,7 @@ test Flutter app. This update adds native code to debug.
 
     </details>
 
-1. To add the `url_launcher` package as a dependency,
-   run `flutter pub add`:
+1. 若要將 `url_launcher` 套件新增為相依套件，請執行 `flutter pub add`：
 
     ```console
     $ flutter pub add url_launcher
@@ -332,10 +315,10 @@ test Flutter app. This update adds native code to debug.
     Changed 10 dependencies!
     ```
 
-1. To check what changed with the codebase:
+1. 檢查程式碼庫有何變更：
 
    {: type="a"}
-   1. In Linux or macOS, run this `find` command.
+   1. 在 Linux 或 macOS 上，執行此 `find` 指令。
 
       ```console
       $ find ./ -mmin -120 
@@ -354,7 +337,7 @@ test Flutter app. This update adds native code to debug.
       ./windows/flutter/generated_plugin_registrant.cc
       ./windows/flutter/generated_plugins.cmake
       ```
-   1. In Windows, run this command in the command prompt.
+   1. 在 Windows 中，請在命令提示字元（Command Prompt）執行以下指令。
 
       ```powershell
       Get-ChildItem C:\dev\example\ -Rescurse | Where-Object {$_.LastWriteTime -gt (Get-Date).AddDays(-1)}
@@ -403,100 +386,77 @@ test Flutter app. This update adds native code to debug.
                       8/1/2025   9:15 AM                generated_plugins.cmake
       ```
 
-Installing `url_launcher` added config files and code files
-for all target platforms in the Flutter app directory.
+安裝 `url_launcher` 會在 Flutter 應用程式目錄中為所有目標平台新增設定檔與程式碼檔案。
 
-## Debug Dart and native language code at the same time
+## 同時偵錯 Dart 與原生語言程式碼
 
-This section explains how to debug the Dart code in your Flutter app
-and any native code with its regular debugger.
-This capability allows you to leverage Flutter's hot reload
-when editing native code.
+本節說明如何同時使用 Flutter 的熱重載（hot reload）功能，來偵錯 Flutter 應用程式中的 Dart 程式碼，以及使用各自原生除錯器偵錯原生程式碼。此功能可讓你在編輯原生程式碼時，充分利用 Flutter 的熱重載。
 
-### Debug Dart and Android code using Android Studio
+### 使用 Android Studio 偵錯 Dart 與 Android 程式碼
 
-To debug native Android code, you need a Flutter app that contains
-Android code. In this section, you learn how to connect
-the Dart, Java, and Kotlin debuggers to your app.
-You don't need VS Code to debug both Dart and Android code.
-This guide includes the VS Code instructions to be consistent
-with the Xcode and Visual Studio guides.
+若要偵錯原生 Android 程式碼，你需要一個包含 Android 程式碼的 Flutter 應用程式。在本節中，你將學習如何將 Dart、Java 與 Kotlin 除錯器連接到你的應用程式。你不需要 VS Code 來同時偵錯 Dart 與 Android 程式碼。本指南包含 VS Code 的操作說明，是為了與 Xcode 及 Visual Studio 指南保持一致。
 
-These section uses the same example Flutter `url_launcher` app created
-in [Update test Flutter app](#update-test-flutter-app).
+本節使用在 [Update test Flutter app](#更新測試用-flutter-應用程式) 中建立的相同範例 Flutter `url_launcher` 應用程式。
 
 {% render docs/debug/debug-flow-android.md %}
 
-### Debug Dart and iOS code using Xcode
+### 使用 Xcode 偵錯 Dart 與 iOS 程式碼
 
-To debug iOS code, you need a Flutter app that contains iOS code.
-In this section, you learn to connect two debuggers to your app:
-Flutter via VS Code and Xcode. You need to run both VS Code and Xcode.
+若要偵錯 iOS 程式碼，你需要一個包含 iOS 程式碼的 Flutter 應用程式。在本節中，你將學習如何將兩個除錯器連接到你的應用程式：透過 VS Code 的 Flutter 除錯器，以及 Xcode。你需要同時執行 VS Code 與 Xcode。
 
-These section uses the same example Flutter `url_launcher` app created
-in [Update test Flutter app](#update-test-flutter-app).
+本節使用在 [Update test Flutter app](#更新測試用-flutter-應用程式) 中建立的相同範例 Flutter `url_launcher` 應用程式。
 
 {% render docs/debug/debug-flow-ios.md %}
 
-### Debug Dart and macOS code using Xcode
+### 使用 Xcode 偵錯 Dart 與 macOS 程式碼
 
-To debug macOS code, you need a Flutter app that contains macOS code.
-In this section, you learn to connect two debuggers to your app:
-Flutter via VS Code and Xcode. You need to run both VS Code and Xcode.
+若要偵錯 macOS 程式碼，你需要一個包含 macOS 程式碼的 Flutter 應用程式。在本節中，你將學習如何將兩個除錯器連接到你的應用程式：透過 VS Code 的 Flutter 除錯器，以及 Xcode。你需要同時執行 VS Code 與 Xcode。
 
-These section uses the same example Flutter `url_launcher` app created
-in [Update test Flutter app](#update-test-flutter-app).
+本節使用在 [Update test Flutter app](#更新測試用-flutter-應用程式) 中建立的相同範例 Flutter `url_launcher` 應用程式。
 
 {% render docs/debug/debug-flow-macos.md %}
 
-### Debug Dart and C++ code using Visual Studio
+### 使用 Visual Studio 偵錯 Dart 與 C++ 程式碼
 
-To debug C++ code, you need a Flutter app that contains C++ code.
-In this section, you learn to connect two debuggers to your app:
-Flutter via VS Code and Visual Studio.
-You need to run both VS Code and Visual Studio.
+若要偵錯 C++ 程式碼，你需要一個包含 C++ 程式碼的 Flutter 應用程式。在本節中，你將學習如何將兩個除錯器連接到你的應用程式：透過 VS Code 的 Flutter 除錯器，以及 Visual Studio。你需要同時執行 VS Code 與 Visual Studio。
 
-These section uses the same example Flutter `url_launcher` app created
-in [Update test Flutter app](#update-test-flutter-app).
+本節使用在 [Update test Flutter app](#更新測試用-flutter-應用程式) 中建立的相同範例 Flutter `url_launcher` 應用程式。
 
 {% render docs/debug/debug-flow-windows.md %}
 
-## Resources
+## 相關資源
 
-Check out the following resources on debugging Flutter, iOS, Android,
-macOS and Windows:
+歡迎參考以下關於 Flutter、iOS、Android、macOS 與 Windows 偵錯的資源：
 
 ### Flutter
 
-- [Debugging Flutter apps][]
-- [Flutter inspector][] and the [DevTools][] docs
-- [Performance profiling][]
+- [偵錯 Flutter 應用程式][Debugging Flutter apps]
+- [Flutter 檢查器][Flutter inspector] 以及 [DevTools][DevTools] 文件
+- [效能分析][Performance profiling]
 
 [Debugging Flutter apps]: /testing/debugging
 [Performance profiling]: /perf/ui-performance
 
 ### Android
 
-You can find the following debugging resources on
-[developer.android.com][].
+你可以在 [developer.android.com][developer.android.com] 找到以下偵錯資源。
 
-- [Debug your app][]
-- [Android Debug Bridge (adb)][]
+- [偵錯你的應用程式][Debug your app]
+- [Android Debug Bridge (adb)][Android Debug Bridge (adb)]
 
-### iOS and macOS
+### iOS 與 macOS
 
-You can find the following debugging resources on
-[developer.apple.com][].
+你可以在 [developer.apple.com][developer.apple.com] 找到以下偵錯資源。
 
-- [Debugging][]
-- [Instruments Help][]
+- [偵錯][Debugging]
+- [Instruments 說明][Instruments Help]
 
 ### Windows
 
-You can find debugging resources on [Microsoft Learn][].
+你可以在 [Microsoft Learn][Microsoft Learn] 找到 Windows 偵錯相關資源。
 
-- [Visual Studio Debugger][]
-- [Learn to debug C++ code using Visual Studio][]
+- [Visual Studio 除錯器][Visual Studio Debugger]
+- [學習如何使用 Visual Studio 偵錯 C++ 程式碼][Learn to debug C++ code using Visual Studio]
 
 [Android Debug Bridge (adb)]: {{site.android-dev}}/studio/command-line/adb
 [Debug your app]: {{site.android-dev}}/studio/debug

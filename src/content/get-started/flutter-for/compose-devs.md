@@ -1,46 +1,34 @@
 ---
-title: Flutter for Jetpack Compose developers
-description: Learn how to apply Jetpack Compose developer knowledge when building Flutter apps.
+title: 給 Jetpack Compose 開發者的 Flutter 指南
+description: 學習如何將 Jetpack Compose 的開發經驗應用於構建 Flutter 應用程式。
 ---
 
 <?code-excerpt path-base="get-started/flutter-for/compose_devs"?>
 
 :::note
-If you have experience building Android apps with Views (XML),
-check out [Flutter for Android developers][].
+如果你有使用 Views（XML）開發 Android 應用程式的經驗，請參考 [Flutter for Android developers][Flutter for Android developers]。
 :::
 
-Flutter is a framework for building cross-platform applications
-that uses the Dart programming language.
+Flutter 是一個用於構建跨平台應用程式的框架，採用 Dart 程式語言。
 
-Your Jetpack Compose knowledge and experience
-are highly valuable when building with Flutter.
+你在 Jetpack Compose 上累積的知識與經驗，在使用 Flutter 開發時同樣非常有價值。
 
 :::tip
-To integrate Flutter code into an **existing** Android app,
-check out [Add Flutter to existing app][].
+若你想將 Flutter 程式碼整合進**現有**的 Android 應用，請參考 [Add Flutter to existing app][Add Flutter to existing app]。
 :::
 
-This document can be used as a reference by jumping around
-and finding questions that are most relevant to your needs.
-This guide embeds sample code.
-By using the "Open in DartPad" button that appears on hover or focus,
-you can open and run some of the examples on DartPad.
+本文件可作為參考手冊，讓你依需求跳閱並找到最相關的解答。本指南內嵌了範例程式碼。
+只要在滑鼠懸停或聚焦時點選「Open in DartPad」按鈕，即可在 DartPad 上開啟並執行部分範例。
 
-## Overview
+## 概覽
 
-Flutter and Jetpack Compose code describe how the UI looks and works.
-Developers call this type of code a _declarative framework_.
+Flutter 與 Jetpack Compose 的程式碼皆用來描述 UI 的外觀與運作方式。開發者稱這類程式碼為_宣告式框架_（declarative framework）。
 
-While there are key differences especially when it comes to 
-interacting with legacy Android code, there are many commonalities
-between the two frameworks.
+雖然兩者在與舊有 Android 程式碼互動時有明顯差異，但這兩個框架之間也有許多共通點。
 
-### Composables vs. Widgets
+### Composables 與 Widgets
 
-**Jetpack Compose** represents UI components as _composable functions_,
-later noted in this document as _composables_. Composables can be
-altered or decorated through the use of _Modifier_ objects.
+**Jetpack Compose** 以 _composable functions_（可組合函式）來表示 UI 元件，本文之後將簡稱為 _composables_。Composables 可透過 _Modifier_ 物件進行變更或裝飾。
 
 ``` kotlin
 Text("Hello, World!", 
@@ -50,14 +38,14 @@ Text("Hello, World!",
     modifier = Modifier.padding(10.dp))
 ```
 
-**Flutter** represents UI components as _widgets_.
+**Flutter** 將 UI 元件表示為 _widgets_。
 
-Both composables and widgets only exist until they need to change.
-These languages call this property _immutability_.
-Jetpack Compose modifies UI component properties using an optional
-_modifier_ property backed by a `Modifier` object.
-By contrast, Flutter uses widgets for both UI components and
-their properties.
+無論是 composables 還是 widgets，都只會存在到需要變更時為止。  
+這些語言將這種特性稱為 _不可變性_。
+
+Jetpack Compose 透過可選的 _modifier_ 屬性（由 `Modifier` 物件支援）來修改 UI 元件屬性。
+
+相較之下，Flutter 則同時使用 widgets 來表示 UI 元件及其屬性。
 
 ```dart
 Padding(                         // <-- This is a Widget
@@ -66,66 +54,44 @@ Padding(                         // <-- This is a Widget
 )));
 ```
 
-To compose layouts, both Jetpack Compose and Flutter nest UI components
-within one another.
-Jetpack Compose nests `Composables` while Flutter nests `Widgets`.
+要進行版面配置（Layout），Jetpack Compose 和 Flutter 都是將 UI 元件（Widgets）彼此巢狀嵌套。
+Jetpack Compose 巢狀 `Composables`，而 Flutter 則巢狀 `Widgets`。
 
-### Layout process
+### 版面配置流程
 
-Jetpack Compose and Flutter handle layout in similar ways. Both of them
-lay out the UI in a single pass and parent elements provide layout constraints 
-down to their children. More specifically,
+Jetpack Compose 和 Flutter 處理版面配置的方式非常相似。兩者都會在單一流程中進行 UI 的版面配置，並且由父元素將版面限制（constraints）傳遞給子元素。更具體來說：
 
-1. The parent measures itself and its children recursively providing 
-   any constraints from the parent to the child.
-2. The children try to size themselves using the above methods and 
-provide their own children both their constraints and any that
-might apply from their ancestor nodes.
-3. Upon encountering a leaf node (a node with no children), the size
-and properties are determined based on the provided constraints 
-and the element is placed in the UI.
-4. With all the children sized and placed, the root nodes can 
-determine their measurement, size, and placement.
+1. 父元件會遞迴地測量自身及其子元件，並將任何來自父層的限制傳遞給子元件。
+2. 子元件會嘗試利用上述方法來決定自己的大小，並將自己的限制以及來自祖先節點的限制傳遞給其子元件。
+3. 當遇到葉節點（沒有子元件的節點）時，其大小與屬性會根據提供的限制來決定，並將該元素放置於 UI 上。
+4. 當所有子元件都已經決定大小並放置完成後，根節點就能決定自身的測量方式、大小與位置。
 
-In both Jetpack Compose and Flutter, the parent component can override
-or constrain the child's desired size. The widget cannot have any size it wants.
-It also cannot _usually_ know or decide its position on screen as its parent
-makes that decision.
+在 Jetpack Compose 和 Flutter 中，父元件都可以覆寫或限制子元件想要的大小。元件（Widget）無法隨意設定任何大小，也通常無法知道或決定自己在螢幕上的位置，因為這是由父元件決定的。
 
-To force a child widget to render at a specific size,
-the parent must set tight constraints.
-A constraint becomes tight when its constraint's minimum size value
-equals its maximum size value.
+若要強制子元件以特定大小渲染，父元件必須設置嚴格的限制（tight constraints）。
+當限制的最小尺寸值等於最大尺寸值時，該限制就成為嚴格限制（tight constraint）。
 
-To learn how constraints work in Flutter,
-visit [Understanding constraints][].
+想進一步了解 Flutter 中的限制（constraints）如何運作，請參閱 [Understanding constraints][Understanding constraints]。
 
-### Design system
+### 設計系統
 
-Because Flutter targets multiple platforms, your app doesn't need
-to conform to any design system.
-While this guide features [Material][] widgets,
-your Flutter app can use many different design systems:
+由於 Flutter 支援多平台，您的應用程式不需要遵循任何特定的設計系統。
+雖然本指南主要介紹 [Material][Material] 元件（Widgets），但您的 Flutter 應用程式可以使用多種不同的設計系統：
 
-- Custom Material widgets
-- Community built widgets
-- Your own custom widgets
+- 自訂 Material 元件
+- 社群開發的元件
+- 您自行設計的自訂元件
 
-If you're looking for a great reference app that features a
-custom design system, check out [Wonderous][].
+如果您正在尋找一個展示自訂設計系統的優秀參考應用程式，請參考 [Wonderous][Wonderous]。
 
-## UI basics
+## UI 基礎
 
-This section covers the basics of UI development in
-Flutter and how it compares to Jetpack Compose.
-This includes how to start developing your app, display static text,
-create buttons, react to on-press events, display lists, grids, and more.
+本節將介紹 Flutter 的 UI 開發基礎，以及其與 Jetpack Compose 的比較。
+內容包含如何開始開發應用程式、顯示靜態文字、建立按鈕、響應點擊事件、顯示清單、網格等。
 
-### Getting started
+### 入門
 
-For **Compose** apps, your main entry point will 
-be _Activity_ or one of its descendants, 
-generally _ComponentActivity_. 
+對於 **Compose** 應用程式，您的主要進入點會是 _Activity_ 或其子類別，通常是 _ComponentActivity_。 
 
 ```kotlin
 class MainActivity : ComponentActivity() {
@@ -154,8 +120,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 }
 ```
 
-To start your **Flutter** app, pass an instance of your app to
-the `runApp` function.
+要啟動你的 **Flutter** 應用程式，請將你的應用程式實例傳遞給 `runApp` 函式。
 
 ```dart
 void main() {
@@ -163,10 +128,9 @@ void main() {
 }
 ```
 
-`App` is a widget. It's `build` method describes the part of the
-user interface it represents.
-It's common to begin your app with a [`WidgetApp`][] class,
-like [`MaterialApp`][].
+`App` 是一個元件（Widget）。它的 `build` 方法描述了它所代表的使用者介面部分。
+通常會以一個 [`WidgetApp`][`WidgetApp`] 類別作為應用程式的起點，
+例如 [`MaterialApp`][`MaterialApp`]。
 
 ```dart
 class MyApp extends StatelessWidget {
@@ -181,8 +145,8 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-The widget used in the `HomePage` might begin with the `Scaffold` class.
-`Scaffold` implements a basic layout structure for an app.
+在`HomePage`中所使用的元件（Widget）可能會以`Scaffold`類別作為起始。
+`Scaffold`實作了一個應用程式的基本版面配置結構。
 
 ```dart
 class HomePage extends StatelessWidget {
@@ -201,22 +165,22 @@ class HomePage extends StatelessWidget {
 }
 ```
 
-Note how Flutter uses the [`Center`][] widget.
+請注意 Flutter 如何使用 [`Center`][`Center`] 元件（Widget）。
 
-Compose has a number of defaults from its ancestor Android Views.
-Unless otherwise specified, most components "wrap" their size to
-content meaning they only take up as much space as needed when rendered.
-That's not always the case with Flutter.
+Compose 繼承自 Android Views，因此有許多預設行為。
+除非另有指定，大多數元件會「包裹」其內容大小，
+也就是在渲染時只佔用所需的空間。
+但在 Flutter 中，情況並不總是如此。
 
-To center the text, wrap it in a `Center` widget.
-To learn about different widgets and their default behaviors, check out
-the [Widget catalog][].
+若要讓文字置中，請將其包裹在 `Center` 元件（Widget）中。
+想進一步了解不同元件及其預設行為，請參考
+[Widget catalog][Widget catalog]。
 
-### Adding Buttons
+### 新增按鈕
 
-In **Compose**, you use the `Button` composable or one of its variants
-to create a button. `Button` is an alias for `FilledTonalButton`
-when using a Material theme.
+在 **Compose** 中，你可以使用 `Button` composable 或其變體
+來建立按鈕。當使用 Material 主題時，`Button` 是 `FilledTonalButton`
+的別名。
 
 ```kotlin
 Button(onClick = {}) {
@@ -224,8 +188,8 @@ Button(onClick = {}) {
 }
 ```
 
-To achieve the same result in **Flutter**,
-use the `FilledButton` class:
+要在 **Flutter** 中達到相同的效果，
+請使用 `FilledButton` 類別：
 
 ```dart
 FilledButton(
@@ -236,15 +200,12 @@ FilledButton(
 ),
 ```
 
-**Flutter** gives you access to a variety of buttons with pre-defined styles.
+**Flutter** 提供多種具有預設樣式的按鈕可供使用。
 
+### 水平或垂直對齊元件
+Jetpack Compose 與 Flutter 在處理水平與垂直排列的項目集合時方式相似。
 
-### Aligning components horizontally or vertically
-Jetpack Compose and Flutter handle horizontal and vertical collections of
-items similarly.
-
-The following Compose snippet adds a globe image and
-text in both `Row` and `Column` containers with centering of the items:
+以下 Compose 程式碼片段會在 `Row` 與 `Column` 容器中，分別加入地球圖示與文字，並將項目置中顯示：
 
 ```kotlin
 Row(horizontalArrangement = Arrangement.Center) {
@@ -258,8 +219,7 @@ Column(verticalArrangement = Arrangement.Center) {
 }
 ```
 
-**Flutter** uses [`Row`][] and [`Column`][] as well but there are some slight differences for specifying child 
-widgets and alignment. The following is equivalent to the Compose example.
+**Flutter** 也使用 [`Row`][`Row`] 和 [`Column`][`Column`]，但在指定子元件（child widgets）和對齊方式時有些許差異。以下範例與 Compose 範例等價。
 
 ```dart
 Row(
@@ -280,32 +240,19 @@ Column(
 
 ```
 
-`Row` and `Column` require a `List<Widget>` in the `children` parameter.
-The `mainAxisAlignment` property tells Flutter how to position children
-with extra space. `MainAxisAlignment.center` positions children in the
-center of the main axis. For `Row`, the main axis is the horizontal
-axis, inversely for `Column`, the main axis is the vertical axis.
+`Row` 和 `Column` 需要在 `children` 參數中傳入 `List<Widget>`。
+`mainAxisAlignment` 屬性告訴 Flutter 如何在有多餘空間時排列子元件（children）。
+`MainAxisAlignment.center` 會將子元件排列在主軸（main axis）的中央。對於 `Row` 來說，主軸是水平軸；而對於 `Column`，主軸則是垂直軸。
 
 ::: note
-Whereas Flutter's `Row` and `Column` have `MainAxisAlignment` 
-and `CrossAxisAlignment` to control how items are placed, the properties that
-control placement in Jetpack Compose are one vertical and horizontal property
-from the following: `verticalArrangement`, `verticalAlignment`,
-`horizontalAlignment`, and `horizontalArrangement`. The trick to determine
-which is the `MainAxis` is to look for the property that ends in `arrangement`. 
-The `CrossAxis` will be the property that ends in `alignment`.
+雖然 Flutter 的 `Row` 和 `Column` 有 `MainAxisAlignment` 和 `CrossAxisAlignment` 屬性來控制項目的排列方式，但在 Jetpack Compose 中，控制排列的屬性則是從下列中各選一個垂直和一個水平屬性：`verticalArrangement`、`verticalAlignment`、`horizontalAlignment` 和 `horizontalArrangement`。判斷哪一個是 `MainAxis` 的訣竅是找出以 `arrangement` 結尾的屬性；`CrossAxis` 則是以 `alignment` 結尾的屬性。
 :::
 
-### Displaying a list view
+### 顯示清單檢視
 
-In **Compose**, you have a couple ways to create a list based on
-the size of the list you need to display. For a small number of items 
-that can all be displayed at once, you can iterate over a collection 
-inside a `Column` or `Row`.
+在 **Compose** 中，你有幾種方式可以根據要顯示的清單大小來建立清單。對於可以一次顯示所有項目的少量資料，你可以在 `Column` 或 `Row` 中遍歷集合。
 
-For a list with a large number of items, `LazyList` has better 
-performance. It only lays out the components that will be visible
-versus all of them.
+如果是大量項目的清單，`LazyList` 會有更好的效能。它只會排版可見的元件，而不是全部排版。
 
 ```kotlin
 data class Person(val name: String)
@@ -335,7 +282,7 @@ fun ListDemo2(people: List<Person>) {
 }
 ```
 
-To lazily build a list in Flutter, ....
+若要在 Flutter 中延遲建立（lazily build）清單，....
 
 ```dart
 class Person {
@@ -368,30 +315,25 @@ class HomePage extends StatelessWidget {
 }
 ```
 
-Flutter has some conventions for lists:
+Flutter 對於清單有一些慣例：
 
-- The [`ListView`] widget has a builder method.
-  This works like the `item` closure inside a Compose `LazyList`.
+- [`ListView`] 元件（Widget）有一個 builder 方法。
+  這個方法的運作方式類似於 Compose 中 `LazyList` 的 `item` 閉包。
 
-- The `itemCount` parameter of the `ListView` sets how many items
-  the `ListView` displays.
+- `ListView` 的 `itemCount` 參數用來設定
+  `ListView` 要顯示多少個項目。
 
-- The `itemBuilder` has an index parameter that will be between zero
-  and one less than itemCount.
+- `itemBuilder` 有一個 index 參數，其值會介於 0 到 itemCount 減 1 之間。
 
-The previous example returned a [`ListTile`][] widget for each item.
-The `ListTile` widget includes properties like `height` and `font-size`.
-These properties help build a list. However, Flutter allows you to return
-almost any widget that represents your data.
+前面的範例會為每個項目回傳一個 [`ListTile`][`ListTile`] 元件（Widget）。
+`ListTile` 元件包含像是 `height` 和 `font-size` 這樣的屬性。
+這些屬性有助於建立清單。不過，Flutter 允許你回傳幾乎任何能代表資料的元件（Widget）。
 
-### Displaying a grid
+### 顯示網格（Grid）
 
-Constructing a grid in **Compose** is similar to a 
-LazyList (`LazyColumn` or `LazyRow`). You can use the
-same `items` closure. There are properties on each 
-grid type to specify how to arrange the items,
-whether or not to use adaptive or fixed layout, 
-amongst others.
+在 **Compose** 中建構網格（Grid）與 LazyList（`LazyColumn` 或 `LazyRow`）類似。
+你可以使用相同的 `items` 閉包。每種網格型態都有相關屬性可用來指定項目的排列方式，
+無論是自適應（adaptive）還是固定（fixed）版面配置等，都可以設定。
 
 
 ```kotlin
@@ -418,10 +360,9 @@ val widgets = arrayOf(
     }
 ```
 
-To display grids in **Flutter**, use the [`GridView`] widget.
-This widget has various constructors. Each constructor has
-a similar goal, but uses different input parameters.
-The following example uses the `.builder()` initializer:
+要在 **Flutter** 中顯示網格（grids），請使用 [`GridView`] 元件（Widget）。
+此元件有多種建構函式（constructors），每個建構函式的目標類似，但所需的輸入參數不同。
+以下範例使用 `.builder()` 初始化器：
 
 ```dart 
 const widgets = [
@@ -452,24 +393,15 @@ class HomePage extends StatelessWidget {
 }
 ```
 
-The `SliverGridDelegateWithFixedCrossAxisCount` delegate determines
-various parameters that the grid uses to lay out its components.
-This includes `crossAxisCount` that dictates the number of items
-displayed on each row.
+`SliverGridDelegateWithFixedCrossAxisCount` delegate 會決定格線（grid）在排版其元件（components）時所使用的各種參數。其中包含`crossAxisCount`，它用來指定每一列顯示的項目數量。
 
-Jetpack Compose's `LazyHorizontalGrid`, `LazyVerticalGrid`, and Flutter's `GridView` are somewhat 
-similar. `GridView` uses a delegate to decide how the grid
-should lay out its components. The `rows`, `columns`, and other
-associated properties on `LazyHorizontalGrid` \ `LazyVerticalGrid` serve the same purpose.
+Jetpack Compose 的 `LazyHorizontalGrid`、`LazyVerticalGrid` 與 Flutter 的 `GridView` 有些類似。`GridView` 會使用 delegate 來決定格線應如何排版其元件。`rows`、`columns` 以及 `LazyHorizontalGrid` \ `LazyVerticalGrid` 上的其他相關屬性，也都具有相同的作用。
 
-### Creating a scroll view
+### 建立可滾動檢視
 
-`LazyColumn` and `LazyRow` in **Jetpack Compose** have built-in 
-support for scrolling.
+**Jetpack Compose** 中的 `LazyColumn` 與 `LazyRow` 內建支援滾動功能。
 
-To create a scrolling view, **Flutter** uses [`SingleChildScrollView`][].
-In the following example, the function `mockPerson` mocks instances
-of the `Person` class to create the custom `PersonView` widget.
+若要建立可滾動檢視，**Flutter** 則會使用 [`SingleChildScrollView`][`SingleChildScrollView`]。在下方範例中，函式 `mockPerson` 會模擬 `Person` 類別的實例，以建立自訂的 `PersonView` 元件（Widget）。
 
 ```dart
 SingleChildScrollView(
@@ -485,33 +417,26 @@ SingleChildScrollView(
 ),
 ```
 
-### Responsive and adaptive design
+### 響應式與自適應設計
 
-Adaptive Design in **Compose** is a complex topic with many 
-viable solutions:
-* Using a custom layout
-* Using `WindowSizeClass` alone
-* Using `BoxWithConstraints` to control what is shown based on
-available space
-* Using the Material 3 adaptive library that uses `WindowSizeClass`
-along with specialized composable layouts for common layouts
+**Compose** 中的自適應設計是一個複雜的主題，且有許多可行的解決方案：
+* 使用自訂版面配置
+* 僅使用 `WindowSizeClass`
+* 使用 `BoxWithConstraints` 根據可用空間控制顯示內容
+* 使用 Material 3 自適應函式庫，該函式庫結合 `WindowSizeClass` 以及針對常見版面配置設計的專用 composable 版面配置
 
-For that reason, you are encouraged to look into the **Flutter**
-options directly and see what fits your requirements versus 
-attempting to find something that is a one to one translation.
+因此，建議你直接參考 **Flutter** 的相關選項，根據你的需求選擇最合適的方式，而不是嘗試尋找一對一的對應解法。
 
-To create relative views in **Flutter**, you can use one of two options:
+在 **Flutter** 中建立相對版面配置，你可以使用以下兩種方式之一：
 
-- Get the `BoxConstraints` object in the [`LayoutBuilder`][] class.
-- Use the [`MediaQuery.of()`][] in your build functions
-  to get the size and orientation of your current app.
+- 在 [`LayoutBuilder`][`LayoutBuilder`] 類別中取得 `BoxConstraints` 物件。
+- 在建構函式中使用 [`MediaQuery.of()`][`MediaQuery.of()`]，以取得目前應用程式的尺寸與方向。
 
-To learn more, check out [Creating responsive and adaptive apps][].
+想了解更多，請參閱 [Creating responsive and adaptive apps][Creating responsive and adaptive apps]。
 
-### Managing state
+### 狀態管理
 
-**Compose** stores state with the `remember` API and descendants
-of the `MutableState` interface.
+**Compose** 透過 `remember` API 以及 `MutableState` 介面的子類別來儲存狀態。
 
 ```kotlin
 Scaffold(
@@ -531,17 +456,17 @@ Scaffold(
 ```
 
 
-**Flutter** manages local state using a [`StatefulWidget`][].
-Implement a stateful widget with the following two classes:
+**Flutter** 使用 [`StatefulWidget`][`StatefulWidget`] 來管理本地狀態（local state）。
+要實作一個有狀態元件（Stateful Widget），需包含以下兩個類別：
 
-- a subclass of `StatefulWidget`
-- a subclass of `State`
+- `StatefulWidget` 的子類別
+- `State` 的子類別
 
-The `State` object stores the widget's state.
-To change a widget's state, call `setState()` from the `State` subclass
-to tell the framework to redraw the widget.
+`State` 物件會儲存元件（Widget）的狀態。
+若要改變元件的狀態，請在 `State` 子類別中呼叫 `setState()`，
+以通知框架重新繪製該元件。
 
-The following example shows a part of a counter app:
+以下範例顯示了一個計數器應用程式的一部分：
 
 ```dart
 class MyHomePage extends StatefulWidget {
@@ -575,18 +500,16 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 ```
 
-To learn more ways to manage state, check out [State management][].
+想了解更多管理狀態的方法，請參閱 [狀態管理][State management]。
 
 
-### Drawing on the Screen
+### 螢幕繪製
 
-In **Compose**, you use the `Canvas` composable to draw 
-shapes, images, and text to the screen.
+在 **Compose** 中，你會使用 `Canvas` composable 來在螢幕上繪製圖形、圖片和文字。
 
-**Flutter** has an API based on the `Canvas` class,
-with two classes that help you draw:
+**Flutter** 則有一套基於 `Canvas` 類別的 API，並提供兩個協助你繪製的類別：
 
-1. [`CustomPaint`][] that requires a painter:
+1. 需要 painter 的 [`CustomPaint`][`CustomPaint`]：
 
     ```dart 
     CustomPaint(
@@ -595,7 +518,7 @@ with two classes that help you draw:
     ),
     ```
 
-2. [`CustomPainter`][] that implements your algorithm to draw to the canvas.
+2. [`CustomPainter`][`CustomPainter`]，實作你的演算法以繪製到畫布上。
 
     ```dart
     class SignaturePainter extends CustomPainter {
@@ -622,22 +545,20 @@ with two classes that help you draw:
     }
     ```
 
-## Themes, styles, and media
+## 主題、樣式與媒體
 
-You can style Flutter apps with little effort.
-Styling includes switching between light and dark themes,
-changing the design of your text and UI components,
-and more. This section covers how to style your apps.
+你可以輕鬆地為 Flutter 應用程式進行樣式設定。  
+樣式設定包括在淺色與深色主題之間切換、  
+變更文字與 UI 元件（Widgets）的設計，  
+以及更多功能。本節將介紹如何為你的應用程式進行樣式設定。
 
-### Using dark mode
+### 使用深色模式
 
-In **Compose**, you can control light and dark at any 
-arbitrary level by wrapping a component with 
-a `Theme` composable.
+在 **Compose** 中，你可以在任意層級控制淺色與深色，  
+方法是將元件包裹在 `Theme` composable 內。
 
-In **Flutter**, you can control light and dark mode at the app-level.
-To control the brightness mode, use the `theme` property
-of the `App` class:
+在 **Flutter** 中，你可以在應用程式層級控制淺色與深色模式。  
+若要控制亮度模式，請使用 `App` 類別的 `theme` 屬性：
 
 ```dart
 const MaterialApp(
@@ -648,10 +569,9 @@ const MaterialApp(
 );
 ```
 
-### Styling text
+### 文字樣式設定
 
-In **Compose**, you use the properties on `Text` for one or two
-attributes or construct a `TextStyle` object to set many at once.
+在 **Compose** 中，你可以直接使用 `Text` 的屬性來設定一兩個屬性，或是建立一個 `TextStyle` 物件，一次設定多個屬性。
 
 ```kotlin
 Text("Hello, world!", color = Color.Green,
@@ -667,8 +587,7 @@ Text("Hello, world!",
 )
 ```
 
-To style text in **Flutter**, add a `TextStyle` widget as the value
-of the `style` parameter of the `Text` widget.
+要在 **Flutter** 中為文字設計樣式，請在 `Text` 元件（Widget）的 `style` 參數中，加入 `TextStyle` 元件作為其值。
 
 ```dart
 Text(
@@ -681,11 +600,9 @@ Text(
 ),
 ```
 
-### Styling buttons
+### 按鈕樣式設定
 
-In **Compose**, you modify the colors of a button using 
-the `colors` property. If left unmodified, they
-use the defaults from the current theme.
+在 **Compose** 中，你可以透過 `colors` 屬性來修改按鈕的顏色。如果未進行修改，則會使用當前主題的預設值。
 
 ```kotlin
 Button(onClick = {},
@@ -696,8 +613,7 @@ Button(onClick = {},
 }
 ```
 
-To style button widgets in **Flutter**, you similarly 
-set the style of its child, or modify properties on the button itself.
+在 **Flutter** 中，若要為按鈕元件 (Widgets) 設定樣式，你同樣可以設定其子元件 (child) 的樣式，或直接修改按鈕本身的屬性。
 
 ```dart
 FilledButton(
@@ -713,16 +629,11 @@ FilledButton(
   )
 )
 ```
-## Bundling assets for use in Flutter
+## 將資源（Assets）打包以供 Flutter 使用
 
-There is commonly a need to bundle resources for use in your application.
-They can be animations, vector graphics, images, fonts, or other general files.
+在開發應用程式時，經常需要將各種資源（Assets）打包進應用中。這些資源可能包括動畫（Animation）、向量圖形、圖片（images）、字型，或其他一般檔案。
 
-Unlike native Android apps that expect a set directory structure under `/res/<qualifier>/` 
-where the qualifier could be indicating the type of file, a specific orientation,
-or android version, Flutter doesn't require a specific location as long 
-as the referenced files are listed in the `pubspec.yaml` file. Below is an excerpt
-from a `pubspec.yaml` referencing several images and a font file.
+與原生 Android 應用程式不同，原生 Android 會要求在`/res/<qualifier>/`下有特定的目錄結構，這些目錄名稱可能用來標示檔案類型、螢幕方向或 Android 版本；而 Flutter 則不要求資源必須放在特定位置，只要你在`pubspec.yaml`檔案中有列出這些參考的檔案即可。以下是一段`pubspec.yaml`的範例，參考了多個圖片（images）與一個字型檔案。
 
 ```yaml
 flutter:
@@ -735,18 +646,15 @@ flutter:
         - asset: fonts/FiraSans-Regular.ttf
 ```
 
-### Using fonts
+### 使用字型
 
-In **Compose**, you have two options for using fonts in your app.
-You can use a runtime service I to retrieve them [Google Fonts][].
-Alternatively, they may be bundled in resource files.
+在 **Compose** 中，你有兩種在應用程式中使用字型的方式。你可以使用一個執行階段服務來擷取字型，例如 [Google Fonts][Google Fonts]。或者，你也可以將字型檔案打包在資源檔案中。
 
-**Flutter** has similar methods to use fonts, let's discuss them both inline.
+**Flutter** 也有類似的方法來使用字型，以下我們將一起說明這兩種方式。
 
-### Using bundled fonts
+### 使用打包字型
 
-The following are roughly equivalent Compose and Flutter code for using a font file in the `/res/` or `fonts` directory
-as listed above.
+以下範例分別展示了在 Compose 與 Flutter 中，如何使用放在 `/res/` 或 `fonts` 目錄中的字型檔案，這與上面所列的方式大致相同。
 
 ```kotlin
 // Font files bundled with app
@@ -769,13 +677,13 @@ Text(
 ),
 ```
 
-### Using a font provider (Google Fonts)
+### 使用字型提供者（Google Fonts）
 
-One point of difference is using fonts from a font provider like Google Fonts. In **Compose**, 
-the instantiation is done inline with the same approximate code to reference a local file.
+一個不同之處在於，使用像 Google Fonts 這類字型提供者的字型。在 **Compose** 中，
+實例化的方式是直接在程式碼中進行，與參考本地檔案的程式碼大致相同。
 
-After instantiating a provider that references the special strings for the font service,
-you would use the same `FontFamily` declaration.
+在實例化一個參考字型服務專用字串的提供者之後，
+你會使用相同的 `FontFamily` 宣告。
 
 ```kotlin
 // Font files bundled with app
@@ -796,8 +704,7 @@ val firaSansFamily = FontFamily(
 Text(text = "Compose", fontFamily = firaSansFamily, fontWeight = FontWeight.Light)
 ```
 
-For Flutter, this is provided by the [google_fonts][] plugin using the name of
-the font.
+在 Flutter 中，這可以透過 [google_fonts][google_fonts] 套件，使用字型名稱來實現。
 
 ```dart
 import 'package:google_fonts/google_fonts.dart';
@@ -810,14 +717,11 @@ Text(
 ),
 ```
 
-### Using images
+### 使用圖片
 
-In **Compose**, typically image files to the drawable directory
-in resources `/res/drawable` and one uses `Image` composable to display
-the images. Assets are referenced by using the resource locator
-in the style of `R.drawable.<file name>` without the file extension.
+在 **Compose** 中，通常會將圖片檔案放置於資源的 drawable 目錄 `/res/drawable`，並使用 `Image` composable 來顯示圖片。資源的參考方式是使用類似 `R.drawable.<file name>` 的資源定位器（resource locator），不包含副檔名。
 
-In **Flutter**, the resource location is a listed in `pubspec.yaml` as shown in the snippet below.
+在 **Flutter** 中，資源的位置則會在 `pubspec.yaml` 中列出，如下方程式碼片段所示。
 
 ```yaml
     flutter:
@@ -825,10 +729,9 @@ In **Flutter**, the resource location is a listed in `pubspec.yaml` as shown in 
         - images/Blueberries.jpg
    ```
 
-After adding your image, you can display it using the `Image` widget's
-`.asset()` constructor. This constructor:
+加入圖片後，你可以使用 `Image` 元件（Widget）的 `.asset()` 建構函式來顯示圖片。此建構函式：
 
-To review a complete example, check out the [`Image`][] docs.
+若要查看完整範例，請參考 [`Image`][`Image`] 文件。
 
 
 [Flutter for Android developers]: /get-started/flutter-for/android-devs

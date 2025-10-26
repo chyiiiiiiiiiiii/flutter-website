@@ -1,17 +1,15 @@
 ---
-title: Widget catalog
-description: A catalog of some of Flutter's rich set of widgets.
-shortTitle: Widgets
+title: 元件 (Widgets) 目錄
+description: Flutter 豐富元件 (Widgets) 集合的目錄。
+shortTitle: 元件 (Widgets)
 showToc: false
 ---
 
-Create beautiful apps faster with Flutter's collection of visual, structural,
-platform, and interactive widgets. In addition to browsing widgets by category,
-you can also see all the widgets in the [widget index][].
+利用 Flutter 提供的視覺、結構、平台與互動元件 (Widgets) 集合，更快速打造美觀的應用程式。除了可依分類瀏覽元件外，你也可以在[元件索引 (widget index)][widget index]中查看所有元件。
 
-## Design systems
+## 設計系統
 
-Flutter ships with two design systems as part of the SDK.
+Flutter 隨 SDK 提供兩套設計系統。
 
 <div class="card-grid">
 {% assign categories = catalog.index | sort: 'name' -%}
@@ -29,16 +27,11 @@ Flutter ships with two design systems as part of the SDK.
 {% endfor %}
 </div>
 
-You can find many more designs systems created by the Flutter community
-on [pub.dev]({{site.pub}}), the package repository for Dart and Flutter,
-like for example the Windows-inspired [fluent_ui]({{site.pub-pkg}}/fluent_ui),
-macOS-inspired [macos_ui]({{site.pub-pkg}}/macos_ui),
-and the Ubuntu-inspired [yaru]({{site.pub-pkg}}/yaru) widgets.
+你可以在 Dart 與 Flutter 的套件倉庫 [pub.dev]({{site.pub}}) 上找到更多由 Flutter 社群打造的設計系統，例如 Windows 風格的 [fluent_ui]({{site.pub-pkg}}/fluent_ui)、macOS 風格的 [macos_ui]({{site.pub-pkg}}/macos_ui)，以及 Ubuntu 風格的 [yaru]({{site.pub-pkg}}/yaru) 元件 (Widgets)。
 
-## Base widgets
+## 基礎元件 (Base widgets)
 
-Base widgets support a range of common rendering options
-like input, layout, and text.
+基礎元件 (Base widgets) 支援各種常見的繪製選項，例如輸入 (Input)、版面配置 (Layout) 與文字 (Text)。
 
 <div class="card-grid">
 {% assign categories = catalog.index | sort: 'name' -%}
@@ -56,10 +49,9 @@ like input, layout, and text.
 {% endfor %}
 </div>
 
-## Widget of the Week
+## 每週元件 (Widget of the Week)
 
-100+ short, 1-minute explainer videos to
-help you quickly get started with Flutter widgets.
+超過 100 部簡短、1 分鐘的解說影片，協助你快速上手 Flutter 元件 (Widgets)。
 
 <div class="card-grid wide">
   <div class="card wrapped-card outlined-card">
@@ -94,6 +86,6 @@ help you quickly get started with Flutter widgets.
   </div>
 </div>
 
-<a class="filled-button" target="_blank" href="{{site.yt.playlist}}PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG">Watch more widget of the week videos</a>
+<a class="filled-button" target="_blank" href="{{site.yt.playlist}}PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG">觀看更多每週元件 (Widget of the Week) 影片</a>
 
 [widget index]: /reference/widgets

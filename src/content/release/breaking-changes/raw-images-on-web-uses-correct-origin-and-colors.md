@@ -1,62 +1,62 @@
+```markdown
 ---
-title: Raw images on Web uses correct origin and colors
+title: Web 上的原始圖片使用正確的原點與顏色
 description: >
-  Raw images directly decoded by calling the Web engine functions now
-  uses the correct pixel format and starts from the top left corner.
+  透過呼叫 Web 引擎函式直接解碼的原始圖片，
+  現在會使用正確的像素格式，並從左上角開始。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-How raw images are rendered on Web has been corrected
-and is now consistent with that on other platforms.
-This breaks legacy apps that had to feed incorrect data
-to `ui.ImageDescriptor.raw` or `ui.decodeImageFromPixels`,
-causing the resulting images to be upside-down
-and incorrectly colored
-(whose red and blue channels are swapped.)
+Web 上原始圖片的繪製方式已經修正，
+現在與其他平台保持一致。
+這會導致舊有應用程式必須傳入不正確資料給 `ui.ImageDescriptor.raw` 或 `ui.decodeImageFromPixels` 的情況出現問題，
+導致產生的圖片上下顛倒且顏色錯誤
+（紅色與藍色通道被對調）。
 
-## Context
+## 背景說明
 
-The "pixel stream" that Flutter uses internally
-has always been defined as the same format:
-for each pixel, four 8-bit channels are packed in the order defined
-by a `format` argument, then grouped in a row,
-from left to right, then rows from top to bottom.
+Flutter 內部使用的「像素串流（pixel stream）」格式
+一直以來都定義為相同格式：
+每個像素由四個 8 位元通道依照 `format` 參數定義的順序打包，
+然後依序排列成一列，
+從左到右，再由上到下排列各列。
 
-However, Flutter for Web, or more specifically, the HTML renderer,
-used to implement it in a wrong way
-due to incorrect understanding of the BMP format specification.
-As a result, if the app or library uses
-`ui.ImageDescriptor.raw` or `ui.decodeImageFromPixels`,
-it had to feed pixels from bottom to top and swap their red and blue channels
-(for example, with the `ui.PixelFormat.rgba8888` format,
-the first 4 bytes of the data were considered the blue, green,
-red, and alpha channels of the first pixel instead.)
+然而，Flutter for Web，特別是 HTML renderer，
+過去因為對 BMP 格式規範的誤解，
+實作方式是錯誤的。
+因此，如果應用程式或函式庫使用
+`ui.ImageDescriptor.raw` 或 `ui.decodeImageFromPixels`，
+就必須將像素資料由下往上排列，並對調紅色與藍色通道
+（例如，若使用 `ui.PixelFormat.rgba8888` 格式，
+資料的前 4 個位元組會被視為第一個像素的藍色、綠色、
+紅色與透明通道）。
 
-This bug has been fixed by [engine#29593][],
-but apps and libraries have to correct how their data are generated.
+這個錯誤已經由 [engine#29593][engine#29593] 修正，
+但應用程式與函式庫必須修正資料產生的方式。
 
-## Description of change
+## 變更說明
 
-The `pixels` argument of `ui.ImageDescriptor.raw` or `ui.decodeImageFromPixels`
-now uses the correct pixel order described by `format`,
-and originates from the top left corner.
+`ui.ImageDescriptor.raw` 或 `ui.decodeImageFromPixels` 的 `pixels` 參數
+現在會使用 `format` 所描述的正確像素順序，
+並且從左上角作為起點。
 
-Images rendered by directly calling these two functions
-Legacy code that invokes these functions directly might
-find their images upside down and colored incorrectly.
+透過直接呼叫這兩個函式繪製的圖片，
+舊有直接呼叫這些函式的程式碼可能會發現
+圖片上下顛倒且顏色錯誤。
 
-## Migration guide
+## 遷移指南
 
-If the app uses the latest version of Flutter and experiences this situation,
-the most direct solution is to manually flip the image, and use the alternate
-pixel format. However, this is unlikely the most optimized solution,
-since such pixel data are usually constructed from other sources,
-allowing flipping during the construction process.
+如果應用程式使用最新版 Flutter 並遇到此情況，
+最直接的解決方式是手動翻轉圖片，並改用其他像素格式。
+但這通常不是最有效率的解法，
+因為這類像素資料通常是從其他來源產生，
+因此可以在產生過程中直接完成翻轉。
 
-Code before migration:
+遷移前的程式碼：
+```
 
 ```dart
 import 'dart:typed_data';
@@ -77,7 +77,7 @@ Future<ui.Image> parseMyImage(Uint8List image, int width, int height) async {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 import 'dart:typed_data';
@@ -111,13 +111,9 @@ Future<ui.Image> parseMyImage(Uint8List image, int width, int height) async {
 }
 ```
 
-A trickier situation is when you're writing a library,
-and you want this library to work on both the most recent Flutter
-and a pre-patch one.
-In that case, you can decide whether the behavior has been changed
-by letting it decode a single pixel first.
+比較棘手的情況是，當你正在撰寫一個函式庫（library），並且希望這個函式庫同時能在最新版本的 Flutter 以及較舊的修補前版本上運作。在這種情況下，你可以先解碼單一像素，來判斷行為是否已經改變。
 
-Code after migration:
+遷移後的程式碼如下：
 
 ```dart
 Uint8List verticallyFlipImage(Uint8List sourceBytes, int width, int height) {
@@ -147,27 +143,27 @@ Future<ui.Image> parseMyImage(Uint8List image, int width, int height) async {
 }
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 2.9.0-0.0.pre<br>
-In stable release: 2.10
+合併於版本：2.9.0-0.0.pre<br>  
+穩定版釋出：2.10
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`decodeImageFromPixels`][]
-* [`ImageDescriptor.raw`][]
+* [`decodeImageFromPixels`][`decodeImageFromPixels`]
+* [`ImageDescriptor.raw`][`ImageDescriptor.raw`]
 
-Relevant issues:
+相關議題：
 
-* [Web: Regression in Master - PDF display distorted due to change in BMP Encoder][]
-* [Web: ImageDescriptor.raw flips and inverts images (partial reason included)][]
+* [Web: Regression in Master - PDF display distorted due to change in BMP Encoder][Web: Regression in Master - PDF display distorted due to change in BMP Encoder]
+* [Web: ImageDescriptor.raw flips and inverts images (partial reason included)][Web: ImageDescriptor.raw flips and inverts images (partial reason included)]
 
-Relevant PRs:
+相關 PR：
 
-* [Web: Reland: Fix BMP encoder][]
-* [Clarify ImageDescriptor.raw pixel order and add version detector][]
+* [Web: Reland: Fix BMP encoder][Web: Reland: Fix BMP encoder]
+* [Clarify ImageDescriptor.raw pixel order and add version detector][Clarify ImageDescriptor.raw pixel order and add version detector]
 
 [`decodeImageFromPixels`]: {{site.api}}/flutter/dart-ui/decodeImageFromPixels.html
 [`ImageDescriptor.raw`]: {{site.api}}/flutter/dart-ui/ImageDescriptor/ImageDescriptor.raw.html

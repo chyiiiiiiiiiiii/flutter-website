@@ -1,51 +1,39 @@
 ---
-title: Deprecate `ButtonBar` in favor of `OverflowBar`
+title: 棄用 `ButtonBar`，改用 `OverflowBar`
 description: >-
-  The ButtonBar widget has been replaced by
-  a more efficient widget, OverflowBar.
+  ButtonBar 元件（Widget）已被更高效的 OverflowBar 元件取代。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-The `ButtonBar` widget was deprecated in favor of
-the more efficient `OverflowBar` widget.
-As a result, `ThemeData.buttonBarTheme` and
-`ButtonBarTheme` were also deprecated.
+`ButtonBar` 元件（Widget）已被棄用，建議改用更高效的 `OverflowBar` 元件。
+因此，`ThemeData.buttonBarTheme` 和 `ButtonBarTheme` 也一併被棄用。
 
-## Context
+## 背景說明
 
-The `ButtonBar` widget lays out its children in a row and
-in a column if there is not enough horizontal space.
-The `OverflowBar` widget does the same, but it's
-not tied to the Material library and is part of the core `widgets.dart` library.
+`ButtonBar` 元件會將其子元件（children）以橫向排列，若橫向空間不足則改為縱向排列。
+`OverflowBar` 元件也有相同的行為，但它不依賴於 Material 函式庫，且屬於核心的 `widgets.dart` 函式庫。
 
-## Description of change
+## 變更說明
 
-- Replace `ButtonBar` widget with `OverflowBar` widget.
-- By default, `ButtonBar` aligns its children to the end of the layout, while
-  `OverflowBar` aligns its children to the start.
-  To align the `OverflowBar` children to the end, set
-  the `OverflowBar.alignment` property to `MainAxisAlignment.end`.
-- `ButtonBar.buttonPadding` provides spacing
-  between buttons and padding around buttons.
-  Replace it with `OverflowBar.spacing`, which provides spacing between buttons.
-  Wrap the `OverflowBar` widget with `Padding` widget to
-  provide padding around the buttons.
-- Replace `ButtonBar.overflowButtonSpacing` with `OverflowBar.overflowSpacing`,
-  which provides spacing between buttons when the buttons are laid in a column
-  when there is not enough horizontal space.
-- If it is specified, remove `ButtonBarThemeData` from `ThemeData`.
+- 將 `ButtonBar` 元件（Widget）替換為 `OverflowBar` 元件。
+- 預設情況下，`ButtonBar` 會將其子元件對齊到版面配置的結尾，而
+  `OverflowBar` 則會將其子元件對齊到起始位置。
+  若要將 `OverflowBar` 的子元件對齊到結尾，請將 `OverflowBar.alignment` 屬性設為 `MainAxisAlignment.end`。
+- `ButtonBar.buttonPadding` 提供按鈕之間的間距以及按鈕周圍的內距（padding）。
+  請改用 `OverflowBar.spacing`，該元件僅提供按鈕之間的間距。
+  若需為按鈕周圍增加內距，請將 `OverflowBar` 元件包裹在 `Padding` 元件中。
+- 將 `ButtonBar.overflowButtonSpacing` 替換為 `OverflowBar.overflowSpacing`，
+  當橫向空間不足時，按鈕改為縱向排列時，該元件可提供按鈕之間的間距。
+- 若有指定，請從 `ThemeData` 中移除 `ButtonBarThemeData`。
 
-## Migration guide
+## 遷移指南
 
-Replace `ButtonBar` with `OverflowBar`, override the default alignment if
-necessary, replace `ButtonBar.buttonPadding` with `Padding` widget and
-`OverflowBar.spacing` for spacing between and around buttons, and replace
-`ButtonBar.overflowButtonSpacing` with `OverflowBar.overflowSpacing` for
-spacing between buttons when the buttons are laid in a column when there is not
-enough horizontal space.
+請將 `ButtonBar` 替換為 `OverflowBar`，如有需要可覆寫預設對齊方式，
+將 `ButtonBar.buttonPadding` 替換為 `Padding` 元件，並使用 `OverflowBar.spacing` 來處理按鈕之間及周圍的間距，
+同時將 `ButtonBar.overflowButtonSpacing` 替換為 `OverflowBar.overflowSpacing`，以便在橫向空間不足、按鈕改為縱向排列時提供按鈕之間的間距。
 
 Before:
 
@@ -61,7 +49,7 @@ ButtonBar(
 ),
 ```
 
-After:
+之後：
 
 ```dart
 Padding(
@@ -79,10 +67,9 @@ Padding(
 ),
 ```
 
-If you specify a `ThemeData.buttonBarTheme`, remove it and
-use the `OverflowBar` widget properties to customize the `OverflowBar` widget.
+如果你有指定 `ThemeData.buttonBarTheme`，請將其移除，並改用 `OverflowBar` 元件（Widget）屬性來自訂 `OverflowBar` 元件（Widget）。
 
-Before:
+修改前：
 
 ```dart
 ThemeData(
@@ -92,7 +79,7 @@ ThemeData(
 ),
 ```
 
-After:
+之後：
 
 ```dart
 ThemeData(
@@ -100,8 +87,7 @@ ThemeData(
 ),
 ```
 
-If you use the `ButtonBarTheme` widget, remove it and
-use the `OverflowBar` widget properties to customize the `OverflowBar` widget.
+如果你使用了 `ButtonBarTheme` 元件（Widget），請將其移除，並改用 `OverflowBar` 元件（Widget）的屬性來自訂 `OverflowBar` 元件（Widget）。
 
 Before:
 
@@ -118,7 +104,7 @@ ButtonBarTheme(
 ),
 ```
 
-After:
+之後：
 
 ```dart
 OverflowBar(
@@ -129,25 +115,25 @@ OverflowBar(
 ),
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.22.0-2.0.pre<br>
-In stable release: 3.24.0
+合併於版本：3.22.0-2.0.pre<br>  
+於穩定版本發佈：3.24.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-- [`OverflowBar`][]
-- [`ButtonBar`][]
+- [`OverflowBar`][`OverflowBar`]
+- [`ButtonBar`][`ButtonBar`]
 
-Relevant issues:
+相關議題：
 
-- [Issue #127955][]
+- [Issue #127955][Issue #127955]
 
-Relevant PRs:
+相關 PR：
 
-- [Deprecate `ButtonBar`, `ButtonBarThemeData`, and `ThemeData.buttonBarTheme`][]
+- [Deprecate `ButtonBar`, `ButtonBarThemeData`, and `ThemeData.buttonBarTheme`][Deprecate `ButtonBar`, `ButtonBarThemeData`, and `ThemeData.buttonBarTheme`]
 
 [`OverflowBar`]: {{site.api}}/flutter/widgets/OverflowBar-class.html
 [`ButtonBar`]: {{site.api}}/flutter/material/ButtonBar-class.html

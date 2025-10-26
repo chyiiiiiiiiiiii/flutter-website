@@ -1,24 +1,23 @@
 ---
-title: Code blocks
+title: 程式碼區塊
 description: >-
-  Learn about Markdown code blocks on the Dart and Flutter documentation sites
-  and custom functionality and configurability that they support.
+  了解 Dart 與 Flutter 文件網站上的 Markdown 程式碼區塊，以及它們所支援的自訂功能與可設定性。
 ---
 
 :::warning
-This document is a work in progress.
+本文檔仍在撰寫中。
 :::
 
-## Title
+## 標題
 
-## Tags
+## 標籤
 
-## Line numbers
+## 行號
 
-## Highlight lines
+## 行高亮
 
-## Highlight spans
+## 區段高亮
 
-## Diffing
+## 差異比較
 
 ## DartPad

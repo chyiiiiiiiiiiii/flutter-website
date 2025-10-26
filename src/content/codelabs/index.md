@@ -1,15 +1,17 @@
+```markdown
 ---
 title: Codelabs
 description: >-
-  Codelabs to help you quickly get started programming Flutter.
+  幫助你快速開始使用 Flutter 程式設計的 Codelabs。
 sitemap: false
-# This is a placeholder page (Firebase redirects this page's URL to another);
-# it is necessary to allow breadcrumbs to work.
+# 這是一個佔位頁面（Firebase 會將此頁面的 URL 重新導向至其他頁面）；
+# 這是為了讓麵包屑導航能夠正常運作。
 ---
 
-The Flutter codelabs provide a guided, hands-on coding experience with Flutter!
+Flutter Codelabs 提供有引導式、實作操作的 Flutter 程式設計體驗！
 
-To discover codelabs and other learning materials relevant to you,
-check out the [learning resources index][].
+想要探索更多適合你的 Codelabs 及其他學習資源，
+請參考 [learning resources index][learning resources index]。
 
 [learning resources index]: /reference/learning-resources
+```

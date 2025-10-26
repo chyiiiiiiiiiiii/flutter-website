@@ -1,92 +1,81 @@
 ---
-title: The ThemeData.useMaterial3 flag is true by default
+title: ThemeData.useMaterial3 旗標預設為 true
 description: >-
-   The ThemeData.useMaterial3 flag is now set to true by default.
+   ThemeData.useMaterial3 旗標現在預設為 true。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-The Material library has been updated to match
-the latest Material Design spec.
-Changes include new components, new component themes,
-and updated component visuals.
-As of this release, [`ThemeData.useMaterial3`][] is set `true` by default.
+Materials 函式庫已更新，以符合最新的 Material Design 規範。
+此次變更包含了全新元件（Widgets）、新元件主題，以及更新的元件視覺效果。
+自本次版本起，[`ThemeData.useMaterial3`][`ThemeData.useMaterial3`] 預設設為 `true`。
 
-## Background
+## 背景
 
-Flutter's Material widgets now fully support Material 3 and,
-as of Flutter 3.16, Material 3 is now the default style.
+Flutter 的 Material 元件（Widgets）現已完整支援 Material 3，
+且自 Flutter 3.16 起，Material 3 成為預設樣式。
 
-The appearance of Material 3 components are primarily determined by
-the values for [`ThemeData.colorScheme`][] and [`ThemeData.textTheme`][].
-ColorScheme makes it easier to create dark and light schemes so that
-your app is both aesthetically pleasing and
-compliant with accessibility requirements.
-To further customize the appearance of Material 3 components,
-add component themes to your `ThemeData`,
-such as [`ThemeData.segmentedButtonTheme`][] or [`ThemeData.snackBarTheme`][].
+Material 3 元件的外觀主要由 [`ThemeData.colorScheme`][`ThemeData.colorScheme`] 和 [`ThemeData.textTheme`][`ThemeData.textTheme`] 的值所決定。
+ColorScheme 讓你更容易建立深色與淺色主題，讓你的應用程式既美觀又符合無障礙需求。
+若要進一步自訂 Material 3 元件的外觀，
+可在你的 `ThemeData` 中加入元件主題，例如 [`ThemeData.segmentedButtonTheme`][`ThemeData.segmentedButtonTheme`] 或 [`ThemeData.snackBarTheme`][`ThemeData.snackBarTheme`]。
 
-Additionally, Material 3 improves motion by using easing and duration tokens.
-This means that Material 2 curves have been renamed to include
-the word "legacy" and will eventually be deprecated and removed.
+此外，Material 3 透過使用 easing 與 duration tokens 改善了動態效果（motion）。
+這表示 Material 2 的曲線（curves）已重新命名為包含「legacy」字樣，並將在未來被棄用並移除。
 
-Check out the [Material 3 gallery][] to test out
-all the new components and compare them with Material 2.
+你可以參考 [Material 3 gallery][Material 3 gallery]，體驗所有新元件，並與 Material 2 進行比較。
 
 [`ThemeData.colorScheme`]: {{site.api}}/flutter/material/ThemeData/colorScheme.html
 [`ThemeData.textTheme`]: {{site.api}}/flutter/material/ThemeData/textTheme.html
 [`ThemeData.segmentedButtonTheme`]: {{site.api}}/flutter/material/ThemeData/segmentedButtonTheme.html
 [`ThemeData.snackBarTheme`]: {{site.api}}/flutter/material/ThemeData/snackBarTheme.html
 
-## Migration guide
+## 遷移指南
 
-Prior to the 3.16 release, the changes were "opt-in"
-using the `useMaterial3` theme property on `ThemeData`.
-As of this release, `useMaterial3` is `true` by default.
-You can still opt out of the Material 3 version of the Material library by
-specifying `useMaterial3: false` in your `MaterialApp` theme.
+在 3.16 版本之前，這些變更是「選擇性啟用」，
+可透過 `useMaterial3` 主題屬性於 `ThemeData` 上設定。
+自本次版本起，`useMaterial3` 預設為 `true`。
+你仍然可以在 `MaterialApp` 主題中指定 `useMaterial3: false`，以選擇不使用 Material 3 版本的 Materials 函式庫。
 
 :::note
-Support for Material 2 and configuring the `useMaterial3` property
-will eventually be deprecated and removed.
+Material 2 的支援以及設定 `useMaterial3` 屬性的功能，最終將被棄用並移除。
 :::
 
-Also, some of the widgets couldn't merely be updated,
-but needed a whole new implementation.
-For this reason, your UI might look a little strange when
-you see it running with Material 3.
-To fix this, manually migrate to the new widgets, such as [`NavigationBar`][].
+另外，部分元件（Widgets）無法僅透過更新就支援 Material 3，
+而是需要全新實作。
+因此，當你以 Material 3 執行時，UI 可能會出現些微異常。
+為了解決這個問題，請手動遷移至新元件，例如 [`NavigationBar`][`NavigationBar`]。
 
-For more details, check out the [Material 3 umbrella issue][] on GitHub.
+更多細節請參考 GitHub 上的 [Material 3 umbrella issue][Material 3 umbrella issue]。
 
 [`NavigationBar`]: {{site.api}}/flutter/material/NavigationBar-class.html
 
-## Timeline
+## 時程
 
-Landed in version: 3.13.0-4.0.pre<br>
-In stable release: 3.16
+合併於版本：3.13.0-4.0.pre<br>
+穩定版本：3.16
 
-## References
+## 參考資料
 
-Documentation:
+文件說明：
 
-* [Material Design for Flutter][]
+* [Material Design for Flutter][Material Design for Flutter]
 
-API documentation:
+API 文件：
 
-* [`ThemeData.useMaterial3`][]
+* [`ThemeData.useMaterial3`][`ThemeData.useMaterial3`]
 
-Relevant issues:
+相關議題：
 
-* [Material 3 umbrella issue][]
-* [Add support for M3 motion][]
+* [Material 3 umbrella issue][Material 3 umbrella issue]
+* [Add support for M3 motion][Add support for M3 motion]
 
-Relevant PRs:
+相關 PR：
 
-* [Change the default for `ThemeData.useMaterial3` to true][]
-* [Updated `ThemeData.useMaterial3` API doc, default is true][]
+* [Change the default for `ThemeData.useMaterial3` to true][Change the default for `ThemeData.useMaterial3` to true]
+* [Updated `ThemeData.useMaterial3` API doc, default is true][Updated `ThemeData.useMaterial3` API doc, default is true]
 
 
 [Material 3 gallery]: https://github.com/flutter/samples/tree/main/material_3_demo

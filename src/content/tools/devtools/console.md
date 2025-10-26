@@ -1,68 +1,54 @@
 ---
-title: Use the Debug console
-description: Learn how to use the DevTools console.
+title: 使用 Debug 主控台
+description: 學習如何使用 DevTools 主控台。
 ---
 
-The DevTools Debug console allows you to watch an
-application's standard output (`stdout`),
-evaluate expressions for a paused or running
-app in debug mode, and analyze inbound and outbound
-references for objects.
+DevTools 的 Debug 主控台可讓你監看應用程式的標準輸出（`stdout`）、在除錯模式下針對暫停或執行中的應用程式評估運算式，並分析物件的進出參考。
 
 :::note
-This page is up to date for DevTools 2.23.0.
+本頁內容已更新至 DevTools 2.23.0。
 :::
 
-The Debug console is available from the [Inspector][],
-[Debugger][], and [Memory][] views.
+Debug 主控台可從 [Inspector][Inspector]、[Debugger][Debugger] 和 [Memory][Memory] 檢視畫面進入。
 
 [Inspector]: /tools/devtools/inspector
 [Debugger]:  /tools/devtools/debugger
 [Memory]:    /tools/devtools/memory
 
-## Watch application output
+## 監看應用程式輸出
 
-The console shows the application's standard output (`stdout`):
+主控台會顯示應用程式的標準輸出（`stdout`）：
 
-![Screenshot of stdout in Console view](/assets/images/docs/tools/devtools/console-stdout.png)
+![Console 檢視畫面中的 stdout 截圖](/assets/images/docs/tools/devtools/console-stdout.png)
 
-## Explore inspected widgets
+## 探索被檢查的元件 (Widgets)
 
-If you click a widget on the **Inspector** screen,
-the variable for this widget displays in the **Console**: 
+如果你在 **Inspector** 螢幕上點擊某個元件 (Widget)，該元件的變數會顯示在 **Console** 中：
 
-![Screenshot of inspected widget in Console view](/assets/images/docs/tools/devtools/console-inspect-widget.png){:width="100%"}
+![Console 檢視畫面中被檢查元件的截圖](/assets/images/docs/tools/devtools/console-inspect-widget.png){:width="100%"}
 
-## Evaluate expressions
+## 評估運算式
 
-In the console, you can evaluate expressions for a paused
-or running application, assuming that you are running
-your app in debug mode:
+在主控台中，你可以針對暫停或執行中的應用程式評估運算式，前提是你正在除錯模式下執行應用程式：
 
-![Screenshot showing evaluating an expression in the console](/assets/images/docs/tools/devtools/console-evaluate-expressions.png)
+![主控台中評估運算式的截圖](/assets/images/docs/tools/devtools/console-evaluate-expressions.png)
 
-To assign an evaluated object to a variable,
-use `$0`, `$1` (through `$5`) in the form of `var x = $0`:
+若要將評估後的物件指派給變數，可以使用 `$0`、`$1`（到 `$5`）的形式，例如 `var x = $0`：
 
-![Screenshot showing how to evaluate variables](/assets/images/docs/tools/devtools/console-evaluate-variables.png){:width="100%"}
+![如何評估變數的截圖](/assets/images/docs/tools/devtools/console-evaluate-variables.png){:width="100%"}
 
-## Browse heap snapshot
+## 瀏覽記憶體堆疊快照
 
-To drop a variable to the console from a heap snapshot,
-do the following:
+若要從堆疊快照拖放變數到主控台，請依照下列步驟操作：
 
-1. Navigate to **Devtools > Memory > Diff Snapshots**.
-1. Record a memory heap snapshot.
-1. Click on the context menu `[⋮]` to view the number of
-   **Instances** for the desired **Class**.
-1. Select whether you want to store a single instance as
-   a console variable, or whether you want to store _all_
-   currently alive instances in the app.
+1. 前往 **Devtools > Memory > Diff Snapshots**。
+2. 錄製一個記憶體堆疊快照。
+3. 點擊內容選單 `[⋮]` 以檢視所選 **Class** 的 **Instances** 數量。
+4. 選擇你要將單一實例儲存為主控台變數，或是將應用程式中目前所有存活的實例都儲存下來。
 
-![Screenshot showing how to browse the heap snapshots](/assets/images/docs/tools/devtools/browse-heap-snapshot.png){:width="100%"}
+![如何瀏覽堆疊快照的截圖](/assets/images/docs/tools/devtools/browse-heap-snapshot.png){:width="100%"}
 
-The Console screen displays both live and static
-inbound and outbound references, as well as field values:
+Console 螢幕會同時顯示動態與靜態的進出參考，以及欄位值：
 
-![Screenshot showing inbound and outbound references in Console](/assets/images/docs/tools/devtools/console-references.png){:width="100%"}
+![Console 中進出參考的截圖](/assets/images/docs/tools/devtools/console-references.png){:width="100%"}
 

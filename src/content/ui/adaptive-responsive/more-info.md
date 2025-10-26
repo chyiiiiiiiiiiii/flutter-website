@@ -1,50 +1,49 @@
 ---
-title: Additional resources
+title: 其他資源
 description: >-
-  Other resources that you might find useful
-  when writing adaptive apps.
-shortTitle: Learn
+  撰寫自適應應用程式時，
+  你可能會覺得有用的其他資源。
+shortTitle: 學習
 ---
 
-## Examples
+## 範例
 
-If you'd like to see how the adaptive and responsive
-concepts (as described in these pages) come together.
-check out the source code for the following apps:
+如果你想了解這些頁面中所描述的
+自適應（adaptive）與響應式（responsive）概念如何整合運作，
+可以參考以下應用程式的原始碼：
 
-* [Wonderous][]
-* [Flutter adaptive demo][]
+* [Wonderous][Wonderous]
+* [Flutter adaptive demo][Flutter adaptive demo]
 
 [Flutter adaptive demo]: {{site.github}}/gskinnerTeam/flutter-adaptive-demo
 [Wonderous]: {{site.github}}/gskinnerTeam/flutter-wonderous-app
 
-## Learn more about basic usability principles
+## 進一步了解基本可用性原則
 
-Of course, these pages don't constitute an
-exhaustive list of the things you might consider.
-The more operating systems, form factors,
-and input devices you support, the more difficult
-it becomes to spec out every permutation in design.
+當然，這些頁面並未詳盡列出
+你可能需要考慮的所有事項。
+你支援的作業系統、裝置型態（form factors）、
+以及輸入裝置越多，
+在設計上就越難詳列每一種排列組合的規格。
 
-Taking time to learn basic usability principles as a
-developer empowers you to make better decisions,
-reduces back-and-forth iterations with
-design during production, and results in
-improved productivity with better outcomes.
+身為開發者，花時間學習基本的可用性原則，
+能讓你做出更好的決策，
+減少與設計團隊在開發過程中的反覆溝通，
+並提升生產力與最終成果。
 
-Here are some resources that you might find useful:
+以下是一些你可能會覺得有用的資源：
 
-* [Android large screen guidelines][]
-* [Material guidelines on applying layout][]
-* [Material design for large screens][]
-* [Material guidelines on canonical layouts][]
-* [Build high quality apps (Android)][]
-* [UI design do's and don'ts (Apple)][]
-* [Human interface guidelines (Apple)][]
-* [Responsive design techniques (Microsoft)][]
-* [Machine sizes and breakpoints (Microsoft)][]
-* [How to build Adaptive UI with Flutter][],
-  a Google I/O 2024 video.
+* [Android large screen guidelines][Android large screen guidelines]
+* [Material guidelines on applying layout][Material guidelines on applying layout]
+* [Material design for large screens][Material design for large screens]
+* [Material guidelines on canonical layouts][Material guidelines on canonical layouts]
+* [Build high quality apps (Android)][Build high quality apps (Android)]
+* [UI design do's and don'ts (Apple)][UI design do's and don'ts (Apple)]
+* [Human interface guidelines (Apple)][Human interface guidelines (Apple)]
+* [Responsive design techniques (Microsoft)][Responsive design techniques (Microsoft)]
+* [Machine sizes and breakpoints (Microsoft)][Machine sizes and breakpoints (Microsoft)]
+* [How to build Adaptive UI with Flutter][How to build Adaptive UI with Flutter]，
+  Google I/O 2024 的一支影片。
 
 [Android large screen guidelines]: {{site.android-dev}}/docs/quality-guidelines/large-screen-app-quality
 [Build high quality apps (Android)]: {{site.android-dev}}/quality

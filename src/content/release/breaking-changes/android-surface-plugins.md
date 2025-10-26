@@ -1,62 +1,55 @@
 ---
-title: New APIs for Android plugins that render to a Surface
+title: 用於渲染至 Surface 的 Android 插件新 API
 description: >-
-  Adds a new API, SurfaceProducer, to the Android embedding API, which
-  opaquely handles the creation and management of a `Surface` for plugins.
-  For Impeller, use of this API is recommended.
+  在 Android 嵌入 API 中新增了一個名為 SurfaceProducer 的新 API，
+  可不透明地處理插件的 `Surface` 創建與管理。
+  對於 Impeller，建議使用此 API。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-The Android embedder for Flutter introduces a new API, [`SurfaceProducer`][],
-which allows plugins to render to a `Surface` without needing to manage what
-the backing implementation is. Plugins using the older
-[`createSurfaceTexture`][] API will continue to work with [Impeller][] after the
-_next_ stable release, but are recommended to migrate to the new API.
+Flutter 的 Android 嵌入層引入了一個新的 API，[`SurfaceProducer`][`SurfaceProducer`]，
+允許插件渲染至 `Surface`，而無需管理其底層實作。
+使用舊有 [`createSurfaceTexture`][`createSurfaceTexture`] API 的插件，在下個穩定版發佈後仍可與 [Impeller][Impeller] 搭配運作，
+但建議遷移至新 API。
 
-## Background
+## 背景
 
-An Android [`SurfaceTexture`][] is a backing implementation for a [`Surface`][]
-that uses an [OpenGLES][] texture as the backing store.
+Android 的 [`SurfaceTexture`][`SurfaceTexture`] 是 [`Surface`][`Surface`] 的底層實作，
+其使用 [OpenGLES][OpenGLES] 紋理作為底層儲存區。
 
-For example, a plugin might display frames from a _camera_ plugin:
+舉例來說，某個插件可能會顯示來自 _camera_ 插件的畫面：
 
 ![Flowchart](https://camo.githubusercontent.com/cdb52c5d371b4f1d5573b650a0eddb0871e5e8be1012d290e008f41bc71b2580/68747470733a2f2f736f757263652e616e64726f69642e636f6d2f7374617469632f646f63732f636f72652f67726170686963732f696d616765732f636f6e74696e756f75735f636170747572655f61637469766974792e706e67)
 
-In newer versions of the Android API (>= 29), Android introduced a
-backend-agnostic [`HardwareBuffer`][], which coincides with the minimum version
-that Flutter will attempt to use the [Vulkan][] renderer. The Android embedding
-API needed to be updated to support a more generic `Surface` creation API that
-doesn't rely on OpenGLES.
+在較新版本的 Android API（>= 29）中，Android 引入了一個
+與後端無關的 [`HardwareBuffer`][`HardwareBuffer`]，這也正好是 Flutter 嘗試使用 [Vulkan][Vulkan]
+渲染器的最低版本。為此，Android 嵌入 API 需要更新，以支援更通用的 `Surface`
+創建 API，不再依賴於 OpenGLES。
 
-## Migration guide
+## 遷移指南
 
-If you are using the older [`createSurfaceTexture`][] API, you should migrate to
-the new [`createSurfaceProducer`][] API. The new API is more flexible and allows
-the Flutter engine to opaquely pick the best implementation for the current
-platform and API level.
+如果你正在使用舊的 [`createSurfaceTexture`][`createSurfaceTexture`] API，建議遷移至
+新的 [`createSurfaceProducer`][`createSurfaceProducer`] API。新 API 更具彈性，允許 Flutter 引擎
+不透明地為當前平台與 API 等級選擇最佳實作。
 
-1. Instead of creating a `SurfaceTextureEntry`, create a `SurfaceProducer`:
+1. 請改為建立 `SurfaceProducer`，而非 `SurfaceTextureEntry`：
 
    ```java diff
    - TextureRegistry.SurfaceTextureEntry entry = textureRegistry.createSurfaceTexture();
    + TextureRegistry.SurfaceProducer producer = textureRegistry.createSurfaceProducer();
    ```
 
-1. Instead of creating a `new Surface(...)`, call [`getSurface()`][] on the
-   `SurfaceProducer`:
+1. 請改為在`SurfaceProducer`上呼叫 [`getSurface()`][`getSurface()`]，而不是建立`new Surface(...)`：
 
    ```java diff
    - Surface surface = new Surface(entry.surfaceTexture());
    + Surface surface = producer.getSurface();
    ```
 
-In order to conserve memory when the application is suspended in the background,
-Android and Flutter _may_ destroy a surface when it is no longer visible. To
-ensure that the surface is recreated when the application is resumed, you should
-use the provided [`setCallback`][] method to listen to surface lifecycle events:
+為了在應用程式於背景暫停時節省記憶體，Android 和 Flutter _可能_ 會在畫面不再可見時銷毀 surface（表面）。為了確保當應用程式回到前景時能正確重新建立 surface，你應該使用提供的 [`setCallback`][`setCallback`] 方法來監聽 surface 生命週期事件：
 
 ```java
 surfaceProducer.setCallback(
@@ -74,81 +67,65 @@ surfaceProducer.setCallback(
 );
 ```
 
-A full example of using this new API can be found in [PR 6989][] for the
-`video_player_android` plugin.
+可以在 [PR 6989][PR 6989] 中找到一個完整使用此新 API 的範例，該範例針對 `video_player_android` 插件。
 
 :::note
-In early versions of this API, the callback was named `onSurfaceCreated`, and
-was invoked even if the original surface was not destroyed. This has been fixed
-in the latest (pending 3.27) version of the API.
+在此 API 的早期版本中，回呼函式名稱為 `onSurfaceCreated`，且即使原始 surface 未被銷毀也會被呼叫。這個問題已在最新（即將於 3.27 版本釋出）API 中修正。
 :::
 
-## Note on camera previews
+## 關於相機預覽的注意事項
 
-If your plugin implements a camera preview, your migration might also require
-fixing the rotation of that preview. This is because `Surface`s produced by the
-`SurfaceProducer` might not contain the transformation information that Android
-libraries need to correctly rotate the preview automatically.
+如果你的插件實作了相機預覽功能，遷移時可能還需要修正預覽畫面的旋轉。這是因為由 `SurfaceProducer` 所產生的 `Surface` 可能不包含 Android 函式庫自動正確旋轉預覽所需的轉換資訊。
 
-In order to correct the rotation, you need to rotate the preview with
-respect to the camera sensor orientation and the device orientation according
-to the equation:
+為了修正旋轉，你需要根據相機感測器方向與裝置方向，依照下列公式對預覽畫面進行旋轉：
 
 ```plaintext
 rotation = (sensorOrientationDegrees - deviceOrientationDegrees * sign + 360) % 360
 ```
 
-where `deviceOrientationDegrees` is counterclockwise degrees and `sign` is 1 for
-front-facing cameras and -1 for back-facing cameras.
+其中 `deviceOrientationDegrees` 代表逆時針旋轉的角度，`sign` 則為 1 表示前置相機，-1 表示後置相機。
 
-To calculate this rotation,
+要計算這個旋轉角度時：
 
-- Use [`SurfaceProducer.handlesCropAndRotation`][] to check if the underlying
-  `Surface` handles rotation (if `false`, you may need to handle the rotation).
-- Retrieve the sensor orientation degrees by retrieving the value of
-  [`CameraCharacteristics.SENSOR_ORIENTATION`][].
-- Retrieve the device orientation degrees in one of the ways that the
-  [Android orientation calculation documentation][] details.
+- 使用 [`SurfaceProducer.handlesCropAndRotation`][`SurfaceProducer.handlesCropAndRotation`] 來檢查底層 `Surface` 是否處理了旋轉（如果 `false`，你可能需要自行處理旋轉）。
+- 取得感測器方向的角度，方法是讀取 [`CameraCharacteristics.SENSOR_ORIENTATION`][`CameraCharacteristics.SENSOR_ORIENTATION`] 的值。
+- 取得裝置方向的角度，可參考 [Android orientation calculation documentation][Android orientation calculation documentation] 中所述的任一方法。
 
-To apply this rotation, you can use a [`RotatedBox`][] widget.
+要套用這個旋轉，你可以使用 [`RotatedBox`][`RotatedBox`] 元件 (Widget)。
 
-For more information on this calculation, check out the
-[Android orientation calculation documentation][]. For a full example of making
-this fix, check out [this `camera_android_camerax` PR][].
+如需此計算的更多資訊，請參考 [Android orientation calculation documentation][Android orientation calculation documentation]。若需完整修正範例，請參考 [this `camera_android_camerax` PR][this `camera_android_camerax` PR]。
 
-## Timeline
+## 時程
 
-Landed in version: 3.22
+導入版本：3.22
 
 :::note
-This feature landed in the _previous_ version of the SDK but was non-functional;
-plugins that migrate to this API should set `3.24` as a minimum version constraint.
+此功能在 _前一個_ SDK 版本中已導入，但尚未能正常運作；遷移至此 API 的插件應將 `3.24` 設為最低版本限制。
 :::
 
-In stable release: 3.24
+穩定版：3.24
 
-In the upcoming stable release, 3.27, `onSurfaceCreated` is deprecated, and
-`onSurfaceAvailable` and `handlesCropAndRotation` are added.
+在即將推出的穩定版 3.27 中，`onSurfaceCreated` 將被棄用，並新增 `onSurfaceAvailable` 與 `handlesCropAndRotation`。
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-- [`SurfaceProducer`][]
-- [`createSurfaceProducer`][]
-- [`createSurfaceTexture`][]
+- [`SurfaceProducer`][`SurfaceProducer`]
+- [`createSurfaceProducer`][`createSurfaceProducer`]
+- [`createSurfaceTexture`][`createSurfaceTexture`]
 
-Relevant issues:
+相關議題：
 
-- [Issue 139702][]
-- [Issue 145930][]
+- [Issue 139702][Issue 139702]
+- [Issue 145930][Issue 145930]
 
-Relevant PRs:
+相關 PR：
 
-- [PR 51061][], where we test the new API in the engine tests.
-- [PR 6456][], where we migrate the `video_player` plugin to use the new API.
-- [PR 6461][], where we migrate the `camera_android` plugin to use the new API.
-- [PR 6989][], where we add a full example of using the new API in the `video_player_android` plugin.
+- [PR 51061][PR 51061]，在這裡我們於 engine 測試中測試了新 API。
+- [PR 6456][PR 6456]，在這裡我們將 `video_player` 插件遷移至新 API。
+- [PR 6461][PR 6461]，在這裡我們將 `camera_android` 插件遷移至新 API。
+- [PR 6989][PR 6989]，在這裡我們於 `video_player_android` 插件中新增了完整的新 API 使用範例。
 
 [Impeller]: /perf/impeller
 [OpenGLES]: https://www.khronos.org/opengles/

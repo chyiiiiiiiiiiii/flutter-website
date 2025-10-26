@@ -1,40 +1,36 @@
 ---
-title: Flutter for Xamarin.Forms developers
-description: Learn how to apply Xamarin.Forms developer knowledge when building Flutter apps.
+title: Flutter 給 Xamarin.Forms 開發者
+description: 學習如何將 Xamarin.Forms 開發經驗應用於 Flutter 應用程式開發。
 ---
 
 <?code-excerpt path-base="get-started/flutter-for/xamarin_devs"?>
 
-This document is meant for Xamarin.Forms developers
-looking to apply their existing knowledge
-to build mobile apps with Flutter.
-If you understand the fundamentals of the Xamarin.Forms framework,
-then you can use this document as a jump start to Flutter development.
+本文件適用於希望將現有知識應用於 Flutter 行動應用程式開發的 Xamarin.Forms 開發者。
+如果你已經了解 Xamarin.Forms 框架的基本原理，
+那麼本文件可以作為你快速入門 Flutter 開發的指南。
 
-Your Android and iOS knowledge and skill set
-are valuable when building with Flutter,
-because Flutter relies on the native operating system configurations,
-similar to how you would configure your native Xamarin.Forms projects.
-The Flutter Frameworks is also similar to how you create a single UI,
-that is used on multiple platforms.
+你在 Android 和 iOS 上的知識與技能，
+在使用 Flutter 開發時同樣非常有價值，
+因為 Flutter 也依賴於原生作業系統的設定，
+這與你在設定原生 Xamarin.Forms 專案時相似。
+Flutter 框架同樣提供了建立單一 UI 並可於多平台共用的方式。
 
-This document can be used as a cookbook by jumping around
-and finding questions that are most relevant to your needs.
+你可以將本文件當作食譜（cookbook）使用，
+根據自身需求跳著查閱最相關的問題。
 
-## Project setup
+## 專案設定
 
-### How does the app start?
+### 應用程式如何啟動？
 
-For each platform in Xamarin.Forms,
-you call the `LoadApplication` method,
-which creates a new application and starts your app.
+在 Xamarin.Forms 的每個平台中，
+你會呼叫 `LoadApplication` 方法，
+該方法會建立一個新的應用程式並啟動你的 App。
 
 ```csharp
 LoadApplication(new App());
 ```
 
-In Flutter, the default main entry point is
-`main` where you load your Flutter app.
+在 Flutter 中，預設的主進入點是 `main`，你可以在這裡載入你的 Flutter 應用程式。
 
 <?code-excerpt "lib/main.dart (main)"?>
 ```dart
@@ -43,8 +39,7 @@ void main() {
 }
 ```
 
-In Xamarin.Forms, you assign a `Page` to the
-`MainPage` property in the `Application` class.
+在 Xamarin.Forms 中，你會將 `Page` 指派給 `Application` 類別中的 `MainPage` 屬性。
 
 ```csharp
 public class App : Application
@@ -64,8 +59,8 @@ public class App : Application
 }
 ```
 
-In Flutter, "everything is a widget", even the application itself.
-The following example shows `MyApp`, a simple application `Widget`.
+在 Flutter 中，「一切皆為元件（Widget）」，甚至連應用程式本身也是如此。
+以下範例展示了 `MyApp`，這是一個簡單的應用程式 `Widget`。
 
 <?code-excerpt "lib/main.dart (my-app)"?>
 ```dart
@@ -82,27 +77,26 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-### How do you create a page?
+### 如何建立一個頁面？
 
-Xamarin.Forms has many types of pages;
-`ContentPage` is the most common.
-In Flutter, you specify an application widget that holds your root page.
-You can use a [`MaterialApp`][] widget, which supports [Material Design][],
-or you can use a [`CupertinoApp`][] widget, which supports an iOS-style app,
-or you can use the lower level [`WidgetsApp`][],
-which you can customize in any way you want.
+Xamarin.Forms 有多種類型的頁面；`ContentPage` 是最常見的。
+在 Flutter 中，你需要指定一個應用程式元件（Widget）來承載你的根頁面。
+你可以使用 [`MaterialApp`][`MaterialApp`] 元件（Widget），它支援 [Material Design][Material Design]，
+或者你可以使用 [`CupertinoApp`][`CupertinoApp`] 元件（Widget），它支援 iOS 風格的應用程式，
+又或者你可以使用較低階的 [`WidgetsApp`][`WidgetsApp`]，
+你可以依照自己的需求進行任何自訂。
 
 [`CupertinoApp`]: {{site.api}}/flutter/cupertino/CupertinoApp-class.html
 [`MaterialApp`]: {{site.api}}/flutter/material/MaterialApp-class.html
 [`WidgetsApp`]: {{site.api}}/flutter/widgets/WidgetsApp-class.html
 
-The following code defines the home page, a stateful widget.
-In Flutter, all widgets are immutable,
-but two types of widgets are supported: _Stateful_ and _Stateless_.
-Examples of a stateless widget are titles, icons, or images.
+以下程式碼定義了一個首頁，這是一個有狀態元件（Stateful widget）。
+在 Flutter 中，所有元件（Widgets）都是不可變的（immutable），
+但支援兩種類型的元件：_有狀態_（Stateful）和_無狀態_（Stateless）。
+無狀態元件（Stateless widget）的例子包括標題、圖示或圖片。
 
-The following example uses `MaterialApp`,
-which holds its root page in the `home` property.
+以下範例使用 `MaterialApp`，
+它將其根頁面存放在 `home` 屬性中。
 
 <?code-excerpt "lib/page.dart (my-app)"?>
 ```dart
@@ -120,13 +114,12 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-From here, your actual first page is another `Widget`,
-in which you create your state.
+從這裡開始，你實際的第一個頁面是一個`Widget`，
+在這裡你會建立你的狀態（state）。
 
-A _Stateful_ widget, such as `MyHomePage` below, consists of two parts.
-The first part, which is itself immutable, creates a `State` object
-that holds the state of the object. The `State` object persists over
-the life of the widget.
+一個_有狀態_元件（Stateful widget），例如下方的`MyHomePage`，由兩個部分組成。
+第一部分本身是不可變的，會建立一個`State`物件，
+用來保存該物件的狀態。`State`物件會在元件（Widget）的生命週期內持續存在。
 
 <?code-excerpt "lib/page.dart (my-home-page)"?>
 ```dart
@@ -140,13 +133,10 @@ class MyHomePage extends StatefulWidget {
 }
 ```
 
-The `State` object implements the `build()` method for the stateful widget.
+`State` 物件為狀態型元件（StatefulWidget）實作了 `build()` 方法。
 
-When the state of the widget tree changes, call `setState()`,
-which triggers a build of that portion of the UI.
-Make sure to call `setState()` only when necessary,
-and only on the part of the widget tree that has changed,
-or it can result in poor UI performance.
+當元件樹（widget tree）的狀態發生變化時，請呼叫 `setState()`，這會觸發該部分 UI 的重建（build）。
+請務必僅在必要時呼叫 `setState()`，而且只針對已變更的元件樹部分，否則可能導致 UI 效能不佳。
 
 <?code-excerpt "lib/page.dart (my-home-page-state)"?>
 ```dart
@@ -191,89 +181,88 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 ```
 
-In Flutter, the UI (also known as widget tree), is immutable,
-meaning you can't change its state once it's built.
-You change fields in your `State` class, then call `setState()`
-to rebuild the entire widget tree again.
+在 Flutter 中，UI（也稱為元件樹，widget tree）是不可變的，  
+這代表一旦建立後，你無法直接改變其狀態。  
+你需要在你的 `State` 類別中變更欄位，然後呼叫 `setState()`  
+以重新建立整個元件樹。
 
-This way of generating UI is different from Xamarin.Forms,
-but there are many benefits to this approach.
+這種產生 UI 的方式與 Xamarin.Forms 不同，  
+但這種做法有許多優點。
 
-## Views
+## 視圖（Views）
 
-### What is the equivalent of a Page or Element in Flutter?
+### Flutter 中對應 Page 或 Element 的是什麼？
 
 :::secondary
-How is react-style, or _declarative_, programming different from the
-traditional imperative style?
-For a comparison, see [Introduction to declarative UI][].
+React 風格或稱「宣告式」（declarative）程式設計，  
+與傳統的命令式（imperative）風格有何不同？  
+想了解比較，請參考 [Introduction to declarative UI][Introduction to declarative UI]。
 :::
 
-`ContentPage`, `TabbedPage`, `FlyoutPage` are all types of pages
-you might use in a Xamarin.Forms application.
-These pages would then hold `Element`s to display the various controls.
-In Xamarin.Forms an `Entry` or `Button` are examples of an `Element`.
+`ContentPage`、`TabbedPage`、`FlyoutPage` 都是你可能在 Xamarin.Forms 應用程式中使用的頁面類型。  
+這些頁面會包含 `Element` 來顯示各種控制項。  
+在 Xamarin.Forms 中，`Entry` 或 `Button` 是 `Element` 的例子。
 
-In Flutter, almost everything is a widget.
-A `Page`, called a `Route` in Flutter, is a widget.
-Buttons, progress bars, and animation controllers are all widgets.
-When building a route, you create a widget tree.
+在 Flutter 中，幾乎所有東西都是元件（Widget）。  
+`Page`，在 Flutter 中稱為 `Route`，也是一種元件。  
+按鈕、進度條、動畫控制器等全都是元件。  
+當你建立一個路由（Route）時，你會建立一個元件樹。
 
-Flutter includes the [Material Components][] library.
-These are widgets that implement the [Material Design guidelines][].
-Material Design is a flexible design system
-[optimized for all platforms][], including iOS.
+Flutter 內建 [Material 元件 (Material components)][Material Components] 函式庫。  
+這些元件實作了 [Material Design 指南][Material Design guidelines]。  
+Material Design 是一套彈性的設計系統，  
+[針對所有平台進行最佳化][optimized for all platforms]，包括 iOS。
 
-But Flutter is flexible and expressive enough
-to implement any design language.
-For example, on iOS, you can use the [Cupertino widgets][]
-to produce an interface that looks like [Apple's iOS design language][].
+但 Flutter 本身非常靈活且具表現力，  
+能實現任何設計語言。  
+例如，在 iOS 上，你可以使用 [Cupertino 元件 (Widgets)][Cupertino widgets]  
+來打造符合 [Apple 的 iOS 設計語言][Apple's iOS design language] 的介面。
 
-### How do I update widgets?
+### 如何更新元件（Widgets）？
 
-In Xamarin.Forms, each `Page` or `Element` is a stateful class,
-that has properties and methods.
-You update your `Element` by updating a property,
-and this is propagated down to the native control.
+在 Xamarin.Forms 中，每個 `Page` 或 `Element` 都是有狀態的類別，  
+擁有屬性與方法。  
+你可以透過更新屬性來更新你的 `Element`，  
+這個變更會被傳遞到原生控制項。
 
-In Flutter, `Widget`s are immutable and you can't directly update them
-by changing a property, instead you have to work with the widget's state.
+在 Flutter 中，`Widget` 是不可變的，  
+你不能直接透過改變屬性來更新它們，  
+而是必須與元件的狀態（state）一起運作。
 
-This is where the concept of Stateful vs Stateless widgets comes from.
-A `StatelessWidget` is just what it sounds like&mdash;
-a widget with no state information.
+這就是 Stateful 與 Stateless 元件概念的由來。  
+`StatelessWidget` 就如其名——  
+是一個沒有狀態資訊的元件。
 
-`StatelessWidgets` are useful when the part of the user interface
-you are describing doesn't depend on anything
-other than the configuration information in the object.
+`StatelessWidgets` 很適合用在你描述的 UI 部分  
+只依賴於物件中的組態資訊時。
 
-For example, in Xamarin.Forms, this is similar
-to placing an `Image` with your logo.
-The logo is not going to change during runtime,
-so use a `StatelessWidget` in Flutter.
+舉例來說，在 Xamarin.Forms 中，  
+這類似於放置一個帶有你 Logo 的 `Image`。  
+Logo 在執行期間不會改變，  
+因此在 Flutter 中應使用 `StatelessWidget`。
 
-If you want to dynamically change the UI based on data received
-after making an HTTP call or a user interaction,
-then you have to work with `StatefulWidget`
-and tell the Flutter framework that
-the widget's `State` has been updated,
-so it can update that widget.
+如果你希望根據 HTTP 請求回應的資料或使用者互動，  
+動態改變 UI，  
+那你就必須使用 `StatefulWidget`，  
+並告訴 Flutter 框架  
+該元件的 `State` 已經更新，  
+以便它能更新該元件。
 
-The important thing to note here is at the core
-both stateless and stateful widgets behave the same.
-They rebuild every frame, the difference is
-the `StatefulWidget` has a `State` object
-that stores state data across frames and restores it.
+這裡要注意的重要一點是，  
+無論是無狀態還是有狀態元件，核心行為都一樣。  
+它們每一幀都會重建，差別在於  
+`StatefulWidget` 會有一個 `State` 物件  
+用來在各幀間儲存狀態資料並恢復它。
 
-If you are in doubt, then always remember this rule: if a widget changes
-(because of user interactions, for example) it's stateful.
-However, if a widget reacts to change, the containing parent widget can
-still be stateless if it doesn't itself react to change.
+如果你不確定，請牢記這個原則：  
+如果元件會改變（例如因為使用者互動），它就是有狀態的。  
+但如果元件只是對變化做出反應，  
+而其父元件本身不會因變化而改變，那父元件仍然可以是無狀態的。
 
-The following example shows how to use a `StatelessWidget`.
-A common `StatelessWidget` is the `Text` widget.
-If you look at the implementation of the `Text` widget
-you'll find it subclasses `StatelessWidget`.
+以下範例展示如何使用 `StatelessWidget`。  
+一個常見的 `StatelessWidget` 是 `Text` 元件。  
+如果你查看 `Text` 元件的實作，  
+你會發現它是繼承自 `StatelessWidget`。
 
 <?code-excerpt "lib/views.dart (text)" replace="/return //g"?>
 ```dart
@@ -283,15 +272,15 @@ const Text(
 );
 ```
 
-As you can see, the `Text` widget has no state information associated with it,
-it renders what is passed in its constructors and nothing more.
+如你所見，`Text` 元件（Widget）本身沒有任何狀態資訊與其關聯，
+它只會根據建構函式中傳入的內容進行渲染，除此之外不會有其他行為。
 
-But, what if you want to make "I Like Flutter" change dynamically,
-for example, when clicking a `FloatingActionButton`?
+但如果你希望「I Like Flutter」這段文字能夠動態變化，
+例如，當點擊`FloatingActionButton`時改變內容，該怎麼做呢？
 
-To achieve this, wrap the `Text` widget in a `StatefulWidget`
-and update it when the user clicks the button,
-as shown in the following example:
+要達成這個目的，可以將`Text`元件包裹在`StatefulWidget`中，
+並在使用者點擊按鈕時進行更新，
+如下方範例所示：
 
 <?code-excerpt "lib/views_stateful.dart"?>
 ```dart
@@ -344,13 +333,12 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-### How do I lay out my widgets? What is the equivalent of an XAML file?
+### 我該如何排版元件（Widgets）？有什麼對應於 XAML 檔案的東西？
 
-In Xamarin.Forms, most developers write layouts in XAML,
-though sometimes in C#.
-In Flutter, you write your layouts with a widget tree in code.
+在 Xamarin.Forms 中，大多數開發者會使用 XAML 來撰寫版面配置，有時則會用 C#。
+在 Flutter 中，你會透過在程式碼中撰寫元件樹（widget tree）來建立版面配置。
 
-The following example shows how to display a simple widget with padding:
+以下範例展示如何顯示一個帶有間距（padding）的簡單元件：
 
 <?code-excerpt "lib/padding.dart (padding)"?>
 ```dart
@@ -371,21 +359,15 @@ Widget build(BuildContext context) {
 }
 ```
 
-You can view the layouts that Flutter has to offer in the
-[widget catalog][].
+你可以在 [widget catalog][widget catalog] 中查看 Flutter 所提供的各種版面配置元件 (Layout widgets)。
 
-### How do I add or remove an Element from my layout?
+### 如何在版面配置中新增或移除元素？
 
-In Xamarin.Forms, you had to remove or add an `Element` in code.
-This involved either setting the `Content` property or calling
-`Add()` or `Remove()` if it was a list.
+在 Xamarin.Forms 中，你需要在程式碼中新增或移除 `Element`。這通常涉及設定 `Content` 屬性，或者如果是清單的話，則呼叫 `Add()` 或 `Remove()`。
 
-In Flutter, because widgets are immutable there is no direct equivalent.
-Instead, you can pass a function to the parent that returns a widget,
-and control that child's creation with a boolean flag.
+在 Flutter 中，由於元件（Widget）是不可變的，因此沒有直接對應的做法。相反地，你可以將一個回傳元件（Widget）的函式傳遞給父元件，並透過布林旗標來控制該子元件的建立。
 
-The following example shows how to toggle between two widgets
-when the user clicks the `FloatingActionButton`:
+以下範例展示了當使用者點擊 `FloatingActionButton` 時，如何在兩個元件之間切換顯示：
 
 <?code-excerpt "lib/views.dart (add-remove-element)"?>
 ```dart
@@ -437,47 +419,36 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-### How do I animate a widget?
+### 如何為元件（Widget）加入動畫（Animation）？
 
-In Xamarin.Forms, you create simple animations using ViewExtensions that
-include methods such as `FadeTo` and `TranslateTo`.
-You would use these methods on a view
-to perform the required animations.
+在 Xamarin.Forms 中，你可以使用 ViewExtensions 來建立簡單的動畫，這些擴充方法包含 `FadeTo` 和 `TranslateTo` 等。
+你可以在某個 view 上使用這些方法，以執行所需的動畫效果。
 
 ```xml
 <Image Source="{Binding MyImage}" x:Name="myImage" />
 ```
 
-Then in code behind, or a behavior, this would fade in the image,
-over a 1-second period.
+然後在後端程式碼（code behind）或行為（behavior）中，這將會在 1 秒的時間內淡入該圖片。
 
 ```csharp
 myImage.FadeTo(0, 1000);
 ```
 
-In Flutter, you animate widgets using the animation library
-by wrapping widgets inside an animated widget.
-Use an `AnimationController`, which is an `Animation<double>`
-that can pause, seek, stop and reverse the animation.
-It requires a `Ticker` that signals when vsync happens,
-and produces a linear interpolation between 0 and 1
-on each frame while it's running.
-You then create one or more`Animation`s and attach them to the controller.
+在 Flutter 中，你可以使用動畫函式庫來為元件添加動畫效果，方法是將元件包裹在一個動畫元件（animated widget）內。
 
-For example, you might use `CurvedAnimation`
-to implement an animation along an interpolated curve.
-In this sense, the controller is the "master" source of the animation progress
-and the `CurvedAnimation` computes the curve
-that replaces the controller's default linear motion.
-Like widgets, animations in Flutter work with composition.
+請使用 `AnimationController`，它是一個可以暫停、快轉、停止和反轉動畫的 `Animation<double>`。  
+它需要一個 `Ticker`，這個物件會在 vsync 發生時發出訊號，並且在動畫執行期間，每一幀都會產生 0 到 1 之間的線性內插值。
 
-When building the widget tree, you assign the `Animation`
-to an animated property of a widget,
-such as the opacity of a `FadeTransition`,
-and tell the controller to start the animation.
+接下來，你可以建立一個或多個 `Animation`，並將它們附加到控制器上。
 
-The following example shows how to write a `FadeTransition` that fades
-the widget into a logo when you press the `FloatingActionButton`:
+例如，你可以使用 `CurvedAnimation` 來實現沿著內插曲線的動畫。  
+在這個意義上，控制器是動畫進度的「主」來源，而 `CurvedAnimation` 則計算取代控制器預設線性運動的曲線。
+
+就像元件一樣，Flutter 中的動畫也是透過組合（composition）來運作的。
+
+當你建立元件樹（widget tree）時，你可以將 `Animation` 指派給元件的動畫屬性，例如 `FadeTransition` 的透明度，然後告訴控制器啟動動畫。
+
+以下範例展示如何撰寫一個 `FadeTransition`，當你按下 `FloatingActionButton` 時，讓元件淡入顯示 logo：
 
 <?code-excerpt "lib/animation.dart"?>
 ```dart
@@ -545,22 +516,17 @@ class _MyFadeTest extends State<MyFadeTest> with TickerProviderStateMixin {
 }
 ```
 
-For more information, see [Animation & Motion widgets][],
-the [Animations tutorial][], and the [Animations overview][].
+如需更多資訊，請參閱[動畫與動態元件 (Animation & Motion widgets)][Animation & Motion widgets]、[動畫教學 (Animations tutorial)][Animations tutorial]，以及[動畫總覽 (Animations overview)][Animations overview]。
 
-### How do I draw/paint on the screen?
+### 如何在螢幕上繪製/繪畫？
 
-Xamarin.Forms never had a built-in way to draw directly on the screen.
-Many would use SkiaSharp, if they needed a custom image drawn.
-In Flutter, you have direct access to the Skia Canvas
-and can easily draw on screen.
+Xamarin.Forms 並沒有內建直接在螢幕上繪製的方式。
+如果需要自訂圖像，許多人會使用 SkiaSharp。
+在 Flutter 中，你可以直接存取 Skia Canvas，並且能輕鬆地在螢幕上繪製。
 
-Flutter has two classes that help you draw to the canvas: `CustomPaint`
-and `CustomPainter`, the latter of which implements your algorithm to draw to
-the canvas.
+Flutter 提供兩個協助你在 canvas 上繪製的類別：`CustomPaint` 和 `CustomPainter`，其中後者實作你在 canvas 上繪製的演算法。
 
-To learn how to implement a signature painter in Flutter,
-see Collin's answer on [Custom Paint][].
+若想了解如何在 Flutter 中實作簽名繪製器，請參考 Collin 在[自訂繪製 (Custom Paint)][Custom Paint]的回答。
 
 [Custom Paint]: {{site.so}}/questions/46241071/create-signature-area-for-mobile-app-in-dart-flutter
 
@@ -637,28 +603,27 @@ class SignaturePainter extends CustomPainter {
 }
 ```
 
-### Where is the widget's opacity?
+### 元件的透明度在哪裡？
 
-On Xamarin.Forms, all `VisualElement`s have an Opacity.
-In Flutter, you need to wrap a widget in an
-[`Opacity` widget][] to accomplish this.
+在 Xamarin.Forms 中，所有的 `VisualElement` 都有 Opacity 屬性。
+在 Flutter 中，若要達到相同效果，你需要將元件（Widget）包裹在
+[`Opacity` 元件（Widget）][`Opacity` widget] 中。
 
-### How do I build custom widgets?
+### 如何建立自訂元件（Widget）？
 
-In Xamarin.Forms, you typically subclass `VisualElement`,
-or use a pre-existing `VisualElement`, to override and
-implement methods that achieve the desired behavior.
+在 Xamarin.Forms 中，你通常會繼承 `VisualElement`，
+或使用現有的 `VisualElement`，以覆寫和
+實作方法來達到你想要的行為。
 
-In Flutter, build a custom widget by [composing][]
-smaller widgets (instead of extending them).
-It is somewhat similar to implementing a custom control
-based off a `Grid` with numerous `VisualElement`s added in,
-while extending with custom logic.
+在 Flutter 中，建立自訂元件（Widget）時，通常是透過[組合][composing]
+較小的元件（Widget）（而非繼承它們）。
+這有點類似於以 `Grid` 為基礎，加入多個 `VisualElement`，
+並擴充自訂邏輯來實作自訂控制項。
 
-For example, how do you build a `CustomButton`
-that takes a label in the constructor?
-Create a CustomButton that composes a `ElevatedButton`
-with a label, rather than by extending `ElevatedButton`:
+舉例來說，若要建立一個
+在建構子中接收標籤（label）的 `CustomButton`，
+你可以建立一個 CustomButton，並組合一個帶有標籤的 `ElevatedButton`，
+而不是繼承 `ElevatedButton`：
 
 <?code-excerpt "lib/custom_button.dart (custom-button)"?>
 ```dart
@@ -674,7 +639,7 @@ class CustomButton extends StatelessWidget {
 }
 ```
 
-Then use `CustomButton`, just as you'd use any other Flutter widget:
+然後就可以像使用其他 Flutter 元件（Widgets）一樣使用 `CustomButton`：
 
 <?code-excerpt "lib/custom_button.dart (use-custom-button)"?>
 ```dart
@@ -684,31 +649,22 @@ Widget build(BuildContext context) {
 }
 ```
 
-## Navigation
+## 導覽
 
-### How do I navigate between pages?
+### 如何在頁面之間進行導覽？
 
-In Xamarin.Forms, the `NavigationPage` class
-provides a hierarchical navigation experience
-where the user is able to navigate through pages,
-forwards and backwards.
+在 Xamarin.Forms 中，`NavigationPage` 類別提供了階層式的導覽體驗，讓使用者能夠在頁面之間前進與返回。
 
-Flutter has a similar implementation,
-using a `Navigator` and `Routes`.
-A `Route` is an abstraction for a `Page` of an app,
-and a `Navigator` is a [widget][] that manages routes.
+Flutter 也有類似的實作，使用 `Navigator` 和 `Routes`。`Route` 是應用程式中 `Page` 的抽象，而 `Navigator` 則是一個管理路由的 [元件 (Widget)][widget]。
 
-A route roughly maps to a `Page`.
-The navigator works in a similar way to the Xamarin.Forms `NavigationPage`,
-in that it can `push()` and `pop()` routes depending on
-whether you want to navigate to, or back from, a view.
+一個 route 大致上對應到 `Page`。Navigator 的運作方式與 Xamarin.Forms 的 `NavigationPage` 類似，可以根據你想要前往或返回某個畫面，`push()` 或 `pop()` 路由。
 
-To navigate between pages, you have a couple options:
+若要在頁面之間導覽，你有幾種選擇：
 
-* Specify a `Map` of route names. (`MaterialApp`)
-* Directly navigate to a route. (`WidgetsApp`)
+* 指定一個 `Map` 的路由名稱。（`MaterialApp`）
+* 直接導覽至某個路由。（`WidgetsApp`）
 
-The following example builds a `Map`.
+以下範例建立了一個 `Map`。
 
 <?code-excerpt "lib/navigation.dart (main)"?>
 ```dart
@@ -726,71 +682,67 @@ void main() {
 }
 ```
 
-Navigate to a route by pushing its name to the `Navigator`.
+透過將其名稱推送到`Navigator`，即可導向至指定的路由（Route）。
 
 <?code-excerpt "lib/navigation.dart (push-named)"?>
 ```dart
 Navigator.of(context).pushNamed('/b');
 ```
 
-The `Navigator` is a stack that manages your app's routes.
-Pushing a route to the stack moves to that route.
-Popping a route from the stack, returns to the previous route.
-This is done by awaiting on the `Future` returned by `push()`.
+`Navigator` 是一個管理應用程式路由的堆疊（stack）。
+將路由推入堆疊時，會切換到該路由。
+從堆疊中彈出（pop）一個路由時，則會返回到前一個路由。
+這可以透過等待 `push()` 回傳的 `Future` 來完成。
 
-`async`/`await` is very similar to the .NET implementation
-and is explained in more detail in [Async UI][].
+`async`/`await` 與 .NET 的實作非常相似，
+並在 [Async UI][Async UI] 中有更詳細的說明。
 
-For example, to start a `location` route
-that lets the user select their location,
-you might do the following:
+例如，若要啟動一個讓使用者選擇其位置的 `location` 路由，
+你可以這樣做：
 
 <?code-excerpt "lib/navigation.dart (await)"?>
 ```dart
 Object? coordinates = await Navigator.of(context).pushNamed('/location');
 ```
 
-And then, inside your 'location' route, once the user has selected their
-location, pop the stack with the result:
+然後，在你的 `location` 路由內，當使用者選擇完他們的位置後，使用帶有結果的 pop 將堆疊彈出：
 
 <?code-excerpt "lib/navigation.dart (pop-location)"?>
 ```dart
 Navigator.of(context).pop({'lat': 43.821757, 'long': -79.226392});
 ```
 
-### How do I navigate to another app?
+### 如何導向到另一個應用程式？
 
-In Xamarin.Forms, to send the user to another application,
-you use a specific URI scheme, using `Device.OpenUrl("mailto://")`.
+在 Xamarin.Forms 中，若要將使用者導向到另一個應用程式，
+你可以使用特定的 URI scheme，並透過 `Device.OpenUrl("mailto://")` 來實現。
 
-To implement this functionality in Flutter,
-create a native platform integration, or use an [existing plugin][],
-such as[`url_launcher`][], available with many other packages on [pub.dev][].
+若要在 Flutter 中實作這個功能，
+你可以建立原生平台整合，或使用[現有的套件][existing plugin]，
+例如[`url_launcher`][`url_launcher`]，這類套件可在 [pub.dev][pub.dev] 上找到許多其他選擇。
 
-## Async UI
+## 非同步 UI
 
-### What is the equivalent of Device.BeginOnMainThread() in Flutter?
+### Flutter 中有什麼對應於 Device.BeginOnMainThread() 的功能？
 
-Dart has a single-threaded execution model,
-with support for `Isolate`s (a way to run Dart codes on another thread),
-an event loop, and asynchronous programming.
-Unless you spawn an `Isolate`,
-your Dart code runs in the main UI thread
-and is driven by an event loop.
+Dart 採用單執行緒執行模型，
+並支援 `Isolate`（可讓 Dart 程式碼在另一個執行緒上執行），
+事件迴圈，以及非同步程式設計。
+除非你啟動一個 `Isolate`，
+否則 Dart 程式碼都會在主 UI 執行緒上執行，
+並由事件迴圈驅動。
 
-Dart's single-threaded model doesn't mean you need to run everything
-as a blocking operation that causes the UI to freeze.
-Much like Xamarin.Forms, you need to keep the UI thread free.
-You would use `async`/`await` to perform tasks,
-where you must wait for the response.
+Dart 的單執行緒模型並不代表你需要將所有操作都設為阻塞式，
+導致 UI 停滯。
+和 Xamarin.Forms 類似，你需要保持 UI 執行緒的流暢。
+你可以使用 `async`/`await` 來執行需要等待回應的任務。
 
-In Flutter, use the asynchronous facilities that the Dart language provides,
-also named `async`/`await`, to perform asynchronous work.
-This is very similar to C# and should be very easy to use
-for any Xamarin.Forms developer.
+在 Flutter 中，請使用 Dart 語言所提供的非同步功能，
+同樣稱為 `async`/`await`，來處理非同步作業。
+這與 C# 的做法非常類似，對於任何 Xamarin.Forms 開發者來說都很容易上手。
 
-For example, you can run network code without causing the UI to hang by
-using `async`/`await` and letting Dart do the heavy lifting:
+舉例來說，你可以透過 `async`/`await` 執行網路程式碼，
+讓 Dart 處理繁重的工作，避免 UI 停滯：
 
 <?code-excerpt "lib/data.dart (load-data)"?>
 ```dart
@@ -803,12 +755,12 @@ Future<void> loadData() async {
 }
 ```
 
-Once the awaited network call is done,
-update the UI by calling `setState()`,
-which triggers a rebuild of the widget subtree and updates the data.
+當等待的網路呼叫完成後，
+請呼叫 `setState()` 來更新 UI，
+這會觸發元件（Widget）子樹的重建並更新資料。
 
-The following example loads data asynchronously
-and displays it in a `ListView`:
+以下範例會以非同步方式載入資料，
+並將其顯示在 `ListView` 中：
 
 <?code-excerpt "lib/data.dart"?>
 ```dart
@@ -876,28 +828,15 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-Refer to the next section for more information
-on doing work in the background,
-and how Flutter differs from Android.
+如需有關在背景執行工作的更多資訊，以及 Flutter 與 Android 的差異，請參考下一節。
 
-### How do you move work to a background thread?
+### 如何將工作移至背景執行緒？
 
-Since Flutter is single threaded and runs an event loop,
-you don't have to worry about thread management
-or spawning background threads.
-This is very similar to Xamarin.Forms.
-If you're doing I/O-bound work, such as disk access or a network call,
-then you can safely use `async`/`await` and you're all set.
+由於 Flutter 採用單執行緒並運行事件迴圈，你無需擔心執行緒管理或自行產生背景執行緒。這點與 Xamarin.Forms 非常相似。如果你正在執行 I/O 密集型工作，例如磁碟存取或網路呼叫，那麼你可以安全地使用 `async`/`await`，就可以完成需求。
 
-If, on the other hand, you need to do computationally intensive work
-that keeps the CPU busy,
-you want to move it to an `Isolate` to avoid blocking the event loop,
-like you would keep _any_ sort of work out of the main thread.
-This is similar to when you move things to a different
-thread via `Task.Run()` in Xamarin.Forms.
+另一方面，如果你需要執行會大量佔用 CPU 的運算密集型工作，則應該將其移至 `Isolate`，以避免阻塞事件迴圈，就像你會將任何類型的工作移出主執行緒一樣。這與你在 Xamarin.Forms 中透過 `Task.Run()` 將工作移至不同執行緒的做法相似。
 
-For I/O-bound work, declare the function as an `async` function,
-and `await` on long-running tasks inside the function:
+對於 I/O 密集型工作，請將該函式宣告為 `async` 函式，並在函式內對長時間執行的任務使用 `await`：
 
 <?code-excerpt "lib/data.dart (load-data)"?>
 ```dart
@@ -910,22 +849,13 @@ Future<void> loadData() async {
 }
 ```
 
-This is how you would typically do network or database calls,
-which are both I/O operations.
+這通常是你進行網路或資料庫呼叫的方式，這兩者都屬於 I/O 操作。
 
-However, there are times when you might be processing
-a large amount of data and your UI hangs.
-In Flutter, use `Isolate`s to take advantage of multiple CPU cores
-to do long-running or computationally intensive tasks.
+然而，有時你可能需要處理大量資料，導致 UI 停滯。在 Flutter 中，可以使用 `Isolate` 來善用多核心 CPU，執行長時間運算或高計算量的任務。
 
-Isolates are separate execution threads that
-do not share any memory with the main execution memory heap.
-This is a difference between `Task.Run()`.
-This means you can't access variables from the main thread,
-or update your UI by calling `setState()`.
+Isolate（隔離區）是獨立的執行緒，與主執行緒的記憶體堆完全不共享。這點與 `Task.Run()` 有所不同。這代表你無法從主執行緒存取變數，也不能透過呼叫 `setState()` 來更新 UI。
 
-The following example shows, in a simple isolate,
-how to share data back to the main thread to update the UI.
+以下範例展示如何在一個簡單的 isolate 中，將資料傳回主執行緒以更新 UI。
 
 <?code-excerpt "lib/isolates.dart (simple-isolate)"?>
 ```dart
@@ -969,14 +899,10 @@ Future<List<Map<String, dynamic>>> sendReceive(SendPort port, String msg) {
 }
 ```
 
-Here, `dataLoader()` is the `Isolate` that runs in
-its own separate execution thread.
-In the isolate, you can perform more CPU intensive
-processing (parsing a big JSON, for example),
-or perform computationally intensive math,
-such as encryption or signal processing.
+在這裡，`dataLoader()` 是在自己獨立執行緒中運行的 `Isolate`。  
+在該 isolate 中，你可以執行更耗費 CPU 的處理（例如解析大型 JSON），或者進行計算密集型的數學運算，例如加密或訊號處理。
 
-You can run the full example below:
+你可以執行以下完整範例：
 
 <?code-excerpt "lib/isolates.dart"?>
 ```dart
@@ -1094,24 +1020,22 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-### How do I make network requests?
+### 如何進行網路請求？
 
-In Xamarin.Forms you would use `HttpClient`.
-Making a network call in Flutter is easy
-when you use the popular [`http` package][].
-This abstracts away a lot of the networking
-that you might normally implement yourself,
-making it simple to make network calls.
+在 Xamarin.Forms 中，你會使用 `HttpClient`。
+在 Flutter 中，當你使用熱門的 [`http` 套件][`http` package] 時，進行網路呼叫變得非常簡單。
+這個套件幫你抽象化了許多原本需要自行實作的網路處理，
+讓你可以輕鬆地進行網路呼叫。
 
-To use the `http` package, add it to your dependencies in `pubspec.yaml`:
+要使用 `http` 套件，請將其加入 `pubspec.yaml` 的 dependencies 中：
 
 ```yaml
 dependencies:
   http: ^1.4.0
 ```
 
-To make a network request,
-call `await` on the `async` function `http.get()`:
+要發送網路請求，
+請在 `async` 函式 `http.get()` 上呼叫 `await`：
 
 <?code-excerpt "lib/data.dart (load-data)"?>
 ```dart
@@ -1124,21 +1048,21 @@ Future<void> loadData() async {
 }
 ```
 
-### How do I show the progress for a long-running task?
+### 如何顯示長時間執行任務的進度？
 
-In Xamarin.Forms you would typically create a loading indicator,
-either directly in XAML or through a 3rd party plugin such as AcrDialogs.
+在 Xamarin.Forms 中，你通常會建立一個載入指示器（loading indicator），
+可以直接在 XAML 中建立，或是透過第三方套件（如 AcrDialogs）來實現。
 
-In Flutter, use a `ProgressIndicator` widget.
-Show the progress programmatically by controlling
-when it's rendered through a boolean flag.
-Tell Flutter to update its state before your long-running task starts,
-and hide it after it ends.
+在 Flutter 中，請使用 `ProgressIndicator` 元件（Widget）。
+你可以透過控制布林旗標（boolean flag）來決定何時渲染該元件，
+以程式化方式顯示進度。
+在長時間任務開始前，通知 Flutter 更新其狀態來顯示進度指示器，
+任務結束後則隱藏它。
 
-In the example below, the build function is separated into three different
-functions. If `showLoadingDialog` is `true`
-(when `widgets.length == 0`), then render the `ProgressIndicator`.
-Otherwise, render the `ListView` with the data returned from a network call.
+在下方範例中，build 函式被拆分成三個不同的函式。
+如果 `showLoadingDialog` 是 `true`
+（當 `widgets.length == 0` 時），就渲染 `ProgressIndicator`。
+否則，則用從網路呼叫取得的資料渲染 `ListView`。
 
 <?code-excerpt "lib/loading.dart"?>
 ```dart
@@ -1224,28 +1148,28 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-## Project structure & resources
+## 專案結構與資源
 
-### Where do I store my image files?
+### 圖片檔案應該存放在哪裡？
 
-Xamarin.Forms has no platform independent way of storing images,
-you had to place images in the iOS `xcasset` folder,
-or on Android in the various `drawable` folders.
+Xamarin.Forms 並沒有平台無關的圖片儲存方式，
+你必須將圖片放在 iOS 的 `xcasset` 資料夾，
+或是在 Android 的各個 `drawable` 資料夾中。
 
-While Android and iOS treat resources and assets as distinct items,
-Flutter apps have only assets.
-All resources that would live in the
-`Resources/drawable-*` folders on Android,
-are placed in an assets' folder for Flutter.
+雖然 Android 和 iOS 將資源（resources）與資產（assets）視為不同的項目，
+Flutter 應用程式只有資產（assets）。
+所有原本會放在 Android
+`Resources/drawable-*` 資料夾中的資源，
+在 Flutter 中都放在 assets 資料夾裡。
 
-Flutter follows a simple density-based format like iOS.
-Assets might be `1.0x`, `2.0x`, `3.0x`, or any other multiplier.
-Flutter doesn't have `dp`s but there are logical pixels,
-which are basically the same as device-independent pixels.
-Flutter's [`devicePixelRatio`][] expresses the ratio
-of physical pixels in a single logical pixel.
+Flutter 採用類似 iOS 的簡單密度（density）格式。
+資產（assets）可以是 `1.0x`、`2.0x`、`3.0x`，或任何其他倍率。
+Flutter 沒有 `dp`，但有邏輯像素（logical pixels），
+基本上與裝置無關像素（device-independent pixels）相同。
+Flutter 的 [`devicePixelRatio`][`devicePixelRatio`] 用來表示
+單一邏輯像素所對應的實體像素比例。
 
-The equivalent to Android's density buckets are:
+對應於 Android 密度分組（density buckets）的關係如下：
 
 | Android density qualifier | Flutter pixel ratio |
 |---------------------------|---------------------|
@@ -1256,16 +1180,14 @@ The equivalent to Android's density buckets are:
 | `xxhdpi`                  | `3.0x`              |
 | `xxxhdpi`                 | `4.0x`              |
 
-Assets are located in any arbitrary folder&mdash;
-Flutter has no predefined folder structure.
-You declare the assets (with location)
-in the `pubspec.yaml` file, and Flutter picks them up.
+資產（assets）可以放在任何自訂資料夾&mdash;
+Flutter 沒有預設的資料夾結構。
+你需要在 `pubspec.yaml` 檔案中宣告資產（包含路徑），Flutter 會自動載入。
 
-To add a new image asset called `my_icon.png` to our Flutter project,
-for example, and deciding that it should live in a folder we
-arbitrarily called `images`, you would put the base image (1.0x)
-in the `images` folder, and all the other variants in sub-folders
-called with the appropriate ratio multiplier:
+舉例來說，若要將一個名為 `my_icon.png` 的新圖片資產加入 Flutter 專案，
+並決定將它放在一個自訂名稱為 `images` 的資料夾中，
+你應該將基礎圖片（1.0x）放在 `images` 資料夾，
+其他不同倍率的圖片則放在以對應倍率命名的子資料夾中：
 
 ```plaintext
 images/my_icon.png       // Base: 1.0x image
@@ -1273,14 +1195,14 @@ images/2.0x/my_icon.png  // 2.0x image
 images/3.0x/my_icon.png  // 3.0x image
 ```
 
-Next, you'll need to declare these images in your `pubspec.yaml` file:
+接下來，你需要在 `pubspec.yaml` 檔案中宣告這些圖片：
 
 ```yaml
 assets:
  - images/my_icon.png
 ```
 
-You can directly access your images in an `Image.asset` widget:
+你可以直接在 `Image.asset` 元件（Widget）中存取你的圖片（images）：
 
 <?code-excerpt "lib/images.dart (image-asset)"?>
 ```dart
@@ -1290,7 +1212,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-or using `AssetImage`:
+或是使用 `AssetImage`：
 
 <?code-excerpt "lib/images.dart (asset-image)"?>
 ```dart
@@ -1300,14 +1222,13 @@ Widget build(BuildContext context) {
 }
 ```
 
-More detailed information can be found in [Adding assets and images][].
+更詳細的資訊請參見 [Adding assets and images][Adding assets and images]。
 
-### Where do I store strings? How do I handle localization?
+### 我應該將字串存放在哪裡？如何處理在地化（localization）？
 
-Unlike .NET which has `resx` files,
-Flutter doesn't currently have a dedicated system for handling strings.
-At the moment, the best practice is to declare your copy text
-in a class as static fields and access them from there. For example:
+與 .NET 使用 `resx` 檔案不同，
+Flutter 目前尚未有專門處理字串的系統。
+目前的最佳做法是將你要顯示的文字宣告在一個類別中作為 static 欄位，並從該處存取。例如：
 
 <?code-excerpt "lib/strings.dart (strings-class)"?>
 ```dart
@@ -1316,18 +1237,16 @@ class Strings {
 }
 ```
 
-You can access your strings as such:
+你可以這樣存取你的字串：
 
 <?code-excerpt "lib/strings.dart (access-string)" replace="/return const //g"?>
 ```dart
 Text(Strings.welcomeMessage);
 ```
 
-By default, Flutter only supports US English for its strings.
-If you need to add support for other languages,
-include the `flutter_localizations` package.
-You might also need to add Dart's [`intl`][]
-package to use i10n machinery, such as date/time formatting.
+預設情況下，Flutter 僅支援美式英文（US English）字串。
+如果你需要支援其他語言，請加入 `flutter_localizations` 套件。
+你可能也需要加入 Dart 的 [`intl`][`intl`] 套件，以使用 i10n（國際化）相關功能，例如日期／時間格式化。
 
 ```yaml
 dependencies:
@@ -1336,9 +1255,9 @@ dependencies:
   intl: any # Use version of intl from flutter_localizations.
 ```
 
-To use the `flutter_localizations` package,
-specify the `localizationsDelegates` and
-`supportedLocales` on the app widget:
+要使用 `flutter_localizations` 套件，
+請在應用程式元件（Widget）上指定 `localizationsDelegates` 和
+`supportedLocales`：
 
 <?code-excerpt "lib/strings.dart (localization)"?>
 ```dart
@@ -1365,106 +1284,59 @@ class MyWidget extends StatelessWidget {
 }
 ```
 
-The delegates contain the actual localized values,
-while the `supportedLocales` defines which locales the app supports.
-The above example uses a `MaterialApp`,
-so it has both a `GlobalWidgetsLocalizations`
-for the base widgets localized values,
-and a `MaterialWidgetsLocalizations` for the Material widgets localizations.
-If you use `WidgetsApp` for your app, you don't need the latter.
-Note that these two delegates contain "default" values,
-but you'll need to provide one or more delegates
-for your own app's localizable copy,
-if you want those to be localized too.
+這些 delegate 包含實際的在地化值，而 `supportedLocales` 則定義了應用程式支援哪些語系（locale）。上述範例使用了 `MaterialApp`，因此同時有 `GlobalWidgetsLocalizations`（用於基本元件的在地化值）以及 `MaterialWidgetsLocalizations`（用於 Material 元件 (Material components) 的在地化）。如果你的應用程式使用 `WidgetsApp`，則不需要後者。請注意，這兩個 delegate 提供的是「預設」值，如果你希望自己的應用程式內容也能在地化，則需要另外提供一個或多個 delegate。
 
-When initialized, the `WidgetsApp` (or `MaterialApp`)
-creates a [`Localizations`][] widget for you,
-with the delegates you specify.
-The current locale for the device is always accessible
-from the `Localizations` widget from the current context
-(in the form of a `Locale` object), or using the [`Window.locale`][].
+初始化時，`WidgetsApp`（或 `MaterialApp`）會根據你指定的 delegate 為你建立一個 [`Localizations`][`Localizations`] 元件。裝置目前的語系（locale）總是可以從當前 context 的 `Localizations` 元件取得（以 `Locale` 物件的形式），或是使用 [`Window.locale`][`Window.locale`]。
 
-To access localized resources, use the `Localizations.of()` method
-to access a specific localizations class that is provided by a given delegate.
-Use the [`intl_translation`][] package to extract translatable copy
-to [arb][] files for translating, and importing them back into the app
-for using them with `intl`.
+若要存取在地化資源，可使用 `Localizations.of()` 方法，取得由特定 delegate 提供的在地化類別。使用 [`intl_translation`][`intl_translation`] 套件，可以將可翻譯的內容匯出為 [arb][arb] 檔案進行翻譯，並再匯入回應用程式中，搭配 `intl` 使用。
 
-For further details on internationalization and localization in Flutter,
-see the [internationalization guide][], which has sample code
-with and without the `intl` package.
+如需更多 Flutter 國際化與在地化的詳細資訊，請參閱 [internationalization guide][internationalization guide]，其中包含有與沒有 `intl` 套件的範例程式碼。
 
-### Where is my project file?
+### 我的專案檔案在哪裡？
 
-In Xamarin.Forms you will have a `csproj` file.
-The closest equivalent in Flutter is pubspec.yaml,
-which contains package dependencies and various project details.
-Similar to .NET Standard,
-files within the same directory are considered part of the project.
+在 Xamarin.Forms 中，你會有一個 `csproj` 檔案。在 Flutter 中，最接近的對應檔案是 pubspec.yaml（設定檔），其中包含套件相依性以及各種專案細節。與 .NET Standard 類似，同一目錄下的檔案都被視為專案的一部分。
 
-### What is the equivalent of Nuget? How do I add dependencies?
+### Nuget 的對應方案是什麼？我要如何加入相依性？
 
-In the .NET ecosystem, native Xamarin projects and Xamarin.Forms projects
-had access to Nuget and the built-in package management system.
-Flutter apps contain a native Android app, native iOS app and Flutter app.
+在 .NET 生態系中，原生 Xamarin 專案與 Xamarin.Forms 專案都能使用 Nuget 及內建的套件管理系統。Flutter 應用程式則包含原生 Android 應用、原生 iOS 應用，以及 Flutter 應用本身。
 
-In Android, you add dependencies by adding to your Gradle build script.
-In iOS, you add dependencies by adding to your `Podfile`.
+在 Android 中，你會透過 Gradle build script 加入相依性。在 iOS 中，則會加入到 `Podfile`。
 
-Flutter uses Dart's own build system, and the Pub package manager.
-The tools delegate the building of the native Android and iOS wrapper apps
-to the respective build systems.
+Flutter 則使用 Dart 自己的建置系統與 Pub 套件管理工具。這些工具會將原生 Android 與 iOS 包裝應用的建置委託給各自的建置系統。
 
-In general, use `pubspec.yaml` to declare
-external dependencies to use in Flutter.
-A good place to find Flutter packages is on [pub.dev][].
+一般來說，請使用 `pubspec.yaml` 來宣告 Flutter 所需的外部相依套件。你可以在 [pub.dev][pub.dev] 上找到許多 Flutter 套件。
 
-## Application lifecycle
+## 應用程式生命週期
 
-### How do I listen to application lifecycle events?
+### 我要如何監聽應用程式生命週期事件？
 
-In Xamarin.Forms, you have an `Application`
-that contains `OnStart`, `OnResume` and `OnSleep`.
-In Flutter, you can instead listen to similar lifecycle events
-by hooking into the `WidgetsBinding` observer and listening to
-the `didChangeAppLifecycleState()` change event.
+在 Xamarin.Forms 中，你會有一個 `Application`，其中包含 `OnStart`、`OnResume` 以及 `OnSleep`。在 Flutter 中，你可以透過監聽 `WidgetsBinding` observer 及 `didChangeAppLifecycleState()` 狀態變化事件，達到類似的生命週期監控。
 
-The observable lifecycle events are:
+可觀察到的生命週期事件如下：
 
 `inactive`
-: The application is in an inactive state and is not receiving user input.
-  This event is iOS only.
+: 應用程式處於非活動狀態，且不接受使用者輸入。此事件僅適用於 iOS。
 
 `paused`
-: The application is not currently visible to the user,
-  is not responding to user input, but is running in the background.
+: 應用程式目前對使用者不可見，不接受使用者輸入，但仍在背景執行。
 
 `resumed`
-: The application is visible and responding to user input.
+: 應用程式可見且正在回應使用者輸入。
 
 `suspending`
-: The application is suspended momentarily.
-  This event is Android only.
+: 應用程式暫時被掛起。此事件僅適用於 Android。
 
-For more details on the meaning of these states,
-see the [`AppLifecycleStatus` documentation][].
+關於這些狀態的詳細說明，請參閱 [`AppLifecycleStatus` documentation][`AppLifecycleStatus` documentation]。
 
 [`AppLifecycleStatus` documentation]: {{site.api}}/flutter/dart-ui/AppLifecycleState.html
 
-## Layouts
+## 版面配置（Layouts）
 
-### What is the equivalent of a StackLayout?
+### StackLayout 的對應方案是什麼？
 
-In Xamarin.Forms you can create a `StackLayout`
-with an `Orientation` of horizontal or vertical.
-Flutter has a similar approach,
-however you would use the `Row` or `Column` widgets.
+在 Xamarin.Forms 中，你可以建立一個 `StackLayout`，並將 `Orientation` 設為水平或垂直。Flutter 採用類似的方式，不過你會使用 `Row` 或 `Column` 元件（Widgets）。
 
-If you notice the two code samples are identical
-except the `Row` and `Column` widget.
-The children are the same and this feature
-can be exploited to develop rich layouts
-that can change overtime with the same children.
+你會發現兩個程式碼範例除了 `Row` 與 `Column` 元件不同外，其餘完全相同。children 也是一樣的，這個特性可以用來開發豐富的版面配置，並且能在 children 不變的情況下動態切換版型。
 
 <?code-excerpt "lib/layouts.dart (row)"?>
 ```dart
@@ -1497,12 +1369,11 @@ Widget build(BuildContext context) {
   );
 ```
 
-### What is the equivalent of a Grid?
+### Grid 的對應元件是什麼？
 
-The closest equivalent of a `Grid` would be a `GridView`.
-This is much more powerful than what you are used to in Xamarin.Forms.
-A `GridView` provides automatic scrolling when the
-content exceeds its viewable space.
+`Grid` 最接近的對應元件是 `GridView`。
+這比你在 Xamarin.Forms 中所習慣的功能更為強大。
+`GridView` 在內容超出可視範圍時，會自動提供滾動功能。
 
 <?code-excerpt "lib/layouts.dart (grid)"?>
 ```dart
@@ -1525,11 +1396,9 @@ Widget build(BuildContext context) {
 }
 ```
 
-You might have used a `Grid` in Xamarin.Forms
-to implement widgets that overlay other widgets.
-In Flutter, you accomplish this with the `Stack` widget.
+你可能曾在 Xamarin.Forms 中使用 `Grid` 來實作覆蓋在其他元件（Widgets）上的元件。在 Flutter 中，你可以透過 `Stack` 元件來達成相同的效果。
 
-This sample creates two icons that overlap each other.
+以下範例會建立兩個彼此重疊的圖示。
 
 <?code-excerpt "lib/layouts.dart (stack)"?>
 ```dart
@@ -1547,13 +1416,13 @@ Widget build(BuildContext context) {
 }
 ```
 
-### What is the equivalent of a ScrollView?
+### ScrollView 的對應元件是什麼？
 
-In Xamarin.Forms, a `ScrollView` wraps around a `VisualElement`,
-and if the content is larger than the device screen, it scrolls.
+在 Xamarin.Forms 中，`ScrollView` 會包裹 `VisualElement`，
+如果內容超過裝置螢幕大小，就會出現捲動效果。
 
-In Flutter, the closest match is the `SingleChildScrollView` widget.
-You simply fill the Widget with the content that you want to be scrollable.
+在 Flutter 中，最接近的對應元件是 `SingleChildScrollView` 元件（Widget）。
+你只需要將想要可捲動的內容放入這個元件即可。
 
 <?code-excerpt "lib/layouts.dart (scroll-view)"?>
 ```dart
@@ -1563,11 +1432,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-If you have many items you want to wrap in a scroll,
-even of different `Widget` types, you might want to use a `ListView`.
-This might seem like overkill, but in Flutter this is
-far more optimized and less intensive than a Xamarin.Forms `ListView`,
-which is backing on to platform specific controls.
+如果你有許多項目需要包裹在可滾動區域中，即使這些項目是不同的 `Widget` 類型，你可能會想要使用 `ListView`。這看起來或許有點大材小用，但在 Flutter 中，這種做法比 Xamarin.Forms 的 `ListView` 更加優化且資源消耗更低，因為 Xamarin.Forms 是依賴於平台特定的控制項。
 
 <?code-excerpt "lib/layouts.dart (list-view)"?>
 ```dart
@@ -1584,27 +1449,24 @@ Widget build(BuildContext context) {
 }
 ```
 
-### How do I handle landscape transitions in Flutter?
+### 如何在 Flutter 中處理橫向（landscape）螢幕轉換？
 
-Landscape transitions can be handled automatically by setting the
-`configChanges` property in the AndroidManifest.xml:
+橫向螢幕轉換可以透過在 AndroidManifest.xml 中設定 `configChanges` 屬性，自動處理：
 
 ```xml
 <activity android:configChanges="orientation|screenSize" />
 ```
 
-## Gesture detection and touch event handling
+## 手勢偵測與觸控事件處理
 
-### How do I add GestureRecognizers to a widget in Flutter?
+### 如何在 Flutter 的元件（Widget）中加入 GestureRecognizers？
 
-In Xamarin.Forms, `Element`s might contain a click event you can attach to.
-Many elements also contain a `Command` that is tied to this event.
-Alternatively you would use the `TapGestureRecognizer`.
-In Flutter there are two very similar ways:
+在 Xamarin.Forms 中，`Element` 可能包含你可以綁定的點擊事件（click event）。
+許多元素同時也包含與此事件綁定的 `Command`。
+另外，你也可以使用 `TapGestureRecognizer`。
+在 Flutter 中，有兩種非常相似的方式：
 
-1. If the widget supports event detection, pass a function to it and
-   handle it in the function. For example, the ElevatedButton has an
-   `onPressed` parameter:
+1. 如果該元件（Widget）支援事件偵測，可以傳遞一個函式給它，並在該函式中處理事件。例如，ElevatedButton 有一個 `onPressed` 參數：
 
    <?code-excerpt "lib/gestures.dart (elevated-button)"?>
    ```dart
@@ -1619,9 +1481,7 @@ In Flutter there are two very similar ways:
    }
    ```
 
-2. If the widget doesn't support event detection, wrap the
-   widget in a `GestureDetector` and pass a function
-   to the `onTap` parameter.
+2. 如果該元件（Widget）不支援事件偵測，請將該元件包裹在`GestureDetector`中，並將函式傳遞給`onTap`參數。
 
    <?code-excerpt "lib/gestures.dart (gesture-detector)"?>
    ```dart
@@ -1644,77 +1504,64 @@ In Flutter there are two very similar ways:
    }
    ```
 
-### How do I handle other gestures on widgets?
+### 如何在元件（Widgets）上處理其他手勢？
 
-In Xamarin.Forms you would add a `GestureRecognizer` to the `View`.
-You would normally be limited to `TapGestureRecognizer`,
-`PinchGestureRecognizer`, `PanGestureRecognizer`, `SwipeGestureRecognizer`,
-`DragGestureRecognizer` and `DropGestureRecognizer` unless you built your own.
+在 Xamarin.Forms 中，你會將 `GestureRecognizer` 加到 `View` 上。
+通常你只能使用 `TapGestureRecognizer`、
+`PinchGestureRecognizer`、`PanGestureRecognizer`、`SwipeGestureRecognizer`、
+`DragGestureRecognizer` 和 `DropGestureRecognizer`，除非你自行實作。
 
-In Flutter, using the GestureDetector,
-you can listen to a wide range of Gestures such as:
+在 Flutter 中，透過 GestureDetector，
+你可以監聽多種手勢事件，例如：
 
-* Tap
+* 點擊（Tap）
 
 `onTapDown`
-: A pointer that might cause a tap
-  has contacted the screen at a particular location.
+：某個可能觸發點擊的指標已在特定位置接觸螢幕。
 
 `onTapUp`
-: A pointer that triggers a tap
-  has stopped contacting the screen at a particular location.
+：觸發點擊的指標已在特定位置離開螢幕。
 
 `onTap`
-: A tap has occurred.
+：發生了一次點擊。
 
 `onTapCancel`
-: The pointer that previously triggered the `onTapDown`
-  won't cause a tap.
+：先前觸發 `onTapDown` 的指標將不會造成點擊。
 
-* Double tap
+* 雙擊（Double tap）
 
 `onDoubleTap`
-: The user tapped the screen at the same location twice
-  in quick succession.
+：使用者在同一位置快速連續點擊兩次螢幕。
 
-* Long press
+* 長按（Long press）
 
 `onLongPress`
-: A pointer has remained in contact with the screen
-  at the same location for a long period of time.
+：指標在同一位置長時間接觸螢幕。
 
-* Vertical drag
+* 垂直拖曳（Vertical drag）
 
 `onVerticalDragStart`
-: A pointer has contacted the screen and might begin to move vertically.
+：指標已接觸螢幕，並可能開始垂直移動。
 
 `onVerticalDragUpdate`
-: A pointer in contact with the screen
-  has moved further in the vertical direction.
+：與螢幕接觸的指標已在垂直方向上移動更遠。
 
 `onVerticalDragEnd`
-: A pointer that was previously in contact with the
-  screen and moving vertically is no longer in contact
-  with the screen and was moving at a specific velocity
-  when it stopped contacting the screen.
+：先前與螢幕接觸並垂直移動的指標，已不再接觸螢幕，且離開時具有特定速度。
 
-* Horizontal drag
+* 水平拖曳（Horizontal drag）
 
 `onHorizontalDragStart`
-: A pointer has contacted the screen and might begin to move horizontally.
+：指標已接觸螢幕，並可能開始水平移動。
 
 `onHorizontalDragUpdate`
-: A pointer in contact with the screen
-  has moved further in the horizontal direction.
+：與螢幕接觸的指標已在水平方向上移動更遠。
 
 `onHorizontalDragEnd`
-: A pointer that was previously in contact with the
-  screen and moving horizontally is no longer in contact
-  with the screen and was moving at a specific velocity
-  when it stopped contacting the screen.
+：先前與螢幕接觸並水平移動的指標，已不再接觸螢幕，且離開時具有特定速度。
 
-The following example shows a `GestureDetector`
-that rotates the Flutter logo on a double tap:
+以下範例展示了一個 `GestureDetector`，
+當偵測到雙擊時會旋轉 Flutter 標誌：
 
 <?code-excerpt "lib/gestures.dart (rotating-flutter-detector)"?>
 ```dart
@@ -1764,22 +1611,15 @@ class _RotatingFlutterDetectorState extends State<RotatingFlutterDetector>
 }
 ```
 
-## Listviews and adapters
+## ListView 和 Adapter
 
-### What is the equivalent to a ListView in Flutter?
+### Flutter 中對應於 ListView 的元件是什麼？
 
-The equivalent to a `ListView` in Flutter is … a `ListView`!
+Flutter 中對應於 `ListView` 的元件就是……`ListView`！
 
-In a Xamarin.Forms `ListView`, you create a `ViewCell`
-and possibly a `DataTemplateSelector`and pass it into the `ListView`,
-which renders each row with what your
-`DataTemplateSelector` or `ViewCell` returns.
-However, you often have to make sure you turn on Cell Recycling
-otherwise you will run into memory issues and slow scrolling speeds.
+在 Xamarin.Forms 的 `ListView` 中，你會建立一個 `ViewCell`，並且可能還會有一個 `DataTemplateSelector`，然後將其傳遞給 `ListView`，由它根據你的 `DataTemplateSelector` 或 `ViewCell` 回傳的內容來渲染每一列。不過，你通常還需要確保啟用 Cell Recycling（單元格重複利用），否則容易遇到記憶體問題與捲動速度變慢的情況。
 
-Due to Flutter's immutable widget pattern,
-you pass a list of widgets to your `ListView`,
-and Flutter takes care of making sure that scrolling is fast and smooth.
+由於 Flutter 採用不可變元件（widget）模式，你只需將元件（widget）清單傳遞給 `ListView`，Flutter 會自動處理確保捲動流暢且快速。
 
 <?code-excerpt "lib/listview.dart"?>
 ```dart
@@ -1820,15 +1660,15 @@ class SampleAppPage extends StatelessWidget {
 }
 ```
 
-### How do I know which list item has been clicked?
+### 如何知道哪個清單項目被點擊了？
 
-In Xamarin.Forms, the ListView has an `ItemTapped` method
-to find out which item was clicked.
-There are many other techniques you might have used
-such as checking when `SelectedItem` or `EventToCommand`
-behaviors change.
+在 Xamarin.Forms 中，ListView 有 `ItemTapped` 方法
+可以用來判斷哪個項目被點擊。
+你也可能用過其他技巧，
+例如監聽 `SelectedItem` 或 `EventToCommand`
+行為的變化來判斷。
 
-In Flutter, use the touch handling provided by the passed-in widgets.
+在 Flutter 中，請使用傳入元件（Widgets）所提供的觸控處理方式。
 
 <?code-excerpt "lib/listview_item_clicked.dart"?>
 ```dart
@@ -1882,28 +1722,20 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-### How do I update a ListView dynamically?
+### 如何動態更新 ListView？
 
-In Xamarin.Forms, if you bound the
-`ItemsSource` property to an `ObservableCollection`,
-you would just update the list in your ViewModel.
-Alternatively, you could assign a new `List` to the `ItemSource` property.
+在 Xamarin.Forms 中，如果你將 `ItemsSource` 屬性繫結到 `ObservableCollection`，你只需在 ViewModel 中更新該清單即可。  
+另外，你也可以將新的 `List` 指派給 `ItemSource` 屬性。
 
-In Flutter, things work a little differently.
-If you update the list of widgets inside a `setState()` method,
-you would quickly see that your data did not change visually.
-This is because when `setState()` is called,
-the Flutter rendering engine looks at the widget tree
-to see if anything has changed.
-When it gets to your `ListView`, it performs a `==` check,
-and determines that the two `ListView`s are the same.
-Nothing has changed, so no update is required.
+在 Flutter 中，情況則有些不同。  
+如果你在 `setState()` 方法中更新元件（widget）清單，你會很快發現畫面上的資料並沒有發生變化。  
+這是因為當 `setState()` 被呼叫時，Flutter 的渲染引擎會檢查 widget tree（元件樹），以判斷是否有任何變化。  
+當它走訪到你的 `ListView` 時，會執行一次 `==` 檢查，並判斷這兩個 `ListView` 是相同的。  
+既然沒有變化，就不需要更新。
 
-For a simple way to update your `ListView`,
-create a new `List` inside of `setState()`,
-and copy the data from the old list to the new list.
-While this approach is simple, it is not recommended for large data sets,
-as shown in the next example.
+如果你想用簡單的方法來更新你的 `ListView`，可以在 `setState()` 裡建立一個新的 `List`，  
+然後將舊清單的資料複製到新清單中。  
+雖然這種做法很簡單，但如下一個範例所示，不建議用於大量資料集。
 
 <?code-excerpt "lib/dynamic_listview.dart"?>
 ```dart
@@ -1968,12 +1800,9 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-The recommended, efficient, and effective way to build a list
-uses a `ListView.Builder`.
-This method is great when you have a dynamic list
-or a list with very large amounts of data.
-This is essentially the equivalent of RecyclerView on Android,
-which automatically recycles list elements for you:
+建議且高效的清單建立方式是使用`ListView.Builder`。  
+當你有動態清單或資料量非常大的清單時，這種方法特別適合。  
+這本質上相當於 Android 上的 RecyclerView，會自動幫你回收清單元素：
 
 <?code-excerpt "lib/listview_builder.dart"?>
 ```dart
@@ -2042,31 +1871,31 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-Instead of creating a `ListView`, create a `ListView.builder`
-that takes two key parameters: the initial length of the list,
-and an item builder function.
+與其建立`ListView`，不如建立`ListView.builder`，
+並傳入兩個主要參數：清單的初始長度，
+以及一個項目建構函式（item builder function）。
 
-The item builder function is similar to the `getView` function
-in an Android adapter; it takes a position,
-and returns the row you want rendered at that position.
+這個項目建構函式類似於 Android adapter 中的`getView`函式；
+它會接收一個位置（position），
+並回傳你希望在該位置渲染的列（row）。
 
-Finally, but most importantly, notice that the `onTap()` function
-doesn't recreate the list anymore, but instead adds to it.
+最後，也是最重要的一點，請注意`onTap()`函式
+不再重新建立清單，而是直接將新項目加入現有清單。
 
-For more information, see
-[Your first Flutter app][first_codelab] codelab.
+如需更多資訊，請參閱
+[Your first Flutter app][first_codelab] codelab。
 
-## Working with text
+## 處理文字
 
-### How do I set custom fonts on my text widgets?
+### 如何在我的文字元件 (Text Widgets) 上設定自訂字型？
 
-In Xamarin.Forms, you would have to add a custom font in each native project.
-Then, in your `Element` you would assign this font name
-to the `FontFamily` attribute using `filename#fontname`
-and just `fontname` for iOS.
+在 Xamarin.Forms 中，你需要在每個原生專案中加入自訂字型。
+然後，在你的`Element`中，將該字型名稱
+指定給`FontFamily`屬性，並分別使用`filename#fontname`
+以及僅用`fontname`於 iOS。
 
-In Flutter, place the font file in a folder and reference it
-in the `pubspec.yaml` file, similar to how you import images.
+在 Flutter 中，將字型檔案放入資料夾，並在`pubspec.yaml`檔案中引用，
+這與匯入圖片的方式類似。
 
 ```yaml
 fonts:
@@ -2076,7 +1905,7 @@ fonts:
       - style: italic
 ```
 
-Then assign the font to your `Text` widget:
+然後將該字型指定給你的 `Text` 元件（Widget）：
 
 <?code-excerpt "lib/strings.dart (custom-font)"?>
 ```dart
@@ -2094,11 +1923,11 @@ Widget build(BuildContext context) {
 }
 ```
 
-### How do I style my text widgets?
+### 如何為我的文字元件 (Text Widgets) 設計樣式？
 
-Along with fonts, you can customize other styling elements on a `Text` widget.
-The style parameter of a `Text` widget takes a `TextStyle` object,
-where you can customize many parameters, such as:
+除了字型之外，你還可以自訂 `Text` 元件的其他樣式元素。
+`Text` 元件的 style 參數接受一個 `TextStyle` 物件，
+你可以在其中自訂許多參數，例如：
 
 * `color`
 * `decoration`
@@ -2115,19 +1944,19 @@ where you can customize many parameters, such as:
 * `textBaseline`
 * `wordSpacing`
 
-## Form input
+## 表單輸入 (Form input)
 
-### How do I retrieve user input?
+### 如何取得使用者輸入？
 
-Xamarin.Forms `element`s allow you to directly query the `element`
-to determine the state of its properties,
-or whether it's bound to a property in a `ViewModel`.
+Xamarin.Forms 的 `element` 可讓你直接查詢 `element`，
+以判斷其屬性的狀態，
+或判斷它是否綁定到 `ViewModel` 中的某個屬性。
 
-Retrieving information in Flutter is handled by specialized widgets
-and is different from how you are used to.
-If you have a `TextField`or a `TextFormField`,
-you can supply a [`TextEditingController`][]
-to retrieve user input:
+在 Flutter 中，取得資訊是透過專門的元件 (Widgets) 處理，
+這與你習慣的方式不同。
+如果你有一個 `TextField` 或 `TextFormField`，
+你可以提供一個 [`TextEditingController`][`TextEditingController`]
+來取得使用者輸入：
 
 <?code-excerpt "lib/form.dart"?>
 ```dart
@@ -2183,39 +2012,32 @@ class _MyFormState extends State<MyForm> {
 }
 ```
 
-You can find more information and the full code listing in
-[Retrieve the value of a text field][].
+你可以在
+[Retrieve the value of a text field][Retrieve the value of a text field]
+找到更多資訊及完整程式碼範例。
 
-### What is the equivalent of a Placeholder on an Entry?
+### Entry 的 Placeholder 對應 Flutter 中的什麼？
 
-In Xamarin.Forms, some `Elements` support a `Placeholder` property
-that you can assign a value to. For example:
+在 Xamarin.Forms 中，某些 `Elements` 支援 `Placeholder` 屬性，你可以為其指定值。例如：
 
 ```xml
 <Entry Placeholder="This is a hint">
 ```
 
-In Flutter, you can easily show a "hint" or a placeholder text
-for your input by adding an `InputDecoration` object
-to the `decoration` constructor parameter for the text widget.
+在 Flutter 中，您可以很輕鬆地為輸入元件 (Input Widgets) 顯示「提示」或預設文字，只需在文字元件的 `decoration` 建構子參數中加入 `InputDecoration` 物件即可。
 
 <?code-excerpt "lib/input_decoration.dart (hint-text)" replace="/child: //g"?>
 ```dart
 TextField(decoration: InputDecoration(hintText: 'This is a hint')),
 ```
 
-### How do I show validation errors?
+### 如何顯示驗證錯誤？
 
-With Xamarin.Forms, if you wished to provide a visual hint of a
-validation error, you would need to create new properties and
-`VisualElement`s surrounding the `Element`s that had validation errors.
+在 Xamarin.Forms 中，如果你想要針對驗證錯誤提供視覺提示，通常需要建立新的屬性，並在有驗證錯誤的 `Element` 周圍建立 `VisualElement`。
 
-In Flutter, you pass through an InputDecoration object to the
-decoration constructor for the text widget.
+在 Flutter 中，你可以將 `InputDecoration` 物件傳遞給文字元件 (Text Widgets) 的 `decoration` 建構子。
 
-However, you don't want to start off by showing an error.
-Instead, when the user has entered invalid data,
-update the state, and pass a new `InputDecoration` object.
+不過，你不會一開始就顯示錯誤訊息。相反地，當使用者輸入了無效資料時，更新狀態，並傳遞新的 `InputDecoration` 物件。
 
 <?code-excerpt "lib/validation.dart"?>
 ```dart
@@ -2284,121 +2106,68 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-## Flutter plugins
+## Flutter 插件
 
-## Interacting with hardware, third party services, and the platform
+## 與硬體、第三方服務及平台互動
 
-### How do I interact with the platform, and with platform native code?
+### 如何與平台及原生程式碼互動？
 
-Flutter doesn't run code directly on the underlying platform;
-rather, the Dart code that makes up a Flutter app is run natively
-on the device, "sidestepping" the SDK provided by the platform.
-That means, for example, when you perform a network request in Dart,
-it runs directly in the Dart context.
-You don't use the Android or iOS APIs
-you normally take advantage of when writing native apps.
-Your Flutter app is still hosted in a native app's
-`ViewController` or `Activity` as a view,
-but you don't have direct access to this, or the native framework.
+Flutter 並不會直接在底層平台上執行程式碼；相反地，構成 Flutter 應用程式的 Dart 程式碼會在裝置上以原生方式執行，從而「繞過」平台所提供的 SDK。這表示，例如當你在 Dart 中執行網路請求時，它會直接在 Dart 的執行環境中運作。你不會像撰寫原生應用程式時那樣，使用 Android 或 iOS 的 API。你的 Flutter 應用程式仍然被託管在原生應用程式的 `ViewController` 或 `Activity` 中，作為一個 view 呈現，但你無法直接存取這個 view 或原生框架。
 
-This doesn't mean Flutter apps can't interact with those native APIs,
-or with any native code you have. Flutter provides [platform channels][]
-that communicate and exchange data with the
-`ViewController` or `Activity` that hosts your Flutter view.
-Platform channels are essentially an asynchronous messaging mechanism
-that bridges the Dart code with the host `ViewController`
-or `Activity` and the iOS or Android framework it runs on.
-You can use platform channels to execute a method on the native side,
-or to retrieve some data from the device's sensors, for example.
+這並不代表 Flutter 應用程式無法與這些原生 API 或你自有的原生程式碼互動。Flutter 提供了[平台通道（platform channels）][platform channels]，可與託管你的 Flutter view 的 `ViewController` 或 `Activity` 進行通訊與資料交換。平台通道本質上是一種非同步訊息傳遞機制，用於橋接 Dart 程式碼與主機端的 `ViewController` 或 `Activity`，以及其所運作的 iOS 或 Android 框架。你可以利用平台通道在原生端執行方法，或從裝置感測器取得資料等。
 
-In addition to directly using platform channels,
-you can use a variety of pre-made [plugins][]
-that encapsulate the native and Dart code for a specific goal.
-For example, you can use a plugin to access
-the camera roll and the device camera directly from Flutter,
-without having to write your own integration.
-Plugins are found on [pub.dev][],
-Dart and Flutter's open source package repository.
-Some packages might support native integrations on iOS,
-or Android, or both.
+除了直接使用平台通道之外，你也可以使用各式各樣的[預先製作的插件（plugins）][plugins]，這些插件將原生程式碼與 Dart 程式碼封裝在一起，達成特定功能。例如，你可以利用插件直接從 Flutter 存取相簿或裝置相機，而無需自行撰寫整合程式碼。插件可在 [pub.dev][pub.dev]（Dart 與 Flutter 的開源套件倉庫）找到。有些套件可能僅支援 iOS、Android 原生整合，或同時支援兩者。
 
-If you can't find a plugin on pub.dev that fits your needs,
-you can [write your own][], and [publish it on pub.dev][].
+如果在 pub.dev 上找不到符合需求的插件，你可以[自行開發插件][write your own]，並[發布到 pub.dev][publish it on pub.dev]。
 
-### How do I access the GPS sensor?
+### 如何存取 GPS 感測器？
 
-Use the [`geolocator`][] community plugin.
+請使用 [`geolocator`][`geolocator`] 社群插件。
 
-### How do I access the camera?
+### 如何存取相機？
 
-The [`camera`][] plugin is popular for accessing the camera.
+[`camera`][`camera`] 插件是存取相機的熱門選擇。
 
-### How do I log in with Facebook?
+### 如何使用 Facebook 登入？
 
-To log in with Facebook, use the
-[`flutter_facebook_login`][] community plugin.
+若要使用 Facebook 登入，請使用 [`flutter_facebook_login`][`flutter_facebook_login`] 社群插件。
 
-### How do I use Firebase features?
+### 如何使用 Firebase 功能？
 
-Most Firebase functions are covered by [first party plugins][].
-These plugins are first-party integrations, maintained by the Flutter team:
+大多數 Firebase 功能都由[官方插件（first party plugins）][first party plugins]支援。這些插件由 Flutter 團隊維護，屬於官方整合：
 
- * [`google_mobile_ads`][] for Google Mobile Ads for Flutter
- * [`firebase_analytics`][] for Firebase Analytics
- * [`firebase_auth`][] for Firebase Auth
- * [`firebase_database`][] for Firebase RTDB
- * [`firebase_storage`][] for Firebase Cloud Storage
- * [`firebase_messaging`][] for Firebase Messaging (FCM)
- * [`flutter_firebase_ui`][] for quick Firebase Auth integrations
-   (Facebook, Google, Twitter and email)
- * [`cloud_firestore`][] for Firebase Cloud Firestore
+ * [`google_mobile_ads`][`google_mobile_ads`]：Google Mobile Ads for Flutter
+ * [`firebase_analytics`][`firebase_analytics`]：Firebase Analytics
+ * [`firebase_auth`][`firebase_auth`]：Firebase Auth
+ * [`firebase_database`][`firebase_database`]：Firebase RTDB
+ * [`firebase_storage`][`firebase_storage`]：Firebase Cloud Storage
+ * [`firebase_messaging`][`firebase_messaging`]：Firebase Messaging (FCM)
+ * [`flutter_firebase_ui`][`flutter_firebase_ui`]：快速整合 Firebase Auth（Facebook、Google、Twitter 及 Email）
+ * [`cloud_firestore`][`cloud_firestore`]：Firebase Cloud Firestore
 
-You can also find some third-party Firebase plugins on pub.dev
-that cover areas not directly covered by the first-party plugins.
+你也可以在 pub.dev 上找到一些第三方 Firebase 插件，涵蓋官方插件未直接支援的領域。
 
-### How do I build my own custom native integrations?
+### 如何建立自訂的原生整合？
 
-If there is platform-specific functionality that Flutter
-or its community plugins are missing,
-you can build your own following the
-[developing packages and plugins][] page.
+如果 Flutter 或其社群插件缺少某些平台專屬功能，你可以依照[開發套件與插件][developing packages and plugins]頁面的指引自行開發。
 
-Flutter's plugin architecture, in a nutshell,
-is much like using an Event bus in Android:
-you fire off a message and let the receiver process and emit a result
-back to you. In this case, the receiver is code running on the native side
-on Android or iOS.
+簡而言之，Flutter 的插件架構類似於 Android 的事件匯流排（Event bus）：你發送一則訊息，讓接收端處理後再回傳結果。在這裡，接收端是執行於 Android 或 iOS 原生端的程式碼。
 
-## Themes (Styles)
+## 主題（樣式）
 
-### How do I theme my app?
+### 如何為我的應用程式設計主題？
 
-Flutter comes with a beautiful, built-in implementation of Material Design,
-which handles much of the styling and theming needs
-that you would typically do.
+Flutter 內建了美觀的 Material Design 實作，能處理大部分你常見的樣式與主題化需求。
 
-Xamarin.Forms does have a global `ResourceDictionary`
-where you can share styles across your app.
-Alternatively, there is Theme support currently in preview.
+Xamarin.Forms 有一個全域的 `ResourceDictionary`，可讓你在整個應用程式中共用樣式。另有主題（Theme）支援，目前處於預覽階段。
 
-In Flutter, you declare themes in the top level widget.
+在 Flutter 中，你需要在最上層元件（Widget）宣告主題。
 
-To take full advantage of Material Components in your app,
-you can declare a top level widget `MaterialApp`
-as the entry point to your application.
-`MaterialApp` is a convenience widget
-that wraps a number of widgets that are commonly required
-for applications implementing Material Design.
-It builds upon a `WidgetsApp` by adding Material-specific functionality.
+為了充分發揮 Material 元件（Material Components）於應用程式中的優勢，你可以將最上層元件宣告為 `MaterialApp`，作為應用程式的進入點。`MaterialApp` 是一個便利元件，包裝了許多實作 Material Design 應用程式時常用的元件。它是在 `WidgetsApp` 基礎上，加入了 Material 專屬功能。
 
-You can also use a `WidgetsApp` as your app widget,
-which provides some of the same functionality,
-but is not as rich as `MaterialApp`.
+你也可以將 `WidgetsApp` 作為應用程式元件，這個元件提供部分相同功能，但不像 `MaterialApp` 那麼豐富。
 
-To customize the colors and styles of any child components,
-pass a `ThemeData` object to the `MaterialApp` widget.
-For example, in the following code,
-the color scheme from seed is set to deepPurple and text selection color is red.
+若要自訂任何子元件的顏色與樣式，請將 `ThemeData` 物件傳遞給 `MaterialApp` 元件。例如，下列程式碼中，色彩方案（color scheme）以種子（seed）設定為 deepPurple，文字選取顏色則設為紅色。
 
 <?code-excerpt "lib/theme.dart (theme)"?>
 ```dart
@@ -2422,50 +2191,35 @@ class SampleApp extends StatelessWidget {
 }
 ```
 
-## Databases and local storage
+## 資料庫與本機儲存
 
-### How do I access shared preferences or UserDefaults?
+### 如何存取 shared preferences 或 UserDefaults？
 
-Xamarin.Forms developers will likely be familiar with the
-`Xam.Plugins.Settings` plugin.
+Xamarin.Forms 開發者可能已經熟悉 `Xam.Plugins.Settings` 套件。
 
-In Flutter, access equivalent functionality using the
-[`shared_preferences`][] plugin. This plugin wraps the
-functionality of both `UserDefaults` and the Android
-equivalent, `SharedPreferences`.
+在 Flutter 中，可以使用 [`shared_preferences`][`shared_preferences`] 套件來實現類似功能。這個套件封裝了 `UserDefaults` 以及 Android 對應的 `SharedPreferences` 的功能。
 
-### How do I access SQLite in Flutter?
+### 如何在 Flutter 中存取 SQLite？
 
-In Xamarin.Forms most applications would use the `sqlite-net-pcl`
-plugin to access SQLite databases.
+在 Xamarin.Forms 中，大多數應用程式會使用 `sqlite-net-pcl` 套件來存取 SQLite 資料庫。
 
-In Flutter, on macOS, Android, and iOS,
-access this functionality using the
-[`sqflite`][] plugin.
+在 Flutter 上，於 macOS、Android 和 iOS 平台，可以透過 [`sqflite`][`sqflite`] 套件來實現這項功能。
 
-## Debugging
+## 除錯
 
-### What tools can I use to debug my app in Flutter?
+### 我可以使用哪些工具來除錯我的 Flutter 應用程式？
 
-Use the [DevTools][] suite for debugging Flutter or Dart apps.
+可以使用 [DevTools][DevTools] 工具組來除錯 Flutter 或 Dart 應用程式。
 
-DevTools includes support for profiling, examining the heap,
-inspecting the widget tree, logging diagnostics, debugging,
-observing executed lines of code,
-debugging memory leaks and memory fragmentation.
-For more information, check out the [DevTools][] documentation.
+DevTools 支援效能分析、堆疊檢查、元件樹（widget tree）檢查、診斷日誌、除錯、觀察已執行的程式碼行、記憶體洩漏與記憶體碎片化的除錯等功能。更多資訊請參考 [DevTools][DevTools] 文件。
 
-## Notifications
+## 通知
 
-### How do I set up push notifications?
+### 如何設定推播通知（push notifications）？
 
-In Android, you use Firebase Cloud Messaging to set up
-push notifications for your app.
+在 Android 上，您會使用 Firebase Cloud Messaging 來為應用程式設定推播通知。
 
-In Flutter, access this functionality using the
-[`firebase_messaging`][] plugin.
-For more information on using the Firebase Cloud Messaging API, see the
-[`firebase_messaging`][] plugin documentation.
+在 Flutter 中，可以使用 [`firebase_messaging`][`firebase_messaging`] 套件來實現這項功能。關於如何使用 Firebase Cloud Messaging API，請參考 [`firebase_messaging`][`firebase_messaging`] 套件文件。
 
 
 [Adding assets and images]: /ui/assets/assets-and-images
@@ -2474,7 +2228,7 @@ For more information on using the Firebase Cloud Messaging API, see the
 [Animations tutorial]: /ui/animations/tutorial
 [Apple's iOS design language]: {{site.apple-dev}}/design/resources/
 [arb]: {{site.github}}/google/app-resource-bundle
-[Async UI]: #async-ui
+[Async UI]: #非同步-ui
 [`cloud_firestore`]: {{site.pub}}/packages/cloud_firestore
 [composing]: /resources/architectural-overview#composition
 [Cupertino widgets]: /ui/widgets/cupertino

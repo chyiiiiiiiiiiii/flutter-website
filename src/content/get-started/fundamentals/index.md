@@ -1,9 +1,9 @@
 ---
-title: Learn the fundamentals
-shortTitle: Fundamentals
+title: 學習基礎知識
+shortTitle: 基礎知識
 description: >
-  You've gotten a taste of using the Flutter framework;
-  now go beyond to learn the basics of Flutter.
+  你已經初步體驗過 Flutter 框架；
+  現在更進一步，學習 Flutter 的基本概念。
 showToc: false
 ---
 
@@ -12,16 +12,15 @@ showToc: false
 <div class="side-by-side">
 <div>
 
-## Find your way with Flutter!
+## 與 Flutter 一起探索吧！
 
-If you are new to Flutter, and have already worked
-through [your first Flutter codelab][],
-this section of the website is for you!
+如果你是 Flutter 新手，並且已經完成了
+[你的第一個 Flutter codelab][your first Flutter codelab]，
+那麼本網站的這個區塊就是為你準備的！
 
-The goal here is to guide you through some next
-steps of learning Flutter. It's not about teaching
-you how to _program_, it's about teaching you
-how Flutter works.
+這裡的目標是引導你學習 Flutter 的下一步。
+這裡不是教你如何「程式設計」，
+而是教你 Flutter 的運作方式。
 
 
 </div>
@@ -32,56 +31,43 @@ how Flutter works.
 
 
 :::note
-These fundamentals docs are still a work
-in progress and we welcome your feedback!
-Please consider filling out the survey
-listed at the bottom of this page and on the
-new subject pages in this section.
+這些基礎知識文件仍在持續完善中，歡迎你提供寶貴意見！
+請考慮填寫本頁底部及本區新主題頁面上的問卷。
 :::
 
-We suggest that you work through the
-following subjects in the listed order.
+我們建議你依照下列順序學習這些主題：
 
- 1. [Intro to Dart][] _(Optional)_
-    As you might know, Flutter uses the [Dart language][].
-    If you have experience with other object-oriented
-    languages, like Java, C++, or Swift,
-    Dart should feel familiar to you.
-    As of this writing,
-    [Dart is one of the fastest growing languages][dart-lang],
-    in part, thanks to Flutter.
- 2. [Widget fundamentals][]
-    Learn about one of the primary building blocks
-    of a Flutter application, widgets.
- 3. [Layout][]
-    Flutter is different from other UI frameworks
-    in that you create the layout programmatically.
-    This allows you to compose widgets,
-    Flutter's basic building blocks,
-    to realize your own layout vision.
-    It also facilitates designing a UI to
-    optimize any screen where your app might be used.
- 4. [State management][]
-    Learn how to share state between widgets and notify other parts of your app
-    when the state changes.
-    See how to implement MVVM in Flutter to manage state effectively
-    for small to medium-sized apps.
- 5. [Handling user input][]
-    Learn about Flutter's widgets that support
-    interactivity, like buttons and text.
-    Also, learn how to add interactivity to
-    a widget that doesn't already support it.
- 6. [Networking and data][]
-    Networking is a very large topic,
-    so this section focuses on basic networking
-    functionality, such as how to retrieve
-    or submit data using HTTP,
-    how to convert to and from JSON,
-    how to use authentication, 
-    how to implement asynchronicity, and more.
- 7. [Local data and caching][]
-    Learn about different techniques for caching
-    local data.
+ 1. [Dart 入門][Intro to Dart] _(選擇性)_
+    如你所知，Flutter 採用 [Dart 語言][Dart language]。
+    如果你有其他物件導向語言（如 Java、C++ 或 Swift）的經驗，
+    Dart 對你來說應該會很熟悉。
+    截至目前為止，
+    [Dart 是成長最快的語言之一][dart-lang]，
+    這部分要歸功於 Flutter。
+ 2. [元件 (Widgets) 基礎][Widget fundamentals]
+    了解 Flutter 應用程式的主要組成單元之一——元件 (Widgets)。
+ 3. [版面配置 (Layout)][Layout]
+    Flutter 與其他 UI 框架不同，
+    你需要以程式化方式建立版面配置。
+    這讓你可以組合元件 (Widgets)，
+    也就是 Flutter 的基本構件，
+    來實現你自己的版面設計想法。
+    此外，也方便你設計 UI，
+    以最佳化你的應用程式在任何螢幕上的顯示效果。
+ 4. [狀態管理][State management]
+    學習如何在元件 (Widgets) 之間共享狀態，並在狀態變更時通知應用程式的其他部分。
+    了解如何在 Flutter 中實作 MVVM，有效管理小型到中型應用程式的狀態。
+ 5. [處理使用者輸入][Handling user input]
+    了解 Flutter 支援互動的元件 (Widgets)，如按鈕和文字。
+    也學習如何為尚未支援互動的元件 (Widget) 增加互動性。
+ 6. [網路與資料][Networking and data]
+    網路是一個很大的主題，
+    本節聚焦於基礎網路功能，例如如何透過 HTTP 取得或提交資料、
+    如何進行 JSON 轉換、
+    如何使用驗證、
+    如何實作非同步處理，以及更多內容。
+ 7. [本地資料與快取][Local data and caching]
+    學習各種本地資料快取的技巧。
 
 [Dart language]: {{site.dart-site}}
 [dart-lang]: https://twitter.com/MiSvTh/status/1732002450641400276?cxt
@@ -94,9 +80,9 @@ following subjects in the listed order.
 [Widget fundamentals]: /get-started/fundamentals/widgets
 [your first Flutter codelab]: {{site.codelabs}}/codelabs/flutter-codelab-first
 
-## Feedback
+## 意見回饋
 
-As this section of the website is evolving,
-we [welcome your feedback][]!
+由於本區內容仍在持續發展中，
+我們[歡迎你的意見回饋][welcome your feedback]！
 
 [welcome your feedback]: https://google.qualtrics.com/jfe/form/SV_6A9KxXR7XmMrNsy?page="index"

@@ -1,22 +1,22 @@
 ---
-title: Cupertino design for Flutter
-description: Learn about Cupertino design for Flutter.
+title: Flutter 的 Cupertino 設計
+description: 了解 Flutter 的 Cupertino 設計。
 ---
 
-The Flutter Cupertino library is a collection
-of widgets that implement Apple's iOS design language
-for Flutter apps. The widgets have a similar look
-and feel to iOS, including rounded corners, gradients,
-and minimalistic design.
-They also include iOS interactions and animations.
+Flutter 的 Cupertino 函式庫是一組
+實作 Apple iOS 設計語言的元件 (Widgets)，
+可用於 Flutter 應用程式。這些元件 (Widgets) 呈現出
+與 iOS 類似的外觀與操作體驗，包括圓角、漸層
+以及極簡設計風格。
+它們同時也包含 iOS 的互動與動畫 (Animation)。
 
-The following 15-minute video provides a high-level
-glimpse of the Cupertino package:
+以下這段 15 分鐘的影片，將為你高層次
+介紹 Cupertino 套件：
 
 {% ytEmbed '3PdUaidHc-E', 'Flutter\'s Cupertino Package' %}
 
-To see some Cupertino widgets in action, the following videos from the
-Widget of the Week series cover a few of them.
+若想觀看部分 Cupertino 元件 (Widgets) 的實際應用，以下
+Widget of the Week 系列影片介紹了其中幾個元件 (Widgets)。
 
 <div class="card-grid">
   <div class="card wrapped-card outlined-card">
@@ -46,18 +46,16 @@ Widget of the Week series cover a few of them.
   </div>
 </div>
 
-## More information {:.no_toc}
+## 更多資訊 {:.no_toc}
 
-To learn more about using the Cupertino
-package with Flutter,
-check out the following resources:
+想進一步了解如何在 Flutter 中使用 Cupertino
+套件，請參考以下資源：
 
-* The (mostly visual) [Cupertino widget catalog][]
-  on doc.flutter.dev
-* The [Cupertino library][] page in the API docs
-* The [Cupertino API examples][] on the flutter/flutter
-  repo. ([Instructions][]) For example,
-  to run `CupertinoSwitch`:
+* doc.flutter.dev 上（以視覺為主的）[Cupertino 元件 (Widgets) 目錄][Cupertino widget catalog]
+* API 文件中的 [Cupertino 函式庫][Cupertino library] 頁面
+* flutter/flutter
+  原始碼庫中的 [Cupertino API 範例][Cupertino API examples]。（[操作說明][Instructions]）例如，
+  若要執行 `CupertinoSwitch`：
 
 ```console
 cd path/to/flutter

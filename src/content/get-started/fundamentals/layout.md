@@ -1,130 +1,60 @@
 ---
-title: Layouts
-description: Learn how to create layouts in Flutter.
+title: 版面配置
+description: 學習如何在 Flutter 中建立版面配置。
 prev:
-  title: Widgets
+  title: 元件 (Widgets)
   path: /get-started/fundamentals/widgets
 next:
-  title: State management
+  title: 狀態管理
   path: /get-started/fundamentals/state-management
 ---
 
-Given that Flutter is a UI toolkit,
-you'll spend a lot of time creating layouts
-with Flutter widgets. In this section,
-you'll learn how to build layouts with some of the
-most common layout widgets.
-You'll use Flutter DevTools (also
-called Dart DevTools) to understand how
-Flutter is creating your layout.
-Finally, you'll encounter and debug one of
-Flutter's most common layout errors,
-the dreaded "unbounded constraints" error.
+由於 Flutter 是一套 UI 工具包，你會花很多時間使用 Flutter 元件 (Widgets) 來建立版面配置。在本節中，你將學習如何使用一些最常見的版面配置元件 (Layout widgets) 來建立版面。你也會使用 Flutter DevTools（也稱為 Dart DevTools）來了解 Flutter 如何建立你的版面。最後，你將遇到並除錯 Flutter 最常見的版面錯誤之一——令人頭痛的「無界限限制（unbounded constraints）」錯誤。
 
-## Understanding layout in Flutter
+## 理解 Flutter 的版面配置
 
-The core of Flutter's layout mechanism is widgets. 
-In Flutter, almost everything is a widget — even 
-layout models are widgets. 
-The images, icons, and text that you see in a 
-Flutter app are all widgets. 
-Things you don't see are also widgets, 
-such as the rows, columns, and grids that arrange,
-constrain, and align the visible widgets.
+Flutter 版面配置機制的核心是元件 (Widgets)。在 Flutter 中，幾乎所有東西都是元件——即使是版面配置模型也是元件。你在 Flutter 應用程式中看到的圖片、圖示和文字，都是元件。你看不到的東西也是元件，例如排列、限制和對齊可見元件 (Widget) 的 rows（行）、columns（列）和 grids（網格）。
 
-You create a layout by composing widgets to 
-build more complex widgets. For example, 
-the diagram below shows 3 icons with a label under
-each one, and the corresponding widget tree:
+你可以透過組合元件來建立更複雜的元件，進而完成版面配置。例如，下圖顯示了三個圖示，每個圖示下方都有一個標籤，以及對應的元件樹：
 
 <img src='/assets/images/docs/fwe/layout/simple_row_column_widget_tree.png' alt="A diagram that shows widget composition with a series of lines and nodes.">
 
-In this example, there's a row of 3 columns where 
-each column contains an icon and a label. 
-All layouts, no matter how complex, 
-are created by composing these layout widgets.
+在這個例子中，有一行包含三個列，每個列中都有一個圖示和一個標籤。所有的版面配置，不論多麼複雜，都是透過這些版面配置元件 (Layout widgets) 組合而成。
 
-### Constraints
+### 限制（Constraints）
 
-Understanding constraints in Flutter is an
-important part of understanding
-how layout works in Flutter.
+理解 Flutter 中的限制（constraints）是了解 Flutter 版面配置運作方式的重要部分。
 
-Layout, in a general sense, refers to the size of 
-the widgets and their positions on the screen. 
-The size and position of any given widget is 
-constrained by its parent; 
-it can't have any size it wants, 
-and it doesn't decide its own place on the screen.
-Instead, size and position are determined by 
-a conversation between a widget and its parent.
+一般來說，版面配置指的是元件的大小以及它們在螢幕上的位置。任何元件的大小和位置都會受到其父元件的限制；它不能隨意設定任何大小，也不能自己決定在螢幕上的位置。相反地，大小和位置是透過元件與其父元件之間的對話來決定的。
 
-In the simplest example, 
-the layout conversation looks like this:
+在最簡單的例子中，這個版面配置對話如下：
 
- 1. A widget receives its constraints from its parent. 
- 2. A constraint is just a set of 4 doubles: 
-    a minimum and maximum width, 
-    and a minimum and maximum height. 
- 3. The widget determines what size it should be
-    within those constraints, and passes its
-    width and height back to the parent. 
- 4. The parent looks at the size it wants to be and
-    how it should be aligned, 
-    and sets the widget's position accordingly. 
-    Alignment can be set explicitly, 
-    using a variety of widgets like `Center`, 
-    and the alignment properties on `Row` and `Column`.
+ 1. 元件從其父元件接收限制（constraints）。
+ 2. 限制其實就是四個 double 數值的集合：最小和最大寬度，以及最小和最大高度。
+ 3. 元件根據這些限制決定自己應該有多大，然後將自己的寬度和高度回傳給父元件。
+ 4. 父元件根據它想要的大小以及應該如何對齊，設定元件的位置。對齊可以明確設定，例如使用各種元件如 `Center`，以及 `Row` 和 `Column` 上的對齊屬性。
 
-In Flutter, this layout conversation is often 
-expressed with the simplified phrase, 
-"Constraints go down. Sizes go up. 
-Parent sets the position."
+在 Flutter 中，這個版面配置對話經常以簡化的說法表達為：「限制往下傳遞，大小往上回報，父元件設定位置。」
 
-### Box types
+### Box 類型
 
-In Flutter, widgets are rendered by their 
-underlying [`RenderBox`][] objects. 
-These objects determine how to handle the
-constraints they're passed.
+在 Flutter 中，元件是由其底層的 [`RenderBox`][`RenderBox`] 物件來繪製。這些物件決定了它們如何處理所接收到的限制（constraints）。
 
-Generally, there are three kinds of boxes:
-* Those that try to be as big as possible. 
-For example, the boxes used by 
-[`Center`][] and [`ListView`][]. 
-* Those that try to be the same size as their
-children. For example, the boxes used by 
-[`Transform`][] and [`Opacity`][]
-* Those that try to be a particular size.
-For example, the boxes used by 
-[`Image`][] and [`Text`][].
+一般來說，有三種 box（方塊）類型：
+* 嘗試盡可能大。例如，[`Center`][`Center`] 和 [`ListView`][`ListView`] 所使用的 box。
+* 嘗試與其子元件一樣大。例如，[`Transform`][`Transform`] 和 [`Opacity`][`Opacity`] 所使用的 box。
+* 嘗試成為特定大小。例如，[`Image`][`Image`] 和 [`Text`][`Text`] 所使用的 box。
 
-Some widgets, for example [`Container`][], 
-vary from type to type based on their 
-constructor arguments. 
-The `Container` constructor defaults to trying to
-be as big as possible, but if you give it a width,
-for instance, it tries to honor that and 
-be that particular size.
+有些元件，例如 [`Container`][`Container`]，會根據建構子的參數在不同 box 類型之間切換。`Container` 建構子預設會嘗試盡可能大，但如果你給它一個寬度，它就會嘗試遵守這個設定，變成特定大小。
 
-Others, for example [`Row`][] and [`Column`][] (flex boxes) 
-vary based on the constraints they are given. 
-Read more about flex boxes and constraints in
-the [Understanding Constraints article][].
+其他元件，例如 [`Row`][`Row`] 和 [`Column`][`Column`] (flex boxes)，則會根據所給的限制（constraints）而有所不同。你可以在 [Understanding Constraints article][Understanding Constraints article] 進一步閱讀有關 flex box 和限制的內容。
 
-## Lay out a single widget
+## 配置單一元件
 
-To lay out a single widget in Flutter, 
-wrap a visible widget, 
-such as `Text` or `Image` with a widget that 
-can change its position on a screen, 
-such as a `Center` widget.
+要在 Flutter 中配置單一元件，可以將一個可見元件 (Widget)，如 `Text` 或 `Image`，包裹在一個可以改變其在螢幕上位置的元件中，例如 `Center` 元件。
 
-:::note Note
-The examples on the page use a widget called 
-`BorderedImage`. This is a custom widget, 
-and is used here to hide
-the code that isn't relevant to this topic.
+:::note 注意
+本頁範例使用了一個名為 `BorderedImage` 的元件。這是一個自訂元件，僅用於隱藏與本主題無關的程式碼。
 :::
 
 ```dart
@@ -135,31 +65,17 @@ Widget build(BuildContext context) {
 }
 ```
 
-The following figure shows a widget that isn't 
-aligned on the left, 
-and a widget that has been centered on the right.
+下圖顯示了左側一個未對齊的元件（Widget），以及右側一個已置中的元件（Widget）。
 
 <img src='/assets/images/docs/fwe/layout/center.png' alt="A screenshot of a centered widget and a screenshot of a widget that hasn't been centered.">
 
-All layout widgets have either of the following:
-* A `child` property if they take a single 
-child—for example, `Center`, `Container`,
-or `Padding`.
-* A `children` property if they take a list 
-of widgets—for example, 
-`Row`, `Column`, `ListView`, or `Stack`.
+所有版面配置元件 (Layout widgets) 都具有以下其中一種屬性：
+* 如果僅接受單一子元件，則具有 `child` 屬性——例如 `Center`、`Container` 或 `Padding`。
+* 如果接受多個元件的清單，則具有 `children` 屬性——例如 `Row`、`Column`、`ListView` 或 `Stack`。
 
 ### Container
 
-`Container` is a convenience widget that's 
-made up of several widgets responsible for layout,
-painting, positioning, and sizing. 
-In regard to layout, 
-it can be used to add padding and 
-margins to a widget. 
-There is also a `Padding` widget
-that could be used here to the same effect. 
-The following example uses a `Container`.
+`Container` 是一個便利元件（Widget），它由多個負責版面配置、繪製（Painting）、定位與尺寸調整的元件所組成。在版面配置方面，它可用來為元件（Widget）添加內距（padding）與邊距（margin）。這裡同樣也可以使用 `Padding` 元件來達到相同效果。以下範例使用了 `Container`。
 
 ```dart
 Widget build(BuildContext context) {
@@ -170,15 +86,14 @@ Widget build(BuildContext context) {
 }
 ```
 
-The following figure shows a widget without 
-padding on the left, 
-and a widget with padding on the right.
+下圖左側顯示沒有左側內距（padding）的元件（Widget），
+右側則顯示有內距的元件。
 
 <img src='/assets/images/docs/fwe/layout/padding.png' alt="A screenshot of a widget with padding and a screenshot of a widget without padding.">
 
-To create more complex layouts in Flutter, 
-you can compose many widgets. 
-For example, you can combine `Container` and `Center`:
+若要在 Flutter 中建立更複雜的版面配置，
+你可以組合多個元件（Widgets）。
+例如，你可以結合 `Container` 和 `Center`：
 
 ```dart
 Widget build(BuildContext context) {
@@ -191,21 +106,19 @@ Widget build(BuildContext context) {
 }
 ```
 
-## Layout multiple widgets vertically or horizontally
+## 垂直或水平排列多個元件（Widgets）
 
-One of the most common layout patterns is to 
-arrange widgets vertically or horizontally. 
-You can use a `Row` widget to arrange widgets 
-horizontally, 
-and a `Column` widget to arrange widgets vertically. 
-The first figure on this page used both.
+其中一個最常見的版面配置模式，就是將元件（Widgets）垂直或水平排列。  
+你可以使用 `Row` 元件來水平排列元件，  
+也可以使用 `Column` 元件來垂直排列元件。  
+本頁的第一張圖同時使用了這兩種元件。
 
-This is the most basic example of using a `Row` widget.
+以下是使用 `Row` 元件的最基本範例。
 
 {% render docs/code-and-image.md,
 image:"fwe/layout/row.png",
-caption: "This figure shows a row widget with three children."
-alt: "A screenshot of a row widget with three children"
+caption: "這張圖顯示了一個具有三個子項的 row 元件。"
+alt: "一個 row 元件，內含三個子項的螢幕截圖"
 code:"
 ```dart
 Widget build(BuildContext context) {
@@ -218,19 +131,14 @@ Widget build(BuildContext context) {
   );
 }
 ```
-" %}
-
-Each child of `Row` or `Column` can be 
-rows and columns themselves, 
-combining to make a complex layout.
-For example, you could add labels to each 
-of the images in the example above using columns.
-
+每個 `Row` 或 `Column` 的子項目（child）本身也可以是
+rows 或 columns，彼此組合以建立複雜的版面配置。
+例如，你可以在上述範例中的每個圖片下方，透過 columns 加上標籤。
 
 {% render docs/code-and-image.md,
 image:"fwe/layout/nested_row_column.png",
-caption: "This figure shows a row widget with three children, each of which is a column."
-alt: "A screenshot of a row of three widgets, each of which has a label underneath it."
+caption: "此圖顯示一個 row 元件（Widget），其有三個子項目，每個子項目都是一個 column。"
+alt: "螢幕截圖顯示一排三個元件（Widget），每個元件下方都有一個標籤。"
 code:"
 ```dart
 Widget build(BuildContext context) {
@@ -261,34 +169,31 @@ Widget build(BuildContext context) {
 " %}
 
 
-### Align widgets within rows and columns
+### 在 Row 和 Column 中對齊元件 (Widgets)
 
-In the following example, 
-the widgets are each 200 pixels wide, 
-and the viewport is 700 pixels wide. 
-The widgets are consequently aligned to the left, 
-one after the other, 
-with all the extra space on the right.
+在以下範例中，
+每個元件 (Widget) 的寬度為 200 像素，
+而檢視區（viewport）的寬度為 700 像素。
+因此，這些元件會依序向左對齊，
+多餘的空間則集中在右側。
 
 <img src='/assets/images/docs/fwe/layout/left_alignment.png' alt="A diagram that shows three widgets laid out in a row. Each child widget is labeled as 200px wide, and the blank space on the right is labeled as 100px wide.">
 
-You control how a row or column aligns its
-children using the `mainAxisAlignment` and 
-`crossAxisAlignment` properties.
-For a row, the main axis runs horizontally and 
-the cross axis runs vertically. For a column, 
-the main axis runs
-vertically and the cross axis runs horizontally.
+你可以透過 `mainAxisAlignment` 和
+`crossAxisAlignment` 屬性來控制 Row 或 Column
+如何對齊其子元件 (children)。
+對於 Row 來說，主軸（main axis）是水平方向，
+而交叉軸（cross axis）是垂直方向；對於 Column，
+主軸則是垂直方向，交叉軸則是水平方向。
 
 <img src='/assets/images/docs/fwe/layout/axes_diagram.png' alt="A diagram that shows the direction of the main axis and cross axis in both rows and columns">
 
-Setting the main axis alignment to `spaceEvenly` 
-divides the free horizontal space evenly between,
-before, and after each image.
+將主軸對齊方式設為 `spaceEvenly`
+會將多餘的水平空間平均分配在每個圖片之間、前面以及後面。
 
 {% render docs/code-and-image.md,
 image:"fwe/layout/space_evenly.png",
-caption: "This figure shows a row widget with three children, which are aligned with the MainAxisAlignment.spaceEvenly constant."
+caption: "此圖顯示一個 Row 元件 (Widget) 有三個子元件，並以 MainAxisAlignment.spaceEvenly 常數平均對齊。",
 alt: "A screenshot of three widgets, spaced evenly from each other."
 code:"
 ```dart
@@ -305,43 +210,35 @@ Widget build(BuildContext context) {
 ```
 " %}
 
-Columns work the same way as rows. 
-The following example shows a column of 3 images, 
-each is 100 pixels high. The height of the 
-render box (in this case, the entire screen) 
-is more than 300 pixels, 
-so setting the main axis alignment to `spaceEvenly` 
-divides the free vertical space evenly between,
-above, and below each image.
+欄（Column）與列（Row）運作方式相同。
+以下範例展示了一個由 3 張圖片組成的欄，
+每張圖片高度為 100 像素。該渲染框（在此例中為整個螢幕）的
+高度超過 300 像素，因此將主軸對齊（main axis alignment）設為 `spaceEvenly`
+會將多餘的垂直空間平均分配在每張圖片之間、上方與下方。
 
 <img src='/assets/images/docs/fwe/layout/col_space_evenly.png' alt="A screenshot of a three widgets laid out vertically, using a column widget.">
 
-The [`MainAxisAlignment`][] and [`CrossAxisAlignment`][] 
-enums offer a variety of constants for 
-controlling alignment.
+[`MainAxisAlignment`][`MainAxisAlignment`] 和 [`CrossAxisAlignment`][`CrossAxisAlignment`]
+這兩個 enum 提供多種常數，可用來控制對齊方式。
 
-Flutter includes other widgets that can be used 
-for alignment, notably the `Align` widget.
+Flutter 也包含其他可用於對齊的元件（Widgets），其中較常用的是 `Align` 元件。
 
-### Sizing widgets within rows and columns
+### 在 Row 與 Column 中調整元件尺寸
 
-When a layout is too large to fit a device, 
-a yellow and black striped pattern appears 
-along the affected edge. 
-In this example, the viewport is 400 pixels wide,
-and each child is 150 pixels wide.
+當版面配置超出裝置可顯示範圍時，
+受影響的邊緣會出現黃黑相間的條紋圖案。
+在此範例中，檢視區（viewport）寬度為 400 像素，
+每個子元件寬度為 150 像素。
 
 <img src='/assets/images/docs/fwe/layout/overflowing_row.png' alt="A screenshot of a row of widgets that are wider than their viewport.">
 
-Widgets can be sized to fit within a 
-row or column by using the `Expanded` widget. 
-To fix the previous example where the row of 
-images is too wide for its render box, 
-wrap each image with an [`Expanded`][] widget.
+可以使用 `Expanded` 元件，將元件尺寸調整至適合於
+Row 或 Column 之中。若要修正前述圖片列過寬
+導致超出渲染框的問題，請將每張圖片包裹在 [`Expanded`][`Expanded`] 元件中。
 
 {% render docs/code-and-image.md,
 image:"fwe/layout/expanded_row.png",
-caption: "This figure shows a row widget with three children that are wrapped with `Expanded` widgets."
+caption: "此圖顯示一個 Row 元件，其三個子元件皆包裹於 `Expanded` 元件中。"
 alt: "A screenshot of three widgets, which take up exactly the amount of space available on the main axis. All three widgets are equal width."
 code:"
 ```dart
@@ -363,21 +260,12 @@ Widget build(BuildContext context) {
 ```
 " %}
 
-The `Expanded` widget can also dictate how much 
-space a widget should take up relative
-to its siblings. For example,
-perhaps you want a widget to occupy twice 
-as much space as its siblings. 
-For this, use the `Expanded` widgets `flex` property, 
-an integer that determines the flex factor 
-for a widget. The default flex factor is 1. 
-The following code sets the flex factor of the
-middle image to 2:
+`Expanded` 元件（Widget）也可以決定某個元件（Widget）相對於其兄弟元件應該佔用多少空間。例如，你可能希望某個元件佔用的空間是其兄弟元件的兩倍。這時，可以使用 `Expanded` 元件的 `flex` 屬性，這是一個整數，用來決定該元件的彈性係數（flex factor）。預設的彈性係數為 1。以下程式碼將中間圖片的彈性係數設為 2：
 
 {% render docs/code-and-image.md,
 image:"fwe/layout/flex_2_row.png",
-caption: "This figure shows a row widget with three children which are wrapped with `Expanded` widgets. The center child has it's `flex` property set to 2."
-alt: "A screenshot of three widgets, which take up exactly the amount of space available on the main axis. The widget in the center is twice as wide as the widgets on the left and right."
+caption: "此圖顯示一個具有三個子元件的 row 元件（Widget），這些子元件都包裹在 `Expanded` 元件中。中間的子元件其 `flex` 屬性被設為 2。"
+alt: "三個元件的螢幕截圖，它們在主軸上剛好佔滿所有可用空間。中間的元件寬度是左右兩側元件的兩倍。"
 code:"
 ```dart
 Widget build(BuildContext context) {
@@ -399,80 +287,40 @@ Widget build(BuildContext context) {
 ```
 " %}
 
-## DevTools and debugging layout
+## DevTools 與版面配置除錯
 
-In certain situations, 
-a box's constraint is unbounded, or infinite. 
-This means that either the maximum width or the
-maximum height is set to [`double.infinity`][]. 
-A box that tries to be as big as possible won't
-function usefully when given an 
-unbounded constraint and, in debug mode, 
-throws an exception.
+在某些情況下，一個 box 的限制（constraint）是無界（unbounded）或無限（infinite）的。這代表最大寬度或最大高度被設為 [`double.infinity`][`double.infinity`]。當一個 box 嘗試盡可能變大時，如果給予它無界的限制，在 debug 模式下會丟出例外，因為這樣的 box 無法正常運作。
 
-The most common case where a render box ends up
-with an unbounded constraint is within a 
-flex box ([`Row`][] or [`Column`][]), 
-and within a scrollable region 
-(such as [`ListView`][] and other [`ScrollView`][] subclasses). 
-`ListView`, for example, tries to expand to
-fit the space available in its cross-direction 
-(perhaps it's a vertically-scrolling
-block and tries to be as wide as its parent). 
-If you nest a vertically scrolling `ListView`
-inside a horizontally scrolling `ListView`,
-the inner list tries to be as wide as possible, 
-which is infinitely wide, since the outer one is
-scrollable in that direction.
+最常見的情況是，當一個 render box 處於 flex box（如 [`Row`][`Row`] 或 [`Column`][`Column`]）內，或是在可滾動區域（例如 [`ListView`][`ListView`] 及其他 [`ScrollView`][`ScrollView`] 子類別）中時，會遇到無界限制。例如，`ListView` 會嘗試在交錯方向（cross-direction）上展開以符合可用空間（也許它是一個垂直滾動的區塊，並嘗試與其父元件一樣寬）。如果你將一個垂直滾動的 `ListView` 巢狀放在一個水平滾動的 `ListView` 內，內層的列表會嘗試變得盡可能寬，而這個寬度是無限的，因為外層在該方向上是可滾動的。
 
-Perhaps the most common error you'll run into 
-while building a Flutter application is due to 
-incorrectly using layout widgets, 
-and is referred to as the "unbounded constraints" 
-error.
+你在開發 Flutter 應用程式時，最常遇到的錯誤之一，就是錯誤地使用版面配置元件（Layout widgets），這類錯誤被稱為「無界限制（unbounded constraints）」錯誤。
 
-If there was only one type error you should be 
-prepared to confront when you first start building
-Flutter apps, it would be this one.
+如果你剛開始開發 Flutter 應用程式，只需要準備面對一種型別的錯誤，那就是這個。
 
 {% ytEmbed 'jckqXR5CrPI', 'Decoding Flutter: Unbounded height and width' %}
 
-:::note The Widget inspector
-Flutter has a robust suite of DevTools that
-help you work with any number of aspects of
-Flutter development.
-The "Widget Inspector" tool is particularly
-useful when building and debugging layouts (and working with widgets in general).
+:::note Widget 檢查器
+Flutter 提供了完整的 DevTools 工具組，協助你處理 Flutter 開發的各種面向。
+其中「Widget Inspector」工具在建立與除錯版面配置（以及一般元件操作）時特別有用。
 
-[Learn more about the Flutter inspector][].
+[進一步了解 Flutter inspector][Learn more about the Flutter inspector]。
 :::
 
-##  Scrolling widgets
+## 滾動元件 (Scrolling Widgets)
 
-Flutter has many built-in widgets that
-automatically scroll and also offers a variety of
-widgets that you can customize to
-create specific scrolling behavior.
-On this page, you'll see how to use the most common widget for
-making any page scrollable,
-as well as a widget for creating scrollable lists.
+Flutter 內建許多會自動滾動的元件（Widgets），也提供多種可自訂的元件，讓你建立特定的滾動行為。
+本頁將介紹如何使用最常見的元件來讓任何頁面可滾動，以及建立可滾動列表的元件。
 
 ### ListView
 
-`ListView` is a column-like widget that 
-automatically provides scrolling when its 
-content is longer than its render box.
-The most basic way to use a `ListView` is 
-very similar to using a `Column` or `Row`. 
-Unlike a column or row, 
-a `ListView` requires its children to take up 
-all the available space on the cross axis, 
-as shown in the example below. 
+`ListView` 是一個類似 column 的元件，當其內容超過自身 render box 長度時，會自動提供滾動功能。
+最基本的 `ListView` 用法與 `Column` 或 `Row` 非常相似。
+不同於 column 或 row，`ListView` 要求其子元件（children）在交錯軸（cross axis）上必須佔滿所有可用空間，如下方範例所示。
 
 {% render docs/code-and-image.md,
 image:"fwe/layout/basic_listview.png",
-caption: "This figure shows a ListView widget with three children."
-alt: "A screenshot of three widgets laid out vertically. They have expanded to take up all available space on the cross axis."
+caption: "此圖顯示了一個包含三個子元件的 ListView 元件。"
+alt: "三個元件垂直排列的螢幕截圖。它們已經在交錯軸上展開，佔滿所有可用空間。"
 code:"
 ```dart
 Widget build(BuildContext context) {
@@ -487,23 +335,18 @@ Widget build(BuildContext context) {
 ```
 " %}
 
-`ListView`s are commonly used when you have an 
-unknown or very large (or infinite) number of list items. 
-When this is the case, 
-it's best to use the `ListView.builder` constructor. 
-The builder constructor only builds the 
-children that are currently visible on screen.
+`ListView` 通常用於當你有未知數量、非常大量（或無限）的清單項目時。  
+在這種情況下，建議使用 `ListView.builder` 建構函式（constructor）。  
+builder 建構函式只會建立目前螢幕上可見的子元件（children）。
 
-In the following example, 
-the `ListView` is displaying a list of to-do items. 
-The todo items are being fetched from a repository, 
-and therefore the number of todos is unknown.
-
+在以下範例中，`ListView` 正在顯示一個待辦事項（to-do）清單。  
+這些待辦事項是從資料儲存庫（repository）中取得，  
+因此待辦事項的數量是未知的。
 
 {% render docs/code-and-image.md,
 image:"fwe/layout/listview_builder.png",
-caption: "This figure shows the ListView.builder constructor to display an unknown number of children."
-alt: "A screenshot of several widgets laid out vertically. They have expanded to take up all available space on the cross axis."
+caption: "此圖展示了 ListView.builder 建構函式用於顯示未知數量的子元件（children）。"
+alt: "多個元件（Widget）垂直排列的螢幕截圖。這些元件已經展開，佔據了橫向所有可用空間。"
 code:"
 ```dart
 final List<ToDo> items = Repository.fetchTodos();
@@ -529,79 +372,36 @@ Widget build(BuildContext context) {
 ```
 " %}
 
-## Adaptive layouts
+## 自適應版面配置
 
-Because Flutter is used to create mobile,
-tablet, desktop, _and_ web apps,
-it's likely you'll need to adjust your
-application to behave differently depending on
-things like screen size or input device.
-This is referred to as making an app
-_adaptive_ and _responsive_.
+由於 Flutter 可用於建立行動裝置、平板、桌面以及網頁應用程式，因此你很可能需要根據螢幕大小或輸入裝置等因素，調整應用程式的行為。這種根據不同環境調整應用程式的作法，稱為讓應用程式具備「自適應」（adaptive）與「響應式」（responsive）特性。
 
-One of the most useful widgets in making 
-adaptive layouts is the [`LayoutBuilder`][] widget. 
-`LayoutBuilder` is one of many widgets that uses
-the "builder" pattern in Flutter.
+在實現自適應版面配置時，其中一個最實用的元件（Widget）就是 [`LayoutBuilder`][`LayoutBuilder`] 元件。`LayoutBuilder` 是 Flutter 中眾多採用「builder」模式的元件之一。
 
-### The builder pattern
+### builder 模式
 
-In Flutter, you'll find several widgets that use 
-the word "builder" in their names or 
-in their constructors. 
-The following list isn't exhaustive:
+在 Flutter 中，你會發現有許多元件的名稱或建構函式中包含「builder」這個詞。以下清單並非全部：
 
-* [`ListView.builder`][]
-* [`GridView.builder`][]
-* [`Builder`][]
-* [`LayoutBuilder`][]
-* [`FutureBuilder`][]
+* [`ListView.builder`][`ListView.builder`]
+* [`GridView.builder`][`GridView.builder`]
+* [`Builder`][`Builder`]
+* [`LayoutBuilder`][`LayoutBuilder`]
+* [`FutureBuilder`][`FutureBuilder`]
 
-These different "builders" are useful for solving 
-different problems. For example, 
-the `ListView.builder` constructor is primarily used
-to lazily render items in a list, 
-while the `Builder` widget is useful for gaining 
-access to the `BuildContext` in deeply widget code.
+這些不同的「builder」元件適用於解決不同的問題。例如，`ListView.builder` 建構函式主要用於延遲渲染清單中的項目，而 `Builder` 元件則適合在深層元件程式碼中存取 `BuildContext`。
 
-Despite their different use cases, 
-these builders are unified by how they work. 
-Builder widgets and builder constructors all have 
-arguments called 'builder' 
-(or something similar, 
-like `itemBuilder` in the case of `ListView.builder`), 
-and the builder argument always accepts a
-callback. 
-This callback is a __builder function__. 
-Builder functions are callbacks that pass data to
-the parent widget, 
-and the parent widget uses those arguments to 
-build and return the child widget.
-Builder functions always pass in at least
-one argument–the build context–
-and generally at least one other argument.
+儘管用途不同，這些 builder 元件的運作方式是一致的。builder 元件與 builder 建構函式都會有名為 'builder' 的參數（或類似名稱，例如 `ListView.builder` 中的 `itemBuilder`），而這個 builder 參數總是接受一個回呼函式（callback）。這個回呼函式稱為 __builder 函式__。builder 函式會將資料傳遞給父元件，父元件則利用這些參數來建立並回傳子元件。builder 函式至少會傳入一個參數──build context──通常還會有其他參數。
 
-For example, the `LayoutBuilder` widget is used 
-to create responsive layouts based 
-on the size of the viewport. The builder callback
-body is passed the [`BoxConstraints`][] that it receives
-from its parent, along with the widgets 'BuildContext'. 
-With these constraints, you can return a different
-widget based on the available space.
+舉例來說，`LayoutBuilder` 元件可用來根據檢視區（viewport）的大小建立響應式版面配置。builder 回呼函式的主體會從父元件接收到 [`BoxConstraints`][`BoxConstraints`]，以及元件的 'BuildContext'。有了這些限制條件，你就能根據可用空間回傳不同的元件。
 
 {% ytEmbed 'IYDVcriKjsw', 'LayoutBuilder (Flutter Widget of the Week)' %}
 
-In the following example, 
-the widget returned by the `LayoutBuilder` 
-changes based on whether the viewport is 
-less than or equal 600 pixels,
-or greater than 600 pixels.
-
+在下方範例中，`LayoutBuilder` 所回傳的元件會根據檢視區寬度是否小於或等於 600 像素，或大於 600 像素而有所不同。
 
 {% render docs/code-and-image.md,
 image:"fwe/layout/layout_builder.png",
-caption: "This figure shows a narrow layout, which lays out its children vertically, and a wider layout, which lays out its children in a grid."
-alt: "Two screenshots, in which one shows a narrow layout and the other shows a wide layout."
+caption: "此圖顯示一個窄版面配置（子元件垂直排列）以及一個寬版面配置（子元件以網格排列）。"
+alt: "兩個螢幕截圖，一個顯示窄版面配置，另一個顯示寬版面配置。"
 code:"
 ```dart
 Widget build(BuildContext context) {
@@ -616,22 +416,16 @@ Widget build(BuildContext context) {
   );
 }
 ```
-" %}
+同時，`ListView.builder` 建構函式中的 `itemBuilder` 回呼函式會接收 build context 以及 `int`。  
+這個回呼函式會針對清單中的每一個項目各自被呼叫一次，  
+而 int 參數則代表該清單項目的索引。
 
-Meanwhile, the `itemBuilder` callback on the 
-`ListView.builder` constructor is passed the 
-build context and an `int`.
-This callback is called once for every item 
-in the list, 
-and the int argument represents the index of the list item. 
-The first time the itemBuilder callback is called 
-when Flutter is building the UI, 
-the int passed to the function is 0, 
-the second time it's 1, and so on.
+每當 Flutter 建立 UI 時，第一次呼叫 itemBuilder 回呼時，  
+傳入的 int 會是 0，第二次則是 1，依此類推。
 
-This allows you to provide specific configuration 
-based on the index. Recall the example above using
-the`ListView.builder` constructor:
+這讓你可以根據索引提供特定的設定。
+
+請回想上方使用 `ListView.builder` 建構函式的範例：
 
 ```dart
 final List<ToDo> items = Repository.fetchTodos();
@@ -656,19 +450,13 @@ Widget build(BuildContext context) {
 }
 ```
 
-This example code uses the index that's 
-passed into the builder to grab the correct 
-todo from the list of items, 
-and then displays that todo's data in 
-the widget that is returned from the builder.
+這段範例程式碼使用傳遞給 builder 的索引（index），從項目清單中取得正確的待辦事項（todo），然後將該待辦事項的資料顯示在 builder 回傳的元件（Widget）中。
 
-To exemplify this, 
-the following example changes the 
-background color of every other list item.
+為了說明這一點，下列範例會將每個清單項目的背景顏色交錯變化。
 
 {% render docs/code-and-image.md,
 image:"fwe/layout/alternating_list_items.png"
-caption:"This figure shows a `ListView`, in which its children have alternating background colors. The background colors were determined programmatically based on the index of the child within the `ListView`."
+caption:"此圖顯示了一個`ListView`，其子元件具有交錯的背景顏色。背景顏色是根據該子元件在`ListView`中的索引值以程式方式決定的。"
 code:"
 ```dart
 final List<ToDo> items = Repository.fetchTodos();
@@ -693,44 +481,43 @@ Widget build(BuildContext context) {
   );
 }
 ```
-" %}
+```markdown
+## 其他資源
 
-## Additional resources
+* 常用版面配置元件 (Layout widgets) 與概念
+  * 影片：[OverlayPortal—Flutter Widget of the Week][OverlayPortal—Flutter Widget of the Week]
+  * 影片：[Stack—Flutter Widget of the Week][Stack—Flutter Widget of the Week]
+  * 教學：[Layouts in Flutter][Layouts in Flutter]
+  * 文件：[Stack documentation][Stack documentation]
+* 元件 (Widgets) 的尺寸與定位
+  * 影片：[Expanded—Flutter Widget of the Week][Expanded—Flutter Widget of the Week]
+  * 影片：[Flexible—Flutter Widget of the Week][Flexible—Flutter Widget of the Week]
+  * 影片：[Intrinsic widgets—Decoding Flutter][Intrinsic widgets—Decoding Flutter]
+* 可捲動元件 (Scrollable widgets)
+  * 範例程式碼：[Work with long lists][Work with long lists]
+  * 範例程式碼：[Create a horizontal list][Create a horizontal list]
+  * 範例程式碼：[Create a grid list][Create a grid list]
+  * 影片：[ListView—Flutter Widget of the Week][ListView—Flutter Widget of the Week]
+* 自適應應用程式 (Adaptive Apps)
+  * 教學：[Adaptive Apps codelab][Adaptive Apps codelab]
+  * 影片：[MediaQuery—Flutter Widget of the Week][MediaQuery—Flutter Widget of the Week]
+  * 影片：[Building platform adaptive apps][Building platform adaptive apps]
+  * 影片：[Builder—Flutter Widget of the Week][Builder—Flutter Widget of the Week]
 
-* Common layout widgets and concepts
-  * Video: [OverlayPortal—Flutter Widget of the Week][]
-  * Video: [Stack—Flutter Widget of the Week][]
-  * Tutorial: [Layouts in Flutter][]
-  * Documentation: [Stack documentation][]
-* Sizing and positioning widgets
-  * Video: [Expanded—Flutter Widget of the Week][]
-  * Video: [Flexible—Flutter Widget of the Week][]
-  * Video: [Intrinsic widgets—Decoding Flutter][]
-* Scrollable widgets
-  * Example code: [Work with long lists][]
-  * Example code: [Create a horizontal list][]
-  * Example code: [Create a grid list][]
-  * Video: [ListView—Flutter Widget of the Week][]
-* Adaptive Apps
-  * Tutorial: [Adaptive Apps codelab][]
-  * Video: [MediaQuery—Flutter Widget of the Week][]
-  * Video: [Building platform adaptive apps][]
-  * Video: [Builder—Flutter Widget of the Week][]
+### API 參考
 
-### API reference
+以下資源說明各個 API。
 
-The following resources explain individual APIs.
-
-* [`Builder`][]
-* [`Row`][]
-* [`Column`][]
-* [`Expanded`][]
-* [`Flexible`][]
-* [`ListView`][]
-* [`Stack`][]
-* [`Positioned`][]
-* [`MediaQuery`][]
-* [`LayoutBuilder`][]
+* [`Builder`][`Builder`]
+* [`Row`][`Row`]
+* [`Column`][`Column`]
+* [`Expanded`][`Expanded`]
+* [`Flexible`][`Flexible`]
+* [`ListView`][`ListView`]
+* [`Stack`][`Stack`]
+* [`Positioned`][`Positioned`]
+* [`MediaQuery`][`MediaQuery`]
+* [`LayoutBuilder`][`LayoutBuilder`]
 
 [Layouts in Flutter]: /ui/layout
 [Understanding constraints article]: /ui/layout/constraints
@@ -787,9 +574,10 @@ The following resources explain individual APIs.
 [`Row`]:{{site.api}}/flutter/widgets/Row-class.html
 [`Expanded`]: {{site.api}}/flutter/widgets/Expanded-class.html
 
-## Feedback
+## 意見回饋
 
-As this section of the website is evolving,
-we [welcome your feedback][]!
+由於本網站區塊仍在持續演進中，  
+我們[歡迎您的意見回饋][welcome your feedback]！
 
 [welcome your feedback]: https://google.qualtrics.com/jfe/form/SV_6A9KxXR7XmMrNsy?page="layout"
+```

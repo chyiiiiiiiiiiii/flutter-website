@@ -1,52 +1,53 @@
+```markdown
 ---
-title: FloatingActionButton and ThemeData's accent properties
+title: FloatingActionButton 與 ThemeData 的 accent 屬性
 description: >
-  Remove FloatingActionButton's undocumented use of
-  the ThemeData accentTextTheme property, and
-  its unnecessary use of accentIconTheme.
+  移除 FloatingActionButton 未文件化的
+  ThemeData accentTextTheme 屬性使用，
+  以及其不必要的 accentIconTheme 使用。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-Removed Flutter's `FloatingActionButton` (FAB) dependency on
-`ThemeData` accent properties.
+移除了 Flutter 的 `FloatingActionButton`（FAB）對
+`ThemeData` accent 屬性的依賴。
 
-## Context
+## 背景
 
-This was a small part of the [Material Theme System Updates][] project.
+這是 [Material Theme System Updates][Material Theme System Updates] 專案中的一個小部分。
 
-Previously, the `ThemeData` [`accentIconTheme`] property was only
-used by [`FloatingActionButton`][] to determine the default
-color of the text or icons that appeared within the button.
+過去，`ThemeData` [`accentIconTheme`] 屬性僅被
+[`FloatingActionButton`][`FloatingActionButton`] 用來決定按鈕內部
+文字或圖示的預設顏色。
 
-`FloatingActionButton` also used the
-`ThemeData accentTextTheme` property,
-however this dependency was undocumented and unnecessary.
+`FloatingActionButton` 也會使用
+`ThemeData accentTextTheme` 屬性，
+但這個依賴既未文件化也非必要。
 
-Both of these dependencies were confusing.
-For example if one configured the `Theme`'s `accentIconTheme`
-to change the appearance of all floating action buttons,
-it was difficult to know what other components would be affected,
-or might be affected in the future.
+這兩個依賴都容易造成混淆。
+例如，若設定 `Theme` 的 `accentIconTheme`
+來改變所有 FloatingActionButton 的外觀時，
+很難知道還有哪些元件會受到影響，
+或未來可能會受到影響。
 
-The [Material Design spec][] no longer includes an "accent" color.
-The `ColorScheme`'s [secondary color][] is now used instead.
+[Material Design 規範][Material Design spec] 現已不再包含「accent」色彩。
+現在改為使用 `ColorScheme` 的 [secondary color][secondary color]。
 
-Previously, applications could configure the color of text and icons
-within `FloatingActionButtons` with the widget's `foregroundColor`
-property, or with the `FloatingActionButtonTheme`'s `foregroundColor`.
-If neither `foregroundColor` property was specified, the foreground
-color defaulted to the `accentIconTheme`'s color.
+過去，應用程式可以透過元件的 `foregroundColor` 屬性，
+或是 `FloatingActionButtonTheme` 的 `foregroundColor`，
+來設定 `FloatingActionButtons` 內文字與圖示的顏色。
+如果這兩個屬性都未指定，前景色會預設為 `accentIconTheme` 的顏色。
 
-With this change, the default behavior uses the color scheme's
-`onSecondary` color instead.
+此變更後，預設行為改為使用色彩方案的
+`onSecondary` 色彩。
 
-## Description of change
+## 變更說明
 
-Previously, the `accentIconTheme` provided a default for the
-`FloatingActionButton`'s `foregroundColor` property:
+過去，`accentIconTheme` 會為
+`FloatingActionButton` 的 `foregroundColor` 屬性提供預設值：
+```
 
 ```dart
     final Color foregroundColor = this.foregroundColor
@@ -55,17 +56,9 @@ Previously, the `accentIconTheme` provided a default for the
       ?? theme.colorScheme.onSecondary;
 ```
 
-Apps that configure their theme's `accentIconTheme`
-to effectively configure the `foregroundColor` of all
-floating action buttons, can get the same effect by
-configuring the `foregroundColor` of their theme's
-`floatingActionButtonTheme`.
+如果應用程式透過設定其主題的 `accentIconTheme`，來有效地設定所有 floating action buttons（浮動操作按鈕）的 `foregroundColor`，那麼現在可以透過設定其主題的 `floatingActionButtonTheme` 的 `foregroundColor`，來達到相同的效果。
 
-The `FloatingActionButton`'s `foregroundColor` is now used
-to configure the `textStyle` of the `RawMaterialButton`
-created by `FloatingActionButton`. Previously,
-this text style was based on the button style of
-`ThemeData.accentTextTheme`:
+`FloatingActionButton` 的 `foregroundColor` 現在會用來設定由 `textStyle` 建立的 `RawMaterialButton` 的 `FloatingActionButton`。先前，這個文字樣式是根據 `ThemeData.accentTextTheme` 的 button style（按鈕樣式）來設定的：
 
 ```dart
 // theme.accentTextTheme becomes theme.textTheme
@@ -76,26 +69,18 @@ final TextStyle textStyle = theme.accentTextTheme.button.copyWith(
 
 ```
 
-Except in a case where an app has explicitly configured the
-`accentTextTheme` to take advantage of this undocumented dependency,
-this use of `accentTextTheme` is unnecessary.
-This change replaces this use of `accentTextTheme` with `textTheme`.
+除非應用程式有明確設定`accentTextTheme`來利用這個未公開的相依性，否則這裡使用`accentTextTheme`是沒有必要的。本次變更將這個`accentTextTheme`的用法替換為`textTheme`。
 
-## Migration guide
+## 遷移指南
 
-This change occurred in two steps:
+這項變更分為兩個步驟：
 
-1. If the foreground of a `FloatingActionButton` is set
-   to a non-default color, a warning is now printed.
-2. The `accentIconTheme` dependency was removed.
-   If you haven't already done so, migrate your apps
-   per the pattern below.
+1. 如果`FloatingActionButton`的前景色（foreground）被設為非預設顏色，現在會顯示警告。
+2. 移除了`accentIconTheme`的相依性。如果你尚未進行遷移，請依照下方範例調整你的應用程式。
 
-To configure the `FloatingActionButton`'s `foregroundColor`
-for all FABs, you can configure the theme's
-`floatingActionButtonTheme` instead of its `accentIconTheme`.
+若要為所有 FAB 設定`FloatingActionButton`的`foregroundColor`，你可以設定主題的`floatingActionButtonTheme`，而非`accentIconTheme`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 MaterialApp(
@@ -105,7 +90,7 @@ MaterialApp(
 )
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 MaterialApp(
@@ -117,33 +102,31 @@ MaterialApp(
 )
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 1.16.3<br>
-In stable release: 1.17
+合併於版本：1.16.3<br>  
+進入穩定版：1.17
 
-## References
+## 參考資料
 
-Design doc:
+設計文件：
 
-* [Remove FAB Accent Theme Dependency][]
+* [移除 FAB 對 Accent Theme 的依賴][Remove FAB Accent Theme Dependency]
 
-API documentation:
+API 文件：
 
-* [`FloatingActionButton`][]
-* [`ThemeData`][]
-* [`FloatingActionButtonThemeData`][]
+* [`FloatingActionButton`][`FloatingActionButton`]
+* [`ThemeData`][`ThemeData`]
+* [`FloatingActionButtonThemeData`][`FloatingActionButtonThemeData`]
 
-Relevant PRs:
+相關 PR：
 
-* [Step 1 of 2][] Warn about Flutter's
-  FloatingActionButton dependency on ThemeData accent properties
-* [Step 2 of 2][] Remove Flutter's FloatingActionButton dependency
-  on ThemeData accent properties
+* [第 1 步，共 2 步][Step 1 of 2] 提醒 Flutter 的 FloatingActionButton 依賴 ThemeData 的 accent 屬性
+* [第 2 步，共 2 步][Step 2 of 2] 移除 Flutter 的 FloatingActionButton 對 ThemeData accent 屬性的依賴
 
-Other:
+其他：
 
-* [Material Theme System Updates][]
+* [Material 主題系統更新][Material Theme System Updates]
 
 
 [`accentIconTheme`]: {{site.api}}/flutter/material/ThemeData/accentIconTheme.html

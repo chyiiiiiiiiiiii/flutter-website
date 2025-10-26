@@ -1,45 +1,28 @@
+```markdown
 ---
-title: A new way to customize context menus
+title: 自訂選單的新方式
 description: >
-  Several hard-coded parameters for customizing context menus have 
-  now been replaced by a generic widget builder.
+  多個用於自訂選單的硬編碼參數，現已被通用的元件（Widget）建構器所取代。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-Context menus, or text selection toolbars, are the menus that show up when long
-pressing or right clicking on text in Flutter, and they show options like
-**Cut**, **Copy**, **Paste**, and **Select all**. Previously, it was only
-possible to narrowly customize them using `ToolbarOptions` and
-`TextSelectionControls`. Now, they have been made composable using widgets, just
-like everything else in Flutter, and the specific configuration parameters have
-been deprecated.
+選單（context menus），或稱文字選取工具列（text selection toolbars），是在 Flutter 中長按或右鍵點擊文字時出現的選單，通常會顯示 **剪下**、**複製**、**貼上** 以及 **全選** 等選項。過去，只能透過`ToolbarOptions` 和 `TextSelectionControls` 來有限度地自訂這些選單。現在，這些選單已經像 Flutter 其他功能一樣，能夠以元件（Widget）組合方式自訂，原本的特定設定參數也已被棄用。
 
-## Context
+## 背景
 
-Previously, it was possible to disable buttons from the context menus using
-`TextSelectionControls`, but any customization beyond that required copying and
-editing hundreds of lines of custom classes in the framework. Now, all of this
-has been replaced by a simple builder function, `contextMenuBuilder`, which
-allows any Flutter widget to be used as a context menu.
+過去，可以利用 `TextSelectionControls` 來停用選單中的按鈕，但若要進一步自訂，則必須複製並修改框架中數百行的自訂類別。現在，這一切都被一個簡單的建構器函式 `contextMenuBuilder` 取代，讓你可以將任何 Flutter 元件（Widget）用作選單。
 
-## Description of change
+## 變更說明
 
-Context menus are now built from the `contextMenuBuilder` parameter, which has
-been added to all text-editing and text-selection widgets. If one is not
-provided, then Flutter just sets it to a default that builds the correct context
-menu for the given platform. All of these default widgets are exposed to users
-for re-use. Customizing context menus now consists of using `contextMenuBuilder`
-to return whatever widget you want, possibly including reusing the built-in
-context menu widgets.
+選單現在是透過 `contextMenuBuilder` 參數來建構，該參數已加入所有文字編輯與文字選取元件（Widget）。如果未提供該參數，Flutter 會自動設為預設值，並根據不同平台建立正確的選單。所有這些預設元件（Widget）都已公開給使用者重複利用。自訂選單現在只需使用 `contextMenuBuilder` 回傳你想要的任何元件（Widget），也可以重複利用內建的選單元件。
 
-Here's an example that shows how to add a **Send email** button to the default
-context menus whenever an email address is selected. The full code can be found
-in the samples repository in
+以下範例展示如何在選取電子郵件地址時，於預設選單中新增 **傳送電子郵件** 按鈕。完整程式碼可在 GitHub 的 samples repository 中的
 [email_button_page.dart]({{site.repo.samples}}/blob/main/context_menus/lib/email_button_page.dart)
-on GitHub.
+找到。
+```
 
 ```dart
 TextField(
@@ -66,32 +49,24 @@ TextField(
 )
 ```
 
-A large number of examples of different custom context menus are available
-[in the samples repo]({{site.repo.samples}}/tree/main/context_menus)
-on GitHub.
+各種不同自訂右鍵選單（context menu）的範例，可在 GitHub 的
+[samples repo]({{site.repo.samples}}/tree/main/context_menus)
+中找到。
 
-All related deprecated features were flagged with the deprecation warning "Use
-`contextMenuBuilder` instead."
+所有相關的已棄用功能，皆已標註棄用警告：「請改用 `contextMenuBuilder`。」
 
-## Migration guide
+## 遷移指南
 
-In general, any previous changes to context menus that have been deprecated now
-require the use of the `contextMenuBuilder` parameter on the relevant
-text-editing or text-selection widget (
-[on `TextField`]({{site.api}}/flutter/material/TextField/contextMenuBuilder.html),
-for example). Return a built-in context menu widget like
+一般來說，所有先前已被棄用的右鍵選單（context menu）相關變更，現在都需要在相關的文字編輯或文字選取元件（Widget）上，使用 `contextMenuBuilder` 參數（
+例如[在 `TextField` 上]({{site.api}}/flutter/material/TextField/contextMenuBuilder.html)）。若要使用 Flutter 內建的右鍵選單，請回傳像
 [`AdaptiveTextSelectionToolbar`]({{site.api}}/flutter/material/AdaptiveTextSelectionToolbar-class.html)
-to use Flutter's built-in context menus, or return your own widget for something
-totally custom.
+這樣的內建右鍵選單元件；若需要完全自訂，則可回傳你自訂的元件。
 
-To transition to `contextMenuBuilder`, the following parameters and classes have
-been deprecated.
+為了遷移至 `contextMenuBuilder`，下列參數與類別已被棄用。
 
 ### [`ToolbarOptions`]({{site.api}}/flutter/widgets/ToolbarOptions-class.html)
 
-This class was previously used to explicitly enable or disable certain buttons
-in a context menu. Before this change, you might have passed it into `TextField`
-or other widgets like this:
+這個類別先前用於明確啟用或停用右鍵選單中的特定按鈕。在這項變更之前，你可能會像這樣將它傳入 `TextField` 或其他元件：
 
 ```dart
 // Deprecated.
@@ -102,9 +77,7 @@ TextField(
 )
 ```
 
-Now, you can achieve the same effect by adjusting the `buttonItems` passed into
-`AdaptiveTextSelectionToolbar`. For example, you could ensure that the **Cut**
-button never appears, but the other buttons do appear as usual:
+現在，你可以透過調整傳遞給`AdaptiveTextSelectionToolbar`的`buttonItems`來達到相同的效果。例如，你可以確保 **Cut** 按鈕永遠不會出現，但其他按鈕則會如常顯示：
 
 ```dart
 TextField(
@@ -122,7 +95,7 @@ TextField(
 )
 ```
 
-Or, you could ensure that the **Cut** button appears exclusively and always:
+或者，你也可以確保 **Cut** 按鈕始終且僅顯示：
 
 ```dart
 TextField(
@@ -142,12 +115,9 @@ TextField(
 )
 ```
 
-### [`TextSelectionControls.canCut`]({{site.api}}/flutter/widgets/TextSelectionControls/canCut.html) and other button booleans
+### [`TextSelectionControls.canCut`]({{site.api}}/flutter/widgets/TextSelectionControls/canCut.html) 以及其他按鈕布林值
 
-These booleans previously had the same effect of enabling and disabling certain
-buttons as `ToolbarOptions.cut`, and so on had. Before this change, you might
-have been hiding and showing buttons by overriding `TextSelectionControls` and
-setting these booleans like this:
+這些布林值先前與`ToolbarOptions.cut`等具有相同的效果，用於啟用或停用特定按鈕。在此變更之前，你可能會透過覆寫`TextSelectionControls`並設定這些布林值，來隱藏或顯示按鈕，例如：
 
 ```dart
 // Deprecated.
@@ -157,14 +127,11 @@ class _MyMaterialTextSelectionControls extends MaterialTextSelectionControls {
 }
 ```
 
-See the previous section on `ToolbarOptions` for how to achieve a similar effect
-with `contextMenuBuilder`.
+請參閱前一節關於`ToolbarOptions`的說明，以了解如何使用`contextMenuBuilder`達到類似效果。
 
-### [`TextSelectionControls.handleCut`]({{site.api}}/flutter/widgets/TextSelectionControls/handleCut.html) and other button callbacks
+### [`TextSelectionControls.handleCut`]({{site.api}}/flutter/widgets/TextSelectionControls/handleCut.html) 以及其他按鈕回呼函式
 
-These functions allowed the modification of the callback called when the buttons
-were pressed. Before this change, you might have been modifying context menu
-button callbacks by overriding these handler methods like this:
+這些函式允許在按下按鈕時修改所呼叫的回呼函式。在這項變更之前，你可能會透過覆寫這些處理程序方法來修改右鍵選單（context menu）按鈕的回呼函式，例如：
 
 ```dart
 // Deprecated.
@@ -176,12 +143,9 @@ class _MyMaterialTextSelectionControls extends MaterialTextSelectionControls {
 }
 ```
 
-This is still possible using `contextMenuBuilder`, including calling
-out to the original buttons' actions in the custom handler, using toolbar
-widgets like `AdaptiveTextSelectionToolbar.buttonItems`.
+這仍然可以透過 `contextMenuBuilder` 實現，包括在自訂處理程序中呼叫原本按鈕的動作，以及使用像 `AdaptiveTextSelectionToolbar.buttonItems` 這樣的工具列元件 (Widgets)。
 
-This example shows modifying the **Copy** button to show a dialog in addition to
-doing its usual copy logic.
+以下範例展示如何修改 **Copy** 按鈕，讓它在執行原本的複製邏輯之外，額外顯示一個對話框。
 
 ```dart
 TextField(
@@ -219,17 +183,14 @@ TextField(
 )
 ```
 
-A full example of modifying a built-in context menu action can be found in the
-samples repository in
+一個完整的修改內建 context menu（右鍵選單）操作的範例，可以在 samples 儲存庫的
 [modified_action_page.dart]({{site.repo.samples}}/blob/main/context_menus/lib/modified_action_page.dart)
-on GitHub.
+（GitHub 上）找到。
 
 ### [`buildToolbar`]({{site.api}}/flutter/widgets/TextSelectionControls/buildToolbar.html)
 
-This function generated the context menu widget similarly to
-`contextMenuBuilder`, but required more setup to use. Before this change, you
-might have been overriding `buildToolbar` as a part of `TextSelectionControls`,
-like this:
+這個函式產生 context menu 元件（Widget）的方式與
+`contextMenuBuilder` 類似，但需要更多的設定才能使用。在這個變更之前，你可能會像這樣，將 `buildToolbar` 覆寫為 `TextSelectionControls` 的一部分：
 
 ```dart
 // Deprecated.
@@ -250,13 +211,9 @@ class _MyMaterialTextSelectionControls extends MaterialTextSelectionControls {
 }
 ```
 
-Now you can simply use `contextMenuBuilder` directly as a parameter to
-`TextField` (and others). The information provided in the parameters to
-`buildToolbar` can be obtained from the `EditableTextState` that is passed to
-`contextMenuBuilder`.
+現在你可以直接將 `contextMenuBuilder` 作為參數傳遞給 `TextField`（以及其他相關函式）。在傳遞給 `buildToolbar` 的參數中所提供的資訊，現在可以從傳遞給 `contextMenuBuilder` 的 `EditableTextState` 中取得。
 
-The following example shows how to build a fully-custom toolbar from scratch
-while still using the default buttons.
+以下範例展示如何從零開始建立一個完全自訂的工具列（toolbar），同時仍然使用預設按鈕。
 
 ```dart
 class _MyContextMenu extends StatelessWidget {
@@ -312,24 +269,23 @@ class _MyTextField extends StatelessWidget {
 }
 ```
 
-A full example of building a custom context menu can be found in the samples
-repository in
+在範例程式庫中，於 GitHub 的
 [`custom_menu_page.dart`]({{site.repo.samples}}/blob/main/context_menus/lib/custom_menu_page.dart)
-on GitHub.
+可以找到建立自訂右鍵選單（context menu）的完整範例。
 
-## Timeline
+## 時程
 
-Landed in version: 3.6.0-0.0.pre<br>
-In stable release: 3.7.0
+合併於版本：3.6.0-0.0.pre<br>  
+穩定版釋出：3.7.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`TextField.contextMenuBuilder`]({{site.api}}/flutter/material/TextField/contextMenuBuilder.html)
 * [`AdaptiveTextSelectionToolbar`]({{site.api}}/flutter/material/AdaptiveTextSelectionToolbar-class.html)
 
-Relevant issues:
+相關議題（issues）：
 
 * [Simple custom text selection toolbars]({{site.repo.flutter}}/issues/73574)
 * [Right click menu outside of text fields]({{site.repo.flutter}}/issues/98272)
@@ -340,7 +296,7 @@ Relevant issues:
 * [Disable context menu from browser]({{site.repo.flutter}}/issues/78671)
 * [Custom context menus don't show up for Flutter web]({{site.repo.flutter}}/issues/84219)
 
-Relevant PRs:
+相關 PR：
 
 * [ContextMenus]({{site.repo.flutter}}/pull/107193)
 * [Ability to disable the browser's context menu on web]({{site.repo.flutter}}/pull/118194)

@@ -1,64 +1,48 @@
 ---
-title: Default multitouch scrolling
+title: 預設多點觸控捲動
 description: >
-  ScrollBehaviors will now configure how Scrollables respond to
-  multitouch gestures.
+  ScrollBehaviors 現在會設定 Scrollables 如何回應
+  多點觸控手勢。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-`ScrollBehavior`s now allow or disallow scrolling speeds to be affected by the 
-number of pointers on the screen. `ScrollBehavior.multitouchDragStrategy`, by
-default, prevents multiple pointers interacting wih the scrollable at the same
-time from affecting the speed of scrolling.
+`ScrollBehavior` 現在允許或不允許捲動速度受到螢幕上指標數量的影響。`ScrollBehavior.multitouchDragStrategy` 預設會防止多個指標同時與可捲動元件互動時影響捲動速度。
 
-## Context
+## 背景說明
 
-Prior to this change, for each pointer dragging a `Scrollable` widget, the
-scroll speed would increase. This did not match platform expectations when
-interacting with Flutter applications.
+在此變更之前，每個指標拖曳 `Scrollable` 元件時，捲動速度都會增加。這種行為與在 Flutter 應用程式中與平台的預期互動不符。
 
-Now, the inherited `ScrollBehavior` manages how multiple pointers affect
-scrolling widgets as specified by `ScrollBehavior.multitouchDragStrategy`. This
-enum, `MultitouchDragStrategy`, can also be configured for the prior behavior.
+現在，繼承的 `ScrollBehavior` 會根據 `ScrollBehavior.multitouchDragStrategy` 的設定，管理多個指標如何影響滾動元件 (Scrolling Widgets)。這個列舉型別 `MultitouchDragStrategy` 也可以設定為先前的行為。
 
-## Description of change
+## 變更說明
 
-This change fixed the unexpected ability to increase scroll speeds by dragging
-with more than one finger.
+這項變更修正了用多根手指拖曳時，能夠意外提升捲動速度的問題。
 
-If you have relied on the previous behavior in your application, there are
-several ways to control and configure this feature.
+如果您的應用程式依賴於先前的行為，您有多種方式可以控制與設定此功能。
 
-- Extend `ScrollBehavior`, `MaterialScrollBehavior`, or `CupertinoScrollBehavior`
-  to modify the default behavior, overriding
-  `ScrollBehavior.multitouchDragStrategy`.
+- 擴充 `ScrollBehavior`、`MaterialScrollBehavior` 或 `CupertinoScrollBehavior`
+  以修改預設行為，並覆寫
+  `ScrollBehavior.multitouchDragStrategy`。
 
-    - With your own `ScrollBehavior`, you can apply it app-wide by setting
-      `MaterialApp.scrollBehavior` or `CupertinoApp.scrollBehavior`.
-    - Or, if you wish to only apply it to specific widgets, add a
-      `ScrollConfiguration` above the widget in question with your
-      custom `ScrollBehavior`.
+    - 使用您自訂的 `ScrollBehavior`，可以透過設定 `MaterialApp.scrollBehavior` 或 `CupertinoApp.scrollBehavior`，將其套用至整個應用程式。
+    - 或者，如果只想套用於特定元件，請在該元件上方加入 `ScrollConfiguration`，並使用您自訂的 `ScrollBehavior`。
 
-Your scrollable widgets then inherit and reflect this behavior.
+您的可捲動元件 (Scrollable Widgets) 會繼承並反映這個行為。
 
-- Instead of creating your own `ScrollBehavior`, another option for changing
-  the default behavior is to copy the existing `ScrollBehavior`, and set different
-  `multitouchDragStrategy`.
-    - Create a `ScrollConfiguration` in your widget tree, and provide a modified copy
-      of the existing `ScrollBehavior` in the current context using `copyWith`.
+- 除了自行建立 `ScrollBehavior` 外，另一種變更預設行為的方式是複製現有的 `ScrollBehavior`，並設定不同的 `multitouchDragStrategy`。
+    - 在您的元件樹中建立 `ScrollConfiguration`，並使用 `copyWith` 在目前的 context 中提供修改過的 `ScrollBehavior` 複本。
 
-To accommodate the new configuration
-`DragGestureRecognizer` was updated to support `MultitouchDragStrategy` as well
-in other dragging contexts.
+為了因應新的設定方式，
+`DragGestureRecognizer` 也已更新，以支援在其他拖曳情境下的 `MultitouchDragStrategy`。
 
-## Migration guide
+## 遷移指南
 
-### Setting a custom `ScrollBehavior` for your application
+### 為您的應用程式設定自訂 `ScrollBehavior`
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 MaterialApp(
@@ -66,7 +50,7 @@ MaterialApp(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
@@ -82,9 +66,9 @@ MaterialApp(
 );
 ```
 
-### Setting a custom `ScrollBehavior` for a specific widget
+### 為特定元件（Widget）設定自訂的 `ScrollBehavior`
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 final ScrollController controller = ScrollController();
@@ -96,7 +80,7 @@ ListView.builder(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
@@ -118,9 +102,9 @@ ScrollConfiguration(
 );
 ```
 
-### Copy and modify existing `ScrollBehavior`
+### 複製並修改現有的 `ScrollBehavior`
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 final ScrollController controller = ScrollController();
@@ -132,7 +116,7 @@ ListView.builder(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 // ScrollBehavior can be copied and adjusted.
@@ -150,29 +134,29 @@ ScrollConfiguration(
 );
 ```
 
-## Timeline
+## 時間軸
 
-Landed in version: 3.18.0-4.0.pre<br>
-In stable release: 3.19.0
+合併於版本：3.18.0-4.0.pre<br>  
+正式版本釋出：3.19.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`ScrollConfiguration`][]
-* [`ScrollBehavior`][]
-* [`MaterialScrollBehavior`][]
-* [`CupertinoScrollBehavior`][]
-* [`MultitouchDragStrategy`][]
-* [`DragGestureRecognizer`][]
+* [`ScrollConfiguration`][`ScrollConfiguration`]
+* [`ScrollBehavior`][`ScrollBehavior`]
+* [`MaterialScrollBehavior`][`MaterialScrollBehavior`]
+* [`CupertinoScrollBehavior`][`CupertinoScrollBehavior`]
+* [`MultitouchDragStrategy`][`MultitouchDragStrategy`]
+* [`DragGestureRecognizer`][`DragGestureRecognizer`]
 
-Relevant issue:
+相關議題：
 
-* [Issue #11884][]
+* [Issue #11884][Issue #11884]
 
-Relevant PRs:
+相關 PR：
 
-* [Introduce multi-touch drag strategies for DragGestureRecognizer][]
+* [Introduce multi-touch drag strategies for DragGestureRecognizer][Introduce multi-touch drag strategies for DragGestureRecognizer]
 
 
 [`ScrollConfiguration`]: {{site.api}}/flutter/widgets/ScrollConfiguration-class.html

@@ -1,6 +1,6 @@
 ---
-title: Navigate to a new screen and back
-description: How to navigate between routes.
+title: 導航至新螢幕並返回
+description: 如何在路由之間進行導航。
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,38 +8,30 @@ js:
 
 <?code-excerpt path-base="cookbook/navigation/navigation_basics"?>
 
-Most apps contain several screens for displaying different
-types of information. For example, an app might have a
-screen that displays products. When the user taps the image
-of a product, a new screen displays details about the
-product.
+大多數應用程式都包含多個螢幕，用於顯示不同類型的資訊。例如，一個應用程式可能有一個顯示產品的螢幕。當使用者點擊某個產品的圖片時，會跳轉到新的螢幕，顯示該產品的詳細資訊。
 
 :::note Terminology
-In Flutter, _screens_ and _pages_ are called _routes_.
-The remainder of this recipe refers to routes.
+在 Flutter 中，_screens_（螢幕）和 _pages_（頁面）稱為 _routes_（路由）。
+本篇教學後續將以「路由」來稱呼。
 :::
 
-In Android, a route is equivalent to an `Activity`.
-In iOS, a route is equivalent to a `ViewController`.
-In Flutter, a route is just a widget.
+在 Android 中，路由相當於`Activity`。
+在 iOS 中，路由相當於`ViewController`。
+在 Flutter 中，路由就是一個元件（Widget）。
 
-This recipe uses the [`Navigator`][] to navigate to a new route.
+本教學使用 [`Navigator`][`Navigator`] 來導覽至新的路由。
 
-The next few sections show how to navigate between two routes,
-using these steps:
+接下來的幾個章節將說明如何在兩個路由之間進行導航，步驟如下：
 
-  1. Create two routes.
-  2. Navigate to the second route using `Navigator.push()`.
-  3. Return to the first route using `Navigator.pop()`.
+  1. 建立兩個路由。
+  2. 使用 `Navigator.push()` 導航至第二個路由。
+  3. 使用 `Navigator.pop()` 返回第一個路由。
 
-## 1. Create two routes
+## 1. 建立兩個路由
 
-First, create two routes to work with. Since this is a basic example,
-each route contains only a single button. Tapping the button on the
-first route navigates to the second route. Tapping the button on the
-second route returns to the first route.
+首先，建立兩個可供操作的路由。由於這是一個基礎範例，每個路由僅包含一個按鈕。在第一個路由點擊按鈕會導航至第二個路由；在第二個路由點擊按鈕則會返回第一個路由。
 
-First, set up the visual structure:
+首先，設定視覺結構：
 
 {% tabs "os-android" %}
 
@@ -135,18 +127,11 @@ class SecondRoute extends StatelessWidget {
 
 {% endtabs %}
 
-## 2. Navigate to the second route using Navigator.push()
+## 2. 使用 Navigator.push() 切換到第二個路由
 
-To switch to a new route, use the [`Navigator.push()`][]
-method. The `push()` method adds a `Route` to the stack of routes managed by
-the `Navigator`. Where does the `Route` come from?
-You can create your own, or use  a platform-specific route
-such as [`MaterialPageRoute`][] or [`CupertinoPageRoute`][].
-A platform-specific route is useful because it transitions
-to the new route using a platform-specific animation.
+若要切換到新的路由，請使用 [`Navigator.push()`][`Navigator.push()`] 方法。`push()` 方法會將 `Route` 加入由 `Navigator` 管理的路由堆疊中。那麼 `Route` 是從哪裡來的呢？你可以自行建立，也可以使用像 [`MaterialPageRoute`][`MaterialPageRoute`] 或 [`CupertinoPageRoute`][`CupertinoPageRoute`] 這類特定平台的 Route。使用特定平台的 Route 很有用，因為它會以該平台專屬的動畫（Animation）切換到新路由。
 
-In the `build()` method of the `FirstRoute` widget,
-update the `onPressed()` callback:
+在 `FirstRoute` 元件（Widget）的 `build()` 方法中，請更新 `onPressed()` 回呼（callback）：
 
 {% tabs "os-android" %}
 
@@ -186,15 +171,13 @@ onPressed: () {
 
 {% endtabs %}
 
-## 3. Return to the first route using Navigator.pop()
+## 3. 使用 Navigator.pop() 返回第一個 Route
 
-How do you close the second route and return to the first?
-By using the [`Navigator.pop()`][] method.
-The `pop()` method removes the current `Route` from the stack of
-routes managed by the `Navigator`.
+如何關閉第二個 Route 並返回第一個？
+可以使用 [`Navigator.pop()`][`Navigator.pop()`] 方法來實現。
+`pop()` 方法會將目前的 `Route` 從 `Navigator` 所管理的 Route 堆疊中移除。
 
-To implement a return to the original route, update the `onPressed()`
-callback in the `SecondRoute` widget:
+若要實作返回原始 Route，請更新 `SecondRoute` 元件中的 `onPressed()` 回呼函式：
 
 <?code-excerpt "lib/main_step2.dart (second-route-on-pressed)" replace="/^\},$/}/g"?>
 ```dart
@@ -204,7 +187,7 @@ onPressed: () {
 }
 ```
 
-## Interactive example
+## 互動範例
 
 {% tabs "os-android" %}
 
@@ -263,7 +246,7 @@ class SecondRoute extends StatelessWidget {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/navigation-basics.webp" alt="Navigation Basics Demo" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/navigation-basics.webp" alt="導覽基礎示範" class="site-mobile-screenshot" />
 </noscript>
 
 {% endtab %}
@@ -330,25 +313,18 @@ class SecondRoute extends StatelessWidget {
 
 {% endtabs %}
 
-## Additional navigation methods
+## 其他導覽方法
 
-The recipe in this topic shows you one way to navigate to a new screen and
-back to the previous scene, using the [`push`] and [`pop`] methods in the
-[`Navigator`] class, but there are several other `Navigator` static methods that
-you can use. Here are a few of them:
+本主題中的範例展示了一種使用 [`push`] 和 [`pop`] 方法於 [`Navigator`] 類別中，來導覽至新螢幕並返回前一個場景的方法，但其實還有其他幾種 `Navigator` 靜態方法可供使用。以下是其中幾個：
 
-*   [`pushAndRemoveUntil`]: Adds a navigation route to the stack and then removes
-    the most recent routes from the stack until a condition is met.
-*   [`pushReplacement`]: Replaces the current route on the top of the
-    stack with a new one.
-*   [`replace`]: Replace a route on the stack with another route.
-*   [`replaceRouteBelow`]: Replace the route below a specific route on the stack.
-*   [`popUntil`]: Removes the most recent routes that were added to the stack of
-    navigation routes until a condition is met.
-*   [`removeRoute`]: Remove a specific route from the stack.
-*   [`removeRouteBelow`]: Remove the route below a specific route on the
-    stack.
-*   [`restorablePush`]: Restore a route that was removed from the stack.
+*   [`pushAndRemoveUntil`]：將一個導覽路由加入堆疊，然後移除堆疊中最新的路由，直到符合特定條件為止。
+*   [`pushReplacement`]：以新的路由取代堆疊頂端的當前路由。
+*   [`replace`]：將堆疊中的某個路由以另一個路由取代。
+*   [`replaceRouteBelow`]：取代堆疊中特定路由下方的路由。
+*   [`popUntil`]：移除最近加入堆疊的路由，直到符合特定條件為止。
+*   [`removeRoute`]：從堆疊中移除特定路由。
+*   [`removeRouteBelow`]：移除堆疊中特定路由下方的路由。
+*   [`restorablePush`]：還原先前從堆疊中移除的路由。
 
 [Cupertino]: {{site.docs}}/ui/widgets/cupertino
 [Material Components]: {{site.docs}}/ui/widgets/material

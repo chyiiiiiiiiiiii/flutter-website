@@ -1,66 +1,47 @@
 ---
-title: Report errors to a service
-description: How to keep track of errors that users encounter.
+title: 回報錯誤至服務
+description: 如何追蹤使用者遇到的錯誤。
 ---
 
 <?code-excerpt path-base="cookbook/maintenance/error_reporting/"?>
 
-While one always tries to create apps that are free of bugs,
-they're sure to crop up from time to time.
-Since buggy apps lead to unhappy users and customers,
-it's important to understand how often your users
-experience bugs and where those bugs occur.
-That way, you can prioritize the bugs with the
-highest impact and work to fix them.
+雖然我們總是努力打造沒有錯誤的應用程式，但錯誤仍然難以避免地會偶爾出現。由於有錯誤的應用程式會導致使用者和客戶不滿，因此了解使用者遇到錯誤的頻率以及錯誤發生的位置非常重要。這樣一來，你就能優先處理影響最大的錯誤，並著手修復它們。
 
-How can you determine how often your users experiences bugs?
-Whenever an error occurs, create a report containing the
-error that occurred and the associated stacktrace.
-You can then send the report to an error tracking
-service, such as [Bugsnag][], [Datadog][],
-[Firebase Crashlytics][], [Rollbar][], or Sentry.
+那麼，你要如何判斷使用者遇到錯誤的頻率呢？每當發生錯誤時，建立一份包含錯誤內容及相關 stacktrace（堆疊追蹤）的報告。你可以將這份報告發送到錯誤追蹤服務，例如 [Bugsnag][Bugsnag]、[Datadog][Datadog]、[Firebase Crashlytics][Firebase Crashlytics]、[Rollbar][Rollbar] 或 Sentry。
 
-The error tracking service aggregates all of the crashes your users
-experience and groups them together. This allows you to know how often your
-app fails and where the users run into trouble.
+錯誤追蹤服務會彙整所有使用者遇到的崩潰事件並將其分組。這讓你能夠了解應用程式失敗的頻率，以及使用者在哪些地方遇到問題。
 
-In this recipe, learn how to report errors to the
-[Sentry][] crash reporting service using
-the following steps:
+在本教學中，你將學會如何透過以下步驟，將錯誤回報至 [Sentry][Sentry] 崩潰回報服務：
 
-  1. Get a DSN from Sentry.
-  2. Import the Flutter Sentry package
-  3. Initialize the Sentry SDK
-  4. Capture errors programmatically
+  1. 從 Sentry 取得 DSN。
+  2. 匯入 Flutter Sentry 套件
+  3. 初始化 Sentry SDK
+  4. 以程式方式擷取錯誤
 
-## 1. Get a DSN from Sentry
+## 1. 從 Sentry 取得 DSN
 
-Before reporting errors to Sentry, you need a "DSN" to uniquely identify
-your app with the Sentry.io service.
+在將錯誤回報至 Sentry 之前，你需要一組「DSN」來讓 Sentry.io 服務唯一識別你的應用程式。
 
-To get a DSN, use the following steps:
+取得 DSN 的步驟如下：
 
-  1. [Create an account with Sentry][].
-  2. Log in to the account.
-  3. Create a new Flutter project.
-  4. Copy the code snippet that includes the DSN.
+  1. [註冊 Sentry 帳號][Create an account with Sentry]。
+  2. 登入帳號。
+  3. 建立新的 Flutter 專案。
+  4. 複製包含 DSN 的程式碼片段。
 
-## 2. Import the Sentry package
+## 2. 匯入 Sentry 套件
 
-Import the [`sentry_flutter`][] package into the app.
-The sentry package makes it easier to send
-error reports to the Sentry error tracking service.
+將 [`sentry_flutter`][`sentry_flutter`] 套件匯入應用程式中。sentry 套件能讓你更方便地將錯誤報告發送到 Sentry 錯誤追蹤服務。
 
-To add the `sentry_flutter` package as a dependency,
-run `flutter pub add`:
+若要將 `sentry_flutter` 套件加入為相依套件，請執行 `flutter pub add`：
 
 ```console
 $ flutter pub add sentry_flutter
 ```
 
-## 3. Initialize the Sentry SDK
+## 3. 初始化 Sentry SDK
 
-Initialize the SDK to capture different unhandled errors automatically:
+初始化 SDK，以自動擷取各種未處理的錯誤：
 
 <?code-excerpt "lib/main.dart (InitializeSDK)"?>
 ```dart
@@ -75,40 +56,39 @@ Future<void> main() async {
 }
 ```
 
-Alternatively, you can pass the DSN to Flutter using the `dart-define` tag:
+或者，你也可以使用`dart-define`標籤，將 DSN 傳遞給 Flutter：
 
 ```sh
 --dart-define SENTRY_DSN=https://example@sentry.io/example
 ```
 
-### What does that give me?
+### 這樣做有什麼效果？
 
-This is all you need for Sentry to
-capture unhandled errors in Dart and native layers.  
-This includes Swift, Objective-C, C, and C++ on iOS, and
-Java, Kotlin, C, and C++ on Android.
+這就是讓 Sentry  
+捕捉 Dart 及原生層未處理錯誤所需的全部設定。  
+這包括 iOS 上的 Swift、Objective-C、C 及 C++，  
+以及 Android 上的 Java、Kotlin、C 和 C++。
 
-## 4. Capture errors programmatically
+## 4. 以程式方式捕捉錯誤
 
-Besides the automatic error reporting that Sentry generates by
-importing and initializing the SDK,
-you can use the API to report errors to Sentry:
+除了透過匯入並初始化 SDK 所提供的自動錯誤回報功能外，  
+你也可以使用 API 來將錯誤回報至 Sentry：
 
 <?code-excerpt "lib/main.dart (CaptureException)"?>
 ```dart
 await Sentry.captureException(exception, stackTrace: stackTrace);
 ```
 
-For more information, see the [Sentry API][] docs on pub.dev.
+如需更多資訊，請參閱 pub.dev 上的 [Sentry API 文件][Sentry API]。
 
-## Learn more
+## 深入了解
 
-Extensive documentation about using the Sentry SDK can be found on [Sentry's site][].
+有關使用 Sentry SDK 的詳細文件，請參考 [Sentry 官方網站][Sentry's site]。
 
-## Complete example
+## 完整範例
 
-To view a working example,
-see the [Sentry flutter example][] app.
+若要查看可運作的範例，
+請參考 [Sentry flutter 範例][Sentry flutter example] 應用程式。
 
 
 [Sentry flutter example]: {{site.github}}/getsentry/sentry-dart/tree/main/flutter/example

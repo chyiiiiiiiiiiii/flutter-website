@@ -1,39 +1,28 @@
 ---
-title: Introduction to declarative UI
-shortTitle: Declarative UI
-description: Explains the difference between a declarative and imperative programming style.
+title: 宣告式 UI 簡介
+shortTitle: 宣告式 UI
+description: 說明宣告式與命令式程式設計風格的差異。
 ---
 
 <?code-excerpt path-base="get-started/flutter-for/declarative"?>
 
-_This introduction describes the conceptual difference between the
-declarative style used by Flutter, and the imperative style used by
-many other UI frameworks._
+_本簡介將說明 Flutter 採用的宣告式（declarative）風格，與許多其他 UI 框架所使用的命令式（imperative）風格之間的概念差異。_
 
-## Why a declarative UI?
+## 為什麼選擇宣告式 UI？
 
-Frameworks from Win32 to web to Android and iOS typically use an imperative
-style of UI programming. This might be the style you're most familiar
-with&mdash;where you manually construct a full-functioned UI entity,
-such as a UIView or equivalent, and later mutate it using methods and
-setters when the UI changes.
+從 Win32 到 Web、Android 及 iOS 等框架，通常都採用命令式的 UI 程式設計風格。這可能是你最熟悉的風格——你會手動建立一個功能完整的 UI 實體，例如 UIView 或類似物件，並在 UI 狀態改變時，透過方法與 setter 來修改它。
 
-In order to lighten the burden on developers from having to program how to
-transition between various UI states, Flutter, by contrast,
-lets the developer describe the current UI state and leaves the
-transitioning to the framework.
+為了減輕開發者在不同 UI 狀態間切換時，必須手動編寫過渡邏輯的負擔，Flutter 採用不同的方式：讓開發者描述當前的 UI 狀態，並將狀態過渡的細節交由框架處理。
 
-This, however, requires a slight shift in thinking for how to manipulate UI.
+然而，這需要你在操作 UI 的思維上做出些許轉變。
 
-## How to change UI in a declarative framework
+## 如何在宣告式框架中變更 UI
 
-Consider a simplified example below:
+請參考下方這個簡化的範例：
 
-<img src="/assets/images/docs/declarativeUIchanges.png" alt="View B (contained by view A) morphs from containing two views, c1 and c2, to containing only view c3.">
+<img src="/assets/images/docs/declarativeUIchanges.png" alt="View B（由 View A 包含）從包含兩個視圖 c1 和 c2，變成只包含視圖 c3。">
 
-In the imperative style, you would typically go to ViewB's owner
-and retrieve the instance `b` using selectors or with `findViewById` or similar,
-and invoke mutations on it (and implicitly invalidate it). For example:
+在命令式風格中，你通常會到 ViewB 的擁有者那裡，透過 selector 或與 `findViewById` 等方式取得 `b` 的實例，然後對其進行修改（並隱含地使其失效）。例如：
 
 ```java
 // Imperative style
@@ -43,13 +32,9 @@ ViewC c3 = new ViewC(...)
 b.add(c3)
 ```
 
-You might also need to replicate this configuration in the constructor of
-ViewB since the source of truth for the UI might outlive instance `b` itself.
+你可能也需要在 ViewB 的建構函式（constructor）中複製這個設定，因為 UI 的真實資料來源（source of truth）可能比 `b` 實例本身存活得更久。
 
-In the declarative style, view configurations (such as Flutter's Widgets)
-are immutable and are only lightweight "blueprints". To change the UI,
-a widget triggers a rebuild on itself (most commonly by calling `setState()`
-on StatefulWidgets in Flutter) and constructs a new Widget subtree.
+在宣告式（declarative）風格中，視圖設定（例如 Flutter 的元件 (Widgets)）是不可變的，且僅是輕量的「藍圖」。若要變更 UI，元件（Widget）會觸發自身重建（最常見的方式是在 Flutter 的 StatefulWidgets 上呼叫 `setState()`），並建立一個新的元件 (Widget) 子樹。
 
 <?code-excerpt "lib/main.dart (declarative)"?>
 ```dart
@@ -57,11 +42,13 @@ on StatefulWidgets in Flutter) and constructs a new Widget subtree.
 return ViewB(color: red, child: const ViewC());
 ```
 
-Here, rather than mutating an old instance `b` when the UI changes,
-Flutter constructs new Widget instances. The framework manages many of the
-responsibilities of a traditional UI object (such as maintaining the
-state of the layout) behind the scenes with RenderObjects.
-RenderObjects persist between frames and Flutter's lightweight Widgets
-tell the framework to mutate the RenderObjects between states.
-The Flutter framework handles the rest.
+在這裡，當 UI 發生變化時，Flutter 並不是去改變舊的實例 `b`，  
+而是建立新的 Widget 實例。
+
+這個框架在背後利用 RenderObjects 來管理許多傳統 UI 物件的職責（例如維護版面配置的狀態）。
+
+RenderObjects 會在不同畫面幀之間持續存在，  
+而 Flutter 輕量級的 Widgets 則會告訴框架在不同狀態間去變更 RenderObjects。
+
+剩下的部分則由 Flutter 框架自動處理。
 

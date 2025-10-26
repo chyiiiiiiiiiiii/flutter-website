@@ -1,24 +1,20 @@
 ---
-title: Architecture design patterns
-shortTitle: Design patterns
+title: 架構設計模式
+shortTitle: 設計模式
 description: >-
-  A collection of articles about useful design patterns for
-  building Flutter applications.
+  一系列關於建構 Flutter 應用程式時實用設計模式的文章。
 prev:
-  title: Recommendations
+  title: 建議事項
   path: /app-architecture/recommendations
 showToc: false
 ---
 
-If you've already read through the [architecture guide][] page,
-or if you're comfortable with Flutter and the MVVM pattern,
-the following articles are for you.
+如果你已經閱讀過 [架構指南][architecture guide] 頁面，或是你對 Flutter 以及 MVVM 模式已經相當熟悉，
+那麼以下這些文章將非常適合你。
 
-These articles aren't about high-level app architecture,
-rather they're about solving specific design problems that improve your 
-application's code base regardless of how you've architected your app.
-That said, the articles do assume the MVVM pattern laid out on the 
-previous pages in the code examples.
+這些文章並非著重於高層次的應用程式架構，而是針對特定設計問題提供解決方案，
+無論你如何設計你的應用程式架構，都能幫助你優化應用程式的程式碼基礎。
+不過，這些文章在程式碼範例中，仍假設你已採用前面頁面所介紹的 MVVM 模式。
 
 {% assign recipes = collections.design-patterns | sort: "data.order" -%}
 {% render expansion-list.html, list: recipes, baseId: 'design-patterns' %}

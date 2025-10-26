@@ -1,32 +1,32 @@
 ---
-title: Update data over the internet
-description: How to use the http package to update data over the internet.
+title: 透過網際網路更新資料
+description: 如何使用 http 套件透過網際網路更新資料。
 ---
 
 <?code-excerpt path-base="cookbook/networking/update_data/"?>
 
-Updating data over the internet is necessary for most apps.
-The `http` package has got that covered!
+對於大多數應用程式來說，透過網際網路更新資料是必要的。
+`http` 套件已經幫你處理好了！
 
-This recipe uses the following steps:
+本教學將採用以下步驟：
 
-  1. Add the `http` package.
-  2. Update data over the internet using the `http` package.
-  3. Convert the response into a custom Dart object.
-  4. Get the data from the internet.
-  5. Update the existing `title` from user input.
-  6. Update and display the response on screen.
+  1. 新增 `http` 套件。
+  2. 使用 `http` 套件透過網際網路更新資料。
+  3. 將回應轉換為自訂的 Dart 物件。
+  4. 從網際網路取得資料。
+  5. 根據使用者輸入更新現有的 `title`。
+  6. 更新並在螢幕上顯示回應。
 
-## 1. Add the `http` package
+## 1. 新增 `http` 套件
 
-To add the `http` package as a dependency,
-run `flutter pub add`:
+若要將 `http` 套件加入為相依套件，
+請執行 `flutter pub add`：
 
 ```console
 $ flutter pub add http
 ```
 
-Import the `http` package.
+匯入 `http` 套件。
 
 <?code-excerpt "lib/main.dart (Http)"?>
 ```dart
@@ -35,10 +35,9 @@ import 'package:http/http.dart' as http;
 
 {% render docs/cookbook/networking/internet-permission.md %}
 
-## 2. Updating data over the internet using the `http` package
+## 2. 使用 `http` 套件透過網際網路更新資料
 
-This recipe covers how to update an album title to the
-[JSONPlaceholder][] using the [`http.put()`][] method.
+本教學將說明如何使用 [`http.put()`][`http.put()`] 方法，將專輯標題更新至 [JSONPlaceholder][JSONPlaceholder]。
 
 <?code-excerpt "lib/main_step2.dart (updateAlbum)"?>
 ```dart
@@ -53,32 +52,21 @@ Future<http.Response> updateAlbum(String title) {
 }
 ```
 
-The `http.put()` method returns a `Future` that contains a `Response`.
+`http.put()` 方法會回傳一個包含 `Response` 的 `Future`。
 
-* [`Future`][] is a core Dart class for working with
-  async operations. A `Future` object represents a potential
-  value or error that will be available at some time in the future.
-* The `http.Response` class contains the data received from a successful
-  http call.
-* The `updateAlbum()` method takes an argument, `title`,
-  which is sent to the server to update the `Album`.
+* [`Future`][`Future`] 是 Dart 的核心類別，用於處理非同步操作。`Future` 物件代表一個未來某個時間點可能會取得的值或錯誤。
+* `http.Response` 類別包含從成功的 HTTP 呼叫中接收到的資料。
+* `updateAlbum()` 方法會接收一個參數 `title`，該參數會傳送到伺服器以更新 `Album`。
 
-## 3. Convert the `http.Response` to a custom Dart object
+## 3. 將 `http.Response` 轉換為自訂 Dart 物件
 
-While it's easy to make a network request,
-working with a raw `Future<http.Response>`
-isn't very convenient. To make your life easier,
-convert the `http.Response` into a Dart object.
+雖然發送網路請求很簡單，但直接處理原始的 `Future<http.Response>` 並不方便。為了讓開發更容易，建議將 `http.Response` 轉換成 Dart 物件。
 
-### Create an Album class
+### 建立 Album 類別
 
-First, create an `Album` class that contains the data from the
-network request. It includes a factory constructor that
-creates an `Album` from JSON.
+首先，建立一個 `Album` 類別，用來存放從網路請求取得的資料。這個類別包含一個工廠建構子，可以從 JSON 建立 `Album`。
 
-Converting JSON with [pattern matching][] is only one option.
-For more information, see the full article on
-[JSON and serialization][].
+使用 [pattern matching][pattern matching] 轉換 JSON 只是其中一種方式。欲了解更多資訊，請參閱完整文章：[JSON and serialization][JSON and serialization]。
 
 <?code-excerpt "lib/main.dart (Album)"?>
 ```dart
@@ -97,22 +85,16 @@ class Album {
 }
 ```
 
-### Convert the `http.Response` to an `Album`
+### 將 `http.Response` 轉換為 `Album`
 
-Now, use the following steps to update the `updateAlbum()`
-function to return a `Future<Album>`:
+現在，請依照以下步驟，將 `updateAlbum()`
+函式更新為回傳 `Future<Album>`：
 
-  1. Convert the response body into a JSON `Map` with the
-     `dart:convert` package.
-  2. If the server returns an `UPDATED` response with a status
-     code of 200, then convert the JSON `Map` into an `Album`
-     using the `fromJson()` factory method.
-  3. If the server doesn't return an `UPDATED` response with a
-     status code of 200, then throw an exception.
-     (Even in the case of a "404 Not Found" server response,
-     throw an exception. Do not return `null`.
-     This is important when examining
-     the data in `snapshot`, as shown below.)
+  1. 使用 `dart:convert` 套件，將回應主體（response body）轉換為 JSON `Map`。
+  2. 如果伺服器回傳狀態碼為 200 的 `UPDATED` 回應，則使用 `fromJson()` 工廠方法，將 JSON `Map` 轉換為 `Album`。
+  3. 如果伺服器未回傳狀態碼為 200 的 `UPDATED` 回應，則拋出例外（exception）。
+     （即使伺服器回傳 "404 Not Found"，也請拋出例外，不要回傳 `null`。
+     這在檢查 `snapshot` 中的資料時非常重要，如下所示。）
 
 <?code-excerpt "lib/main.dart (updateAlbum)"?>
 ```dart
@@ -137,13 +119,13 @@ Future<Album> updateAlbum(String title) async {
 }
 ```
 
-Hooray!
-Now you've got a function that updates the title of an album.
+太棒了！
+你現在已經有一個可以更新相簿名稱的函式了。
 
-### Get the data from the internet
+### 從網路取得資料
 
-Get the data from internet before you can update it.
-For a complete example, see the [Fetch data][] recipe.
+在你能夠更新資料之前，必須先從網路取得資料。
+完整範例請參考 [Fetch data][Fetch data] 教學。
 
 <?code-excerpt "lib/main.dart (fetchAlbum)"?>
 ```dart
@@ -164,20 +146,16 @@ Future<Album> fetchAlbum() async {
 }
 ```
 
-Ideally, you will use this method to set
-`_futureAlbum` during `initState` to fetch
-the data from the internet.
+理想情況下，你會在`initState`期間使用此方法來設定`_futureAlbum`，以便從網路上擷取資料。
 
-## 4. Update the existing title from user input
+## 4. 根據使用者輸入更新現有標題
 
-Create a `TextField` to enter a title and a `ElevatedButton`
-to update the data on server.
-Also define a `TextEditingController` to
-read the user input from a `TextField`.
+建立一個`TextField`來輸入標題，以及一個`ElevatedButton`來更新伺服器上的資料。
+同時定義一個`TextEditingController`，用於從`TextField`讀取使用者輸入。
 
-When the `ElevatedButton` is pressed,
-the `_futureAlbum` is set to the value returned by
-`updateAlbum()` method.
+當按下`ElevatedButton`時，
+`_futureAlbum`會被設定為
+`updateAlbum()`方法所回傳的值。
 
 <?code-excerpt "lib/main_step5.dart (Column)"?>
 ```dart
@@ -203,30 +181,16 @@ Column(
 );
 ```
 
-On pressing the **Update Data** button, a network request
-sends the data in the `TextField` to the server as a `PUT` request.
-The `_futureAlbum` variable is used in the next step.
+當按下 **Update Data** 按鈕時，會發送一個網路請求，將 `TextField` 中的資料以 `PUT` 請求的方式傳送到伺服器。`_futureAlbum` 變數會在下一步中使用。
 
-## 5. Display the response on screen
+## 5. 在螢幕上顯示回應
 
-To display the data on screen, use the
-[`FutureBuilder`][] widget.
-The `FutureBuilder` widget comes with Flutter and
-makes it easy to work with async data sources.
-You must provide two parameters:
+若要在螢幕上顯示資料，請使用 [`FutureBuilder`][`FutureBuilder`] 元件 (Widget)。`FutureBuilder` 元件 (Widget) 是 Flutter 內建的元件，能讓你更輕鬆處理非同步資料來源。你必須提供兩個參數：
 
-  1. The `Future` you want to work with. In this case,
-     the future returned from the `updateAlbum()` function.
-  2. A `builder` function that tells Flutter what to render,
-     depending on the state of the `Future`: loading,
-     success, or error.
+  1. 你想要處理的 `Future`。在本例中，為 `updateAlbum()` 函式所回傳的 future。
+  2. 一個 `builder` 函式，用來告訴 Flutter 根據 `Future` 的狀態（載入中、成功或錯誤）該渲染什麼內容。
 
-Note that `snapshot.hasData` only returns `true` when
-the snapshot contains a non-null data value.
-This is why the `updateAlbum` function should throw an exception
-even in the case of a "404 Not Found" server response.
-If `updateAlbum` returns `null` then
-`CircularProgressIndicator` will display indefinitely.
+請注意，`snapshot.hasData` 僅在 snapshot 包含非 null 資料值時才會回傳 `true`。這也是為什麼即使伺服器回應 "404 Not Found"，`updateAlbum` 函式仍應該拋出例外。如果 `updateAlbum` 回傳 `null`，那麼 `CircularProgressIndicator` 將會無限顯示下去。
 
 <?code-excerpt "lib/main_step5.dart (FutureBuilder)"?>
 ```dart
@@ -244,7 +208,7 @@ FutureBuilder<Album>(
 );
 ```
 
-## Complete example
+## 完整範例
 
 <?code-excerpt "lib/main.dart"?>
 ```dart
@@ -379,19 +343,19 @@ class _MyAppState extends State<MyApp> {
 }
 ```
 
-[ConnectionState]: {{site.api}}/flutter/widgets/ConnectionState-class.html
-[`didChangeDependencies()`]: {{site.api}}/flutter/widgets/State/didChangeDependencies.html
-[Fetch data]: /cookbook/networking/fetch-data
-[`Future`]: {{site.api}}/flutter/dart-async/Future-class.html
-[`FutureBuilder`]: {{site.api}}/flutter/widgets/FutureBuilder-class.html
-[`http`]: {{site.pub-pkg}}/http
-[`http.put()`]: {{site.pub-api}}/http/latest/http/put.html
-[`http` package]: {{site.pub}}/packages/http/install
-[`InheritedWidget`]: {{site.api}}/flutter/widgets/InheritedWidget-class.html
-[Introduction to unit testing]: /cookbook/testing/unit/introduction
-[`initState()`]: {{site.api}}/flutter/widgets/State/initState.html
-[JSONPlaceholder]: https://jsonplaceholder.typicode.com/
-[JSON and serialization]: /data-and-backend/serialization/json
-[Mock dependencies using Mockito]: /cookbook/testing/unit/mocking
-[pattern matching]: {{site.dart-site}}/language/patterns
+[ConnectionState]: {{site.api}}/flutter/widgets/ConnectionState-class.html  
+[`didChangeDependencies()`]: {{site.api}}/flutter/widgets/State/didChangeDependencies.html  
+[Fetch data]: /cookbook/networking/fetch-data  
+[`Future`]: {{site.api}}/flutter/dart-async/Future-class.html  
+[`FutureBuilder`]: {{site.api}}/flutter/widgets/FutureBuilder-class.html  
+[`http`]: {{site.pub-pkg}}/http  
+[`http.put()`]: {{site.pub-api}}/http/latest/http/put.html  
+[`http` package]: {{site.pub}}/packages/http/install  
+[`InheritedWidget`]: {{site.api}}/flutter/widgets/InheritedWidget-class.html  
+[Introduction to unit testing]: /cookbook/testing/unit/introduction  
+[`initState()`]: {{site.api}}/flutter/widgets/State/initState.html  
+[JSONPlaceholder]: https://jsonplaceholder.typicode.com/  
+[JSON and serialization]: /data-and-backend/serialization/json  
+[Mock dependencies using Mockito]: /cookbook/testing/unit/mocking  
+[pattern matching]: {{site.dart-site}}/language/patterns  
 [`State`]: {{site.api}}/flutter/widgets/State-class.html

@@ -1,64 +1,53 @@
 ---
-title: What's new in the docs
+title: 文件最新動態
 description: >-
-  A list of what's new on docs.flutter.dev and related documentation sites.
+  docs.flutter.dev 及相關文件網站的最新動態列表。
 ---
 
-This page contains current and recent announcements
-of what's new on the Flutter website and blog.
-Find past what's new information on the
-[what's new archive][] page.
-You might also check out the
-Flutter SDK [release notes][].
+本頁包含 Flutter 官方網站及部落格的最新公告與近期動態。
+過往的最新動態資訊可參見
+[what's new archive][what's new archive] 頁面。
+你也可以參考
+Flutter SDK 的 [release notes][release notes]。
 
-To stay on top of Flutter announcements including
-breaking changes,
-join the [flutter-announce][] Google group.
+若想即時掌握 Flutter 的公告（包含重大變更），
+歡迎加入 [flutter-announce][flutter-announce] Google 群組。
 
-For Dart, you can join the [Dart Announce][] Google group,
-and review the [Dart changelog][].
+關於 Dart，你可以加入 [Dart Announce][Dart Announce] Google 群組，
+並瀏覽 [Dart changelog][Dart changelog]。
 
 [Dart Announce]: {{site.groups}}/a/dartlang.org/g/announce
 [Dart changelog]: {{site.github}}/dart-lang/sdk/blob/main/CHANGELOG.md
 [flutter-announce]: {{site.groups}}/forum/#!forum/flutter-announce
 [release notes]: /release/release-notes
 
-## 13 August 2025: Release 3.35
+## 2025 年 8 月 13 日：3.35 版發佈
 
-Flutter 3.35 is live! For more information,
-check out the [Flutter 3.35 technical blog post][3.35-tech].
-You might also check out the [Dart 3.9 release][] blog post.
+Flutter 3.35 已經上線！欲了解更多資訊，
+請參閱 [Flutter 3.35 技術部落格文章][3.35-tech]。
+你也可以參考 [Dart 3.9 版本][Dart 3.9 release] 部落格文章。
 
 [3.35-tech]: {{site.flutter-medium}}/whats-new-in-flutter-3-35-c58ef72e3766
 [Dart 3.9 release]: {{site.medium}}/dartlang/announcing-dart-3-9-ba49e8f38298
 
-**Docs updated or added since the 3.32 release**
+**自 3.32 版本以來更新或新增的文件**
 
-* Hot reload is now available on the web and no longer
-  requires an experimental flag. For more information,
-  check out [hot reload][].
+* 熱重載（Hot reload）現已可在 Web 上使用，且不再需要實驗性旗標。
+  詳細資訊請參閱 [hot reload][hot reload]。
 
-* There is a new [Create with AI][] guide which covers
-  how you can leverage AI tools like Gemini Code Assist,
-  GeminiCLI, and the Dart and Flutter MCP Server to build
-  AI-powered features for your Flutter apps.
+* 新增 [Create with AI][Create with AI] 指南，說明如何運用 AI 工具（如 Gemini Code Assist、GeminiCLI 及 Dart 和 Flutter MCP Server）來為你的 Flutter 應用程式打造 AI 驅動的功能。
 
-* You can now use the [Flutter Widget Previewer][] guide
-  to help you view a preview of your Flutter widgets in
-  Chrome.
+* 你現在可以參考 [Flutter Widget Previewer][Flutter Widget Previewer] 指南，
+  於 Chrome 中預覽你的 Flutter 元件 (Widgets)。
 
-* Each stable release affects which versions of
-  deployed platforms that Flutter supports.
-  For more information, visit the updated
-  [supported platforms][] page.
+* 每個穩定版本都會影響 Flutter 支援的已部署平台版本。
+  詳細資訊請參閱更新後的 [supported platforms][supported platforms] 頁面。
 
-* On Android, you can now protect sensitive content,
-  such as customer information, when you share your screen.
-  Learn more by visiting [Protect your app's sensitive content][].
+* 在 Android 上，現在可以在螢幕分享時保護敏感內容（如客戶資訊）。
+  請參閱 [Protect your app's sensitive content][Protect your app's sensitive content] 以了解更多。
 
-* Also, don't forget to check out the [breaking changes][bc-3.35]
-  page for this release. That's also where you'll find useful
-  migration info.
+* 另外，別忘了查看本次發佈的 [breaking changes][bc-3.35] 頁面，
+  你也能在那裡找到有用的遷移資訊。
 
 [Flutter Widget Previewer]: /tools/widget-previewer
 [Create with AI]: /ai/create-with-ai
@@ -69,53 +58,49 @@ You might also check out the [Dart 3.9 release][] blog post.
 
 ---
 
-## 20 May 2025: Google I/O release 3.32
+## 2025 年 5 月 20 日：Google I/O 3.32 版發佈
 
-Flutter 3.32 is live! For more information,
-check out the [Flutter 3.32 technical blog post][3.32-tech].
-You might also check out the [Dart 3.8 release][] blog post.
+Flutter 3.32 已經上線！欲了解更多資訊，
+請參閱 [Flutter 3.32 技術部落格文章][3.32-tech]。
+你也可以參考 [Dart 3.8 版本][Dart 3.8 release] 部落格文章。
 
 [3.32-tech]: {{site.medium}}/flutter/whats-new-in-flutter-3-32-40c1086bab6e
 [Dart 3.8 release]: {{site.medium}}/dartlang/announcing-dart-3-8-724eaaec9f47
 
-**Website update**
+**網站更新**
 
-First of all, a behind-the-scenes rewrite of the website has
-been in the works. These changes have been published incrementally,
-so you might have already noticed some of them:
+首先，網站已在幕後進行重構。
+這些變更已逐步釋出，你或許已經注意到：
 
-* Dark mode is now available
-* You can now rate each page on the site with a thumbs up
-  or thumbs down
-* The sidenav has changed and it's (hopefully) easier to find content
-* The website has been made more accessible
-* Files have been moved around (we always provide redirects)
+* 現已支援深色模式（Dark mode）
+* 你現在可以對網站上的每個頁面按讚或倒讚
+* 側邊導覽列（sidenav）已更新，期望能更容易找到內容
+* 網站的無障礙性已提升
+* 檔案結構有調整（我們都會提供重新導向）
 
-**Docs updated or added since the 3.29 release**
+**自 3.29 版本以來更新或新增的文件**
 
-* An updated [Flutter on iOS][] page.
-* We have a new [workflow for installing Flutter][] on the various
-  development platforms. This continues to be a work in progress,
-  so stay tuned.
-* A new page on how you can use the new DevTools feature,
-  [Flutter Property Editor][].
-  The [VS Code][] and [Android Studio/IntelliJ][] instructions
-  are also updated on how to use this feature.
-* The website is updated to explain how
-  you can [use hot reload on web][] behind a flag.
-  For this release, hot reload on web is an experimental feature.
-* A new page on [adding iOS app extensions][].
-* A completely rewritten page for
-  [setting up Flutter flavors for iOS and macOS][].
-* A new page for [setting up Flutter flavors for Android][].
-* The Cupertino instructions were updated for the
-  [Place a floating app bar above a list][floating-app-bar]
-  cookbook recipe.
-* You can now
-  [improve accessibility of your apps with SemanticRoles][semantic-roles].
-* Also, don't forget to check out the [breaking changes][bc-3.32]
-  page for this release. That's also where you'll find useful
-  migration info.
+* 更新的 [Flutter on iOS][Flutter on iOS] 頁面。
+* 新增 [在各開發平台安裝 Flutter 的工作流程][workflow for installing Flutter] 指南。
+  此內容仍在持續完善中，敬請期待。
+* 新增如何使用 DevTools 新功能
+  [Flutter Property Editor][Flutter Property Editor] 的頁面。
+  [VS Code][VS Code] 及 [Android Studio/IntelliJ][Android Studio/IntelliJ]
+  的相關說明也已更新。
+* 網站已更新，說明如何在 Web 上
+  [以旗標啟用 hot reload][use hot reload on web]。
+  本次發佈中，Web 上的 hot reload 屬於實驗性功能。
+* 新增 [新增 iOS 應用程式擴充功能][adding iOS app extensions] 頁面。
+* 全新改寫的
+  [設定 iOS 與 macOS Flutter flavors][setting up Flutter flavors for iOS and macOS] 頁面。
+* 新增 [設定 Android Flutter flavors][setting up Flutter flavors for Android] 頁面。
+* Cupertino 指南已更新
+  [在清單上方放置浮動應用程式列（App bar）][floating-app-bar]
+  的 cookbook 教學。
+* 你現在可以
+  [透過 SemanticRoles 提升應用程式的無障礙性][semantic-roles]。
+* 另外，別忘了查看本次發佈的 [breaking changes][bc-3.32] 頁面，
+  你也能在那裡找到有用的遷移資訊。
 
 [Architectural overview page]: /resources/architectural-overview
 [bc-3.32]: /release/breaking-changes#released-in-flutter-3-32
@@ -134,8 +119,8 @@ so you might have already noticed some of them:
 
 ---
 
-For past releases, check out the
-[What's new archive][] page.
+過往版本請參閱
+[What's new archive][What's new archive] 頁面。
 
 [What's new archive]: /release/archive-whats-new
 

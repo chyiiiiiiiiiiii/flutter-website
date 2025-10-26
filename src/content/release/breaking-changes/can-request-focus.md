@@ -1,38 +1,27 @@
 ---
-title: Deprecated TextField.canRequestFocus
+title: 已淘汰的 TextField.canRequestFocus
 description: >-
-  The TextField canRequestFocus parameter is deprecated and replaced by the
-  canRequestFocus parameter of its FocusNode.
+  TextField 的 canRequestFocus 參數已被淘汰，現已由其 FocusNode 的 canRequestFocus 參數取代。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-`TextField.canRequestFocus` is deprecated.
-The same functionality can be achieved by setting the
-`canRequestFocus` parameter of the `TextField`'s `FocusNode`.
+`TextField.canRequestFocus` 已被淘汰。
+相同的功能現在可以透過設定 `TextField` 的 `FocusNode` 的 `canRequestFocus` 參數來實現。
 
-## Background
+## 背景
 
-`TextField.canRequestFocus` was added to support `DropdownMenu`, which
-has a `TextField` that sometimes isn't interactive. However, the same
-functionality can be achieved by setting the `canRequestFocus` parameter of a
-`TextField`'s `FocusNode`. `DropdownMenu` has been migrated to this approach,
-and other use cases should follow the same pattern.
+`TextField.canRequestFocus` 的加入是為了支援 `DropdownMenu`，該元件有時會有不具互動性的 `TextField`。然而，這個功能同樣可以透過設定 `TextField` 的 `FocusNode` 的 `canRequestFocus` 參數來達成。`DropdownMenu` 已經遷移至這種做法，其他使用情境也應該採用相同的模式。
 
-Apps that use `TextField.canRequestFocus` display the following error when run
-in debug mode: "Use `focusNode` instead.". Specifically, this means that users
-should pass a `FocusNode` to `TextField.focusNode` with the
-`FocusNode.canRequestFocus` parameter set.
+在 debug 模式下執行使用 `TextField.canRequestFocus` 的應用程式時，會顯示以下錯誤：「請改用 `focusNode`。」。具體來說，這表示開發者應該傳遞一個帶有已設定 `FocusNode.canRequestFocus` 參數的 `FocusNode` 給 `TextField.focusNode`。
 
-## Migration guide
+## 遷移指南
 
-To migrate, remove the `TextField.canRequestFocus` parameter. Create a
-`FocusNode` with the `FocusNode.canRequestFocus` parameter set to the desired
-value, and pass that to `TextField.focusNode`.
+要進行遷移，請移除 `TextField.canRequestFocus` 參數。建立一個 `FocusNode`，並將 `FocusNode.canRequestFocus` 參數設為所需的值，然後將其傳遞給 `TextField.focusNode`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 class _MyWidgetState extends State<MyWidget> {
@@ -45,7 +34,7 @@ class _MyWidgetState extends State<MyWidget> {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 class _MyWidgetState extends State<MyWidget> {
@@ -60,29 +49,29 @@ class _MyWidgetState extends State<MyWidget> {
 }
 ```
 
-## Timeline
+## 時間軸
 
-Landed in version: Reverted, waiting to reland<br>
-In stable release: Not yet
+合併於版本：已回滾，等待重新合併<br>  
+穩定版釋出：尚未
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`DropdownMenu`][]
-* [`FocusNode.canRequestFocus`][]
-* [`TextField.canRequestFocus`][]
-* [`TextField.focusNode`][]
+* [`DropdownMenu`][`DropdownMenu`]
+* [`FocusNode.canRequestFocus`][`FocusNode.canRequestFocus`]
+* [`TextField.canRequestFocus`][`TextField.canRequestFocus`]
+* [`TextField.focusNode`][`TextField.focusNode`]
 
-Relevant issues:
+相關議題：
 
-* [Broken selection on TextField if canRequestFocus: false][]
-* [DropdownMenu Disable text input][]
+* [若 canRequestFocus: false，TextField 的選取功能異常][Broken selection on TextField if canRequestFocus: false]
+* [DropdownMenu 停用文字輸入][DropdownMenu Disable text input]
 
-Relevant PRs:
+相關 PR：
 
-* [Add requestFocusOnTap to DropdownMenu][]
-* [Replace TextField.canRequestFocus with TextField.focusNode.canRequestFocus][]
+* [為 DropdownMenu 新增 requestFocusOnTap][Add requestFocusOnTap to DropdownMenu]
+* [將 TextField.canRequestFocus 替換為 TextField.focusNode.canRequestFocus][Replace TextField.canRequestFocus with TextField.focusNode.canRequestFocus]
 
 [`DropdownMenu`]: {{site.api}}/flutter/material/DropdownMenu-class.html
 [`FocusNode.canRequestFocus`]: {{site.api}}/flutter/widgets/FocusNode/canRequestFocus.html

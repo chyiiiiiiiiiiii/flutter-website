@@ -1,31 +1,30 @@
-# DevTools 2.39.0 release notes
+# DevTools 2.39.0 發行說明
 
-The 2.39.0 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](/tools/devtools/overview).
+Dart 與 Flutter DevTools 2.39.0 版本
+包含以下變更，以及其他一般性改進。
+如需進一步了解 DevTools，請參閱
+[DevTools overview](/tools/devtools/overview)。
 
-## General updates
+## 一般更新
 
-* Changed table columns to be sortable by default. - [#8175](https://github.com/flutter/devtools/pull/8175)
-* Updated DevTools screen icons to match what is used in the Flutter-supported IDEs. - [#8181](https://github.com/flutter/devtools/pull/8181)
+* 表格欄位預設可排序。- [#8175](https://github.com/flutter/devtools/pull/8175)
+* 更新 DevTools 螢幕圖示，使其與 Flutter 支援的 IDE 中所使用的圖示一致。- [#8181](https://github.com/flutter/devtools/pull/8181)
 
-## Memory updates
+## 記憶體相關更新
 
-* Enabled offline analysis of memory snapshots, as well as support for viewing memory
-data when an app disconnects. For example, this may happen when an app unexpectedly
-crashes or hits an out-of-memory issue. - [#7843](https://github.com/flutter/devtools/pull/7843),
-[#8093](https://github.com/flutter/devtools/pull/8093),
+* 啟用記憶體快照的離線分析，並支援在應用程式斷線時檢視記憶體資料。例如，當應用程式意外
+當機或遇到記憶體不足問題時，可能會發生這種情況。- [#7843](https://github.com/flutter/devtools/pull/7843)、
+[#8093](https://github.com/flutter/devtools/pull/8093)、
 [#8096](https://github.com/flutter/devtools/pull/8096)
 
-* Fixed issue where the memory chart could cause the connected application to hit an
-out of memory exception while allocating large, short-lived objects repeatedly. - [#8209](https://github.com/flutter/devtools/pull/8209)
+* 修正記憶體圖表可能導致連線中的應用程式在重複分配大量短暫物件時
+發生記憶體不足例外的問題。- [#8209](https://github.com/flutter/devtools/pull/8209)
 
-## App size tool updates
+## App size 工具更新
 
-* Added UI polish to the file import views. [#8232](https://github.com/flutter/devtools/pull/8232)
+* 增加檔案匯入檢視的 UI 優化。[#8232](https://github.com/flutter/devtools/pull/8232)
 
-## Full commit history
+## 完整提交記錄
 
-To find a complete list of changes in this release, check out the
-[DevTools git log](https://github.com/flutter/devtools/tree/v2.39.0).
+如需本次發行的完整變更列表，請參閱
+[DevTools git log](https://github.com/flutter/devtools/tree/v2.39.0)。

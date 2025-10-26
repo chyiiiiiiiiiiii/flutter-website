@@ -1,62 +1,55 @@
-# DevTools 2.41.0 release notes
+# DevTools 2.41.0 發行說明
 
-The 2.41.0 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](/tools/devtools/overview).
+Dart 與 Flutter DevTools 2.41.0 版本
+包含以下變更及其他一般性改進。
+想進一步了解 DevTools，請參閱
+[DevTools overview](/tools/devtools/overview)。
 
-## General updates
+## 一般更新
 
-* Persist filter settings across sessions. - [#8447](https://github.com/flutter/devtools/pull/8447),
+* 跨工作階段保留篩選器設定。- [#8447](https://github.com/flutter/devtools/pull/8447),
 [#8456](https://github.com/flutter/devtools/pull/8456)
 [#8470](https://github.com/flutter/devtools/pull/8470)
 
-## Inspector updates
+## 檢查器（Inspector）更新
 
-* Added an option to the [new Inspector's](https://docs.flutter.dev/tools/devtools/release-notes/release-notes-2.40.2#inspector-updates)
-  settings to allow auto-refreshing the widget tree after a hot-reload. - [#8483](https://github.com/flutter/devtools/pull/8483)
+* 在[新版檢查器](https://docs.flutter.dev/tools/devtools/release-notes/release-notes-2.40.2#inspector-updates)
+  設定中新增選項，允許在熱重載（hot-reload）後自動重新整理元件樹（widget tree）。- [#8483](https://github.com/flutter/devtools/pull/8483)
 
-## Network profiler updates
+## 網路分析器（Network profiler）更新
 
-* Added a filter text field to the top-level Network profiler controls. -
+* 在頂層網路分析器控制項新增篩選文字欄位。-
 [#8469](https://github.com/flutter/devtools/pull/8469)
     ![Network filter field](/assets/images/docs/tools/devtools/release-notes/images-2.41.0/network_filter.png "Network filter field")
 
-## Logging updates
+## 日誌（Logging）更新
 
-* Fetch log details immediately upon receiving logs so that log data is not lost
-due to lazy loading. - [#8421](https://github.com/flutter/devtools/pull/8421)
-* Reduce initial page load time. - [#8500](https://github.com/flutter/devtools/pull/8500)
-* Added support for displaying metadata, such as log
-severity, category, zone, and isolate -
+* 在接收到日誌時立即擷取日誌詳細資料，避免因延遲載入而導致日誌資料遺失。- [#8421](https://github.com/flutter/devtools/pull/8421)
+* 降低初始頁面載入時間。- [#8500](https://github.com/flutter/devtools/pull/8500)
+* 新增支援顯示中繼資料（metadata），如日誌嚴重性（severity）、分類（category）、區域（zone）及隔離區（isolate） -
 [#8419](https://github.com/flutter/devtools/pull/8419),
 [#8439](https://github.com/flutter/devtools/pull/8439),
-[#8441](https://github.com/flutter/devtools/pull/8441). It is now also possible to
-search and filter by these metadata values. - [#8473](https://github.com/flutter/devtools/pull/8473)
+[#8441](https://github.com/flutter/devtools/pull/8441)。現在也可依這些中繼資料值進行搜尋與篩選。- [#8473](https://github.com/flutter/devtools/pull/8473)
     ![Logging metadata display](/assets/images/docs/tools/devtools/release-notes/images-2.41.0/log_metadata.png "Logging metadata display")
-* Add a filter text field to the top-level Logging controls. -
+* 在頂層日誌控制項新增篩選文字欄位。-
 [#8427](https://github.com/flutter/devtools/pull/8427)
     ![Logging filter](/assets/images/docs/tools/devtools/release-notes/images-2.41.0/log_filter.png "Logging filter")
-* Added support for filtering by log severity / levels. -
+* 新增支援依日誌嚴重性／等級（severity/levels）進行篩選。-
 [#8433](https://github.com/flutter/devtools/pull/8433)
     ![Log level filter](/assets/images/docs/tools/devtools/release-notes/images-2.41.0/log_level_filter.png "Log level filter")
-* Added a setting to set the log retention limit. - [#8493](https://github.com/flutter/devtools/pull/8493)
-* Added a button to toggle the log details display between raw text and JSON. -
+* 新增設定可設置日誌保留上限。- [#8493](https://github.com/flutter/devtools/pull/8493)
+* 新增按鈕，可在原始文字與 JSON 格式間切換日誌詳細資訊顯示。-
 [#8445](https://github.com/flutter/devtools/pull/8445)
-* Fixed a bug where logs would get out of order after midnight. - 
+* 修正午夜過後日誌順序錯亂的錯誤。- 
 [#8420](https://github.com/flutter/devtools/pull/8420)
-* Automatically scroll logs table to the bottom on the initial load. -
+* 初次載入時自動將日誌表格滾動至底部。-
 [#8437](https://github.com/flutter/devtools/pull/8437)
 
-## VS Code Sidebar updates
+## VS Code 側邊欄（Sidebar）更新
 
-* The legacy `postMessage` version of the VS Code sidebar has been removed in
-favor of the DTD-powered version. Trying to access the legacy sidebar will
-show a message advising to update your Dart VS Code extension. The Dart VS
-Code extension was the only user of the legacy sidebar and migrated off in
-v3.96.
+* 已移除 VS Code 側邊欄的舊版 `postMessage`，改為使用 DTD 驅動的版本。若嘗試存取舊版側邊欄，將顯示提示訊息，建議更新 Dart VS Code 擴充套件。Dart VS Code 擴充套件是唯一使用舊版側邊欄的用戶，並已於 v3.96 遷移。
 
-## Full commit history
+## 完整提交記錄
 
-To find a complete list of changes in this release, check out the
-[DevTools git log](https://github.com/flutter/devtools/tree/v2.41.0).
+如需本次發行的完整變更清單，請參閱
+[DevTools git log](https://github.com/flutter/devtools/tree/v2.41.0)。

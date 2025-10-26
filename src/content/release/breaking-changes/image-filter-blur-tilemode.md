@@ -1,84 +1,77 @@
 ---
-title: ImageFilter.blur default tile mode automatic selection.
+title: ImageFilter.blur 預設平鋪模式自動選擇
 description: >-
-  If a tile mode wasn't specified in the constructor, ImageFilter.blur will
-  select one based on the rendering context.
+  如果在建構函式中未指定平鋪模式，ImageFilter.blur 會根據渲染情境自動選擇平鋪模式。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-The `ui.ImageFilter.blur`'s default tile mode is
-now automatically selected by the backend.
-Previously `TileMode.clamp` was used unless a different tile mode was specified.
-Now, the default is `null` and specifies automatic selection unless
-a specific tile mode is specified.
+`ui.ImageFilter.blur` 的預設平鋪模式（tile mode）現在會由後端自動選擇。
+過去，除非明確指定其他平鋪模式，否則會使用 `TileMode.clamp`。
+現在，預設值為 `null`，代表自動選擇，除非明確指定特定的平鋪模式。
 
-## Background
+## 背景
 
-`ImageFilter.blur`'s _tile mode_ specifies what happens to
-edge pixels for the applied filter.
-There are four options:
+`ImageFilter.blur` 的 _平鋪模式_（tile mode）決定了
+套用濾鏡時邊緣像素的處理方式。
+共有四種選項：
 
-- `TileMode.clamp` (the previous default)
+- `TileMode.clamp`（先前的預設值）
 - `Tilemode.repeated`
 - `TileMode.mirror`
 - `TileMode.decal`
 
-Previously, if the behavior wasn't specified,
-`ImageFilter` defaulted to `clamp` mode.
-This sometimes surprised developers as it didn't always match expectations.
+過去，如果未指定行為，
+`ImageFilter` 會預設為 `clamp` 模式。
+這有時會讓開發者感到意外，因為結果不一定符合預期。
 
-As of this change, the filter automatically selects the
-following tile modes based on context:
+自本次變更起，濾鏡會根據情境自動選擇下列平鋪模式：
 
-* `decal` with save layers and when applied to individual shape draws
-          (such as with `drawRect` and `drawPath`).
-* `mirror` with backdrop filters.
-* `clamp` for `drawImage`.
+* 在 save layers 以及套用於個別形狀繪製時（例如 `drawRect` 和 `drawPath`），使用 `decal`。
+* 在 backdrop filters 時，使用 `mirror`。
+* 用於 `drawImage` 時，使用 `clamp`。
 
-## Migration guide
+## 遷移指南
 
-Only blur image filters that don't specify an explicit tile mode are
-impacted by this change.
+只有未明確指定平鋪模式的模糊（blur）圖片濾鏡會受到此變更影響。
 
-We believe that the new defaults are generally
-better and would recommend removing any specified blur tile modes.
+我們認為新的預設值通常會有更好的效果，因此建議移除任何已指定的模糊平鋪模式。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 final filter = ui.ImageFilter.blur(sigmaX: 4, sigmaY: 4, tileMode: TileMode.decal);
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 final filter = ui.ImageFilter.blur(sigmaX: 4, sigmaY: 4);
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.28.0-0.1.pre<br>
-In stable release: 3.29
+合併於版本：3.28.0-0.1.pre<br>  
+正式版發佈：3.29
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`ImageFilter`][]
-* [`TileMode`][]
+* [`ImageFilter`][`ImageFilter`]
+* [`TileMode`][`TileMode`]
 
-Relevant issues:
+相關議題：
 
-* [Issue #154935][]
-* [Issue #110318][]
-* [Issue #157693][]
+* [Issue #154935][Issue #154935]
+* [Issue #110318][Issue #110318]
+* [Issue #157693][Issue #157693]
 
-Relevant PRs:
+相關 PR：
 
-* [Change default TileMode for blur ImageFilter objects to null][]
+* [Change default TileMode for blur ImageFilter objects to null][Change default TileMode for blur ImageFilter objects to null]
 
 [`ImageFilter`]: {{site.api}}/flutter/dart-ui/ImageFilter-class.html
 [`ImageFilter.blur`]: {{site.api}}/flutter/dart-ui/ImageFilter/ImageFilter.blur.html

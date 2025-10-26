@@ -1,6 +1,6 @@
 ---
 layout: toc
-title: Packages & plugins
+title: 套件與插件
 description: >
-  Content covering using and developing packages and plugins for Flutter apps.
+  涵蓋在 Flutter 應用程式中使用與開發套件（Packages）與插件（Plugins）的相關內容。
 ---

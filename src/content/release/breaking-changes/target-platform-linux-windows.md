@@ -1,22 +1,20 @@
 ---
-title: Adding 'linux' and 'windows' to TargetPlatform enum
+title: 將 'linux' 和 'windows' 新增至 TargetPlatform 列舉型別
 description: >
-  Two new values were added to the TargetPlatform enum that could
-  require additional cases in switch statements that switch on a TargetPlatform.
+  兩個新值已新增至 TargetPlatform 列舉型別，這可能會需要在以 TargetPlatform 為條件的 switch 陳述式中補充額外的分支。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-Two new values were added to the [`TargetPlatform`][] enum
-that could require additional cases in switch statements that
-switch on a `TargetPlatform` and don't include a `default:` case.
+[`TargetPlatform`][`TargetPlatform`] 列舉型別新增了兩個新值，
+這可能會導致在以 `TargetPlatform` 為條件且未包含 `default:` 分支的 switch 陳述式中，需要補充額外的分支。
 
-## Context
+## 背景說明
 
-Prior to this change, the `TargetPlatform` enum only contained four values,
-and was defined like this:
+在此變更之前，`TargetPlatform` 列舉型別僅包含四個值，
+其定義如下：
 
 ```dart
 enum TargetPlatform {
@@ -27,10 +25,7 @@ enum TargetPlatform {
 }
 ```
 
-A `switch` statement only needed to handle these cases,
-and desktop applications that wanted to run on Linux or
-Windows usually had a test like this in their
-`main()` method:
+`switch` 陳述式只需要處理這些情況，而希望在 Linux 或 Windows 上執行的桌面應用程式，通常會在它們的 `main()` 方法中加入類似以下的測試：
 
 ```dart
 // Sets a platform override for desktop to avoid exceptions. See
@@ -47,9 +42,9 @@ void main() {
 }
 ```
 
-## Description of change
+## 變更說明
 
-The `TargetPlatform` enum is now defined as:
+`TargetPlatform` 列舉現在被定義為：
 
 ```dart
 enum TargetPlatform {
@@ -62,35 +57,35 @@ enum TargetPlatform {
 }
 ```
 
-And the platform test setting
-[`debugDefaultTargetPlatformOverride`][] in `main()`
-is no longer required on Linux and Windows.
+而平台測試設定
+[`debugDefaultTargetPlatformOverride`][`debugDefaultTargetPlatformOverride`] 在 `main()`
+於 Linux 和 Windows 上已不再需要。
 
-This can cause the Dart analyzer to give the
-[`missing_enum_constant_in_switch`][] warning for
-switch statements that don't include a `default` case.
-Writing a switch without a `default:` case is the
-recommended way to handle enums, since the analyzer
-can then help you find any cases that aren't handled.
+這可能會導致 Dart analyzer 針對
+[`missing_enum_constant_in_switch`][`missing_enum_constant_in_switch`]
+對於未包含 `default` case 的 switch 陳述式給出警告。
+撰寫沒有 `default:` case 的 switch 陳述式
+是建議用於處理 enum 的方式，因為 analyzer
+可以協助你找出尚未處理的 case。
 
-## Migration guide
+## 遷移指南
 
-In order to migrate to the new enum, and avoid the analyzer's
-`missing_enum_constant_in_switch` error, which looks like:
+為了遷移至新的 enum，並避免 analyzer 出現
+`missing_enum_constant_in_switch` 錯誤（如下所示）：
 
 ```plaintext
 warning: Missing case clause for 'linux'. (missing_enum_constant_in_switch at [package] path/to/file.dart:111)
 ```
 
-or:
+或：
 
 ```plaintext
 warning: Missing case clause for 'windows'. (missing_enum_constant_in_switch at [package] path/to/file.dart:111)
 ```
 
-Modify your code as follows:
+請依下列方式修改您的程式碼：
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 void dance(TargetPlatform platform) {
@@ -111,7 +106,7 @@ void dance(TargetPlatform platform) {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 void dance(TargetPlatform platform) {
@@ -138,32 +133,28 @@ void dance(TargetPlatform platform) {
 }
 ```
 
-Having `default:` cases in such switch statements isn't
-recommended, because then the analyzer can't help you find
-all the cases that need to be handled.
+在這類 switch 陳述式中包含 `default:` case 並不建議，因為這樣分析器（analyzer）將無法協助你找出所有需要處理的 case。
 
-Also, any tests like the one referenced above that set the
-`debugDefaultTargetPlatformOverride` are no longer needed
-for Linux and Windows applications.
+另外，像上述所提到、會設定 `debugDefaultTargetPlatformOverride` 的測試，在 Linux 和 Windows 應用程式中已不再需要。
 
-## Timeline
+## 時程表
 
-Landed in version: 1.15.4<br>
-In stable release: 1.17
+合併於版本：1.15.4<br>  
+穩定版釋出：1.17
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`TargetPlatform`][]
+* [`TargetPlatform`][`TargetPlatform`]
 
-Relevant issues:
+相關議題：
 
-* [Issue #31366][]
+* [Issue #31366][Issue #31366]
 
-Relevant PR:
+相關 PR：
 
-* [Add Windows, and Linux as TargetPlatforms][]
+* [Add Windows, and Linux as TargetPlatforms][Add Windows, and Linux as TargetPlatforms]
 
 [Add Windows, and Linux as TargetPlatforms]: {{site.repo.flutter}}/pull/51519
 [`debugDefaultTargetPlatformOverride`]: {{site.api}}/flutter/foundation/debugDefaultTargetPlatformOverride.html

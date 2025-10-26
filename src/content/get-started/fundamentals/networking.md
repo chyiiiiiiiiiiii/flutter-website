@@ -1,28 +1,26 @@
 ---
-title: Networking and data
-description: Learn how to network your Flutter app.
+title: 網路與資料
+description: 學習如何為你的 Flutter 應用程式加入網路功能。
 prev:
-  title: Handling user input
+  title: 處理使用者輸入
   path: /get-started/fundamentals/user-input
 next:
-  title: Local data and caching
+  title: 本地資料與快取
   path: /get-started/fundamentals/local-caching
 ---
 
-While it's said that "no man is an island",
-a Flutter app without any networking capability
-can feel a tad disconnected.
-This page covers how to add networking features
-to your Flutter app. Your app will retrieve data,
-parse JSON into usable in memory representations,
-and then send data out again.
+雖然俗話說「no man is an island（沒有人是一座孤島）」，
+但沒有任何網路功能的 Flutter 應用程式
+可能會顯得有些與世隔絕。
+本頁將介紹如何為你的 Flutter 應用程式加入網路功能。你的應用程式將能夠擷取資料、
+將 JSON 解析為可用的記憶體表示形式，
+並再次將資料傳送出去。
 
-## Introduction to retrieving data over the network
+## 網路資料擷取簡介
 
-At it's simplest, assuming you utilize the [`http`][]
-package to adapt to the differences between network access
-from Dart VM based platforms and web browser-based environments,
-making a HTTP `GET` request can be as simple as the following:
+最簡單的情況下，假設你使用 [`http`][`http`]
+套件來適應 Dart VM 平台與網頁瀏覽器環境在網路存取上的差異，
+發送一個 HTTP `GET` 請求可以像下面這麼簡單：
 
 ```dart
 import 'package:http/http.dart' as http;
@@ -35,89 +33,44 @@ void main() async {
 }
 ```
 
-The following two tutorials show you all of the details
-involved in adding the [`http`][] package to your app,
-whether you are running on Android,
-iOS, inside a web browser, or natively on Windows,
-macOS, or Linux. 
-The first tutorial shows you how to make an
-unauthenticated `GET` request to a website,
-parse the retrieved data as `JSON` and then
-display the resulting data. The second tutorial
-builds on the first by adding authentication headers,
-enabling access to web servers requiring authorization.
-The article by the Mozilla Developer Network (MDN)
-gives more background on how authorization works on the web.
+以下兩個教學將詳細說明如何將 [`http`][`http`] 套件加入你的應用程式，無論你是在 Android、iOS、網頁瀏覽器內，還是在 Windows、macOS 或 Linux 原生執行。  
+第一個教學會示範如何對網站發出未經驗證的 `GET` 請求，將取得的資料解析為 `JSON`，然後顯示結果資料。第二個教學則在第一個基礎上，加入驗證標頭（authentication headers），使你能存取需要授權的網頁伺服器。Mozilla Developer Network (MDN) 的這篇文章則提供了網頁授權運作方式的更多背景知識。
 
-* Tutorial: [Fetch data from the internet][]
-* Tutorial: [Make authenticated requests][]
-* Article: [MDN's article on Authorization for websites][]
+* 教學：[從網路擷取資料][Fetch data from the internet]
+* 教學：[發送帶驗證的請求][Make authenticated requests]
+* 文章：[MDN 關於網站授權的文章][MDN's article on Authorization for websites]
 
-## Making data retrieved from the network useful
+## 讓從網路取得的資料變得有用
 
-Once you retrieve data from the network,
-you need a way to convert the data from the network
-into something that you can easily work with in Dart.
-The tutorials in the previous section used hand rolled Dart
-to convert network data into an in-memory representation. 
-In this section,
-you'll see other options for handling this conversion.
-The first links to a YouTube video showing an overview
-of the [`freezed` package][]. 
-The second links to a codelab that covers patterns
-and records using a case study of parsing JSON. 
+當你從網路取得資料後，需要一種方式將這些資料轉換成 Dart 中容易操作的型態。上一節的教學使用手寫 Dart 程式碼，將網路資料轉換為記憶體中的表示。在本節中，你將看到其他處理這種轉換的選項。第一個連結到一支 YouTube 影片，概覽 [`freezed` 套件][`freezed` package]。第二個則是 codelab，透過解析 JSON 的案例，介紹 Dart 的 pattern（模式）與 record（紀錄）用法。
 
-* YouTube video: [Freezed (Package of the Week)][]
-* Codelab: [Dive into Dart's patterns and records][]
+* YouTube 影片：[Freezed（本週套件介紹）][Freezed (Package of the Week)]
+* Codelab：[深入探索 Dart 的 pattern 與 record][Dive into Dart's patterns and records]
 
-## Going both ways, getting data out again
+## 雙向操作：將資料再送出
 
-Now that you've mastered the art of retrieving data,
-it's time to look at pushing data out.
-This information starts with sending data to the network,
-but then dives into asynchronicity. The truth is,
-once you are in a conversation over the network,
-you'll need to deal with the fact that web servers
-that are physically far away can take a while to respond,
-and you can't stop rendering to the screen
-while you wait for packets to round trip.
-Dart has great support for asynchronicity,
-as does Flutter.
-You'll learn all about Dart's support in a tutorial,
-then see Flutter's capability covered in a
-Widget of the Week video.
-Once you complete that, you'll learn how to debug
-network traffic using DevTool's Network View.
+既然你已經掌握了資料擷取的技巧，現在該學習如何將資料送出。這部分從如何將資料發送到網路開始，接著深入探討非同步（asynchronicity）。事實上，一旦你開始與網路進行資料交換，就必須面對遠端伺服器回應延遲的現實，而你不能在等待封包來回時停止畫面渲染。Dart 與 Flutter 都對非同步有很好的支援。你將透過教學學會 Dart 的非同步支援，然後在 Widget of the Week 影片中看到 Flutter 的相關能力。完成這些後，你還會學到如何用 DevTool 的 Network View 偵錯網路流量。
 
-* Tutorial: [Send data to the internet][]
-* Tutorial: [Asynchronous programming: futures, async, await][]
-* YouTube video: [FutureBuilder (Widget of the Week)][]
-* Article: [Using the Network View][]
+* 教學：[將資料送出到網路][Send data to the internet]
+* 教學：[非同步程式設計：futures、async、await][Asynchronous programming: futures, async, await]
+* YouTube 影片：[FutureBuilder（本週元件介紹）][FutureBuilder (Widget of the Week)]
+* 文章：[使用 Network View][Using the Network View]
 
-## Extension material
+## 延伸學習資源
 
-Now that you've mastered using Flutter's networking APIs,
-it helps to see Flutter's network usage in context.
-The first codelab (ostensibly on creating Adaptive apps in Flutter),
-uses a web server written in Dart to work around the web browsers'
-[Cross-Origin Resource Sharing (CORS) restrictions][].
+現在你已經熟悉 Flutter 的網路 API，了解 Flutter 在實際情境下如何使用網路會更有幫助。第一個 codelab（表面上是介紹如何在 Flutter 建立自適應應用程式），使用用 Dart 撰寫的網頁伺服器來繞過網頁瀏覽器的 [跨來源資源共享（CORS）限制][Cross-Origin Resource Sharing (CORS) restrictions]。
 
 :::note
-If you've already worked through this codelab
-on the [layout][] page, feel free to skip this step.
+如果你已經在 [版面配置][layout] 頁面完成過這個 codelab，可以略過這一步。
 :::
 
 [layout]: /get-started/fundamentals/layout
 
-Next, a long-form YouTube video where
-Flutter DevRel alumnus, Fitz,
-talks about how the location of data matters for Flutter apps.
-Finally, a really useful series of articles by Flutter GDE
-Anna (Domashych) Leushchenko covering advanced networking in Flutter.
+接下來是一支長篇 YouTube 影片，由 Flutter DevRel 前成員 Fitz 講解資料位置對 Flutter 應用程式的重要性。最後，Flutter GDE Anna (Domashych) Leushchenko 撰寫的一系列實用文章，涵蓋 Dart 與 Flutter 進階網路應用。
 
-* Codelab: [Adaptive apps in Flutter][]
-* Video: [Keeping it local: Managing a Flutter app's data][]
-* Article series: [Basic and advanced networking in Dart and Flutter][]
+* Codelab：[Flutter 中的自適應應用程式][Adaptive apps in Flutter]
+* 影片：[Keeping it local: 管理 Flutter 應用程式的資料][Keeping it local: Managing a Flutter app's data]
+* 文章系列：[Dart 與 Flutter 的基礎與進階網路應用][Basic and advanced networking in Dart and Flutter]
 
 
 [Adaptive apps in Flutter]: {{site.codelabs}}/codelabs/flutter-adaptive-app
@@ -137,9 +90,9 @@ Anna (Domashych) Leushchenko covering advanced networking in Flutter.
 [Using the Network View]: /tools/devtools/network
 [Send data to the internet]: /cookbook/networking/send-data
 
-## Feedback
+## 意見回饋
 
-As this section of the website is evolving,
-we [welcome your feedback][]!
+由於本網站區塊仍在持續發展中，  
+我們[歡迎你的意見回饋][welcome your feedback]！
 
 [welcome your feedback]: https://google.qualtrics.com/jfe/form/SV_6A9KxXR7XmMrNsy?page="networking"

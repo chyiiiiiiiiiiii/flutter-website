@@ -1,18 +1,17 @@
 ---
-title: Add Flutter to your PATH
-shortTitle: Add to PATH
+title: 將 Flutter 加入 PATH
+shortTitle: 加入 PATH
 description: >-
-  Learn how to add Flutter to your PATH after downloading the Flutter SDK.
+  了解如何在下載 Flutter SDK 後，將 Flutter 加入你的 PATH。
 ---
 
-Learn how to add Flutter to your `PATH` environment variable
-after downloading the SDK.
-Adding Flutter to your `PATH` allows you to use the
-`flutter` and `dart` command-line tools in terminals and IDEs.
+了解如何在下載 SDK 後，將 Flutter 加入你的 `PATH` 環境變數。
+將 Flutter 加入你的 `PATH`，即可在終端機與 IDE 中使用
+`flutter` 和 `dart` 命令列工具。
 
 :::tip
-If you haven't downloaded Flutter yet,
-follow [Set up and test drive Flutter][] instead.
+如果你尚未下載 Flutter，
+請改為參考[設定與試用 Flutter][Set up and test drive Flutter]。
 :::
 
 <div class="card-grid">
@@ -21,7 +20,7 @@ follow [Set up and test drive Flutter][] instead.
       <span class="card-title">Windows</span>
     </div>
     <div class="card-content">
-      <p>Add Flutter to your path on Windows.</p>
+      <p>在 Windows 上將 Flutter 加入你的 path。</p>
     </div>
   </a>
   <a class="card outlined-card" href="#macos">
@@ -29,7 +28,7 @@ follow [Set up and test drive Flutter][] instead.
       <span class="card-title">macOS</span>
     </div>
     <div class="card-content">
-      <p>Add Flutter to your path on macOS.</p>
+      <p>在 macOS 上將 Flutter 加入你的 path。</p>
     </div>
   </a>
   <a class="card outlined-card" href="#linux">
@@ -37,7 +36,7 @@ follow [Set up and test drive Flutter][] instead.
       <span class="card-title">Linux</span>
     </div>
     <div class="card-content">
-      <p>Add Flutter to your path on Linux.</p>
+      <p>在 Linux 上將 Flutter 加入你的 path。</p>
     </div>
   </a>
   <a class="card outlined-card" href="#chromeos">
@@ -45,7 +44,7 @@ follow [Set up and test drive Flutter][] instead.
       <span class="card-title">ChromeOS</span>
     </div>
     <div class="card-content">
-      <p>Add Flutter to your path on ChromeOS.</p>
+      <p>在 ChromeOS 上將 Flutter 加入你的 path。</p>
     </div>
   </a>
 </div>
@@ -54,28 +53,28 @@ follow [Set up and test drive Flutter][] instead.
 
 ## Windows
 
-To run `flutter` and `dart` commands in a terminal on Windows,
-add the Flutter SDK's `bin` directory to the `Path` environment variable.
+若要在 Windows 的終端機中執行 `flutter` 和 `dart` 指令，
+請將 Flutter SDK 的 `bin` 目錄加入 `Path` 環境變數。
 
 {% render docs/install/path/windows.md %}
 
 ## macOS
 
-To run `flutter` and `dart` commands in a terminal on macOS,
-add the Flutter SDK's `bin` directory to the `PATH` environment variable.
+若要在 macOS 的終端機中執行 `flutter` 和 `dart` 指令，
+請將 Flutter SDK 的 `bin` 目錄加入 `PATH` 環境變數。
 
 {% render docs/install/path/macos.md %}
 
 ## Linux
 
-To run `flutter` and `dart` commands in a terminal on Linux,
-add the Flutter SDK's `bin` directory to the `PATH` environment variable.
+若要在 Linux 的終端機中執行 `flutter` 和 `dart` 指令，
+請將 Flutter SDK 的 `bin` 目錄加入 `PATH` 環境變數。
 
 {% render docs/install/path/linux.md %}
 
 ## ChromeOS
 
-To run `flutter` and `dart` commands in a terminal on chromeOS,
-add the Flutter SDK's `bin` directory to the `PATH` environment variable.
+若要在 ChromeOS 的終端機中執行 `flutter` 和 `dart` 指令，
+請將 Flutter SDK 的 `bin` 目錄加入 `PATH` 環境變數。
 
 {% render docs/install/path/chromeos.md %}

@@ -1,4 +1,1 @@
-The image files in this directory's subdirectories are
-used in cookbook recipes and other interactive code snippets.
-Their names or extensions shouldn't be changed without
-updating the relevant exercises and ensuring they still work.
+本目錄的子目錄中所包含的圖片檔案，會用於 cookbook 範例及其他互動式程式碼片段。若需變更這些檔案的名稱或副檔名，請務必同步更新相關練習內容，並確認其仍可正常運作。

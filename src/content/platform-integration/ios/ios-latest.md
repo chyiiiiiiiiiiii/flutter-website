@@ -1,27 +1,25 @@
 ---
-title: Flutter on latest iOS
+title: Flutter 在最新 iOS 上的支援
 description: >-
-  Learn about Flutter's support for and compatibility with
-  the latest releases of iOS.
+  了解 Flutter 對最新 iOS 版本的支援與相容性。
 ---
 
-Flutter supports iOS 26.
+Flutter 支援 iOS 26。
 
-For information on the status of specific iOS features
-that Flutter hasn't yet fully implemented,
-visit the following issues in the flutter/flutter repo.
+若需瞭解 Flutter 尚未完全實作的特定 iOS 功能支援狀態，  
+請參閱 flutter/flutter 儲存庫中的以下議題：
 
-* Flutter support for liquid glass: [Issue 170310][]
-* Eye tracking of a Flutter app: [Issue 153573][]
-* Hover typing feature: [Issue 152715][]
-* iOS formatting menu: [Issue 150068][]
-* iOS-style zoom page transition: [Issue 150588][]
-* iPad-style tab bar: [Issue 150950][]
-* iPhone mirroring when viewing a Flutter app: [Issue 152711][]
-* Large content viewer: [Issue 152715][]
-* Add "Translate" button to the context edit menu: [Issue 150392][]
-* Virtual trackpad feature: [Issue 152715][]
-* Writing tools text input feature: [Issue 150965][], [Issue 150452][]
+* Flutter 對 liquid glass 的支援：[Issue 170310][Issue 170310]
+* Flutter 應用程式的眼動追蹤（Eye tracking）：[Issue 153573][Issue 153573]
+* Hover typing 功能：[Issue 152715][Issue 152715]
+* iOS 格式化選單（formatting menu）：[Issue 150068][Issue 150068]
+* iOS 風格的縮放頁面轉場（zoom page transition）：[Issue 150588][Issue 150588]
+* iPad 風格的分頁列（tab bar）：[Issue 150950][Issue 150950]
+* 在檢視 Flutter 應用程式時的 iPhone 螢幕鏡像（mirroring）：[Issue 152711][Issue 152711]
+* 大型內容檢視器（Large content viewer）：[Issue 152715][Issue 152715]
+* 在內容編輯選單中新增「翻譯」按鈕：[Issue 150392][Issue 150392]
+* 虛擬觸控板（Virtual trackpad）功能：[Issue 152715][Issue 152715]
+* Writing tools 文字輸入功能：[Issue 150965][Issue 150965]、[Issue 150452][Issue 150452]
 
 [Issue 150068]: {{site.repo.flutter}}/issues/150068
 [Issue 150392]: {{site.repo.flutter}}/issues/150392

@@ -1,42 +1,21 @@
 ---
-title: Widgets
-description: Learn the basic building blocks of Flutter.
+title: 元件 (Widgets)
+description: 學習 Flutter 的基本構建區塊。
 prev:
-  title: Intro to Dart
+  title: Dart 入門
   path: /get-started/fundamentals/dart
 next:
-  title: Layout
+  title: 版面配置
   path: /get-started/fundamentals/layout
 ---
 
-To get started with Flutter,
-you need to have some familiarity with the
-Dart programming language, which Flutter
-applications are written in, and widgets,
-which are the building blocks of Flutter UI.
-Both will be introduced on this page, but you'll continue
-learning about each throughout this series.
-Additional resources are listed throughout this page,
-but you do not need to be an expert in either
-subject in order to continue.
+要開始使用 Flutter，你需要對 Dart 程式語言（Flutter 應用程式是用 Dart 撰寫的）以及元件 (Widgets) 有一些基本認識。元件 (Widgets) 是 Flutter UI 的構建基礎。本頁將會介紹這兩個主題，但在本系列教學中你還會持續深入學習。頁面中也會列出額外的學習資源，但你無需成為這兩個主題的專家即可繼續學習。
 
-## Widgets
+## 元件 (Widgets)
 
-In regard to Flutter, you'll often hear
-"everything is a widget".
-Widgets are the building blocks of a
-Flutter app's user interface,
-and each widget is an immutable declaration of part
-of the user interface. Widgets are used
-to describe all aspects of a user interface,
-including physical aspects such as text and buttons to
-lay out effects like padding and alignment.
+在 Flutter 的相關討論中，你經常會聽到「一切皆元件 (Everything is a widget)」這句話。元件 (Widgets) 是 Flutter 應用程式使用者介面的構建基礎，每個元件 (Widget) 都是 UI 某一部分的不可變聲明。元件 (Widgets) 用來描述使用者介面的所有面向，從文字、按鈕等實體元素，到像是內距（padding）、對齊（alignment）等版面配置效果。
 
-Widgets form a hierarchy based on composition.
-Each widget nests inside its parent and
-can receive context from the parent.
-This structure carries all the way up to the root
-widget, as this trivial example shows:
+元件 (Widgets) 透過組合（composition）形成階層結構。每個元件 (Widget) 都嵌套於其父元件 (parent) 之內，並且可以從父元件接收 context。這種結構會一路延伸到根元件 (root widget)，如下方這個簡單的例子所示：
 
 ```dart
 import 'package:flutter/material.dart';
@@ -78,57 +57,49 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-In the preceding code,
-all instantiated classes are widgets:
-`MaterialApp`, `Scaffold`, `AppBar`, `Text`,
-`Center`, `Builder`, `Column`, `SizedBox`, and
-`ElevatedButton`.
+在前述程式碼中，
+所有被實例化的類別都是元件（Widgets）：
+`MaterialApp`、`Scaffold`、`AppBar`、`Text`、
+`Center`、`Builder`、`Column`、`SizedBox`，以及
+`ElevatedButton`。
 
-### Widget composition
+### 元件組合（Widget composition）
 
-As mentioned, Flutter emphasizes widgets as a unit
-of composition. Widgets are typically composed of
-many other small, single-purpose widgets that
-combine to produce powerful effects.
+如前所述，Flutter 強調以元件（Widget）作為組合的單位。元件通常是由許多其他小型、單一用途的元件所組成，這些元件結合起來可以產生強大的效果。
 
-There are layout widgets such
-as `Padding`, `Alignment`, `Row`, `Column`,
-and `Grid`. These layout widgets do not have a
-visual representation of their own.
-Instead, their sole purpose is to
-control some aspect of another widget's layout.
-Flutter also includes utility widgets that
-take advantage of this compositional approach.
-For example, `Container`, a commonly used widget,
-is made up of several widgets responsible for layout,
-painting, positioning, and sizing.
-Some widgets have visual representation,
-such as `ElevatedButton` and
-`Text` in the preceding example, as well as
-widgets like `Icon` and `Image`.
+有一些版面配置元件（Layout widgets），例如
+`Padding`、`Alignment`、`Row`、`Column`
+和 `Grid`。這些版面配置元件本身沒有視覺上的呈現。
+它們唯一的目的就是
+控制其他元件在版面上的某些層面。
+Flutter 也包含了一些實用元件（utility widgets），
+善用這種組合式設計。例如，`Container` 是一個常用的元件，
+它是由多個負責版面配置、繪製、定位和尺寸調整的元件所組成。
+有些元件具有視覺上的呈現，
+像是前述範例中的 `ElevatedButton` 和
+`Text`，以及像 `Icon` 和 `Image` 這類元件。
 
-If you run the code from the preceding example,
-Flutter paints a button with the text
-"Hello, World!" centered on the screen, laid out vertically.
-To position these elements, there's a `Center` widget,
-which positions its children in the center
-of the available space, and a `Column` widget,
-which lays out its children vertically one after another.
+如果你執行上述範例的程式碼，
+Flutter 會繪製一個按鈕，並在螢幕中央垂直排列顯示
+「Hello, World!」這段文字。
+為了排版這些元素，這裡有一個 `Center` 元件，
+它會將其子元件置中於可用空間，
+還有一個 `Column` 元件，
+會將其子元件依序垂直排列。
 
 <img src='/assets/images/docs/fwe/simple_composition_example.png' width="100%" alt="A diagram that shows widget composition with a series of lines and nodes.">
 
+在本系列的[下一頁][next page]，
+你將會進一步學習 Flutter 中的版面配置。
 
-In the [next page][] in this series, you will
-learn more about layout in Flutter.
+### 建立元件（Building widgets）
 
-### Building widgets
-
-To create a user interface in Flutter,
-you override the [`build`][] method on widget objects.
-All widgets must have a build method,
-and it must return another widget. For example,
-if you want to add text to the screen with some padding,
-you could write it like this:
+要在 Flutter 中建立使用者介面，
+你需要覆寫元件物件上的 [`build`][`build`] 方法。
+所有元件都必須有一個 build 方法，
+而且這個方法必須回傳另一個元件。例如，
+如果你想在螢幕上加入帶有間距的文字，
+你可以這樣撰寫：
 
 ```dart
 class PaddedText extends StatelessWidget {
@@ -144,44 +115,24 @@ class PaddedText extends StatelessWidget {
 }
 ```
 
-The framework calls the `build` method when this
-widget is created and when the dependencies of this
-widget change (such as state that is passed into the widget).
-This method can potentially be called in every frame
-and should not have any side effects beyond
-building a widget.
-To learn more about how Flutter renders widgets,
-check out the [Flutter architectural overview][].
+當此 widget 被建立時，以及當此 widget 的相依項（例如傳遞進 widget 的狀態）發生變化時，框架會呼叫 `build` 方法。  
+這個方法有可能在每一個畫面（frame）都被呼叫，因此除了建立 widget 之外，不應有其他副作用。  
+若想進一步了解 Flutter 如何渲染 widgets，請參考 [Flutter architectural overview][Flutter architectural overview]。
 
-### Widget state
+### Widget 狀態
 
-The framework introduces two major classes of widget:
-stateful and stateless widgets.
+框架引入了兩大類 widget：有狀態（stateful）和無狀態（stateless）widgets。
 
-Widgets that have no mutable state
-(they have no class properties
-that change over time) subclass [`StatelessWidget`][].
-Many built-in widgets are stateless,
-such as `Padding`, `Text`, and `Icon`.
-When you create your own widgets,
-you'll create `Stateless` widgets most of the time.
+沒有可變狀態（即其類別屬性不會隨時間改變）的 widgets 會繼承自 [`StatelessWidget`][`StatelessWidget`]。  
+許多內建 widgets 都是無狀態的，例如 `Padding`、`Text` 和 `Icon`。  
+當你自行建立 widgets 時，大多數情況下會建立 `Stateless` 這類無狀態 widget。
 
-On the other hand,
-if the unique characteristics of a widget need to change
-based on user interaction or other factors,
-that widget is stateful.
-For example, if a widget has a counter that
-increments whenever the user taps a button,
-then the value of the counter is the state for that widget.
-When that value changes, the widget needs to be
-rebuilt to update its part of the UI.
-These widgets subclass [`StatefulWidget`][],
-and (because the widget itself is immutable)
-they store mutable state in a separate class that
-subclasses [`State`][].
-`StatefulWidgets` don't have a `build` method;
-instead, their user interface is built through
-their `State` object, as shown in the example below.
+另一方面，如果一個 widget 的獨特特性需要根據使用者互動或其他因素而改變，這個 widget 就是有狀態的（stateful）。  
+舉例來說，如果一個 widget 有一個計數器，每當使用者點擊按鈕時就會遞增，那麼這個計數器的值就是該 widget 的狀態（state）。  
+當這個值改變時，widget 需要被重新建構，以更新其在 UI 上的部分。  
+這類 widgets 會繼承自 [`StatefulWidget`][`StatefulWidget`]，而（因為 widget 本身是不可變的）可變狀態會存放在另一個繼承自 [`State`][`State`] 的類別中。
+
+`StatefulWidgets` 沒有 `build` 方法；相反地，它們的使用者介面是透過其 `State` 物件來建構，如下方範例所示。
 
 ```dart
 class CounterWidget extends StatefulWidget {
@@ -205,68 +156,63 @@ class _CounterWidgetState extends State<CounterWidget> {
 }
 ```
 
-Whenever you mutate a `State` object
-(for example, by incrementing the counter),
-you must call [`setState`][] to signal the framework
-to update the user interface by
-calling the `State`'s `build` method again.
+每當你對 `State` 物件進行變更
+（例如，遞增計數器），
+你必須呼叫 [`setState`][`setState`] 來通知框架
+更新使用者介面，
+這會再次呼叫 `State` 的 `build` 方法。
 
-Separating state from widget objects
-lets other widgets treat both
-stateless and stateful widgets in exactly the same way,
-without being concerned about losing state.
-Instead of needing to hold on to
-a child to preserve its state,
-the parent can create a new instance of the child
-at any time without losing
-the child's persistent state.
-The framework does all the work of finding and
-reusing existing state objects when appropriate.
+將狀態與元件（Widget）物件分離，
+讓其他元件可以用完全相同的方式
+處理無狀態元件（stateless widgets）和有狀態元件，
+而不必擔心狀態遺失。
+父元件不需要保留子元件來維持其狀態，
+可以隨時建立子元件的新實例，
+而不會遺失子元件的持久狀態。
+框架會自動處理尋找及
+在適當時機重複利用現有狀態物件的工作。
 
-There's more information about
-[`StatefulWidget`][] objects later in this
-series, in the [state management lesson][].
+關於 [`StatefulWidget`][`StatefulWidget`] 物件的更多資訊，
+會在本系列稍後的
+[狀態管理課程][state management lesson] 中介紹。
 
-## Important widgets to know
+## 重要的元件（Widgets）
 
-The Flutter SDK includes many built-in widgets,
-from the smallest pieces of UI, like `Text`,
-to layout widgets, and widgets that style
-your application. The following widgets are
-the most important to be aware of as you move onto the
-next lesson in the learning pathway.
+Flutter SDK（Flutter 軟體開發套件）內建了許多元件，
+從最小的 UI 元素，如 `Text`，
+到版面配置元件（Layout widgets），以及用於美化
+應用程式的元件。以下這些元件
+是你在學習路徑的下一課中
+最需要認識的：
 
-* [`Container`][]
-* [`Text`][]
-* [`Scaffold`][]
-* [`AppBar`][]
-* [`Row`][] and [`Column`][]
-* [`ElevatedButton`][]
-* [`Image`][]
-* [`Icon`][]
+* [`Container`][`Container`]
+* [`Text`][`Text`]
+* [`Scaffold`][`Scaffold`]
+* [`AppBar`][`AppBar`]
+* [`Row`][`Row`] 和 [`Column`][`Column`]
+* [`ElevatedButton`][`ElevatedButton`]
+* [`Image`][`Image`]
+* [`Icon`][`Icon`]
 
-## Widget previewer
+## 元件預覽工具
 
-You can see your widgets render in real-time, separate from
-a full app. To learn more, see the
-[Flutter Widget Previewer][] guide.
+你可以即時預覽你的元件渲染效果，無需執行完整應用程式。
+想了解更多，請參考
+[Flutter Widget Previewer][Flutter Widget Previewer] 指南。
 
 [Flutter Widget Previewer]: /tools/widget-previewer
 
-## Next: Layouts
+## 下一步：版面配置（Layouts）
 
-This page is an introduction to foundational
-Flutter concepts, like widgets,
-and helps you become familiar with reading
-Flutter and Dart code. It's okay if you don't
-feel clear on every topic you encountered, as every page after
-this is a deep-dive on specific topics.
-In the next section, you'll start building more
-interesting UIs by creating more complex layouts in Flutter.
+本頁介紹了 Flutter 的基礎概念，例如元件（Widgets），
+並協助你熟悉閱讀 Flutter 與 Dart 程式碼。
+如果你對於本頁遇到的每個主題還不完全清楚也沒關係，
+因為接下來的每一頁都會針對特定主題深入說明。
+在下一節，你將開始建立更有趣的 UI，
+透過在 Flutter 中打造更複雜的版面配置。
 
-If you'd like practice with the
-information you learned on this page,
-you can read [Building user interfaces with Flutter][].
+如果你想練習本頁學到的內容，
+可以閱讀 [Building user interfaces with Flutter][Building user interfaces with Flutter]。
 
 [Building user interfaces with Flutter]: /ui
 [`build`]: {{site.api}}/flutter/widgets/StatelessWidget/build.html
@@ -287,9 +233,9 @@ you can read [Building user interfaces with Flutter][].
 [`Scaffold`]: {{site.api}}/flutter/material/Scaffold-class.html
 [`Text`]: {{site.api}}/flutter/widgets/Text-class.html
 
-## Feedback
+## 意見回饋
 
-As this section of the website is evolving,
-we [welcome your feedback][]!
+由於本網站區塊仍在持續演進中，
+我們[歡迎你的意見回饋][welcome your feedback]！
 
 [welcome your feedback]: https://google.qualtrics.com/jfe/form/SV_6A9KxXR7XmMrNsy?page="widgets"

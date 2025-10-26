@@ -1,23 +1,21 @@
-# DevTools 2.46.0 release notes
+# DevTools 2.46.0 版本發行說明
 
-The 2.46.0 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](/tools/devtools/overview).
+Dart 與 Flutter DevTools 2.46.0 版本
+包含以下變更及其他一般性改進。
+如需進一步了解 DevTools，請參閱
+[DevTools overview](/tools/devtools/overview)。
 
-## General updates
+## 一般更新
 
-- Fixed a bug which caused web apps to remain paused after triggering a hot-restart from
-DevTools. - [#9125](https://github.com/flutter/devtools/pull/9125)
-- Landed a change to dismiss stale banner messages when the connected app state changes. - [#9148](https://github.com/flutter/devtools/pull/9148)
-- Fixed a focus traversal issue with search fields. [#9166](https://github.com/flutter/devtools/pull/9166)
+- 修正了一個導致 Web 應用程式在從 DevTools 觸發熱重啟（hot-restart）後仍然保持暫停狀態的錯誤。- [#9125](https://github.com/flutter/devtools/pull/9125)
+- 推出了在連線的應用程式狀態變更時，自動關閉過時橫幅訊息的功能。- [#9148](https://github.com/flutter/devtools/pull/9148)
+- 修正了搜尋欄位的焦點移動問題。[#9166](https://github.com/flutter/devtools/pull/9166)
 
-## Performance updates
+## 效能更新
 
-- Fixed a bug where the Performance page would hang when connected to a paused
-Flutter app. - [#9162](https://github.com/flutter/devtools/pull/9162)
+- 修正了當連線至已暫停的 Flutter 應用程式時，Performance 頁面會卡住的錯誤。- [#9162](https://github.com/flutter/devtools/pull/9162)
 
-## Full commit history
+## 完整提交紀錄
 
-To find a complete list of changes in this release, check out the
-[DevTools git log](https://github.com/flutter/devtools/tree/v2.46.0).
+如需查閱本次發行的完整變更清單，請參閱
+[DevTools git log](https://github.com/flutter/devtools/tree/v2.46.0)。

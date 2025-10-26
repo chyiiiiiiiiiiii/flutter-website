@@ -1,48 +1,41 @@
 ---
-title: Migration guide for wide gamut Color
+title: 寬廣色域色彩的遷移指南
 description: >-
-  Changes to support wide gamut color and migration instructions.
+  支援寬廣色域色彩的變更與遷移說明。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-The API for the [`Color`][] class in `dart:ui` is changing to
-support [wide gamut color spaces][].
+`dart:ui` 中的 [`Color`][`Color`] 類別的 API 正在進行調整，以支援[寬廣色域色彩空間][wide gamut color spaces]。
 
-## Context
+## 背景說明
 
-The Flutter engine [already supports wide gamut color][] with [Impeller][], and
-the support is now being added [to the framework][].
+Flutter 引擎已經透過 [Impeller][Impeller] [支援寬廣色域色彩][already supports wide gamut color]，而這項支援現正[加入至框架][to the framework]。
 
-The iOS devices that Flutter supports render to a larger array of colors,
-specifically in the [DisplayP3][] color space.
-After this change, the Flutter framework can
-render all of those colors on iOS Impeller, and
-the `Color` class is better prepared for future color spaces or
-changes to color component bit depth.
+Flutter 支援的 iOS 裝置能夠渲染更廣泛的色彩，特別是在 [DisplayP3][DisplayP3] 色彩空間中。
+這項變更後，Flutter 框架將能在 iOS Impeller 上渲染所有這些色彩，
+而 `Color` 類別也將更能因應未來的色彩空間或色彩元件位元深度的變動。
 
-## Description of change
+## 變更說明
 
-Changes to [`Color`][]:
+[`Color`][`Color`] 的變更：
 
- 1. Adds an enum field that specifies its [`ColorSpace`][].
- 1. Adds API to use normalized floating-point color components.
- 1. Removes API that uses 8-bit unsigned integer color components that can
-    lead to data loss.
+ 1. 新增一個列舉欄位，用以指定其 [`ColorSpace`][`ColorSpace`]。
+ 1. 新增 API，支援使用標準化浮點數色彩元件。
+ 1. 移除使用 8 位元無號整數色彩元件的 API，避免資料遺失。
 
-Changes to [`ColorSpace`][]:
+[`ColorSpace`][`ColorSpace`] 的變更：
 
- 1. Adds a `displayP3` property.
+ 1. 新增 `displayP3` 屬性。
 
-## Migration guide
+## 遷移指南
 
-### 8-bit unsigned integer constructors
+### 8 位元無號整數建構函式
 
-Constructors like `Color.fromARGB` remain unchanged and have continued support.
-To take advantage of Display P3 colors, you must use the new
-`Color.from` constructor that takes normalized floating-point color components.
+像是 `Color.fromARGB` 這類建構函式維持不變，並會持續支援。
+若要利用 Display P3 色彩，必須改用新的 `Color.from` 建構函式，該建構函式接受標準化浮點數色彩元件。
 
 ```dart
 // Before: Constructing an sRGB color from the lower 8 bits of four integers.
@@ -52,17 +45,17 @@ final magenta = Color.fromARGB(0xff, 0xff, 0x0, 0xff);
 final magenta = Color.from(alpha: 1.0, red: 1.0, green: 0.0, blue: 1.0);
 ```
 
-### Implementors of `Color`
+### `Color` 的實作類別
 
-There are new methods being added to `Color` so
-any class that `implements Color` will break and have to
-implement the new methods, such as `Color.a` and `Color.b`.
+由於 `Color` 新增了方法，
+任何繼承 `implements Color` 的類別都會發生相容性破壞，
+並且必須實作這些新方法，例如 `Color.a` 和 `Color.b`。
 
-Ultimately, implementors should migrate to take advantage of the new API.
-In the short-term, these methods can easily be implemented without
-changing the underlying structure of your class.
+最終，實作者應該遷移並善用新的 API。
+在短期內，這些方法可以很容易地實作，
+而不需要更動類別的底層結構。
 
-For example:
+例如：
 
 ```dart
 class Foo implements Color {
@@ -74,21 +67,17 @@ class Foo implements Color {
 ```
 
 :::note
-Flutter plans to eventually lock the `Color` class down and make it `sealed`.
+Flutter 計劃最終會將 `Color` 類別鎖定，並使其成為 `sealed`。
 
-Now might be a good opportunity to switch from [inheritance to composition][]
-and stop reimplementing `Color`.
+現在或許是個好時機，將 [繼承轉換為組合][inheritance to composition]，並停止重新實作 `Color`。
 :::
 
-### Color space support
+### 色彩空間支援
 
-Clients that use `Color` and perform any sort of calculation on
-the color components should now first check the
-color space component before performing calculations.
-To help with that, you can use the new `Color.withValues` method to
-perform color space conversions.
+使用 `Color` 並對色彩元件進行任何計算的客戶端，現在應該在執行計算前，先檢查色彩空間元件。
+為了協助這個流程，你可以使用新的 `Color.withValues` 方法來進行色彩空間轉換。
 
-Example migration:
+範例遷移方式：
 
 ```dart
 // Before
@@ -102,16 +91,11 @@ double redRatio(Color x, Color y) {
 }
 ```
 
-Performing calculations with color components without
-aligning color spaces can lead to subtle unexpected results.
-In the preceding example, the `redRatio` would have the difference of `0.09`
-when calculated with differing color spaces versus aligned color spaces.
+在未對齊色彩空間的情況下，直接以色彩分量進行計算，可能會導致細微且難以預期的結果。在前述範例中，`redRatio` 在以不同色彩空間與對齊色彩空間進行計算時，會出現與 `0.09` 的差異。
 
-### Access color components
+### 存取色彩分量
 
-If your app ever accesses a `Color` component, consider
-taking advantage of the floating-point components.
-In the short term, you can scale the components themselves.
+如果你的應用程式需要存取 `Color` 分量，建議善用浮點數分量。在短期內，你可以直接對這些分量進行縮放處理。
 
 ```dart
 extension IntColorComponents on Color {
@@ -126,25 +110,13 @@ extension IntColorComponents on Color {
 }
 ```
 
-### Opacity
+### 透明度（Opacity）
 
-Before Flutter 3.27, Color had the concept of "opacity" which showed up in the
-methods `opacity` and `withOpacity()`. Opacity was introduced as a way to
-communicate with `Color` about its alpha channel with floating-point values
-([0.0, 1.0]). Opacity methods were convenience methods for setting the 8-bit
-alpha value ([0, 255]), but never offered the full expression of a
-floating-point number. This was sufficient when color components were stored as
-8-bit integers.
+在 Flutter 3.27 之前，Color 具有「透明度（opacity）」的概念，這體現在 `Color` 和 `opacity` 方法中。透明度的引入，是為了能以浮點數值（[0.0, 1.0]）與 `withOpacity()` 溝通其 alpha 通道。透明度相關的方法，是為了方便設定 8 位元的 alpha 值（[0, 255]），但這些方法從未提供完整的浮點數表達能力。當顏色元件以 8 位元整數儲存時，這樣的設計已經足夠。
 
-Since Flutter 3.27, alpha is stored as a floating-point value. Using `.a` and
-`.withValues()` will give the full expression of a floating-point value and
-won't be quantized (restricted to a limited range). That means "alpha" expresses
-the intent of "opacity" more correctly. Opacity is different in a subtle way
-where its usage can result in unexpected data loss, so `.withOpacity()` and
-`.opacity` have been deprecated and their semantics have been maintained to
-avoid breaking anyone.
+自 Flutter 3.27 起，alpha 會以浮點數值儲存。使用 `Color` 和 `.a` 可以完整表達浮點數值，不會被量化（即不會被限制在有限的範圍內）。這表示「alpha」能更正確地表達「透明度」的意圖。透明度（opacity）在細節上有些微不同，其使用方式有可能導致意外的資料遺失，因此 `.withValues()` 和 `.withOpacity()` 已被棄用，並且其語意被保留，以避免破壞既有程式碼。
 
-For example:
+例如：
 
 ```dart
 // Prints 0.5019607843137255.
@@ -153,13 +125,10 @@ print(Colors.black.withOpacity(0.5).a);
 print(Colors.black.withValues(alpha: 0.5).a);
 ```
 
-Practically all usage will directly benefit from the more accurate colors. In
-the rare case where it doesn't, care can be taken to quantize opacity to [0,
-255] using `.alpha` and `.withAlpha()` to match the behavior before Flutter
-3.27.
+幾乎所有的使用情境都能直接受益於更精確的顏色表現。在極少數無法受益的情況下，可以透過使用`.alpha`和`.withAlpha()`，將透明度量化為 [0, 255]，以符合 Flutter 3.27 之前的行為。
 
 <a id="opacity-migration" aria-hidden="true"></a>
-#### Migrate `opacity`
+#### 遷移 `opacity`
 
 ```dart
 // Before: Access the alpha channel as a (converted) floating-point value.
@@ -170,7 +139,7 @@ final x = color.a;
 ```
 
 <a id="withopacity-migration" aria-hidden="true"></a>
-#### Migrate `withOpacity`
+#### 遷移 `withOpacity`
 
 ```dart
 // Before: Create a new color with the specified opacity.
@@ -181,13 +150,13 @@ final x = color.withOpacity(0.0);
 final x = color.withValues(alpha: 0.0);
 ```
 
-### Equality
+### 相等性
 
-Once `Color` stores its color components as floating-point numbers,
-equality works slightly differently.
-When calculating colors, there might be a
-tiny difference in values that could be considered equal.
-To accommodate this use the [`closeTo`][] or [`isColorSameAs`][] matchers.
+當 `Color` 以浮點數儲存其色彩元件時，
+相等性的判斷方式會略有不同。
+在進行色彩運算時，數值之間可能會出現
+極小的差異，但這些差異可以視為相等。
+為了因應這種情況，請使用 [`closeTo`][`closeTo`] 或 [`isColorSameAs`][`isColorSameAs`] 比對器（matcher）。
 
 ```dart
 // Before: Check exact equality of int-based color.
@@ -197,27 +166,27 @@ expect(calculateColor(), const Color(0xffff00ff));
 expect(calculateColor(), isSameColorAs(const Color(0xffff00ff)));
 ```
 
-## Timeline
+## 時程表
 
-### Phase 1 - New API introduction, old API deprecation
+### 第一階段 - 新 API 引入，舊 API 棄用
 
-Landed in version: 3.26.0-0.1.pre<br>
-In stable release: 3.27.0
+已於版本：3.26.0-0.1.pre<br>
+穩定版發佈於：3.27.0
 
-### Phase 2 - Old API removal
+### 第二階段 - 移除舊 API
 
-Landed in version: Not yet<br>
-In stable release: Not yet
+已於版本：尚未<br>
+穩定版發佈於：尚未
 
-## References
+## 參考資料
 
-Relevant issue:
+相關議題：
 
-* [issue 127855][]: Implement wide gamut color support in the Framework
+* [issue 127855][issue 127855]：在 Framework 中實作廣色域（wide gamut）色彩支援
 
-Relevant PRs:
+相關 PR：
 
-* [PR 54737][]: Framework wide color
+* [PR 54737][PR 54737]：Framework 廣色域色彩
 
 [`Color`]: {{site.api}}/flutter/dart-ui/Color-class.html
 [already supports wide gamut color]: {{site.repo.flutter}}/issues/55092

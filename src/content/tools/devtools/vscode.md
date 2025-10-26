@@ -1,51 +1,47 @@
 ---
-title: Run DevTools from VS Code
-description: Learn how to launch and use DevTools from VS Code.
+title: 從 VS Code 執行 DevTools
+description: 學習如何從 VS Code 啟動與使用 DevTools。
 ---
 
-## Add the VS Code extensions
+## 新增 VS Code 擴充功能
 
-To use the DevTools from VS Code, you need the [Dart extension][].
-If you're debugging Flutter applications, you should also install
-the [Flutter extension][].
+若要在 VS Code 中使用 DevTools，你需要安裝 [Dart 擴充功能][Dart extension]。
+如果你正在除錯 Flutter 應用程式，也建議安裝
+[Flutter 擴充功能][Flutter extension]。
 
-## Start an application to debug {: #run-and-debug}
+## 啟動應用程式進行除錯 {: #run-and-debug}
 
-Start a debug session for your application by opening the root
-folder of your project (the one containing `pubspec.yaml`)
-in VS Code and clicking **Run > Start Debugging** (`F5`).
+請在 VS Code 中開啟專案的根目錄（包含 `pubspec.yaml` 的那個資料夾），
+然後點擊 **Run > Start Debugging**（`F5`），即可啟動應用程式的除錯工作階段。
 
-## Launch DevTools
+## 啟動 DevTools
 
-Once the debug session is active and the application has started,
-the **Open DevTools** commands become available in the
-VS Code command palette (`F1`):
+當除錯工作階段啟動且應用程式已經開始執行後，
+**Open DevTools** 指令會在
+VS Code 指令面板（`F1`）中變得可用：
 
-![Screenshot showing Open DevTools commands](/assets/images/docs/tools/vs-code/vscode_command.png){:width="100%"}
+![顯示 Open DevTools 指令的螢幕截圖](/assets/images/docs/tools/vs-code/vscode_command.png){:width="100%"}
 
-The chosen tool will be opened embedded inside VS Code.
+你選擇的工具會以嵌入方式在 VS Code 內開啟。
 
-![Screenshot showing DevTools embedded in VS Code](/assets/images/docs/tools/vs-code/vscode_embedded.png){:width="100%"}
+![顯示 DevTools 嵌入於 VS Code 的螢幕截圖](/assets/images/docs/tools/vs-code/vscode_embedded.png){:width="100%"}
 
-You can choose to have DevTools always opened
-in a browser with the `dart.embedDevTools` setting,
-and control whether it opens as a full window or
-in a new column next to your current editor with the
-`dart.devToolsLocation` setting.
+你可以透過 `dart.embedDevTools` 設定，選擇是否總是在瀏覽器中開啟 DevTools，
+並可利用 `dart.devToolsLocation` 設定，控制 DevTools 是以完整視窗開啟，
+還是於目前編輯器旁的新欄位中開啟。
 
-A full list of Dart/Flutter settings are available on
+完整的 Dart/Flutter 設定列表可在
 [dartcode.org](https://dartcode.org/docs/settings/)
-or in the
-[VS Code settings editor](https://code.visualstudio.com/docs/getstarted/settings#_settings-editor).
-Some recommendation settings for Dart/Flutter in VS Code
-can also be found on
-[dartcode.org](https://dartcode.org/docs/recommended-settings/).
+或
+[VS Code 設定編輯器](https://code.visualstudio.com/docs/getstarted/settings#_settings-editor)
+中找到。
+部分 Dart/Flutter 在 VS Code 的推薦設定也可參考
+[dartcode.org](https://dartcode.org/docs/recommended-settings/)。
 
-You can also see whether DevTools is running
-and launch it in a browser from the language status area
-(the `{}` icon next to **Dart** in the status bar).
+你也可以在語言狀態區（狀態列中 **Dart** 旁的 `{}` 圖示）查看 DevTools 是否正在執行，
+並從該處在瀏覽器中啟動 DevTools。
 
-![Screenshot showing DevTools in the VS Code language status area](/assets/images/docs/tools/vs-code/vscode_status_bar.png){:width="100%"}
+![顯示 DevTools 在 VS Code 語言狀態區的螢幕截圖](/assets/images/docs/tools/vs-code/vscode_status_bar.png){:width="100%"}
 
 [Dart extension]: https://marketplace.visualstudio.com/items?itemName=Dart-Code.dart-code
 [Flutter extension]: https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter

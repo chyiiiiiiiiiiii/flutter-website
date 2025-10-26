@@ -1,221 +1,153 @@
 ---
-title: Use the CPU profiler view
-description: Learn how to use the DevTools CPU profiler view.
+title: 使用 CPU 分析器檢視
+description: 學習如何使用 DevTools 的 CPU 分析器檢視。
 ---
 
 :::note
-The CPU profiler view works with Dart CLI and mobile apps only.
-Use Chrome DevTools to [analyze performance][]
-of a web app.  
+CPU 分析器檢視僅適用於 Dart CLI 和行動應用程式。
+若要分析 Web 應用程式的效能，請使用 Chrome DevTools [分析效能][analyze performance]。
 :::
 
-The CPU profiler view allows you to record and profile a
-session from your Dart or Flutter application.
-The profiler can help you solve performance problems
-or generally understand your app's CPU activity.
-The Dart VM collects CPU samples
-(a snapshot of the CPU call stack at a single point in time)
-and sends the data to DevTools for visualization.
-By aggregating many CPU samples together,
-the profiler can help you understand where the CPU
-spends most of its time.
+CPU 分析器檢視可讓你錄製並分析 Dart 或 Flutter 應用程式的執行階段。
+分析器能協助你解決效能問題，或一般性地了解應用程式的 CPU 活動。
+Dart VM 會收集 CPU 樣本（即某一時刻 CPU 呼叫堆疊的快照），並將資料傳送至 DevTools 進行視覺化。
+透過彙整多個 CPU 樣本，分析器能協助你了解 CPU 大部分時間花在哪些地方。
 
 :::note
-**If you are running a Flutter application,
-use a profile build to analyze performance.**
-CPU profiles are not indicative of release performance
-unless your Flutter application is run in profile mode.
+**如果你正在執行 Flutter 應用程式，請使用 profile build 來分析效能。**
+除非你的 Flutter 應用程式以 profile 模式執行，否則 CPU 分析結果無法代表 release 模式下的效能。
 :::
 
-## CPU profiler
+## CPU 分析器
 
-Start recording a CPU profile by clicking **Record**.
-When you are done recording, click **Stop**. At this point,
-CPU profiling data is pulled from the VM and displayed
-in the profiler views (Call tree, Bottom up, Method table,
-and Flame chart).
+點擊 **Record** 開始錄製 CPU 分析資料。
+錄製完成後，點擊 **Stop**。此時，CPU 分析資料會從 VM 擷取並顯示於分析器檢視（Call tree、Bottom up、Method table 及 Flame chart）。
 
-To load all available CPU samples without manually
-recording and stopping, you can click **Load all CPU samples**,
-which pulls all CPU samples that the VM has recorded and
-stored in its ring buffer, and then displays those
-CPU samples in the profiler views.
+若想載入所有可用的 CPU 樣本而不需手動錄製與停止，可點擊 **Load all CPU samples**，
+這會擷取 VM 已記錄並儲存在其環形緩衝區中的所有 CPU 樣本，然後在分析器檢視中顯示這些樣本。
 
 ### Bottom up
 
-This table provides a bottom-up representation
-of a CPU profile. This means that each top-level method,
-or root, in the bottom up table is actually the
-top method in the call stack for one or more CPU samples.
-In other words, each top-level method in a bottom up
-table is a leaf node from the top down table
-(the call tree).
-In this table, a method can be expanded to show its _callers_.
+此表格提供 CPU 分析資料的 bottom-up（自底向上）表示。
+這表示 bottom up 表格中的每個頂層方法（root）實際上是某些 CPU 樣本呼叫堆疊的最上層方法。
+換句話說，bottom up 表格中的每個頂層方法，都是 top down 表格（呼叫樹）中的葉節點。
+在這個表格中，你可以展開方法以檢視其 _呼叫者_。
 
-This view is useful for identifying expensive _methods_
-in a CPU profile. When a root node in this table
-has a high _self_ time, that means that many CPU samples
-in this profile ended with that method on top of the call stack.
+此檢視對於找出 CPU 分析中耗時的 _方法_ 很有幫助。
+當此表格中的根節點有較高的 _self_ 時間，代表本次分析中有許多 CPU 樣本的呼叫堆疊最上層是該方法。
 
-![Screenshot of the Bottom up view](/assets/images/docs/tools/devtools/bottom-up-view.png)
-See the [Guidelines](#guidelines) section below to learn how to
-enable the blue and green vertical lines seen in this image.
+![Bottom up 檢視畫面截圖](/assets/images/docs/tools/devtools/bottom-up-view.png)
+請參閱下方 [Guidelines](#指引) 章節，了解如何啟用此圖中出現的藍色與綠色垂直線。
 
-Tooltips can help you understand the values in each column:
+提示說明可協助你理解各欄位的數值：
 
 **Total time**
-: For top-level methods in the bottom-up tree
-(stack frames that were at the top of at least one
-CPU sample), this is the time the method spent executing
-its own code, as well as the code for any methods that
-it called.
+：對於 bottom-up 樹中的頂層方法（至少有一個 CPU 樣本的堆疊框架在最上層），
+此數值表示該方法執行自身程式碼以及其所呼叫方法的程式碼所花費的總時間。
 
 **Self time**
-: For top-level methods in the bottom-up tree
-(stack frames that were at the top of at least one CPU
-sample), this is the time the method spent executing only
-its own code.<br><br>
-For children methods in the bottom-up tree (the callers),
-this is the self time of the top-level method (the callee)
-when called through the child method (the caller).
+：對於 bottom-up 樹中的頂層方法（至少有一個 CPU 樣本的堆疊框架在最上層），
+此數值表示該方法僅執行自身程式碼所花費的時間。<br><br>
+對於 bottom-up 樹中的子方法（呼叫者），此數值表示頂層方法（被呼叫者）透過該子方法（呼叫者）呼叫時的 self time。
 
-**Table element** (self time)
-![Screenshot of a bottom up table](/assets/images/docs/tools/devtools/table-element.png)
+**表格元素**（self time）
+![Bottom up 表格截圖](/assets/images/docs/tools/devtools/table-element.png)
 
 ### Call tree
 
-This table provides a top-down representation of a CPU profile.
-This means that each top-level method in the call tree is a root
-of one or more CPU samples. In this table,
-a method can be expanded to show its _callees_.
+此表格提供 CPU 分析資料的 top-down（自頂向下）表示。
+這表示呼叫樹中的每個頂層方法是某些 CPU 樣本的根節點。
+在這個表格中，你可以展開方法以檢視其 _被呼叫者_（callees）。
 
-This view is useful for identifying expensive _paths_ in a CPU profile.
-When a root node in this table has a high _total_ time,
-that means that many CPU samples in this profile started
-with that method on the bottom of the call stack.
+此檢視對於找出 CPU 分析中耗時的 _路徑_ 很有幫助。
+當此表格中的根節點有較高的 _total_ 時間，代表本次分析中有許多 CPU 樣本的呼叫堆疊最底層是該方法。
 
-![Screenshot of a call tree table](/assets/images/docs/tools/devtools/call-tree.png)
-See the [Guidelines](#guidelines) section below to learn how to
-enable the blue and green vertical lines seen in this image.
+![Call tree 表格截圖](/assets/images/docs/tools/devtools/call-tree.png)
+請參閱下方 [Guidelines](#指引) 章節，了解如何啟用此圖中出現的藍色與綠色垂直線。
 
-Tooltips can help you understand the values in each column:
+提示說明可協助你理解各欄位的數值：
 
 **Total time**
-: Time that a method spent executing its own code as well as
-the code for any methods it called.
+：方法執行自身程式碼以及其所呼叫方法的程式碼所花費的總時間。
 
 **Self time**
-: Time the method spent executing only its own code.
+：方法僅執行自身程式碼所花費的時間。
 
 ### Method table
 
-The method table provides CPU statistics for each method
-contained in a CPU profile. In the table on the left,
-all available methods are listed with their **total** and
-**self** time.
+Method table（方法表）提供 CPU 分析中每個方法的統計資料。
+在左側表格中，會列出所有可用方法及其 **total** 與 **self** 時間。
 
-**Total** time is the combined time that a method spent
-**anywhere** on the call stack, or in other words,
-the time a method spent executing its own code and
-any code for methods that it called.
+**Total** 時間為方法在呼叫堆疊上**任何位置**所花費的總時間，
+換句話說，就是方法執行自身程式碼以及其所呼叫方法的程式碼所花費的時間。
 
-**Self** time is the combined time that a method spent
-on top of the call stack, or in other words,
-the time a method spent executing only its own code.
+**Self** 時間為方法在呼叫堆疊最上層時所花費的總時間，
+換句話說，就是方法僅執行自身程式碼所花費的時間。
 
-![Screenshot of a call tree table](/assets/images/docs/tools/devtools/method-table.png)
+![Call tree 表格截圖](/assets/images/docs/tools/devtools/method-table.png)
 
-Selecting a method from the table on the left shows
-the call graph for that method. The call graph shows
-a method's callers and callees and their respective
-caller / callee percentages.
+從左側表格選取一個方法後，會顯示該方法的呼叫圖（call graph）。
+呼叫圖會顯示該方法的呼叫者與被呼叫者，以及各自的呼叫百分比。
 
 ### Flame chart
 
-The flame chart view is a graphical representation of
-the [Call tree](#call-tree). This is a top-down view
-of a CPU profile, so in this chart,
-the top-most method calls the one below it.
-The width of each flame chart element represents the
-amount of time that a method spent on the call stack.
+Flame chart（火焰圖）檢視是 [Call tree](#call-tree) 的圖形化表示。
+這是 CPU 分析的自頂向下檢視，因此在此圖中，最上層的方法會呼叫下方的方法。
+每個火焰圖元素的寬度代表該方法在呼叫堆疊上所花費的時間。
 
-Like the Call tree, this view is useful for identifying
-expensive paths in a CPU profile.
+與 Call tree 類似，此檢視有助於找出 CPU 分析中耗時的路徑。
 
-![Screenshot of a flame chart](/assets/images/docs/tools/devtools/cpu-flame-chart.png)
+![Flame chart 截圖](/assets/images/docs/tools/devtools/cpu-flame-chart.png)
 
-The help menu, which can be opened by clicking the `?` icon
-next to the search bar, provides information about how to
-navigate and zoom within the chart and a color-coded legend.
-![Screenshot of flame chart help](/assets/images/docs/tools/devtools/flame-chart-help.png){:width="70%"}
+說明選單可透過點擊搜尋列旁的 `?` 圖示開啟，提供如何在圖表中瀏覽與縮放的資訊，以及色彩標註圖例。
+![Flame chart 說明截圖](/assets/images/docs/tools/devtools/flame-chart-help.png){:width="70%"}
 
+### CPU 取樣率
 
-### CPU sampling rate
+DevTools 會設定 VM 收集 CPU 樣本的頻率：
+1 個樣本 / 250 微秒（μs）。
+在 CPU 分析器頁面預設選擇為「Cpu sampling rate: medium」。
+你可以透過頁面頂端的選擇器調整此頻率。
 
-DevTools sets a rate at which the VM collects CPU samples:
-1 sample / 250 μs (microseconds).
-This is selected by default on
-the CPU profiler page as "Cpu sampling rate: medium".
-This rate can be modified using the selector at the top
-of the page.
+![CPU sampling rate 選單截圖](/assets/images/docs/tools/devtools/cpu-sampling-rate-menu.png){:width="70%"}
 
-![Screenshot of cpu sampling rate menu](/assets/images/docs/tools/devtools/cpu-sampling-rate-menu.png){:width="70%"}
+**low**、**medium** 與 **high** 取樣率分別為 1,000 Hz、4,000 Hz 及 20,000 Hz。
+調整此設定時，請注意其權衡。
 
-The **low**, **medium**, and **high** sampling rates are
-1,000 Hz, 4,000 Hz, and 20,000 Hz, respectively.
-It's important to know the trade-offs
-of modifying this setting.
+以**較高**取樣率錄製的分析檔案，會產生更細緻的 CPU 分析資料，樣本數更多。
+這可能會影響應用程式效能，因為 VM 必須更頻繁地中斷以收集樣本。
+同時也會導致 VM 的 CPU 樣本緩衝區更快溢位。
+VM 可儲存 CPU 樣本資訊的空間有限。
+在較高取樣率下，空間會比低取樣率更快填滿並開始溢位。
+這表示你可能無法取得錄製分析檔案初期的 CPU 樣本，具體取決於錄製期間緩衝區是否溢位。
 
-A profile that was recorded with a **higher** sampling rate
-yields a more fine-grained CPU profile with more samples.
-This might affect performance of your app since the VM
-is being interrupted more often to collect samples.
-This also causes the VM's CPU sample buffer to overflow more quickly.
-The VM has limited space where it can store CPU sample information.
-At a higher sampling rate, the space fills up and begins
-to overflow sooner than it would have if a lower sampling
-rate was used.
-This means that you might not have access to CPU samples
-from the beginning of the recorded profile, depending
-on whether the buffer overflows during the time of recording.
+以較低取樣率錄製的分析檔案，會產生較粗略的 CPU 分析資料，樣本數較少。
+這對應用程式效能的影響較小，但你能取得的 CPU 活動資訊也較少。
+VM 的樣本緩衝區填滿速度也較慢，因此你可以看到更長時間的 CPU 樣本。
+這表示你更有機會檢視到錄製分析檔案初期的 CPU 樣本。
 
-A profile that was recorded with a lower sampling rate
-yields a more coarse-grained CPU profile with fewer samples.
-This affects your app's performance less,
-but you might have access to less information about what
-the CPU was doing during the time of the profile.
-The VM's sample buffer also fills more slowly, so you can see
-CPU samples for a longer period of app run time.
-This means that you have a better chance of viewing CPU
-samples from the beginning of the recorded profile.
+### 篩選
 
-### Filtering
+在檢視 CPU 分析資料時，你可以依據程式庫、方法名稱或 [`UserTag`][`UserTag`] 進行資料篩選。
 
-When viewing a CPU profile, you can filter the data by
-library, method name, or [`UserTag`][].
-
-![Screenshot of filter by tag menu](/assets/images/docs/tools/devtools/filter-by-tag.png)
+![依標籤篩選選單截圖](/assets/images/docs/tools/devtools/filter-by-tag.png)
 
 [`UserTag`]: {{site.api}}/flutter/dart-developer/UserTag-class.html
 
-## Guidelines
+## 指引
 
-When looking at a call tree or bottom up view,
-sometimes the trees can be very deep.
-To help with viewing parent-child relationships in a deep tree,
-enable the **Display guidelines** option.
-This adds vertical guidelines between parent and child in the tree.
+當你檢視 call tree 或 bottom up 檢視時，樹狀結構有時會非常深。
+為了協助你在深層樹狀結構中檢視父子關係，可以啟用 **Display guidelines** 選項。
+這會在樹狀結構中的父節點與子節點之間加入垂直指引線。
 
-![Screenshot of display options](/assets/images/docs/tools/devtools/display-options.png)
+![顯示選項截圖](/assets/images/docs/tools/devtools/display-options.png)
 
 [analyze performance]: {{site.developers}}/web/tools/chrome-devtools/evaluate-performance/
-  
-## Other resources
-  
-To learn how to use DevTools to analyze
-the CPU usage of a compute-intensive Mandelbrot app,
-check out a guided [CPU Profiler View tutorial][profiler-tutorial].
-Also, learn how to analyze CPU usage when the app
-uses isolates for parallel computing.
+
+## 其他資源
+
+若想學習如何使用 DevTools 分析計算密集型 Mandelbrot 應用程式的 CPU 使用情況，
+請參考導引式 [CPU Profiler View 教學][profiler-tutorial]。
+同時，也可學習當應用程式使用 isolates 進行平行運算時，如何分析 CPU 使用情況。
 
 [profiler-tutorial]: {{site.medium}}/@fluttergems/mastering-dart-flutter-devtools-cpu-profiler-view-part-6-of-8-31e24eae6bf8

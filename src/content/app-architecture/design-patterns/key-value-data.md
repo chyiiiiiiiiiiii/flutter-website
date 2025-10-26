@@ -1,6 +1,6 @@
 ---
-title: "Persistent storage architecture: Key-value data"
-description: Save application data to a user's on-device key-value store.
+title: "持久化儲存架構：鍵值資料"
+description: 將應用程式資料儲存到使用者裝置上的鍵值儲存區。
 contentTags:
   - data
   - shared-preferences
@@ -14,63 +14,38 @@ js:
 
 <?code-excerpt path-base="app-architecture/todo_data_service"?>
 
-Most Flutter applications, no matter how small or big they are,
-require storing data on the user’s device at some point, such as API keys, 
-user preferences or data that should be available offline.
+大多數 Flutter 應用程式，無論規模大小，都會在某個時刻需要將資料儲存到使用者的裝置上，例如 API 金鑰、使用者偏好設定，或是需要離線可用的資料。
 
-In this recipe, you will learn how to integrate persistent storage 
-for key-value data in a Flutter application 
-that uses the recommended [Flutter architecture design][]. 
-If you aren’t familiar with storing data to disk at all, 
-you can read the [Store key-value data on disk][] recipe. 
+在本教學中，你將學習如何在採用推薦 [Flutter 架構設計][Flutter architecture design] 的 Flutter 應用程式中，整合鍵值資料的持久化儲存。如果你對於如何將資料儲存到磁碟還不熟悉，可以先閱讀 [將鍵值資料儲存到磁碟][Store key-value data on disk] 這篇教學。
 
-Key-value stores are often used for saving simple data, 
-such as app configuration, 
-and in this recipe you’ll use it to save Dark Mode preferences. 
-If you want to learn how to store complex data on a device, 
-you’ll likely want to use SQL. 
-In that case, take a look at the cookbook recipe 
-that follows this one called [Persistent storage architecture: SQL][]. 
+鍵值儲存區常用於儲存簡單資料，例如應用程式設定。在本教學中，你將用它來儲存深色模式（Dark Mode）偏好設定。如果你想學習如何在裝置上儲存複雜資料，建議使用 SQL。此時可參考本教學後續的 [持久化儲存架構：SQL][Persistent storage architecture: SQL]。
 
-## Example application: App with theme selection
+## 範例應用程式：可選主題的應用
 
-The example application consists of a single screen with an app bar at the top,
-a list of items, and a text field input at the bottom.
+這個範例應用程式包含一個單一螢幕，上方有應用程式列（app bar）、中間是項目清單，底部有一個文字欄位（text field）輸入區。
 
 <img src='/assets/images/docs/cookbook/architecture/todo_app_light.png'
 class="site-mobile-screenshot" alt="ToDo application in light mode" >
 
-In the `AppBar`, 
-a `Switch` allows users to change between dark and light theme modes. 
-This setting is applied immediately and it’s stored in the device 
-using a key-value data storage service. 
-The setting is restored when the user starts the application again.
+在 `AppBar` 中，`Switch` 讓使用者可以在深色與淺色主題模式間切換。這個設定會立即套用，並透過鍵值資料儲存服務儲存在裝置上。當使用者再次啟動應用程式時，設定會自動還原。
 
 <img src='/assets/images/docs/cookbook/architecture/todo_app_dark.png'
 class="site-mobile-screenshot" alt="ToDo application in dark mode" >
 
 :::note
-The full, runnable source-code for this example is
-available in [`/examples/app-architecture/todo_data_service/`][].
+本範例的完整可執行原始碼可在 [`/examples/app-architecture/todo_data_service/`][`/examples/app-architecture/todo_data_service/`] 取得。
 :::
 
-## Storing theme selection key-value data
+## 儲存主題選擇的鍵值資料
 
-This functionality follows the recommended Flutter architecture design pattern, 
-with a presentation and a data layer.
+此功能遵循推薦的 Flutter 架構設計模式，分為展示層（presentation layer）與資料層（data layer）。
 
-- The presentation layer contains the `ThemeSwitch` widget 
-and the `ThemeSwitchViewModel`.
-- The data layer contains the `ThemeRepository` 
-and the `SharedPreferencesService`.
+- 展示層包含 `ThemeSwitch` 元件（Widget）與 `ThemeSwitchViewModel`。
+- 資料層包含 `ThemeRepository` 與 `SharedPreferencesService`。
 
-### Theme selection presentation layer
+### 主題選擇展示層
 
-The `ThemeSwitch` is a `StatelessWidget` that contains a `Switch` widget. 
-The state of the switch is represented 
-by the public field `isDarkMode` in the `ThemeSwitchViewModel`. 
-When the user taps the switch, 
-the code executes the command `toggle` in the view model.
+`ThemeSwitch` 是一個 `StatelessWidget`，其中包含 `Switch` 元件（Widget）。開關的狀態由 `ThemeSwitchViewModel` 中的公開欄位 `isDarkMode` 表示。當使用者點擊開關時，程式會在 view model 中執行 `toggle` 指令。
 
 <?code-excerpt "lib/ui/theme_config/widgets/theme_switch.dart (ThemeSwitch)"?>
 ```dart
@@ -104,28 +79,28 @@ class ThemeSwitch extends StatelessWidget {
 }
 ```
 
-The `ThemeSwitchViewModel` implements a view model
-as described in the MVVM pattern. 
-This view model contains the state of the `ThemeSwitch` widget,
-represented by the boolean variable `_isDarkMode`.
+`ThemeSwitchViewModel` 實作了一個 view model（檢視模型），
+如 MVVM（Model-View-ViewModel）模式中所描述。
+這個 view model 包含了 `ThemeSwitch` 元件（Widget）的狀態，
+並以布林變數 `_isDarkMode` 來表示。
 
-The view model uses the `ThemeRepository`
-to store and load the dark mode setting.
+這個 view model 使用 `ThemeRepository`
+來儲存與載入深色模式（dark mode）設定。
 
-It contains two different command actions: 
-`load`, which loads the dark mode setting from the repository,
-and `toggle`, which switches the state between dark mode and light mode. 
-It exposes the state through the `isDarkMode` getter.
+它包含兩個不同的指令操作（command actions）：
+`load`，會從儲存庫（repository）載入深色模式設定，
+以及 `toggle`，用來在深色模式與淺色模式之間切換狀態。
+它透過 `isDarkMode` getter 對外公開狀態。
 
-The `_load` method implements the `load` command. 
-This method calls `ThemeRepository.isDarkMode` 
-to obtain the stored setting and calls `notifyListeners()` to refresh the UI.
+`_load` 方法實作了 `load` 指令。
+此方法會呼叫 `ThemeRepository.isDarkMode`
+以取得已儲存的設定，並呼叫 `notifyListeners()` 來刷新 UI。
 
-The `_toggle` method implements the `toggle` command. 
-This method calls `ThemeRepository.setDarkMode` 
-to store the new dark mode setting. 
-As well, it changes the local state of `_isDarkMode`
-then calls `notifyListeners()` to update the UI.
+`_toggle` 方法則實作了 `toggle` 指令。
+此方法會呼叫 `ThemeRepository.setDarkMode`
+來儲存新的深色模式設定。
+同時，它也會變更本地狀態 `_isDarkMode`，
+然後呼叫 `notifyListeners()` 來更新 UI。
 
 <?code-excerpt "lib/ui/theme_config/viewmodel/theme_switch_viewmodel.dart (ThemeSwitchViewModel)"?>
 ```dart
@@ -166,28 +141,25 @@ class ThemeSwitchViewModel extends ChangeNotifier {
 }
 ```
 
-### Theme selection data layer
+### 主題選擇資料層
 
-Following the architecture guidelines, 
-the data layer is split into two parts: 
-the `ThemeRepository` and the `SharedPreferencesService`.
+依照架構指引，  
+資料層被拆分為兩個部分：`ThemeRepository` 和 `SharedPreferencesService`。
 
-The `ThemeRepository` is the single source of truth 
-for all the theming configuration settings, 
-and handles any possible errors coming from the service layer.
+`ThemeRepository` 是所有主題化（theming）設定的唯一真實來源（single source of truth），  
+並且負責處理來自服務層的任何可能錯誤。
 
-In this example, 
-the `ThemeRepository` also exposes the dark mode setting 
-through an observable `Stream`. 
-This allows other parts of the application 
-to subscribe to changes in the dark mode setting.
+在這個範例中，  
+`ThemeRepository` 也透過可觀察的 `Stream` 對外提供深色模式（dark mode）設定。  
+這讓應用程式的其他部分  
+可以訂閱深色模式設定的變化。
 
-The `ThemeRepository` depends on `SharedPreferencesService`.
-The repository obtains the stored value from the service, 
-and stores it when it changes.
+`ThemeRepository` 依賴於 `SharedPreferencesService`。  
+Repository 會從 service 取得儲存的值，  
+並在值改變時進行儲存。
 
-The `setDarkMode()` method passes the new value to the `StreamController`,
-so that any component listening to the `observeDarkMode` stream 
+`setDarkMode()` 方法會將新值傳遞給 `StreamController`，  
+這樣任何監聽 `observeDarkMode` stream 的元件  
 
 
 <?code-excerpt "lib/data/repositories/theme_repository.dart (ThemeRepository)"?>
@@ -226,15 +198,10 @@ class ThemeRepository {
 }
 ```
 
-The `SharedPreferencesService` wraps 
-the `SharedPreferences` plugin functionality, 
-and calls to the `setBool()` and `getBool()` methods 
-to store the dark mode setting, 
-hiding this third-party dependency from the rest of the application
+`SharedPreferencesService` 封裝了 `SharedPreferences` 外掛的功能，並呼叫 `setBool()` 和 `getBool()` 方法來儲存深色模式設定，將這個第三方相依性隱藏在應用程式的其他部分之外。
 
 :::note
-A third-party dependency is a way to refer to packages and plugins 
-developed by other programmers outside of your organization.
+第三方相依性（third-party dependency）是指由你所在組織以外的其他程式設計師所開發的套件與外掛。
 :::
 
 <?code-excerpt "lib/data/services/shared_preferences_service.dart (SharedPreferencesService)"?>
@@ -254,12 +221,11 @@ class SharedPreferencesService {
 }
 ```
 
-## Putting it all together
+## 整合應用
 
-In this example, 
-the `ThemeRepository` and `SharedPreferencesService` are created 
-in the `main()` method 
-and passed to the `MainApp` as constructor argument dependency.
+在這個範例中，
+`ThemeRepository` 和 `SharedPreferencesService` 會在 `main()` 方法中建立，
+並作為建構子參數依賴傳遞給 `MainApp`。
 
 <?code-excerpt "lib/main.dart (MainTheme)"?>
 ```dart
@@ -274,9 +240,9 @@ void main() {
 }
 ```
 
-Then, when the `ThemeSwitch` is created, 
-also create `ThemeSwitchViewModel` 
-and pass the `ThemeRepository` as dependency.
+接著，當建立`ThemeSwitch`時，
+同時建立`ThemeSwitchViewModel`，
+並將`ThemeRepository`作為相依性傳遞進去。
 
 <?code-excerpt "lib/main.dart (AddThemeSwitch)"?>
 ```dart
@@ -285,9 +251,9 @@ ThemeSwitch(
 ),
 ```
 
-The example application also includes the `MainAppViewModel` class, 
-which listens to changes in the `ThemeRepository` 
-and exposes the dark mode setting to the `MaterialApp` widget.
+範例應用程式中也包含 `MainAppViewModel` 類別，
+它會監聽 `ThemeRepository` 的變化，
+並將深色模式（dark mode）設定暴露給 `MaterialApp` 元件（Widget）。
 
 <?code-excerpt "lib/main_app_viewmodel.dart (MainAppViewModel)"?>
 ```dart

@@ -1,37 +1,37 @@
+```markdown
 ---
-title: At least one clipboard data variant must be provided
+title: 必須至少提供一種剪貼簿資料變體
 description: >
-  In preparation for supporting multiple clipboard data variants,
-  at least one clipboard data variant must be provided.
+  為了支援多種剪貼簿資料變體，
+  現在必須至少提供一種剪貼簿資料變體。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-The [`ClipboardData constructor`][]'s `text` argument is no longer nullable.
-Code that provides `null` to the `text` argument must be migrated to provide
-an empty string `''`.
+[`ClipboardData constructor`][`ClipboardData constructor`] 的 `text` 參數現在不再允許為 null。
+如果您的程式碼過去將 `null` 傳遞給 `text` 參數，請遷移為傳遞
+空字串 `''`。
 
-## Context
+## 背景說明
 
-In preparation for supporting multiple clipboard data variants, the
-`ClipboardData` constructor now requires that at least one data variant is
-provided.
+為了支援多種剪貼簿資料變體，
+`ClipboardData` 建構函式現在要求必須至少提供一種資料變體。
 
-Previously, platforms were inconsistent in how they handled `null`.
-The behavior is now consistent across platforms. If you are interested
-in the low-level details, see [PR 122446][].
+過去，各平台對於如何處理 `null` 並不一致。
+現在這個行為已在所有平台上統一。如果您對底層細節有興趣，請參閱 [PR 122446][PR 122446]。
 
-## Description of change
+## 變更說明
 
-The [`ClipboardData constructor`][]'s `text` argument is no longer nullable.
+[`ClipboardData constructor`][`ClipboardData constructor`] 的 `text` 參數現在不再允許為 null。
 
-## Migration guide
+## 遷移指南
 
-To reset the text clipboard, use an empty string `''` instead of `null`.
+若要重設文字剪貼簿，請使用空字串 `''`，而非 `null`。
 
-Code before migration:
+遷移前的程式碼：
+```
 
 ```dart
 void resetClipboard() {
@@ -39,7 +39,7 @@ void resetClipboard() {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 void resetClipboard() {
@@ -47,21 +47,21 @@ void resetClipboard() {
 }
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.10.0-9.0.pre<br>
-In stable release: 3.10.0
+已於版本：3.10.0-9.0.pre<br>
+正式版發佈：3.10.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`Clipboard.setData`][]
-* [`ClipboardData constructor`][]
+* [`Clipboard.setData`][`Clipboard.setData`]
+* [`ClipboardData constructor`][`ClipboardData constructor`]
 
-Relevant PRs:
+相關 PR：
 
-* [Assert at least one clipboard data variant is provided][]
+* [Assert at least one clipboard data variant is provided][Assert at least one clipboard data variant is provided]
 
 [`ClipboardData constructor`]: {{site.api}}/flutter/services/ClipboardData/ClipboardData.html
 [`Clipboard.setData`]: {{site.api}}/flutter/services/Clipboard/setData.html

@@ -1,49 +1,47 @@
 ---
-title: Nullable CupertinoThemeData.brightness
+title: 可為空的 CupertinoThemeData.brightness
 description: >
-  CupertinoThemeData.brightness is now nullable, and it
-  returns the value specified by the user (defaults to null) as is.
+  CupertinoThemeData.brightness 現在可為空，並且會如實回傳使用者指定的值（預設為 null）。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-[`CupertinoThemeData.brightness`] is now nullable.
+[`CupertinoThemeData.brightness`] 現在可為空。
 
-## Context
+## 背景說明
 
-[`CupertinoThemeData.brightness`][] is now used to
-override `MediaQuery.platformBrightness` for Cupertino widgets.
-Before this change, the [`CupertinoThemeData.brightness`][]
-getter returned `Brightness.light` when it was set to null.
+[`CupertinoThemeData.brightness`][`CupertinoThemeData.brightness`] 現在用於覆寫 Cupertino 元件 (Widgets) 的 `MediaQuery.platformBrightness`。
+在此變更之前，[`CupertinoThemeData.brightness`][`CupertinoThemeData.brightness`]
+getter 在被設為 null 時會回傳 `Brightness.light`。
 
-## Description of change
+## 變更說明
 
-Previously [`CupertinoThemeData.brightness`][]
-was implemented as a getter:
+過去 [`CupertinoThemeData.brightness`][`CupertinoThemeData.brightness`]
+是以 getter 方式實作：
 
 ```dart
 Brightness get brightness => _brightness ?? Brightness.light;
 final Brightness _brightness;
 ```
 
-It is now a stored property:
+它現在是一個儲存屬性：
 
 ```dart
 final Brightness brightness;
 ```
 
-## Migration guide
+## 遷移指南
 
-Generally [`CupertinoThemeData.brightness`][]
-is rarely useful outside of the Flutter framework.
-To retrieve the brightness for Cupertino widgets,
-now use [`CupertinoTheme.brightnessOf`][] instead.
+一般來說，[`CupertinoThemeData.brightness`][`CupertinoThemeData.brightness`]
+在 Flutter 框架之外很少會用到。
+若要取得 Cupertino 元件 (Widgets) 的亮度設定，
+現在請改用 [`CupertinoTheme.brightnessOf`][`CupertinoTheme.brightnessOf`]。
 
-With this change, it is now possible to override
-`CupertinoThemeData.brightness` in a `CupertinoThemeData`
-subclass to change the brightness override. For example:
+隨著這項變更，現在可以在
+`CupertinoThemeData` 的子類別中覆寫 `CupertinoThemeData.brightness`，
+以變更亮度覆寫設定。例如：
 
 ```dart
 class AlwaysDarkCupertinoThemeData extends CupertinoThemeData {
@@ -51,32 +49,31 @@ class AlwaysDarkCupertinoThemeData extends CupertinoThemeData {
 }
 ```
 
-When a `CupertinoTheme` uses the above `CupertinoThemeData`,
-dark mode is enabled for all its Cupertino descendants
-that are affected by this `CupertinoTheme`.
+當`CupertinoTheme`使用上述`CupertinoThemeData`時，
+所有受此`CupertinoTheme`影響的 Cupertino 元件 (Widgets) 子孫都會啟用深色模式 (dark mode)。
 
-## Timeline
+## 時程
 
-Landed in version: 1.16.3<br>
-In stable release: 1.17
+合併於版本：1.16.3<br>  
+穩定版發佈：1.17
 
-## References
+## 參考資料
 
-Design doc:
+設計文件：
 
-* [Make `CupertinoThemeData.brightness nullable`][]
+* [Make `CupertinoThemeData.brightness nullable`][Make `CupertinoThemeData.brightness nullable`]
 
-API documentation:
+API 文件：
 
-* [`CupertinoThemeData.brightness`][]
+* [`CupertinoThemeData.brightness`][`CupertinoThemeData.brightness`]
 
-Relevant issue:
+相關議題：
 
-* [Issue 47255][]
+* [Issue 47255][Issue 47255]
 
-Relevant PR:
+相關 PR：
 
-* [Let material `ThemeData` dictate brightness if `cupertinoOverrideTheme.brightness` is null][]
+* [Let material `ThemeData` dictate brightness if `cupertinoOverrideTheme.brightness` is null][Let material `ThemeData` dictate brightness if `cupertinoOverrideTheme.brightness` is null]
 
 
 [`CupertinoTheme.brightnessOf`]: {{site.api}}/flutter/cupertino/CupertinoTheme/brightnessOf.html

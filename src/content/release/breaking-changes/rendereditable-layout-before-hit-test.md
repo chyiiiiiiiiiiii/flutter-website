@@ -1,45 +1,30 @@
 ---
-title: The RenderEditable needs to be laid out before hit testing
+title: 必須先進行 RenderEditable 的版面配置，才能進行點擊測試
 description: >
-  The hit testing of RenderEditable requires additional information
-  that is only available after the layout.
+  RenderEditable 的點擊測試需要額外的資訊，而這些資訊僅在完成版面配置後才可取得。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-Instances of `RenderEditable` must be laid out before processing hit
-testing. Trying to hit-test a `RenderEditable` object before layout
-results in an assertion such as the following:
+`RenderEditable` 的實例必須在進行點擊測試（hit testing）前先完成版面配置（layout）。如果在版面配置前嘗試對 `RenderEditable` 物件進行點擊測試，會導致如下的斷言錯誤：
 
 ```plaintext
 Failed assertion: line 123 pos 45: '!debugNeedsLayout': is not true.
 ```
 
-## Context
+## 背景
 
-To support gesture recognizers in selectable text, the
-`RenderEditable` requires the layout information for its
-text spans to determine which text span receives the
-pointer event. (Before this change, `RenderEditable` objects 
-didn't take their text into account when evaluating hit tests.)
-To implement this, layout was made a prerequisite for performing
-hit testing on a `RenderEditable` object.
+為了在可選取文字中支援手勢辨識器，`RenderEditable` 需要其文字區段（text spans）的版面配置（layout）資訊，以判斷哪個文字區段應接收指標事件。（在此變更之前，`RenderEditable` 物件在進行命中測試（hit test）時，並不會考慮其文字內容。）為了實作這項功能，現在在對 `RenderEditable` 物件執行命中測試前，必須先完成版面配置。
 
-In practice, this is rarely an issue. The widget library
-ensures that layout is performed before any hit test on all
-render objects. This problem is only likely to be seen in
-code that directly interacts with render objects, for
-example in tests of custom render objects.
+實際上，這種情況很少發生。元件（Widgets）函式庫會確保所有 render objects 在進行任何命中測試前都已完成版面配置。這個問題通常只會出現在直接操作 render objects 的程式碼中，例如在自訂 render objects 的測試中。
 
-## Migration guide
+## 遷移指南
 
-If you see the `'!debugNeedsLayout': is not true`
-assertion error while hit testing the `RenderEditable`,
-lay out the `RenderEditable` before doing so.
+如果你在對 `RenderEditable` 進行命中測試時遇到 `'!debugNeedsLayout': is not true` 斷言錯誤，請在執行前先對 `RenderEditable` 進行版面配置。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 import 'package:flutter/rendering.dart';
@@ -75,7 +60,7 @@ class FakeEditableTextState extends TextSelectionDelegate {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 import 'package:flutter/rendering.dart';
@@ -111,25 +96,24 @@ class FakeEditableTextState extends TextSelectionDelegate {
 }
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 1.18.0<br>
-In stable release: 1.20
+合併於版本：1.18.0<br>  
+進入穩定版本：1.20
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`RenderEditable`][]
+* [`RenderEditable`][`RenderEditable`]
 
-Relevant issue:
+相關議題：
 
-* [Issue 43494][]: SelectableText.rich used along with
-  TapGestureRecognizer isn't working
+* [Issue 43494][Issue 43494]：SelectableText.rich 搭配 TapGestureRecognizer 使用時無法正常運作
 
-Relevant PR:
+相關 PR：
 
-* [PR 54479: Enable gesture recognizer in selectable rich text][]
+* [PR 54479: Enable gesture recognizer in selectable rich text][PR 54479: Enable gesture recognizer in selectable rich text]
 
 
 [Issue 43494]: {{site.repo.flutter}}/issues/43494

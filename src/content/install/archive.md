@@ -1,59 +1,36 @@
 ---
-title: Flutter SDK archive
-shortTitle: Archive
-description: "All current Flutter SDK releases: stable, beta, and main."
+title: Flutter SDK 歷史版本存檔
+shortTitle: 歷史版本
+description: "所有現行 Flutter SDK 發行版本：stable、beta 及 main。"
 ---
 
 {% render docs/china-notice.md %}
 
-## Overview
+## 概覽
 
-The Flutter SDK archive is a collection of all previous versions of the
-Flutter SDK. This archive is useful for developers who need to use an older
-version of Flutter for compatibility reasons or to investigate bugs.
+Flutter SDK 歷史版本存檔收錄了所有過去版本的 Flutter SDK。這個存檔對於需要因相容性或除錯原因而使用舊版 Flutter 的開發者來說非常有用。
 
-The archive includes Flutter SDKs for Windows, macOS, and Linux on the
-following [channels][]:
+此存檔包含適用於 Windows、macOS 與 Linux 的 Flutter SDK，並依照下列[頻道][channels]分類：
 
-*   **{{site.sdk.channel | capitalize }} channel**: This channel contains the
-    most stable Flutter builds. Roughly every third beta version is promoted
-    to the stable version. The stable channel is the recommended channel for
-    new users and for production app releases.
+*   **{{site.sdk.channel | capitalize }} 頻道**：此頻道包含最穩定的 Flutter 版本。大約每三個 beta 版本會有一個被提升為 stable 版本。stable 頻道是新手與正式上線應用程式的推薦選擇。
 
-*   **Beta channel**: This channel is the most recent version of Flutter that is
-    available, but it is not yet stable. The beta branch is usually released
-    on the first Wednesday of the month. A fix will typically end up in the
-    beta channel about two weeks after it lands in the main channel. 
-    Releases are distributed as [installation bundles][].
+*   **Beta 頻道**：此頻道提供最新但尚未穩定的 Flutter 版本。beta 分支通常於每月的第一個星期三釋出。修正通常會在進入 main 頻道後約兩週進入 beta 頻道。發行版本會以[安裝套件][installation bundles]形式提供。
 
-*   **Main channel**: This channel has the newest features, but it hasn't been fully
-    tested and might have some bugs. We don't recommend using it unless you're
-    contributing to Flutter itself.
+*   **Main 頻道**：此頻道擁有最新功能，但尚未經過完整測試，可能存在一些錯誤。除非你正在貢獻 Flutter 本身，否則不建議使用 main 頻道。
 
-The following information is available for each Flutter release in the
-SDK archive:
+在 SDK 歷史版本存檔中，每個 Flutter 發行版本都會提供以下資訊：
 
-*   **Flutter version**: The version number of the Flutter SDK
-    (for example, 3.35.0, 2.10.5) follows a modified
-    [calendar versioning][] scheme called _CalVer_.
-    For more information, visit the [Flutter SDK versioning][] page.
-*   **Architecture**: The processor architecture the SDK is built for
-    (for example, x64, arm64). This specifies the type of processor the SDK is
-    compatible with.
-*   **Ref**: The git commit hash that uniquely identifies the specific codebase
-    used for that release.
-*   **Release Date**: The date when that particular Flutter version was
-    officially released.
-*   **Dart version**: The corresponding version of the Dart SDK included in the
-    Flutter SDK release.
-*   **Provenance**: Provides details about the build process and origin of the
-    SDK, potentially including information about security attestations or
-    build systems used. Results are returned as JSON.
+*   **Flutter 版本**：Flutter SDK 的版本號（例如 3.35.0、2.10.5），採用修改過的[日曆版本管理][calendar versioning]方式，稱為 _CalVer_。更多資訊請參考 [Flutter SDK 版本管理][Flutter SDK versioning]頁面。
+*   **架構**：SDK 所建構的處理器架構（例如 x64、arm64），指定 SDK 相容的處理器類型。
+*   **Ref**：唯一識別該發行版本程式碼庫的 git commit 雜湊值。
+*   **發行日期**：該 Flutter 版本正式發行的日期。
+*   **Dart 版本**：此 Flutter SDK 發行版本所包含的對應 Dart SDK 版本。
+*   **Provenance**：提供有關 SDK 建構流程與來源的詳細資訊，可能包含安全驗證或所使用的建構系統等資訊。結果會以 JSON 格式呈現。
 
 [calendar versioning]: https://calver.org/
 [Flutter SDK versioning]: {{site.repo.flutter}}/blob/main/docs/releases/Release-versioning.md
 
-## Stable channel
+## Stable 頻道
 
 {% tabs "os-archive-tabs" %}
 
@@ -78,7 +55,7 @@ SDK archive:
 {% endtabs %}
 
 
-## Beta channel
+## Beta 頻道
 
 {% tabs "os-archive-tabs" %}
 
@@ -105,26 +82,23 @@ SDK archive:
 
 <a id="master-channel" aria-hidden="true"></a>
 
-## Main channel
+## Main 頻道
 
-[Installation bundles][] are not available for the `main` channel
-(which was previously known as the `master` channel).
-However, you can get the SDK directly from
-[GitHub repo][] by cloning the main channel,
-and then triggering a download of the SDK dependencies:
+`main` 頻道（先前稱為 `master` 頻道）不提供[安裝套件][Installation bundles]。
+不過，你可以直接從
+[GitHub repo][GitHub repo] 透過 clone main 頻道來取得 SDK，
+然後觸發下載 SDK 相依套件：
 
 ```console
 $ git clone -b main https://github.com/flutter/flutter.git
 $ ./flutter/bin/flutter --version
 ```
 
-## More information
+## 更多資訊
 
-To learn what's new in the major Flutter builds, check out the
-[release notes][] page.
+若想了解 Flutter 主要版本的最新變更，請參閱[發行說明][release notes]頁面。
 
-For details on how our installation bundles are structured,
-see [Installation bundles][].
+關於我們的安裝 bundle 檔案結構的詳細資訊，請參閱[安裝 bundle 檔案][Installation bundles]。
 
 [channels]: {{site.repo.flutter}}/blob/main/docs/releases/Flutter-build-release-channels.md
 [release notes]: /release/release-notes

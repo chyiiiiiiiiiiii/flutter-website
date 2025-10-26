@@ -1,26 +1,17 @@
 ---
-title: LayoutBuilder and adaptive layours
-description: Learn how to use the LayoutBuilder widget
+title: LayoutBuilder 與自適應版面配置
+description: 學習如何使用 LayoutBuilder 元件 (Widget)
 permalink: /tutorial/adaptive-layouts/
 ---
 
-Modern apps need to work well on screens of all sizes. On this page,
-you'll learn how to create layouts that adapt to different screen
-widths. This app shows a sidebar on large screens and a
-navigation-based UI on small screens. Specifically, this app handles
-two screen sizes:
+現代應用程式需要在各種尺寸的螢幕上都能良好運作。在本頁中，你將學習如何建立能夠根據不同螢幕寬度自動調整的版面配置。這個應用程式會在大螢幕上顯示側邊欄，在小螢幕上則採用導覽式的使用者介面。具體來說，這個應用程式會針對兩種螢幕尺寸進行處理：
 
-* **Large screens (tablets, desktop)**: Shows contact groups and
-  contact details side-by-side.
-* **Small screens (phones)**: Uses navigation to move between contact
-  groups and details.
+* **大螢幕（平板、桌面）**：同時並排顯示聯絡人群組與聯絡人詳細資料。
+* **小螢幕（手機）**：透過導覽在聯絡人群組與詳細資料之間切換。
 
-## Create the contact groups page
+## 建立聯絡人群組頁面
 
-First, create the basic structure of the `ContactGroupsPage` widget
-for your contact groups screen. Create
-`lib/screens/contact_groups.dart` and add the following basic
-structure:
+首先，為你的聯絡人群組螢幕建立 `ContactGroupsPage` 元件 (Widget) 的基本結構。建立 `lib/screens/contact_groups.dart`，並加入以下基本結構：
 
 ```dart
 import 'package:flutter/cupertino.dart';
@@ -40,10 +31,9 @@ class ContactGroupsPage extends StatelessWidget {
 }
 ```
 
-## Create the contacts page
+## 建立聯絡人頁面
 
-Similarly, create `lib/screens/contacts.dart` to eventually display
-individual contacts:
+同樣地，建立 `lib/screens/contacts.dart`，以便之後顯示個別聯絡人：
 
 ```dart
 import 'package:flutter/cupertino.dart';
@@ -65,14 +55,11 @@ class ContactListsPage extends StatelessWidget {
 }
 ```
 
-The `ContaactsListPage` widget and `ContactGroupsPage` widget are
-placeholder pages that are needed to implement the adaptive layout
-widget, which you'll do next.
+`ContaactsListPage` 元件（Widget）和 `ContactGroupsPage` 元件（Widget）是實作自適應版面配置元件（adaptive layout widget）時所需的佔位頁面，你將在下一步進行實作。
 
-## Build the adaptive layout foundation
+## 建立自適應版面配置基礎
 
-Create `lib/screens/adaptive_layout.dart`
-and start with the following basic structure:
+建立 `lib/screens/adaptive_layout.dart`，並以以下基本結構作為起點：
 
 ```dart
 import 'package:flutter/cupertino.dart';
@@ -95,10 +82,9 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
 
 ```
 
-This is a `StatefulWidget` because the adaptive layout eventually
-manages which contact group is currently selected.
+這是一個`StatefulWidget`，因為自適應版面配置（adaptive layout）最終會管理目前選取的聯絡人群組。
 
-Next, add the screen size detection logic:
+接下來，新增螢幕尺寸偵測邏輯：
 
 ```dart
 import 'package:flutter/cupertino.dart';
@@ -133,20 +119,13 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
 }
 ```
 
-The `LayoutBuilder` widget provides information about the parent's
-size constraints. In the `builder` callback, you receive a
-`BoxConstraints` object that tells you the maximum available width and
-height.
+`LayoutBuilder` 元件（Widget）可提供關於父元件尺寸限制的資訊。在 `builder` 回呼（callback）中，你會收到一個 `BoxConstraints` 物件，該物件會告訴你可用的最大寬度與高度。
 
-By checking if `constraints.maxWidth > largeScreenMinWidth`, you can
-decide which layout to show. The 600-pixel threshold is a common
-breakpoint that separates phone-sized screens from tablet-sized
-screens.
+透過檢查 `constraints.maxWidth > largeScreenMinWidth`，你可以決定要顯示哪一種版面配置。600 像素的臨界值是常見的斷點，用來區分手機尺寸螢幕與平板尺寸螢幕。
 
-## Update the main app
+## 更新主應用程式
 
-Update `main.dart` to use the adaptive layout, so you can see
-your changes.
+將 `main.dart` 更新為使用自適應版面配置（adaptive layout），這樣你就可以看到你的變更。
 
 ```dart
 import 'package:flutter/cupertino.dart';
@@ -178,13 +157,11 @@ class RolodexApp extends StatelessWidget {
 }
 ```
 
-If you're running in Chrome, you can resize the browser window to see
-layout changes. 
+如果你正在 Chrome 上執行，可以調整瀏覽器視窗大小來查看版面配置的變化。
 
-## Add list selection functionality
+## 新增清單選取功能
 
-The large screen layout needs to track which contact group is
-selected. Update the state object with the following code:
+大螢幕版面配置需要追蹤目前選取的聯絡人群組。請用以下程式碼更新 state 物件：
 
 ```dart
 import 'package:flutter/cupertino.dart';
@@ -229,15 +206,13 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
 }
 ```
 
-The `selectedListId` variable tracks the currently selected contact group,
-and `_onContactListSelected` updates this value when the
-user makes a selection.
+`selectedListId` 變數用來追蹤目前所選取的聯絡人群組，
+而 `_onContactListSelected` 則會在使用者做出選擇時更新這個值。
 
-## Build the large screen layout
+## 建立大螢幕的版面配置
 
-Now, implement the side-by-side layout for large screens. First,
-replace the temporary text with a widget that contains the proper
-layout.
+現在，來實作適用於大螢幕的並排版面配置。首先，
+將暫時的文字替換為包含正確版面配置的元件（Widget）。
 
 ```dart
 import 'package:flutter/cupertino.dart';
@@ -298,11 +273,9 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
 
 ```
 
-The large screen layout uses a `Row` to place the sidebar and details
-side-by-side. `SafeArea` ensures that the content doesn't overlap with
-system UI elements like the status bar.
+大螢幕的版面配置使用 `Row`，將側邊欄與詳細內容並排顯示。`SafeArea` 可確保內容不會與系統 UI 元素（例如狀態列）重疊。
 
-Now, set the sizes of the two panels and add a visual divider:
+現在，請設定這兩個面板的大小，並加入一個視覺分隔線：
 
 ```dart
 Widget _buildLargeScreenLayout() {
@@ -332,23 +305,18 @@ Widget _buildLargeScreenLayout() {
 }
 ```
 
-This layout creates the following:
-* A fixed-width sidebar (320 pixels) for contact groups.
-* A 1-pixel divider between the panels.
-* A details panel that uses an `Expanded` widget to take the remaining
-  space.
+此版面配置會建立以下內容：
+* 一個固定寬度（320 像素）的側邊欄，用於顯示聯絡人群組。
+* 在面板之間有一條 1 像素的分隔線。
+* 一個細節面板，使用 `Expanded` 元件（Widget）來填滿剩餘空間。
 
-## Test the adaptive layout
+## 測試自適應版面配置
 
-Hot reload your app and test the responsive behavior. If you're
-running in Chrome, you can resize the browser window to see the layout
-change:
+使用 hot reload 重新載入你的應用程式，並測試其響應式行為。如果你是在 Chrome 上執行，可以調整瀏覽器視窗大小，觀察版面配置的變化：
 
-* **Wide window (> 600px)**: Shows placeholder text for the sidebar
-  and details side-by-side.
-* **Narrow window (< 600px)**: Shows only the contact groups page.
+* **寬視窗（> 600px）**：側邊欄與細節區會並排顯示佔位文字。
+* **窄視窗（< 600px）**：只會顯示聯絡人群組頁面。
 
-Both the sidebar and main content area show placeholder text for now.
+目前，側邊欄與主要內容區都只會顯示佔位文字。
 
-In the next lesson, you'll implement slivers to fill in the contact
-list content.
+在下一課中，你將會實作 sliver 來填充聯絡人清單內容。

@@ -1,42 +1,42 @@
 ---
-title: Insert content text input client
+title: 插入內容文字輸入客戶端
 description: >
-  Add a new method to the TextInputClient interface to allow
-  Android virtual keyboards to insert rich content into Flutter TextFields. 
+  在 `TextInputClient` 介面中新增一個方法，
+  讓 Android 虛擬鍵盤可以將豐富內容插入 Flutter 文字欄位 (text field)。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-Added an `insertContent` method to the `TextInputClient` interface to
-allow Android's image keyboard feature to
-insert content into a Flutter `TextField`.
+在 `TextInputClient` 介面中新增了 `insertContent` 方法，
+允許 Android 的圖片鍵盤功能
+將內容插入到 Flutter `TextField` 中。
 
-## Context
+## 背景
 
-As of Android 7.1, IMEs (input method editors or virtual keyboards) can send
-images and rich content into a text editor.
-This allows users to insert gifs, stickers, or
-context-aware rich content into a text field.
+自 Android 7.1 起，IME（輸入法編輯器或虛擬鍵盤）可以將
+圖片與豐富內容傳送到文字編輯器。
+這讓使用者能夠在文字欄位 (text field) 中插入 gif、貼圖，
+或是與情境相關的豐富內容。
 
-## Description of change
+## 變更說明
 
-When the user inserts rich content in the IME, the platform
-sends a `TextInputClient.commitContent` channel message,
-notifying the Dart code that the IME inserted rich content.
-The channel message contains the mime type, URI, and bytedata for
-the inserted content in JSON form.
+當使用者在 IME 中插入豐富內容時，平台會
+傳送 `TextInputClient.commitContent` 通道訊息，
+通知 Dart 程式碼 IME 已插入豐富內容。
+該通道訊息會以 JSON 形式包含
+插入內容的 mime type、URI 及 bytedata。
 
-## Migration guide
+## 遷移指南
 
-If you implemented the `TextInputClient` interface earlier, override
-`insertContent` to either support rich content insertion
-or provide an empty implementation.
+如果你之前有實作 `TextInputClient` 介面，請覆寫
+`insertContent`，以支援豐富內容插入
+或提供一個空的實作。
 
-To migrate, implement `insertContent`.
+要進行遷移，請實作 `insertContent`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 class MyCustomTextInputClient implements TextInputClient {
@@ -44,7 +44,7 @@ class MyCustomTextInputClient implements TextInputClient {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 class MyCustomTextInputClient implements TextInputClient {
@@ -57,10 +57,7 @@ class MyCustomTextInputClient implements TextInputClient {
 }
 ```
 
-Your implementation of `TextInputClient` might not require
-the ability to receive rich content inserted from the IME.
-In that case, you can leave the implementation of
-`insertContent` empty with no consequences.
+您的 `TextInputClient` 實作可能不需要從 IME 插入豐富內容（rich content）的能力。在這種情況下，您可以將 `insertContent` 的實作留空，並不會有任何影響。
 
 ```dart
 class MyCustomTextInputClient implements TextInputClient {
@@ -71,31 +68,30 @@ class MyCustomTextInputClient implements TextInputClient {
 }
 ```
 
-As an alternative, you can use a similar implementation to
-the default `TextInputClient`.
-To learn how to do this, check out the [insertContent implementation][].
+作為替代方案，您可以使用與預設 `TextInputClient` 類似的實作方式。  
+如需瞭解如何操作，請參考 [insertContent 實作說明][insertContent implementation]。
 
-To prevent breaking changes to an interface,
-use `with TextInputClient` rather than `implements TextInputClient`.
+為了避免對介面產生重大變更，  
+請使用 `with TextInputClient`，而非 `implements TextInputClient`。  
 
 [insertContent implementation]: {{site.api}}/flutter/services/TextInputClient/insertContent.html
 
-## Timeline
+## 時程
 
-Landed in version: 3.8.0-1.0.pre<br>
-In stable release: 3.10.0
+合併於版本：3.8.0-1.0.pre<br>  
+穩定版本釋出：3.10.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`TextInputClient`]({{site.api}}/flutter/services/TextInputClient-class.html)
 
-Relevant issue:
+相關議題：
 
 * [Issue 20796]({{site.repo.flutter}}/issues/20796)
 
-Relevant PRs:
+相關 PR：
 
-* [24224: Support Image Insertion on Android (engine)]({{site.repo.engine}}/pull/35619)
-* [97437: Support Image Insertion on Android]({{site.repo.flutter}}/pull/110052)
+* [24224: 支援 Android 上的圖片插入（engine）]({{site.repo.engine}}/pull/35619)
+* [97437: 支援 Android 上的圖片插入]({{site.repo.flutter}}/pull/110052)

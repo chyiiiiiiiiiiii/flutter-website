@@ -1,22 +1,21 @@
-# DevTools 2.28.2 release notes
+# DevTools 2.28.2 版本發行說明
 
-The 2.28.2 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](https://docs.flutter.dev/tools/devtools).
+Dart 與 Flutter DevTools 2.28.2 版本，
+除了其他一般性改進外，還包含以下變更。
+若想進一步瞭解 DevTools，請參閱
+[DevTools overview](https://docs.flutter.dev/tools/devtools)。
 
-This was a cherry-pick release on top of DevTools 2.28.1.
-To learn about the improvements included in DevTools 2.28.1, please read the
-[release notes](/tools/devtools/release-notes/release-notes-2.28.1).
+本次為 DevTools 2.28.1 之上的 cherry-pick 版本發行。
+若想瞭解 DevTools 2.28.1 所包含的改進，請閱讀
+[release notes](/tools/devtools/release-notes/release-notes-2.28.1)。
 
-## DevTools Extension updates
+## DevTools 擴充功能更新
 
-* Enabled DevTools extensions when debugging a Dart entry point that is not
-  under `lib` (e.g. a unit test or integration test). Thanks to
-  [@bartekpacia](https://github.com/bartekpacia) for this change! -
+* 當偵錯非位於 `lib` 下的 Dart 進入點（例如單元測試或整合測試）時，啟用 DevTools 擴充功能。感謝
+  [@bartekpacia](https://github.com/bartekpacia) 的貢獻！-
   [#6644](https://github.com/flutter/devtools/pull/6644)
 
-## Full commit history
+## 完整提交歷史
 
-To find a complete list of changes in this release, check out the
-[DevTools git log](https://github.com/flutter/devtools/tree/v2.28.2).
+如需查詢本次發行的完整變更清單，請參閱
+[DevTools git log](https://github.com/flutter/devtools/tree/v2.28.2)。

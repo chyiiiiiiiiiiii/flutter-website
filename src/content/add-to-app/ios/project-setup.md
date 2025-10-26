@@ -1,64 +1,58 @@
 ---
-title: Integrate a Flutter module into your iOS project
-shortTitle: Integrate Flutter
-description: Learn how to integrate a Flutter module into your existing iOS project.
+title: 將 Flutter 模組整合到您的 iOS 專案中
+shortTitle: 整合 Flutter
+description: 學習如何將 Flutter 模組整合到您現有的 iOS 專案中。
 ---
 
-Flutter UI components can be incrementally added into your existing iOS
-application as embedded frameworks.
-To embed Flutter in your existing application,
-consider one of the following three methods.
+您可以將 Flutter UI 元件（Widgets）以嵌入式 framework 的方式，逐步加入到現有的 iOS 應用程式中。
+要在現有應用程式中嵌入 Flutter，請考慮下列三種方法之一。
 
-| Embedding Method | Methodology | Benefit |
+| 嵌入方式 | 方法說明 | 優點 |
 |---|---|---|
-| Use CocoaPods _(Recommended)_ | Install and use the Flutter SDK and CocoaPods. Flutter compiles the `flutter_module` from source each time Xcode builds the iOS app. | Least complicated method to embed Flutter into your app. |
-| Use [iOS frameworks][] | Create iOS frameworks for Flutter components, embed them into your iOS, and update your existing app's build settings. | Doesn't require every developer to install the Flutter SDK and CocoaPods on their local machines. |
-| Use iOS frameworks and CocoaPods | Embed the frameworks for your iOS app and the plugins in Xcode, but distribute the Flutter engine as a CocoaPods podspec. | Provides an alternative to distributing the large Flutter engine (`Flutter.xcframework`) library. |
+| 使用 CocoaPods _(推薦)_ | 安裝並使用 Flutter SDK 與 CocoaPods。每次 Xcode 建置 iOS 應用程式時，Flutter 會從原始碼編譯 `flutter_module`。 | 將 Flutter 嵌入應用程式最簡單的方法。 |
+| 使用[iOS frameworks][iOS frameworks] | 為 Flutter 元件建立 iOS framework，將其嵌入到您的 iOS 專案，並更新現有應用程式的建置設定。 | 不需要每位開發者都在本機安裝 Flutter SDK 與 CocoaPods。 |
+| 同時使用 iOS frameworks 與 CocoaPods | 在 Xcode 中嵌入 iOS 應用程式與外掛的 framework，但將 Flutter engine 以 CocoaPods podspec 方式發佈。 | 提供一種替代方案，避免直接分發大型 Flutter engine（`Flutter.xcframework`）函式庫。 |
 
 {:.table .table-striped}
 
 [iOS frameworks]: {{site.apple-dev}}/library/archive/documentation/MacOSX/Conceptual/BPFrameworks/Concepts/WhatAreFrameworks.html
 
-When you add Flutter to your existing iOS app,
-it [increases the size of your iOS app][app-size].
+當您將 Flutter 加入現有的 iOS 應用程式時，會[增加您的 iOS 應用程式的體積][app-size]。
 
-For examples using an app built with UIKit,
-see the iOS directories in the [add_to_app code samples][].
-For an example using SwiftUI, consult the iOS directory in [News Feed App][].
+若需以 UIKit 建立的應用程式範例，請參考 [add_to_app code samples][add_to_app code samples] 中的 iOS 目錄。
+若需 SwiftUI 範例，請參考 [News Feed App][News Feed App] 的 iOS 目錄。
 
-## Development system requirements
+## 開發系統需求
 
-Flutter requires the latest version of Xcode and [CocoaPods][].
+Flutter 需要安裝最新版的 Xcode 與 [CocoaPods][CocoaPods]。
 
-## Create a Flutter module
+## 建立 Flutter 模組
 
-To embed Flutter into your existing application with any method,
-create a Flutter module first.
-Use the following command to create a Flutter module.
+無論您選擇哪種嵌入方式，嵌入 Flutter 到現有應用程式前，請先建立 Flutter 模組。
+請使用下列指令來建立 Flutter 模組。
 
 ```console
 $ cd /path/to/my_flutter
 $ flutter create --template module my_flutter
 ```
 
-Flutter creates module project under `/path/to/my_flutter/`.
-If you use the [CocoaPods method][], save the module
-in the same parent directory as your existing iOS app.
+Flutter 會在 `/path/to/my_flutter/` 下建立模組專案。
+如果你使用 [CocoaPods 方法][CocoaPods method]，請將模組儲存在與你現有 iOS 應用程式相同的父目錄下。
 
 [CocoaPods method]: /add-to-app/ios/project-setup/?tab=embed-using-cocoapods
 
-From the Flutter module directory,
-you can run the same `flutter` commands you would in any other Flutter project,
-like `flutter run` or `flutter build ios`.
-You can also run the module in [VS Code][] or
-[Android Studio/IntelliJ][] with the Flutter and Dart plugins.
-This project contains a single-view example version of your module
-before embedding it in your existing iOS app.
-This helps when testing the Flutter-only parts of your code.
+從 Flutter 模組目錄中，
+你可以執行與其他 Flutter 專案相同的 `flutter` 指令，
+例如 `flutter run` 或 `flutter build ios`。
+你也可以在 [VS Code][VS Code] 或
+[Android Studio/IntelliJ][Android Studio/IntelliJ] 中，搭配 Flutter 與 Dart 外掛程式來執行該模組。
+這個專案在你將模組嵌入現有 iOS 應用程式之前，
+會包含一個單一畫面的範例版本。
+這有助於你測試僅與 Flutter 有關的程式碼部分。
 
-## Organize your module
+## 管理你的模組
 
-The `my_flutter` module directory structure resembles a typical Flutter app.
+`my_flutter` 模組目錄結構類似於一般的 Flutter 應用程式。
 
 ```plaintext
 my_flutter/
@@ -71,48 +65,45 @@ my_flutter/
 └── pubspec.yaml
 ```
 
-Your Dart code should be added to the `lib/` directory.
-Your Flutter dependencies, packages, and plugins must be added to the
-`pubspec.yaml` file.
+你的 Dart 程式碼應該加入到 `lib/` 目錄中。
+你的 Flutter 相依套件、套件與插件必須加入到 `pubspec.yaml` 檔案中。
 
-The `.ios/` hidden subfolder contains an Xcode workspace where
-you can run a standalone version of your module.
-This wrapper project bootstraps your Flutter code.
-It contains helper scripts to facilitate building frameworks or
-embedding the module into your existing application with CocoaPods.
+`.ios/` 隱藏子資料夾中包含一個 Xcode workspace，
+你可以在其中執行你的模組獨立版本。
+這個包裝專案負責啟動你的 Flutter 程式碼。
+它包含協助腳本，方便你建置 frameworks 或
+透過 CocoaPods 將模組嵌入到你現有的應用程式中。
 
 :::note
 
-* Add custom iOS code to your own existing application's
-  project or to a plugin, not to the module's `.ios/`
-  directory. Changes made in your module's `.ios/`
-  directory don't appear in your existing iOS project
-  using the module, and might be overwritten by Flutter.
+* 請將自訂的 iOS 程式碼加入到你自己現有應用程式的
+  專案或插件中，而不是加入到模組的 `.ios/`
+  目錄。對模組的 `.ios/` 目錄所做的變更
+  不會反映在使用該模組的現有 iOS 專案中，且可能會被 Flutter 覆蓋。
 
-* Exclude the `.ios/` directory from source control as
-  it's autogenerated.
+* 請將 `.ios/` 目錄排除在版本控制之外，
+  因為它是自動產生的。
 
-* Before building the module on a new machine,
-  run `flutter pub get` in the `my_flutter` directory.
-  This regenerates the `.ios/` directory before building
-  the iOS project that uses the Flutter module.
+* 在新機器上建置模組之前，
+  請在 `my_flutter` 目錄下執行 `flutter pub get`。
+  這會在建置使用 Flutter 模組的 iOS 專案前，
+  重新產生 `.ios/` 目錄。
 
 :::
 
-## Embed a Flutter module in your iOS app
+## 在你的 iOS 應用程式中嵌入 Flutter 模組
 
-After you have developed your Flutter module,
-you can embed it using the methods described
-in the table at the top of the page.
+當你開發好 Flutter 模組後，
+可以使用本頁頂端表格中描述的方法進行嵌入。
 
-You can run in **Debug** mode on a simulator or a real device,
-and **Release** mode on a real device.
+你可以在模擬器或真實裝置上以 **Debug** 模式執行，
+並在真實裝置上以 **Release** 模式執行。
 
 :::note
-Learn more about [Flutter's build modes][build modes of Flutter].
+進一步了解 [Flutter 的建置模式][build modes of Flutter]。
 
-To use Flutter debugging features such as hot reload,
-consult [Debugging your add-to-app module][].
+如需使用 Flutter 除錯功能（如 hot reload），
+請參考 [Debugging your add-to-app module][Debugging your add-to-app module]。
 :::
 
 {% tabs %}
@@ -134,163 +125,160 @@ consult [Debugging your add-to-app module][].
 {% endtabs %}
 
 
-## Set local network privacy permissions
+## 設定本地網路隱私權限
 
-On iOS 14 and later, enable the Dart multicast DNS service in the
-**Debug** version of your iOS app.
-This adds [debugging functionalities such as hot-reload and DevTools][]
-using `flutter attach`.
+在 iOS 14 及之後的版本，請在你 iOS 應用程式的 **Debug** 版本中啟用 Dart 的 multicast DNS 服務。
+這將透過 `flutter attach` 增加[如 hot-reload 和 DevTools 等除錯功能][debugging functionalities such as hot-reload and DevTools]。
 
 :::warning
-Never enable this service in the **Release** version of your app.
-The Apple App Store might reject your app.
+切勿在應用程式的 **Release** 版本中啟用此服務。
+Apple App Store 可能會因此拒絕你的應用程式。
 :::
 
-To set local network privacy permissions only in the Debug version of your app,
-create a separate `Info.plist` per build configuration.
-SwiftUI projects start without an `Info.plist` file.
-If you need to create a property list,
-you can do so through Xcode or text editor.
-The following instructions assume the default **Debug** and **Release**.
-Adjust the names as needed depending on your app's build configurations.
+若只想在 Debug 版本中設定本地網路隱私權限，
+請針對每個建置組態建立獨立的 `Info.plist`。
+SwiftUI 專案預設沒有 `Info.plist` 檔案。
+如果你需要建立屬性清單（property list），
+可以透過 Xcode 或文字編輯器完成。
+以下說明假設你使用預設的 **Debug** 和 **Release** 組態。
+若你的應用程式有不同的建置組態，請依需求調整名稱。
 
-1. Create a new property list.
+1. 建立新的屬性清單（property list）。
 
-   1. Open your project in Xcode.
+   1. 在 Xcode 中開啟你的專案。
 
-   1. In the **Project Navigator**, click on the project name.
+   1. 在 **Project Navigator** 中點選專案名稱。
 
-   1. From the **Targets** list in the Editor pane, click on your app.
+   1. 在編輯器區的 **Targets** 清單中，點選你的應用程式。
 
-   1. Click the **Info** tab.
+   1. 點選 **Info** 分頁。
 
-   1. Expand **Custom iOS Target Properties**.
+   1. 展開 **Custom iOS Target Properties**。
 
-   1. Right-click on the list and select **Add Row**.
+   1. 於清單上按右鍵，選擇 **Add Row**。
 
-   1. From the dropdown menu, select **Bonjour Services**.
-      This creates a new property list in the project directory
-      called `Info`. This displays as `Info.plist` in the Finder.
+   1. 從下拉選單選擇 **Bonjour Services**。
+      這會在專案目錄中建立一個名為 `Info` 的屬性清單檔案，
+      在 Finder 中會顯示為 `Info.plist`。
 
-1. Rename the `Info.plist` to `Info-Debug.plist`
+1. 將 `Info.plist` 重新命名為 `Info-Debug.plist`
 
-   1. Click on **Info** file in the project list at the left.
+   1. 在專案左側清單中點選 **Info** 檔案。
 
-   1. In the **Identity and Type** panel at the right,
-      change the **Name** from `Info.plist` to `Info-Debug.plist`.
+   1. 在右側的 **Identity and Type** 面板中，
+      將 **Name** 從 `Info.plist` 改為 `Info-Debug.plist`。
 
-1. Create a Release property list.
+1. 建立 Release 屬性清單。
 
-   1. In the **Project Navigator**, click on `Info-Debug.plist`.
+   1. 在 **Project Navigator** 中點選 `Info-Debug.plist`。
 
-   1. Select **File** > **Duplicate...**.  
-      You can also press <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>.
+   1. 選擇 **File** > **Duplicate...**  
+      你也可以按下 <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>。
 
-   1. In the dialog box, set the **Save As:** field to
-      `Info-Release.plist` and click **Save**.
+   1. 在對話框中，將 **Save As:** 欄位設為
+      `Info-Release.plist`，然後點選 **Save**。
 
-1. Add the necessary properties to the **Debug** property list.
+1. 在 **Debug** 屬性清單中加入必要屬性。
 
-   1. In the **Project Navigator**, click on `Info-Debug.plist`.
+   1. 在 **Project Navigator** 中點選 `Info-Debug.plist`。
 
-   1. Add the String value `_dartVmService._tcp`
-      to the **Bonjour Services** array.
+   1. 在 **Bonjour Services** 陣列中新增字串值 `_dartVmService._tcp`。
 
-   1. _(Optional)_ To set your desired customized permission dialog text,
-      add the key **Privacy - Local Network Usage Description**.
+   1. _(選用)_ 若要自訂權限對話框文字，
+      請新增鍵值 **Privacy - Local Network Usage Description**。
 
-      {% render docs/captioned-image.liquid, image:"development/add-to-app/ios/project-setup/debug-plist.png", caption:"The `Info-Debug` property list with the **Bonjour Services** and **Privacy - Local Network Usage Description** keys added" %}
+      {% render docs/captioned-image.liquid, image:"development/add-to-app/ios/project-setup/debug-plist.png", caption:"已加入 **Bonjour Services** 及 **Privacy - Local Network Usage Description** 鍵值的 `Info-Debug` 屬性清單" %}
 
-1. Set the target to use different property lists for different build modes.
+1. 設定 target 以便不同建置模式使用不同屬性清單。
 
-   1. In the **Project Navigator**, click on your project.
+   1. 在 **Project Navigator** 中點選你的專案。
 
-   1. Click the **Build Settings** tab.
+   1. 點選 **Build Settings** 分頁。
 
-   1. Click **All** and **Combined** sub-tabs.
+   1. 點選 **All** 與 **Combined** 子分頁。
 
-   1. In the Search box, type `plist`.  
-      This limits the settings to those that include property lists.
+   1. 在搜尋框輸入 `plist`。  
+      這會只顯示包含屬性清單的設定。
 
-   1. Scroll through the list until you see **Packaging**.
+   1. 向下捲動直到看到 **Packaging**。
 
-   1. Click on the **Info.plist File** setting.
+   1. 點選 **Info.plist File** 設定。
 
-   1. Change the **Info.plist File** value
-      from `path/to/Info.plist` to `path/to/Info-$(CONFIGURATION).plist`.
+   1. 將 **Info.plist File** 的值
+      從 `path/to/Info.plist` 改為 `path/to/Info-$(CONFIGURATION).plist`。
 
-      {% render docs/captioned-image.liquid, image:"development/add-to-app/ios/project-setup/set-plist-build-setting.png", caption:"Updating the `Info.plist` build setting to use build mode-specific property lists" %}
+      {% render docs/captioned-image.liquid, image:"development/add-to-app/ios/project-setup/set-plist-build-setting.png", caption:"將 `Info.plist` build setting 更新為依建置模式使用專屬屬性清單" %}
 
-      This resolves to the path **Info-Debug.plist** in **Debug** and
-      **Info-Release.plist** in **Release**.
+      這樣在 **Debug** 模式下會使用 **Info-Debug.plist**，
+      在 **Release** 模式下會使用 **Info-Release.plist**。
 
-      {% render docs/captioned-image.liquid, image:"development/add-to-app/ios/project-setup/plist-build-setting.png", caption:"The updated **Info.plist File** build setting displaying the configuration variations" %}
+      {% render docs/captioned-image.liquid, image:"development/add-to-app/ios/project-setup/plist-build-setting.png", caption:"更新後的 **Info.plist File** build setting，顯示不同組態的設定" %}
 
-1. Remove the **Release** property list from the **Build Phases**.
+1. 從 **Build Phases** 中移除 **Release** 屬性清單。
 
-   1. In the **Project Navigator**, click on your project.
+   1. 在 **Project Navigator** 中點選你的專案。
 
-   1. Click the **Build Phases** tab.
+   1. 點選 **Build Phases** 分頁。
 
-   1. Expand **Copy Bundle Resources**.
+   1. 展開 **Copy Bundle Resources**。
 
-   1. If this list includes `Info-Release.plist`,
-      click on it and then click the **-** (minus sign) under it
-      to remove the property list from the resources list.
+   1. 如果清單中包含 `Info-Release.plist`，
+      請點選它，然後點選下方的 **-**（減號）
+      以將該屬性清單從資源清單中移除。
 
-      {% render docs/captioned-image.liquid, image:"development/add-to-app/ios/project-setup/copy-bundle.png", caption:"The **Copy Bundle** build phase displaying the **Info-Release.plist** setting. Remove this setting." %}
+      {% render docs/captioned-image.liquid, image:"development/add-to-app/ios/project-setup/copy-bundle.png", caption:"**Copy Bundle** build phase 顯示 **Info-Release.plist** 設定。請移除此設定。" %}
 
-1. The first Flutter screen your Debug app loads prompts
-   for local network permission.
+1. 你的 Debug 應用程式載入的第一個 Flutter 螢幕會提示
+   取得本地網路權限。
 
-   Click **OK**.
+   請點選 **OK**。
 
-   _(Optional)_ To grant permission before the app loads, enable
-   **Settings > Privacy > Local Network > Your App**.
+   _(選用)_ 若要在應用程式載入前即授權，請到
+   **設定 > 隱私權 > 本地網路 > 你的應用程式** 中啟用。
 
-## Mitigate known issue with Apple Silicon Macs
+## 解決 Apple Silicon Mac 已知問題
 
-On [Macs running Apple Silicon][apple-silicon],
-the host app builds for an `arm64` simulator.
-While Flutter supports `arm64` simulators, some plugins might not.
-If you use one of these plugins, you might see a compilation error like
-**Undefined symbols for architecture arm64**.
-If this occurs,
-exclude `arm64` from the simulator architectures in your host app.
+在 [Apple Silicon 處理器的 Mac][apple-silicon] 上，
+主應用程式會為 `arm64` 模擬器建置。
+雖然 Flutter 支援 `arm64` 模擬器，但部分插件可能不支援。
+如果你使用這類插件，可能會看到像
+**Undefined symbols for architecture arm64** 的編譯錯誤。
+若遇到此情況，
+請將 `arm64` 從主應用程式的模擬器架構中排除。
 
-1. In the **Project Navigator**, click on your project.
+1. 在 **Project Navigator** 中點選你的專案。
 
-1. Click the **Build Settings** tab.
+1. 點選 **Build Settings** 分頁。
 
-1. Click **All** and **Combined** sub-tabs.
+1. 點選 **All** 與 **Combined** 子分頁。
 
-1. Under **Architectures**, click on **Excluded Architectures**.
+1. 在 **Architectures** 下，點選 **Excluded Architectures**。
 
-1. Expand to see the available build configurations.
+1. 展開以查看可用的建置組態。
 
-1. Click **Debug**.
+1. 點選 **Debug**。
 
-1. Click the **+** (plus sign).
+1. 點選 **+**（加號）。
 
-1. Select **iOS Simulator**.
+1. 選擇 **iOS Simulator**。
 
-1. Double-click in the value column for **Any iOS Simulator SDK**.
+1. 在 **Any iOS Simulator SDK** 的值欄位雙擊。
 
-1. Click the **+** (plus sign).
+1. 點選 **+**（加號）。
 
-1. Type `arm64` in the **Debug > Any iOS Simulator SDK** dialog box.
+1. 在 **Debug > Any iOS Simulator SDK** 對話框中輸入 `arm64`。
 
-   {% render docs/captioned-image.liquid, image:"development/add-to-app/ios/project-setup/excluded-archs.png", caption:"Add `arm64` as an excluded architecture for your app" %}
+   {% render docs/captioned-image.liquid, image:"development/add-to-app/ios/project-setup/excluded-archs.png", caption:"將 `arm64` 加入為應用程式的排除架構" %}
 
-1. Press <kbd>Esc</kbd> to close this dialog box.
+1. 按下 <kbd>Esc</kbd> 關閉此對話框。
 
-1. Repeat these steps for the **Release** build mode.
+1. 針對 **Release** 建置模式重複上述步驟。
 
-1. Repeat for any iOS unit test targets.
+1. 對所有 iOS 單元測試目標也重複上述步驟。
 
-## Next steps
+## 下一步
 
-You can now [add a Flutter screen][] to your existing iOS app.
+你現在可以[將 Flutter 螢幕][add a Flutter screen] 加入到你現有的 iOS 應用程式中。
 
 [add_to_app code samples]: {{site.repo.samples}}/tree/main/add_to_app
 [add a Flutter screen]: /add-to-app/ios/add-flutter-screen

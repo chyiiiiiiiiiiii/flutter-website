@@ -1,135 +1,88 @@
 ---
-title: Web FAQ
-description: Some gotchas and differences when writing or running web apps in Flutter.
+title: Web 常見問答
+description: 在 Flutter 上撰寫或執行 Web 應用程式時，常見的注意事項與差異。
 ---
 
-## Questions
+## 問題集
 
-### What scenarios are ideal for Flutter on the web?
+### 哪些情境最適合在 Web 上使用 Flutter？
 
-Not every web page makes sense in Flutter, but we think Flutter is particularly
-suited for app-centric experiences:
+並非每個網頁都適合用 Flutter 製作，但我們認為 Flutter 特別適合以應用程式為核心的體驗：
 
-* Progressive Web Apps
-* Single Page Apps
-* Existing Flutter mobile apps
+* 漸進式網頁應用程式（Progressive Web Apps）
+* 單頁應用程式（Single Page Apps）
+* 現有的 Flutter 行動應用程式
 
-At this time, Flutter is not suitable for static websites with text-rich
-flow-based content. For example, blog articles benefit from the document-centric
-model that the web is built around, rather than the app-centric services that a
-UI framework like Flutter can deliver. However, you _can_ use Flutter to embed
-interactive experiences into these websites.
+目前，Flutter 並不適合用於以大量文字內容為主、以文件流為基礎的靜態網站。例如，部落格文章更適合使用 Web 所建構的文件導向模型，而不是像 Flutter 這類 UI 框架所提供的應用程式導向服務。不過，你_可以_使用 Flutter 將互動式體驗嵌入到這些網站中。
 
-For more information on how you can use Flutter on the web,
-see [Web support for Flutter][].
+如需更多關於如何在 Web 上使用 Flutter 的資訊，請參閱 [Web support for Flutter][Web support for Flutter]。
 
-### Search Engine Optimization (SEO)
+### 搜尋引擎最佳化（SEO）
 
-In general, Flutter is geared towards dynamic application experiences. Flutter's
-web support is no exception. Flutter web prioritizes performance, fidelity, and
-consistency. This means application output does not align with what search
-engines need to properly index. For web content that is static or document-like,
-we recommend using HTML—just like we do on [flutter.dev]({{site.main-url}}),
-[dart.dev]({{site.dart-site}}), and [pub.dev]({{site.pub}}). You should also
-consider separating your primary application experience—created in Flutter—from
-your landing page, marketing content, and help content—created using
-search-engine optimized HTML.
+一般來說，Flutter 主要針對動態應用程式體驗設計，Web 端的 Flutter 也不例外。Flutter Web 著重於效能、精確度與一致性。這意味著應用程式的輸出結果，並不符合搜尋引擎正確索引所需的格式。對於靜態或文件型態的 Web 內容，我們建議使用 HTML——就像我們在 [flutter.dev]({{site.main-url}})、[dart.dev]({{site.dart-site}}) 與 [pub.dev]({{site.pub}}) 所做的一樣。你也應該考慮將主要的應用程式體驗（以 Flutter 建立）與首頁、行銷內容、說明內容（以符合搜尋引擎最佳化的 HTML 製作）分開。
 
-That said, as mentioned in the [roadmap][], the Flutter team plans to
-investigate search engine indexability of Flutter web.
+不過，如 [roadmap][roadmap] 所述，Flutter 團隊計畫進一步研究 Flutter Web 的搜尋引擎可索引性。
 
-### Does hot reload work with a web app?
+### Web 應用程式可以使用熱重載（hot reload）嗎？
 
-Yes! Though it's currently behind an experimental flag.
-For more information, check out
-[hot reload on the web][].
+可以！不過目前這功能仍在實驗性旗標之下。如需更多資訊，請參閱 [hot reload on the web][hot reload on the web]。
 
 [hot reload on the web]: /platform-integration/web/building#hot-reload-web
 
-Hot restart doesn't require a flag and is a fast way of seeing your
-changes without having to relaunch your web app and wait for it
-to compile and load. This works similarly to
-the hot reload feature for Flutter mobile development.
-The difference is that hot reload remembers your state and hot
-restart doesn't.
+熱重啟（hot restart）則不需要旗標，是一種快速查看變更的方法，無需重新啟動 Web 應用程式並等待編譯與載入。這與 Flutter 行動開發的熱重載功能類似。差別在於熱重載會保留你的狀態，而熱重啟則不會。
 
-### Which web browsers are supported by Flutter?
+### Flutter 支援哪些 Web 瀏覽器？
 
-Flutter web apps can run on the following browsers:
+Flutter Web 應用程式可在以下瀏覽器執行：
 
-* Chrome (mobile & desktop)
-* Safari (mobile & desktop)
-* Edge (mobile & desktop)
-* Firefox (mobile & desktop)
+* Chrome（行動裝置與桌面）
+* Safari（行動裝置與桌面）
+* Edge（行動裝置與桌面）
+* Firefox（行動裝置與桌面）
 
-During development, Chrome (on macOS, Windows, and Linux) and Edge (on Windows)
-are supported as the default browsers for debugging your app.
+在開發期間，Chrome（於 macOS、Windows 和 Linux 上）以及 Edge（於 Windows 上）支援作為預設的除錯瀏覽器。
 
-### Can I build, run, and deploy web apps in any of the IDEs?
+### 我可以在任何 IDE 中建置、執行與部署 Web 應用程式嗎？
 
-You can select **Chrome** or **Edge** as the target device in
-Android Studio/IntelliJ and VS Code.
+你可以在 Android Studio/IntelliJ 與 VS Code 中，選擇 **Chrome** 或 **Edge** 作為目標裝置。
 
-The device pulldown should now include the **Chrome (web)**
-option for all channels.
+所有頻道的裝置下拉選單現在都應該包含 **Chrome (web)** 選項。
 
-### How do I build a responsive app for the web?
+### 如何為 Web 建立響應式應用程式？
 
-See [Creating responsive apps][].
+請參閱 [Creating responsive apps][Creating responsive apps]。
 
-### Can I use `dart:io` with a web app?
+### 我可以在 Web 應用程式中使用 `dart:io` 嗎？
 
-No. The file system is not accessible from the browser.
-For network functionality, use the [`http`][]
-package. Note that security works somewhat
-differently because the browser (and not the app)
-controls the headers on an HTTP request.
+不行。瀏覽器無法存取檔案系統。若需網路功能，請使用 [`http`][`http`] 套件。請注意，安全性機制略有不同，因為 HTTP 請求的標頭是由瀏覽器（而非應用程式）所控制。
 
-### How do I handle web-specific imports?
+### 如何處理 Web 特定的匯入（import）？
 
-Some plugins require platform-specific imports, particularly if they use the
-file system, which is not accessible from the browser. To use these plugins
-in your app, see the [documentation for conditional imports][]
-on [dart.dev]({{site.dart-site}}).
+有些套件需要平台特定的匯入，特別是如果它們使用檔案系統（瀏覽器無法存取）。若要在你的應用程式中使用這些套件，請參閱 [dart.dev]({{site.dart-site}}) 上的 [條件匯入（conditional imports）文件][documentation for conditional imports]。
 
-### Does Flutter web support concurrency?
+### Flutter Web 支援並行（concurrency）嗎？
 
-Dart's concurrency support via [isolates][]
-is not currently supported in Flutter web.
+Dart 透過 [isolates][isolates] 提供的並行支援，目前尚未在 Flutter Web 中支援。
 
-Flutter web apps can potentially work around this
-by using [web workers][],
-although no such support is built in.
+Flutter Web 應用程式有可能透過 [web workers][web workers] 來達到類似效果，但目前尚未內建支援。
 
-### How do I deploy a web app?
+### 如何部署 Web 應用程式？
 
-See [Preparing a web app for release][].
+請參閱 [Preparing a web app for release][Preparing a web app for release]。
 
-### Does `Platform.is` work on the web?
+### `Platform.is` 能在 Web 上運作嗎？
 
-Not currently.
+目前尚未支援。
 
-### Why doesn't my app update immediately after it's deployed?
+### 為什麼我的應用程式在部署後沒有立即更新？
 
-You might need to configure the `Cache-Control` header returned by your web server. 
-For example, if this header is set to 3600, then the browser
-and CDN will cache the asset for 1 hour, and your users might see an out-of-date
-version of your app up to 1 hour after you deploy a new version. For
-more information about caching on the web,
-check out [Prevent unnecessary network requests with the HTTP Cache][http-cache].
+你可能需要設定 Web 伺服器回傳的 `Cache-Control` 標頭。例如，若此標頭設為 3600，瀏覽器與 CDN 會將資源快取 1 小時，因此使用者在你部署新版本後，最多可能會看到 1 小時前的舊版本。關於 Web 上的快取機制，請參閱 [Prevent unnecessary network requests with the HTTP Cache][http-cache]。
 
-It is a good idea to be aware of this behavior to avoid an undesirable user experience.
-After you deploy your app, users might use a 
-cached version of your app (cached by the browser or CDN)
-for the duration defined by your cache headers.
-This can lead to users using a version of your app that
-is incompatible with changes that have been deployed to backend services.
+建議你了解這種行為，以避免不良的使用者體驗。部署應用程式後，使用者可能會在快取標頭所定義的期間內，繼續使用快取版本（由瀏覽器或 CDN 快取）。這可能導致使用者使用的應用程式版本與後端服務已部署的變更不相容。
 
-### How do I clear the web cache after a deployment and force an app download?
-If you wish to defeat these cache headers after each deployment, a common
-technique is to append a build ID of some sort to the links of your static
-resources, or update the filenames themselves.
-For example, `logo.png` might become `logo.v123.png`.
+### 部署後如何清除 Web 快取並強制用戶端重新下載應用程式？
+如果你希望在每次部署後強制失效這些快取標頭，一個常見做法是將某種建置 ID 加入靜態資源的連結，或直接更新檔案名稱。
+例如，`logo.png` 可能會變成 `logo.v123.png`。
 
 ```html
 <!-- Option 1, append build ID as a query parameter in your links -->
@@ -139,16 +92,11 @@ For example, `logo.png` might become `logo.v123.png`.
 <script src="flutter_bootstrap.v123.js" async></script>
 ```
 
-Flutter does not currently support appending build IDs to resources
-automatically.
+Flutter 目前尚未支援自動將 build ID 附加到資源上。
 
-### How do I configure my cache headers?
+### 如何設定快取標頭（cache headers）？
 
-If you are using Firebase Hosting,
-the shared cache (CDN) is invalidated when you deploy a new version of your
-app. But you might choose to configure your cache headers as follows,
-so that the browser cache doesn't cache application scripts,
-but the shared cache does.
+如果你正在使用 Firebase Hosting，當你部署新版本的應用程式時，共用快取（CDN）會被自動失效（invalidate）。但你也可以選擇如下方式設定你的快取標頭，讓瀏覽器快取不會快取應用程式腳本，但共用快取仍然會快取。
 
 ```json
 {
@@ -179,23 +127,18 @@ but the shared cache does.
 }
 ```
 
-### How do I configure a service worker?
+### 如何設定 service worker？
 
-The service worker generated by `flutter build web` is deprecated,
-and you can disable it by setting the `--pwa-strategy` flag to `none`
-when running the `flutter build web` command.
+由 `flutter build web` 產生的 service worker 已經被棄用，
+你可以在執行 `flutter build web` 指令時，將 `--pwa-strategy` 旗標設為 `none` 來停用它。
 
 ```console
 flutter build web --pwa-strategy=none
 ```
 
-If you would like to continue to use a service worker, you can
-[build your own][using-service-workers] or try third-party tools
-such as [Workbox][workbox].
+如果你希望繼續使用 service worker，可以[自行建置][using-service-workers]，或嘗試第三方工具，例如 [Workbox][workbox]。
 
-If your service worker is not refreshing,
-configure your CDN and browser cache by setting
-the `Cache-Control` header to a small value such as 0 or 60 seconds.
+如果你的 service worker 沒有及時更新，請透過設定 CDN 與瀏覽器快取，將 `Cache-Control` 標頭設為較小的數值，例如 0 或 60 秒。
 
 [building a web app with Flutter]: /platform-integration/web/building
 [Creating responsive apps]: /ui/adaptive-responsive

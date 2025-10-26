@@ -1,77 +1,63 @@
 ---
 title: TextInputClient currentTextEditingValue
 description: >
-  Add a new field to the TextInputClient interface to
-  get the current TextEditingValue from a client.
+  在 `TextInputClient` 介面中新增一個欄位，
+  以便從 client 取得目前的 TextEditingValue。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-Add a field, `currentTextEditingValue`, to the `TextInputClient`
-interface to get the current value of an editable text field
-from a platform client.
+在 `TextInputClient` 介面中新增一個欄位 `currentTextEditingValue`，
+讓平台 client 能夠取得可編輯文字欄位（text field）的目前值。
 
-## Context
+## 背景
 
-The `TextInputClient` class is used by the Flutter framework to
-communicate with platform code about the current state of text
-input widgets like `EditableText`.
+`TextInputClient` 類別被 Flutter 框架用來與平台端程式碼溝通，
+以取得像是 `EditableText` 這類文字輸入元件（Input Widgets）的目前狀態。
 
-The platform side can lose its state when an Android app
-moves to the background. As of this change,
-the app can ask the framework for the last known state.
-In order to obtain this information,
-the `TextEditingValue` was surfaced for the `TextInputClient`.
+當 Android 應用程式切換到背景時，平台端可能會遺失其狀態。
+自本次變更起，應用程式可以向框架查詢最後已知的狀態。
+為了取得這項資訊，`TextEditingValue` 已經對 `TextInputClient` 提供。
 
-## Description of change
+## 變更說明
 
-On some supported platforms, the application can be moved into
-the background where it is expected to consume fewer resources.
-For example, a backgrounded application on Android should avoid consuming
-unnecessary memory and has no need to retain references to views.
-Before this change, the Android-specific platform code could
-lose state information about editable text fields when
-the app moved back to the foreground.
-This is seen, for example,
-when text entered in a `TextField` widget is lost to
-the Java code, but is still remembered in the Dart code.
+在某些支援的平台上，應用程式可能會被移到背景，
+此時預期應用程式應減少資源消耗。
+例如，在 Android 上被移到背景的應用程式應避免不必要的記憶體消耗，
+且不需要保留對視圖（views）的參考。
+在這項變更之前，當應用程式回到前景時，
+Android 特定的平臺程式碼可能會遺失可編輯文字欄位的狀態資訊。
+例如，當在 `TextField` 元件（Widget）中輸入的文字在 Java 程式碼中遺失，
+但 Dart 程式碼仍然記得該內容時，就會出現這種情況。
 
-As of this change,
-the platform side now sends a `textInput` channel
-message called `TextInput.requestExistingState`.
-This notifies the Dart code that, when the app wakes up,
-it should re-establish any text input connections
-and notify the platform of its most
-recently known editing state.
+自本次變更起，平台端現在會透過 `textInput` channel
+發送名為 `TextInput.requestExistingState` 的訊息。
+這會通知 Dart 程式碼，當應用程式喚醒時，
+應重新建立所有文字輸入連線，
+並將其最近一次已知的編輯狀態通知給平台端。
 
-The `TextInput` class interacts with client widgets using
-the `TextInputClient` interface. This interface previously
-provided no insight into the current value that a client had.
-To allow the `TextInput` class to appropriately respond to
-`TextInput.requestExistingState`, a new getter was added to
-`TextInputClient` called `currentTextEditingValue`.
-You cannot safely use the last value passed to
-`TextInputConnection.setEditingState`, since the client
-only calls that method under specific circumstances,
-such as when Dart code directly modifies the value of a
-`TextEditingController` in a way that does not directly mirror
-the platform's native handling of a response to a key input event.
-This is how a `TextInputFormatter` generally works,
-or what happens when Dart code directly sets
-`TextEditingController.value`.
+`TextInput` 類別會透過 `TextInputClient` 介面與 client 元件互動。
+這個介面先前無法得知 client 目前的值。
+為了讓 `TextInput` 類別能夠正確回應 `TextInput.requestExistingState`，
+在 `TextInputClient` 中新增了一個名為 `currentTextEditingValue` 的 getter。
+你無法安全地使用最後一次傳給 `TextInputConnection.setEditingState` 的值，
+因為 client 只會在特定情境下呼叫該方法，
+例如當 Dart 程式碼直接修改 `TextEditingController` 的值，
+而這種修改方式並不會直接反映平台對鍵盤輸入事件的原生處理結果。
+這正是 `TextInputFormatter` 通常的運作方式，
+或是當 Dart 程式碼直接設定 `TextEditingController.value` 時會發生的情況。
 
-## Migration guide
+## 遷移指南
 
-If you previously implemented or extended `TextEditingClient`,
-you must now add the appropriate override for `currentTextEditingValue`.
+如果你先前有實作或繼承 `TextEditingClient`，
+你現在必須為 `currentTextEditingValue` 新增適當的覆寫（override）。
 
-This value may be null.
+這個值可能為 null。
 
-If you want to migrate _before_ this change lands,
-you can add a class to your class
-similar to the following:
+如果你希望在這項變更正式推出前就進行遷移，
+你可以在你的類別中加入類似以下的內容：
 
 ```dart
 abstract class _TemporaryTextEditingClient {
@@ -79,12 +65,11 @@ abstract class _TemporaryTextEditingClient {
 }
 ```
 
-This allows you to add the new member with an
-`@override` annotation before the change lands
-in the framework. Later, you can remove the
-temporary interface definition.
+這讓你可以在變更進入 framework 之前，使用
+`@override` 註解來新增新的成員。
+之後，你可以移除暫時的介面定義。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 class _MyCustomTextWidgetState extends State<MyCustomWidget> implements TextEditingClient {
@@ -107,7 +92,7 @@ class _MyCustomTextWidgetState extends State<MyCustomWidget> implements TextEdit
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 class _MyCustomTextWidgetState extends State<MyCustomWidget> implements TextEditingClient {
@@ -133,27 +118,27 @@ class _MyCustomTextWidgetState extends State<MyCustomWidget> implements TextEdit
 }
 ```
 
-## Timeline
+## 時間軸
 
-Landed in version: 1.16.3<br>
-In stable release: 1.17
+合併於版本：1.16.3<br>  
+進入穩定版：1.17
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`TextInput`][]
-* [`TextInputClient`][]
-* [`EditableText`][]
-* [`SystemChannels.textInput`][]
+* [`TextInput`][`TextInput`]
+* [`TextInputClient`][`TextInputClient`]
+* [`EditableText`][`EditableText`]
+* [`SystemChannels.textInput`][`SystemChannels.textInput`]
 
-Relevant issue:
+相關議題：
 
-* [Issue 47137][]
+* [Issue 47137][Issue 47137]
 
-Relevant PR:
+相關 PR：
 
-* [Fix requestExistingInputState response][]
+* [Fix requestExistingInputState response][Fix requestExistingInputState response]
 
 
 [`EditableText`]: {{site.api}}/flutter/widgets/EditableText-class.html

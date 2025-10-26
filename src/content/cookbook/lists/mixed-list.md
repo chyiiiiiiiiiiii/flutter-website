@@ -1,6 +1,6 @@
 ---
-title: Create lists with different types of items
-description: How to implement a list that contains different types of assets.
+title: 建立包含不同類型項目的清單
+description: 如何實作包含不同類型資源的清單。
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,26 +8,20 @@ js:
 
 <?code-excerpt path-base="cookbook/lists/mixed_list/"?>
 
-You might need to create lists that display different types of content.
-For example, you might be working on a list that shows a heading
-followed by a few items related to the heading, followed by another heading,
-and so on.
+有時你可能需要建立能顯示不同類型內容的清單。例如，你可能正在開發一個清單，會先顯示一個標題，接著列出幾個與該標題相關的項目，再顯示另一個標題，如此反覆。
 
-Here's how you can create such a structure with Flutter:
+以下是在 Flutter 中建立這種結構的方法：
 
-  1. Create a data source with different types of items.
-  2. Convert the data source into a list of widgets.
+  1. 建立一個包含不同類型項目的資料來源。
+  2. 將資料來源轉換為元件（Widgets）清單。
 
-## 1. Create a data source with different types of items
+## 1. 建立包含不同類型項目的資料來源
 
-### Types of items
+### 項目類型
 
-To represent different types of items in a list, define
-a class for each type of item.
+為了在清單中表示不同類型的項目，請為每一種項目類型定義一個類別。
 
-In this example, create an app that shows a header followed by five
-messages. Therefore, create three classes: `ListItem`, `HeadingItem`,
-and `MessageItem`.
+在這個範例中，會建立一個應用程式，顯示一個標題，接著是五則訊息。因此，請建立三個類別：`ListItem`、`HeadingItem` 和 `MessageItem`。
 
 <?code-excerpt "lib/main.dart (ListItem)"?>
 ```dart
@@ -70,14 +64,11 @@ class MessageItem implements ListItem {
 }
 ```
 
-### Create a list of items
+### 建立項目清單
 
-Most of the time, you would fetch data from the internet or a local
-database and convert that data into a list of items.
+大多數情況下，你會從網路或本地資料庫擷取資料，然後將這些資料轉換為一個項目清單。
 
-For this example, generate a list of items to work with. The list
-contains a header followed by five messages. Each message has one
-of 3 types: `ListItem`, `HeadingItem`, or `MessageItem`.
+在這個範例中，會先產生一個項目清單作為操作對象。這個清單包含一個標題，接著是五則訊息。每則訊息都有三種型別之一：`ListItem`、`HeadingItem` 或 `MessageItem`。
 
 <?code-excerpt "lib/main.dart (Items)" replace="/^items:/final items =/g;/^\),$/);/g"?>
 ```dart
@@ -89,14 +80,13 @@ final items = List<ListItem>.generate(
 );
 ```
 
-## 2. Convert the data source into a list of widgets
+## 2. 將資料來源轉換為元件（Widgets）清單
 
-To convert each item into a widget,
-use the [`ListView.builder()`][] constructor.
+要將每個項目轉換為元件（Widget），
+請使用 [`ListView.builder()`][`ListView.builder()`] 建構函式。
 
-In general, provide a builder function that checks for what type
-of item you're dealing with, and returns the appropriate widget
-for that type of item.
+一般來說，請提供一個 builder 函式，用來檢查目前處理的項目類型，
+並根據該項目的類型回傳對應的元件（Widget）。
 
 <?code-excerpt "lib/main.dart (builder)" replace="/^body: //g;/^\),$/)/g"?>
 ```dart
@@ -116,7 +106,7 @@ ListView.builder(
 )
 ```
 
-## Interactive example
+## 互動範例
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter create mixed lists hands-on example in DartPad" run="true"
@@ -207,7 +197,7 @@ class MessageItem implements ListItem {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/mixed-list.png" alt="Mixed list demo" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/mixed-list.png" alt="混合清單示範" class="site-mobile-screenshot" />
 </noscript>
 
 

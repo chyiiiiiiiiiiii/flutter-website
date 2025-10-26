@@ -1,49 +1,34 @@
 ---
-title: Handling user input
-description: Learn how to handle user input in Flutter.
+title: 處理使用者輸入
+description: 學習如何在 Flutter 中處理使用者輸入。
 prev:
-  title: State management
+  title: 狀態管理
   path: /get-started/fundamentals/state-management
 next:
-  title: Networking and data
+  title: 網路與資料
   path: /get-started/fundamentals/networking
 ---
 
-Now that you know how to manage state in your
-Flutter app, how can you let users interact
-with your app and change its state?
+現在你已經知道如何在 Flutter 應用程式中管理狀態，那麼要如何讓使用者與你的應用互動並改變其狀態呢？
 
-## Introduction to handling user input
+## 處理使用者輸入簡介
 
-As a multi-platform UI framework,
-there are many different ways for users
-to interact with a Flutter app.
-The resources in this section introduce
-you to some of the common widgets used
-for enabling user interaction within your app.
+作為一個多平台的 UI 框架，使用者有許多不同的方式可以與 Flutter 應用程式互動。本節的資源將介紹一些常見的元件（Widgets），這些元件可用於在你的應用中啟用使用者互動。
 
-Some user input mechanisms, like [scrolling][],
-have already been covered in [Layouts][].
+某些使用者輸入機制，例如[滾動][scrolling]，已在[版面配置][Layouts]中介紹過。
 
-:::secondary About design system support
-Flutter ships with prebuilt components for two design systems as part of the SDK,
-[Material][] and [Cupertino][].
-For educational purposes, this page focuses on Material widgets, components that
-are stylized according to the [Material 3 design language][] specifications.
+:::secondary 關於設計系統支援
+Flutter 隨 SDK 提供了兩種設計系統的預建元件，分別是 [Material][Material] 和 [Cupertino][Cupertino]。
+為了教學目的，本頁著重於 Material 元件（Widgets），這些元件依據 [Material 3 設計語言][Material 3 design language]規範進行樣式設計。
 
-The Flutter community on [pub.dev][], the package repository for Dart and Flutter,
-create and support additional design languages such as [Fluent UI][], [macOS UI][],
-and more. If the existing design system components don't quite fit what you need,
-Flutter lets you build your own custom widgets,
-which is covered at the end of this section.
-No matter which design system you choose, the principals on this page apply.
+Flutter 社群在 [pub.dev][pub.dev]（Dart 與 Flutter 的套件倉庫）上，創建並支援了其他設計語言，例如 [Fluent UI][Fluent UI]、[macOS UI][macOS UI]等。如果現有的設計系統元件無法完全滿足你的需求，Flutter 也允許你自行建立自訂元件，本節最後會介紹相關內容。
+無論你選擇哪種設計系統，本頁所述的原則皆適用。
 :::
 
-> <span class="material-symbols" aria-hidden="true" translate="no">menu_book</span> **Reference**: 
-> The [widget catalog][] has an inventory of commonly used widgets in the [Material][] and [Cupertino][] libraries.
+> <span class="material-symbols" aria-hidden="true" translate="no">menu_book</span> **參考資料**：  
+> [元件目錄][widget catalog]列出了 [Material][Material] 與 [Cupertino][Cupertino] 函式庫中常用的元件（Widgets）。
 
-Next, we'll cover a few of the Material widgets that support common
-use cases for handling user input in your Flutter app.
+接下來，我們將介紹幾個 Material 元件（Widgets），這些元件支援在 Flutter 應用程式中處理常見的使用者輸入情境。
 
 [scrolling]: /get-started/fundamentals/layout#scrolling-widgets
 [pub.dev]: {{site.pub}}
@@ -55,65 +40,48 @@ use cases for handling user input in your Flutter app.
 [Fluent UI]: {{site.pub}}/packages/fluent_ui
 [macOS UI]: {{site.pub}}/packages/macos_ui
 
-## Buttons
+## 按鈕
 
-![A collection of Material 3 Buttons.](/assets/images/docs/fwe/user-input/material-buttons.png)
+![一組 Material 3 按鈕。](/assets/images/docs/fwe/user-input/material-buttons.png)
 
-Buttons allow a user to initiate an action in the UI by clicking or tapping.
-The Material library provides a variety of button types that are functionally similar,
-but styled differently for various use cases, including:
+按鈕讓使用者可以透過點擊或輕觸，在 UI 中觸發動作。Material 函式庫提供了多種按鈕類型，這些按鈕在功能上相似，但針對不同用途有不同的樣式，包括：
 
-- `ElevatedButton`: A button with some depth. Use elevated buttons to add
-  dimension to otherwise mostly flat layouts.
-- `FilledButton`: A filled button that should be used for
-  important, final actions that complete a flow,
-  like **Save**, **Join now**, or **Confirm**.
-- `Tonal Button`: A middle ground button between
-  `FilledButton` and `OutlinedButton`.
-  They're useful in contexts where a lower-priority button requires more
-  emphasis than an outline, like **Next**.
-- `OutlinedButton`: A button with text and a visible border.
-  These buttons contain actions that are important,
-  but aren't the primary action in an app.
-- `TextButton`: Clickable text, without a border.
-  Since text buttons don't have visible borders,
-  they must rely on their position
-  relative to other content for context.
-- `IconButton`: A button with an icon.
-- `FloatingActionButton`: An icon button that hovers over
-  content to promote a primary action.
+- `ElevatedButton`：具有立體感的按鈕。可用於為原本較為平面的版面配置增添層次感。
+- `FilledButton`：實心填色的按鈕，適合用於重要且最終的動作，例如 **儲存**、**立即加入** 或 **確認**。
+- `Tonal Button`：介於 `FilledButton` 與 `OutlinedButton` 之間的按鈕。
+  適用於需要比外框按鈕更強調、但又不是最高優先順序的情境，例如 **下一步**。
+- `OutlinedButton`：帶有文字與明顯邊框的按鈕。
+  這類按鈕通常用於重要但非主要動作。
+- `TextButton`：可點擊的文字，沒有邊框。
+  由於文字按鈕沒有明顯的邊框，必須依賴其在內容中的位置來提供語境。
+- `IconButton`：帶有圖示的按鈕。
+- `FloatingActionButton`：懸浮於內容之上的圖示按鈕，用於強調主要動作。
 
-> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **Video**: 
-> [FloatingActionButton (Widget of the Week)][]
+> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **影片**：  
+> [FloatingActionButton（本週元件）][FloatingActionButton (Widget of the Week)]
 
-There are usually 3 main aspects to constructing a button:
-style, callback, and its child,
-as seen in the following `ElevatedButton` sample code:
+通常在建構一個按鈕時會有三個主要面向：樣式、回呼（callback）以及其子元件（child），如下方 `ElevatedButton` 範例程式碼所示：
 
 
 {% comment %}
 TODO(khanhnwin):
-WidgetStateProperty and styling in the design section of
-FWE. Of course, a button's appearance can be dependent on its state.
-You can style a button based on its state using `WidgetStateProperty`.
+WidgetStateProperty 與設計區段的樣式化（theming）。
+當然，按鈕的外觀可以根據其狀態而改變。
+你可以使用 `WidgetStateProperty` 根據按鈕狀態進行樣式設計。
 {% endcomment %}
 
-- A button's callback function, `onPressed`,
-  determines what happens when the button is clicked,
-  therefore, this function is where you update your app state.
-  If the callback is  `null`, the button is disabled and
-  nothing happens when a user presses the button.
+- 按鈕的回呼函式 `onPressed`，決定當按鈕被點擊時會發生什麼事，因此這個函式通常是你更新應用程式狀態的地方。
+  如果回呼設為 `null`，則按鈕會被停用，使用者按下時不會有任何反應。
 
-- The button's `child`, which is displayed within the button's content area,
-  is usually text or an icon that indicates the button's purpose.
+- 按鈕的 `child`，即顯示於按鈕內容區域的元件，通常是文字或圖示，用來說明按鈕的用途。
 
-- Finally, a button's `style` controls its appearance: color, border, and so on.
+- 最後，按鈕的 `style` 控制其外觀，例如顏色、邊框等。
 
 
 {% render docs/code-and-image.md,
 image:"fwe/user-input/ElevatedButton.webp",
-caption: "This figure shows an ElevatedButton with the text \"Enabled\" being clicked."
-alt: "A GIF of an elevated button with the text \"Enabled\""
+caption: "此圖顯示一個帶有 \"Enabled\" 文字的 ElevatedButton 被點擊。",
+alt: "一個帶有 \"Enabled\" 文字的 ElevatedButton 動態圖示"
 code:"
 ```dart
 int count = 0;
@@ -138,13 +106,13 @@ Widget build(BuildContext context) {
 
 <br>
 
-> <span class="material-symbols" aria-hidden="true" translate="no">star</span> **Checkpoint**: 
-> Complete this tutorial that teaches you how to build a
-> "favorite" button: [Add interactivity to your Flutter app][]
+> <span class="material-symbols" aria-hidden="true" translate="no">star</span> **檢查點**：
+> 完成這個教學，學習如何建立一個
+> 「收藏」按鈕：[為你的 Flutter 應用程式新增互動功能][Add interactivity to your Flutter app]
 
 <br>
 
-<span class="material-symbols" aria-hidden="true" translate="no">menu_book</span> **API Docs**: [`ElevatedButton`][] • [`FilledButton`][] • [`OutlinedButton`][] • [`TextButton`][] • [`IconButton`][] • [`FloatingActionButton`][]
+<span class="material-symbols" aria-hidden="true" translate="no">menu_book</span> **API 文件**：[`ElevatedButton`][`ElevatedButton`] • [`FilledButton`][`FilledButton`] • [`OutlinedButton`][`OutlinedButton`] • [`TextButton`][`TextButton`] • [`IconButton`][`IconButton`] • [`FloatingActionButton`][`FloatingActionButton`]
 
 [`ElevatedButton`]: {{site.api}}/flutter/material/ElevatedButton-class.html
 [`FilledButton`]: {{site.api}}/flutter/material/FilledButton-class.html
@@ -155,20 +123,20 @@ Widget build(BuildContext context) {
 [`TextButton`]: {{site.api}}/flutter/material/TextButton-class.html
 [Add interactivity to your Flutter app]: /ui/interactivity
 
-## Text
+## 文字
 
-Several widgets support text input.
+有多種元件（Widgets）支援文字輸入。
 
 ### `SelectableText`
 
-Flutter's `Text` widget displays text on the screen,
-but doesn't allow users to highlight or copy the text.
-`SelectableText` displays a string of _user-selectable_ text.
+Flutter 的 `Text` 元件會在螢幕上顯示文字，
+但不允許使用者反白或複製文字。
+`SelectableText` 則會顯示一串_可由使用者選取_的文字。
 
 {% render docs/code-and-image.md,
 image:"fwe/user-input/SelectableText.webp",
-caption: "This figure shows a cursor highlighting a portion of a string of text."
-alt: 'A GIF of a cursor highlighting two lines of text from a paragraph.'
+caption: "此圖顯示游標正在反白一段文字字串。"
+alt: '一個游標反白段落中兩行文字的 GIF 動畫。'
 code:"
 ```dart
 @override
@@ -183,22 +151,21 @@ From forth the fatal loins of these two foes''');
 ```
 " %}
 
-> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **Video**: 
-> [SelectableText (Widget of the Week)][]
+> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **影片**： 
+> [SelectableText（本週元件 Widget of the Week）][SelectableText (Widget of the Week)]
 
 [SelectableText (Widget of the Week)]: {{site.youtube-site}}/watch?v=ZSU3ZXOs6hc
 
 ### `RichText`
 
-`RichText` lets you display strings of rich text in your app.
-`TextSpan`, similar to `RichText`, allows you to display parts of text with
-different text styles. It's not for handling user input,
-but is useful if you're allowing users edit and format text.
+`RichText` 可讓你在應用程式中顯示一串豐富格式的文字（rich text）。
+`TextSpan` 類似於 `RichText`，可以讓你顯示具有不同文字樣式的部分文字。
+它並不是用來處理使用者輸入，但如果你允許使用者編輯和格式化文字時會很有用。
 
 {% render docs/code-and-image.md,
 image:"fwe/user-input/RichText.png",
-caption: "This figure shows a string of text formatted with different text styles."
-alt: 'A screenshot of the text "Hello bold world!" with the word "bold" in bold font.'
+caption: "此圖顯示一串使用不同文字樣式格式化的文字。",
+alt: '螢幕截圖顯示文字 "Hello bold world!"，其中 "bold" 以粗體顯示。',
 code:"
 ```dart
 @override
@@ -217,44 +184,35 @@ Widget build(BuildContext context) {
 ```
 " %}
 
-> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **Video**: 
-> [Rich Text (Widget of the Week)][]
+> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **影片**： 
+> [Rich Text (Widget of the Week)][Rich Text (Widget of the Week)]
 
-> <span class="material-symbols" aria-hidden="true" translate="no">code</span> **Code**: 
-> [Rich Text Editor code][]
+> <span class="material-symbols" aria-hidden="true" translate="no">code</span> **程式碼**： 
+> [Rich Text Editor code][Rich Text Editor code]
 
 [Rich Text (Widget of the Week)]: {{site.youtube-site}}/watch?v=rykDVh-QFfw
 [Rich Text Editor code]: {{site.github}}/flutter/samples/tree/main/simplistic_editor
 
 ### `TextField`
 
-A `TextField` lets users enter text in text box using a hardware or
-onscreen keyboard.
+`TextField` 讓使用者可以透過實體鍵盤或螢幕鍵盤，在文字方塊中輸入文字。
 
-`TextField`s have many different properties and configurations.
-A few of the highlights:
+`TextField` 擁有許多不同的屬性與設定方式，以下是幾個重點：
 
-- `InputDecoration` determines the text field's appearance,
-  such as color and border.
-- `controller`: A `TextEditingController` controls the text being edited.
-  Why might you need a controller?
-  By default, your app's users can type
-  into the text field, but if you want to programmatically control the `TextField`
-  and clear its value, for example, you'll need a `TextEditingController`.
-- `onChanged`: This callback function triggers when the user changes
-  the text field's value, such as when inserting or removing text.
-- `onSubmitted`: This callback is triggered when the user indicates that
-  they are done editing the text in the field;
-  for example, by tapping the "enter" key when the text field is in focus.
+- `InputDecoration` 決定文字欄位（text field）的外觀，例如顏色與邊框。
+- `controller`：`TextEditingController` 用來控制正在編輯的文字。為什麼你可能需要一個 controller 呢？
+  預設情況下，應用程式的使用者可以在文字欄位中輸入內容，但如果你希望以程式方式控制 `TextField` 並清除其值，例如，你就需要一個 `TextEditingController`。
+- `onChanged`：當使用者更改文字欄位的值（例如插入或刪除文字）時，這個 callback 函式會被觸發。
+- `onSubmitted`：當使用者表示已完成該欄位的文字編輯時，這個 callback 會被觸發；例如，當文字欄位取得焦點時，點擊「enter」鍵。
 
-The class supports other configurable properties, such as
-`obscureText` that turns each letter into a `readOnly` circle as its entered and
-`readOnly` which prevents the user from changing the text.
+這個類別還支援其他可設定的屬性，例如
+`obscureText`，可在輸入時將每個字母顯示為 `readOnly` 圓點，
+以及 `readOnly`，可防止使用者更改文字內容。
 
 {% render docs/code-and-image.md,
 image:"fwe/user-input/TextField.webp",
-caption: "This figure shows text being typed into a TextField with a selected border and label."
-alt: "A GIF of a text field with the label \"Mascot Name\", purple focus border and the phrase \"Dash the hummingbird\" being typed in."
+caption: "此圖顯示正在於具有選中邊框與標籤的 TextField 中輸入文字。",
+alt: "一個帶有標籤「Mascot Name」、紫色焦點邊框，並輸入「Dash the hummingbird」的文字欄位 GIF 動畫。",
 code:"
 ```dart
 final TextEditingController _controller = TextEditingController();
@@ -272,14 +230,13 @@ Widget build(BuildContext context) {
 ```
 " %}
 
-> <span class="material-symbols" aria-hidden="true" translate="no">star</span> **Checkpoint**: 
-> Complete this 4-part cookbook series that walks
-> you through how to create a text field,
-> retrieve its value, and update your app state:
-> 1. [Create and style a text field][]
-> 1. [Retrieve the value of a text field][]
-> 1. [Handle changes to a text field][]
-> 1. [Focus and text fields][].
+> <span class="material-symbols" aria-hidden="true" translate="no">star</span> **檢查點**：  
+> 完成這個四部曲的 cookbook 系列，帶你一步步學會如何建立文字欄位 (text field)、  
+> 取得其值，並更新你的應用程式狀態：  
+> 1. [建立並設計文字欄位][Create and style a text field]  
+> 1. [取得文字欄位的值][Retrieve the value of a text field]  
+> 1. [處理文字欄位的變更][Handle changes to a text field]  
+> 1. [焦點與文字欄位][Focus and text fields]。
 
 [Create and style a text field]: /cookbook/forms/text-input
 [Retrieve the value of a text field]: /cookbook/forms/retrieve-input
@@ -288,20 +245,20 @@ Widget build(BuildContext context) {
 
 ### Form
 
-`Form` is an optional container for grouping together multiple
-form field widgets, such as `TextField`.
+`Form` 是一個可選的容器，用於將多個  
+表單欄位元件（如 `TextField`）分組在一起。
 
-Each individual form field should be wrapped in a `FormField`
-widget with the `Form` widget as a common ancestor.
-Convenience widgets exist that pre-wrap form field widgets in a
-`FormField` for you.
-For example, the `Form` widget version of `TextField` is `TextFormField`.
+每個獨立的表單欄位都應包裹在 `FormField`  
+元件中，並以 `Form` 元件作為共同的祖先。  
+有些便利元件已經預先將表單欄位元件包裹在  
+`FormField` 中。  
+例如，`TextField` 的 `Form` 元件版本就是 `TextFormField`。
 
-Using a `Form` provides access to a `FormState`,
-which lets you save, reset, and validate each `FormField`
-that descends from this `Form`.
-You can also provide a `GlobalKey` to identify a specific form,
-as shown in the following code:
+使用 `Form` 可以取得 `FormState`，  
+讓你能夠儲存、重設及驗證每個從此 `Form`  
+繼承下來的 `FormField`。  
+你也可以提供 `GlobalKey` 來識別特定的表單，  
+如下方程式碼所示：
 
 ```dart
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -342,18 +299,18 @@ Widget build(BuildContext context) {
 }
 ```
 
-> <span class="material-symbols" aria-hidden="true" translate="no">star</span> **Checkpoint**:
-> Complete this tutorial to learn how to [build a form with validation][].
+> <span class="material-symbols" aria-hidden="true" translate="no">star</span> **檢查點**：
+> 完成本教學以學習如何[建立具有驗證功能的表單][build a form with validation]。
 
-> <span class="material-symbols" aria-hidden="true" translate="no">flutter</span> **Demo**: 
-> [Form app][]
+> <span class="material-symbols" aria-hidden="true" translate="no">flutter</span> **展示**： 
+> [表單應用程式][Form app]
 
-> <span class="material-symbols" aria-hidden="true" translate="no">code</span> **Code**: 
-> [Form app code][]
+> <span class="material-symbols" aria-hidden="true" translate="no">code</span> **程式碼**： 
+> [表單應用程式程式碼][Form app code]
 
 <br>
 
-<span class="material-symbols" aria-hidden="true" translate="no">menu_book</span> **API Docs**: [`TextField`][] • [`RichText`][] • [`SelectableText`][] • [`Form`][]
+<span class="material-symbols" aria-hidden="true" translate="no">menu_book</span> **API 文件**： [`TextField`][`TextField`] • [`RichText`][`RichText`] • [`SelectableText`][`SelectableText`] • [`Form`][`Form`]
 
 [Build a form with validation]: /cookbook/forms/validation
 [Form app]: https://github.com/flutter/samples/tree/main/form_app/
@@ -363,45 +320,43 @@ Widget build(BuildContext context) {
 [`RichText`]: {{site.api}}/flutter/widgets/RichText-class.html
 [`SelectableText`]: {{site.api}}/flutter/material/SelectableText-class.html
 
-## Select a value from a group of options
+## 從一組選項中選擇值
 
-Provide a way to users to select from several options.
+提供使用者從多個選項中選擇的方法。
 
 ### SegmentedButton
 
-`SegmentedButton` allows users to select from a
-minimal group of 2-5 items.
+`SegmentedButton` 讓使用者可以從 2-5 個精簡的項目中選擇。
 
-The data type, `<T>`, can be a built-in type such as
-`int`, `String`, `bool` or an enum.
-A `SegmentedButton` has a few relevant properties:
+資料型別 `<T>` 可以是內建型別，例如
+`int`、`String`、`bool`，或是 enum（列舉）。
+`SegmentedButton` 有幾個相關屬性：
 
-- `segments`, a list of `ButtonSegment`s, where each represents a "segment"
-   or option that the user can select.
-   Visually, each `ButtonSegment` can have an icon, text label, or both.
+- `segments`，一個 `ButtonSegment` 的清單，每個代表一個「區段」
+   或使用者可選擇的選項。
+   在視覺上，每個 `ButtonSegment` 可以有圖示、文字標籤，或兩者皆有。
 
-- `multiSelectionEnabled` indicates whether the user is allowed
-   to select multiple options. This property defaults to false.
+- `multiSelectionEnabled` 指示是否允許使用者
+   選擇多個選項。此屬性預設為 false。
 
-- `selected` identifies the currently selected value(s).
-   **Note:** `selected` is of type of `Set<T>`, so if you're only
-   allowing users to select one value, that value must be
-  provided as a`Set` with a single element.
+- `selected` 用來識別目前所選的值。
+   **注意：** `selected` 的型別為 `Set<T>`，因此如果只允許
+   使用者選擇一個值，該值必須以
+  僅有一個元素的`Set`提供。
 
-- The `onSelectionChanged` callback triggers when a user selects any segments.
-  It provides a list of the selected segments so you can update your app state.
+- 當使用者選擇任何區段時，`onSelectionChanged` 回呼會被觸發。
+  它會提供已選擇區段的清單，讓你可以更新應用程式狀態。
 
-- Additional styling parameters allow you to modify the button's appearance.
-  For example, `style` takes a `ButtonStyle`,
-  providing a way to configure a `selectedIcon`.
+- 其他樣式參數可讓你調整按鈕的外觀。
+  例如，`style` 接受 `ButtonStyle`，
+  提供設定 `selectedIcon` 的方式。
 
 {% render docs/code-and-image.md,
 image:"fwe/user-input/segmented-button.webp",
-caption: "This figure shows a SegmentedButton, each segment with an icon and
-text representing its value."
-alt: "A GIF of a SegmentedButton with 4 segments: Day, Week, Month, and Year.
-Each has a calendar icon to represent its value and a text label.
-Day is first selected, then week and month, then year."
+caption: "此圖顯示了一個 SegmentedButton，每個區段都有圖示與文字，代表其值。"
+alt: "一個 SegmentedButton 的 GIF，包含 4 個區段：Day、Week、Month 和 Year。
+每個區段都有一個日曆圖示和文字標籤。
+先選擇 Day，接著選擇 week 和 month，最後選擇 year。"
 code:"
 
 ```dart
@@ -450,35 +405,24 @@ Widget build(BuildContext context) {
 
 ### Chip
 
-`Chip` is a compact way of representing an
-attribute, text, entity, or action for a specific context.
-Specialized `Chip` widgets exist for specific use cases:
+`Chip` 是一種精簡的方式，用於在特定情境下表示屬性、文字、實體或動作。
+針對不同的使用情境，還有專門的 `Chip` 元件（Widgets）：
 
-- [InputChip][] represents a complex piece of information,
-  such as an entity (person, place, or thing), or
-  conversational text, in a compact form.
-- [ChoiceChip][] allows a single selection from a set of options.
-  Choice chips contain related descriptive text or categories.
-- [FilterChip][] uses tags or descriptive words to filter content.
-- [ActionChip][] represents an action related to primary content.
+- [InputChip][InputChip] 以精簡的形式，代表一個複雜的資訊片段，例如實體（人物、地點或事物），或對話文字。
+- [ChoiceChip][ChoiceChip] 允許從一組選項中選擇一個。Choice chips 內含相關的描述文字或分類。
+- [FilterChip][FilterChip] 使用標籤或描述性文字來篩選內容。
+- [ActionChip][ActionChip] 代表與主要內容相關的動作。
 
-Every `Chip` widget requires a `label`.
-It can optionally have an `avatar` (such as an icon or a user's profile picture)
-and an `onDeleted` callback, which shows a delete icon that
-when triggered, deletes the chip.
-A `Chip` widget's appearance can also be customized by setting a
-number of optional parameters such as `shape`, `color`, and `iconTheme`.
+每個 `Chip` 元件都需要一個 `label`。
+它也可以選擇性地包含 `avatar`（例如圖示或使用者的大頭貼圖片）以及 `onDeleted` 回呼函式，這會顯示一個刪除圖示，當觸發時會刪除該 chip。
+`Chip` 元件的外觀也可以透過設定多個選用參數（如 `shape`、`color` 和 `iconTheme`）來自訂。
 
-You will typically use `Wrap`, a widget that displays its children in
-multiple horizontal or vertical runs, to make sure your chips wrap and
-don't get cut off at the edge of your app.
+你通常會使用 `Wrap`，這是一個能將其子元件（children）分布在多個水平或垂直行的元件，以確保你的 chips 能自動換行，不會在應用程式邊緣被截斷。
 
 {% render docs/code-and-image.md,
 image:"fwe/user-input/chip.png",
-caption: "This figure shows two rows of Chip widgets, each containing a circular
-leading profile image and content text."
-alt: "A screenshot of 4 Chips split over two rows with a leading circular
-profile image with content text."
+caption: "此圖顯示了兩排 Chip 元件（Widgets），每個都包含一個圓形的前置大頭貼圖片和內容文字。",
+alt: "螢幕截圖顯示 4 個 Chip，分成兩排，每個都有一個圓形前置大頭貼圖片和內容文字。",
 code:"
 ```dart
 @override
@@ -526,30 +470,25 @@ Widget build(BuildContext context) {
 
 ### `DropdownMenu`
 
-A `DropdownMenu` allows users to select a choice from a menu
-of options and places the selected text into a `TextField`.
-It also allows users to filter the menu items based on the text input.
+`DropdownMenu` 讓使用者可以從選單中選擇一個選項，並將所選的文字放入 `TextField` 中。
+它同時允許使用者根據文字輸入來篩選選單項目。
 
-Configuration parameters include the following:
+可設定的參數包括以下內容：
 
-- `dropdownMenuEntries` provides a list of `DropdownMenuEntry`s that
-  describes each menu item.
-  The menu might contain information such as a text label, and
-  a leading or trailing icon.
-  (This is also the only required parameter.)
-- `TextEditingController` allows programmatically controlling the `TextField`.
-- The `onSelected` callback triggers when the user selects an option.
-- `initialSelection` allows you to configure the default value.
-- Additional parameters are also available for
-  customizing the widget's look and behavior.
+- `dropdownMenuEntries` 提供一個 `DropdownMenuEntry` 清單，
+  用於描述每個選單項目。
+  選單可能包含如文字標籤，以及前置或後置圖示等資訊。
+  （這也是唯一必填的參數。）
+- `TextEditingController` 允許以程式方式控制 `TextField`。
+- 當使用者選擇某個選項時，`onSelected` 回呼函式會被觸發。
+- `initialSelection` 允許你設定預設值。
+- 另外還有其他參數可用於
+  自訂元件（Widget）的外觀與行為。
 
 {% render docs/code-and-image.md,
 image:"fwe/user-input/dropdownmenu.webp",
-caption: "This figure shows a DropdownMenu widget with 5 value options. Each
-option's text color is styled to represent the color value."
-alt: "A GIF the DropdownMenu widget that is selected, it displays 5 options:
-Blue, Pink, Green, Orange, and Grey. The option text is displayed in the color
-of its value."
+caption: "此圖顯示一個 DropdownMenu 元件（Widget），包含 5 個可選值。每個選項的文字顏色都以其對應的顏色值來呈現。",
+alt: "一個已被選取的 DropdownMenu 元件（Widget）的 GIF，顯示 5 個選項：Blue、Pink、Green、Orange 和 Grey。每個選項的文字以其對應的顏色顯示。",
 code:"
 ```dart
 enum ColorLabel {
@@ -598,32 +537,28 @@ Widget build(BuildContext context) {
 ```
 " %}
 
-> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **Video**: 
-> [DropdownMenu (Widget of the Week)][]
+> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **影片**： 
+> [DropdownMenu（本週元件 Widget of the Week）][DropdownMenu (Widget of the Week)]
 
 [DropdownMenu (Widget of the Week)]: {{site.youtube-site}}/watch?v=giV9AbM2gd8?si=E23hjg72cjMTe_mz
 
 ### Slider
 
-The `Slider` widget lets a user adjust a value by moving an indicator,
-such as a volume bar.
+`Slider` 元件讓使用者可以透過移動指示器來調整數值，
+例如音量條。
 
-Configuration parameters for the `Slider` widget:
+`Slider` 元件的設定參數：
 
-- `value` represents the slider's current value
-- `onChanged` is the callback that gets triggered when the handle is moved
-- `min` and `max` establish minimum and maximum values allowed by the slider
-- `divisions` establishes a discrete interval with which the user can move the
-  handle along the track.
-
+- `value` 代表目前的滑桿數值
+- `onChanged` 是當滑桿被移動時會觸發的回呼函式
+- `min` 和 `max` 設定滑桿允許的最小與最大值
+- `divisions` 設定使用者可沿著軌道移動滑桿把手的離散間隔
 
 {% render docs/code-and-image.md,
 image:"fwe/user-input/slider.webp",
-caption: "This figure shows a slider widget with a value ranging from 0.0 to 5.0
-broken up into 5 divisions. It shows the current value as a label as the dial 
-is dragged."
-alt: "A GIF of a slider that has the dial dragged left to right in increments 
-of 1, from 0.0 to 5.0"
+caption: "此圖顯示一個滑桿元件，其數值範圍從 0.0 到 5.0，
+並分為 5 個區間。當拖曳滑桿時，會以標籤顯示目前的數值。",
+alt: "一個滑桿的 GIF，滑桿把手以 1 為單位從 0.0 向右拖曳到 5.0",
 code:"
 ```dart
 double _currentVolume = 1;
@@ -645,12 +580,12 @@ Widget build(BuildContext context) {
 ```
 " %}
 
-> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **Video**: 
-> [Slider, RangeSlider, CupertinoSlider (Widget of the Week)][]
+> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **影片**：  
+> [Slider, RangeSlider, CupertinoSlider（本週元件 Widget of the Week）][Slider, RangeSlider, CupertinoSlider (Widget of the Week)]
 
 <br>
 
-<span class="material-symbols" aria-hidden="true" translate="no">menu_book</span> **API Docs:** [`SegmentedButton`][] • [`DropdownMenu`][] • [`Slider`][] • [`Chip`][]
+<span class="material-symbols" aria-hidden="true" translate="no">menu_book</span> **API 文件：** [`SegmentedButton`][`SegmentedButton`] • [`DropdownMenu`][`DropdownMenu`] • [`Slider`][`Slider`] • [`Chip`][`Chip`]
 
 [Slider, RangeSlider, CupertinoSlider (Widget of the Week)]: {{site.youtube-site}}/watch?v=ufb4gIPDmEss
 [`SegmentedButton`]: {{site.api}}/flutter/material/SegmentedButton-class.html
@@ -658,37 +593,36 @@ Widget build(BuildContext context) {
 [`Slider`]: {{site.api}}/flutter/material/Slider-class.html
 [`Chip`]: {{site.api}}/flutter/material/Chip-class.html
 
-## Toggle between values
+## 在多個值之間切換
 
-There are several ways that your UI can allow toggling between values.
+你的 UI 可以透過多種方式實現值的切換。
 
-### Checkbox, Switch, and Radio
+### Checkbox、Switch 與 Radio
 
-Provide an option to toggle a single value on and off.
-The functional logic behind these widgets are the same,
-as all 3 are built on top of `ToggleableStateMixin`, though
-each provides slight presentation differences.:
+提供一個選項，讓單一值可以開啟或關閉。  
+這三種元件（Widgets）在功能邏輯上是一致的，  
+因為它們都建立於 `ToggleableStateMixin` 之上，但  
+每一種在呈現方式上略有不同：
 
-- `Checkbox` is a container that is empty when false or
-  filled with a checkmark when true.
-- `Switch` has a handle that is on the left when false and
-  slides to the right when true.
-- `Radio` is similar to a `Checkbox` in that it's a container that is
-  empty when false, but filled in when true.
+- `Checkbox` 是一個容器，當為 false 時為空，  
+  當為 true 時則會顯示勾選符號。
+- `Switch` 有一個把手，當為 false 時在左側，  
+  當為 true 時會滑到右側。
+- `Radio` 類似於 `Checkbox`，都是一個容器，  
+  當為 false 時為空，當為 true 時則會被填滿。
 
-The configuration for `Checkbox` and `Switch` contain:
+`Checkbox` 與 `Switch` 的設定包含：
 
-- a `value` that is `true` or `false`
-- and an `onChanged` callback which is triggered when
-  the user toggles the widget
+- 一個 `value`，其值為 `true` 或 `false`
+- 以及一個 `onChanged` 回呼（callback），當  
+  使用者切換元件時會觸發
 
 ### Checkbox
 
 {% render docs/code-and-image.md,
 image:"fwe/user-input/checkbox.webp",
-caption: "This figure shows a checkbox being checked and unchecked."
-alt: "A GIF that shows a pointer clicking a checkbox 
-and then clicking again to uncheck it."
+caption: "此圖顯示一個核取方塊（checkbox）被勾選與取消勾選的過程。",
+alt: "一個 GIF 動畫，顯示指標點擊核取方塊，然後再次點擊以取消勾選。",
 code:"
 ```dart
 bool isChecked = false;
@@ -712,10 +646,8 @@ Widget build(BuildContext context) {
 
 {% render docs/code-and-image.md,
 image:"fwe/user-input/Switch.webp",
-caption: "This figure shows a Switch widget that is toggled on and off."
-alt: "A GIF of a Switch widget that is toggled on and off. In its off state,
-it is gray with dark gray borders. In its on state, 
-it is red with a light red border."
+caption: "此圖顯示一個 Switch 元件（Switch widget），可切換開啟與關閉狀態。",
+alt: "一個 Switch 元件的 GIF，展示其開啟與關閉的切換效果。在關閉狀態時，呈現灰色並帶有深灰色邊框；在開啟狀態時，則為紅色並帶有淺紅色邊框。",
 code:"
 ```dart
 bool light = true;
@@ -739,23 +671,16 @@ Widget build(BuildContext context) {
 
 ### Radio
 
-A group of `Radio` buttons that allows the user to
-select between mutually exclusive values.
-When the user selects a radio button in a group,
-the other radio buttons are unselected.
+一組`Radio`按鈕，讓使用者在互斥的值之間進行選擇。當使用者在同一組中選取某個 radio 按鈕時，其他 radio 按鈕會自動取消選取。
 
-- A particular `Radio` button's `value` represent that button's value,
-- The selected value for a group of radio buttons is identified by
-  the `groupValue` parameter.
-- `Radio` also has an `onChanged` callback that
-  gets triggered when users click it, like `Switch` and `Checkbox`
+- 某個特定`Radio`按鈕的`value`代表該按鈕的值，
+- 一組 radio 按鈕中被選取的值，會由`groupValue`參數來識別。
+- `Radio`也有`onChanged`回呼函式（callback），當使用者點擊時會觸發，這點與`Switch`和`Checkbox`類似
 
 {% render docs/code-and-image.md,
 image:"fwe/user-input/Radio.webp",
-caption: "This figure shows a column of ListTiles containing a radio button and
-label, where only one radio button can be selected at a time."
-alt: "A GIF of 4 ListTiles in a column, each containing a leading Radio button
-and title text. The Radio buttons are selected in order from top to bottom."
+caption: "此圖顯示一個由多個 ListTile 組成的直欄，每個 ListTile 內含一個 radio 按鈕和標籤，且同一時間僅能選取一個 radio 按鈕。",
+alt: "一個 GIF，顯示四個 ListTile 以直欄排列，每個都包含一個前置的 Radio 按鈕和標題文字。Radio 按鈕會依序從上到下被選取。",
 code:"
 ```dart
 enum Character { musician, chef, firefighter, artist }
@@ -819,18 +744,15 @@ class _RadioExampleState extends State<RadioExample> {
 ```
 " %}
 
-#### Bonus: CheckboxListTile & SwitchListTile
+#### 加碼：CheckboxListTile 與 SwitchListTile
 
-These convenience widgets are the same checkbox and switch widgets,
-but support a label (as a `ListTile`).
+這些便利元件（Widgets）與一般的 checkbox 和 switch 元件相同，
+但額外支援標籤（作為`ListTile`）。
 
 {% render docs/code-and-image.md,
 image:"fwe/user-input/SpecialListTiles.webp",
-caption: "This figure shows a column containing a CheckboxListTile and
-a SwitchListTile being toggled."
-alt: "A ListTile with a leading icon, title text, and a trailing checkbox being
-checked and unchecked. It also shows a ListTile with a leading icon, title text
-and a switch being toggled on and off."
+caption: "此圖顯示一個包含 CheckboxListTile 與 SwitchListTile 的 column，正在切換狀態。",
+alt: "一個 ListTile，左側有圖示，中間有標題文字，右側有核取方塊（checkbox）可勾選與取消勾選。下方還有一個 ListTile，左側有圖示，中間有標題文字，右側有開關（switch）可切換開啟與關閉。",
 code:"
 ```dart
 double timeDilation = 1.0;
@@ -866,17 +788,17 @@ Widget build(BuildContext context) {
 ```
 " %}
 
-> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **Video**: 
-> [CheckboxListTile (Widget of the Week)][]
+> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **影片**： 
+> [CheckboxListTile（本週元件 Widget of the Week）][CheckboxListTile (Widget of the Week)]
 
-> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **Video**: 
-> [SwitchListTile (Widget of the Week)][]
+> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **影片**： 
+> [SwitchListTile（本週元件 Widget of the Week）][SwitchListTile (Widget of the Week)]
 
 <br>
 
-<span class="material-symbols" aria-hidden="true" translate="no">menu_book</span> **API Docs**: 
-[`Checkbox`][] • [`CheckboxListTile`][] • [`Switch`][] • [`SwitchListTile`][] • 
-[`Radio`][]
+<span class="material-symbols" aria-hidden="true" translate="no">menu_book</span> **API 文件**： 
+[`Checkbox`][`Checkbox`] • [`CheckboxListTile`][`CheckboxListTile`] • [`Switch`][`Switch`] • [`SwitchListTile`][`SwitchListTile`] • 
+[`Radio`][`Radio`]
 
 [CheckboxListTile (Widget of the Week)]: {{site.youtube-site}}/watch?v=RkSqPAn9szs
 [SwitchListTile (Widget of the Week)]: {{site.youtube-site}}/watch?v=0igIjvtEWNU
@@ -887,33 +809,30 @@ Widget build(BuildContext context) {
 [`SwitchListTile`]: {{site.api}}/flutter/material/SwitchListTile-class.html
 [`Radio`]: {{site.api}}/flutter/material/Radio-class.html
 
-## Select a date or time
+## 選擇日期或時間
 
-Widgets are provided so the user can select a date and time.
+元件（Widgets）可讓使用者選擇日期與時間。
 
-There is a set of dialogs that enable users to select a date or time,
-as you'll see in the following sections.
-With the exception of differing date types -
-`DateTime` for dates vs `TimeOfDay` for time -
-these dialogs function similarly, you can configure them by providing:
+有一組對話框可讓使用者選擇日期或時間，
+如以下章節所示。
+除了日期型別不同外——
+`DateTime` 用於日期，`TimeOfDay` 用於時間——
+這些對話框的運作方式類似，您可以透過提供以下參數來設定：
 
-- a default `initialDate` or `initialTime`
-- or an `initialEntryMode` that determines the picker UI that's displayed.
+- 預設的 `initialDate` 或 `initialTime`
+- 或 `initialEntryMode`，用來決定顯示哪種選擇器 UI。
 
 ### DatePickerDialog
 
-This dialog allows the user to select a date or a range of dates.
-Activate by calling the `showDatePicker` function,
-which returns a `Future<DateTime>`,
-so don't forget to await the asynchronous function call!
+此對話框允許使用者選擇單一天或一段日期範圍。
+可透過呼叫 `showDatePicker` 函式來啟動，
+該函式會回傳 `Future<DateTime>`，
+因此請記得要使用 await 等待這個非同步函式的結果！
 
 {% render docs/code-and-image.md,
 image:"fwe/user-input/DatePicker.webp",
-caption: "This figure shows a DatePicker that is displayed when the
-\"Pick a date\" button is clicked."
-alt: "A GIF of a pointer clicking a button that says \"Pick a date\",
-then shows a date picker. The date Friday, August 30 is selected and the \"OK\"
-button is clicked."
+caption: "此圖顯示當點擊「Pick a date」按鈕時所顯示的 DatePicker。"
+alt: "一個 GIF，顯示指標點擊標有「Pick a date」的按鈕，接著出現日期選擇器。選擇了 8 月 30 日（星期五），並點擊了「OK」按鈕。"
 code:"
 ```dart
 DateTime? selectedDate;
@@ -952,19 +871,16 @@ Widget build(BuildContext context) {
 
 ### TimePickerDialog
 
-`TimePickerDialog` is a dialog that presents a time picker.
-It can be activated by calling the `showTimePicker()` function.
-Instead of returning a `Future<DateTime>`,
-`showTimePicker` instead returns a `Future<TimeOfDay>`.
-Once again, don't forget to await the function call!
+`TimePickerDialog` 是一個用於顯示時間選擇器的對話框（Dialog）。
+你可以透過呼叫 `showTimePicker()` 函式來啟動它。
+與回傳 `Future<DateTime>` 不同，
+`showTimePicker` 則會回傳 `Future<TimeOfDay>`。
+同樣地，別忘了要對這個函式呼叫使用 `await`！
 
 {% render docs/code-and-image.md,
 image:"fwe/user-input/TimePicker.webp",
-caption: "This figure shows a TimePicker that is displayed when the 
-\"Pick a time\" button is clicked."
-alt: "A GIF of a pointer clicking a button that says \"Pick a time\", then shows
- a time picker. The time picker shows a circular clock as the cursor moves the 
- hour hand, then minute hand, selects PM, then the \"OK\" button is clicked."
+caption: "此圖顯示當點擊「Pick a time」按鈕時所顯示的 TimePicker。",
+alt: "一個 GIF，顯示指標點擊「Pick a time」按鈕後，彈出時間選擇器。時間選擇器顯示一個圓形時鐘，游標先移動時針，再移動分針，接著選擇 PM，最後點擊「OK」按鈕。",
 code:"
 ```dart
 TimeOfDay? selectedTime;
@@ -998,43 +914,37 @@ Widget build(BuildContext context) {
 " %}
 
 :::tip
-Calling `showDatePicker()` and `showTimePicker()`
-is equivalent to calling `showDialog()` with `DatePickerDialog()` and 
-`TimePickerDialog()`, respectively.
-Internally, both functions use the `showDialog()` function with
-their respective `Dialog` widgets.
-To enable state restoration, you can also push
-`DatePickerDialog()` and `TimePickerDialog()` directly
-on to the `Navigator` stack.
+呼叫 `showDatePicker()` 和 `showTimePicker()`
+等同於分別以 `DatePickerDialog()` 和 `TimePickerDialog()` 作為參數呼叫 `showDialog()`。
+在內部，這兩個函式都會搭配各自的 `Dialog` 元件（Widget），使用 `showDialog()` 函式。
+若要啟用狀態還原，您也可以直接將 `DatePickerDialog()` 和 `TimePickerDialog()`
+推入 `Navigator` 堆疊中。
 :::
 
 <br>
 
-<span class="material-symbols" aria-hidden="true" translate="no">menu_book</span> **API Docs:** 
-[`showDatePicker`][] • [`showTimePicker`][]
+<span class="material-symbols" aria-hidden="true" translate="no">menu_book</span> **API 文件:** 
+[`showDatePicker`][`showDatePicker`] • [`showTimePicker`][`showTimePicker`]
 
 [`showDatePicker`]: {{site.api}}/flutter/material/showDatePicker.html
 [`showTimePicker`]: {{site.api}}/flutter/material/showTimePicker.html
 
-## Swipe & slide
+## 滑動與滑出
 
-### [`Dismissible`][]
+### [`Dismissible`][`Dismissible`]
 
-A `Dismissible` is a widget that enables users to dismiss it by swiping.
-It has a number of configuration parameters, including:
+`Dismissible` 是一個元件（Widget），可讓使用者透過滑動來將其移除。
+它有多項可設定參數，包括：
 
-- A `child` widget
-- An `onDismissed` callback that is triggered when the user swipes
-- Styling parameters such as `background`
-- It's important to include a `key` object as well so that they can be uniquely
-  identified from sibling `Dismissible` widgets in the widget tree.
+- 一個 `child` 元件（Widget）
+- 當使用者滑動時會觸發的 `onDismissed` 回呼（callback）
+- 例如 `background` 等樣式參數
+- 請務必同時包含一個 `key` 物件，以便能在元件樹中與其他同層的 `Dismissible` 元件區分開來。
 
 {% render docs/code-and-image.md,
 image:"fwe/user-input/Dismissible.webp",
-caption: "This figure shows a list of Dismissible widgets that each contain a
-ListTile. Swiping across the ListTile reveals a green background and makes the tile
-disappear."
-alt: "A screenshot of three widgets, spaced evenly from each other."
+caption: "此圖顯示了一個由多個 Dismissible 元件（Widget）組成的清單，每個元件都包含一個 ListTile。當滑動 ListTile 時，會顯示綠色背景並讓該項目消失。",
+alt: "三個元件的螢幕截圖，彼此間距均勻。"
 code:"
 ```dart
 List<int> items = List<int>.generate(100, (int index) => index);
@@ -1067,42 +977,40 @@ Widget build(BuildContext context) {
 ```
 " %}
 
-> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **Video**: 
-> [Dismissible (Widget of the Week)][]
+> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **影片**： 
+> [Dismissible (Widget of the Week)][Dismissible (Widget of the Week)]
 
-> <span class="material-symbols" aria-hidden="true" translate="no">star</span> **Checkpoint**: 
-> Complete this tutorial on how to [implement swipe to dismiss][] using the
-> dismissible widget.
+> <span class="material-symbols" aria-hidden="true" translate="no">star</span> **檢查點**： 
+> 完成這個教學，學習如何使用
+> dismissible 元件來[實作滑動以關閉][implement swipe to dismiss]。
 
 <br>
 
-<span class="material-symbols" aria-hidden="true" translate="no">menu_book</span> **API Docs:**
-[`Dismissible`][]
+<span class="material-symbols" aria-hidden="true" translate="no">menu_book</span> **API 文件：**
+[`Dismissible`][`Dismissible`]
 
 [Dismissible (Widget of the Week)]: {{site.youtube-site}}/watch?v=iEMgjrfuc58?si=f0S7IdaA9PIWIYvl
 [Implement swipe to dismiss]: /cookbook/gestures/dismissible
 [`Dismissible`]: {{site.api}}/flutter/widgets/Dismissible-class.html
 
-## Looking for more widgets?
+## 想找更多元件（Widgets）嗎？
 
-This page features just a few of the common Material widgets that
-you can use for handling user input in your Flutter app.
-Check out the [Material Widget library][] and
-[Material Library API docs][] for a full list of widgets.
+本頁僅介紹了幾個常用的 Material 元件（Widgets），
+你可以在 Flutter 應用程式中用來處理使用者輸入（Input）。
+請參考 [Material Widget library][Material Widget library] 及
+[Material Library API 文件][Material Library API docs]，取得完整的元件清單。
 
-> <span class="material-symbols" aria-hidden="true" translate="no">flutter</span> **Demo**: 
-> See Flutter's [Material 3 Demo][] for a curated sample of user input widgets
-> available in the Material library.
+> <span class="material-symbols" aria-hidden="true" translate="no">flutter</span> **範例展示**： 
+> 參考 Flutter 的 [Material 3 Demo][Material 3 Demo]，其中精選了 Material 函式庫中
+> 可用的使用者輸入元件（Widgets）範例。
 
-If the Material and Cupertino libraries don't have a widget that
-does what you need, check out [pub.dev][] to find
-Flutter & Dart community-owned and maintained packages.
-For example, the [`flutter_slidable`][] package provides
-a `Slidable` widget that is more customizable than
-the `Dismissible` widget described in the previous section.
+如果 Material 與 Cupertino 函式庫沒有你需要的元件，
+可以到 [pub.dev][pub.dev] 搜尋 Flutter 與 Dart 社群維護的套件。
+例如，[`flutter_slidable`][`flutter_slidable`] 套件提供了
+比前一節介紹的 `Dismissible` 元件更可自訂化的 `Slidable` 元件。
 
-> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **Video**: 
-> [flutter_slidable (Package of the Week)][]
+> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **影片**： 
+> [flutter_slidable (Package of the Week)][flutter_slidable (Package of the Week)]
 
 [Material Widget Library]: /ui/widgets/material
 [Material Library API docs]: {{site.api}}/flutter/material/material-library.html
@@ -1111,89 +1019,82 @@ the `Dismissible` widget described in the previous section.
 [`flutter_slidable`]: {{site.pub}}/packages/flutter_slidable
 [flutter_slidable (Package of the Week)]: {{site.youtube-site}}/watch?v=QFcFEpFmNJ8
 
-## Build interactive widgets with GestureDetector
+## 使用 GestureDetector 建立互動元件
 
-Have you scoured the widget libraries, pub.dev, asked your coding friends,
-and still can't find a widget that
-fits the user interaction that you're looking for?
-You can build your own custom widget and
-make it interactive using `GestureDetector`.
+你已經翻遍元件函式庫、pub.dev、問過寫程式的朋友，
+還是找不到符合你想要的使用者互動方式的元件嗎？
+你可以自行建立自訂元件，並使用 `GestureDetector` 讓它具備互動性。
 
-> <span class="material-symbols" aria-hidden="true" translate="no">star</span> **Checkpoint**: 
-> Use this recipe as a starting point to create your own _custom_ button widget
-> that can [handle taps][].
+> <span class="material-symbols" aria-hidden="true" translate="no">star</span> **檢查點**： 
+> 以這份教學為起點，建立你自己的_自訂_按鈕元件，
+> 並能[處理點擊事件][handle taps]。
 
-> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **Video**: 
-> [GestureDetector (Widget of the Week)][]
+> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **影片**： 
+> [GestureDetector (Widget of the Week)][GestureDetector (Widget of the Week)]
 
-> <span class="material-symbols" aria-hidden="true" translate="no">menu_book</span> **Reference**: 
-> Check out [Taps, drags, and other gestures][] which explains how to listen
-> for, and respond to, gestures in Flutter.
+> <span class="material-symbols" aria-hidden="true" translate="no">menu_book</span> **參考資料**： 
+> 參考 [Taps, drags, and other gestures][Taps, drags, and other gestures]，瞭解如何在 Flutter 中監聽
+> 並回應各種手勢。
 
-> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **Bonus Video**: 
-> Curious how Flutter's `GestureArena` turns raw user interaction data into
-> human recognizable concepts like taps, drags, and pinches?
-> Check out this video: [GestureArena (Decoding Flutter)][]
+> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **加碼影片**： 
+> 想知道 Flutter 的 `GestureArena` 如何將原始的使用者互動資料
+> 轉換成人類可辨識的點擊、拖曳與縮放等概念嗎？
+> 請參考這部影片：[GestureArena (Decoding Flutter)][GestureArena (Decoding Flutter)]
 
 [handle taps]: /cookbook/gestures/handling-taps
 [GestureDetector (Widget of the Week)]: {{site.youtube-site}}/watch?v=WhVXkCFPmK4
 [Taps, drags, and other gestures]: /ui/interactivity/gestures#gestures
 [GestureArena (Decoding Flutter)]: {{site.youtube-site}}/watch?v=Q85LBtBdi0U
 
-### Don't forget about accessibility!
+### 別忘了無障礙設計！
 
-If you're building a custom widget,
-annotate its meaning with the `Semantics` widget.
-It provides descriptions and metadata to screen readers and
-other semantic analysis-based tools.
+如果你正在建立自訂元件，
+請使用 `Semantics` 元件來標註其語意。
+它能為螢幕閱讀器與其他基於語意分析的工具
+提供描述與中繼資料。
 
-> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **Video**: 
-> [Semantics (Flutter Widget of the Week)][]
+> <span class="material-symbols" aria-hidden="true" translate="no">slideshow</span> **影片**： 
+> [Semantics (Flutter Widget of the Week)][Semantics (Flutter Widget of the Week)]
 
 
 <br>
 
-<span class="material-symbols" aria-hidden="true" translate="no">menu_book</span> **API Docs**:
-[`GestureDetector`][] • [`Semantics`][]
+<span class="material-symbols" aria-hidden="true" translate="no">menu_book</span> **API 文件**：
+[`GestureDetector`][`GestureDetector`] • [`Semantics`][`Semantics`]
 
 [`GestureDetector`]: {{site.api}}/flutter/widgets/GestureDetector-class.html
 [`Semantics`]: {{site.api}}/flutter/widgets/Semantics-class.html
 
-## Testing
+## 測試
 
-Once you have finished building user interactions
-into your app, don't forget to write tests to
-ensure that everything works as expected!
+當你完成應用程式的使用者互動設計後，
+別忘了撰寫測試，確保一切如預期運作！
 
-These tutorials walk you through writing tests that
-simulate user interactions in your app:
+以下教學將帶你一步步撰寫模擬使用者互動的測試：
 
-> <span class="material-symbols" aria-hidden="true" translate="no">star</span> **Checkpoint**: 
-> Follow this [tap, drag, and enter text][] cookbook article and learn how to
-> use `WidgetTester` to simulate and test user interactions in your app.
+> <span class="material-symbols" aria-hidden="true" translate="no">star</span> **檢查點**： 
+> 依照這篇 [點擊、拖曳與輸入文字][tap, drag, and enter text] 教學，學習如何
+> 使用 `WidgetTester` 在你的應用程式中模擬並測試使用者互動。
 
-> <span class="material-symbols" aria-hidden="true" translate="no">bookmark</span> **Bonus Tutorial**: 
-> The [handle scrolling][] cookbook recipe shows you how to verify that
-> lists of widgets contain the expected content by
-> scrolling through the lists using widget tests.
+> <span class="material-symbols" aria-hidden="true" translate="no">bookmark</span> **加碼教學**： 
+> [處理滾動][handle scrolling] 教學將示範如何透過元件測試
+> 滾動列表，驗證元件清單是否包含預期內容。
 
 [Semantics (Flutter Widget of the Week)]: {{site.youtube-site}}/watch?v=NvtMt_DtFrQ?si=o79BqAg9NAl8EE8_
 [Tap, drag, and enter text]: /cookbook/testing/widget/tap-drag
 [Handle scrolling]: /cookbook/testing/widget/scrolling
 
-## Next: Networking
+## 下一步：網路功能
 
-This page was an introduction to handling user input.
-Now that you know how to handle input from app users,
-you can make your app even more interesting by adding
-external data. In the next section,
-you'll learn how to fetch data for your app over a network,
-how to convert data to and from JSON, authentication,
-and other networking features.
+本頁介紹了如何處理使用者輸入。
+現在你已經學會如何處理來自應用程式使用者的輸入，
+可以進一步讓你的應用程式更有趣——加入外部資料。
+在下一節中，你將學習如何透過網路為你的應用程式取得資料、
+如何進行 JSON 轉換、驗證，以及其他網路相關功能。
 
-## Feedback
+## 意見回饋
 
-As this section of the website is evolving,
-we [welcome your feedback][]!
+由於本網站區塊仍在持續演進中，
+我們[歡迎你的意見回饋][welcome your feedback]！
 
 [welcome your feedback]: https://google.qualtrics.com/jfe/form/SV_6A9KxXR7XmMrNsy?page="user-input"

@@ -1,123 +1,91 @@
 ---
-title: Building macOS apps with Flutter
-description: Platform-specific considerations for building for macOS with Flutter.
-shortTitle: macOS development
+title: 使用 Flutter 建置 macOS 應用程式
+description: 使用 Flutter 為 macOS 建置應用程式時需注意的平台專屬事項。
+shortTitle: macOS 開發
 ---
 
-This page discusses considerations unique to building
-macOS apps with Flutter, including shell integration
-and distribution of macOS apps through the Apple Store.
+本頁將說明使用 Flutter 建置 macOS 應用程式時的專屬考量，包括 shell 整合，以及透過 Apple Store 發佈 macOS 應用程式的相關事項。
 
-## Integrating with macOS look and feel
+## 與 macOS 外觀與操作體驗整合
 
-While you can use any visual style or theme you choose
-to build a macOS app, you might want to adapt your app
-to more fully align with the macOS look and feel.
-Flutter includes the [Cupertino] widget set,
-which provides a set of widgets for
-the current iOS design language.
-Many of these widgets, including sliders,
-switches and segmented controls,
-are also appropriate for use on macOS.
+雖然你可以使用任何視覺風格或主題來建置 macOS 應用程式，但你可能會希望讓你的應用程式更貼近 macOS 的外觀與操作體驗。Flutter 內建了 [Cupertino] 元件 (Widgets) 集合，提供符合當前 iOS 設計語言的一系列元件。這些元件中有許多（例如滑桿、切換開關和分段控制器）同樣適合在 macOS 上使用。
 
-Alternatively, you might find the [macos_ui][]
-package a good fit for your needs.
-This package provides widgets and themes that
-implement the macOS design language,
-including a `MacosWindow` frame and scaffold,
-toolbars, pulldown and
-pop-up buttons, and modal dialogs.
+另外，你也可以考慮使用 [macos_ui][macos_ui] 套件。這個套件提供實作 macOS 設計語言的元件與主題，包括 `MacosWindow` 框架與 scaffold、工具列、下拉與彈出按鈕，以及模態對話框等。
 
 [Cupertino]: /ui/widgets/cupertino
 [macos_ui]: {{site.pub}}/packages/macos_ui
 
-## Building macOS apps
+## 建置 macOS 應用程式
 
-To distribute your macOS application, you can either
-[distribute it through the macOS App Store][],
-or you can distribute the `.app` itself,
-perhaps from your own website.
-You need to notarize your macOS application before
-distributing it outside the macOS App Store.
+你可以選擇[透過 macOS App Store 發佈你的應用程式][distribute it through the macOS App Store]，或直接分發 `.app`（例如從你自己的網站）。如果你要在 macOS App Store 以外分發應用程式，必須先對 macOS 應用程式進行公證（notarize）。
 
-The first step in both of the above processes
-involves working with your application inside of Xcode.
-To be able to compile your application from inside of
-Xcode you first need to build the application for release
-using the `flutter build` command, then open the
-Flutter macOS Runner application.
+上述兩種流程的第一步，都是在 Xcode 中操作你的應用程式。若要能在 Xcode 內編譯你的應用程式，首先需要使用 `flutter build` 指令將應用程式建置為發行版本，然後開啟 Flutter 的 macOS Runner 應用程式。
 
 ```bash
 flutter build macos
 open macos/Runner.xcworkspace
 ```
 
-Once inside of Xcode, follow either Apple's
-[documentation on notarizing macOS Applications][], or
-[on distributing an application through the App Store][].
-You should also read through the
-[macOS-specific support](#entitlements-and-the-app-sandbox)
-section below to understand how entitlements,
-the App Sandbox, and the Hardened Runtime
-impact your distributable application.
+進入 Xcode 之後，請依照 Apple 的
+[macOS 應用程式公證相關文件][documentation on notarizing macOS Applications]，
+或
+[透過 App Store 發佈應用程式相關文件][on distributing an application through the App Store]
+進行操作。
+你也應該閱讀下方的
+[macOS 專屬支援](#權限-entitlements-與-app-sandbox)
+章節，以瞭解權限（entitlements）、App Sandbox 以及 Hardened Runtime
+如何影響你的可發佈應用程式。
 
-[Build and release a macOS app][] provides a more detailed
-step-by-step walkthrough of releasing a Flutter app to the
-App Store.
+[建置與發佈 macOS 應用程式][Build and release a macOS app] 提供了更詳細的
+逐步教學，說明如何將 Flutter 應用程式發佈到 App Store。
 
 [distribute it through the macOS App Store]: {{site.apple-dev}}/macos/submit/
 [documentation on notarizing macOS Applications]:{{site.apple-dev}}/documentation/xcode/notarizing_macos_software_before_distribution
 [on distributing an application through the App Store]: https://help.apple.com/xcode/mac/current/#/dev067853c94
 [Build and release a macOS app]: /deployment/macos
 
-## Entitlements and the App Sandbox
+## 權限（Entitlements）與 App Sandbox
 
-macOS builds are configured by default to be signed,
-and sandboxed with App Sandbox.
-This means that if you want to confer specific
-capabilities or services on your macOS app,
-such as the following:
+macOS 專案預設會進行簽章，
+並啟用 App Sandbox。
+這表示如果你希望讓 macOS 應用程式具備特定
+能力或服務，例如：
 
-* Accessing the internet
-* Capturing movies and images from the built-in camera
-* Accessing files
+* 存取網際網路
+* 從內建相機擷取影片與圖片
+* 存取檔案
 
-Then you must set up specific _entitlements_ in Xcode.
-The following section tells you how to do this.
+那麼你必須在 Xcode 中設定特定的 _權限（entitlements）_。
+以下章節將說明如何進行設定。
 
-### Setting up entitlements
+### 設定權限（entitlements）
 
-Managing sandbox settings is done in the
-`macos/Runner/*.entitlements` files. When editing
-these files, you shouldn't remove the original
-`Runner-DebugProfile.entitlements` exceptions
-(that support incoming network connections and JIT),
-as they're necessary for the `debug` and `profile`
-modes to function correctly.
+管理 sandbox 設定是在
+`macos/Runner/*.entitlements` 檔案中完成。編輯
+這些檔案時，不應移除原有的
+`Runner-DebugProfile.entitlements` 例外設定
+（這些例外支援傳入網路連線與 JIT），
+因為這對 `debug` 和 `profile`
+模式的正確運作是必要的。
 
-If you're used to managing entitlement files through
-the **Xcode capabilities UI**, be aware that the capabilities
-editor updates only one of the two files or,
-in some cases, it creates a whole new entitlements
-file and switches the project to use it for all configurations.
-Either scenario causes issues. We recommend that you
-edit the files directly. Unless you have a very specific
-reason, you should always make identical changes to both files.
+如果你習慣透過
+**Xcode 的 capabilities UI** 管理權限檔案，請注意 capabilities
+編輯器只會更新兩個檔案中的其中一個，或在某些情況下，會建立全新的權限檔案，並將專案切換為所有組態都使用該檔案。
+這兩種情況都可能導致問題。我們建議你
+直接編輯檔案。除非有非常特別的理由，否則應該對兩個檔案進行相同的修改。
 
-If you keep the App Sandbox enabled (which is required if you
-plan to distribute your application in the [App Store][]),
-you need to manage entitlements for your application
-when you add certain plugins or other native functionality.
-For instance, using the [`file_chooser`][] plugin
-requires adding either the
-`com.apple.security.files.user-selected.read-only` or
-`com.apple.security.files.user-selected.read-write` entitlement.
-Another common entitlement is
-`com.apple.security.network.client`,
-which you must add if you make any network requests.
+如果你保留啟用 App Sandbox（若你計劃將應用程式發佈到 [App Store][App Store] 則為必要），
+當你新增某些套件（plugin）或其他原生功能時，就需要為你的應用程式管理權限。
+例如，使用 [`file_chooser`][`file_chooser`] 套件
+時，必須新增
+`com.apple.security.files.user-selected.read-only` 或
+`com.apple.security.files.user-selected.read-write` 權限。
+另一個常見的權限是
+`com.apple.security.network.client`，
+如果你的應用程式有任何網路請求，就必須新增此權限。
 
-Without the `com.apple.security.network.client` entitlement,
-for example, network requests fail with a message such as:
+例如，若沒有 `com.apple.security.network.client` 權限，
+網路請求會失敗，並出現類似以下的訊息：
 
 ```console
 flutter: SocketException: Connection failed
@@ -126,47 +94,22 @@ address = example.com, port = 443
 ```
 
 :::important
-The `com.apple.security.network.server`
-entitlement, which allows incoming network connections,
-is enabled by default only for `debug` and `profile`
-builds to enable communications between Flutter tools
-and a running app. If you need to allow incoming
-network requests in your application,
-you must add the `com.apple.security.network.server`
-entitlement to `Runner-Release.entitlements` as well,
-otherwise your application will work correctly for debug or
-profile testing, but will fail with release builds.
+`com.apple.security.network.server` 權限（entitlement）允許傳入網路連線，預設僅針對 `debug` 和 `profile` 建置啟用，以便 Flutter 工具與執行中的應用程式之間進行通訊。如果你的應用程式需要允許傳入的網路請求，你必須同時在 `Runner-Release.entitlements` 中新增 `com.apple.security.network.server` 權限，否則你的應用程式在 debug 或 profile 測試時可以正常運作，但在 release 建置時將會失敗。
 :::
 
-For more information on these topics,
-see [App Sandbox][] and [Entitlements][]
-on the Apple Developer site.
+如需更多相關資訊，請參閱 Apple Developer 網站上的 [App Sandbox][App Sandbox] 與 [Entitlements][Entitlements]。
 
 [App Sandbox]: {{site.apple-dev}}/documentation/security/app_sandbox
 [App Store]: {{site.apple-dev}}/app-store/submissions/
 [Entitlements]: {{site.apple-dev}}/documentation/bundleresources/entitlements
 [`file_chooser`]: {{site.github}}/google/flutter-desktop-embedding/tree/master/plugins/file_chooser
 
-## Hardened Runtime
+## 強化執行環境（Hardened Runtime）
 
-If you choose to distribute your application outside
-of the App Store, you need to notarize your application
-for compatibility with macOS.
-This requires enabling the Hardened Runtime option.
-Once you have enabled it, you need a valid signing
-certificate in order to build.
+如果你選擇在 App Store 以外發佈你的應用程式，則需要對你的應用程式進行公證（notarize），以確保與 macOS 相容。這需要啟用 Hardened Runtime（強化執行環境）選項。啟用後，你必須擁有有效的簽署憑證才能進行建置。
 
-By default, the entitlements file allows JIT for
-debug builds but, as with App Sandbox, you might
-need to manage other entitlements.
-If you have both App Sandbox and Hardened
-Runtime enabled, you might need to add multiple
-entitlements for the same resource.
-For instance, microphone access would require both
-`com.apple.security.device.audio-input` (for Hardened Runtime)
-and `com.apple.security.device.microphone` (for App Sandbox).
+預設情況下，entitlements 檔案允許 debug 建置使用 JIT，但如同 App Sandbox，你可能需要管理其他權限（entitlements）。如果同時啟用了 App Sandbox 與 Hardened Runtime，則可能需要針對同一資源新增多個權限。例如，麥克風存取權就同時需要 `com.apple.security.device.audio-input`（針對 Hardened Runtime）以及 `com.apple.security.device.microphone`（針對 App Sandbox）。
 
-For more information on this topic,
-see [Hardened Runtime][] on the Apple Developer site.
+如需更多相關資訊，請參閱 Apple Developer 網站上的 [Hardened Runtime][Hardened Runtime]。
 
 [Hardened Runtime]: {{site.apple-dev}}/documentation/security/hardened_runtime

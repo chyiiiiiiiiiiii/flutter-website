@@ -1,49 +1,38 @@
 ---
-title: Localized messages are generated into source, not a synthetic package.
+title: 本地化訊息將產生於原始碼中，而非合成套件中
 description: >-
-  When using `package:flutter_localizations`, the default generated location
-  (and eventually, only possible location) is within your source (`lib/`)
-  directory, and not the synthetic package `package:flutter_gen`.
+  當使用`package:flutter_localizations`時，預設產生的位置（最終也將是唯一可用的位置）會在你的原始碼（`lib/`）目錄內，而不是合成套件`package:flutter_gen`中。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-The `flutter` tool will no longer generate a synthetic `package:flutter_gen`
-or modify the `package_config.json` of the app.
+`flutter` 工具將不再產生合成的 `package:flutter_gen`，
+也不會修改應用程式的 `package_config.json`。
 
-Applications or tools that referenced `package:flutter_gen` should instead
-reference source files generated into the app's source directory directly.
+過去參考 `package:flutter_gen` 的應用程式或工具，應改為直接參考產生於應用程式原始碼目錄中的原始檔案。
 
-In addition, the property `generate: true` is now required when using generated
-l10n source.
+此外，當使用產生的 l10n 原始碼時，現在必須指定 `generate: true` 屬性。
 
-## Background
+## 背景說明
 
-`flutter_gen` is a virtual (synthetic) package that is
-created by the `flutter` command-line tool to allow developers to
-import that package to access generated symbols and functionality,
-such as for [internationalization][].
-As the package isn't listed in an app's `pubspec.yaml`, and
-is created via re-writing the generated `package_config.json` file,
-many problems have been created.
+`flutter_gen` 是一個由 `flutter` 命令列工具建立的虛擬（合成）套件，讓開發者可以匯入該套件以存取產生的符號與功能，例如用於[國際化][internationalization]。
+由於該套件並未列在應用程式的 `pubspec.yaml` 中，且是透過重寫產生的 `package_config.json` 檔案來建立，因此產生了許多問題。
 
-## Migration guide
+## 遷移指南
 
-This change only affects apps that have the
-following entry in their `pubspec.yaml`:
+此變更僅影響在 `pubspec.yaml` 中包含以下項目的應用程式：
 
 ```yaml
 flutter:
   generate: true
 ```
 
-If your app previously used `gen-l10n` without this property, it is now
-required.
+如果您的應用程式先前在使用 `gen-l10n` 時沒有設定這個屬性，現在已經是必須的。
 
-A synthetic package (`package:flutter_gen`) is
-created and referenced by the app:
+一個合成套件（synthetic package，`package:flutter_gen`）
+會被建立並由應用程式參考：
 
 ```dart
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -55,9 +44,9 @@ const MaterialApp(
 );
 ```
 
-There are two ways to migrate away from importing `package:flutter_gen`:
+有兩種方式可以遷移，不再匯入`package:flutter_gen`：
 
- 1. Specify `synthetic-package: false` in the accompanying [`l10n.yaml`][] file:
+ 1. 在對應的 [`l10n.yaml`][`l10n.yaml`] 檔案中指定`synthetic-package: false`：
 
     ```yaml title="l10n.yaml"
     synthetic-package: false
@@ -69,32 +58,30 @@ There are two ways to migrate away from importing `package:flutter_gen`:
     output-dir: lib/src/generated/i18n
     ```
 
- 2. Enable the `explicit-package-dependencies` feature flag:
+ 2. 啟用 `explicit-package-dependencies` 功能旗標（feature flag）：
 
     ```sh
     flutter config --explicit-package-dependencies
     ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.28.0-0.0.pre<br>
-Stable release: 3.32.0
+納入版本：3.28.0-0.0.pre<br>  
+穩定版本：3.32.0
 
-**In the next stable release after this change lands,
-`package:flutter_gen` support will be removed.**
+**在此變更納入後的下一個穩定版本中，將移除`package:flutter_gen`的支援。**
 
-## References
+## 參考資料
 
-Relevant Issues:
+相關議題：
 
-- [Issue 73870][], where `package:flutter_gen` pub problems are first found.
-- [Issue 102983][], where `package:flutter_gen` problems are outlined.
-- [Issue 157819][], where `--implicit-pubspec-resolution` is discussed.
+- [Issue 73870][Issue 73870]，首次發現`package:flutter_gen` pub 問題。
+- [Issue 102983][Issue 102983]，說明了`package:flutter_gen`的問題。
+- [Issue 157819][Issue 157819]，討論了`--implicit-pubspec-resolution`。
 
-Relevant Articles:
+相關文章：
 
-- [Internationalizing Flutter apps][internationalization],
-  the canonical documentation for the feature.
+- [Internationalizing Flutter apps][internationalization]，此功能的標準文件。
 
 [`l10n.yaml`]: /ui/internationalization#configuring-the-l10n-yaml-file
 [Issue 73870]: {{site.repo.flutter}}/issues/73870

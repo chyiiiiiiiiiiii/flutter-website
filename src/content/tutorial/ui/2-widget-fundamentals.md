@@ -1,6 +1,6 @@
 ---
-title: Create widgets
-description: Learn about stateless widgets and how to build your own.
+title: 建立元件 (Widgets)
+description: 認識無狀態元件，並學習如何自訂元件。
 permalink: /tutorial/stateless-widgets/
 ---
 
@@ -8,36 +8,30 @@ permalink: /tutorial/stateless-widgets/
 <!-- TODO(ewindmill) embed video -->
 {%- endcomment %}
 
-In this lesson, you'll create your own custom widget, and learn about some of
-the most common widgets included in the SDK.
+在本課程中，你將會建立自己的自訂元件（Widget），並認識 SDK 中最常見的一些元件。
 
-Custom widgets allow you to reuse UI components across your app, organize
-complex UI code into manageable pieces, and create cleaner, more maintainable
-code.  By the end of this lesson, you’ll have created your own custom Tile
-widget.
+自訂元件可以讓你在應用程式中重複使用 UI 元件，將複雜的 UI 程式碼組織成易於管理的區塊，並撰寫出更乾淨、易於維護的程式碼。完成本課程後，你將會建立出屬於自己的自訂 Tile 元件。
 
+## 開始之前
 
-## Before you start
+本應用程式依賴一些與 UI 無關的遊戲邏輯，因此這部分不在本教學的範圍內。在繼續之前，你需要將這些邏輯加入你的應用程式。
 
-This app relies on a bit of game logic that isn't UI-related, and thus is outside the scope of this tutorial. Before you move on, you need to add this logic to your app. 
-
-1. Create a new file in the `lib` directory called `game.dart`.
-2. Copy the following code into it and import that code into your `main.dart` file.
+1. 在`lib`目錄中建立一個名為`game.dart`的新檔案。
+2. 將以下程式碼複製到該檔案，並在你的`main.dart`檔案中匯入這段程式碼。
 
 {% render docs/tutorial/game-code.md  %}
 
-:::note Game logic note
-You may notice the lists called `legalGuesses` and `legalWords` only contain a few words. The full lists combined have over 10,000 words, and were omitted for brevity. You don't need the full lists to continue the tutorial. When you're testing your app, make sure to use the few words from those lists.
+:::note 遊戲邏輯說明
+你可能會注意到名為`legalGuesses`和`legalWords`的清單只包含了幾個單字。完整的清單合計超過 10,000 個單字，為了簡潔起見在此省略。你不需要完整清單也能繼續本教學。在測試應用程式時，請確保使用這些清單中的少數單字即可。
 
-Alternatively, you can find the full lists in [this github repository][], as well as instructions to import it into your project.
+另外，你也可以在 [這個 GitHub repository][this github repository] 找到完整清單，以及如何將其匯入專案的說明。
 :::
 
-## Anatomy of a stateless widget
+## 無狀態元件 (StatelessWidget) 的結構
 
-A `Widget` is a Dart class that extends one of the Flutter widget classes, in this case [`StatelessWidget`][].
+`Widget` 是一個 Dart 類別，繼承自 Flutter 的元件類別之一，本例中是 [`StatelessWidget`][`StatelessWidget`]。
 
-Open your `main.dart` file and add this code below the `MainApp` class, which
-defines a new widget called `Tile`.
+打開你的`main.dart`檔案，在`MainApp`類別之下加入以下程式碼，這段程式碼會定義一個名為`Tile`的新元件。
 
 ```dart
 class Tile extends StatelessWidget {
@@ -50,20 +44,14 @@ class Tile extends StatelessWidget {
 }
 ```
 
-### Constructor
+### 建構函式
 
-The `Tile` class has a [`constructor`][] that defines
-what data needs to be passed into the widget to render the widget.  Here, a
-`String` is passed in, which represents the guessed letter, and a `HitType`,
-which is an [enum value][] used to
-determine the color of the tile. (For example `HitType.hit` results in a green
-tile).  Passing data into the widget is at the core of making widgets reusable.
+`Tile` 類別有一個 [`constructor`][`constructor`]，用來定義在渲染該元件（Widget）時需要傳入哪些資料。在這裡，會傳入一個 `String`，代表猜測的字母，以及一個 `HitType`，這是一個 [列舉值（enum value）][enum value]，用來決定方塊的顏色。（例如，`HitType.hit` 會顯示為綠色方塊。）將資料傳入元件（Widget）是讓元件可重複使用的核心。
 
 
-### `Build` method
+### `Build` 方法
 
-Finally, there’s the all important `build` method, which must be defined on
-every widget, and will always return another widget. 
+最後，就是非常重要的 `build` 方法，這個方法必須在每個元件（Widget）中定義，並且必定會回傳另一個元件（Widget）。 
 
 ```dart
 class Tile extends StatelessWidget {
@@ -80,11 +68,9 @@ class Tile extends StatelessWidget {
 }
 ```
 
-## Use the custom widget
+## 使用自訂元件（Widget）
 
-When this app is finished, there will be 25 instances of this widget on screen.
-For now, though, display just one so you can see the updates as they’re made. In
-the `MainApp.build` method, replace the `Text` widget with the following:
+當這個應用程式完成時，螢幕上將會有 25 個這個元件（Widget）的實例。不過，目前只需顯示一個，這樣你可以在每次更新時看到變化。在 `MainApp.build` 方法中，將 `Text` 元件（Widget）替換為以下內容：
 
 ```dart
 class MainApp extends StatelessWidget {
@@ -103,21 +89,14 @@ class MainApp extends StatelessWidget {
 }
 ```
 
-At the moment, your app will be blank, because the `Tile` widget returns an
-empty `Container`, which doesn’t display anything by default. 
+目前，你的應用程式會是空白的，因為`Tile` 元件（Widget）回傳了一個空的 `Container`，而這預設不會顯示任何內容。
 
-## The `Container` widget
+## `Container` 元件（Widget）
 
-The `Tile` widget consists of three of the most common basic widgets:
-`Container`, `Center`, and `Text`.
-[`Container`][] is a
-convenience widget that wraps several basic styling widgets, like `Padding`,
-[`ColoredBox`][], [`SizedBox`][], [`DecoratedBox`][], and many more.  
+`Tile` 元件（Widget）由三個最常見的基礎元件（Widget）組成：`Container`、`Center` 和 `Text`。
+[`Container`][`Container`] 是一個方便用的元件（Widget），它包裝了多個基礎樣式元件（Widget），像是 `Padding`、[`ColoredBox`][`ColoredBox`]、[`SizedBox`][`SizedBox`]、[`DecoratedBox`][`DecoratedBox`]，以及更多其他元件。
 
-Because the finished UI contains 25 `Tile` widgets in neat columns and rows, it
-should have an explicit size. Set the width and height properties on the
-`Container`. (You could also do this with a `SizedBox` widget, but you’ll use
-more properties of the `Container` next.) 
+由於最終的 UI 會包含 25 個`Tile` 元件（Widget），並以整齊的行與列排列，因此應該要有明確的尺寸。請在 `Container` 上設定 width 和 height 屬性。（你也可以用 `SizedBox` 元件（Widget）來達成，但接下來你會用到更多 `Container` 的屬性。） 
 
 ```dart
 class Tile extends StatelessWidget {
@@ -140,7 +119,7 @@ class Tile extends StatelessWidget {
 
 ## BoxDecoration
 
-Next, add a [`Border`][] to the box with the following code:
+接下來，請使用以下程式碼為方塊新增一個 [`Border`][`Border`]：
 
 ```dart
 class Tile extends StatelessWidget {
@@ -164,23 +143,15 @@ class Tile extends StatelessWidget {
 }
 ```
 
-`BoxDecoration` is an object that knows how to add any number of decorations to
-a widget, from background color to borders to box shadows and more. In this
-case, you’ve added a border. When you hot reload, there should be a lightly
-colored border around the white square.
+`BoxDecoration` 是一個物件，能夠為元件（Widget）新增任意數量的裝飾效果，從背景顏色、邊框到陰影等都可以實現。在這個例子中，你加入了一個邊框。當你進行熱重載（hot reload）後，應該可以看到白色方塊周圍出現一個淡色的邊框。
 
-When this game is complete, the color of the tile will depend on the user’s
-guess. The tile will be green when the user has guessed correctly, yellow when
-the letter is correct but the position is incorrect, and gray if the guess is
-wrong on both axes. 
+當這個遊戲完成時，方塊（tile）的顏色會根據使用者的猜測而變化。當使用者猜對時，方塊會變成綠色；當字母正確但位置錯誤時，則會顯示黃色；如果猜測在兩個維度上都錯誤，則會顯示灰色。
 
-The following figure shows all three possibilities.
+下圖展示了這三種情況。
 
 <img src='/assets/images/docs/tutorial/tiles.png' alt="A screenshot of a green, yellow, and grey tile.">
 
-
-To achieve this in UI, use a [switch expression][] to set the
-`color` of the `BoxDecoration`.
+要在 UI 中實現這個效果，可以使用 [switch expression][switch expression] 來設定 `color` 的 `BoxDecoration`。
 
 ```dart
 class Tile extends StatelessWidget {
@@ -209,13 +180,11 @@ class Tile extends StatelessWidget {
 }
 ```
 
-## Child widgets
+## 子元件（Child widgets）
 
-Finally, add the `Center` and `Text` widgets to the `Container.child` property. 
+最後，將 `Center` 和 `Text` 元件（Widgets）加入到 `Container.child` 屬性中。
 
-Most widgets in the Flutter SDK have a `child` or `children` property that’s
-meant to be passed a widget or a list of widgets, respectively. It's best
-practice to use the same naming convention in your own custom widgets.
+在 Flutter SDK（Flutter 軟體開發套件）中，大多數元件（Widgets）都有 `child` 或 `children` 屬性，分別用來接收一個元件或一個元件清單。建議在自訂元件時，也遵循相同的命名慣例。
 
 ```dart
 class Tile extends StatelessWidget {
@@ -249,8 +218,7 @@ class Tile extends StatelessWidget {
 }
 ```
 
-Hot reload and a green box appears. To toggle the color,
-update and hot reload the `HitType` passed into the `Tile` you created:
+熱重載（hot reload）後會出現一個綠色方塊。若要切換顏色，請更新並熱重載你傳遞給`Tile`的`HitType`：
 
 ```dart
 // main.dart line ~16
@@ -262,8 +230,7 @@ child: Tile('A', HitType.miss)
 child: Tile('A', HitType.partial)
 ```
 
-Soon, this small box will be one of many widgets on the screen. In the next
-lesson, you’ll start building the game grid itself. 
+很快，這個小方塊將會成為螢幕上眾多元件（Widgets）之一。在下一課中，你將開始建立遊戲格線本身。
 
 
 

@@ -1,55 +1,38 @@
 ---
-title: Android predictive back
+title: Android 預測返回（Predictive Back）
 description: >-
-  The ability to control back navigation at the time that a back gesture is
-  received has been replaced with an ahead-of-time navigation API in order to
-  support Android 14's Predictive Back feature.
+  為了支援 Android 14 的預測返回（Predictive Back）功能，當收到返回手勢時即時控制返回導覽的能力，已被預先（ahead-of-time）導覽 API 取代。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-To support Android 14's Predictive Back feature,
-a set of ahead-of-time APIs have replaced just-in-time navigation APIs,
-like `WillPopScope` and `Navigator.willPop`.
+為了支援 Android 14 的預測返回（Predictive Back）功能，
+一組預先（ahead-of-time）API 已取代即時（just-in-time）導覽 API，
+例如 `WillPopScope` 和 `Navigator.willPop`。
 
 :::note
-The Flutter 3.22 release includes some updates
-to predictive back behavior. For more info, check out
-[Issue #132504][].
+Flutter 3.22 版本針對預測返回行為有一些更新。
+如需更多資訊，請參閱
+[Issue #132504][Issue #132504]。
 :::
 
 [Issue #132504]: {{site.github}}/flutter/flutter/issues/132504#issuecomment-2025776552
 
-## Background
+## 背景
 
-Android 14 introduced the
-[Predictive Back feature]({{site.android-dev}}/guide/navigation/predictive-back-gesture),
-which allows the user to peek behind the current route during a valid back
-gesture and decide whether to continue back or to cancel the gesture. This was
-incompatible with Flutter's navigation APIs that allow the developer to cancel a
-back gesture after it is received.
+Android 14 推出了
+[預測返回（Predictive Back）功能]({{site.android-dev}}/guide/navigation/predictive-back-gesture)，
+讓使用者在進行有效的返回手勢時，可以預覽當前 Route 背後的內容，並決定是否繼續返回或取消該手勢。這與 Flutter 允許開發者在收到返回手勢後才取消返回的導覽 API 不相容。
 
-With predictive back, the back animation begins immediately when the
-user initiates the gesture and before it has been committed. There is no
-opportunity for the Flutter app to decide whether it's allowed to happen at that
-time. It must be known ahead of time.
+在預測返回（Predictive Back）中，當使用者啟動返回手勢時，返回動畫會立即開始，且在動畫被提交前就已經執行。此時 Flutter 應用程式無法決定是否允許這個操作，必須事先（ahead-of-time）就知道結果。
 
-For this reason, all APIs that allow a Flutter app developer to cancel a back
-navigation at the time that a back gesture is received are now deprecated. They
-have been replaced with equivalent APIs that maintain a boolean state at all
-times that dictates whether or not back navigation is possible. When it is, the
-predictive back animation happens as usual. Otherwise, navigation is stopped. In
-both cases, the app developer is informed that a back was attempted and
-whether it was successful.
+因此，所有允許 Flutter 應用程式開發者在收到返回手勢時才取消返回導覽的 API 現已被棄用。這些 API 已被等效的 API 取代，這些新的 API 會隨時維護一個布林值（boolean state），用來決定是否允許返回導覽。若允許，預測返回動畫會如常發生；否則，導覽會被阻止。在這兩種情況下，應用程式開發者都會被通知有返回操作被嘗試，以及該操作是否成功。
 
 ### PopScope
 
-The `PopScope` class directly replaces `WillPopScope` in order to enable
-predictive back. Instead of deciding whether a pop is possible at the time it
-occurs, this is set ahead of time with the `canPop` boolean. You can still
-listen to pops by using `onPopInvoked`.
+`PopScope` 類別直接取代了 `WillPopScope`，以支援預測返回（Predictive Back）。不再是在發生時決定是否允許 pop，而是預先透過 `canPop` 布林值設定。你仍然可以透過 `onPopInvoked` 來監聽 pop 事件。
 
 ```dart
 PopScope(
@@ -60,11 +43,9 @@ PopScope(
 )
 ```
 
-### Form.canPop and Form.onPopInvoked
+### Form.canPop 與 Form.onPopInvoked
 
-These two new parameters are based on `PopScope` and replace the deprecated
-`Form.onWillPop` parameter. They are used with `PopScope` in the same way as
-above.
+這兩個新參數是基於 `PopScope`，並取代了已棄用的 `Form.onWillPop` 參數。它們與 `PopScope` 的使用方式與上方所述相同。
 
 ```dart
 Form(
@@ -77,8 +58,7 @@ Form(
 
 ### Route.popDisposition
 
-This getter synchronously returns the `RoutePopDisposition`
-for the route, which describes how pops will behave.
+這個 getter 會同步回傳該 Route 的 `RoutePopDisposition`，用來描述 pop 操作的行為方式。
 
 ```dart
 if (myRoute.popDisposition == RoutePopDisposition.doNotPop) {
@@ -86,12 +66,9 @@ if (myRoute.popDisposition == RoutePopDisposition.doNotPop) {
 }
 ```
 
-### ModalRoute.registerPopEntry and ModalRoute.unregisterPopEntry
+### ModalRoute.registerPopEntry 和 ModalRoute.unregisterPopEntry
 
-Use these methods to register `PopScope` widgets,
-to be evaluated when the route decides whether it can pop.
-This functionality might be used when implementing a
-custom `PopScope` widget.
+使用這些方法來註冊`PopScope`元件（Widgets），當 Route 判斷是否可以 pop 時，這些元件會被評估。這項功能可用於實作自訂的`PopScope`元件（Widget）。
 
 ```dart
 @override
@@ -106,15 +83,15 @@ void didChangeDependencies() {
 }
 ```
 
-## Migration guide
+## 遷移指南
 
-### Migrating from `WillPopScope` to `PopScope`
+### 從 `WillPopScope` 遷移至 `PopScope`
 
-The direct replacement of the `WillPopScope` widget is the `PopScope` widget.
-In many cases, logic that was being run at the time of the back gesture in
-`onWillPop` can be done at build time and set to `canPop`.
+`WillPopScope` 元件（Widget）的直接替代方案是 `PopScope` 元件（Widget）。
+在許多情況下，原本在 `onWillPop` 中於返回手勢（back gesture）時執行的邏輯，
+可以在建構（build）階段完成，並設置給 `canPop`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 WillPopScope(
@@ -125,7 +102,7 @@ WillPopScope(
 ),
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 PopScope(
@@ -134,14 +111,11 @@ PopScope(
 ),
 ```
 
-For cases where it's necessary to be notified that a
-pop was attempted, the `onPopInvoked` method can be
-used in a similar way to `onWillPop`. Keep in mind
-that while `onWillPop` was called before the pop
-was handled and had the ability to cancel it,
-`onPopInvoked` is called after the pop is finished being handled.
+在需要獲得 pop 嘗試通知的情況下，可以使用 `onPopInvoked` 方法，其用法與 `onWillPop` 類似。
 
-Code before migration:
+請注意，`onWillPop` 會在 pop 被處理之前呼叫，並且有能力取消該操作，而 `onPopInvoked` 則是在 pop 完成處理後才會被呼叫。
+
+遷移前的程式碼：
 
 ```dart
 WillPopScope(
@@ -153,7 +127,7 @@ WillPopScope(
 ),
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 PopScope(
@@ -165,15 +139,14 @@ PopScope(
 ),
 ```
 
-### Migrating from WillPopScope to NavigatorPopHandler for nested Navigators
+### 從 WillPopScope 遷移到 NavigatorPopHandler 以支援巢狀 Navigator
 
-A very common use case of `WillPopScope` was to properly handle
-back gestures when using nested `Navigator` widgets.
-It's possible to do this using `PopScope` as well,
-but there is now a wrapper widget that makes this even easier:
-`NavigatorPopHandler`.
+`WillPopScope` 的一個非常常見的使用情境，是在使用巢狀 `Navigator` 元件（Widgets）時，正確處理返回手勢（back gestures）。
+雖然也可以使用 `PopScope` 來實現這個需求，
+但現在有一個包裝元件（wrapper widget）可以讓這件事變得更簡單：
+`NavigatorPopHandler`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 WillPopScope(
@@ -185,7 +158,7 @@ WillPopScope(
 )
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 NavigatorPopHandler(
@@ -197,23 +170,19 @@ NavigatorPopHandler(
 )
 ```
 
-### Migrating from Form.onWillPop to Form.canPop and Form.onPopInvoked
+### 從 Form.onWillPop 遷移至 Form.canPop 和 Form.onPopInvoked
 
-Previously, `Form` used a `WillPopScope` instance under
-the hood and exposed its `onWillPop` method.
-This has been replaced with a `PopScope` that exposes its
-`canPop` and `onPopInvoked` methods.
-Migrating is identical to migrating from
-`WillPopScope` to `PopScope`, detailed above.
+過去，`Form` 在底層使用了一個 `WillPopScope` 實例，並對外暴露其 `onWillPop` 方法。
+現在已經改為使用 `PopScope`，並對外暴露其 `canPop` 和 `onPopInvoked` 方法。
+遷移方式與上方所述從 `WillPopScope` 遷移至 `PopScope` 完全相同。
 
-### Migrating from Route.willPop to Route.popDisposition
+### 從 Route.willPop 遷移至 Route.popDisposition
 
-`Route`'s `willPop` method returned a
-`Future<RoutePopDisposition>` to accommodate the fact
-that pops could be canceled. Now that that's no longer true,
-this logic has been simplified to a synchronous getter.
+`Route` 的 `willPop` 方法過去會回傳一個 `Future<RoutePopDisposition>`，
+以因應彈出操作可能會被取消的情況。由於現在不再需要這樣的處理，
+相關邏輯已簡化為同步 getter。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 if (await myRoute.willPop() == RoutePopDisposition.doNotPop) {
@@ -221,7 +190,7 @@ if (await myRoute.willPop() == RoutePopDisposition.doNotPop) {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 if (myRoute.popDisposition == RoutePopDisposition.doNotPop) {
@@ -229,22 +198,14 @@ if (myRoute.popDisposition == RoutePopDisposition.doNotPop) {
 }
 ```
 
-### Migrating from ModalRoute.add/removeScopedWillPopCallback to ModalRoute.(un)registerPopEntry
+### 從 ModalRoute.add/removeScopedWillPopCallback 遷移至 ModalRoute.(un)registerPopEntry
 
-Internally, `ModalRoute` kept track of the existence of
-`WillPopScope`s in its widget subtree by registering them
-with `addScopedWillPopCallback` and
-`removeScopedWillPopCallback`.
-Since `PopScope` replaces `WillPopScope`,
-these methods have been replaced by `registerPopEntry` and
-`unregisterPopEntry`, respectively.
+在內部，`ModalRoute` 會透過將 `WillPopScope` 註冊到 `addScopedWillPopCallback` 和 `removeScopedWillPopCallback`，來追蹤其元件（Widget）子樹中 `WillPopScope` 的存在情況。
+由於 `PopScope` 取代了 `WillPopScope`，這些方法也分別被 `registerPopEntry` 和 `unregisterPopEntry` 取代。
 
-`PopEntry` is implemented by `PopScope` in order to expose only the minimal
-information necessary to `ModalRoute`. Anyone writing their own `PopScope`
-should implement `PopEntry` and register and unregister their widget with
-its enclosing `ModalRoute`.
+`PopEntry` 由 `PopScope` 實作，以僅向 `ModalRoute` 暴露必要的最少資訊。任何自行撰寫 `PopScope` 的開發者，都應該實作 `PopEntry`，並將其元件向所屬的 `ModalRoute` 註冊與取消註冊。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 @override
@@ -260,7 +221,7 @@ void didChangeDependencies() {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 @override
@@ -272,22 +233,13 @@ void didChangeDependencies() {
 }
 ```
 
-### Migrating from ModalRoute.hasScopedWillPopCallback to ModalRoute.popDisposition
+### 從 ModalRoute.hasScopedWillPopCallback 遷移至 ModalRoute.popDisposition
 
-This method was previously used for a use-case
-very similar to Predictive Back but in the Cupertino library,
-where certain back transitions allowed canceling
-the navigation. The route transition was disabled
-when there was even the possibility of a `WillPopScope`
-widget canceling the pop.
+這個方法先前主要用於 Cupertino 函式庫中，處理與 Predictive Back 類似的使用情境，也就是某些返回（back）轉場允許取消導覽（navigation）。當存在任何可能由`WillPopScope`元件（Widget）取消 pop 的情況時，該 Route 的轉場就會被停用。
 
-Now that the API requires this to be decided ahead of time,
-this no longer needs to be speculatively based on the
-existence of `PopScope` widgets. The definitive
-logic of whether a `ModalRoute` has popping blocked
-by a `PopScope` widget is baked into `ModalRoute.popDisposition`.
+現在，由於 API 要求必須預先決定這個行為，因此不再需要僅根據`PopScope`元件（Widget）的存在來推測。判斷`ModalRoute`是否因`PopScope`元件（Widget）而被阻擋 pop 的最終邏輯，已經內建於`ModalRoute.popDisposition`中。
 
-Code before migration:
+遷移前的程式碼如下：
 
 ```dart
 if (_route.hasScopedWillPopCallback) {
@@ -295,7 +247,7 @@ if (_route.hasScopedWillPopCallback) {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 if (_route.popDisposition == RoutePopDisposition.doNotPop) {
@@ -303,13 +255,12 @@ if (_route.popDisposition == RoutePopDisposition.doNotPop) {
 }
 ```
 
-### Migrating a back confirmation dialog
+### 遷移 back 確認對話框
 
-`WillPopScope` was sometimes used to show a confirmation
-dialog when a back gesture was received. 
-This can still be done with `PopScope` in a similar pattern.
+`WillPopScope` 有時會用來在收到返回手勢（back gesture）時顯示確認對話框。  
+這仍然可以透過 `PopScope` 以類似的方式實現。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 WillPopScope(
@@ -321,7 +272,7 @@ WillPopScope(
 )
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 return PopScope(
@@ -340,51 +291,47 @@ return PopScope(
 )
 ```
 
-### Supporting predictive back
+### 支援預測返回（predictive back）
 
-  1. Run Android 14 (API level 34) or above.
-  1. Enable the feature flag for predictive back on
-     the device under "Developer options".
-     This will be unnecessary on future versions of Android.
-  1. Set `android:enableOnBackInvokedCallback="true"` in
-     `android/app/src/main/AndroidManifest.xml`.
-      If needed, refer to
-     [Android's full guide]({{site.android-dev}}/guide/navigation/custom-back/predictive-back-gesture).
-     for migrating Android apps to support predictive back.
-  1. Make sure you're using version `3.14.0-7.0.pre`
-     of Flutter or greater.
-  1. Make sure your Flutter app doesn't use the
-     `WillPopScope` widget. Using it disables
-     predictive back. If needed, use `PopScope` instead.
-  1. Run the app and perform a back gesture (swipe from the
-     left side of the screen).
+  1. 執行 Android 14（API 等級 34）或以上版本。
+  1. 在裝置的「開發人員選項」中啟用預測返回（predictive back）功能旗標。
+     在未來的 Android 版本中將不再需要這個步驟。
+  1. 在`android/app/src/main/AndroidManifest.xml`中設定`android:enableOnBackInvokedCallback="true"`。
+      如有需要，請參考
+     [Android 的完整指南]({{site.android-dev}}/guide/navigation/custom-back/predictive-back-gesture)
+     以協助 Android 應用程式遷移並支援預測返回。
+  1. 請確保你使用的是 Flutter 版本`3.14.0-7.0.pre`或更高版本。
+  1. 請確認你的 Flutter 應用程式沒有使用
+     `WillPopScope`元件（Widget）。使用該元件會停用
+     預測返回。若有需要，請改用`PopScope`。
+  1. 執行應用程式，並從螢幕左側滑動進行返回手勢。
 
-## Timeline
+## 時程
 
-Landed in version: 3.14.0-7.0.pre<br>
-In stable release: 3.16
+合併於版本：3.14.0-7.0.pre<br>  
+穩定版釋出：3.16
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`PopScope`][]
-* [`NavigatorPopHandler`][]
-* [`PopEntry`][]
-* [`Form.canPop`][]
-* [`Form.onPopInvoked`][]
-* [`Route.popDisposition`][]
-* [`ModalRoute.registerPopEntry`][]
-* [`ModalRoute.unregisterPopEntry`][]
+* [`PopScope`][`PopScope`]
+* [`NavigatorPopHandler`][`NavigatorPopHandler`]
+* [`PopEntry`][`PopEntry`]
+* [`Form.canPop`][`Form.canPop`]
+* [`Form.onPopInvoked`][`Form.onPopInvoked`]
+* [`Route.popDisposition`][`Route.popDisposition`]
+* [`ModalRoute.registerPopEntry`][`ModalRoute.registerPopEntry`]
+* [`ModalRoute.unregisterPopEntry`][`ModalRoute.unregisterPopEntry`]
 
-Relevant issues:
+相關議題：
 
-* [Issue 109513][]
+* [Issue 109513][Issue 109513]
 
-Relevant PRs:
+相關 PR：
 
-* [Predictive Back support for root routes][]
-* [Platform channel for predictive back][]
+* [Predictive Back support for root routes][Predictive Back support for root routes]
+* [Platform channel for predictive back][Platform channel for predictive back]
 
 [`PopScope`]: {{site.api}}/flutter/widgets/PopScope-class.html
 [`NavigatorPopHandler`]: {{site.api}}/flutter/widgets/NavigatorPopHandler-class.html

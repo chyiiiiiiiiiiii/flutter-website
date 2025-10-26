@@ -1,67 +1,61 @@
 ---
-title: Flutter now sets default `abiFilters` in Android builds
+title: Flutter 現在於 Android 建置中自動設定預設的 `abiFilters`
 description: >-
-  The Flutter Gradle Plugin now automatically configures abiFilters
-  for Android builds, which might break custom abiFilters settings.
+  Flutter Gradle Plugin 現在會自動為 Android 建置設定 abiFilters，
+  這可能會影響自訂 abiFilters 的設定。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-Starting in Flutter 3.35, the Flutter Gradle Plugin automatically sets
-[`abiFilters`][] for Android builds to prevent the inclusion of unsupported
-architectures in release APKs. This change can break custom
-`abiFilters` specified in your app's `build.gradle` file.
+自 Flutter 3.35 起，Flutter Gradle Plugin 會自動為 Android 建置設定
+[`abiFilters`][`abiFilters`]，以避免在發佈 APK 時包含不支援的架構。
+此變更可能會影響你在應用程式的 `build.gradle` 檔案中自訂的
+`abiFilters` 設定。
 
-## Context
+## 背景
 
-This change was introduced to solve an issue where third-party
-dependencies with x86 native libraries would cause Google Play to
-incorrectly identify Flutter apps as supporting x86 devices. When users
-with x86 devices installed these apps, they would crash at runtime
-because Flutter's native libraries aren't available for x86.
+這項變更是為了解決第三方相依套件帶有 x86 原生函式庫時，
+Google Play 會錯誤地判斷 Flutter 應用程式支援 x86 裝置的問題。
+當使用 x86 裝置的用戶安裝這些應用程式時，會因 Flutter 的原生函式庫
+並未支援 x86 而導致執行時當機。
 
-The Flutter Gradle Plugin now automatically configures `abiFilters` to
-include only the architectures that Flutter supports. This prevents
-Google Play from making apps available to incompatible devices.
+Flutter Gradle Plugin 現在會自動設定 `abiFilters`，
+只包含 Flutter 支援的架構。這可防止 Google Play
+將應用程式提供給不相容的裝置。
 
-## Description of change
+## 變更說明
 
-The Flutter Gradle Plugin now programmatically sets `abiFilters` for
-non-debuggable builds when the `--splits-per-abi` option is not enabled
-by default to:
+Flutter Gradle Plugin 現在會在非 debuggable 建置時，
+且預設未啟用 `--splits-per-abi` 選項時，以程式方式設定 `abiFilters` 為：
 - `armeabi-v7a`
 - `arm64-v8a`
 - `x86_64`
 
-Because this automatic configuration happens before your `build.gradle` files
-are processed, it might break custom `abiFilters` settings that depend on the
-set being empty.
+由於這項自動設定會在處理你的 `build.gradle` 檔案之前執行，
+因此可能會影響依賴於該設定為空的自訂 `abiFilters` 設定。
 
-## Migration guide
-If your app doesn't customize `abiFilters`, no changes are required.
+## 遷移指南
 
-If your app needs to customize which architectures are included, you have
-several options:
+如果你的應用程式沒有自訂 `abiFilters`，則無需進行任何變更。
 
-### Option 1: Use the splits-per-abi flag
+如果你的應用程式需要自訂包含哪些架構，有以下幾種選擇：
 
-If you want to control architecture inclusion, use Flutter's built-in
-`--splits-per-abi` option instead of manually configuring `abiFilters`:
+### 選項 1：使用 splits-per-abi 旗標
+
+如果你想要控制架構的納入，請使用 Flutter 內建的
+`--splits-per-abi` 選項，而非手動設定 `abiFilters`：
 
 ```console
 flutter build apk --splits-per-abi
 ```
 
-This creates separate APKs for each architecture and automatically disables
-the automatic `abiFilters` configuration.
+這會為每個架構建立獨立的 APK，並自動停用自動的 `abiFilters` 設定。
 
-### Option 2: Clear and reconfigure abiFilters
+### 選項 2：清除並重新設定 abiFilters
 
-If you must use a single APK with custom architecture filters, clear the
-automatically set filters and configure your own in your `build.gradle`.
-For example:
+如果你必須使用單一 APK 並自訂架構過濾器，請先清除自動設定的過濾器，然後在你的 `build.gradle` 中自行設定。例如：
 
 ```kotlin
 android {
@@ -76,16 +70,16 @@ android {
 }
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.35.0<br>
-In stable release: 3.35
+已納入版本：3.35.0<br>  
+穩定版發佈：3.35
 
-Relevant issues:
+相關議題：
 * [Issue #174004]({{site.repo.flutter}}/issues/174004)
 * [Issue #153476]({{site.repo.flutter}}/issues/153476)
 
-Relevant PRs:
+相關 PR：
 * [PR #168293]({{site.repo.flutter}}/pull/168293)
 
 [`abiFilters`]: https://developer.android.com/reference/tools/gradle-api/8.7/com/android/build/api/dsl/Ndk#abiFilters()

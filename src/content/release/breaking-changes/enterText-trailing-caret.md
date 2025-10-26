@@ -1,75 +1,62 @@
 ---
-title: Change the enterText method to move the caret to the end of the input text
+title: 將 enterText 方法修改為將游標移至輸入文字結尾
 description: >
-  WidgetTester.enterText and TestTextInput.enterText now
-  move the caret to the end of the input text.
+  WidgetTester.enterText 與 TestTextInput.enterText
+  現在會將游標移至輸入文字的結尾。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-The `WidgetTester.enterText` and `TestTextInput.enterText` methods
-now move the caret to the end of the input text.
+`WidgetTester.enterText` 與 `TestTextInput.enterText` 方法
+現在會將游標移至輸入文字的結尾。
 
-## Context
+## 背景
 
-The caret indicates the insertion point within the current text in an
-active input field. Typically, when a new character is entered, the
-caret stays immediately after it. In Flutter the caret position is
-represented by a collapsed selection. When the selection is invalid,
-usually the user won't be able to modify or add text until they
-change the selection to a valid value.
+游標（caret）用來指示目前在作用中輸入欄位（input field）中的插入點。一般來說，當輸入新字元時，游標會停留在新字元之後。在 Flutter 中，游標位置是以收合的選取範圍（collapsed selection）來表示。當選取範圍無效時，通常使用者將無法修改或新增文字，直到他們將選取範圍更改為有效值。
 
-`WidgetTester.enterText` and `TestTextInput.enterText` are 2 methods
-used in tests to replace the content of the target text field. Prior
-to this change, `WidgetTester.enterText` and `TestTextInput.enterText`
-set the selection to an invalid range (-1, -1), indicating there's
-no selection or caret. This contradicts the typical behavior of an
-input field.
+`WidgetTester.enterText` 與 `TestTextInput.enterText` 是在測試中用來取代目標文字欄位內容的兩個方法。在這項變更之前，`WidgetTester.enterText` 與 `TestTextInput.enterText`
+會將選取範圍設為無效區間（-1, -1），代表沒有選取範圍或游標。這與一般輸入欄位的行為相矛盾。
 
-## Description of change
+## 變更說明
 
-In addition to replacing the text with the supplied text,
-`WidgetTester.enterText` and `TestTextInput.enterText` now set the
-selection to `TextSelection.collapsed(offset: text.length)`, instead
-of `TextSelection.collapsed(offset: -1)`.
+除了用提供的文字取代原有內容外，
+`WidgetTester.enterText` 與 `TestTextInput.enterText` 現在會將
+選取範圍設為 `TextSelection.collapsed(offset: text.length)`，
+而不是 `TextSelection.collapsed(offset: -1)`。
 
-## Migration guide
+## 遷移指南
 
-It should be very uncommon for tests to have to rely on the
-previous behavior of `enterText`, since usually the selection
-should not be invalid. **Consider changing the expected values of
-your tests to adopt the `enterText` change.**
+測試程式必須依賴 `enterText` 先前行為的情況應該非常少見，因為選取範圍通常不應該是無效的。**建議您調整測試的預期值，以配合 `enterText` 的變更。**
 
-Common test failures this change may introduce includes:
+此變更可能導致的常見測試失敗包括：
 
-- Golden test failures: 
+- Golden 測試失敗：
 
-  The caret appears at the end of the text, as opposed to before
-  the text prior to the change.
+  游標會出現在文字結尾，而不是變更前出現在文字前方。
   
-- Different `TextEditingValue.selection` after calling `enterText`:
+- 呼叫 `enterText` 後的 `TextEditingValue.selection` 不同：
 
-  The text field's `TextEditingValue` now has a collapsed 
-  selection with a non-negative offset, as opposed to 
-  `TextSelection.collapsed(offset: -1)` prior to the change.
-  For instance, you may see 
+  文字欄位的 `TextEditingValue` 現在會有一個
+  非負偏移量（offset）的收合選取範圍，而不是
+  變更前的 `TextSelection.collapsed(offset: -1)`。
+  例如，您可能會看到
   `expect(controller.value.selection.baseOffset, -1);`
-  failing after `enterText` calls.
+  在呼叫 `enterText` 後失敗。
 
-If your tests have to rely on setting the selection to invalid,
-the previous behavior can be achieved using`updateEditingValue`:  
+如果您的測試確實需要將選取範圍設為無效，
+可以使用`updateEditingValue` 來達到先前的行為：
 
 ### `TestTextInput.enterText`
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 await testTextInput.enterText(text);
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 await testTextInput.updateEditingValue(TextEditingValue(
@@ -79,13 +66,13 @@ await testTextInput.updateEditingValue(TextEditingValue(
 
 ### `WidgetTester.enterText`
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 await tester.enterText(finder, text);
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 await tester.showKeyboard(finder);
@@ -95,25 +82,25 @@ await tester.updateEditingValue(TextEditingValue(
 await tester.idle();
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 2.1.0-13.0.pre<br>
-In stable release: 2.5
+合併於版本：2.1.0-13.0.pre<br>  
+正式版釋出：2.5
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`WidgetTester.enterText`][]
-* [`TestTextInput.enterText`][]
+* [`WidgetTester.enterText`][`WidgetTester.enterText`]
+* [`TestTextInput.enterText`][`TestTextInput.enterText`]
 
-Relevant issues:
+相關議題：
 
-* [Issue 79494][]
+* [Issue 79494][Issue 79494]
 
-Relevant PR:
+相關 PR：
 
-* [enterText to move the caret to the end][]
+* [enterText 將游標移至結尾][enterText to move the caret to the end]
 
 
 [`WidgetTester.enterText`]: {{site.api}}/flutter/flutter_test/WidgetTester/enterText.html

@@ -1,69 +1,62 @@
-# DevTools 2.21.1 release notes
+# DevTools 2.21.1 版本發行說明
 
-The 2.21.1 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](https://docs.flutter.dev/tools/devtools).
+Dart 與 Flutter DevTools 2.21.1 版本
+包含以下變更及其他一般性改進。
+若想進一步瞭解 DevTools，請參閱
+[DevTools overview](https://docs.flutter.dev/tools/devtools)。
 
-## Performance updates
+## 效能更新
 
-* Replace the DevTools timeline trace viewer with
-  the [Perfetto](https://perfetto.dev/) trace viewer - 
+* 將 DevTools 時間軸追蹤檢視器替換為
+  [Perfetto](https://perfetto.dev/) 追蹤檢視器 -
   [#5142](https://github.com/flutter/devtools/pull/5142)
 
   ![perfetto trace viewer](/assets/images/docs/tools/devtools/release-notes/images-2.21.1/image1.png "perfetto_trace_viewer")
 
-* Fix several issues with loading a Performance snapshot into DevTools -
-  [#5048](https://github.com/flutter/devtools/pull/5048),
+* 修正多項將 Performance 快照載入 DevTools 時的問題 -
+  [#5048](https://github.com/flutter/devtools/pull/5048)、
   [#4929](https://github.com/flutter/devtools/pull/4929)
-* UI polish and cleanup - [#4889](https://github.com/flutter/devtools/pull/4889)
+* UI 優化與清理 - [#4889](https://github.com/flutter/devtools/pull/4889)
 
-## Memory updates
+## 記憶體更新
 
-* Improve usability of snapshot diffing -
+* 改善快照差異比對的易用性 -
   [#5015](https://github.com/flutter/devtools/pull/5015)
-* UI polish and cleanup -
+* UI 優化與清理 -
   [#4855](https://github.com/flutter/devtools/pull/4855)
-* Color code classes based on where they are defined
-  (SDK, your package, dependencies, etc.) -
+* 依據類別定義位置（SDK、您的套件、相依套件等）進行顏色標示 -
   [#5030](https://github.com/flutter/devtools/pull/5030)
-* Fix state management issue for tracing -
+* 修正追蹤的狀態管理問題 -
   [#5062](https://github.com/flutter/devtools/pull/5062)
-* Improve the performance of taking a heap snapshot -
+* 提升取得 heap 快照的效能 -
   [#5134](https://github.com/flutter/devtools/pull/5134)
-* Retire broken import/export feature -
+* 移除已損壞的匯入/匯出功能 -
   [#5135](https://github.com/flutter/devtools/pull/5135)
 
-## Debugger updates
+## 除錯器更新
 
-* Added support for viewing profiler hits in
-  the debugger script viewer -
+* 新增在除錯器腳本檢視器中查看 profiler 命中的支援 -
   [#4831](https://github.com/flutter/devtools/pull/4831)
-* Added support for inspecting records -
+* 新增檢查 record 的支援 -
   [#5084](https://github.com/flutter/devtools/pull/5084)
 
-## General updates
+## 一般更新
 
-* Fix several issues in syntax highlighting that would
-  color variable names that contain reserved words incorrectly and
-  leave `extends`/`implements` clauses uncolored for some classes -
+* 修正語法高亮顯示的多個問題，包含變數名稱含有保留字時顏色標示錯誤，以及部分類別的 `extends`/`implements` 子句未上色的問題 -
   [#4948](https://github.com/flutter/devtools/pull/4948)
-* Fix an issue in Safari, and
-  other browsers that do not support RegExp negative lookbehind,
-  that prevented DevTools from loading -
+* 修正在 Safari 及其他不支援 RegExp 負向後顯（negative lookbehind）的瀏覽器中，導致 DevTools 無法載入的問題 -
   [#4938](https://github.com/flutter/devtools/pull/4938)
-* Fix an issue that would prevent DevTools connecting to
-  the backend server that would disable some functionality -
+* 修正導致 DevTools 無法連接後端伺服器，進而停用部分功能的問題 -
   [#5016](https://github.com/flutter/devtools/pull/5016)
-* Add a link to the DevTools
-  [contribution guide](https://github.com/flutter/devtools/blob/master/CONTRIBUTING.md)
-  to the About menu, and fixed the Discord link -
+* 在 About 選單中新增 DevTools
+  [貢獻指南](https://github.com/flutter/devtools/blob/master/CONTRIBUTING.md)
+  的連結，並修正 Discord 連結 -
   [#4926](https://github.com/flutter/devtools/pull/4926)
-* Fix conflicting colors in light theme -
+* 修正亮色主題下的顏色衝突問題 -
   [#5067](https://github.com/flutter/devtools/pull/5067)
 
-## Full commit history
+## 完整提交記錄
 
-To find a complete list of changes since the previous release,
-check out
-[the diff on GitHub](https://github.com/flutter/devtools/compare/v2.20.0...v2.21.1).
+如需查閱自上個版本以來的完整變更清單，
+請參閱
+[GitHub 上的差異比較](https://github.com/flutter/devtools/compare/v2.20.0...v2.21.1)。

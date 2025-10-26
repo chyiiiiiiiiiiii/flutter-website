@@ -1,36 +1,35 @@
 ---
-title: Layouts in Flutter
-shortTitle: Layout
+title: Flutter 中的版面配置
+shortTitle: 版面配置
 description: >-
-  Learn how Flutter's layout mechanism works and how to build your app's layout.
+  了解 Flutter 的版面配置機制如何運作，以及如何建立應用程式的版面配置。
 ---
 
-## Overview
+## 概覽
 
-:::secondary What's the point?
-* Layouts in Flutter are built with widgets.
-* Widgets are classes used to build UIs.
-* Widgets are also used to build UI elements.
-* Compose simple widgets to build complex widgets.
+:::secondary 有什麼重點？
+* Flutter 中的版面配置是由元件（Widgets）構成的。
+* 元件（Widgets）是用來建立 UI 的類別。
+* 元件（Widgets）同時也用來建立 UI 元素。
+* 組合簡單的元件（Widgets）來構建複雜的元件（Widgets）。
 :::
 
-The core of Flutter's layout mechanism is widgets.
-In Flutter, almost everything is a widget&mdash;even
-layout models are widgets. The images, icons,
-and text that you see in a Flutter app are all widgets.
-But things you don't see are also widgets,
-such as the rows, columns, and grids that arrange,
-constrain, and align the visible widgets.
-You create a layout by composing widgets to build more
-complex widgets.
+Flutter 版面配置機制的核心就是元件（Widgets）。
+在 Flutter 中，幾乎所有東西都是元件（Widget）&mdash;甚至
+版面配置模型本身也是元件（Widget）。你在 Flutter 應用程式中看到的
+圖片、圖示和文字，都是元件（Widget）。
+但你看不到的東西也是元件（Widget），
+像是用來排列、限制和對齊可見元件（Widget）的
+行（row）、列（column）和網格（grid）。
+你可以透過組合元件（Widgets）來建立更複雜的元件（Widgets），
+進而完成版面配置。
 
-## Conceptual example
+## 概念範例
 
-In the following example, the first screenshot displays
-three icons with labels and the second screenshot includes
-the visual layout for rows and columns. In the second
-screenshot, `debugPaintSizeEnabled` is set to `true` so you
-can see the visual layout.
+在以下範例中，第一張螢幕截圖顯示了三個帶有標籤的圖示，
+而第二張螢幕截圖則包含了行與列的視覺化版面配置。
+在第二張螢幕截圖中，`debugPaintSizeEnabled` 被設為 `true`，
+讓你可以看到版面配置的視覺化效果。
 
 <div class="side-by-side">
   <div class="centered-rows">
@@ -41,33 +40,30 @@ can see the visual layout.
   </div>
 </div>
 
-Here's a diagram of the widget tree for the previous
-example:
+以下是前述範例的元件樹（widget tree）圖示：
 
 <img src='/assets/images/docs/ui/layout/sample-flutter-layout.png' class="text-center diagram-wrap" alt="Node tree">
 
-Most of this should look as you might expect, but you might be wondering
-about the containers (shown in pink). [`Container`][] is a widget class
-that allows you to customize its child widget. Use a `Container` when
-you want to add padding, margins, borders, or background color,
-to name some of its capabilities.
+大部分內容應該如你所預期，但你可能會對那些（粉紅色顯示的）容器感到好奇。[`Container`][`Container`] 是一個元件（Widget）類別，
+它允許你自訂其子元件（child widget）。當你想要為子元件加入
+內距（padding）、外距（margin）、邊框（border）或背景顏色等效果時，
+就可以使用 `Container`。
 
-Each [`Text`][] widget is placed in a `Container`
-to add margins. The entire [`Row`][] is also placed in a
-`Container` to add padding around the row.
+每個 [`Text`][`Text`] 元件都被放在 `Container`
+中，以加入外距。整個 [`Row`][`Row`] 也被放在
+`Container` 中，以在該行周圍加入內距。
 
-The rest of the UI is controlled by properties.
-Set an [`Icon`][]'s color using its `color` property.
-Use the `Text.style` property to set the font, its color, weight, and so on.
-Columns and rows have properties that allow you to specify how their
-children are aligned vertically or horizontally, and how much space
-the children should occupy.
+其餘的 UI 則由屬性控制。
+你可以透過 [`Icon`][`Icon`] 的 `color` 屬性來設定顏色。
+使用 `Text.style` 屬性可以設定字型、顏色、字重等。
+列（columns）與行（rows）則有屬性可讓你指定其子元件
+如何垂直或水平對齊，以及子元件應該佔用多少空間。
 
 :::note
-Most of the screenshots in this tutorial are displayed with
-`debugPaintSizeEnabled` set to `true` so you can see the
-visual layout. For more information, see
-[Debugging layout issues visually][].
+本教學中大多數螢幕截圖都將
+`debugPaintSizeEnabled` 設為 `true`，以便你能看到
+視覺化的版面配置。欲了解更多資訊，請參閱
+[視覺化偵錯版面配置問題][Debugging layout issues visually]。
 :::
 
 [`Container`]: {{site.api}}/flutter/widgets/Container-class.html
@@ -76,25 +72,23 @@ visual layout. For more information, see
 [`Row`]: {{site.api}}/flutter/widgets/Row-class.html
 [`Text`]: {{site.api}}/flutter/widgets/Text-class.html
 
-## Lay out a widget
+## 排版單一元件（Widget）
 
-How do you lay out a single widget in Flutter? This section
-shows you how to create and display a simple widget.
-It also shows the entire code for a simple Hello World app.
+在 Flutter 中，如何排版一個單一元件（Widget）？
+本節將示範如何建立並顯示一個簡單的元件（Widget），
+同時也會展示一個簡單 Hello World 應用程式的完整程式碼。
 
-In Flutter, it takes only a few steps to put text, an icon,
-or an image on the screen.
+在 Flutter 中，只需幾個步驟即可將文字、圖示或圖片顯示在螢幕上。
 
-### 1. Select a layout widget
+### 1. 選擇一個版面配置元件（Layout Widget）
 
-Choose from a variety of [layout widgets][] based
-on how you want to align or constrain a visible widget,
-as these characteristics are typically passed on to the
-contained widget.
+你可以根據想要如何對齊或限制可見元件（Widget），
+從多種[版面配置元件（Layout widgets）][layout widgets]中選擇，
+因為這些特性通常會傳遞給其所包含的元件。
 
-For example, you could use the
-[`Center`][] layout widget to center a visible widget
-horizontally and vertically:
+例如，你可以使用
+[`Center`][`Center`] 版面配置元件（Layout Widget），
+將可見元件（Widget）在水平與垂直方向上置中顯示：
 
 ```dart
 Center(
@@ -105,14 +99,11 @@ Center(
 [`Center`]: {{site.api}}/flutter/widgets/Center-class.html
 [layout widgets]: /ui/widgets/layout
 
-### 2. Create a visible widget
+### 2. 建立可見元件 (Widget)
 
-Choose a [visible widget][] for your app to contain
-visible elements, such as [text][], [images][], or
-[icons][].
+為你的應用程式選擇一個[可見元件 (Widget)][visible widget]來承載可見元素，例如[文字][text]、[圖片][images]或[圖示][icons]。
 
-For example, you could use the [`Text`][] widget display
-some text:
+例如，你可以使用[`Text`][`Text`]元件來顯示一些文字：
 
 ```dart
 Text('Hello World')
@@ -124,18 +115,18 @@ Text('Hello World')
 [`Text`]: {{site.api}}/flutter/widgets/Text-class.html
 [visible widget]: /ui/widgets
 
-### 3. Add the visible widget to the layout widget
+### 3. 將可見元件 (Widget) 加入版面配置元件 (Layout Widget)
 
 <?code-excerpt path-base="layout/base"?>
 
-All layout widgets have either of the following:
+所有版面配置元件 (Layout widgets) 都有以下其中之一：
 
-* A `child` property if they take a single child&mdash;for example,
-  `Center` or `Container`
-* A `children` property if they take a list of widgets&mdash;for example,
-  `Row`, `Column`, `ListView`, or `Stack`.
+* 如果只接收單一子元件，則有 `child` 屬性，例如
+  `Center` 或 `Container`
+* 如果接收元件清單，則有 `children` 屬性，例如
+  `Row`、`Column`、`ListView` 或 `Stack`。
 
-Add the `Text` widget to the `Center` widget:
+將 `Text` 元件加入 `Center` 元件中：
 
 <?code-excerpt "lib/main.dart (centered-text)" replace="/body: //g"?>
 ```dart
@@ -144,11 +135,9 @@ const Center(
 ),
 ```
 
-### 4. Add the layout widget to the page
+### 4. 將版面配置元件 (Layout Widget) 加入頁面
 
-A Flutter app is itself a widget, and most widgets have a [`build()`][]
-method. Instantiating and returning a widget in the app's `build()` method
-displays the widget.
+一個 Flutter 應用程式本身就是一個元件（Widget），而大多數元件都有一個 [`build()`][`build()`] 方法。在應用程式的 `build()` 方法中實例化並回傳一個元件，便會顯示該元件。
 
 <a id="non-material-apps" aria-hidden="true"></a>
 <a id="material-apps" aria-hidden="true"></a>
@@ -158,8 +147,7 @@ displays the widget.
 
 {% tab "Standard apps" %}
 
-For a general app, you can add the `Container` widget to
-the app's `build()` method:
+對於一般應用程式，你可以將 `Container` 元件（Widget）加入應用程式的 `build()` 方法中：
 
 <?code-excerpt path-base="layout/non_material"?>
 <?code-excerpt "lib/main.dart (my-app)"?>
@@ -183,21 +171,13 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-By default, a general app doesn't include an `AppBar`,
-title, or background color. If you want these features in a
-general app, you have to build them yourself. This app
-changes the background color to white and the text to
-dark grey to mimic a Material app.
+預設情況下，一般應用程式（general app）不會包含`AppBar`、標題或背景顏色。如果你希望在一般應用程式中加入這些功能，則需要自行實作。本範例應用程式將背景顏色設為白色，文字設為深灰色，以模仿 Material 應用程式的風格。
 
 {% endtab %}
 
 {% tab "Material apps" %}
 
-For a `Material` app, you can use a [`Scaffold`][] widget;
-it provides a default banner, background color,
-and has API for adding drawers, snack bars, and bottom sheets.
-Then you can add the `Center` widget directly to the `body`
-property for the home page.
+對於`Material`應用程式，你可以使用[`Scaffold`][`Scaffold`]元件（Widget）；它會提供預設橫幅、背景顏色，並且有 API 可用於新增抽屜（drawer）、訊息條（snack bar）以及底部彈窗（bottom sheet）。接著，你可以將`Center`元件直接加到`body`屬性，作為首頁內容。
 
 <?code-excerpt path-base="layout/base"?>
 <?code-excerpt "lib/main.dart (my-app)"?>
@@ -222,37 +202,23 @@ class MyApp extends StatelessWidget {
 ```
 
 :::note
-The [Material library][] implements widgets that follow [Material
-Design][] principles. When designing your UI, you can exclusively use
-widgets from the standard [widgets library][], or you can use
-widgets from the Material library. You can mix widgets from both
-libraries, you can customize existing widgets,
-or you can build your own set of custom widgets.
+[Material 函式庫][Material library] 實作了遵循 [Material Design][] 原則的元件（Widgets）。在設計 UI 時，你可以只使用標準 [widgets 函式庫][widgets library] 的元件，也可以使用 Material 函式庫的元件。你可以混合使用這兩個函式庫的元件、客製化現有元件，或自行建立一套自訂元件。
 :::
 
 {% endtab %}
 
 {% tab "Cupertino apps" %}
 
-To create a `Cupertino` app,
-use the `CupertinoApp` and [`CupertinoPageScaffold`][] widgets.
+若要建立 `Cupertino` 應用程式，請使用 `CupertinoApp` 與 [`CupertinoPageScaffold`][`CupertinoPageScaffold`] 元件（Widgets）。
 
-Unlike `Material`, it doesn't provide a default banner or background color.
-You need to set these yourself.
+與 `Material` 不同，這裡不會自動提供預設的橫幅或背景顏色，你需要自行設定。
 
-* To set default colors, pass in a configured [`CupertinoThemeData`][]
-  to your app's `theme` property.
-* To add an iOS-styled navigation bar to the top of your app, add a
-  [`CupertinoNavigationBar`][] widget to the `navigationBar`
-  property of your scaffold.
-  You can use the colors that [`CupertinoColors`][] provides to
-  configure your widgets to match iOS design.
+* 若要設定預設顏色，請將已設定的 [`CupertinoThemeData`][`CupertinoThemeData`] 傳入應用程式的 `theme` 屬性。
+* 若要在應用程式頂部加入 iOS 風格的導覽列，請在 scaffold 的 `navigationBar` 屬性中加入 [`CupertinoNavigationBar`][`CupertinoNavigationBar`] 元件。你可以使用 [`CupertinoColors`][`CupertinoColors`] 提供的顏色來設定元件，使其符合 iOS 設計風格。
 
-* To lay out the body of your app, set the `child` property of your scaffold
-  with the desired widget as its value, like `Center` or `Column`.
+* 若要配置應用程式的主體內容，請將 scaffold 的 `child` 屬性設為你想要的元件，例如 `Center` 或 `Column`。
 
-To learn what other UI components you can add, check out the
-[Cupertino library][].
+想了解還有哪些 UI 元件可以加入，請參考 [Cupertino 函式庫][Cupertino library]。
 
 <?code-excerpt "lib/cupertino.dart (my-app)"?>
 ```dart
@@ -285,12 +251,12 @@ class MyApp extends StatelessWidget {
 ```
 
 :::note
-The [Cupertino library][] implements widgets that follow
-[Apple's Human Interface Guidelines for iOS][].
-When designing your UI, you can use
-widgets from the standard [widgets library][] or the Cupertino library.
-You can mix widgets from both libraries, you can customize existing widgets,
-or you can build your own set of custom widgets.
+[Cupertino 函式庫][Cupertino library] 實作了遵循
+[Apple 的人機介面指引（Human Interface Guidelines） for iOS][Apple's Human Interface Guidelines for iOS] 的元件（Widgets）。
+在設計 UI 時，你可以使用
+標準 [widgets 函式庫][widgets library] 或 Cupertino 函式庫中的元件（Widgets）。
+你可以混合使用這兩個函式庫的元件，也可以自訂現有元件，
+或建立你自己的自訂元件組合。
 :::
 
 {% endtab %}
@@ -308,89 +274,81 @@ or you can build your own set of custom widgets.
 [`Scaffold`]: {{site.api}}/flutter/material/Scaffold-class.html
 [widgets library]: {{site.api}}/flutter/widgets/widgets-library.html
 
-### 5. Run your app
+### 5. 執行你的應用程式
 
 <div class="side-by-side">
 <div>
 
-After you've added your widgets, run your app. When you run
-the app, you should see _Hello World_.
+在你加入元件（Widgets）後，請執行你的應用程式。當你執行
+應用程式時，應該會看到 _Hello World_。
 
-App source code:
+應用程式原始碼：
 
-* [Material app]({{site.repo.this}}/tree/main/examples/layout/base)
-* [Non-Material app]({{site.repo.this}}/tree/main/examples/layout/non_material)
+* [Material 應用程式]({{site.repo.this}}/tree/main/examples/layout/base)
+* [非 Material 應用程式]({{site.repo.this}}/tree/main/examples/layout/non_material)
 
 </div>
 {% render docs/app-figure.md, image:"ui/layout/hello-world.png", alt:"Screenshot of app displaying Hello World", img-style:"max-height: 400px;"  %}
 </div>
 <hr>
 
-## Lay out multiple widgets vertically and horizontally
+## 垂直與水平排列多個元件（Widgets）
 
 <?code-excerpt path-base=""?>
 
-One of the most common layout patterns is to arrange
-widgets vertically or horizontally. You can use a
-`Row` widget to arrange widgets horizontally,
-and a `Column` widget to arrange widgets vertically.
+最常見的版面配置模式之一，就是將元件（Widgets）
+垂直或水平排列。你可以使用
+`Row` 元件來水平排列元件，
+使用 `Column` 元件來垂直排列元件。
 
-:::secondary What's the point?
-* `Row` and `Column` are two of the most commonly used layout patterns.
-* `Row` and `Column` each take a list of child widgets.
-* A child widget can itself be a `Row`, `Column`,
-    or other complex widget.
-* You can specify how a `Row` or `Column` aligns its children,
-    both vertically and horizontally.
-* You can stretch or constrain specific child widgets.
-* You can specify how child widgets use the `Row`'s or
-    `Column`'s available space.
+:::secondary 這有什麼重點？
+* `Row` 和 `Column` 是兩種最常用的版面配置模式。
+* `Row` 和 `Column` 都接收一個子元件（child widgets）清單。
+* 子元件本身也可以是 `Row`、`Column`，
+    或其他複雜元件。
+* 你可以指定 `Row` 或 `Column` 如何對齊其子元件，
+    包含垂直與水平方向。
+* 你可以拉伸或限制特定子元件。
+* 你可以指定子元件如何使用 `Row` 或
+    `Column` 的可用空間。
 :::
 
-To create a row or column in Flutter, you add a list of children
-widgets to a [`Row`][] or [`Column`][] widget. In turn,
-each child can itself be a row or column, and so on.
-The following example shows how it is possible to nest rows or
-columns inside of rows or columns.
+要在 Flutter 中建立 row 或 column，只需將一個子元件（Widgets）清單
+加入 [`Row`][`Row`] 或 [`Column`][`Column`] 元件。每個子元件本身
+也可以是 row 或 column，如此類推。
+以下範例展示了如何在 row 或 column 內巢狀放置 row 或 column。
 
-This layout is organized as a `Row`. The row contains two children:
-a column on the left, and an image on the right:
+這個版面配置以 `Row` 為主體。該 row 包含兩個子元件：
+左側是一個 column，右側是一張圖片：
 
 <img src='/assets/images/docs/ui/layout/pavlova-diagram.png' class="diagram-wrap" alt="Screenshot with callouts showing the row containing two children">
 
-The left column's widget tree nests rows and columns.
+左側 column 的元件樹中巢狀了多個 row 與 column。
 
 <img src='/assets/images/docs/ui/layout/pavlova-left-column-diagram.png' class="diagram-wrap" alt="Diagram showing a left column broken down to its sub-rows and sub-columns">
 
-You'll implement some of Pavlova's layout code in
-[Nesting rows and columns](#nesting-rows-and-columns).
+你將在 [巢狀 row 與 column](#巢狀的-row-與-column) 中實作 Pavlova 的部分版面配置程式碼。
 
 :::note
-`Row` and `Column` are basic primitive widgets for horizontal
-and vertical layouts&mdash;these low-level widgets allow for maximum
-customization. Flutter also offers specialized, higher-level widgets
-that might be sufficient for your needs. For example,
-instead of `Row` you might prefer [`ListTile`][],
-an easy-to-use widget with properties for leading and trailing icons,
-and up to 3 lines of text.  Instead of Column, you might prefer
-[`ListView`][], a column-like layout that automatically scrolls
-if its content is too long to fit the available space.
-For more information, see [Common layout widgets][].
+`Row` 和 `Column` 是用於水平與垂直排列的基本原始元件（primitive widgets）&mdash;這些低階元件提供最大的自訂彈性。Flutter 也提供了更專門且高階的元件，可能已足夠滿足你的需求。例如，
+你可以用 [`ListTile`][`ListTile`] 取代 `Row`，
+這是一個易於使用的元件，具備 leading 與 trailing icon 屬性，
+並可顯示最多三行文字。你也可以用 [`ListView`][`ListView`] 取代 Column，
+這是一個類似 column 的版面配置元件，當內容過長超出可用空間時會自動捲動。
+更多資訊請參考 [常用版面配置元件][Common layout widgets]。
 :::
 
-[Common layout widgets]: #common-layout-widgets
+[Common layout widgets]: #常用版面配置元件-layout-widgets
 [`Column`]: {{site.api}}/flutter/widgets/Column-class.html
 [`ListTile`]: {{site.api}}/flutter/material/ListTile-class.html
 [`ListView`]: {{site.api}}/flutter/widgets/ListView-class.html
 [`Row`]: {{site.api}}/flutter/widgets/Row-class.html
 
-### Aligning widgets
+### 對齊元件（Widgets）
 
-You control how a row or column aligns its children using the
-`mainAxisAlignment` and `crossAxisAlignment` properties.
-For a row, the main axis runs horizontally and the cross axis runs
-vertically. For a column, the main axis runs vertically and the cross
-axis runs horizontally.
+你可以透過 `mainAxisAlignment` 與 `crossAxisAlignment` 屬性來控制 row 或 column 如何對齊其子元件。
+對於 row，主軸（main axis）為水平方向，交叉軸（cross axis）為垂直方向。
+對於 column，主軸為垂直方向，交叉軸為水平方向。
 
 <div class="side-by-side">
   <div class="centered-rows">
@@ -401,24 +359,20 @@ axis runs horizontally.
   </div>
 </div>
 
-The [`MainAxisAlignment`][] and [`CrossAxisAlignment`][]
-enums offer a variety of constants for controlling alignment.
+[`MainAxisAlignment`][`MainAxisAlignment`] 與 [`CrossAxisAlignment`][`CrossAxisAlignment`]
+列舉型別（enum）提供多種常數，可用來控制對齊方式。
 
 :::note
-When you add images to your project,
-you need to update the `pubspec.yaml` file to access
-them&mdash;this example uses `Image.asset` to display
-the images.  For more information, see this example's
-[`pubspec.yaml` file][] or [Adding assets and images][].
-You don't need to do this if you're referencing online
-images using `Image.network`.
+當你將圖片加入專案時，
+需要更新 `pubspec.yaml` 檔案才能存取這些圖片&mdash;本範例使用 `Image.asset` 來顯示
+圖片。更多資訊請參考本範例的
+[`pubspec.yaml` 檔案][`pubspec.yaml` file] 或 [加入資源與圖片][Adding assets and images]。
+如果你是使用 `Image.network` 參考線上圖片，則不需要這麼做。
 :::
 
-In the following example, each of the 3 images is 100 pixels wide.
-The render box (in this case, the entire screen)
-is more than 300 pixels wide, so setting the main axis
-alignment to `spaceEvenly` divides the free horizontal
-space evenly between, before, and after each image.
+在下列範例中，每張圖片寬度皆為 100 像素。
+渲染區域（本例為整個螢幕）寬度超過 300 像素，因此將主軸對齊設為 `spaceEvenly`
+會讓多餘的水平空間平均分配在每張圖片的前後與之間。
 
 <div class="code-and-content">
 <div>
@@ -443,11 +397,7 @@ space evenly between, before, and after each image.
 </div>
 </div>
 
-Columns work the same way as rows. The following example shows a column
-of 3 images, each is 100 pixels high. The height of the render box
-(in this case, the entire screen) is more than 300 pixels, so
-setting the main axis alignment to `spaceEvenly` divides the free vertical
-space evenly between, above, and below each image.
+Column（欄）與 Row（列）的運作方式相同。以下範例展示了一個包含 3 張圖片的 column，每張圖片高度為 100 像素。Render box（渲染區塊）的高度（在此例中為整個螢幕）大於 300 像素，因此將主軸對齊方式設為 `spaceEvenly` 時，會將多餘的垂直空間平均分配在每張圖片之間、上方與下方。
 
 <div class="code-and-content">
 <div>
@@ -468,7 +418,7 @@ space evenly between, above, and below each image.
 <div class="text-center">
   <img src='/assets/images/docs/ui/layout/column-visual.png' height="250px" class="small-diagram-wrap" alt="Column showing 3 images spaced evenly">
 
-  **App source:** [row_column]({{site.repo.this}}/tree/main/examples/layout/row_column)
+  **應用程式原始碼：** [row_column]({{site.repo.this}}/tree/main/examples/layout/row_column)
 </div>
 </div>
 
@@ -476,18 +426,15 @@ space evenly between, above, and below each image.
 [`MainAxisAlignment`]: {{site.api}}/flutter/rendering/MainAxisAlignment.html
 [`pubspec.yaml` file]: {{site.repo.this}}/tree/main/examples/layout/row_column/pubspec.yaml
 
-### Sizing widgets
+### 元件尺寸調整
 
-When a layout is too large to fit a device, a yellow
-and black striped pattern appears along the affected edge.
-Here is an [example][sizing] of a row that is too wide:
+當版面配置過大，無法完全顯示於裝置螢幕時，受影響的邊緣會出現黃黑相間的條紋圖案。
+以下是一個[row 過寬的範例][sizing]：
 
 <img src='/assets/images/docs/ui/layout/layout-too-large.png' class="text-center" style="max-height: 15rem;" alt="Overly-wide row">
 
-Widgets can be sized to fit within a row or column by using the
-[`Expanded`][] widget. To fix the previous example where the
-row of images is too wide for its render box,
-wrap each image with an `Expanded` widget.
+可以透過使用 [`Expanded`][`Expanded`] 元件，讓元件尺寸適合在 row 或 column 內顯示。若要修正前述圖片 row 超出其 render box 的情況，
+請將每個圖片包裹在 `Expanded` 元件中。
 
 <div class="code-and-content">
 <div>
@@ -506,17 +453,13 @@ wrap each image with an `Expanded` widget.
 
 </div>
 <div>
-  <img src='/assets/images/docs/ui/layout/row-expanded-2-visual.png' class="small-diagram-wrap" alt="Row of 3 images that are too wide, but each is constrained to take only 1/3 of the space">
+  <img src='/assets/images/docs/ui/layout/row-expanded-2-visual.png' class="small-diagram-wrap" alt="三張圖片排成一列，每張圖片寬度過大，但都被限制只能佔用 1/3 空間">
 
-  **App source:** [sizing]({{site.repo.this}}/tree/main/examples/layout/sizing)
+  **應用程式原始碼:** [sizing]({{site.repo.this}}/tree/main/examples/layout/sizing)
 </div>
 </div>
 
-Perhaps you want a widget to occupy twice as much space as its
-siblings. For this, use the `Expanded` widget `flex` property,
-an integer that determines the flex factor for a widget.
-The default flex factor is 1. The following code sets
-the flex factor of the middle image to 2:
+有時你可能希望某個元件（Widget）佔據比其他同列元件多兩倍的空間。此時，可以使用 `Expanded` 元件的 `flex` 屬性，這是一個整數，用來決定該元件的彈性係數（flex factor）。預設的彈性係數為 1。以下程式碼將中間圖片的彈性係數設為 2：
 
 <div class="code-and-content">
 <div>
@@ -535,21 +478,18 @@ the flex factor of the middle image to 2:
 
 </div>
 <div>
-  <img src='/assets/images/docs/ui/layout/row-expanded-visual.png' class="small-diagram-wrap" alt="Row of 3 images with the middle image twice as wide as the others">
+  <img src='/assets/images/docs/ui/layout/row-expanded-visual.png' class="small-diagram-wrap" alt="三張圖片一排，中間那張的寬度是其他兩張的兩倍">
 
-  **App source:** [sizing]({{site.repo.this}}/tree/main/examples/layout/sizing)
+  **應用程式原始碼:** [sizing]({{site.repo.this}}/tree/main/examples/layout/sizing)
 </div>
 </div>
 
 [`Expanded`]: {{site.api}}/flutter/widgets/Expanded-class.html
 [sizing]: {{site.repo.this}}/tree/main/examples/layout/sizing
 
-### Packing widgets
+### 元件（Widgets）打包（Packing）
 
-By default, a row or column occupies as much space along its main axis
-as possible, but if you want to pack the children closely together,
-set its `mainAxisSize` to `MainAxisSize.min`. The following example
-uses this property to pack the star icons together.
+預設情況下，row 或 column 會沿著其主軸（main axis）盡可能佔據空間，但如果你希望讓子元件（children）緊密排列，可以將其 `mainAxisSize` 設為 `MainAxisSize.min`。以下範例使用此屬性，將星形圖示元件（icon widgets）緊密排列在一起。
 
 <div class="code-and-content">
 <div>
@@ -572,29 +512,24 @@ uses this property to pack the star icons together.
 <div>
   <img src='/assets/images/docs/ui/layout/packed.png' class="small-diagram-wrap" alt="Row of 5 stars, packed together in the middle of the row">
 
-  **App source:** [pavlova]({{site.repo.this}}/tree/main/examples/layout/pavlova)
+  **應用程式原始碼：** [pavlova]({{site.repo.this}}/tree/main/examples/layout/pavlova)
 </div>
 </div>
 
-### Nesting rows and columns
+### 巢狀的 row 與 column
 
-The layout framework allows you to nest rows and columns
-inside of rows and columns as deeply as you need.
-Let's look at the code for the outlined
-section of the following layout:
+版面配置框架允許你在 row 與 column 之中，依需求任意深度地巢狀 row 與 column。
+讓我們來看看下方版面配置中紅框標示區塊的程式碼：
 
 <img src='/assets/images/docs/ui/layout/pavlova-large-annotated.png' class="border text-center" alt="Screenshot of the pavlova app, with the ratings and icon rows outlined in red">
 
-The outlined section is implemented as two rows. The ratings row contains
-five stars and the number of reviews. The icons row contains three
-columns of icons and text.
+紅框標示的區塊是由兩個 row 實作而成。評分 row 包含五顆星星與評論數量。圖示 row 則包含三個由圖示與文字組成的 column。
 
-The widget tree for the ratings row:
+評分 row 的元件樹（widget tree）如下：
 
 <img src='/assets/images/docs/ui/layout/widget-tree-pavlova-rating-row.png' class="text-center diagram-wrap" alt="Ratings row widget tree">
 
-The `ratings` variable creates a row containing a smaller row
-of 5-star icons, and text:
+`ratings` 變數建立了一個 row，其中包含一個較小的 5 星圖示 row，以及文字：
 
 <?code-excerpt "layout/pavlova/lib/main.dart (ratings)" replace="/ratings/[!$&!]/g"?>
 ```dart
@@ -631,18 +566,14 @@ final [!ratings!] = Container(
 ```
 
 :::tip
-To minimize the visual confusion that can result from
-heavily nested layout code, implement pieces of the UI
-in variables and functions.
+為了減少因為版面配置程式碼巢狀過深而造成的視覺混淆，建議將 UI 的各個部分實作為變數或函式。
 :::
 
-The icons row, below the ratings row, contains 3 columns;
-each column contains an icon and two lines of text,
-as you can see in its widget tree:
+在評分列（ratings row）下方的圖示列（icons row）包含 3 個欄位，每個欄位內都有一個圖示和兩行文字，如下圖的元件樹（widget tree）所示：
 
 <img src='/assets/images/docs/ui/layout/widget-tree-pavlova-icon-row.png' class="text-center diagram-wrap" alt="Icon widget tree">
 
-The `iconList` variable defines the icons row:
+`iconList` 變數定義了圖示列（icons row）：
 
 <?code-excerpt "layout/pavlova/lib/main.dart (icon-list)" replace="/iconList/[!$&!]/g"?>
 ```dart
@@ -691,8 +622,7 @@ final [!iconList!] = DefaultTextStyle.merge(
 );
 ```
 
-The `leftColumn` variable contains the ratings and icons rows,
-as well as the title and text that describes the Pavlova:
+`leftColumn` 變數包含評分與圖示列，以及描述 Pavlova 的標題和文字：
 
 <?code-excerpt "layout/pavlova/lib/main.dart (left-column)" replace="/leftColumn/[!$&!]/g"?>
 ```dart
@@ -702,15 +632,12 @@ final [!leftColumn!] = Container(
 );
 ```
 
-The left column is placed in a `SizedBox` to constrain its width.
-Finally, the UI is constructed with the entire row (containing the
-left column and the image) inside a `Card`.
+左側欄位被放置在`SizedBox`中，以限制其寬度。
+最後，整個 UI 是將整行（包含左側欄位和圖片）放在`Card`內建構而成。
 
-The [Pavlova image][] is from [Pixabay][].
-You can embed an image from the net using `Image.network()` but,
-for this example, the image is saved to an images directory in the project,
-added to the [pubspec file][], and accessed using `Images.asset()`.
-For more information, see [Adding assets and images][].
+[Pavlova 圖片][Pavlova image]來自 [Pixabay][Pixabay]。
+你可以使用`Image.network()`從網路嵌入圖片，但在本範例中，圖片被儲存於專案的 images 目錄，並新增至 [pubspec file][pubspec file]，然後透過`Images.asset()`來存取。
+如需更多資訊，請參閱[新增資源與圖片][Adding assets and images]。
 
 <?code-excerpt "layout/pavlova/lib/main.dart (body)"?>
 ```dart
@@ -732,17 +659,10 @@ body: Center(
 ```
 
 :::tip
-The Pavlova example runs best horizontally on a wide device,
-such as a tablet.  If you are running this example in the iOS simulator,
-you can select a different device using the **Hardware > Device** menu.
-For this example, we recommend the iPad Pro.
-You can change its orientation to landscape mode using
-**Hardware > Rotate**. You can also change the size of the
-simulator window (without changing the number of logical pixels)
-using **Window > Scale**.
+Pavlova 範例在橫向、螢幕較寬的裝置（如平板電腦）上運行效果最佳。如果你在 iOS 模擬器中執行此範例，可以透過 **Hardware > Device** 選單切換不同裝置。針對本範例，我們建議選擇 iPad Pro。你可以使用 **Hardware > Rotate** 將其切換為橫向模式。也可以透過 **Window > Scale** 調整模擬器視窗大小（不會改變邏輯像素數量）。
 :::
 
-**App source:** [pavlova]({{site.repo.this}}/tree/main/examples/layout/pavlova)
+**App 原始碼：** [pavlova]({{site.repo.this}}/tree/main/examples/layout/pavlova)
 
 <hr>
 
@@ -750,22 +670,11 @@ using **Window > Scale**.
 [Pixabay]: https://pixabay.com/en/photos/pavlova
 [pubspec file]: {{site.repo.this}}/tree/main/examples/layout/pavlova/pubspec.yaml
 
-## Common layout widgets
+## 常用版面配置元件 (Layout widgets)
 
-Flutter has a rich library of layout widgets.
-Here are a few of those most commonly used.
-The intent is to get you up and running as quickly as possible,
-rather than overwhelm you with a complete list.
-For information on other available widgets,
-refer to the [Widget catalog][],
-or use the Search box in the [API reference docs][].
-Also, the widget pages in the API docs often make suggestions
-about similar widgets that might better suit your needs.
+Flutter 擁有豐富的版面配置元件 (Layout widgets) 函式庫。以下介紹幾個最常用的元件，目的是讓你能快速上手，而不是給你一份完整清單。若需查詢其他可用元件，請參考 [Widget catalog][Widget catalog]，或在 [API 文件][API reference docs] 的搜尋框中查找。此外，API 文件中的元件頁面通常也會建議其他可能更適合你需求的相似元件。
 
-The following widgets fall into two categories: standard widgets
-from the [widgets library][], and specialized widgets from the
-[Material library][]. Any app can use the widgets library but
-only Material apps can use the Material Components library.
+以下元件分為兩類：來自 [widgets library][widgets library] 的標準元件，以及來自 [Material library][Material library] 的專用元件。任何應用程式都可以使用 widgets library，但只有 Material 應用程式可以使用 Material Components library。
 
 <a id="standard-widgets" aria-hidden="true"></a>
 <a id="materials-widgets" aria-hidden="true"></a>
@@ -775,53 +684,48 @@ only Material apps can use the Material Components library.
 {% tab "Standard widgets" %}
 
 [`Container`](#container)
-: Adds padding, margins, borders,
-  background color, or other decorations to a widget.
+: 為元件 (Widget) 增加內距（padding）、外距（margin）、邊框、背景顏色或其他裝飾效果。
 
 [`GridView`](#gridview)
-: Lays widgets out as a scrollable grid.
+: 以可捲動的網格方式排列元件。
 
 [`ListView`](#listview)
-: Lays widgets out as a scrollable list.
+: 以可捲動的清單方式排列元件。
 
 [`Stack`](#stack)
-: Overlaps a widget on top of another.
+: 將一個元件重疊顯示在另一個元件之上。
 
 {% endtab %}
 
 {% tab "Material widgets" %}
 
-[`Scaffold`][]
-: Provides a structured layout framework
-  with slots for common Material Design app elements.
+[`Scaffold`][`Scaffold`]
+: 提供結構化的版面配置框架，包含常見 Material Design 應用程式元素的插槽。
 
-[`AppBar`][]
-: Creates a horizontal bar that's typically
-  displayed at the top of a screen.
+[`AppBar`][`AppBar`]
+: 建立一個通常顯示在螢幕頂部的水平列。
 
 [`Card`](#card)
-: Organizes related info into a box with
-  rounded corners and a drop shadow.
+: 將相關資訊組織在一個帶有圓角和陰影的方框中。
 
 [`ListTile`](#listtile)
-: Organizes up to 3 lines of text,
-  and optional leading and trailing icons, into a row.
+: 將最多三行文字，以及可選的前置與後置圖示，組成一個橫向排列的列。
 
 {% endtab %}
 
 {% tab "Cupertino widgets" %}
 
-[`CupertinoPageScaffold`][]
-: Provides the basic layout structure for an iOS-style page.
+[`CupertinoPageScaffold`][`CupertinoPageScaffold`]
+: 提供 iOS 風格頁面的基本版面結構。
 
-[`CupertinoNavigationBar`][]
-: Creates an iOS-style  navigation bar at the top of the screen.
+[`CupertinoNavigationBar`][`CupertinoNavigationBar`]
+: 在螢幕頂部建立 iOS 風格的導覽列。
 
-[`CupertinoSegmentedControl`][]
-: Creates a segmented control for selecting.
+[`CupertinoSegmentedControl`][`CupertinoSegmentedControl`]
+: 建立 iOS 風格的分段控制元件，用於選擇。
 
-[`CupertinoTabBar`][] and [`CupertinoTabScaffold`][]
-: Creates the characteristic iOS bottom tab bar.
+[`CupertinoTabBar`][`CupertinoTabBar`] 和 [`CupertinoTabScaffold`][`CupertinoTabScaffold`]
+: 建立 iOS 典型的底部分頁列。
 
 {% endtab %}
 
@@ -843,23 +747,18 @@ only Material apps can use the Material Components library.
 
 ### Container
 
-Many layouts make liberal use of [`Container`][]s to separate
-widgets using padding, or to add borders or margins.
-You can change the device's background by placing the
-entire layout into a `Container` and changing its background
-color or image.
+許多版面配置會大量使用 [`Container`][`Container`] 來透過內距（padding）分隔元件，或是增加邊框與外距（margin）。你可以將整個版面包在一個 `Container` 中，並更改其背景顏色或圖片，以改變裝置背景。
 
 <div class="side-by-side">
 <div>
 
 [`Container`]: {{site.api}}/flutter/widgets/Container-class.html
 
-#### Summary (Container)
+#### 摘要（Container）
 
-* Add padding, margins, borders
-* Change background color or image
-* Contains a single child widget, but that child can be a `Row`,
-  `Column`, or even the root of a widget tree
+* 增加內距（padding）、外距（margin）、邊框
+* 更改背景顏色或圖片
+* 僅包含一個子元件（child），但該子元件可以是 `Row`、`Column`，甚至是元件樹的根節點
 
 </div>
 <div class="text-center">
@@ -867,11 +766,9 @@ color or image.
 </div>
 </div>
 
-#### Examples (Container)
+#### 範例（Container）
 
-This layout consists of a column with two rows, each containing
-2 images. A [`Container`][] is used to change the background color
-of the column to a lighter grey.
+此版面由一個包含兩列的 column 組成，每一列各有兩張圖片。利用 [`Container`][`Container`] 將 column 的背景色設為較淺的灰色。
 
 <div class="code-and-content">
 <div>
@@ -892,8 +789,7 @@ of the column to a lighter grey.
 </div>
 </div>
 
-A `Container` is also used to add a rounded border and margins
-to each image:
+`Container` 也用來為每張圖片新增圓角邊框和邊距：
 
 <?code-excerpt "layout/container/lib/main.dart (row)" replace="/\bContainer/[!$&!]/g;"?>
 ```dart
@@ -916,9 +812,9 @@ Widget _buildImageRow(int imageIndex) => Row(
 );
 ```
 
-You can find more `Container` examples in the [tutorial][].
+你可以在 [教學課程][tutorial] 中找到更多 `Container` 範例。
 
-**App source:** [container]({{site.repo.this}}/tree/main/examples/layout/container)
+**應用程式原始碼：** [container]({{site.repo.this}}/tree/main/examples/layout/container)
 
 <hr>
 
@@ -927,59 +823,44 @@ You can find more `Container` examples in the [tutorial][].
 
 ### GridView
 
-Use [`GridView`][] to lay widgets out as a two-dimensional
-list. `GridView` provides two pre-fabricated lists,
-or you can build your own custom grid. When a `GridView`
-detects that its contents are too long to fit the render box,
-it automatically scrolls.
+使用 [`GridView`][`GridView`] 將元件（Widgets）以二維清單方式排列。`GridView` 提供兩種預設的清單，或是你也可以自訂自己的格線。當 `GridView` 偵測到內容過長無法完全顯示於 render box 時，會自動產生捲動功能。
 
 [`GridView`]: {{site.api}}/flutter/widgets/GridView-class.html
 
-#### Summary (GridView)
+#### 摘要（GridView）
 
-* Lays widgets out in a grid
-* Detects when the column content exceeds the render box
-  and automatically provides scrolling
-* Build your own custom grid, or use one of the provided grids:
-  * `GridView.count` allows you to specify the number of columns
-  * `GridView.extent` allows you to specify the maximum pixel
-  width of a tile
+* 以格線方式排列元件（Widgets）
+* 偵測當欄內容超出 render box 時，自動提供捲動功能
+* 你可以自訂自己的格線，或使用以下其中一種預設格線：
+  * `GridView.count` 可讓你指定欄位數量
+  * `GridView.extent` 可讓你指定每個格子（tile）的最大像素寬度
 {% comment %}
-* Use `MediaQuery.of(context).orientation` to create a grid
-  that changes its layout depending on whether the device
-  is in landscape or portrait mode.
+* 使用 `MediaQuery.of(context).orientation` 建立一個格線，能根據裝置處於橫向或直向模式自動調整版面。
 {% endcomment %}
 
 :::note
-When displaying a two-dimensional list where it's important which
-row and column a cell occupies (for example,
-it's the entry in the "calorie" column for the "avocado" row), use
-[`Table`][] or [`DataTable`][].
+當你要顯示二維清單，且每個儲存格的「列」與「欄」位置很重要時（例如：這是「avocado」列的「calorie」欄位），請使用 [`Table`][`Table`] 或 [`DataTable`][`DataTable`]。
 :::
 
 [`DataTable`]: {{site.api}}/flutter/material/DataTable-class.html
 [`Table`]: {{site.api}}/flutter/widgets/Table-class.html
 
-#### Examples (GridView)
+#### 範例（GridView）
 
 <div class="side-by-side">
 <div>
   <img src='/assets/images/docs/ui/layout/gridview-extent.png' class="text-center" alt="A 3-column grid of photos" height="440px">
 
-  Uses `GridView.extent` to create a grid with tiles a maximum
-  150 pixels wide.
+  使用 `GridView.extent` 建立一個每個格子最大寬度為 150 像素的格線。
 
-  **App source:** [grid_and_list]({{site.repo.this}}/tree/main/examples/layout/grid_and_list)
+  **應用程式原始碼：** [grid_and_list]({{site.repo.this}}/tree/main/examples/layout/grid_and_list)
 </div>
 <div>
   <img src='/assets/images/docs/ui/layout/gridview-count-flutter-gallery.png' class="text-center" alt="A 2 column grid with footers" height="440px">
 
-  Uses `GridView.count` to create a grid that's 2 tiles
-  wide in portrait mode, and 3 tiles wide in landscape mode.
-  The titles are created by setting the `footer` property for
-  each [`GridTile`][].
+  使用 `GridView.count` 建立一個在直向模式下有 2 欄、橫向模式下有 3 欄的格線。標題是透過為每個 [`GridTile`][`GridTile`] 設定 `footer` 屬性產生。
 
-  **Dart code:**
+  **Dart 程式碼：**
   [`grid_list_demo.dart`]({{site.repo.this}}/tree/main/examples/layout/gallery/lib/grid_list_demo.dart)
 </div>
 </div>
@@ -1007,42 +888,37 @@ List<Widget> _buildGridTileList(int count) =>
 
 ### ListView
 
-[`ListView`][], a column-like widget, automatically
-provides scrolling when its content is too long for
-its render box.
+[`ListView`][`ListView`] 是一個類似直欄的元件（Widget），當內容超出其繪製區域時，會自動提供滾動功能。
+
 
 [`ListView`]: {{site.api}}/flutter/widgets/ListView-class.html
 
-#### Summary (ListView)
+#### 摘要（ListView）
 
-* A specialized [`Column`][] for organizing a list of boxes
-* Can be laid out horizontally or vertically
-* Detects when its content won't fit and provides scrolling
-* Less configurable than `Column`, but easier to use and
-  supports scrolling
+* 一個專門用於組織方塊清單的 [`Column`][`Column`]
+* 可以橫向或縱向排列
+* 能偵測內容無法容納時自動提供滾動
+* 可配置性較 `Column` 低，但更易於使用且支援滾動
+
 
 [`Column`]: {{site.api}}/flutter/widgets/Column-class.html
 
-#### Examples (ListView)
+#### 範例（ListView）
 
 <div class="side-by-side">
 <div>
   <img src='/assets/images/docs/ui/layout/listview.png' height="400px" class="simple-border text-center" alt="ListView containing movie theaters and restaurants">
 
-  Uses `ListView` to display a list of businesses using
-  `ListTile`s. A `Divider` separates the theaters from
-  the restaurants.
+  使用 `ListView` 來顯示一個包含多家商家的清單，並以 `ListTile`s 呈現。`Divider` 用來將電影院與餐廳分隔開。
 
-  **App source:** [grid_and_list]({{site.repo.this}}/tree/main/examples/layout/grid_and_list)
+  **App 原始碼：** [grid_and_list]({{site.repo.this}}/tree/main/examples/layout/grid_and_list)
 </div>
 <div>
   <img src='/assets/images/docs/ui/layout/listview-color-gallery.png' height="400px" class="simple-border text-center" alt="ListView containing shades of blue">
 
-  Uses `ListView` to display the [`Colors`][] from
-  the [Material 2 Design palette][]
-  for a particular color family.
+  使用 `ListView` 來顯示 [`Colors`][`Colors`]，這些顏色來自 [Material 2 Design palette][Material 2 Design palette] 的某個色系。
 
-  **Dart code:**
+  **Dart 程式碼：**
   [`colors_demo.dart`]({{site.repo.this}}/tree/main/examples/layout/gallery/lib/colors_demo.dart)
 </div>
 </div>
@@ -1090,40 +966,34 @@ ListTile _tile(String title, String subtitle, IconData icon) {
 
 ### Stack
 
-Use [`Stack`][] to arrange widgets on top of a base
-widget&mdash;often an image. The widgets can completely
-or partially overlap the base widget.
+使用 [`Stack`][`Stack`] 來將元件（Widgets）堆疊在一個基礎元件之上——通常是一張圖片。這些元件可以完全或部分地重疊在基礎元件上。
+
 
 [`Stack`]: {{site.api}}/flutter/widgets/Stack-class.html
 
-#### Summary (Stack)
+#### 摘要（Stack）
 
-* Use for widgets that overlap another widget
-* The first widget in the list of children is the base widget;
-  subsequent children are overlaid on top of that base widget
-* A `Stack`'s content can't scroll
-* You can choose to clip children that exceed the render box
+* 適用於需要重疊在其他元件上的元件
+* `children` 清單中的第一個元件是基礎元件；後續的子元件會疊加在該基礎元件之上
+* `Stack` 的內容無法滾動
+* 你可以選擇裁剪超出 render box 的子元件
 
-#### Examples (Stack)
+#### 範例（Stack）
 
 <div class="side-by-side">
 <div>
   <img src='/assets/images/docs/ui/layout/stack.png' class="text-center" height="200px" alt="Circular avatar image with a label">
 
-  Uses `Stack` to overlay a `Container`
-  (that displays its `Text` on a translucent
-  black background) on top of a `CircleAvatar`.
-  The `Stack` offsets the text using the `alignment` property and
-  `Alignment`s.
+  使用 `Stack` 疊加一個 `Container`（其會在半透明黑色背景上顯示其 `Text`）於 `CircleAvatar` 之上。`Stack` 透過 `alignment` 屬性與 `Alignment` 來偏移文字。
 
-  **App source:** [card_and_stack]({{site.repo.this}}/tree/main/examples/layout/card_and_stack)
+  **App 原始碼：** [card_and_stack]({{site.repo.this}}/tree/main/examples/layout/card_and_stack)
 </div>
 <div>
   <img src='/assets/images/docs/ui/layout/stack-flutter-gallery.png' class="text-center" height="200px" alt="An image with a icon overlaid on top">
 
-  Uses `Stack` to overlay an icon on top of an image.
+  使用 `Stack` 疊加一個圖示於圖片之上。
 
-  **Dart code:**
+  **Dart 程式碼：**
   [`bottom_navigation_demo.dart`]({{site.repo.this}}/tree/main/examples/layout/gallery/lib/bottom_navigation_demo.dart)
 </div>
 </div>
@@ -1158,24 +1028,22 @@ Widget _buildStack() {
 
 ### Card
 
-A [`Card`][], from the [Material library][],
-contains related nuggets of information and can
-be composed of almost any widget, but is often used with
-[`ListTile`][]. `Card` has a single child,
-but its child can be a column, row, list, grid,
-or other widget that supports multiple children.
-By default, a `Card` shrinks its size to 0 by 0 pixels.
-You can use [`SizedBox`][] to constrain the size of a card.
+一個 [`Card`][`Card`]，來自 [Material library][Material library]，
+用於承載相關的資訊片段，可以由幾乎任何元件（Widget）組成，但通常會與
+[`ListTile`][`ListTile`] 一起使用。`Card` 僅接受一個子元件，
+但其子元件可以是 column、row、list、grid，
+或其他支援多個子元件的元件。
+預設情況下，`Card` 會將自身尺寸縮小為 0 x 0 像素。
+你可以使用 [`SizedBox`][`SizedBox`] 來限制 card 的尺寸。
 
-In Flutter, a `Card` features slightly rounded corners
-and a drop shadow, giving it a 3D effect.
-Changing a `Card`'s `elevation` property allows you to control
-the drop shadow effect. Setting the elevation to 24,
-for example, visually lifts the `Card` further from the
-surface and causes the shadow to become more dispersed.
-For a list of supported elevation values, see [Elevation][] in the
-[Material guidelines][Material Design].
-Specifying an unsupported value disables the drop shadow entirely.
+在 Flutter 中，`Card` 具有略為圓角的邊緣
+以及投影陰影，帶來 3D 效果。
+變更 `Card` 的 `elevation` 屬性可以控制
+投影陰影的效果。例如，將 elevation 設為 24，
+會讓 `Card` 視覺上從表面抬升得更高，且陰影會更加分散。
+支援的 elevation 值請參考 [Elevation][Elevation] 於
+[Material guidelines][Material Design]。
+若指定不支援的值，則會完全關閉投影陰影。
 
 [`Card`]: {{site.api}}/flutter/material/Card-class.html
 [Elevation]: {{site.material}}/styles/elevation
@@ -1184,37 +1052,37 @@ Specifying an unsupported value disables the drop shadow entirely.
 [`SizedBox`]: {{site.api}}/flutter/widgets/SizedBox-class.html
 [Material library]: {{site.api}}/flutter/material/material-library.html
 
-#### Summary (Card)
+#### 摘要（Card）
 
-* Implements a [Material card][]
-* Used for presenting related nuggets of information
-* Accepts a single child, but that child can be a `Row`,
-  `Column`, or other widget that holds a list of children
-* Displayed with rounded corners and a drop shadow
-* A `Card`'s content can't scroll
-* From the [Material library][]
+* 實作 [Material card][Material card]
+* 用於呈現相關的資訊片段
+* 僅接受一個子元件，但該子元件可以是 `Row`、
+  `Column`，或其他可包含多個子元件的元件
+* 以圓角與投影陰影顯示
+* `Card` 的內容無法滾動
+* 來自 [Material library][Material library]
 
 [Material card]: {{site.material}}/components/cards
 [Material library]: {{site.api}}/flutter/material/material-library.html
 
-#### Examples (Card)
+#### 範例（Card）
 
 <div class="side-by-side">
 <div>
   <img src='/assets/images/docs/ui/layout/card.png' height="200px" class="text-center" alt="Card containing 3 ListTiles">
 
-  A `Card` containing 3 ListTiles and sized by wrapping
-  it with a `SizedBox`. A `Divider` separates the first
-  and second `ListTiles`.
+  一個 `Card`，內含 3 個 ListTile，並透過包裹
+  `SizedBox` 來設定尺寸。`Divider` 用於分隔
+  第一個與第二個 `ListTiles`。
 
-  **App source:** [card_and_stack]({{site.repo.this}}/tree/main/examples/layout/card_and_stack)
+  **App 原始碼：** [card_and_stack]({{site.repo.this}}/tree/main/examples/layout/card_and_stack)
 </div>
 <div>
   <img src='/assets/images/docs/ui/layout/card-flutter-gallery.png' height="200px" class="text-center" alt="Tappable card containing an image and multiple forms of text">
 
-  A `Card` containing an image and text.
+  一個 `Card`，內含圖片與文字。
 
-  **Dart code:**
+  **Dart 程式碼：**
   [`cards_demo.dart`]({{site.repo.this}}/tree/main/examples/layout/gallery/lib/cards_demo.dart)
 </div>
 </div>
@@ -1258,103 +1126,91 @@ Widget _buildCard() {
 
 ### ListTile
 
-Use [`ListTile`][], a specialized row widget from the
-[Material library][], for an easy way to create a row
-containing up to 3 lines of text and optional leading
-and trailing icons. `ListTile` is most commonly used in
-[`Card`][] or [`ListView`][], but can be used elsewhere.
+使用 [`ListTile`][`ListTile`]，這是一個來自 [Material library][Material library] 的專用 row 元件（Widget），可以輕鬆建立一個 row，內含最多 3 行文字，並可選擇性加入前置（leading）及後置（trailing）圖示。`ListTile` 最常用於 [`Card`][`Card`] 或 [`ListView`][`ListView`]，但也可用於其他地方。
 
 [`Card`]: {{site.api}}/flutter/material/Card-class.html
 [`ListTile`]: {{site.api}}/flutter/material/ListTile-class.html
 [`ListView`]: {{site.api}}/flutter/widgets/ListView-class.html
 [Material library]: {{site.api}}/flutter/material/material-library.html
 
-#### Summary (ListTile)
+#### 摘要（ListTile）
 
-* A specialized row that contains up to 3 lines of text and
-  optional icons
-* Less configurable than `Row`, but easier to use
-* From the [Material library][]
+* 一個專用的 row，可包含最多 3 行文字及可選的圖示
+* 可設定性比 `Row` 少，但更容易使用
+* 來自 [Material library][Material library]
 
 [Material library]: {{site.api}}/flutter/material/material-library.html
 
-#### Examples (ListTile)
+#### 範例（ListTile）
 
 <div class="side-by-side">
 <div>
   <img src='/assets/images/docs/ui/layout/card.png' class="text-center" alt="Card containing 3 ListTiles">
 
-  A `Card` containing 3 `ListTile`s.
+  一個 `Card`，內含 3 個 `ListTile`。
 
-  **App source:** [card_and_stack]({{site.repo.this}}/tree/main/examples/layout/card_and_stack)
+  **App 原始碼：** [card_and_stack]({{site.repo.this}}/tree/main/examples/layout/card_and_stack)
 </div>
 <div>
   <img src='/assets/images/docs/ui/layout/listtile-flutter-gallery.png' height="200px" class="simple-border text-center" alt="4 ListTiles, each containing a leading avatar">
 
-  Uses `ListTile` with leading widgets.
+  使用帶有前置元件（leading widgets）的 `ListTile`。
 
-  **Dart code:**
+  **Dart 程式碼：**
   [`list_demo.dart`]({{site.repo.this}}/tree/main/examples/layout/gallery/lib/list_demo.dart)
 </div>
 </div>
 
 <hr>
 
-## Constraints
+## 限制條件（Constraints）
 
-To fully understand Flutter's layout system, you need
-to learn how Flutter positions and sizes
-the components in a layout. For more information,
-see [Understanding constraints][].
+若要完全理解 Flutter 的版面配置系統，你需要學習 Flutter 如何在版面中定位與調整元件（components）的大小。更多資訊請參閱 [Understanding constraints][Understanding constraints]。
 
 [Understanding constraints]: /ui/layout/constraints
 
-## Videos
+## 影片
 
-The following videos, part of the
-[Flutter in Focus][] series,
-explain `Stateless` and `Stateful` widgets.
+以下影片為 [Flutter in Focus][Flutter in Focus] 系列的一部分，說明 `Stateless` 與 `Stateful` 元件（Widgets）。
 
 {% ytEmbed 'wE7khGHVkYY', 'How to create stateless widgets' %}
 
 {% ytEmbed 'AqCMFXEmf3w', 'How and when stateful widgets are best used' %}
 
-[Flutter in Focus playlist]({{site.yt.playlist}}PLjxrf2q8roU2HdJQDjJzOeO6J3FoFLWr2)
+[Flutter in Focus 播放清單]({{site.yt.playlist}}PLjxrf2q8roU2HdJQDjJzOeO6J3FoFLWr2)
 
 ---
 
-Each episode of the [Widget of the Week series][] focuses on a widget.
-Several of them include layout widgets.
+每一集 [Widget of the Week series][Widget of the Week series] 都會聚焦介紹一個元件（Widget），其中有多集包含版面配置元件（Layout widgets）。
 
 {% ytEmbed 'b_sQ9bMltGU', 'Introducing widget of the week' %}
 
-[Flutter Widget of the Week playlist]({{site.yt.playlist}}PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG)
+[Flutter Widget of the Week 播放清單]({{site.yt.playlist}}PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG)
 
 [Widget of the Week series]: {{site.yt.playlist}}PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG
 [Flutter in Focus]: {{site.yt.watch}}?v=wgTBLj7rMPM&list=PLjxrf2q8roU2HdJQDjJzOeO6J3FoFLWr2
 
-## Other resources
+## 其他資源
 
-The following resources might help when writing layout code.
+以下資源在撰寫版面配置程式碼時可能有所幫助。
 
-[Layout tutorial][]
-: Learn how to build a layout.
+[Layout tutorial][Layout tutorial]
+: 學習如何建立版面配置。
 
-[Widget catalog][]
-: Describes many of the widgets available in Flutter.
+[Widget catalog][Widget catalog]
+: 介紹 Flutter 提供的多種元件（Widgets）。
 
-[HTML/CSS Analogs in Flutter][]
-: For those familiar with web programming,
-  this page maps HTML/CSS functionality to Flutter features.
+[HTML/CSS Analogs in Flutter][HTML/CSS Analogs in Flutter]
+: 若你熟悉網頁程式設計，本頁將 HTML/CSS 的功能對應到 Flutter 的特性。
 
-[API reference docs][]
-: Reference documentation for all of the Flutter libraries.
+[API reference docs][API reference docs]
+: 提供所有 Flutter 函式庫的參考文件。
 
-[Adding assets and images][]
-: Explains how to add images and other assets to your app's package.
+[Adding assets and images][Adding assets and images]
+: 說明如何將圖片及其他資源加入你的應用程式套件中。
 
-[Zero to One with Flutter][]
-: One person's experience writing their first Flutter app.
+[Zero to One with Flutter][Zero to One with Flutter]
+: 一位開發者撰寫其第一個 Flutter 應用程式的經驗分享。
 
 [Layout tutorial]: /ui/layout/tutorial
 [Widget catalog]: /ui/widgets

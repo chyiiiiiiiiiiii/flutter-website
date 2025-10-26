@@ -1,38 +1,28 @@
 ---
-title: Reversing the dependency between the scheduler and services layer
-description: The services layer now depends on the scheduler layer.
+title: 排程器層與服務層之間的相依性反轉
+description: 服務層現在依賴於排程器層。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-The services layer now depends on the scheduler layer.
-Previously, the opposite was true. This may affect you
-if you have defined custom bindings overriding
-Flutter's `SchedulerBinding` or `ServicesBinding`.
+服務層現在依賴於排程器層。
+過去則是相反。如果你有自訂綁定（custom bindings）覆寫了 Flutter 的 `SchedulerBinding` 或 `ServicesBinding`，這項變更可能會影響到你。
 
-## Context
+## 背景
 
-Prior to this change, the scheduler layer was dependent
-on the services layer. This change reverses the dependency
-chain and allows the services layer to make use of the
-scheduling primitives in the scheduler layer. For example,
-services in the services layer can now schedule tasks by using
-`SchedulerBinding.scheduleTask`.
+在這項變更之前，排程器層是依賴服務層的。這次變更反轉了相依鏈，讓服務層可以使用排程器層中的排程原語（scheduling primitives）。例如，服務層中的服務現在可以透過 `SchedulerBinding.scheduleTask` 來排程任務。
 
-## Description of change
+## 變更說明
 
-The change only affects users who are defining their own
-custom bindings based on Flutter's `SchedulerBinding`
-and `ServicesBinding`.
+這項變更僅影響那些基於 Flutter 的 `SchedulerBinding` 和 `ServicesBinding` 定義自訂綁定（custom bindings）的使用者。
 
-## Migration guide
+## 遷移指南
 
-Prior to this change, the `ServiceBinding` had to be defined before the
-`SchedulerBinding`. With this change, it is the other way around:
+在這項變更之前，必須先定義 `ServiceBinding`，再定義 `SchedulerBinding`。而現在則相反：
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 class FooBinding extends BindingBase with ServicesBinding, SchedulerBinding {
@@ -40,7 +30,7 @@ class FooBinding extends BindingBase with ServicesBinding, SchedulerBinding {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 class FooBinding extends BindingBase with SchedulerBinding, ServicesBinding {
@@ -48,22 +38,22 @@ class FooBinding extends BindingBase with SchedulerBinding, ServicesBinding {
 }
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 1.18.0<br>
-In stable release: 1.20
+引入版本：1.18.0<br>  
+穩定版本：1.20
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`ServicesBinding`][]
-* [`SchedulerBinding`][]
+* [`ServicesBinding`][`ServicesBinding`]
+* [`SchedulerBinding`][`SchedulerBinding`]
 
-Relevant PRs:
+相關 PR：
 
-* [Reverse dependency between services and scheduler][]
-* [Revert bindings dependency workaround][]
+* [Reverse dependency between services and scheduler][Reverse dependency between services and scheduler]
+* [Revert bindings dependency workaround][Revert bindings dependency workaround]
 
 [Reverse dependency between services and scheduler]: {{site.repo.flutter}}/pull/54212
 [Revert bindings dependency workaround]: {{site.repo.flutter}}/pull/54286

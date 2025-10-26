@@ -1,73 +1,69 @@
 ---
-title: Paint.enableDithering is now true by default.
+title: Paint.enableDithering 現在預設為 true。
 description: >-
-  Deprecation of user-configurable `Paint.enableDithering`.
+  停用使用者可自訂的 `Paint.enableDithering`。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-[`Paint.enableDithering`][] is now `true` by default (previously, `false`),
-and is _deprecated_ pending removal - Flutter no longer supports
-user-configurable dithering settings.
+[`Paint.enableDithering`][`Paint.enableDithering`] 現在預設為 `true`（先前為 `false`），
+並且已被_棄用_，即將移除——Flutter 不再支援
+使用者可自訂的抖動（dithering）設定。
 
-In addition, the dithering documentation states support is _only_ for gradients.
+此外，抖動相關文件現在明確指出，僅支援於漸層（gradients）。
 
-## Background
+## 背景
 
-[`Paint.enableDithering`][] was added as a global option in [PR 13868][] as
-a response to [Issue 44134][], which reported that gradients in Flutter had
-visible banding artifacts:
+[`Paint.enableDithering`][`Paint.enableDithering`] 作為全域選項於 [PR 13868][PR 13868] 中新增，
+以回應 [Issue 44134][Issue 44134]，該議題回報 Flutter 中的漸層
+會出現明顯的色帶（banding）問題：
 
-> Gradients currently have a lot of color banding on all devices, and it looks
-> very weird when using the pulse animation too. A solution is to make the
-> gradients opaque, and to use dithered gradients with Skia. Dithered gradients
-> aren't currently exposed, so adding a dither parameter to dart:ui's Paint
-> class would be nice. We'd be able to manually draw our gradients with a
-> CustomPainter.
+> 目前漸層在所有裝置上都有嚴重的色帶現象，搭配 pulse 動畫時看起來很奇怪。
+> 解決方法是讓漸層不透明，並在 Skia 中使用抖動漸層。
+> 目前尚未開放抖動漸層的設定，因此若能在 dart:ui 的 Paint 類別中加入 dither 參數會很棒。
+> 這樣我們就能用 CustomPainter 手動繪製漸層。
 
-![Example of banding](https://user-images.githubusercontent.com/30870216/210907719-4f4a1a8d-e28a-4d39-9e99-3635a26a0c74.png)
+![色帶範例](https://user-images.githubusercontent.com/30870216/210907719-4f4a1a8d-e28a-4d39-9e99-3635a26a0c74.png)
 
-[Issue 118073][] reported that gradients in our new [Impeller][]
-backend displayed visible banding artifacts in some gradients.
-It was later discovered that Impeller didn't support the (rarely used)
-[`Paint.enableDithering`][] property.
+[Issue 118073][Issue 118073] 回報我們新的 [Impeller][Impeller]
+後端在某些漸層上也出現明顯的色帶現象。
+後來發現 Impeller 並不支援（很少被使用的）
+[`Paint.enableDithering`][`Paint.enableDithering`] 屬性。
 
-After adding dithering support to Impeller ([PR 44181][], [PR 44331][],
-[PR 44522][]), and reviewing the performance impact of dithering (negligible),
-the following observations were made:
+在為 Impeller 加入抖動支援（[PR 44181][PR 44181]、[PR 44331][PR 44331]、
+[PR 44522][PR 44522]）並檢視抖動對效能的影響（幾乎可忽略）後，
+有以下觀察：
 
-1. Consensus that gradients look good by default: [Issue 112498][].
-1. Having a global option was intended to be deprecated: [PR 13868][].
+1. 社群共識認為預設的漸層效果已經很好：[Issue 112498][Issue 112498]。
+2. 原本就打算棄用全域選項：[PR 13868][PR 13868]。
 
-This resulted in the following decisions:
+因此做出以下決策：
 
-1. Make dithering enabled by default.
-1. Deprecate the global option.
-1. Remove the global option in a future release.
+1. 預設啟用抖動。
+2. 棄用全域選項。
+3. 未來版本將移除全域選項。
 
-As part of that process, the ability for dithering to affect anything
-other than gradients was removed in [PR 44730][] and [PR 44912][].
-That was done to ease the process of migrating, because
-Impeller will never support dithering for anything but gradients.
+在這個過程中，[PR 44730][PR 44730] 及 [PR 44912][PR 44912]
+移除了抖動對漸層以外內容的影響。
+這樣做是為了簡化遷移流程，因為
+Impeller 永遠只會支援漸層的抖動，不會支援其他內容。
 
-## Migration guide
+## 遷移指南
 
-Most users and libraries will not need to make any changes.
+大多數使用者與函式庫不需要做任何更動。
 
-For users that maintain golden tests, you might
-need to update your golden images to reflect the new default.
-For example, if you use [`matchesGoldenFile`][] to
-test a widget that contains a gradient:
+若你有維護 golden tests（黃金測試），
+可能需要更新 golden 圖片以符合新的預設值。
+例如，若你使用 [`matchesGoldenFile`][`matchesGoldenFile`]
+來測試包含漸層的元件（Widget）：
 
 ```console
 $ flutter test --update-goldens
 ```
 
-While this is not expected to be a common case, you can
-disable dithering temporarily by setting the `enableDithering` property in
-your `main()` method (either in an app or test):
+雖然這種情況預期並不常見，但你可以在 `main()` 方法中（無論是在應用程式或測試中）暫時停用抖動效果，只需設定 `enableDithering` 屬性即可：
 
 ```dart diff
   void main() {
@@ -78,45 +74,41 @@ your `main()` method (either in an app or test):
   }
 ```
 
-As the plan is to _permanently_ remove the `enableDithering` property, please
-provide feedback in [Issue 112498][] if you have a use case that requires
-disabling dithering (due to performance, crashes).
+由於計畫要_永久_移除 `enableDithering` 屬性，如果你有因效能或閃退等需求，必須停用抖動（dithering），請在 [Issue 112498][Issue 112498] 提供你的使用案例與回饋。
 
-If for some reason you _must_ draw gradients without dithering, you'll need to
-write your own custom shader. Describing that is out of the scope of this
-migration guide, but you can find some resources and examples:
+如果你有特殊需求，_必須_繪製無抖動的漸層（gradient），你將需要自行撰寫自訂著色器（custom shader）。本遷移指南不涵蓋相關說明，但你可以參考以下資源與範例：
 
-- [Writing and using fragment shaders][]
-- [`hsl_linear_gradient.frag`][]
+- [撰寫與使用片段著色器 (fragment shaders)][Writing and using fragment shaders]
+- [`hsl_linear_gradient.frag`][`hsl_linear_gradient.frag`]
 
-**NOTE**: Flutter web does not support dithering: [Issue 134250][].
+**注意**：Flutter Web 不支援抖動（dithering）：[Issue 134250][Issue 134250]。
 
-## Timeline
+## 時程
 
-Landed in version: 3.14.0-0.1.pre<br>
-In stable release: 3.16
+合併於版本：3.14.0-0.1.pre<br>  
+穩定版釋出：3.16
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-- [`Paint.enableDithering`][]
+- [`Paint.enableDithering`][`Paint.enableDithering`]
 - [`matchesGoldenFile`]
 
-Relevant issues:
+相關議題：
 
-- [Issue 44134][]
-- [Issue 112498][]
-- [Issue 118073][]
+- [Issue 44134][Issue 44134]
+- [Issue 112498][Issue 112498]
+- [Issue 118073][Issue 118073]
 
-Relevant PRs:
+相關 PR：
 
-- [PR 13868][]
-- [PR 44181][]
-- [PR 44331][]
-- [PR 44522][]
-- [PR 44730][]
-- [PR 44912][]
+- [PR 13868][PR 13868]
+- [PR 44181][PR 44181]
+- [PR 44331][PR 44331]
+- [PR 44522][PR 44522]
+- [PR 44730][PR 44730]
+- [PR 44912][PR 44912]
 
 [`Paint.enableDithering`]: {{site.api}}/flutter/dart-ui/Paint/enableDithering.html
 [`matchesGoldenFile`]: {{site.api}}/flutter_test/matchesGoldenFile.html

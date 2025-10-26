@@ -1,91 +1,83 @@
 ---
-title: Measuring your app's size
-description: How to measure app size for iOS and Android.
+title: 測量您的應用程式大小
+description: 如何測量 iOS 與 Android 的應用程式大小。
 ---
 
-Many developers are concerned with the size of their compiled app.
-As the APK, app bundle, or IPA version of a Flutter app is
-self-contained and holds all the code and assets needed to run the app,
-its size can be a concern. The larger an app,
-the more space it requires on a device,
-the longer it takes to download,
-and it might break the limit of useful
-features like Android instant apps.
+許多開發者都很關心他們編譯後的應用程式大小。
+由於 Flutter 應用程式的 APK、app bundle 或 IPA 版本
+是自包含的，並且包含執行應用程式所需的所有程式碼與資源（Assets），
+因此其大小可能成為一個問題。應用程式越大，
+在裝置上所需的空間就越多，
+下載所需的時間也會越長，
+而且可能會超過某些實用功能的限制，
+例如 Android 即時應用程式（instant apps）。
 
-## Debug builds are not representative
+## Debug 版本不具代表性
 
-By default, launching your app with `flutter run`,
-or by clicking the **Play** button in your IDE
-(as used in [Write your first Flutter app][]),
-generates a _debug_ build of the Flutter app.
-The app size of a debug build is large due to
-the debugging overhead that allows for hot reload
-and source-level debugging. As such, it is not representative of a production
-app end users download.
+預設情況下，使用 `flutter run` 啟動您的應用程式，
+或是在您的 IDE 中點擊 **Play** 按鈕
+（如 [撰寫您的第一個 Flutter 應用程式][Write your first Flutter app] 中所使用），
+會產生 Flutter 應用程式的 _debug_ 版本。
+Debug 版本的應用程式大小較大，這是因為
+其包含了支援 hot reload 及原始碼層級除錯的除錯開銷。
+因此，這並不代表最終用戶下載的正式版（production）
+應用程式的大小。
 
-## Checking the total size
+## 檢查總體大小
 
-A default release build, such as one created by `flutter build apk` or
-`flutter build ios`, is built to conveniently assemble your upload package
-to the Play Store and App Store. As such, they're also not representative of
-your end-users' download size. The stores generally reprocess and split
-your upload package to target the specific downloader and the downloader's
-hardware, such as filtering for assets targeting the phone's DPI, filtering
-native libraries targeting the phone's CPU architecture.
+預設的 release 版本，例如使用 `flutter build apk` 或
+`flutter build ios` 所建立的版本，是為了方便您組裝
+上傳至 Play Store 與 App Store 的套件。
+因此，這些也不代表
+最終用戶實際下載的大小。應用程式商店通常會重新處理並拆分
+您上傳的套件，以針對特定的下載者及其硬體做最佳化，
+例如根據手機的 DPI 過濾資源（Assets），
+根據手機的 CPU 架構過濾原生程式庫。
 
-### Estimating total size
+### 預估總體大小
 
-To get the closest approximate size on each platform, use the following
-instructions.
+要獲得各平台上最接近實際的應用程式大小，請依照下列
+說明操作。
 
 #### Android
 
-Follow the Google [Play Console's instructions][] for checking app download and
-install sizes.
+請依照 Google [Play Console 的說明][Play Console's instructions] 來檢查應用程式的下載與
+安裝大小。
 
-Produce an upload package for your application:
+為您的應用程式產生一個上傳套件：
 
 ```console
 flutter build appbundle
 ```
 
-Log into your [Google Play Console][]. Upload your application binary by drag
-dropping the .aab file.
+登入你的 [Google Play Console][Google Play Console]。將你的應用程式二進位檔（.aab 檔案）拖曳上傳。
 
-View the application's download and install size in the **Android vitals** ->
-**App size** tab.
+在 **Android vitals** -> **App size** 分頁中檢視應用程式的下載與安裝大小。
 
-{% render docs/app-figure.md, image:"perf/vital-size.png", alt:"App size tab in Google Play Console" %}
+{% render docs/app-figure.md, image:"perf/vital-size.png", alt:"Google Play Console 中的 App size 分頁" %}
 
-The download size is calculated based on an XXXHDPI (~640dpi) device on an
-arm64-v8a architecture. Your end users' download sizes might vary depending on
-their hardware.
+下載大小是根據 XXXHDPI（約 640dpi）裝置及 arm64-v8a 架構計算。實際使用者的下載大小可能會依其硬體而有所不同。
 
-The top tab has a toggle for download size and install size. The page also
-contains optimization tips further below.
+上方分頁有下載大小與安裝大小的切換。此頁面下方也提供了優化建議。
 
 #### iOS
 
-Create an [Xcode App Size Report][].
+建立 [Xcode App Size Report][Xcode App Size Report]。
 
-First, by configuring the app version and build as described in the
-[iOS create build archive instructions][].
+首先，請依照 [iOS 建立 build archive 指南][iOS create build archive instructions] 設定 app 版本與建置。
 
-Then:
+接著：
 
-1. Run `flutter build ipa --export-method development`.
-1. Run `open build/ios/archive/*.xcarchive` to open the archive in Xcode.
-1. Click **Distribute App**.
-1. Select a method of distribution. **Development** is the simplest if you don't
-   intend to distribute the application.
-1. In **App Thinning**, select 'all compatible device variants'.
-1. Select **Strip Swift symbols**.
+1. 執行 `flutter build ipa --export-method development`。
+1. 執行 `open build/ios/archive/*.xcarchive` 以在 Xcode 中開啟 archive。
+1. 點選 **Distribute App**。
+1. 選擇發佈方式。如果你不打算發佈應用程式，選擇 **Development** 最為簡單。
+1. 在 **App Thinning** 中，選擇「all compatible device variants」。
+1. 勾選 **Strip Swift symbols**。
 
-Sign and export the IPA. The exported directory contains
-`App Thinning Size Report.txt` with details about your projected
-application size on different devices and versions of iOS.
+簽署並匯出 IPA。匯出後的目錄中會包含 `App Thinning Size Report.txt`，其中詳細說明了你預期在不同裝置與 iOS 版本上的應用程式大小。
 
-The App Size Report for the default demo app in Flutter 1.17 shows:
+Flutter 1.17 預設 demo app 的 App Size Report 顯示如下：
 
 ```plaintext
 Variant: Runner-7433FC8E-1DF4-4299-A7E8-E00768671BEB.ipa
@@ -95,35 +87,19 @@ App size: 5.4 MB compressed, 13.7 MB uncompressed
 On Demand Resources size: Zero KB compressed, Zero KB uncompressed
 ```
 
-In this example, the app has an approximate
-download size of 5.4 MB and an approximate
-installation size of 13.7 MB on an iPhone12,1 ([Model ID / Hardware
-number][] for iPhone 11)
-and iPhone11,8 (iPhone XR) running iOS 13.0.
+在這個範例中，該應用程式於 iPhone12,1（[Model ID / Hardware number][]，即 iPhone 11）及 iPhone11,8（iPhone XR）運行 iOS 13.0 時，約略下載大小為 5.4 MB，安裝後大小約為 13.7 MB。
 
-To measure an iOS app exactly,
-you have to upload a release IPA to Apple's
-App Store Connect ([instructions][])
-and obtain the size report from there.
-IPAs are commonly larger than APKs as explained
-in [How big is the Flutter engine?][], a
-section in the Flutter [FAQ][].
+若要精確測量 iOS 應用程式的大小，必須將發行版 IPA 上傳至 Apple 的 App Store Connect（[操作說明][instructions]），並從該處取得大小報告。正如 [Flutter 引擎有多大？][How big is the Flutter engine?]（Flutter [FAQ][FAQ] 內的章節）所說，IPA 通常比 APK 更大。
 
-## Breaking down the size
+## 大小拆解
 
-Starting in Flutter version 1.22 and DevTools version 0.9.1,
-a size analysis tool is included to help developers understand the breakdown
-of the release build of their application.
+自 Flutter 1.22 版與 DevTools 0.9.1 版起，內建了一個大小分析工具，協助開發者了解應用程式發行版建構結果的組成。
 
 :::warning
-As stated in the [checking total size](#checking-the-total-size) section
-above, an upload package is not representative of your end users' download
-size. Be aware that redundant native library architectures and asset densities
-seen in the breakdown tool can be filtered by the Play Store and App Store.
+如上方 [檢查總大小](#檢查總體大小) 章節所述，上傳套件並不代表最終使用者的實際下載大小。請注意，分析工具中看到的多餘原生函式庫架構與資產密度，最終會被 Play Store 與 App Store 過濾。
 :::
 
-The size analysis tool is invoked by passing the `--analyze-size` flag when
-building:
+可在建構時傳遞 `--analyze-size` 旗標來呼叫大小分析工具：
 
 - `flutter build apk --analyze-size`
 - `flutter build appbundle --analyze-size`
@@ -132,59 +108,40 @@ building:
 - `flutter build macos --analyze-size`
 - `flutter build windows --analyze-size`
 
-This build is different from a standard release build in two ways.
+這種建構方式與標準發行版建構有兩點不同：
 
-1. The tool compiles Dart in a way that records code size usage of Dart
-   packages.
-2. The tool displays a high level summary of the size breakdown
-   in the terminal, and leaves a `*-code-size-analysis_*.json` file for more
-   detailed analysis in DevTools.
+1. 工具會以記錄 Dart 套件程式碼大小用量的方式編譯 Dart。
+2. 工具會在終端機顯示高層級的大小拆解摘要，並留下 `*-code-size-analysis_*.json` 檔案，供 DevTools 進一步詳細分析。
 
-In addition to analyzing a single build, two builds can also be diffed by
-loading two `*-code-size-analysis_*.json` files into DevTools.
-Check out the [DevTools documentation][] for details.
+除了分析單一建構結果外，也可以將兩個 `*-code-size-analysis_*.json` 檔案載入 DevTools 進行差異比較。詳情請參閱 [DevTools 文件][DevTools documentation]。
 
 {% render docs/app-figure.md, image:"perf/size-summary.png", alt:"Size summary of an Android application in terminal" %}
 
-Through the summary, you can get a quick idea of the size usage per category
-(such as asset, native code, Flutter libraries, etc). The compiled Dart
-native library is further broken down by package for quick analysis.
+透過這份摘要，你可以快速掌握各類別（如資源、原生程式碼、Flutter 函式庫等）的大小用量。編譯後的 Dart 原生函式庫也會依套件進一步拆解，方便快速分析。
 
 :::warning
-This tool on iOS creates a .app rather than an IPA. Use this tool to
-evaluate the relative size of the .app's content. To get
-a closer estimate of the download size, reference the
-[Estimating total size](#estimating-total-size) section above.
+此工具在 iOS 上產生的是 .app，而非 IPA。請用此工具評估 .app 內容的相對大小。若要更接近實際下載大小，請參考上方 [估算總大小](#預估總體大小) 章節。
 :::
 
-### Deeper analysis in DevTools
+### 在 DevTools 進行更深入分析
 
-The `*-code-size-analysis_*.json` file produced above can be further
-analyzed in deeper detail in DevTools where a tree or a treemap view can
-break down the contents of the application into the individual file level and
-up to function level for the Dart AOT artifact.
+上述產生的 `*-code-size-analysis_*.json` 檔案可於 DevTools 進行更細緻的分析，透過樹狀或樹狀圖（treemap）檢視，將應用程式內容細分到單一檔案層級，甚至 Dart AOT 產物的函式層級。
 
-This can be done by `dart devtools`, selecting
-`Open app size tool` and uploading the JSON file.
+你可以透過 `dart devtools`，選擇 `Open app size tool` 並上傳該 JSON 檔案來完成。
 
 {% render docs/app-figure.md, image:"perf/devtools-size.png", alt:"Example breakdown of app in DevTools" %}
 
-For further information on using the DevTools app size tool,
-check out the [DevTools documentation][].
+如需進一步了解如何使用 DevTools 應用程式大小工具，請參閱 [DevTools 文件][DevTools documentation]。
 
-## Reducing app size
+## 減少應用程式大小
 
-When building a release version of your app,
-consider using the `--split-debug-info` tag.
-This tag can dramatically reduce code size.
-For an example of using this tag, see
-[Obfuscating Dart code][].
+建構應用程式發行版時，建議使用 `--split-debug-info` 標籤。此標籤可大幅減少程式碼大小。範例請參閱 [混淆 Dart 程式碼][Obfuscating Dart code]。
 
-Some other things you can do to make your app smaller are:
+你還可以採取以下措施讓應用程式更小：
 
-* Remove unused resources
-* Minimize resource imported from libraries
-* Compress PNG and JPEG files
+* 移除未使用的資源
+* 最小化從函式庫匯入的資源
+* 壓縮 PNG 與 JPEG 檔案
 
 [FAQ]: /resources/faq
 [How big is the Flutter engine?]: /resources/faq#how-big-is-the-flutter-engine

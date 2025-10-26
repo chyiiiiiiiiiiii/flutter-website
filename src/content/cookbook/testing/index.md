@@ -1,16 +1,16 @@
 ---
-title: Testing
-description: A catalog of recipes showcasing testing your Flutter app.
+title: 測試
+description: 展示如何測試 Flutter 應用程式的技巧彙編。
 ---
 
-## Integration
+## 整合測試（Integration）
 
 {% include docs/testing-toc.md type='integration' %}
 
-## Unit
+## 單元測試（Unit）
 
 {% include docs/testing-toc.md type='unit' %}
 
-## Widget
+## 元件測試（Widget）
 
 {% include docs/testing-toc.md type='widget' %}

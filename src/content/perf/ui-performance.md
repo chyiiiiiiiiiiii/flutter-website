@@ -1,99 +1,58 @@
 ---
-title: Flutter performance profiling
-subtitle: Where to look when your Flutter app drops frames in the UI.
-description: Diagnosing UI performance issues in Flutter.
+title: Flutter 效能分析
+subtitle: 當你的 Flutter 應用程式在 UI 上掉幀時，該從哪裡著手排查。
+description: 診斷 Flutter 的 UI 效能問題。
 ---
 
-## Overview
+## 概覽
 
-App performance encompasses various aspects, from raw speed and I/O throughput
-to the smoothness of the user interface. While this page primarily focuses on UI
-smoothness (lack of stutter or jank), the tools described here can often be used
-to diagnose other performance issues as well.
+應用程式效能涵蓋多個層面，從純粹的速度與 I/O 吞吐量，到使用者介面的流暢度。本頁主要聚焦於 UI 流暢度（即無卡頓或延遲），但此處介紹的工具通常也可用於診斷其他效能問題。
 
-Flutter offers several tools for performance analysis. Here are a few of them:
+Flutter 提供了多種效能分析工具，以下是其中幾項：
 
-* **The Performance Overlay**: Displays a simplified set of metrics directly
-  within your running app. To learn more, see the sections in this topic.
+* **效能疊加層（Performance Overlay）**：直接在執行中的應用程式內顯示簡化的效能指標。欲了解詳情，請參閱本主題後續章節。
 
-* **The Performance View**: A web-based interface that connects to your app and
-  displays detailed performance metrics. Part of the DevTools utility. To learn
-  more, see [Use the Performance View][].
+* **效能檢視（Performance View）**：一個基於網頁的介面，可連接你的應用程式並顯示詳細的效能指標。這是 DevTools 工具的一部分。詳情請參閱 [使用 Performance View][Use the Performance View]。
 
-* **Performance tracing within Dart**: Add tracing directly into your app's
-  Dart code, using the `dart:developer package`, and then track your app's
-  performance in the DevTools utility. To learn more, see [Tracing Dart code][].
+* **Dart 內的效能追蹤**：可直接在應用程式的 Dart 程式碼中加入追蹤（tracing），使用 `dart:developer package`，然後在 DevTools 工具中追蹤應用程式效能。詳情請參閱 [追蹤 Dart 程式碼][Tracing Dart code]。
 
-* **Benchmarking**: You can measure and track your app's performance by writing
-  benchmark tests. The Flutter Driver library provides support
-  for benchmarking. Using this integration test framework,
-  you can generate metrics that track jank, download size, battery efficiency,
-  and startup time. For more information, check out [Integration testing][].
+* **效能基準測試（Benchmarking）**：你可以撰寫基準測試來量測並追蹤應用程式的效能。Flutter Driver 函式庫提供基準測試支援。利用這個整合測試框架，你可以產生追蹤卡頓、下載大小、電池效率及啟動時間等指標。更多資訊請參閱 [整合測試][Integration testing]。
 
-* **Widget rebuild profiler (IntelliJ for Android Studio)**: Jank often arises
-  from unnecessary UI rebuilds. If you are using IntelliJ for Android Studio,
-  the Widget Rebuild Profiler helps pinpoint and fix these issues by showing
-  widget rebuild counts for the current screen and frame. For more information,
-  see [Show performance data][].
+* **元件重建分析工具（Widget rebuild profiler，IntelliJ for Android Studio）**：卡頓常因不必要的 UI 重建所致。若你使用 IntelliJ for Android Studio，Widget Rebuild Profiler 可協助你定位並修正這些問題，透過顯示目前螢幕與畫格的元件重建次數。詳情請參閱 [顯示效能資料][Show performance data]。
 
-Flutter aims to provide 60 frames per second (fps) performance,
-or 120 fps on devices that support it. To achieve the 60fps, each frame must
-render approximately every 16ms to avoid jank. Jank occurs when frames take
-significantly longer to render and are dropped, resulting in a visible stutter
-in animations. For example, if a frame occasionally takes 10 times longer than
-usual to render, it will likely be dropped, causing the animation to appear
-jerky.
+Flutter 目標是提供每秒 60 幀（fps）的效能，或在支援的裝置上達到 120 fps。為達到 60fps，每一幀必須約每 16 毫秒渲染一次，以避免卡頓。當畫格渲染時間明顯過長並被丟棄時，就會產生卡頓，導致動畫出現明顯的延遲。例如，若某一畫格偶爾渲染時間比平常長 10 倍，該畫格很可能會被丟棄，造成動畫顯得不流暢。
 
 [Use the Performance View]: /tools/devtools/performance
 [Tracing Dart code]: /testing/code-debugging#trace-dart-code-performance
 [Show performance data]: /tools/android-studio#show-performance-data
 [Integration testing]: /testing/integration-tests
 
-## Connect to a physical device
+## 連接實體裝置
 
-Almost all performance debugging for Flutter applications
-should be conducted on a physical Android or iOS device,
-with your Flutter application running in [profile mode][].
-Using debug mode, or running apps on simulators
-or emulators, is generally not indicative of the final
-behavior of release mode builds.
-_You should consider checking performance
-on the slowest device that your users might reasonably use._
+幾乎所有 Flutter 應用程式的效能除錯，都應該在實體 Android 或 iOS 裝置上進行，並以 [profile 模式][profile mode] 執行你的 Flutter 應用程式。在 debug 模式下，或於模擬器／模擬裝置上執行，通常無法反映最終 release 模式建置的實際行為。
+_你應該考慮在用戶可能會使用的最慢裝置上檢查效能。_
 
-:::secondary Why you should run on a real device
-* Simulators and emulators don't use the same hardware, so their
-  performance characteristics are different&mdash;some operations are
-  faster on simulators than real devices, and some are slower.
-* Debug mode enables additional checks (such as asserts) that don't run
-  in profile or release builds, and these checks can be expensive.
-* Debug mode also executes code in a different way than release mode.
-  The debug build compiles the Dart code "just in time" (JIT) as the
-  app runs, but profile and release builds are pre-compiled to native
-  instructions (also called "ahead of time", or AOT) before the app is
-  loaded onto the device. JIT can cause the app to pause for JIT
-  compilation, which itself can cause jank.
+:::secondary 為什麼要在真實裝置上執行
+* 模擬器與模擬裝置（emulator）所用硬體不同，因此效能特性也不同——有些操作在模擬器上比真機快，有些則較慢。
+* Debug 模式會啟用額外的檢查（如 assert），這些在 profile 或 release 建置時不會執行，而這些檢查可能會消耗大量資源。
+* Debug 模式的程式碼執行方式也與 release 模式不同。Debug 建置在應用程式執行時以「即時編譯」（JIT）方式編譯 Dart 程式碼，而 profile 與 release 建置則會在應用程式載入至裝置前預先編譯為原生指令（也稱為「預先編譯」，AOT）。JIT 可能導致應用程式暫停進行 JIT 編譯，而這本身就可能造成卡頓。
 :::
 
-## Run in profile mode
+## 以 profile 模式執行
 
-Flutter's profile mode compiles and launches your application
-almost identically to release mode, but with just enough additional
-functionality to allow debugging performance problems.
-For example, profile mode provides tracing information to the
-profiling tools.
+Flutter 的 profile 模式會以幾乎與 release 模式相同的方式編譯並啟動你的應用程式，但同時保留足夠的額外功能以便進行效能除錯。例如，profile 模式會為效能分析工具提供追蹤資訊。
 
 :::note
-Dart/Flutter DevTools can't connect to a
-Flutter web app running in profile mode.
-Use Chrome DevTools to
-[generate timeline events][] for a web app.
+Dart/Flutter DevTools 無法連接執行於 profile 模式的 Flutter Web 應用程式。
+請改用 Chrome DevTools
+[產生時間軸事件][generate timeline events] 來分析 Web 應用程式。
 :::
 
-Launch the app in profile mode as follows:
+以 profile 模式啟動應用程式的方法如下：
 
-* In VS Code, open your `launch.json` file, and set the
-  `flutterMode` property to `profile`
-  (when done profiling, change it back to `release` or `debug`):
+* 在 VS Code 中，打開你的 `launch.json` 檔案，並將
+  `flutterMode` 屬性設為 `profile`
+  （完成效能分析後，請改回 `release` 或 `debug`）：
 
   ```json
   "configurations": [
@@ -105,154 +64,100 @@ Launch the app in profile mode as follows:
     }
   ]
   ```
-* In Android Studio and IntelliJ, use the
-  **Run > Flutter Run main.dart in Profile Mode** menu item.
-* From the command line, use the `--profile` flag:
+* 在 Android Studio 和 IntelliJ 中，請使用
+  **執行 > 以 Profile 模式執行 main.dart（Run > Flutter Run main.dart in Profile Mode）** 選單項目。
+* 從命令列（Command Line Interface），請使用 `--profile` 旗標：
 
   ```console
   $ flutter run --profile
   ```
 
-For more information on the different modes,
-see [Flutter's build modes][].
+如需不同模式的詳細資訊，請參閱 [Flutter 的建置模式][Flutter's build modes]。
 
-You'll begin by opening DevTools and viewing
-the performance overlay, as discussed in the next section.
+你將從開啟 DevTools 並檢視效能疊加層（performance overlay）開始，如下一節所述。
 
 [Flutter's build modes]: /testing/build-modes
 [generate timeline events]: {{site.developers}}/web/tools/chrome-devtools/evaluate-performance/performance-reference
 
-## Launch DevTools
+## 啟動 DevTools
 
-DevTools provides features like profiling, examining the heap,
-displaying code coverage, enabling the performance overlay,
-and a step-by-step debugger.
-DevTools' [Timeline view][] allows you to investigate the
-UI performance of your application on a frame-by-frame basis.
+DevTools 提供多項功能，例如效能分析（profiling）、檢查堆積（heap）、顯示程式碼涵蓋率、啟用效能疊加層，以及逐步除錯器（step-by-step debugger）。
+DevTools 的 [Timeline 檢視][Timeline view] 允許你以逐幀（frame-by-frame）方式調查應用程式的 UI 效能。
 
-Once your app is running in profile mode,
-[launch DevTools][].
+當你的應用程式以 profile 模式執行時，[啟動 DevTools][launch DevTools]。
 
 [Timeline view]: /tools/devtools/performance
 [launch DevTools]: /tools/devtools
 
-## Display the performance overlay {:#displaying-the-performance-overlay}
+## 顯示效能疊加層 {:#displaying-the-performance-overlay}
 
-You can toggle the display of the performance overlay as
-follows:
+你可以透過以下方式切換效能疊加層的顯示：
 
-* **DevTools Performance view**: The easiest way to enable the
-  PerformanceOverlay widget is from the [Performance view][] in [DevTools][].
-  Simply click the **Performance Overlay** button to toggle the overlay on your
-  running app.
+* **DevTools Performance 檢視**：啟用 PerformanceOverlay 元件（Widget）最簡單的方法，是在 [DevTools][DevTools] 的 [Performance 檢視][Performance view] 中操作。只需點擊 **Performance Overlay** 按鈕，即可在執行中的應用程式上切換疊加層。
 
-* **command line**: Toggle the performance overlay using the **P** key from
-  the command line.
+* **命令列**：在命令列中使用 **P** 鍵切換效能疊加層。
 
-* **programmatically**: To enable the overlay programmatically, see
-  [Performance overlay][], a section in the
-  [Debugging Flutter apps programmatically][] page.
+* **程式控制**：若要以程式方式啟用疊加層，請參閱 [Performance overlay][Performance overlay]，該內容位於 [以程式方式除錯 Flutter 應用程式][Debugging Flutter apps programmatically] 頁面。
 
 [Performance overlay]: /testing/code-debugging#add-performance-overlay
 [Debugging Flutter apps programmatically]: /testing/code-debugging
 
 <a id="the-performance-overlay" aria-hidden="true"></a>
 
-## Observe the performance overlay {:#performance-overlay}
+## 觀察效能疊加層 {:#performance-overlay}
 
-The performance overlay displays statistics in two graphs
-that show where time is being spent in your app. If the UI
-is janky (skipping frames), these graphs help you figure out why.
-The graphs display on top of your running app, but they aren't
-drawn like a normal widget&mdash;the Flutter engine itself
-paints the overlay and only minimally impacts performance.
-Each graph represents the last 300 frames for that thread.
+效能疊加層會以兩個圖表顯示統計數據，幫助你了解應用程式的時間花費位置。如果 UI 出現卡頓（跳幀），這些圖表能協助你找出原因。
+圖表會顯示在執行中的應用程式上方，但它們不是以一般元件（Widget）方式繪製&mdash;而是由 Flutter 引擎直接繪製，對效能影響極小。
+每個圖表代表該執行緒最近 300 幀的狀態。
 
-This section describes how to enable the performance overlay
-and use it to diagnose the cause of jank in your application.
-The following screenshot shows the performance overlay running
-on the Flutter Gallery example:
+本節將說明如何啟用效能疊加層，並利用它診斷應用程式卡頓的原因。
+以下螢幕截圖顯示效能疊加層在 Flutter Gallery 範例中的運作情形：
 
 ![Screenshot of overlay showing zero jank](/assets/images/docs/tools/devtools/performance-overlay-green.png)
-<br>Performance overlay showing the raster thread (top),
-and UI thread (bottom).<br>The vertical green bars
-represent the current frame.
+<br>效能疊加層顯示光柵化執行緒（raster thread，頂部）與 UI 執行緒（底部）。<br>垂直綠色條代表當前幀。
 
-### Review the graphs {:#interpreting-the-graphs}
+### 檢視圖表 {:#interpreting-the-graphs}
 
-The top graph (marked "GPU") shows the time spent by 
-the raster thread, the bottom one graph shows the time 
-spent by the UI thread.
-The white lines across the graphs show 16ms increments
-along the vertical axis; if the graph ever goes over one
-of these lines then you are running at less than 60Hz.
-The horizontal axis represents frames. The graph is
-only updated when your application paints,
-so if it's idle the graph stops moving.
+頂部圖表（標記為 "GPU"）顯示光柵化執行緒（raster thread）所花費的時間，底部圖表則顯示 UI 執行緒所花費的時間。
+圖表中的白線代表垂直軸上的 16 毫秒間隔；如果圖表超過這條線，則代表更新率低於 60Hz。
+水平軸代表幀數。圖表僅在應用程式繪製時更新，因此若應用程式閒置，圖表也會停止移動。
 
-The overlay should always be viewed in [profile mode][],
-since [debug mode][] performance is intentionally sacrificed
-in exchange for expensive asserts that are intended to aid
-development, and thus the results are misleading.
+疊加層應始終在 [profile 模式][profile mode] 下檢視，因為 [debug 模式][debug mode] 會刻意犧牲效能，以換取有助於開發的昂貴斷言，因此結果會產生誤導。
 
-Each frame should be created and displayed within 1/60th of
-a second (approximately 16ms). A frame exceeding this limit
-(in either graph) fails to display, resulting in jank,
-and a vertical red bar appears in one or both of the graphs.
-If a red bar appears in the UI graph, the Dart code is too
-expensive. If a red vertical bar appears in the GPU graph,
-the scene is too complicated to render quickly.
+每一幀都應在 1/60 秒（約 16 毫秒）內建立並顯示。若任何一個圖表的幀超過此限制，該幀將無法及時顯示，導致卡頓（jank），並在圖表中出現垂直紅條。
+若 UI 圖表出現紅條，表示 Dart 程式碼過於耗時。若 GPU 圖表出現紅色垂直條，則代表場景過於複雜，無法快速渲染。
 
 ![Screenshot of performance overlay showing jank with red bars](/assets/images/docs/tools/devtools/performance-overlay-jank.png)
-<br>The vertical red bars indicate that the current frame is
-expensive to both render and paint.<br>When both graphs
-display red, start by diagnosing the UI thread.
+<br>垂直紅條表示目前這一幀在繪製與渲染上都非常耗時。<br>當兩個圖表都出現紅條時，請先從診斷 UI 執行緒著手。
 
-### Review the threads {:#flutters-threads}
+### 檢視執行緒 {:#flutters-threads}
 
-Flutter uses several threads to do its work, though
-only two of the threads are shown in the overlay.
-All of your Dart code runs on the UI thread.
-Although you have no direct access to any other thread,
-your actions on the UI thread have performance consequences
-on other threads.
+Flutter 會使用多個執行緒來完成工作，但疊加層僅顯示其中兩個執行緒。
+你所有的 Dart 程式碼都在 UI 執行緒上執行。
+雖然你無法直接存取其他執行緒，但你在 UI 執行緒上的行為會影響其他執行緒的效能。
 
-**Platform thread**
-: The platform's main thread. Plugin code runs here.
-  For more information, see the [UIKit][] documentation for iOS,
-  or the [MainThread][] documentation for Android.
-  _This thread is not shown in the performance overlay._
+**平台執行緒（Platform thread）**
+: 平台的主要執行緒。Plugin 程式碼會在此執行。
+  相關資訊請參閱 iOS 的 [UIKit][UIKit] 文件，或 Android 的 [MainThread][MainThread] 文件。
+  _此執行緒不會顯示在效能疊加層中。_
 
-**UI thread**
-: The UI thread executes Dart code in the Dart VM.
-  This thread includes code that you wrote, and code executed by
-  Flutter's framework on your app's behalf.
-  When your app creates and displays a scene, the UI thread creates
-  a _layer tree_, a lightweight object containing device-agnostic
-  painting commands, and sends the layer tree to the raster thread to
-  be rendered on the device. _Don't block this thread!_
-  Shown in the bottom row of the performance overlay.
+**UI 執行緒（UI thread）**
+: UI 執行緒在 Dart VM 中執行 Dart 程式碼。
+  此執行緒包含你撰寫的程式碼，以及 Flutter framework 代表你的應用程式執行的程式碼。
+  當你的應用程式建立並顯示場景時，UI 執行緒會建立一個 _layer tree_（層級樹），這是一個包含與裝置無關繪製指令的輕量級物件，並將其傳送給光柵化執行緒進行裝置上的渲染。_請勿阻塞此執行緒！_
+  此執行緒顯示於效能疊加層的底部列。
 
-**Raster thread**
-: The raster thread takes the layer tree and displays
-  it by talking to the GPU (graphic processing unit).
-  You cannot directly access the raster thread or its data but,
-  if this thread is slow, it's a result of something you've done
-  in the Dart code. Skia and Impeller, the graphics libraries,
-  run on this thread.
-  Shown in the top row of the performance overlay.
-  Note that while the raster thread rasterizes for the GPU,
-  the thread itself runs on the CPU.
+**光柵化執行緒（Raster thread）**
+: 光柵化執行緒負責接收 layer tree 並透過 GPU（圖形處理單元）進行顯示。
+  你無法直接存取光柵化執行緒或其資料，但若此執行緒速度緩慢，通常是 Dart 程式碼造成的。Skia 與 Impeller（圖形函式庫）會在此執行緒上運作。
+  此執行緒顯示於效能疊加層的頂部列。
+  請注意，雖然光柵化執行緒負責為 GPU 光柵化，但執行緒本身是在 CPU 上執行。
 
-**I/O thread**
-: Performs expensive tasks (mostly I/O) that would
-  otherwise block either the UI or raster threads.
-  _This thread is not shown in the performance overlay._
+**I/O 執行緒（I/O thread）**
+: 執行耗時的任務（主要為 I/O），以避免阻塞 UI 或光柵化執行緒。
+  _此執行緒不會顯示在效能疊加層中。_
     
-For links to more information and videos,
-see [The Framework architecture][] in the
-[Flutter wiki][], and the community article,
-[The Layer Cake][].
+如需更多資訊與影片，請參閱 [Flutter wiki][Flutter wiki] 中的 [The Framework architecture][The Framework architecture]，以及社群文章 [The Layer Cake][The Layer Cake]。
 
 [debug mode]: /testing/build-modes#debug
 [Flutter wiki]: {{site.repo.flutter}}/tree/main/docs
@@ -261,107 +166,69 @@ see [The Framework architecture][] in the
 [The Framework architecture]: {{site.repo.flutter}}/blob/main/docs/about/The-Framework-architecture.md
 [MainThread]: {{site.android-dev}}/reference/android/support/annotation/MainThread
 
-## Identify problems
+## 問題識別
 
-### Review the UI graph {:#identifying-problems-in-the-ui-graph}
+### 檢視 UI 圖表 {:#identifying-problems-in-the-ui-graph}
 
-If the performance overlay shows red in the UI graph,
-start by profiling the Dart VM, even if the GPU graph
-also shows red.
+如果效能疊加層在 UI 圖表顯示紅色，請先對 Dart VM 進行效能分析，即使 GPU 圖表也出現紅色。
 
-### Review the GPU graph {:#identifying-problems-in-the-gpu-graph}
+### 檢視 GPU 圖表 {:#identifying-problems-in-the-gpu-graph}
 
-Sometimes a scene results in a layer tree that is easy to construct,
-but expensive to render on the raster thread. When this happens,
-the UI graph has no red, but the GPU graph shows red.
-In this case, you'll need to figure out what your code is doing
-that is causing rendering code to be slow. Specific kinds of workloads
-are more difficult for the GPU. They might involve unnecessary calls
-to [`saveLayer`][], intersecting opacities with multiple objects,
-and clips or shadows in specific situations.
+有時候，一個場景雖然 layer tree 很容易建立，但在光柵化執行緒上渲染卻非常耗時。這種情況下，UI 圖表沒有紅色，但 GPU 圖表出現紅色。
+這時，你需要找出程式碼中導致渲染變慢的原因。某些特定類型的工作負載對 GPU 來說較困難，可能涉及不必要的 [`saveLayer`][`saveLayer`] 呼叫、多個物件交錯透明度，以及特定情境下的裁剪（clip）或陰影（shadow）。
 
-If you suspect that the source of the slowness is during an animation,
-click the **Slow Animations** button in the Flutter inspector
-to slow animations down by 5x.
-If you want more control on the speed, you can also do this
-[programmatically][].
+如果你懷疑動畫期間造成效能下降，請在 Flutter 檢查器（inspector）中點擊 **Slow Animations** 按鈕，將動畫速度放慢 5 倍。
+如果你需要更細緻的速度控制，也可以[以程式方式][programmatically]調整。
 
-Is the slowness on the first frame, or on the whole animation?
-If it's the whole animation, is clipping causing the slow down?
-Maybe there's an alternative way of drawing the scene that doesn't
-use clipping. For example, overlay opaque corners onto a square
-instead of clipping to a rounded rectangle.
-If it's a static scene that's being faded, rotated, or otherwise
-manipulated, a [`RepaintBoundary`][] might help.
+效能下降是發生在第一幀，還是整個動畫期間？如果是整個動畫，是否因為裁剪（clipping）造成延遲？或許可以用其他方式繪製場景而不需裁剪。例如，將不透明的角落覆蓋在方形上，而不是裁剪成圓角矩形。
+如果是靜態場景被淡入淡出、旋轉或其他操作，[`RepaintBoundary`][`RepaintBoundary`] 可能會有所幫助。
 
 [programmatically]: /testing/code-debugging#debug-animation-issues
 
-#### Checking for offscreen layers
+#### 檢查離屏圖層（offscreen layers）
 
-The [`saveLayer`][] method is one of the most expensive methods in
-the Flutter framework. It's useful when applying post-processing
-to the scene, but it can slow your app and should be avoided if
-you don't need it.  Even if you don't call `saveLayer` explicitly,
-implicit calls might happen on your behalf, for example when specifying
-[`Clip.antiAliasWithSaveLayer`][] (typically as a `clipBehavior`).
+[`saveLayer`][`saveLayer`] 方法是 Flutter framework 中最昂貴的方法之一。當你需要對場景進行後處理時很有用，但若無必要應避免使用，否則會拖慢應用程式。即使你沒有明確呼叫 `saveLayer`，在某些情況下也可能會被隱式呼叫，例如指定 [`Clip.antiAliasWithSaveLayer`][`Clip.antiAliasWithSaveLayer`] (typically as a `clipBehavior`) 時。
 
-For example,
-perhaps you have a group of objects with opacities that are rendered
-using `saveLayer`. In this case, it's probably more performant to
-apply an opacity to each individual widget, rather than a parent
-widget higher up in the widget tree. The same goes for
-other potentially expensive operations, such as clipping or shadows.
+舉例來說，
+假設你有一組物件，其透明度是透過 `saveLayer` 來渲染。在這種情況下，將透明度分別套用到每個元件（Widget）通常比套用到元件樹較高層的父元件更有效率。其他潛在昂貴的操作（如裁剪或陰影）亦同理。
 
 :::note
-Opacity, clipping, and shadows are not, in themselves,
-a bad idea. However, applying them to the top of the
-widget tree might cause extra calls to `saveLayer`,
-and needless processing.
+透明度、裁剪與陰影本身並非壞主意。然而，若將這些效果套用在元件樹頂層，可能會導致額外的 `saveLayer` 呼叫與不必要的處理。
 :::
 
-When you encounter calls to `saveLayer`,
-ask yourself these questions:
+當你遇到 `saveLayer` 呼叫時，請自問：
 
-* Does the app need this effect?
-* Can any of these calls be eliminated?
-* Can I apply the same effect to an individual element instead of a group?
+* 應用程式真的需要這個效果嗎？
+* 這些呼叫有沒有可以省略的？
+* 能否將同樣效果套用在單一元素，而不是整個群組？
 
 [`Clip.antiAliasWithSaveLayer`]: {{site.api}}/flutter/dart-ui/Clip.html
 
-#### Checking for non-cached images
+#### 檢查未快取的圖片
 
-Caching an image with [`RepaintBoundary`][] is good,
-_when it makes sense_.
+使用 [`RepaintBoundary`][`RepaintBoundary`] 快取圖片是好事，_前提是有其必要_。
 
-One of the most expensive operations,
-from a resource perspective,
-is rendering a texture using an image file.
-First, the compressed image
-is fetched from persistent storage.
-The image is decompressed into host memory (GPU memory),
-and transferred to device memory (RAM).
+從資源角度來看，
+渲染圖片檔案的紋理（texture）是最昂貴的操作之一。
+首先，壓縮過的圖片會從永久儲存空間讀取出來。
+接著，圖片會在主機記憶體（GPU 記憶體）中解壓縮，然後傳輸到裝置記憶體（RAM）。
 
-In other words, image I/O can be expensive.
-The cache provides snapshots of complex hierarchies so
-they are easier to render in subsequent frames.
-_Because raster cache entries are expensive to
-construct and take up loads of GPU memory,
-cache images only where absolutely necessary._
+換句話說，圖片 I/O 可能非常耗時。
+快取能為複雜的階層結構提供快照，使後續幀的渲染更容易。
+_由於光柵快取（raster cache）項目建構成本高且佔用大量 GPU 記憶體，請僅在絕對必要時才快取圖片。_
 
-## Other resources
+## 其他資源
 
-The following resources provide more information on using
-Flutter's tools and debugging in Flutter:
+以下資源提供更多有關使用 Flutter 工具與除錯的資訊：
 
-* [Debugging][]
-* [Performance view][]
-* [Flutter inspector][]
-* [Flutter inspector talk][], presented at DartConf 2018
-* [Why Flutter Uses Dart][], an article on Hackernoon
-* [Why Flutter uses Dart][video], a video on the Flutter channel
-* [DevTools][devtools]: performance tooling for Dart and Flutter apps
-* [Flutter API][] docs, particularly the [`PerformanceOverlay`][] class,
-  and the [dart:developer][] package
+* [Debugging][Debugging]
+* [Performance view][Performance view]
+* [Flutter inspector][Flutter inspector]
+* [Flutter inspector talk][Flutter inspector talk]，於 DartConf 2018 發表
+* [Why Flutter Uses Dart][Why Flutter Uses Dart]，Hackernoon 上的文章
+* [Why Flutter uses Dart][video]，Flutter 頻道上的影片
+* [DevTools][devtools]：Dart 與 Flutter 應用程式的效能工具
+* [Flutter API 文件][Flutter API]，特別是 [`PerformanceOverlay`][`PerformanceOverlay`] 類別，以及 [dart:developer][dart:developer] 套件
 
 [`PerformanceOverlay`]: {{site.api}}/flutter/widgets/PerformanceOverlay-class.html
 [`RepaintBoundary`]: {{site.api}}/flutter/widgets/RepaintBoundary-class.html

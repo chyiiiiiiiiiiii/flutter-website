@@ -1,181 +1,78 @@
 ---
-title: Understanding Flutter's keyboard focus system
-description: How to use the focus system in your Flutter app.
+title: 理解 Flutter 的鍵盤焦點系統
+description: 如何在你的 Flutter 應用程式中使用焦點系統。
 ---
 
-This article explains how to control where keyboard input is directed. If you
-are implementing an application that uses a physical keyboard, such as most
-desktop and web applications, this page is for you. If your app won't be used
-with a physical keyboard, you can skip this.
+本文說明如何控制鍵盤輸入的導向位置。如果你正在開發需要實體鍵盤的應用程式（例如大多數桌面與網頁應用程式），這一頁將對你有幫助。如果你的應用程式不會搭配實體鍵盤使用，可以略過本頁內容。
 
-## Overview
+## 概覽
 
-Flutter comes with a focus system that directs the keyboard input to a
-particular part of an application. In order to do this, users "focus" the input
-onto that part of an application by tapping or clicking the desired UI element.
-Once that happens, text entered with the keyboard flows to that part of the
-application until the focus moves to another part of the application.  Focus can
-also be moved by pressing a particular keyboard shortcut, which is typically
-bound to <kbd>Tab</kbd>, so it is sometimes called "tab traversal".
+Flutter 內建一套焦點系統，能將鍵盤輸入導向應用程式中的特定區域。為了達到這個目的，使用者會透過點擊或點選想要的 UI 元素，將「焦點」集中在應用程式的那個部分。一旦獲得焦點，透過鍵盤輸入的文字就會流向該區域，直到焦點被移動到應用程式的其他部分。焦點也可以透過特定的鍵盤快捷鍵來移動，這通常綁定在 <kbd>Tab</kbd> 鍵，因此有時也稱為「Tab 鍵遍歷」（tab traversal）。
 
-This page explores the APIs used to perform these operations on a Flutter
-application, and how the focus system works. We have noticed that there is some
-confusion among developers about how to define and use [`FocusNode`][] objects.
-If that describes your experience, skip ahead to the [best practices for
-creating `FocusNode` objects](#best-practices-for-creating-focusnode-objects).
+本頁將探討在 Flutter 應用程式中執行這些操作所需的 API，以及焦點系統的運作方式。我們發現開發者對於如何定義與使用 [`FocusNode`][`FocusNode`] 物件有些困惑。如果你也有這樣的經驗，請直接參考[建立 `FocusNode` 物件的最佳實踐](#建立-focusnode-物件的最佳實踐)。
 
-### Focus use cases
+### 焦點使用情境
 
-Some examples of situations where you might need to know how to use the focus
-system:
+以下是你可能需要了解焦點系統用法的一些情境範例：
 
-- [Receiving/handling key events](#key-events)
-- [Implementing a custom component that needs to be focusable](#focus-widget)
-- [Receiving notifications when the focus changes](#change-notifications)
-- [Changing or defining the "tab order" of focus traversal in an application](#focustraversalpolicy)
-- [Defining groups of controls that should be traversed together](#focustraversalgroup-widget)
-- [Preventing some controls in an application from being focusable](#controlling-what-gets-focus)
+- [接收／處理鍵盤事件](#鍵盤事件-key-events)
+- [實作需要可被聚焦的自訂元件](#focus-元件)
+- [在焦點變化時接收通知](#焦點變更通知)
+- [變更或定義應用程式中「Tab 鍵順序」的焦點遍歷](#focustraversalpolicy)
+- [定義應該一起遍歷的控制群組](#focustraversalgroup-元件)
+- [防止應用程式中的某些控制項可被聚焦](#控制哪些元素獲得焦點)
+## 詞彙表
 
-## Glossary
+以下是 Flutter 在焦點系統中使用的相關術語。部分概念所對應的類別會在下文介紹。
 
-Below are terms, as Flutter uses them, for elements of the focus system. The
-various classes that implement some of these concepts are introduced below.
+- **焦點樹（Focus tree）** - 由焦點節點（focus nodes）組成的樹狀結構，通常稀疏地映射元件樹，代表所有可接收焦點的元件。
+- **焦點節點（Focus node）** - 焦點樹中的單一節點。該節點可以接收焦點，當它成為焦點鏈的一部分時，稱為「擁有焦點」。只有在擁有焦點時，它才會參與鍵盤事件的處理。
+- **主焦點（Primary focus）** - 焦點樹中距離根節點最遠、且擁有焦點的焦點節點。鍵盤事件會從主焦點節點開始，並向其祖先節點傳遞。
+- **焦點鏈（Focus chain）** - 由主焦點節點開始，沿著焦點樹分支一路到根節點的有序焦點節點清單。
+- **焦點範圍（Focus scope）** - 一種特殊的焦點節點，用於包含一組其他焦點節點，並僅允許這些節點接收焦點。它會記錄其子樹中先前被聚焦的節點資訊。
+- **焦點遍歷（Focus traversal）** - 以可預期順序，從一個可聚焦節點移動到另一個的過程。這通常出現在使用者按下 <kbd>Tab</kbd> 鍵，將焦點移到下一個可聚焦控制項或欄位時。
 
-- **Focus tree** - A tree of focus nodes that typically sparsely mirrors the
-  widget tree, representing all the widgets that can receive focus.
-- **Focus node** - A single node in a focus tree. This node can receive the
-  focus, and is said to "have focus" when it is part of the focus chain. It
-  participates in handling key events only when it has focus.
-- **Primary focus** - The farthest focus node from the root of the focus tree
-  that has focus. This is the focus node where key events start propagating to
-  the primary focus node and its ancestors.
-- **Focus chain** - An ordered list of focus nodes that starts at the primary
-  focus node and follows the branches of the focus tree to the root of the
-  focus tree.
-- **Focus scope** - A special focus node whose job is to contain a group of
-  other focus nodes, and allow only those nodes to receive focus. It contains
-  information about which nodes were previously focused in its subtree.
-- **Focus traversal** - The process of moving from one focusable node to
-  another in a predictable order. This is typically seen in applications when
-  the user presses <kbd>Tab</kbd> to move to the next focusable control or
-  field.
+## FocusNode 與 FocusScopeNode
 
-## FocusNode and FocusScopeNode
+`FocusNode` 和 [`FocusScopeNode`][`FocusScopeNode`] 物件實作了焦點系統的機制。它們是長生命週期的物件（比元件更長，類似於 render objects），用來保存焦點狀態與屬性，讓這些資訊在元件樹重建時仍能持續存在。這些物件共同組成焦點樹資料結構。
 
-The `FocusNode` and [`FocusScopeNode`][] objects implement the
-mechanics of the focus system. They are long-lived objects (longer than widgets,
-similar to render objects) that hold the focus state and attributes so that they
-are persistent between builds of the widget tree. Together, they form
-the focus tree data structure.
+這些物件最初設計為開發者可直接操作，用來控制焦點系統的部分行為，但隨著時間演進，它們大多用於實作焦點系統的細節。為了避免破壞現有應用程式，它們仍然保留了屬性的公開介面。但一般來說，它們最有用的用途是作為一個相對不透明的操作柄，傳遞給子元件，讓其可以呼叫 `requestFocus()` 於祖先元件上，以請求讓某個子元件獲得焦點。至於其他屬性的設定，除非你沒有使用 [`Focus`][`Focus`] 或 [`FocusScope`][`FocusScope`] 元件，或是自行實作它們，否則建議由這些元件來管理。
 
-They were originally intended to be developer-facing objects used to control
-some aspects of the focus system, but over time they have evolved to mostly
-implement details of the focus system. In order to prevent breaking existing
-applications, they still contain public interfaces for their attributes. But, in
-general, the thing for which they are most useful is to act as a relatively
-opaque handle, passed to a descendant widget in order to call `requestFocus()`
-on an ancestor widget, which requests that a descendant widget obtain focus.
-Setting of the other attributes is best managed by a [`Focus`][] or
-[`FocusScope`][] widget, unless you are not using them, or implementing your own
-version of them.
+### 建立 FocusNode 物件的最佳實踐
 
-### Best practices for creating FocusNode objects
+使用這些物件時，請遵循以下建議：
 
-Some dos and don'ts around using these objects include:
+- 不要在每次 build 時都配置新的 `FocusNode`。這會導致記憶體洩漏，有時也會在節點擁有焦點時，因元件重建而失去焦點。
+- 請在有狀態元件（stateful widget）中建立 `FocusNode` 和 `FocusScopeNode` 物件。`FocusNode` 和 `FocusScopeNode` 在不再使用時需要被釋放（dispose），因此應只在有狀態元件的 state 物件中建立，並在覆寫 `dispose` 時釋放它們。
+- 不要讓多個元件共用同一個 `FocusNode`。否則這些元件會互相爭奪節點屬性的管理權，結果可能不如預期。
+- 請設定焦點節點元件的 `debugLabel`，以利診斷焦點相關問題。
+- 若焦點節點由 `Focus` 或 `FocusScope` 元件管理時，不要在 `FocusNode` 或 `FocusScopeNode` 上設定 `onKeyEvent` 回呼。如果你需要 `onKeyEvent` 處理器，請在你想監聽的元件子樹外層包一個新的 `Focus` 元件，並將該元件的 `onKeyEvent` 屬性設為你的處理器。如果你也不希望它能取得主焦點，請在該元件上設定 `canRequestFocus: false`。這是因為 `Focus` 元件的 `onKeyEvent` 屬性在之後的 build 可能被設為其他值，若發生這種情況，會覆蓋你在節點上設定的 `onKeyEvent` 處理器。
+- 請呼叫節點的 `requestFocus()` 以請求讓它獲得主焦點，特別是當祖先元件將它擁有的節點傳給子元件，而你希望聚焦該子元件時。
+- 請使用 `focusNode.requestFocus()`。不需要呼叫 `FocusScope.of(context).requestFocus(focusNode)`。`focusNode.requestFocus()` 方法等效且效能更佳。
 
-- Don't allocate a new `FocusNode` for each build.  This can cause
-  memory leaks, and occasionally causes a loss of focus when the widget
-  rebuilds while the node has focus.
-- Do create `FocusNode` and `FocusScopeNode` objects in a stateful widget.
-  `FocusNode` and `FocusScopeNode` need to be disposed of when you're done
-  using them, so they should only be created inside of a stateful widget's
-  state object, where you can override `dispose` to dispose of them.
-- Don't use the same `FocusNode` for multiple widgets. If you do, the
-  widgets will fight over managing the attributes of the node, and you
-  probably won't get what you expect.
-- Do set the `debugLabel` of a focus node widget to help with diagnosing
-  focus issues.
-- Don't set the `onKeyEvent` callback on a `FocusNode` or `FocusScopeNode` if
-  they are being managed by a `Focus` or `FocusScope` widget.
-  If you want an `onKeyEvent` handler, then add a new `Focus` widget
-  around the widget subtree you would like to listen to, and
-  set the `onKeyEvent` attribute of the widget to your handler.
-  Set `canRequestFocus: false` on the widget if
-  you also don't want it to be able to take primary focus.
-  This is because the `onKeyEvent` attribute on the `Focus` widget can be
-  set to something else in a subsequent build, and if that happens,
-  it overwrites the `onKeyEvent` handler you set on the node.
-- Do call `requestFocus()` on a node to request that it receives the
-  primary focus, especially from an ancestor that has passed a node it owns to
-  a descendant where you want to focus.
-- Do use `focusNode.requestFocus()`. It is not necessary to call
-  `FocusScope.of(context).requestFocus(focusNode)`. The
-  `focusNode.requestFocus()` method is equivalent and more performant.
+### 取消聚焦（Unfocusing）
 
-### Unfocusing
+有一個 API 可以讓節點「放棄焦點」，名稱為 `FocusNode.unfocus()`。雖然這會移除節點的焦點，但需要注意，其實並不存在「所有節點都不聚焦」的狀態。如果一個節點被取消聚焦，焦點必須轉移到其他地方，因為系統中 _總是_ 會有一個主焦點。當節點呼叫 `unfocus()` 時，接收焦點的節點會是最近的 `FocusScopeNode`，或是該範圍內先前被聚焦的節點，這取決於傳給 `unfocus()` 的 `disposition` 參數。如果你想更精確地控制焦點移除後的去向，請直接聚焦到其他節點，而不是呼叫 `unfocus()`，或是使用焦點遍歷機制，透過 `FocusNode` 上的 `focusInDirection`、`nextFocus` 或 `previousFocus` 方法尋找其他節點。
 
-There is an API for telling a node to "give up the focus", named
-`FocusNode.unfocus()`. While it does remove focus from the node, it is important
-to realize that there really is no such thing as "unfocusing" all nodes. If a
-node is unfocused, then it must pass the focus somewhere else, since there is
-_always_ a primary focus. The node that receives the focus when a node calls
-`unfocus()` is either the nearest `FocusScopeNode`, or a previously focused node
-in that scope, depending upon the `disposition` argument given to `unfocus()`.
-If you would like more control over where the focus goes when you remove it from
-a node, explicitly focus another node instead of calling `unfocus()`, or use the
-focus traversal mechanism to find another node with the `focusInDirection`,
-`nextFocus`, or `previousFocus` methods on `FocusNode`.
+呼叫 `unfocus()` 時，`disposition` 參數允許兩種取消聚焦模式：[`UnfocusDisposition.scope`][`UnfocusDisposition.scope`] 和 `UnfocusDisposition.previouslyFocusedChild`。預設值為 `scope`，會將焦點給最近的父焦點範圍。這表示如果之後將焦點移到下一個節點（使用 `FocusNode.nextFocus`），會從該範圍中的「第一個」可聚焦項目開始。
 
-When calling `unfocus()`, the `disposition` argument allows two modes for
-unfocusing: [`UnfocusDisposition.scope`][] and
-`UnfocusDisposition.previouslyFocusedChild`. The default is `scope`, which gives
-the focus to the nearest parent focus scope. This means that if the focus is
-thereafter moved to the next node with `FocusNode.nextFocus`, it starts with the
-"first" focusable item in the scope.
+`previouslyFocusedChild` 方式會在範圍中搜尋先前被聚焦的子節點，並請求聚焦於它。如果沒有先前被聚焦的子節點，則等同於 `scope`。
 
-The `previouslyFocusedChild` disposition will search the scope to find the
-previously focused child and request focus on it. If there is no previously
-focused child, it is equivalent to `scope`.
-
-:::secondary Beware
-If there is no other scope, then focus moves to the root scope node of
-the focus system, `FocusManager.rootScope`. This is generally not desirable, as
-the root scope doesn't have a `context` for the framework to determine which
-node should be focused next. If you find that your application suddenly loses
-the ability to navigate by using focus traversal, this is probably what has
-happened.  To fix it, add a `FocusScope` as an ancestor to the focus node that
-is requesting the unfocus. The `WidgetsApp` (from which `MaterialApp` and
-`CupertinoApp` are derived) has its own `FocusScope`, so this should not be an
-issue if you are using those.
+:::secondary 注意
+如果沒有其他範圍，焦點會移到焦點系統的根範圍節點 `FocusManager.rootScope`。這通常不是期望的行為，因為根範圍沒有 `context`，框架無法判斷下一個該聚焦哪個節點。如果你發現應用程式突然無法透過焦點遍歷來導航，很可能就是發生了這種情況。要修正這個問題，請在請求取消聚焦的焦點節點祖先中加入 `FocusScope`。`WidgetsApp`（`MaterialApp` 與 `CupertinoApp` 均繼承自它）有自己的 `FocusScope`，因此如果你有使用這些元件，通常不會遇到這個問題。
 :::
 
-## Focus widget
+## Focus 元件
 
-The `Focus` widget owns and manages a focus node, and is the workhorse of the
-focus system.  It manages the attaching and detaching of the focus node it owns
-from the focus tree, manages the attributes and callbacks of the focus node, and
-has static functions to enable discovery of focus nodes attached to the widget
-tree.
+`Focus` 元件擁有並管理一個焦點節點，是焦點系統的主力。它負責將所擁有的焦點節點掛接或卸除於焦點樹，管理節點的屬性與回呼，並提供靜態函式以便在元件樹中查找已附加的焦點節點。
 
-In its simplest form, wrapping the `Focus` widget around a widget subtree allows
-that widget subtree to obtain focus as part of the focus traversal process, or
-whenever `requestFocus` is called on the `FocusNode` passed to it. When combined
-with a gesture detector that calls `requestFocus`, it can receive focus when
-tapped or clicked.
+最簡單的用法是，將 `Focus` 元件包裹在某個元件子樹外層，讓該子樹能在焦點遍歷過程中獲得焦點，或在對傳入的 `FocusNode` 呼叫 `requestFocus` 時獲得焦點。若再搭配會呼叫 `requestFocus` 的手勢偵測器（gesture detector），則可以在點擊或點選時取得焦點。
 
-You might pass a `FocusNode` object to the `Focus` widget to manage, but if you
-don't, it creates its own. The main reason to create your own
-`FocusNode` is to be able to call `requestFocus()`
-on the node to control the focus from a parent widget. Most of the other
-functionality of a `FocusNode` is best accessed by changing the attributes of
-the `Focus` widget itself.
+你可以將 `FocusNode` 物件傳給 `Focus` 元件管理，但如果沒有這麼做，它會自動建立一個。自行建立 `FocusNode` 的主要原因，是為了能從父元件呼叫 `requestFocus()` 控制該節點的焦點。`FocusNode` 的大部分其他功能，建議直接透過 `Focus` 元件本身的屬性來存取。
 
-The `Focus` widget is used in most of Flutter's own controls to implement their
-focus functionality.
+`Focus` 元件被用於大多數 Flutter 內建控制項，以實作其焦點功能。
 
-Here is an example showing how to use the `Focus` widget to make a custom
-control focusable. It creates a container with text that reacts to receiving the
-focus.
+以下範例展示如何使用 `Focus` 元件讓自訂控制項可被聚焦。它會建立一個帶有文字的容器，並在獲得焦點時產生反應。
 
 <?code-excerpt "ui/focus/lib/custom_control_example.dart"?>
 ```dart
@@ -236,27 +133,28 @@ class _MyCustomWidgetState extends State<MyCustomWidget> {
 }
 ```
 
-### Key events
+### 鍵盤事件（key events）
 
-If you wish to listen for key events in a subtree,
-set the `onKeyEvent` attribute of the `Focus` widget to
-be a handler that either just listens to the key, or
-handles the key and stops its propagation to other widgets.
+如果你希望在某個子樹中監聽鍵盤事件（key events），
+請將 `Focus` 元件（Widget）的 `onKeyEvent` 屬性
+設為一個事件處理器（handler），該處理器可以僅僅監聽鍵盤事件，
+或是處理該事件並阻止其向其他元件（Widgets）傳遞。
 
-Key events start at the focus node with primary focus.
-If that node doesn't return `KeyEventResult.handled` from
-its `onKeyEvent` handler, then its parent focus node is given the event.
-If the parent doesn't handle it, it goes to its parent,
-and so on, until it reaches the root of the focus tree.
-If the event reaches the root of the focus tree without being handled, then
-it is returned to the platform to give to
-the next native control in the application
-(in case the Flutter UI is part of a larger native application UI).
-Events that are handled are not propagated to other Flutter widgets,
-and they are also not propagated to native widgets.
+鍵盤事件會從擁有主焦點（primary focus）的焦點節點開始。
+如果該節點的 `onKeyEvent` 處理器沒有回傳 `KeyEventResult.handled`，
+則會將事件傳遞給其父焦點節點。
+如果父節點也未處理，則繼續向上傳遞給其父節點，
+如此遞迴，直到到達焦點樹（focus tree）的根節點。
+如果事件到達焦點樹的根節點仍未被處理，
+則會將事件回傳給平台，由平台交給
+應用程式中的下一個原生控制元件
+（這種情況通常發生在 Flutter UI 嵌入於較大型原生應用程式 UI 時）。
+已被處理的事件不會再傳遞給其他 Flutter 元件（Widgets），
+同時也不會傳遞給原生元件。
 
-Here's an example of a `Focus` widget that absorbs every key that
-its subtree doesn't handle, without being able to be the primary focus:
+以下是一個 `Focus` 元件（Widget）的範例，
+它會吸收所有其子樹未處理的鍵盤事件（key events），
+但本身無法成為主焦點（primary focus）：
 
 <?code-excerpt "ui/focus/lib/samples.dart (absorb-keys)"?>
 ```dart
@@ -270,12 +168,9 @@ Widget build(BuildContext context) {
 }
 ```
 
-Focus key events are processed before text entry events, so handling a key event
-when the focus widget surrounds a text field prevents that key from being
-entered into the text field.
+Focus 鍵盤事件（key events）會在文字輸入事件之前被處理，因此當 Focus 元件（Focus widget）包覆著一個文字欄位（text field）時，若你攔截某個鍵盤事件，該按鍵將無法被輸入到文字欄位中。
 
-Here's an example of a widget that won't allow the letter "a" to be typed into
-the text field:
+以下是一個範例，這個元件（widget）不允許在文字欄位中輸入字母 "a"：
 
 <?code-excerpt "ui/focus/lib/samples.dart (no-letter-a)"?>
 ```dart
@@ -292,71 +187,39 @@ Widget build(BuildContext context) {
 }
 ```
 
-If the intent is input validation, this example's functionality would probably
-be better implemented using a `TextInputFormatter`, but the technique can still
-be useful: the `Shortcuts` widget uses this method to handle shortcuts before
-they become text input, for instance.
+如果你的目的是進行輸入驗證，這個範例的功能可能更適合用`TextInputFormatter`來實作，但這個技巧仍然很有用：例如，`Shortcuts`元件（Widget）就利用這種方法，在文字輸入前先處理快捷鍵。
 
-### Controlling what gets focus
+### 控制哪些元素獲得焦點
 
-One of the main aspects of focus is controlling what can receive focus and how.
-The attributes `canRequestFocus`, `skipTraversal,` and `descendantsAreFocusable`
-control how this node and its descendants participate in the focus process.
+焦點（focus）的主要面向之一，就是控制哪些元素可以獲得焦點，以及如何獲得焦點。屬性`canRequestFocus`、`skipTraversal,`和`descendantsAreFocusable`
+用來控制此節點及其子節點如何參與焦點流程。
 
-If the `skipTraversal` attribute true, then this focus node doesn't participate
-in focus traversal. It is still focusable if `requestFocus` is called on its
-focus node, but is otherwise skipped when the focus traversal system is looking
-for the next thing to focus on.
+如果`skipTraversal`屬性為 true，則此焦點節點不會參與焦點遍歷。若直接對其焦點節點呼叫`requestFocus`，它仍然可以獲得焦點，但當焦點遍歷系統尋找下一個要聚焦的元素時，會略過它。
 
-The `canRequestFocus` attribute, unsurprisingly, controls whether or not the
-focus node that this `Focus` widget manages can be used to request focus. If
-this attribute is false, then calling `requestFocus` on the node has no effect.
-It also implies that this node is skipped for focus traversal, since it can't
-request focus.
+`canRequestFocus`屬性，顧名思義，用來控制此`Focus`元件（Widget）所管理的焦點節點是否可以用來請求焦點。如果這個屬性為 false，則對該節點呼叫`requestFocus`將不會有任何效果。這也表示此節點會被焦點遍歷略過，因為它無法請求焦點。
 
-The `descendantsAreFocusable` attribute controls whether the descendants of this
-node can receive focus, but still allows this node to receive focus.  This
-attribute can be used to turn off focusability for an entire widget subtree.
-This is how the `ExcludeFocus` widget works: it's just a `Focus` widget with
-this attribute set.
+`descendantsAreFocusable`屬性則控制此節點的子節點是否能獲得焦點，但仍允許此節點本身獲得焦點。這個屬性可以用來關閉整個元件子樹的焦點功能。`ExcludeFocus`元件（Widget）就是這樣運作的：它其實就是一個`Focus`元件（Widget），並將這個屬性設為 true。
 
-### Autofocus
+### 自動聚焦（Autofocus）
 
-Setting the `autofocus` attribute of a `Focus` widget tells the widget to
-request the focus the first time the focus scope it belongs to is focused.  If
-more than one widget has `autofocus` set, then it is arbitrary which one
-receives the focus, so try to only set it on one widget per focus scope.
+將`autofocus`屬性設為 true，可以讓`Focus`元件（Widget）在其所屬的焦點範圍（focus scope）首次獲得焦點時，自動請求焦點。如果有多個元件同時設置`autofocus`，則會隨機選擇其中一個獲得焦點，因此建議每個焦點範圍只設置一個元件的自動聚焦。
 
-The `autofocus` attribute only takes effect if there isn't already a focus in
-the scope that the node belongs to.
+`autofocus`屬性只有在該節點所屬範圍內尚未有其他焦點時才會生效。
 
-Setting the `autofocus` attribute on two nodes that belong to different focus
-scopes is well defined: each one becomes the focused widget when their
-corresponding scopes are focused.
+如果將`autofocus`屬性設在屬於不同焦點範圍的兩個節點上，則行為是明確定義的：當各自的焦點範圍被聚焦時，對應的元件會自動獲得焦點。
 
-### Change notifications
+### 焦點變更通知
 
-The `Focus.onFocusChanged` callback can be used to get notifications that the
-focus state for a particular node has changed. It notifies if the node is added
-to or removed from the focus chain, which means it gets notifications even if it
-isn't the primary focus. If you only want to know if you have received the
-primary focus, check and see if `hasPrimaryFocus` is true on the focus node.
+`Focus.onFocusChanged`回呼（callback）可用來接收特定節點焦點狀態變更的通知。當節點被加入或移出焦點鏈時都會收到通知，也就是說，即使不是主要焦點也會收到通知。如果你只想知道自己是否獲得了主要焦點，可以檢查該焦點節點的`hasPrimaryFocus`是否為 true。
 
-### Obtaining the FocusNode
+### 取得 FocusNode
 
-Sometimes, it is useful to obtain the focus node of a `Focus` widget to
-interrogate its attributes.
+有時候，取得`Focus`元件（Widget）的焦點節點（focus node）以查詢其屬性會很有幫助。
 
-To access the focus node from an ancestor of the `Focus` widget, create and pass
-in a `FocusNode` as the `Focus` widget's `focusNode` attribute. Because it needs
-to be disposed of, the focus node you pass needs to be owned by a stateful
-widget, so don't just create one each time it is built.
+若要從`Focus`元件（Widget）的父層存取其焦點節點，可以建立一個`FocusNode`，並將其作為`Focus`元件（Widget）的`focusNode`屬性傳入。由於這個焦點節點需要被釋放（dispose），因此你傳入的焦點節點必須由一個有狀態元件（stateful widget）所擁有，不要每次建構時都新建一個。
 
-If you need access to the focus node from the descendant of a `Focus` widget,
-you can call `Focus.of(context)` to obtain the focus node of the nearest `Focus
-`widget to the given context. If you need to obtain the `FocusNode` of a `Focus`
-widget within the same build function, use a [`Builder`][] to make sure you have
-the correct context. This is shown in the following example:
+如果你需要從`Focus`元件（Widget）的子孫存取其焦點節點，可以呼叫`Focus.of(context)`，以取得距離給定 context 最近的`Focus
+`元件（Widget）的焦點節點。如果你需要在同一個 build 函式中取得`FocusNode`的`Focus`元件（Widget），請使用 [`Builder`][`Builder`]，以確保你取得正確的 context。以下範例說明了這個做法：
 
 <?code-excerpt "ui/focus/lib/samples.dart (builder)"?>
 ```dart
@@ -374,98 +237,47 @@ Widget build(BuildContext context) {
 }
 ```
 
-### Timing
+### 時機
 
-One of the details of the focus system is that when focus is requested, it only
-takes effect after the current build phase completes.  This means that focus
-changes are always delayed by one frame, because changing focus can
-cause arbitrary parts of the widget tree to rebuild, including ancestors of the
-widget currently requesting focus. Because descendants cannot dirty their
-ancestors, it has to happen between frames, so that any needed changes can
-happen on the next frame.
+焦點（focus）系統的一個細節在於，當請求焦點時，只有在當前的 build 階段完成後才會生效。這表示焦點的變化總是會延遲一幀，因為改變焦點可能會導致元件樹（widget tree）的任意部分重新建構，包括目前請求焦點的元件的祖先。由於子元件無法標記其祖先為 dirty，因此必須在畫面幀與幀之間進行，這樣任何需要的變更才能在下一幀發生。
 
-## FocusScope widget
+## FocusScope 元件（FocusScope widget）
 
-The `FocusScope` widget is a special version of the `Focus` widget that manages
-a `FocusScopeNode` instead of a `FocusNode`.  The `FocusScopeNode` is a special
-node in the focus tree that serves as a grouping mechanism for the focus nodes
-in a subtree. Focus traversal stays within a focus scope unless a node outside
-of the scope is explicitly focused.
+`FocusScope` 元件是一個特殊版本的 `Focus` 元件，它管理的是 `FocusScopeNode`，而不是 `FocusNode`。`FocusScopeNode` 是焦點樹中的一個特殊節點，用來作為子樹中焦點節點的分組機制。焦點的移動（traversal）會維持在同一個焦點範圍（focus scope）內，除非明確地將焦點設置到範圍外的節點。
 
-The focus scope also keeps track of the current focus and history of the nodes
-focused within its subtree.  That way, if a node releases focus or is removed
-when it had focus, the focus can be returned to the node that had focus
-previously.
+焦點範圍也會追蹤其子樹內目前獲得焦點的節點，以及過去獲得焦點的節點歷史。這樣一來，如果某個節點釋放焦點或在獲得焦點時被移除，焦點可以回到先前獲得焦點的節點。
 
-Focus scopes also serve as a place to return focus to if none of the descendants
-have focus.  This allows the focus traversal code to have a starting context for
-finding the next (or first) focusable control to move to.
+焦點範圍同時也是當所有子節點都沒有焦點時，焦點可以回歸的地方。這讓焦點移動的程式碼能有一個起始的上下文，以便尋找下一個（或第一個）可獲得焦點的控制元件。
 
-If you focus a focus scope node, it first attempts to focus the current, or most
-recently focused node in its subtree, or the node in its subtree that requested
-autofocus (if any).  If there is no such node, it receives the focus itself.
+如果你將焦點設在一個焦點範圍節點上，它會先嘗試將焦點設在其子樹中目前或最近獲得焦點的節點，或是子樹中請求自動獲得焦點（autofocus）的節點（如果有的話）。如果沒有這樣的節點，則焦點會落在它自己身上。
 
-## FocusableActionDetector widget
+## FocusableActionDetector 元件
 
-The [`FocusableActionDetector`][] is a widget that combines the functionality of
-[`Actions`][], [`Shortcuts`][], [`MouseRegion`][] and a `Focus` widget to create
-a detector that defines actions and key bindings, and provides callbacks for
-handling focus and hover highlights. It is what Flutter controls use to
-implement all of these aspects of the controls. It is just implemented using the
-constituent widgets, so if you don't need all of its functionality, you can just
-use the ones you need, but it is a convenient way to build these behaviors into
-your custom controls.
+[`FocusableActionDetector`][`FocusableActionDetector`] 是一個結合了 [`Actions`][`Actions`]、[`Shortcuts`][`Shortcuts`]、[`MouseRegion`][`MouseRegion`] 以及 `Focus` 元件功能的元件，用來建立一個偵測器，定義動作（actions）與按鍵綁定（key bindings），並提供處理焦點與懸停（hover）高亮的回呼。Flutter 控制元件（controls）就是利用它來實作這些互動行為。它其實是由上述各個元件組合而成，因此如果你不需要全部功能，可以只用你需要的那些元件，但這是一個方便的方式，能將這些行為整合進你的自訂控制元件中。
 
 :::note
-To learn more, watch this short Widget of the Week video on
-the `FocusableActionDetector` widget:
+想進一步了解，請觀看這支關於 `FocusableActionDetector` 元件的 Widget of the Week 短片：
 
 {% ytEmbed 'R84AGg0lKs8', 'FocusableActionDetector - Flutter widget of the week' %}
 :::
 
-## Controlling focus traversal
+## 控制焦點移動（focus traversal）
 
-Once an application has the ability to focus, the next thing many apps want to
-do is to allow the user to control the focus using the keyboard or another input
-device. The most common example of this is "tab traversal" where the user
-presses <kbd>Tab</kbd> to go to the "next" control. Controlling what "next"
-means is the subject of this section. This kind of traversal is provided by
-Flutter by default.
+當應用程式具備焦點能力後，許多應用會希望讓使用者能透過鍵盤或其他輸入裝置來控制焦點。最常見的例子是「Tab 鍵移動」，也就是使用者按下 <kbd>Tab</kbd> 鍵來切換到「下一個」控制元件。本節將說明如何控制「下一個」的定義。這類移動在 Flutter 中預設就有提供。
 
-In a simple grid layout, it's fairly easy to decide which control is next. If
-you're not at the end of the row, then it's the one to the right (or left for
-right-to-left locales). If you are at the end of a row, it's the first control
-in the next row. Unfortunately, applications are rarely laid out in grids, so
-more guidance is often needed.
+在簡單的格狀（grid）版面中，決定下一個控制元件相對容易。如果目前不在該列的最後一個，下一個就是右邊的（或在從右至左語系中是左邊的）。如果在該列的最後一個，則是下一列的第一個控制元件。不過，實際應用程式很少完全採用格狀排列，因此通常需要更多的指引。
 
-The default algorithm in Flutter ([`ReadingOrderTraversalPolicy`][]) for focus
-traversal is pretty good: It gives the right answer for most applications.
-However, there are always pathological cases, or cases where the context or
-design requires a different order than the one the default ordering algorithm
-arrives at. For those cases, there are other mechanisms for achieving the
-desired order.
+Flutter 的預設焦點移動演算法（[`ReadingOrderTraversalPolicy`][`ReadingOrderTraversalPolicy`]）表現相當不錯：對大多數應用來說都能給出正確的結果。然而，總會有一些特殊情境，或是因為設計需求而需要不同於預設排序的順序。針對這些情況，Flutter 也提供了其他機制來達成你想要的順序。
 
-### FocusTraversalGroup widget
+### FocusTraversalGroup 元件
 
-The [`FocusTraversalGroup`][] widget should be placed in the tree around widget
-subtrees that should be fully traversed before moving on to another widget or
-group of widgets. Just grouping widgets into related groups is often enough to
-resolve many tab traversal ordering problems. If not, the group can also be
-given a [`FocusTraversalPolicy`][] to determine the ordering within the group.
+[`FocusTraversalGroup`][`FocusTraversalGroup`] 元件應該放在那些需要被完整遍歷（traverse）後才移動到其他元件或元件群組的元件子樹外圍。僅僅將元件分組為相關群組，通常就能解決許多 Tab 鍵移動的排序問題。如果還不夠，這個群組也可以指定一個 [`FocusTraversalPolicy`][`FocusTraversalPolicy`] 來決定群組內的排序。
 
-The default [`ReadingOrderTraversalPolicy`][] is usually sufficient, but in
-cases where more control over ordering is needed, an
-[`OrderedTraversalPolicy`][] can be used. The `order` argument of the
-[`FocusTraversalOrder`][] widget wrapped around the focusable components
-determines the order. The order can be any subclass of [`FocusOrder`][], but
-[`NumericFocusOrder`][] and [`LexicalFocusOrder`][] are provided.
+預設的 [`ReadingOrderTraversalPolicy`][`ReadingOrderTraversalPolicy`] 通常已經足夠，但如果需要更細緻的排序控制，可以使用 [`OrderedTraversalPolicy`][`OrderedTraversalPolicy`]。包覆在可獲得焦點元件外的 [`FocusTraversalOrder`][`FocusTraversalOrder`] 元件，其 `order` 參數決定了排序方式。排序可以是 [`FocusOrder`][`FocusOrder`] 的任何子類別，Flutter 也提供了 [`NumericFocusOrder`][`NumericFocusOrder`] 和 [`LexicalFocusOrder`][`LexicalFocusOrder`]。
 
-If none of the provided focus traversal policies are sufficient for your
-application, you could also write your own policy and use it to determine any
-custom ordering you want.
+如果這些內建的焦點移動策略（focus traversal policy）都無法滿足你的應用需求，你也可以自行撰寫策略，來決定任何自訂的排序。
 
-Here's an example of how to use the `FocusTraversalOrder` widget to traverse a
-row of buttons in the order TWO, ONE, THREE using `NumericFocusOrder`.
+以下是一個使用 `FocusTraversalOrder` 元件，並透過 `NumericFocusOrder` 以 TWO、ONE、THREE 順序遍歷一排按鈕的範例。
 
 <?code-excerpt "ui/focus/lib/samples.dart (ordered-button-row)"?>
 ```dart
@@ -503,41 +315,17 @@ class OrderedButtonRow extends StatelessWidget {
 
 ### FocusTraversalPolicy
 
-The `FocusTraversalPolicy` is the object that determines which widget is next,
-given a request and the current focus node. The requests (member functions) are
-things like `findFirstFocus`, `findLastFocus`, `next`, `previous`, and
-`inDirection`.
+`FocusTraversalPolicy` 是一個用來決定在收到請求及目前焦點節點（focus node）時，下一個元件（Widget）為何的物件。這些請求（成員函式）包含像是 `findFirstFocus`、`findLastFocus`、`next`、`previous` 和 `inDirection` 等操作。
 
-`FocusTraversalPolicy` is the abstract base class for concrete policies, like
-`ReadingOrderTraversalPolicy`,  `OrderedTraversalPolicy` and the
-[`DirectionalFocusTraversalPolicyMixin`][] classes.
+`FocusTraversalPolicy` 是具體策略的抽象基底類別，例如 `ReadingOrderTraversalPolicy`、`OrderedTraversalPolicy` 以及 [`DirectionalFocusTraversalPolicyMixin`][`DirectionalFocusTraversalPolicyMixin`] 這些類別。
 
-In order to use a `FocusTraversalPolicy`, you give one to a
-`FocusTraversalGroup`, which determines the widget subtree in which the policy
-will be effective. The member functions of the class are rarely called directly:
-they are meant to be used by the focus system.
+若要使用 `FocusTraversalPolicy`，你需要將其提供給 `FocusTraversalGroup`，這樣就能決定該策略在哪個元件子樹中生效。這個類別的成員函式很少會被直接呼叫：它們主要是由焦點系統自動使用。
 
-## The focus manager
+## 焦點管理器（Focus manager）
 
-The [`FocusManager`][] maintains the current primary focus for the system. It
-only has a few pieces of API that are useful to users of the focus system. One
-is the `FocusManager.instance.primaryFocus` property, which contains the
-currently focused focus node and is also accessible from the global
-`primaryFocus` field.
+[`FocusManager`][`FocusManager`] 負責維護系統目前的主要焦點。它僅有少數幾個對焦點系統使用者有用的 API。其一是 `FocusManager.instance.primaryFocus` 屬性，該屬性包含目前被聚焦的焦點節點（focus node），同時也可透過全域的 `primaryFocus` 欄位存取。
 
-Other useful properties are `FocusManager.instance.highlightMode` and
-`FocusManager.instance.highlightStrategy`. These are used by widgets that need
-to switch between a "touch" mode and a "traditional" (mouse and keyboard) mode
-for their focus highlights. When a user is using touch to navigate, the focus
-highlight is usually hidden, and when they switch to a mouse or keyboard, the
-focus highlight needs to be shown again so they know what is focused. The
-`hightlightStrategy` tells the focus manager how to interpret changes in the
-usage mode of the device: it can either automatically switch between the two
-based on the most recent input events, or it can be locked in touch or
-traditional modes. The provided widgets in Flutter already know how to use this
-information, so you only need it if you're writing your own controls from
-scratch. You can use `addHighlightModeListener` callback to listen for changes
-in the highlight mode.
+其他有用的屬性還有 `FocusManager.instance.highlightMode` 和 `FocusManager.instance.highlightStrategy`。這些屬性主要給需要在「觸控」模式與「傳統」（滑鼠與鍵盤）模式間切換焦點高亮顯示的元件使用。當使用者以觸控方式導覽時，焦點高亮通常會隱藏；而當切換回滑鼠或鍵盤時，則需要再次顯示焦點高亮，讓使用者知道目前焦點所在。`hightlightStrategy` 會告訴焦點管理器如何解讀裝置使用模式的變化：它可以根據最近的輸入事件自動在兩種模式間切換，或是鎖定在觸控或傳統模式。Flutter 提供的元件已經知道如何使用這些資訊，因此只有在你要從零撰寫自訂控制元件時才需要特別處理。你可以使用 `addHighlightModeListener` 回呼來監聽高亮模式的變化。
 
 [`Actions`]: {{site.api}}/flutter/widgets/Actions-class.html
 [`Builder`]: {{site.api}}/flutter/widgets/Builder-class.html

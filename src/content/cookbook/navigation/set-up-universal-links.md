@@ -1,46 +1,47 @@
+```markdown
 ---
-title: Set up universal links for iOS
+title: 為 iOS 設定 Universal Links
 description: >-
-   Learn how to set up universal links for an
-   iOS application built with Flutter.
+   學習如何為使用 Flutter 建置的 iOS 應用程式設定 universal links。
 ---
 
-Deep linking allows an app user to launch an app with a URI.
-This URI contains scheme, host, and path,
-and opens the app to a specific screen.
+深度連結（deep linking）允許應用程式使用者透過 URI 啟動應用程式。
+這個 URI 包含 scheme、host 和 path，
+並可直接開啟應用程式中的特定螢幕。
 
-A _universal link_, a type of deep link exclusive to iOS devices,
-uses only the `http` or `https` protocols.
+_universal link_（通用連結）是 iOS 裝置專屬的一種深層連結（deep link），
+僅使用 `http` 或 `https` 協定。
 
-To set up universal links, you need to own a web domain.
-As a temporary solution,
-consider using [Firebase Hosting][] or [GitHub Pages][].
+要設定 universal links，你必須擁有一個網域名稱。
+作為暫時性的解決方案，
+你可以考慮使用 [Firebase Hosting][Firebase Hosting] 或 [GitHub Pages][GitHub Pages]。
 
-Once you've set up your deep links, you can validate them.
-To learn more, see [Validate deep links][].
+當你設定好深層連結（deep links）後，可以進行驗證。
+如需進一步了解，請參閱[驗證深層連結][Validate deep links]。
 
-## Create or modify a Flutter app
+## 建立或修改 Flutter 應用程式
 
-Write a Flutter app that can handle an incoming URL.
+撰寫一個能夠處理傳入 URL 的 Flutter 應用程式。
 
-This example uses the [go_router][] package to handle the routing.
-The Flutter team maintains the `go_router` package.
-It provides a simple API to handle complex routing scenarios.
+本範例使用 [go_router][go_router] 套件來處理路由。
+Flutter 團隊維護 `go_router` 套件。
+它提供了簡單的 API 來處理複雜的路由情境。
 
-1. To create a new application, type `flutter create <app-name>`.
+1. 若要建立新應用程式，請輸入 `flutter create <app-name>`。
+```
 
     ```console
     $ flutter create deeplink_cookbook
     ```
 
-2. To include the `go_router` package as a dependency,
-   run `flutter pub add`:
+2. 若要將 `go_router` 套件作為相依套件加入，  
+   請執行 `flutter pub add`：
 
     ```console
     $ flutter pub add go_router
     ```
 
-3. To handle the routing, create a `GoRouter` object in the `main.dart` file:
+3. 為了處理路由，請在`main.dart`檔案中建立一個`GoRouter`物件：
 
     ```dart title="main.dart"
     import 'package:flutter/material.dart';
@@ -69,60 +70,56 @@ It provides a simple API to handle complex routing scenarios.
     );
     ```
 
-## Adjust iOS build settings
+## 調整 iOS 建置設定
 
-1. Launch Xcode.
+1. 啟動 Xcode。
 
-1. Open the `ios/Runner.xcworkspace` file inside the
-   Flutter project's `ios` folder.
+1. 在 Flutter 專案的 `ios` 資料夾中，開啟 `ios/Runner.xcworkspace` 檔案。
 
    :::version-note
-   If you use a Flutter version earlier than 3.27,
-   you need to manually opt in to deep linking by adding the
-   key and value pair `FlutterDeepLinkingEnabled` and `YES` to `info.Plist`.
+   如果你使用的是 Flutter 3.27 之前的版本，
+   你需要手動加入深度連結（deep linking）設定，
+   方法是將 `FlutterDeepLinkingEnabled` 和 `YES` 這組鍵值對加入 `info.Plist`。
    :::
 
    :::note
-   If you're using third-party plugins to handle deep links, 
-   such as [app_links][],
-   Flutter's default deeplink handler will
-   break these plugins.
+   如果你使用第三方套件來處理深層連結 (deep links)，
+   例如 [app_links][app_links]，
+   Flutter 預設的深層連結處理器會導致這些套件無法正常運作。
 
-   If you use a third-party plugin, add the
-   key and value pair `FlutterDeepLinkingEnabled` and `NO` to `info.Plist`.
+   若你使用第三方套件，請將 `FlutterDeepLinkingEnabled` 和 `NO` 這組鍵值對加入 `info.Plist`。
    :::
 
-### Add associated domains
+### 新增關聯網域（Associated Domains）
 
 :::warning
-Personal development teams don't support the Associated Domains
-capability. To add associated domains, choose the IDE tab.
+個人開發團隊（Personal development teams）不支援 Associated Domains
+功能。若要新增關聯網域，請選擇 IDE 分頁。
 :::
 
 {% tabs %}
 {% tab "Xcode" %}
 
-1. Launch Xcode if necessary.
+1. 如有需要，啟動 Xcode。
 
-1. Click the top-level **Runner**.
+1. 點擊最上層的 **Runner**。
 
-1. In the Editor, click the **Runner** target.
+1. 在編輯器中，點擊 **Runner** target。
 
-1. Click **Signing & Capabilities**.
+1. 點擊 **Signing & Capabilities**。
 
-1. To add a new domain, click **+ Capability** under
-   **Signing & Capabilities**.
+1. 在 **Signing & Capabilities** 下方，點擊 **+ Capability** 以新增功能。
 
-1. Click **Associated Domains**.
+1. 點擊 **Associated Domains**。
 
    <img
       src="/assets/images/docs/cookbook/set-up-universal-links-associated-domains.png"
       alt="Xcode associated domains screenshot"
       width="100%" />
 
-1. In the **Associated Domains** section, click **+**.
+1. 在 **Associated Domains** 區塊中，點擊 **+**。
 
-1. Enter `applinks:<web domain>`. Replace `<web domain>` with your own domain name.
+1. 輸入 `applinks:<web domain>`。請將 `<web domain>` 替換為你自己的網域名稱。
 
    <img
       src="/assets/images/docs/cookbook/set-up-universal-links-add-associated-domains.png"
@@ -132,9 +129,9 @@ capability. To add associated domains, choose the IDE tab.
 {% endtab %}
 {% tab "Other editors" %}
 
-1. Open the `ios/Runner/Runner.entitlements` XML file in your preferred editor.
+1. 使用你偏好的編輯器開啟 `ios/Runner/Runner.entitlements` XML 檔案。
 
-1. Add an associated domain inside the `<dict>` tag.
+1. 在 `<dict>` 標籤內新增一個關聯網域（associated domain）。
 
    ```xml
    <?xml version="1.0" encoding="UTF-8"?>
@@ -149,20 +146,19 @@ capability. To add associated domains, choose the IDE tab.
    </plist>
    ```
 
-1. Save the `ios/Runner/Runner.entitlements` file.
+1. 儲存 `ios/Runner/Runner.entitlements` 檔案。
 
-To check that the associated domains you created are available,
-perform the following steps:
+若要檢查你所建立的關聯網域是否可用，請依照下列步驟操作：
 
-1. Launch Xcode if necessary.
+1. 如有需要，啟動 Xcode。
 
-1. Click the top-level **Runner**.
+1. 點擊最上層的 **Runner**。
 
-1. In the Editor, click the **Runner** target.
+1. 在編輯器中，點擊 **Runner** target。
 
-1. Click **Signing & Capabilities**.
-   The domains should appear in the
-   **Associated Domains** section.
+1. 點擊 **Signing & Capabilities**。
+   這些網域應該會顯示在
+   **Associated Domains** 區段中。
 
    <img
       src="/assets/images/docs/cookbook/set-up-universal-links-add-associated-domains.png"
@@ -172,34 +168,33 @@ perform the following steps:
 {% endtab %}
 {% endtabs %}
 
-You have finished configuring the application for deep linking.
+你已完成應用程式的深度連結（deep linking）設定。
 
-## Associate your app with your web domain
+## 將你的應用程式與網域關聯
 
-You need to host an `apple-app-site-association` file in the web domain.
-This file tells the mobile browser which
-iOS application to open instead of the browser.
-To create the file, find the `appID` of the Flutter app you
-created in the previous section.
+你需要在網域上託管一個 `apple-app-site-association` 檔案。
+這個檔案會告訴行動瀏覽器，應該開啟哪一個
+iOS 應用程式，而不是瀏覽器本身。
+要建立這個檔案，請找到你在前一節建立的 Flutter 應用程式的 `appID`。
 
-### Locate components of the `appID`
+### 找到 `appID` 的組成部分
 
-Apple formats the `appID` as `<team id>.<bundle id>`.
+Apple 會將 `appID` 格式化為 `<team id>.<bundle id>`。
 
-* Locate the bundle ID in the Xcode project.
-* Locate the team ID in the [developer account][].
+* 在 Xcode 專案中找到 bundle ID。
+* 在 [developer account][developer account] 中找到 team ID。
 
-**For example:** Given a team ID of `S8QB4VV633`
-and a bundle ID of `com.example.deeplinkCookbook`,
-you would enter an `appID` entry of
-`S8QB4VV633.com.example.deeplinkCookbook`.
+**例如：** 假設 team ID 為 `S8QB4VV633`，
+bundle ID 為 `com.example.deeplinkCookbook`，
+你應該輸入一個 `appID` 條目為
+`S8QB4VV633.com.example.deeplinkCookbook`。
 
-### Create and host `apple-app-site-association` JSON file
+### 建立並託管 `apple-app-site-association` JSON 檔案
 
-This file uses the JSON format.
-Don't include the `.json` file extension when you save this file.
-Per [Apple's documentation][apple-app-site-assoc],
-this file should resemble the following content:
+這個檔案使用 JSON 格式。
+儲存此檔案時，請勿包含 `.json` 檔案副檔名。
+根據 [Apple 的文件][apple-app-site-assoc]，
+此檔案內容應類似如下：
 
 ```json
 {
@@ -229,64 +224,62 @@ this file should resemble the following content:
 }
 ```
 
-1. Set one value in the `appIDs` array to
-   `<team id>.<bundle id>`.
+1. 將 `appIDs` 陣列中的一個值設為
+   `<team id>.<bundle id>`。
 
-1. Set the `paths` array to `["*"]`.
-   The `paths` array specifies the allowed universal links.
-   Using the asterisk, `*` redirects every path to the Flutter app.
-   If needed, change the `paths` array value to a setting more
-   appropriate to your app.
+1. 將 `paths` 陣列設為 `["*"]`。
+   `paths` 陣列用來指定允許的 universal links（通用連結）。
+   使用星號時，`*` 會將所有路徑重新導向至 Flutter 應用程式。
+   如有需要，請將 `paths` 陣列的值調整為更適合您應用程式的設定。
 
-1. Host the file at a URL that resembles the following structure.
+1. 將檔案主機設於類似以下結構的 URL 上。
 
    `<webdomain>/.well-known/apple-app-site-association`
 
-1. Verify that your browser can access this file.
+1. 確認您的瀏覽器可以存取此檔案。
 
 :::note
-If you have more than one scheme/flavor, you can
-add more than one `appID` into the `appIDs` field.
+如果您有多個 scheme/flavor，可以在 `appIDs` 欄位中
+加入多個 `appID`。
 :::
 
-## Test the universal link
+## 測試 universal link（通用連結）
 
-Test a universal link using a physical iOS device or the Simulator.
+請使用實體 iOS 裝置或模擬器（Simulator）來測試 universal link。
 
 :::note
-It might take up to 24 hours before Apple's [Content Delivery Network][] (CDN)
-requests the `apple-app-site-association` (AASA) file from your web domain.
-Until the CDN requests the file, the universal link won't work.
-To bypass Apple's CDN, check out the [alternate mode section][].
+Apple 的 [Content Delivery Network][Content Delivery Network] (CDN)
+可能需要最多 24 小時才會從您的網域請求 `apple-app-site-association`（AASA）檔案。
+在 CDN 請求該檔案之前，universal link 將無法運作。
+若要繞過 Apple 的 CDN，請參考 [alternate mode section][alternate mode section]。
 :::
 
-1. Before testing,
-   install the Flutter app on the iOS device or Simulator,
-   Use `flutter run` on the desired device.
+1. 在測試前，
+   請先將 Flutter 應用程式安裝到 iOS 裝置或模擬器上，
+   並在目標裝置上使用 `flutter run`。
 
    <img
        src="/assets/images/docs/cookbook/set-up-universal-links-simulator.png"
        alt="Simulator screenshot"
        width="50%" />
 
-   When complete,
-   the Flutter app displays on the home screen of the 
-   iOS device or Simulator.
+   完成後，
+   Flutter 應用程式會顯示在 iOS 裝置或模擬器的主畫面上。
 
-1. If you test using the Simulator, use the Xcode CLI:
+1. 若您使用模擬器進行測試，請使用 Xcode CLI：
 
    ```console
    $ xcrun simctl openurl booted https://<web domain>/details
    ```
 
-1. If you test with a physical iOS device:
+1. 如果你在實體 iOS 裝置上進行測試：
 
-   1. Launch the **Note** app.
-   1. Type the URL in the **Note** app.
-   1. Click the resulting link.
+   1. 開啟 **備忘錄**（Note）App。
+   1. 在 **備忘錄** App 中輸入該 URL。
+   1. 點擊產生的連結。
 
-   If successful, the Flutter app launches and displays its details screen.
- 
+   如果成功，Flutter 應用程式會啟動並顯示其詳細資訊螢幕。
+
    <img
       src="/assets/images/docs/cookbook/set-up-universal-links-simulator-deeplinked.png"
       alt="Deeplinked Simulator screenshot"
@@ -294,10 +287,10 @@ To bypass Apple's CDN, check out the [alternate mode section][].
 
 [Content Delivery Network]: https://en.wikipedia.org/wiki/Content_delivery_network
 
-## Find the source code
+## 尋找原始碼
 
-You can find the source code for the [deeplink_cookbook][]
-recipe in the GitHub repo.
+你可以在 GitHub 儲存庫中找到 [deeplink_cookbook][deeplink_cookbook]
+範例的原始碼。
 
 [apple-app-site-assoc]: {{site.apple-dev}}/documentation/xcode/supporting-associated-domains
 [alternate mode section]: {{site.apple-dev}}/documentation/bundleresources/entitlements/com_apple_developer_associated-domains?language=objc

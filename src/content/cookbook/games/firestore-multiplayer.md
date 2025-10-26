@@ -1,68 +1,62 @@
 ---
-title: Add multiplayer support using Firestore
+title: 使用 Firestore 新增多人連線支援
 description: >
-  How to use use Firebase Cloud Firestore to implement multiplayer
-  in your game.
+  如何使用 Firebase Cloud Firestore 在你的遊戲中實作多人連線。
 ---
 
 <?code-excerpt path-base="cookbook/games/firestore_multiplayer"?>
 
-Multiplayer games need a way to synchronize game states between players.
-Broadly speaking, two types of multiplayer games exist:
+多人連線遊戲需要一種方式來同步玩家之間的遊戲狀態。
+大致上，多人連線遊戲可分為兩種類型：
 
-1. **High tick rate**.
-   These games need to synchronize game states many times per second
-   with low latency.
-   These would include action games, sports games, fighting games.
+1. **高 tick 率**。
+   這類遊戲需要每秒多次、低延遲地同步遊戲狀態。
+   包括動作遊戲、運動遊戲、格鬥遊戲等。
 
-2. **Low tick rate**.
-   These games only need to synchronize game states occasionally
-   with latency having less impact.
-   These would include card games, strategy games, puzzle games.
+2. **低 tick 率**。
+   這類遊戲只需偶爾同步遊戲狀態，延遲影響較小。
+   包括紙牌遊戲、策略遊戲、益智遊戲等。
 
-This resembles the differentiation between real-time versus turn-based
-games, though the analogy falls short.
-For example, real-time strategy games run—as the name suggests—in
-real-time, but that doesn't correlate to a high tick rate.
-These games can simulate much of what happens
-in between player interactions on local machines.
-Therefore, they don't need to synchronize game states that often.
+這有點類似於即時遊戲與回合制遊戲的區分，雖然這個比喻並不完全貼切。
+例如，即時戰略遊戲（real-time strategy games）顧名思義是在即時運作，
+但這並不代表它們需要高 tick 率。
+這類遊戲可以在本地端模擬玩家互動之間發生的大部分事件，
+因此不需要頻繁地同步遊戲狀態。
 
 ![An illustration of two mobile phones and a two-way arrow between them](/assets/images/docs/cookbook/multiplayer-two-mobiles.jpg){:.site-illustration}
 
-If you can choose low tick rates as a developer, you should.
-Low tick lowers latency requirements and server costs.
-Sometimes, a game requires high tick rates of synchronization.
-For those cases, solutions such as Firestore *don't make a good fit*.
-Pick a dedicated multiplayer server solution such as [Nakama][].
-Nakama has a [Dart package][].
+如果你作為開發者可以選擇低 tick 率，建議優先選擇。
+低 tick 率可降低延遲需求與伺服器成本。
+有時候，遊戲確實需要高 tick 率的同步。
+在這種情況下，像 Firestore 這樣的解決方案*並不適合*。
+請選擇專用的多人連線伺服器解決方案，例如 [Nakama][Nakama]。
+Nakama 有提供 [Dart 套件][Dart package]。
 
-If you expect that your game requires a low tick rate of synchronization,
-continue reading.
+如果你預期你的遊戲只需要低 tick 率的同步，
+請繼續閱讀下方內容。
 
-This recipe demonstrates how to use the
-[`cloud_firestore` package][]
-to implement multiplayer capabilities in your game.
-This recipe doesn't require a server.
-It uses two or more clients sharing game state using Cloud Firestore.
+本教學將示範如何使用
+[`cloud_firestore` 套件][`cloud_firestore` package]
+在你的遊戲中實作多人連線功能。
+本教學不需要伺服器，
+而是透過兩個或多個客戶端利用 Cloud Firestore 共享遊戲狀態。
 
 [`cloud_firestore` package]: {{site.pub-pkg}}/cloud_firestore
 [Dart package]: {{site.pub-pkg}}/nakama
 [Nakama]: https://heroiclabs.com/nakama/
 
-## 1. Prepare your game for multiplayer
+## 1. 為你的遊戲準備多人連線
 
-Write your game code to allow changing the game state
-in response to both local events and remote events.
-A local event could be a player action or some game logic.
-A remote event could be a world update coming from the server.
+撰寫你的遊戲程式碼時，需允許遊戲狀態能夠因應本地事件與遠端事件而改變。
+本地事件可以是玩家操作或某些遊戲邏輯；
+遠端事件則可能是來自伺服器的世界更新。
 
 ![Screenshot of the card game](/assets/images/docs/cookbook/multiplayer-card-game.jpg){:.site-mobile-screenshot .site-illustration}
 
-To simplify this cookbook recipe, start with
-the [`card`][] template that you'll find
-in the [`flutter/games` repository][].
-Run the following command to clone that repository:
+為了簡化本教學，請先從
+[`card`][`card`] 範本開始，你可以在
+[`flutter/games` repository][`flutter/games` repository] 找到該範本。
+執行以下指令來複製該 repository：
 
 ```console
 git clone https://github.com/flutter/games.git
@@ -73,46 +67,42 @@ git clone https://github.com/flutter/games.git
   to get the code, mention that here.
 {% endcomment %}
 
-Open the project in `templates/card`.
+在 `templates/card` 中開啟專案。
 
 :::note
-You can ignore this step and follow the recipe with your own game
-project. Adapt the code at appropriate places.
+你可以略過這個步驟，直接使用你自己的遊戲專案來跟隨本教學食譜。
+請在適當的位置調整相關程式碼。
 :::
 
 [`card`]: {{site.github}}/flutter/games/tree/main/templates/card#readme
 [`flutter/games` repository]: {{site.github}}/flutter/games
 
-## 2. Install Firestore
+## 2. 安裝 Firestore
 
-[Cloud Firestore][] is a horizontally scaling,
-NoSQL document database in the cloud.
-It includes built-in live synchronization.
-This is perfect for our needs.
-It keeps the game state updated in the cloud database,
-so every player sees the same state.
+[Cloud Firestore][Cloud Firestore] 是一個可橫向擴展的雲端 NoSQL 文件資料庫，
+並內建即時同步功能。
+這非常適合我們的需求。
+它能讓遊戲狀態即時同步到雲端資料庫，
+確保每位玩家都能看到相同的狀態。
 
-If you want a quick, 15-minute primer on Cloud Firestore,
-check out the following video:
+如果你想快速了解 Cloud Firestore，可以參考以下 15 分鐘的入門影片：
 
 {% ytEmbed 'v_hR4K4auoQ', 'What is a NoSQL Database? Learn about Cloud Firestore' %}
 
-To add Firestore to your Flutter project,
-follow the first two steps of the
-[Get started with Cloud Firestore][] guide:
+要將 Firestore 加入你的 Flutter 專案，
+請依照[Cloud Firestore 入門指南][Get started with Cloud Firestore]的前兩個步驟操作：
 
-* [Create a Cloud Firestore database][]
-* [Set up your development environment][]
+* [建立 Cloud Firestore 資料庫][Create a Cloud Firestore database]
+* [設定你的開發環境][Set up your development environment]
 
-The desired outcomes include:
+完成後，你應該會有以下成果：
 
-* A Firestore database ready in the cloud, in **Test mode**
-* A generated `firebase_options.dart` file
-* The appropriate plugins added to your `pubspec.yaml`
+* 一個已在雲端啟用、**測試模式**的 Firestore 資料庫
+* 一個已產生的 `firebase_options.dart` 檔案
+* 已將相關套件加入你的 `pubspec.yaml`
 
-You *don't* need to write any Dart code in this step.
-As soon as you understand the step of writing
-Dart code in that guide, return to this recipe.
+這個步驟*不需要*撰寫任何 Dart 程式碼。
+當你閱讀到該指南中需要撰寫 Dart 程式碼的步驟時，請回到本教學食譜繼續操作。
 
 {% comment %}
   Revisit to see if we can inline the steps here:
@@ -126,11 +116,10 @@ Dart code in that guide, return to this recipe.
 [Get started with Cloud Firestore]: {{site.firebase}}/docs/firestore/quickstart
 [Set up your development environment]: {{site.firebase}}/docs/firestore/quickstart#set_up_your_development_environment
 
-## 3. Initialize Firestore
+## 3. 初始化 Firestore
 
-1. Open `lib/main.dart` and import the plugins,
-    as well as the `firebase_options.dart` file
-    that was generated by `flutterfire configure` in the previous step.
+1. 開啟 `lib/main.dart`，並匯入相關套件，
+    以及在前一個步驟由 `flutterfire configure` 產生的 `firebase_options.dart` 檔案。
 
     <?code-excerpt "lib/main.dart (imports)"?>
     ```dart
@@ -140,8 +129,7 @@ Dart code in that guide, return to this recipe.
     import 'firebase_options.dart';
     ```
 
-2. Add the following code just above the call to `runApp()`
-    in `lib/main.dart`:
+2. 在 `lib/main.dart` 中呼叫 `runApp()` 之前，請在其上方加入以下程式碼：
 
     <?code-excerpt "lib/main.dart (initializeApp)"?>
     ```dart
@@ -150,53 +138,53 @@ Dart code in that guide, return to this recipe.
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
     ```
 
-    This ensures that Firebase is initialized on game startup.
+    這可確保在遊戲啟動時初始化 Firebase。
 
-3. Add the Firestore instance to the app.
-    That way, any widget can access this instance.
-    Widgets can also react to the instance missing, if needed.
+3. 將 Firestore 實例加入應用程式。
+   這樣，任何元件（Widget）都能存取這個實例。
+   如果需要，元件也可以對實例不存在的情況做出反應。
 
-    To do this with the `card` template, you can use
-    the `provider` package
-    (which is already installed as a dependency).
+   若要在 `card` 樣板中實現這個功能，你可以使用
+   `provider` 套件
+   （這個套件已經作為相依套件安裝好）。
 
-    Replace the boilerplate `runApp(MyApp())` with the following:
+   請將樣板中的 `runApp(MyApp())` 替換為以下內容：
 
-    <?code-excerpt "lib/main.dart (runApp)"?>
+   <?code-excerpt "lib/main.dart (runApp)"?>
     ```dart
     runApp(Provider.value(value: FirebaseFirestore.instance, child: MyApp()));
     ```
 
-    Put the provider above `MyApp`, not inside it.
-    This enables you to test the app without Firebase.
+    請將 provider 放在 `MyApp` 的外層，而不是放在其內部。  
+這樣可以讓你在沒有 Firebase 的情況下測試應用程式。
 
-    :::note
-    In case you are *not* working with the `card` template,
-    you must either [install the `provider` package][]
-    or use your own method of accessing the `FirebaseFirestore`
-    instance from various parts of your codebase.
-    :::
+:::note
+如果你*沒有*使用 `card` 範本，  
+你必須[安裝 `provider` 套件][install the `provider` package]  
+或使用你自己的方式，讓程式碼中各處都能存取 `FirebaseFirestore`  
+實例。
+:::
 
 [install the `provider` package]: {{site.pub-pkg}}/provider/install
 
-## 4. Create a Firestore controller class
+## 4. 建立 Firestore 控制器類別
 
-Though you can talk to Firestore directly,
-you should write a dedicated controller class
-to make the code more readable and maintainable.
+雖然你可以直接與 Firestore 溝通，  
+但建議你撰寫專屬的控制器類別，  
+讓程式碼更易讀且更容易維護。
 
-How you implement the controller depends on your game
-and on the exact design of your multiplayer experience.
-For the case of the `card` template,
-you could synchronize the contents of the two circular playing areas.
-It's not enough for a full multiplayer experience,
-but it's a good start.
+控制器的實作方式會依你的遊戲  
+以及多人遊戲體驗的設計細節而有所不同。  
+以 `card` 範本為例，  
+你可以同步兩個圓形遊戲區域的內容。  
+雖然這還不足以實現完整的多人遊戲體驗，  
+但已經是一個很好的起點。
 
-![Screenshot of the card game, with arrows pointing to playing areas](/assets/images/docs/cookbook/multiplayer-areas.jpg){:.site-mobile-screenshot .site-illustration}
+![卡牌遊戲的螢幕截圖，箭頭指向遊戲區域](/assets/images/docs/cookbook/multiplayer-areas.jpg){:.site-mobile-screenshot .site-illustration}
 
-To create a controller, copy,
-then paste the following code into a new file called
-`lib/multiplayer/firestore_controller.dart`.
+要建立控制器，請複製下方程式碼，  
+然後貼到一個名為  
+`lib/multiplayer/firestore_controller.dart` 的新檔案中。
 
 <?code-excerpt "lib/multiplayer/firestore_controller.dart"?>
 ```dart
@@ -360,30 +348,28 @@ class FirebaseControllerException implements Exception {
 }
 ```
 
-Notice the following features of this code:
+請注意下列這段程式碼的特點：
 
-* The controller's constructor takes a `BoardState`.
-  This enables the controller to manipulate the local state of the game.
+* 控制器的建構子會接收 `BoardState`。
+  這讓控制器能夠操作遊戲的本地狀態。
 
-* The controller subscribes to both local changes to update Firestore
-  and to remote changes to update the local state and UI.
+* 控制器同時訂閱本地變更（以更新 Firestore）以及遠端變更（以更新本地狀態與 UI）。
 
-* The fields `_areaOneRef` and `_areaTwoRef` are
-  Firebase document references.
-  They describe where the data for each area resides,
-  and how to convert between the local Dart objects (`List<PlayingCard>`)
-  and remote JSON objects (`Map<String, dynamic>`).
-  The Firestore API lets us subscribe to these references
-  with `.snapshots()`, and write to them with `.set()`.
+* 欄位 `_areaOneRef` 和 `_areaTwoRef`
+  是 Firebase 文件參照（document references）。
+  它們描述了每個區域的資料儲存位置，
+  以及如何在本地 Dart 物件（`List<PlayingCard>`）
+  和遠端 JSON 物件（`Map<String, dynamic>`）之間進行轉換。
+  Firestore API 允許我們透過 `.snapshots()` 訂閱這些參照，
+  並用 `.set()` 寫入資料。
 
-## 5. Use the Firestore controller
+## 5. 使用 Firestore 控制器
 
-1. Open the file responsible for starting the play session:
-    `lib/play_session/play_session_screen.dart` in the case of the
-    `card` template.
-    You instantiate the Firestore controller from this file.
+1. 開啟負責啟動遊戲對戰（play session）的檔案：
+    以 `card` 範本為例，為 `lib/play_session/play_session_screen.dart`。
+    你會在這個檔案中實例化 Firestore 控制器。
 
-2. Import Firebase and the controller:
+2. 匯入 Firebase 以及控制器：
 
     <?code-excerpt "lib/play_session/play_session_screen.dart (imports)"?>
     ```dart
@@ -391,19 +377,19 @@ Notice the following features of this code:
     import '../multiplayer/firestore_controller.dart';
     ```
 
-3. Add a nullable field to the `_PlaySessionScreenState` class
-    to contain a controller instance:
+3. 在 `_PlaySessionScreenState` 類別中新增一個可為 null 的欄位，
+   用來儲存 controller 實例：
 
-    <?code-excerpt "lib/play_session/play_session_screen.dart (controller)"?>
+   <?code-excerpt "lib/play_session/play_session_screen.dart (controller)"?>
     ```dart
     FirestoreController? _firestoreController;
     ```
 
-4. In the `initState()` method of the same class,
-    add code that tries to read the FirebaseFirestore instance
-    and, if successful, constructs the controller.
-    You added the `FirebaseFirestore` instance to `main.dart`
-    in the *Initialize Firestore* step.
+4. 在同一個類別的 `initState()` 方法中，
+    新增程式碼以嘗試讀取 FirebaseFirestore 實例，
+    並在成功時建立控制器。
+    你已經在 *初始化 Firestore* 步驟中，
+    將 `FirebaseFirestore` 實例加入到 `main.dart`。
 
     <?code-excerpt "lib/play_session/play_session_screen.dart (init-state)"?>
     ```dart
@@ -421,92 +407,90 @@ Notice the following features of this code:
     }
     ```
 
-5. Dispose of the controller using the `dispose()` method
-    of the same class.
+5. 使用同一個類別的 `dispose()` 方法來釋放 controller。
 
     <?code-excerpt "lib/play_session/play_session_screen.dart (dispose)"?>
     ```dart
     _firestoreController?.dispose();
     ```
 
-## 6. Test the game
+## 6. 測試遊戲
 
-1. Run the game on two separate devices
-    or in 2 different windows on the same device.
+1. 在兩個不同的裝置上運行遊戲，
+    或在同一裝置的兩個不同視窗中運行。
 
-2. Watch how adding a card to an area on one device
-    makes it appear on the other one.
+2. 觀察在一個裝置上將卡牌加入某個區域時，
+    另一個裝置也會即時顯示該卡牌。
 
     {% comment %}
       TBA: GIF of multiplayer working
     {% endcomment %}
 
-3. Open the [Firebase web console][]
-    and navigate to your project's Firestore Database.
+3. 開啟 [Firebase 網頁主控台][Firebase web console]，
+    並導覽至你的專案的 Firestore Database。
 
-4. Watch how it updates the data in real time.
-    You can even edit the data in the console
-    and see all running clients update.
+4. 觀察資料如何即時更新。
+    你甚至可以在主控台直接編輯資料，
+    所有正在運行的客戶端都會同步更新。
 
-    ![Screenshot of the Firebase Firestore data view](/assets/images/docs/cookbook/multiplayer-firebase-data.png)
+    ![Firebase Firestore 資料檢視畫面截圖](/assets/images/docs/cookbook/multiplayer-firebase-data.png)
 
 [Firebase web console]: https://console.firebase.google.com/
 
-### Troubleshooting
+### 疑難排解
 
-The most common issues you might encounter when testing
-Firebase integration include the following:
+測試 Firebase 整合時，最常見的問題包括：
 
-* **The game crashes when trying to reach Firebase.**
-  * Firebase integration hasn't been properly set up.
-    Revisit *Step 2* and make sure to run `flutterfire configure`
-    as part of that step.
+* **遊戲在嘗試連接 Firebase 時當機。**
+  * Firebase 整合尚未正確設定。
+    請回到 *步驟 2*，並確保有執行 `flutterfire configure`
+    作為該步驟的一部分。
 
-* **The game doesn't communicate with Firebase on macOS.**
-  * By default, macOS apps don't have internet access.
-    Enable [internet entitlement][] first.
+* **遊戲在 macOS 上無法與 Firebase 通訊。**
+  * macOS 應用程式預設無法存取網際網路。
+    請先啟用 [網路權限 (internet entitlement)][internet entitlement]。
 
 [internet entitlement]: /data-and-backend/networking#macos
 
-## 7. Next steps
+## 7. 下一步
 
-At this point, the game has near-instant and
-dependable synchronization of state across clients.
-It lacks actual game rules:
-what cards can be played when, and with what results.
-This depends on the game itself and is left to you to try.
+此時，遊戲已能在多個客戶端之間
+實現近乎即時且可靠的狀態同步。
+但目前還沒有實際的遊戲規則：
+例如什麼時候可以出什麼卡牌，以及會有什麼結果。
+這部分取決於你設計的遊戲，留給你自行嘗試。
 
-![An illustration of two mobile phones and a two-way arrow between them](/assets/images/docs/cookbook/multiplayer-two-mobiles.jpg){:.site-illustration}
+![兩支手機之間有雙向箭頭的插圖](/assets/images/docs/cookbook/multiplayer-two-mobiles.jpg){:.site-illustration}
 
-At this point, the shared state of the match only includes
-the two playing areas and the cards within them.
-You can save other data into `_matchRef`, too,
-like who the players are and whose turn it is.
-If you're unsure where to start,
-follow [a Firestore codelab or two][]
-to familiarize yourself with the API.
+目前，對戰的共享狀態僅包含
+兩個遊戲區域及其內的卡牌。
+你也可以將其他資料存入 `_matchRef`，
+例如玩家是誰、輪到誰出牌等。
+如果你不確定從哪裡開始，
+可以參考 [一兩個 Firestore codelab][a Firestore codelab or two]
+來熟悉這個 API。
 
-At first, a single match should suffice
-for testing your multiplayer game with colleagues and friends.
-As you approach the release date,
-think about authentication and match-making.
-Thankfully, Firebase provides a
-[built-in way to authenticate users][]
-and the Firestore database structure can handle multiple matches.
-Instead of a single `match_1`,
-you can populate the matches collection with as many records as needed.
+一開始，單一場對戰就足以
+讓你和同事、朋友測試多人遊戲功能。
+當你接近發佈時，
+可以開始考慮身份驗證和配對機制。
+幸運的是，Firebase 提供了
+[內建的使用者驗證方式][built-in way to authenticate users]，
+而 Firestore 的資料結構也能支援多場對戰。
+你可以將多筆紀錄加入 matches collection，
+而不是只用單一 `match_1`。
 
-![Screenshot of the Firebase Firestore data view with additional matches](/assets/images/docs/cookbook/multiplayer-firebase-match.png)
+![Firebase Firestore 資料檢視畫面，包含多場對戰](/assets/images/docs/cookbook/multiplayer-firebase-match.png)
 
-An online match can start in a "waiting" state,
-with only the first player present.
-Other players can see the "waiting" matches in some kind of lobby.
-Once enough players join a match, it becomes "active".
-Once again, the exact implementation depends on
-the kind of online experience you want.
-The basics remain the same:
-a large collection of documents,
-each representing one active or potential match.
+一場線上對戰可以從「等待中」狀態開始，
+此時只有第一位玩家在場。
+其他玩家可以在大廳看到「等待中」的對戰。
+當有足夠玩家加入後，對戰就會變成「進行中」。
+具體的實作方式仍取決於
+你想要打造的線上體驗類型。
+但基本原則相同：
+有一個大型的文件集合，
+每一份文件都代表一場進行中或潛在的對戰。
 
 [a Firestore codelab or two]: {{site.codelabs}}/?product=flutter&text=firestore
 [built-in way to authenticate users]: {{site.firebase}}/docs/auth/flutter/start

@@ -1,46 +1,32 @@
 ---
-title: Migration guide for wide gamut CupertinoDynamicColor
+title: wide gamut CupertinoDynamicColor 遷移指南
 description: >-
-  Addressing previously missed deprecations in CupertinoDynamicColor to
-  align with wide gamut Color API.
+  解決先前遺漏的 CupertinoDynamicColor 棄用項目，以配合 wide gamut Color API。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-Certain properties and methods in [`CupertinoDynamicColor`][] were deprecated
-to align with the [`Color`][] class due to [wide gamut color spaces][] support
-added in [Flutter 3.27][Migration guide for wide gamut Color].
+為了配合 [`Color`][`Color`] 類別，部分 [`CupertinoDynamicColor`][`CupertinoDynamicColor`] 的屬性與方法已被棄用，這是因為 [Flutter 3.27][Migration guide for wide gamut Color] 新增了 [wide gamut 色域空間][wide gamut color spaces] 的支援。
 
-## Context
+## 背景說明
 
-The `Color` class was updated to support wide gamut color spaces, but some 
-corresponding deprecations were not initially applied to 
-`CupertinoDynamicColor` due to its implementation rather than due to
-the extension of `Color`.
+`Color` 類別已更新以支援 wide gamut 色域空間，但由於其實作方式，而非繼承自 `Color`，因此部分對應的棄用項目最初未套用至 `CupertinoDynamicColor`。
 
-## Description of change
+## 變更說明
 
-1.  The [`CupertinoDynamicColor.red`][] field is deprecated in
-    favor of [`CupertinoDynamicColor.r`].
-1.  The [`CupertinoDynamicColor.green`][] is deprecated in
-    favor of [`CupertinoDynamicColor.g`].
-1.  The [`CupertinoDynamicColor.blue`][] is deprecated in
-    favor of [`CupertinoDynamicColor.b`].
-1.  The [`CupertinoDynamicColor.opacity`][] is deprecated in
-    favor of [`CupertinoDynamicColor.a`].
-1.  The [`CupertinoDynamicColor.withOpacity()`][] is deprecated in
-    favor of [`CupertinoDynamicColor.withValues()`].
+1.  [`CupertinoDynamicColor.red`][`CupertinoDynamicColor.red`] 欄位已被棄用，請改用 [`CupertinoDynamicColor.r`]。
+1.  [`CupertinoDynamicColor.green`][`CupertinoDynamicColor.green`] 已被棄用，請改用 [`CupertinoDynamicColor.g`]。
+1.  [`CupertinoDynamicColor.blue`][`CupertinoDynamicColor.blue`] 已被棄用，請改用 [`CupertinoDynamicColor.b`]。
+1.  [`CupertinoDynamicColor.opacity`][`CupertinoDynamicColor.opacity`] 已被棄用，請改用 [`CupertinoDynamicColor.a`]。
+1.  [`CupertinoDynamicColor.withOpacity()`][`CupertinoDynamicColor.withOpacity()`] 已被棄用，請改用 [`CupertinoDynamicColor.withValues()`]。
 
+## 遷移指南
 
-## Migration guide
+### 存取顏色元件
 
-### Access color components
-
-If your app accesses a single color component, consider
-taking advantage of the floating-point components.
-In the short term, you can scale the components themselves.
+如果您的應用程式需要存取單一顏色元件，建議利用浮點數元件。在短期內，您可以自行縮放這些元件的值。
 
 ```dart
 int _floatToInt8(double x) {
@@ -53,16 +39,11 @@ final intGreen = _floatToInt8(color.g);
 final intBlue = _floatToInt8(color.b);
 ```
 
-### Opacity
+### 透明度（Opacity）
 
-Before Flutter 3.27, `Color` had the concept of "opacity", which showed up in the
-methods `opacity` and `withOpacity()`. Since Flutter 3.27, alpha is stored as a
-floating-point value. Using `.a` and `.withValues()` will give the full
-expression of a floating-point value and won't be quantized (restricted to a
-limited range). That means "alpha" expresses the intent of "opacity" more
-correctly.
+在 Flutter 3.27 之前，`Color` 採用了「透明度（opacity）」的概念，這在 `opacity` 和 `withOpacity()` 方法中有所體現。自 Flutter 3.27 起，alpha 會以浮點數值儲存。使用 `.a` 和 `.withValues()` 時，將完整表達浮點數值，不會被量化（限制在有限範圍內）。這表示「alpha」能更正確地表達「透明度」的意圖。
 
-#### Migrate `opacity`
+#### 遷移 `opacity`
 
 ```dart
 // Before: Access the alpha channel as a (converted) floating-point value.
@@ -72,7 +53,7 @@ final x = color.opacity;
 final x = color.a;
 ```
 
-#### Migrate `withOpacity`
+#### 遷移 `withOpacity`
 
 ```dart
 // Before: Create a new color with the specified opacity.
@@ -83,25 +64,25 @@ final x = color.withOpacity(0.5);
 final x = color.withValues(alpha: 0.5);
 ```
 
-## Timeline
+## 時程
 
-Landed in version: Not yet<br>
-Stable release: Not yet
+合併於版本：尚未<br>  
+穩定版本釋出：尚未
 
-## References
+## 參考資料
 
-Relevant guides:
+相關指南：
 
-* [Migration guide for wide gamut Color][]
+* [wide gamut Color 遷移指南][Migration guide for wide gamut Color]
 
-Relevant issues:
+相關議題：
 
-* [Implement wide gamut color support in the Framework][]
-* [CupertinoDynamicColor is missing deprecation notices][]
+* [在 Framework 中實作 wide gamut color 支援][Implement wide gamut color support in the Framework]
+* [CupertinoDynamicColor 缺少棄用（deprecation）通知][CupertinoDynamicColor is missing deprecation notices]
 
-Relevant PRs:
+相關 PR：
 
-* [Add missing deprecations to CupertinoDynamicColor][]
+* [為 CupertinoDynamicColor 補上缺少的棄用（deprecation）][Add missing deprecations to CupertinoDynamicColor]
 
 [`Color`]: {{site.api}}/flutter/dart-ui/Color-class.html
 [`CupertinoDynamicColor`]: {{site.api}}/flutter/cupertino/CupertinoDynamicColor-class.html
