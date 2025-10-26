@@ -31,9 +31,9 @@ The frontmatter of each article should have the following attributes:
       <div class="expansion-panel-title">
         <div class="expansion-panel-title-leading">
           {%- if item.data.iconPath %}
-            <img src="{{item.data.iconPath}}" alt="An icon showing a generic application." />
+            <img src="{{item.data.iconPath}}" alt="顯示一般應用程式的圖示。" />
           {%- else %}
-            <img src="/assets/images/docs/app-architecture/design-patterns/kv-store-icon.svg" alt="A icon showing a generic application." />
+            <img src="/assets/images/docs/app-architecture/design-patterns/kv-store-icon.svg" alt="顯示一般應用程式的圖示。" />
           {%- endif %}
 
         </div>
@@ -49,7 +49,7 @@ The frontmatter of each article should have the following attributes:
       </div>
     </a>
     <div class="expansion-panel-body collapse {{show}}" id="{{id}}">
-      <p>{{item.content | truncatewords: 100}}  <a href="{{item.url}}">Read full article</a></p>
+      <p>{{item.content | truncatewords: 100}}  <a href="{{item.url}}">閱讀完整文章</a></p>
 
       {%- comment %}
       Required to add "margin" that doesn't cause expansion jank
