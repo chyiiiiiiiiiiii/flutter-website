@@ -1,37 +1,35 @@
 ---
-title: Scrollable AlertDialog (No longer deprecated)
-description: AlertDialog should scroll automatically when it overflows.
+title: 可滾動的 AlertDialog（不再被棄用）
+description: AlertDialog 在內容溢出時應自動滾動。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
 :::note
-`AlertDialog.scrollable` is no longer deprecated because there is
-no backwards-compatible way to make `AlertDialog` scrollable by default.
-Instead, the parameter will remain and you can set `scrollable`
-to true if you want a scrollable `AlertDialog`.
+`AlertDialog.scrollable` 不再被棄用，因為沒有向後相容的方法能讓 `AlertDialog` 預設為可滾動。
+相反地，此參數將會保留，如果你希望 `AlertDialog` 可滾動，可以將 `scrollable` 設為 true。
 :::
 
-An `AlertDialog` now scrolls automatically when it overflows.
+現在，當 `AlertDialog` 內容溢出時，會自動支援滾動。
 
-## Context
+## 背景說明
 
-Before this change,
-when an `AlertDialog` widget's contents were too tall,
-the display overflowed, causing the contents to be clipped.
-This resulted in the following issues:
+在此變更之前，
+當 `AlertDialog` 元件（Widget）的內容過高時，
+畫面會發生溢出，導致內容被裁切。
+這會造成以下問題：
 
-* There was no way to view the portion of the content that was clipped.
-* Most alert dialogs have buttons beneath the content to prompt users for
-  actions. If the content overflowed, obscuring the buttons,
-  users might be unaware of their existence.
+* 被裁切的內容無法被檢視。
+* 大多數提示對話框（alert dialogs）會在內容下方放置按鈕，讓使用者執行操作。
+  若內容溢出並遮蔽了按鈕，
+  使用者可能不會注意到這些按鈕的存在。
 
-## Description of change
+## 變更說明
 
-The previous approach listed the title and content
-widgets consecutively in a `Column` widget.
+先前的作法是將標題與內容元件
+依序放在 `Column` 元件中。
 
 ```dart
 Column(
@@ -65,10 +63,7 @@ Column(
 );
 ```
 
-The new approach wraps both widgets in a
-`SingleChildScrollView` above the button bar,
-making both widgets part of the same scrollable
-and exposing the button bar at the bottom of the dialog.
+新的做法會將這兩個元件（Widgets）包裹在`SingleChildScrollView`中，並放置於按鈕區塊（button section）之上，使這兩個元件成為同一個可滾動區域的一部分，並讓按鈕區塊顯示在對話框（dialog）底部。
 
 ```dart
 Column(
@@ -93,26 +88,22 @@ Column(
 ),
 ```
 
-## Migration guide
+## 遷移指南
 
-You might see the following issues as a result of this change:
+你可能會因這項變更而遇到以下問題：
 
-**Semantics tests might fail because of the addition of a `SingleChildScrollView`.**
-: Manual testing of the `Talkback` and `VoiceOver` features
-  show that they still exhibit the same (correct)
-  behavior as before.
+**由於新增了 `SingleChildScrollView`，語意測試（semantics tests）可能會失敗。**
+: 針對 `Talkback` 和 `VoiceOver` 功能進行手動測試，
+  顯示它們仍然維持與先前相同（正確）的行為。
 
-**Golden tests might fail.**
-: This change might have caused diffs in (previously passing)
-  golden tests since the `SingleChildScrollView` now nests both the
-  title and content widgets.
-  Some Flutter projects have taken to creating semantics tests
-  by taking goldens of semantics nodes used in Flutter's debug build.
+**Golden tests 可能會失敗。**
+: 此變更可能導致（原本通過的）golden tests 出現差異，
+  因為 `SingleChildScrollView` 現在同時巢狀了標題和內容元件（Widgets）。
+  有些 Flutter 專案會透過擷取 Flutter 除錯模式下語意節點的 golden 來建立語意測試。
 
-  <br>Any semantics golden updates that reflect the scrolling
-  container addition are expected and these diffs should be safe to accept.
+  <br>任何反映滾動容器新增的語意 golden 更新都是預期中的，這些差異應該是安全可接受的。
 
-  Sample resulting Semantics tree:
+  範例產生的 Semantics 樹如下：
 
 ```plaintext
 flutter:        ├─SemanticsNode#30 <-- SingleChildScrollView
@@ -129,17 +120,17 @@ flutter:          └─SemanticsNode#32 <-- contents
 flutter:              label: "Huge content"
 ```
 
-**Layout changes might result because of the scroll view.**
-: If the dialog was already overflowing,
-  this change corrects the problem.
-  This layout change is expected.
+**由於滾動視圖（scroll view），可能會導致版面配置變化。**
+：如果對話框（dialog）原本就有溢出問題，
+  這項變更將修正該問題。
+  這種版面配置的變化是預期中的。
 
-  <br>A nested `SingleChildScrollView` in `AlertDialog.content`
-  should work properly if left in the code,
-  but should be removed if unintended, since
-  it might cause confusion.
+  <br>如果在`AlertDialog.content`中巢狀了`SingleChildScrollView`，
+  只要是有意為之，應該都能正常運作；
+  但如果並非預期，建議移除，
+  以免造成混淆。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 AlertDialog(
@@ -157,7 +148,7 @@ AlertDialog(
 )
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 AlertDialog(
@@ -170,30 +161,30 @@ AlertDialog(
 )
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 1.16.3<br>
-In stable release: 1.17
+納入版本：1.16.3<br>  
+正式版本：1.17
 
-## References
+## 參考資料
 
-Design doc:
+設計文件：
 
-* [Scrollable `AlertDialog`][]
+* [Scrollable `AlertDialog`][Scrollable `AlertDialog`]
 
-API documentation:
+API 文件：
 
-* [`AlertDialog`][]
+* [`AlertDialog`][`AlertDialog`]
 
-Relevant issue:
+相關議題：
 
-* [Overflow exceptions with maximum accessibility font size][]
+* [在最大無障礙字型大小下發生 Overflow 例外][Overflow exceptions with maximum accessibility font size]
 
-Relevant PRs:
+相關 PR：
 
-* [Update to `AlertDialog.scrollable`][]
-* [Original attempt to implement scrollable `AlertDialog`][]
-* [Revert of original attempt to implement scrollable `AlertDialog`][]
+* [更新至 `AlertDialog.scrollable`][Update to `AlertDialog.scrollable`]
+* [首次嘗試實作 scrollable `AlertDialog`][Original attempt to implement scrollable `AlertDialog`]
+* [回復首次嘗試實作 scrollable `AlertDialog`][Revert of original attempt to implement scrollable `AlertDialog`]
 
 
 [`AlertDialog`]: {{site.api}}/flutter/material/AlertDialog-class.html

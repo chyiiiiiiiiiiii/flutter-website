@@ -1,40 +1,40 @@
 ---
-title: Ads overview
+title: 廣告總覽
 description: >
-  Learn about the resources available for adding
-  ads to your Flutter app.
+  瞭解可用於在您的 Flutter 應用程式中新增
+  廣告的相關資源。
 ---
 
 ![adding ads](/assets/images/docs/add-ads.png)
 
-The Google Mobile Ads SDK for Flutter works with
-both AdMob and Ad Manager. It supports a variety
-of ads formats such as app open, banner, interstitial,
-native, rewarded, and rewarded interstitial formats,
-and features like mediation.
+Google Mobile Ads SDK for Flutter 同時支援
+AdMob 與 Ad Manager。它支援多種廣告格式，
+例如開啟式廣告（app open）、橫幅廣告（banner）、插頁式廣告（interstitial）、
+原生廣告（native）、獎勵廣告（rewarded）以及獎勵插頁式廣告（rewarded interstitial），
+並具備媒合（mediation）等功能。
 
-Easily integrate Google AdMob and Ad Manager ads
-directly in your Flutter App
+可輕鬆將 Google AdMob 與 Ad Manager 廣告
+直接整合至您的 Flutter 應用程式中
 
-The the following resources can help get you started:
+以下資源可協助您快速開始：
 
-* [Add ads to your mobile Flutter app or game][] (cookbook recipe)
-* [Adding AdMob ads to a Flutter app][] (codelab)
-* [Adding an AdMob banner and native inline ads to a Flutter app][] (codelab)
-* [How to support Google Mobile Ads (AdMob) mediation][mediation] (guide)
+* [在您的行動 Flutter 應用程式或遊戲中新增廣告][Add ads to your mobile Flutter app or game] (cookbook recipe)
+* [將 AdMob 廣告新增至 Flutter 應用程式][Adding AdMob ads to a Flutter app] (codelab)
+* [在 Flutter 應用程式中新增 AdMob 橫幅與原生內嵌廣告][Adding an AdMob banner and native inline ads to a Flutter app] (codelab)
+* [如何支援 Google Mobile Ads（AdMob）媒合][mediation] (guide)
 
-Listed in alphabetical order,
-the following packages support AdMob mediation:
+以下套件依字母順序排列，
+皆支援 AdMob 媒合（mediation）：
 
-* AppLovin ([gma_mediation_applovin][])
-* DT Exchange ([gma_mediation_dtexchange][])
-* InMobi ([gma_mediation_inmobi][])
-* IronSource ([gma_mediation_ironsource][])
-* Liftoff ([gma_mediation_liftoffmonetize][])
-* Meta ([gma_mediation_meta][])
-* Mintegral ([gma_mediation_mintegral][])
-* Pangle ([gma_mediation_pangle][])
-* Unity ([gma_mediation_unity][])
+* AppLovin ([gma_mediation_applovin][gma_mediation_applovin])
+* DT Exchange ([gma_mediation_dtexchange][gma_mediation_dtexchange])
+* InMobi ([gma_mediation_inmobi][gma_mediation_inmobi])
+* IronSource ([gma_mediation_ironsource][gma_mediation_ironsource])
+* Liftoff ([gma_mediation_liftoffmonetize][gma_mediation_liftoffmonetize])
+* Meta ([gma_mediation_meta][gma_mediation_meta])
+* Mintegral ([gma_mediation_mintegral][gma_mediation_mintegral])
+* Pangle ([gma_mediation_pangle][gma_mediation_pangle])
+* Unity ([gma_mediation_unity][gma_mediation_unity])
 
 [Add ads to your mobile Flutter app or game]: /cookbook/plugins/google-mobile-ads
 [Adding AdMob ads to a Flutter app]: {{site.codelabs}}/codelabs/admob-ads-in-flutter#0

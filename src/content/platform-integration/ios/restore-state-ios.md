@@ -1,22 +1,20 @@
 --- 
-title: "Restore state on iOS"
-description: "How to restore the state of your iOS app after it's been killed by the OS."
+title: "在 iOS 上還原狀態"
+description: "說明如何在您的 iOS 應用程式被作業系統終止後還原其狀態。"
 ---
 
-When a user runs a mobile app and then selects another
-app to run, the first app is moved to the background,
-or _backgrounded_. The operating system (both iOS and Android)
-often kills the backgrounded app to release memory or
-improve performance for the app running in the foreground.
+當使用者執行行動應用程式，然後切換到其他應用程式時，
+第一個應用程式會被移到背景執行，稱為 _背景執行_（backgrounded）。
+作業系統（無論是 iOS 或 Android）經常會為了釋放記憶體或提升前景應用程式的效能，
+而終止背景執行的應用程式。
 
-You can use the [`RestorationManager`][] (and related)
-classes to handle state restoration. 
-An iOS app requires [a bit of extra setup][] in Xcode,
-but the restoration classes otherwise work the same on
-both iOS and Android.
+您可以使用 [`RestorationManager`][`RestorationManager`] (and related)
+這些類別來處理狀態還原。
+iOS 應用程式在 Xcode 中需要[額外設定一些步驟][a bit of extra setup]，
+但除此之外，這些還原類別在 iOS 和 Android 上的運作方式相同。
 
-For more information, check out [State restoration on Android][]
-and the [VeggieSeasons][] code sample.
+如需更多資訊，請參閱[Android 上的狀態還原][State restoration on Android]
+以及 [VeggieSeasons][VeggieSeasons] 程式碼範例。
 
 [a bit of extra setup]: {{site.api}}/flutter/services/RestorationManager-class.html#state-restoration-on-ios
 [`RestorationManager`]: {{site.api}}/flutter/services/RestorationManager-class.html

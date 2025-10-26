@@ -1,40 +1,38 @@
 ---
-title: SnackBars managed by the ScaffoldMessenger
+title: 由 ScaffoldMessenger 管理的 SnackBars
 description: >
-  SnackBars are now managed by the ScaffoldMessenger, and persist across routes.
+  SnackBars 現在由 ScaffoldMessenger 管理，並可在路由間持續顯示。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-The `SnackBar` API within the `Scaffold` is now handled by the
-`ScaffoldMessenger`, one of which is
-available by default within the context of a `MaterialApp`.
+`SnackBar` API 現在在 `Scaffold` 中由
+`ScaffoldMessenger` 處理，而在 `MaterialApp` 的 context 中預設就會有一個。
 
-## Context
+## 背景說明
 
-Prior to this change, `SnackBar`s would be shown by calling
-on the `Scaffold` within the current `BuildContext`.
-By calling `Scaffold.of(context).showSnackBar`,
-the current `Scaffold` would animate a `SnackBar` into view.
-This would only apply to the current `Scaffold`,
-and would not persist across routes if they were changed
-in the course of the `SnackBar`s presentation.
-This would also lead to errors if `showSnackBar`
-would be called in the course of executing an
-asynchronous event, and the `BuildContext` became invalidated
-by the route changing and the `Scaffold` being disposed of.
+在這項變更之前，顯示 `SnackBar` 時會呼叫
+目前 `BuildContext` 內的 `Scaffold`。
+透過呼叫 `Scaffold.of(context).showSnackBar`，
+目前的 `Scaffold` 會將 `SnackBar` 動畫顯示出來。
+這僅會作用於目前的 `Scaffold`，
+而且如果在 `SnackBar` 顯示期間路由被切換，
+則無法在不同路由間持續顯示。
+此外，如果在執行非同步事件時呼叫 `showSnackBar`，
+而此時因路由切換導致 `BuildContext` 失效且 `Scaffold` 被銷毀，
+也會造成錯誤。
 
-The `ScaffoldMessenger` now handles `SnackBar`s in order to
-persist across routes and always be displayed on the current `Scaffold`.
-By default, a root `ScaffoldMessenger` is included in the `MaterialApp`,
-but you can create your own controlled scope for the `ScaffoldMessenger`
-to further control _which_ `Scaffold`s receive your `SnackBar`s.
+現在由 `ScaffoldMessenger` 處理 `SnackBar`，
+以便能在路由間持續顯示，並且永遠顯示於目前的 `Scaffold` 上。
+預設情況下，`MaterialApp` 會包含一個根 `ScaffoldMessenger`，
+但你也可以自行建立受控範圍的 `ScaffoldMessenger`，
+以進一步控制 _哪些_ `Scaffold` 能接收你的 `SnackBar`。
 
-## Description of change
+## 變更說明
 
-The previous approach called upon the `Scaffold` to show a `SnackBar`.
+先前的做法是呼叫 `Scaffold` 來顯示 `SnackBar`。
 
 ```dart
 Scaffold(
@@ -59,10 +57,7 @@ Scaffold(
 );
 ```
 
-The new approach calls on the `ScaffoldMessenger` to show
-the `SnackBar`. In this case, the `Builder` is no longer
-required to provide a new scope with a `BuildContext` that
-is "under" the `Scaffold`.
+新的方法會呼叫`ScaffoldMessenger`來顯示`SnackBar`。在這種情況下，`Builder`不再需要提供一個「位於」`Scaffold`之下、帶有`BuildContext`的新作用域。
 
 ```dart
 Scaffold(
@@ -83,24 +78,19 @@ Scaffold(
 );
 ```
 
-When presenting a `SnackBar` during a transition,
-the `SnackBar` completes a `Hero` animation,
-moving smoothly to the next page.
+當在轉場期間顯示`SnackBar`時，`SnackBar`會完成`Hero`動畫（Animation），
+使其平滑地移動到下一個頁面。
 
-The `ScaffoldMessenger` creates a scope in which all descendant
-`Scaffold`s register to receive `SnackBar`s,
-which is how they persist across these transitions.
-When using the root `ScaffoldMessenger` provided by the
-`MaterialApp`, all descendant `Scaffold`s receive `SnackBar`s,
-unless a new `ScaffoldMessenger` scope is created further down the tree.
-By instantiating your own `ScaffoldMessenger`,
-you can control which `Scaffold`s receive `SnackBar`s, and which are not,
-based on the context of your application.
+`ScaffoldMessenger`會建立一個範疇（scope），讓所有子孫`Scaffold`註冊以接收`SnackBar`，
+這也是它們能在這些轉場期間持續存在的原因。
+當使用由`MaterialApp`提供的根`ScaffoldMessenger`時，所有子孫`Scaffold`都能收到`SnackBar`，
+除非在樹狀結構中更下層建立了新的`ScaffoldMessenger`範疇。
+如果你自行實例化`ScaffoldMessenger`，就能根據應用程式的情境，
+控制哪些`Scaffold`能收到`SnackBar`，哪些不能。
 
-The method `debugCheckHasScaffoldMessenger` is available to assert
-that a given context has a `ScaffoldMessenger` ancestor.
-Trying to present  a `SnackBar` without a `ScaffoldMessenger` ancestor
-present results in an assertion such as the following:
+方法`debugCheckHasScaffoldMessenger`可用來斷言指定的 context 是否有`ScaffoldMessenger`祖先。
+如果嘗試在沒有`ScaffoldMessenger`祖先的情況下顯示`SnackBar`，
+將會出現如下的斷言訊息：
 
 ```plaintext
 No ScaffoldMessenger widget found.
@@ -109,9 +99,9 @@ Typically, the ScaffoldMessenger widget is introduced by the MaterialApp
 at the top of your application widget tree.
 ```
 
-## Migration guide
+## 移轉指南
 
-Code before migration:
+移轉前的程式碼：
 
 ```dart
 // The ScaffoldState of the current context was used for managing SnackBars.
@@ -135,7 +125,7 @@ scaffoldKey.currentState.removeCurrentSnackBar(mySnackBar);
 
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 // The ScaffoldMessengerState of the current context is used for managing SnackBars.
@@ -172,29 +162,29 @@ rootScaffoldMessengerKey.currentState.hideCurrentSnackBar(mySnackBar);
 rootScaffoldMessengerKey.currentState.removeCurrentSnackBar(mySnackBar);
 ```
 
-## Timeline
+## 時間軸
 
-Landed in version: 1.23.0-13.0.pre<br>
-In stable release: 2.0.0
+合併於版本：1.23.0-13.0.pre<br>  
+穩定版本釋出：2.0.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`Scaffold`][]
-* [`ScaffoldMessenger`][]
-* [`SnackBar`][]
-* [`MaterialApp`][]
+* [`Scaffold`][`Scaffold`]
+* [`ScaffoldMessenger`][`ScaffoldMessenger`]
+* [`SnackBar`][`SnackBar`]
+* [`MaterialApp`][`MaterialApp`]
 
-Relevant issues:
+相關議題：
 
-* [Issue #57218][]
-* [Issue #62921][]
+* [Issue #57218][Issue #57218]
+* [Issue #62921][Issue #62921]
 
-Relevant PRs:
+相關 PR：
 
-* [ScaffoldMessenger][]
-* [ScaffoldMessenger Migration][]
+* [ScaffoldMessenger][ScaffoldMessenger]
+* [ScaffoldMessenger Migration][ScaffoldMessenger Migration]
 
 [`Scaffold`]: {{site.api}}/flutter/material/Scaffold-class.html
 [`ScaffoldMessenger`]: {{site.api}}/flutter/material/ScaffoldMessenger-class.html

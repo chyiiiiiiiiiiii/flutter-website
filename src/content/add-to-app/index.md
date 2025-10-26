@@ -1,125 +1,63 @@
 ---
-title: Add Flutter to an existing app
-shortTitle: Add to app
-description: Adding Flutter as a library to an existing Android or iOS app.
+title: 將 Flutter 加入現有應用程式
+shortTitle: 加入現有應用
+description: 將 Flutter 以函式庫方式加入現有 Android 或 iOS 應用程式。
 ---
 
-## Add-to-app
+## 加入現有應用（Add-to-app）
 
-If you are writing a new application from scratch, it is easy to [get started][]
-using Flutter. But what if you already have an app that's not written in
-Flutter, and it's impractical to start from scratch?
+如果你是從零開始撰寫新應用程式，使用 Flutter [快速開始][get started] 非常簡單。但如果你已經有一個不是用 Flutter 撰寫的應用程式，而且從頭開始重寫並不實際，該怎麼辦？
 
-For those situations, Flutter can be integrated into your existing application
-piecemeal, as a module. This feature is known as "add-to-app". The module can be
-imported into your existing app to render part of your app using Flutter, while
-the rest can be rendered using existing technology. This method can also be used
-to run shared non-UI logic by taking advantage of Dart's portability and
-interoperability with other languages.
+針對這些情境，Flutter 可以以模組（module）方式逐步整合到你的現有應用程式中。這個功能稱為「加入現有應用（add-to-app）」。你可以將這個模組匯入現有應用程式，讓應用程式的部分畫面由 Flutter 負責渲染，其他部分則繼續使用原本的技術。這種方式也能利用 Dart 的可攜性與與其他語言的互通性，執行共用的非 UI 邏輯。
 
-Add-to-app is currently supported on Android, iOS, and web.
+目前，加入現有應用功能支援 Android、iOS 以及 Web。
 
-Flutter supports two flavors of add-to-app:
+Flutter 提供兩種加入現有應用的模式：
 
-- **Multi-engine**: supported on Android and iOS, allows running one or more
-  instances of Flutter, each rendering a widget embedded into the host
-  application. Each instance is a separate Dart program, running in isolation
-  from other programs. Having multiple Flutter instances allows each instance to
-  maintain independent application and UI state while using minimal memory
-  resources. See more in the [multiple Flutters][] page.
-- **Multi-view**: supported on the web, allows creating multiple
-  [FlutterView][]s, each rendering a widget embedded into the host application.
-  In this mode there's only one Dart program and all views and widgets can share
-  objects.
+- **多引擎（Multi-engine）**：支援於 Android 與 iOS，允許執行一個或多個 Flutter 實例，每個實例都會在主應用程式中嵌入一個元件（Widget）。每個實例都是獨立的 Dart 程式，彼此隔離執行。多個 Flutter 實例可以讓每個實例維持獨立的應用程式與 UI 狀態，同時佔用極少的記憶體資源。詳情請參考 [多個 Flutter 實例][multiple Flutters] 頁面。
+- **多視圖（Multi-view）**：支援於 Web，允許建立多個 [FlutterView][FlutterView]，每個都在主應用程式中嵌入一個元件（Widget）。在這個模式下，只有一個 Dart 程式，所有視圖與元件可以共用物件。
 
-Add-to-app supports integrating multiple Flutter views of any size, supporting
-various use-cases. Two of the most common use-cases are:
+加入現有應用支援整合多個任意大小的 Flutter 視圖，滿足各種使用情境。最常見的兩種情境為：
 
-* **Hybrid navigation stacks**: an app is made of multiple screens, some of
-  which are rendered by Flutter, and others by another framework. The user can
-  navigate from one screen to another freely, no matter which framework is used
-  to render the screen.
-* **Partial-screen views**: a screen in the app renders multiple widgets, some
-  of which are rendered by Flutter, and others by another framework. The user
-  can scroll and interact with any widget freely, no matter which framework is
-  used to render the widget.
+* **混合式導覽堆疊（Hybrid navigation stacks）**：應用程式由多個螢幕組成，其中部分由 Flutter 渲染，部分由其他框架渲染。無論螢幕由哪個框架渲染，使用者都可以自由地在不同螢幕間切換。
+* **部分螢幕視圖（Partial-screen views）**：應用程式中的某個螢幕包含多個元件（Widget），其中部分由 Flutter 渲染，部分由其他框架渲染。無論元件由哪個框架渲染，使用者都可以自由地捲動與互動。
 
-## Supported features
+## 支援的功能
 
-### Add to Android applications
+### 加入 Android 應用程式
 
 {% render docs/app-figure.md, image:"development/add-to-app/android-overview.webp", alt:"Add-to-app steps on Android" %}
 
-* Auto-build and import the Flutter module by adding a
-  Flutter SDK hook to your Gradle script.
-* Build your Flutter module into a generic
-  [Android Archive (AAR)][] for integration into your
-  own build system and for better Jetifier interoperability
-  with AndroidX.
-* [`FlutterEngine`][java-engine] API for starting and persisting
-  your Flutter environment independently of attaching a
-  [`FlutterActivity`][]/[`FlutterFragment`][] etc.
-* Android Studio Android/Flutter co-editing and module
-  creation/import wizard.
-* Java and Kotlin host apps are supported.
-* Flutter modules can use [Flutter plugins][] to interact
-  with the platform.
-* Support for Flutter debugging and stateful hot reload by
-  using `flutter attach` from IDEs or the command line to
-  connect to an app that contains Flutter.
+* 只需在 Gradle 腳本中加入 Flutter SDK 鉤子，即可自動建置並匯入 Flutter 模組。
+* 可將 Flutter 模組建置為通用的 [Android Archive (AAR)][Android Archive (AAR)]，方便整合到你自己的建置系統中，並提升與 AndroidX 的 Jetifier 相容性。
+* [`FlutterEngine`][java-engine] API，可在不綁定 [`FlutterActivity`][`FlutterActivity`]/[`FlutterFragment`][`FlutterFragment`] 等的情況下，啟動並維持 Flutter 執行環境。
+* 支援 Android Studio 的 Android/Flutter 共編輯與模組建立/匯入精靈。
+* 支援 Java 與 Kotlin 主應用程式。
+* Flutter 模組可使用 [Flutter 插件（plugins）][Flutter plugins] 與平台互動。
+* 可透過 IDE 或命令列使用 `flutter attach` 連線到包含 Flutter 的應用程式，支援 Flutter 偵錯與狀態式熱重載（stateful hot reload）。
 
-### Add to iOS applications
+### 加入 iOS 應用程式
 
 {% render docs/app-figure.md, image:"development/add-to-app/ios-overview.webp", alt:"Add-to-app steps on iOS" %}
 
-* Auto-build and import the Flutter module by adding a Flutter
-  SDK hook to your CocoaPods and to your Xcode build phase.
-* Build your Flutter module into a generic [iOS Framework][]
-  for integration into your own build system.
-* [`FlutterEngine`][ios-engine] API for starting and persisting
-  your Flutter environment independently of attaching a
-  [`FlutterViewController`][].
-* Objective-C and Swift host apps supported.
-* Flutter modules can use [Flutter plugins][] to interact
-  with the platform.
-* Support for Flutter debugging and stateful hot reload by
-  using `flutter attach` from IDEs or the command line to
-  connect to an app that contains Flutter.
+* 只需在 CocoaPods 與 Xcode build phase 中加入 Flutter SDK 鉤子，即可自動建置並匯入 Flutter 模組。
+* 可將 Flutter 模組建置為通用的 [iOS Framework][iOS Framework]，方便整合到你自己的建置系統中。
+* [`FlutterEngine`][ios-engine] API，可在不綁定 [`FlutterViewController`][`FlutterViewController`] 的情況下，啟動並維持 Flutter 執行環境。
+* 支援 Objective-C 與 Swift 主應用程式。
+* Flutter 模組可使用 [Flutter 插件（plugins）][Flutter plugins] 與平台互動。
+* 可透過 IDE 或命令列使用 `flutter attach` 連線到包含 Flutter 的應用程式，支援 Flutter 偵錯與狀態式熱重載（stateful hot reload）。
 
-See our [add-to-app GitHub Samples repository][]
-for sample projects in Android and iOS that import
-a Flutter module for UI.
+你可以參考我們的 [add-to-app GitHub 範例專案庫][add-to-app GitHub Samples repository]，其中有 Android 與 iOS 匯入 Flutter 模組進行 UI 整合的範例專案。
 
-### Add to web applications
+### 加入 Web 應用程式
 
-Flutter can be added to any existing HTML DOM-based web app written in any
-client-side Dart web framework ([jaspr][], [ngdart][], [over_react][], etc),
-any client-side JS framework ([React][], [Angular][], [Vue.js][], etc),
-any server-side rendered framework ([Django][], [Ruby on Rails][],
-[Apache Struts][], etc), or even no framework (affectionately known as
-"[VanillaJS][]"). The minimum requirement is only that your existing application
-and its framework support importing JavaScript libraries, and creating HTML
-elements for Flutter to render into.
+Flutter 可以加入任何基於 HTML DOM 的現有 Web 應用程式，無論是用任何 Dart 前端 Web 框架（如 [jaspr][jaspr]、[ngdart][ngdart]、[over_react][over_react] 等）、任何前端 JavaScript 框架（如 [React][React]、[Angular][Angular]、[Vue.js][Vue.js] 等）、任何伺服器端渲染框架（如 [Django][Django]、[Ruby on Rails][Ruby on Rails]、[Apache Struts][Apache Struts] 等），甚至是沒有任何框架（俗稱「[VanillaJS][VanillaJS]」）的專案。唯一的最低需求是：你的現有應用程式及其框架能夠匯入 JavaScript 函式庫，並建立 HTML 元素讓 Flutter 可以渲染。
 
-To add Flutter to an existing app, build it normally, then follow the
-[embedding instructions][] for putting Flutter views onto the page.
+要將 Flutter 加入現有應用程式，請照常建置 Flutter，然後依照 [嵌入指引][embedding instructions] 將 Flutter 視圖放到網頁上。
 
-[jaspr]: https://pub.dev/packages/jaspr
-[ngdart]: https://pub.dev/packages/ngdart
-[over_react]: https://pub.dev/packages/over_react
-[React]: https://react.dev/
-[Angular]: https://angular.dev/
-[Vue.js]: https://vuejs.org/
-[Django]: https://www.djangoproject.com/
-[Ruby on Rails]: https://rubyonrails.org/
-[Apache Struts]: https://struts.apache.org/
-[VanillaJS]: http://vanilla-js.com/
-[embedding instructions]: {{site.docs}}/platform-integration/web/embedding-flutter-web#embedded-mode
+## 開始使用
 
-## Get started
-
-To get started, see our project integration guide for
-Android and iOS:
+若要開始，請參考我們針對 Android 與 iOS 的專案整合指南：
 
 <div class="card-grid">
   <a class="card outlined-card" href="/add-to-app/android/project-setup">
@@ -139,10 +77,9 @@ Android and iOS:
   </a>
 </div>
 
-## API usage
+## API 使用方式
 
-After Flutter is integrated into your project,
-see our API usage guides at the following links:
+將 Flutter 整合進你的專案後，請參考下列 API 使用指南：
 
 <div class="card-grid">
   <a class="card outlined-card" href="/add-to-app/android/add-flutter-screen">
@@ -162,38 +99,16 @@ see our API usage guides at the following links:
   </a>
 </div>
 
-## Limitations
+## 限制事項
 
-Mobile limitations:
+行動裝置端限制：
 
-* Multi-view mode is not supported (multi-engine only).
-* Packing multiple Flutter libraries into an
-  application isn't supported.
-* Plugins that don't support `FlutterPlugin` might have unexpected
-  behaviors if they make assumptions that are untenable in add-to-app
-  (such as assuming that a Flutter `Activity` is always present).
-* On Android, the Flutter module only supports AndroidX applications.
+* 不支援多視圖模式（僅支援多引擎模式）。
+* 不支援將多個 Flutter 函式庫打包進同一個應用程式。
+* 不支援 `FlutterPlugin` 的插件若假設某些在加入現有應用情境下不成立的條件（例如假設總是存在 Flutter `Activity`），可能會出現非預期行為。
+* 在 Android 上，Flutter 模組僅支援 AndroidX 應用程式。
 
-Web limitations:
+Web 限制：
 
-* Multi-engine mode is not supported (multi-view only).
-* There's no way to completely "shutdown" the Flutter engine. The app can remove
-  all the [FlutterView][] objects and make sure all data is garbage collected
-  using normal Dart concepts. However, the engine will remain warmed up, even if
-  it's not rendering anything.
-
-[get started]: /get-started/codelab
-[add-to-app GitHub Samples repository]: {{site.repo.samples}}/tree/main/add_to_app
-[Android Archive (AAR)]: {{site.android-dev}}/studio/projects/android-library
-[Flutter plugins]: {{site.pub}}/flutter
-[`FlutterActivity`]: {{site.api}}/javadoc/io/flutter/embedding/android/FlutterActivity.html
-[java-engine]: {{site.api}}/javadoc/io/flutter/embedding/engine/FlutterEngine.html
-[ios-engine]: {{site.api}}/ios-embedder/interface_flutter_engine.html
-[FlutterFire]: {{site.github}}/firebase/flutterfire/tree/main/packages
-[`FlutterFragment`]: {{site.api}}/javadoc/io/flutter/embedding/android/FlutterFragment.html
-[`FlutterPlugin`]: {{site.api}}/javadoc/io/flutter/embedding/engine/plugins/FlutterPlugin.html
-[`FlutterViewController`]: {{site.api}}/ios-embedder/interface_flutter_view_controller.html
-[iOS Framework]: {{site.apple-dev}}/library/archive/documentation/MacOSX/Conceptual/BPFrameworks/Concepts/WhatAreFrameworks.html
-[maintained by the Flutter team]: {{site.repo.packages}}/tree/main/packages
-[multiple Flutters]: /add-to-app/multiple-flutters
-[FlutterView]: https://api.flutter.dev/flutter/dart-ui/FlutterView-class.html
+* 不支援多引擎模式（僅支援多視圖模式）。
+* 無法完全「關閉」Flutter 引擎。應用程式可以移除所有 [FlutterView][FlutterView] 物件，並透過 Dart 的一般機制確保所有資料都被垃圾回收。然而，即使沒有渲染任何內容，引擎仍會保持啟動狀態。

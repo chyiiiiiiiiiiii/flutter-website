@@ -1,138 +1,83 @@
 ---
-title: Security
+title: 安全性
 description: >-
-  An overview of the Flutter's team philosophy and processes for security.
+  Flutter 團隊的安全性理念與流程概述。
 showBreadcrumbs: false
 ---
 
-The Flutter team takes the security of Flutter and the applications
-created with it seriously. This page describes how to report any
-vulnerabilities you might find, and lists best practices to minimize
-the risk of introducing a vulnerability.
+Flutter 團隊非常重視 Flutter 及其所創建應用程式的安全性。本頁說明如何回報您發現的任何安全性漏洞，並列出最佳實踐，以降低引入漏洞的風險。
 
-## Security philosophy
+## 安全性理念
 
-Flutter security strategy is based on five key pillars:
+Flutter 的安全策略建立在五大支柱之上：
 
-* **Identify**: Track and prioritize key security risks by
-  identifying core assets, key threats, and vulnerabilities. 
-* **Detect**: Detect and identify vulnerabilities using
-  techniques and tools like vulnerability scanning,
-  static application security testing, and fuzzing.
-* **Protect**: Eliminate risks by mitigating known
-  vulnerabilities and protect critical assets against source threats.
-* **Respond**: Define processes to report, triage, and
-  respond to vulnerabilities or attacks.
-* **Recover**: Build capabilities to contain and recover
-  from an incident with minimal impact.
+* **識別（Identify）**：透過識別核心資產、主要威脅與漏洞，追蹤並優先處理關鍵安全風險。
+* **偵測（Detect）**：利用漏洞掃描、靜態應用程式安全測試與模糊測試等技術與工具，偵測並識別漏洞。
+* **防護（Protect）**：透過緩解已知漏洞來消除風險，並保護關鍵資產免受來源威脅。
+* **回應（Respond）**：定義回報、分級與回應漏洞或攻擊的流程。
+* **復原（Recover）**：建立能力，以在事件發生時將影響降至最低並進行復原。
 
-## Reporting vulnerabilities
+## 回報漏洞
 
-Before reporting a security vulnerability found
-by a static analysis tool,
-consider checking our list of [known false positives][].
+在回報靜態分析工具發現的安全性漏洞前，請考慮先檢查我們的[已知誤判清單][known false positives]。
 
-Report security vulnerabilities to
-[https://g.co/vulnz](https://g.co/vulnz) and include
-a description of the issue, the steps you took to create
-the issue, affected versions, and if known, mitigations
-for the issue. We use g.co/vulnz for our intake, and do
-coordination and disclosure on GitHub (including using GitHub
-Security Advisory). The Google Security Team will respond
-within 5 working days of your report on g.co/vulnz.
+請將安全性漏洞回報至
+[https://g.co/vulnz](https://g.co/vulnz)，並包含問題描述、您產生該問題的步驟、受影響的版本，以及（若已知）該問題的緩解措施。我們使用 g.co/vulnz 作為回報入口，並在 GitHub 進行協調與揭露（包含使用 GitHub Security Advisory）。Google 安全團隊會在您於 g.co/vulnz 提交報告後 5 個工作天內回覆。
 
-You may also reach out to the team via our public Discord
-chat channels; however, please also make sure to make
-vulnerability reports to g.co/vulnz, and avoid revealing
-information about vulnerabilities in public if that could
-put users at risk.
+您也可以透過我們的公開 Discord 聊天頻道聯繫團隊；但請務必同時將漏洞回報至 g.co/vulnz，並避免在公開場合透露可能讓用戶處於風險的漏洞資訊。
 
-You should expect a close collaboration as we work to resolve
-the security vulnerability you have reported. Please reach out
-to security@flutter.dev only if you do not receive a response
-to a g.co/vulnz report within the above mentioned 5 working days.
+在我們處理您回報的安全性漏洞時，您可以預期會有密切的合作。若您在上述 5 個工作天內未收到 g.co/vulnz 回覆，請僅在此情況下聯絡 security@flutter.dev。
 
-For more details on how we handle security vulnerabilities,
-see our [security policy][].
+如需我們處理安全性漏洞的詳細資訊，請參閱我們的[安全政策][security policy]。
 
 [Discord chat channels]: {{site.repo.flutter}}/blob/main/docs/contributing/Chat.md
 [known false positives]: /reference/security-false-positives
 [security policy]: {{site.repo.flutter}}/security/policy
 
-##  Flagging existing issues as security-related
+## 將現有問題標記為安全性相關
 
-If you believe that an existing GitHub issue is security-related,
-we ask that you both report the issue to g.co/vulnz and send an
-email to security@flutter.dev. The email should include the
-GitHub issue ID and a short description of why it should be
-handled according to this security policy.
+如果您認為現有的 GitHub 問題與安全性有關，請同時將該問題回報至 g.co/vulnz，並發送電子郵件至 security@flutter.dev。郵件內容應包含 GitHub 問題 ID 及簡短說明，說明為何該問題應依本安全政策處理。
 
-Security reports are not tracked explicitly in the GitHub issue
-database. We use GitHub's security advisory feature to track
-open security reports.
+安全性回報不會在 GitHub 問題資料庫中明確追蹤。我們會使用 GitHub 的安全性公告功能來追蹤未結案的安全性回報。
 
-## Supported versions
+## 支援的版本
 
-We commit to publishing security updates for the version of
-Flutter currently on the `stable` branch.
+我們承諾會為當前 `stable` 分支上的 Flutter 版本發布安全性更新。
 
-## Expectations
+## 處理預期
 
-We treat security reports equivalent to a P0 priority level.
-This means that we attempt to fix them as quickly as possible.
-Depending on our release schedule, we will release either a
-new beta or a stable hotfix for any major security report
-found in the most recent stable version of our SDK, whichever
-is most expedient.
+我們將安全性回報視為 P0 優先等級。這表示我們會盡快修復這些問題。根據我們的發佈時程，若在最新穩定版 SDK 發現重大安全性問題，我們會釋出新的 beta 版本或穩定版 hotfix，以最快的方式進行修復。
 
-Any vulnerability reported for flutter websites like
-docs.flutter.dev doesn't require a release and will be
-fixed in the website itself.
+針對如 docs.flutter.dev 等 Flutter 網站回報的漏洞，無需發佈新版本，會直接於網站本身修正。
 
-## Bug Bounty programs
+## 漏洞獎勵計畫（Bug Bounty programs）
 
-Non-Google teams that use or contribute to Flutter are also
-welcome to include Flutter within the scope of their bug
-bounty programs. To have your program listed, please
-contact `security@flutter.dev`.
+非 Google 團隊若使用或貢獻 Flutter，也歡迎將 Flutter 納入其漏洞獎勵計畫（Bug Bounty programs）範圍。若您希望將您的計畫列入清單，請聯絡 `security@flutter.dev`。
 
-Google considers Flutter to be in scope for the
-[Google Open Source Software Vulnerability Reward Program][google-oss-vrp].
+Google 將 Flutter 納入
+[Google 開源軟體漏洞獎勵計畫（Google Open Source Software Vulnerability Reward Program）][google-oss-vrp] 的範圍內。
 
 [google-oss-vrp]: https://bughunters.google.com/open-source-security
 
-## Receiving security updates
+## 接收安全性更新
 
-The best way to receive security updates is to subscribe to the 
-[flutter-announce][] mailing list or watch updates to the
-[Discord channel][]. We also announce security updates in the
-technical release blog post.
+獲取安全性更新的最佳方式是訂閱
+[flutter-announce][flutter-announce] 郵件清單，或關注
+[Discord 頻道][Discord channel] 的更新。我們也會在技術發佈部落格文章中公告安全性更新。
 
 [Discord channel]: https://discord.gg/BS8KZyg
 [flutter-announce]: {{site.groups}}/forum/#!forum/flutter-announce
 
-## Best practices
+## 最佳實踐
 
-* **Keep current with the latest Flutter SDK releases.**
-  We regularly update Flutter, and these updates might fix security
-  defects discovered in previous versions.
+* **保持 Flutter SDK 為最新版本。**
+  我們會定期更新 Flutter，這些更新可能修正先前版本發現的安全性缺陷。
 
-* **Keep your application's dependencies up to date.**
-  Make sure you [upgrade your package dependencies][]
-  to keep the dependencies up to date.
-  Avoid pinning to specific versions
-  for your dependencies and, if you do, make sure you check
-  periodically to see if your dependencies have had security updates,
-  and update the pin accordingly.
+* **保持應用程式相依套件為最新。**
+  請確保您[升級套件相依性][upgrade your package dependencies]，以維持相依套件的最新狀態。避免將相依套件鎖定於特定版本；若有鎖定，請定期檢查這些套件是否有安全性更新，並相應更新鎖定版本。
 
-* **Keep your copy of Flutter up to date.**
-  Private, customized versions of Flutter tend
-  to fall behind the current version and might not
-  include important security fixes and enhancements.
-  Instead, routinely update your copy of Flutter.
-  If you're making changes to improve Flutter,
-  be sure to update your fork and consider sharing your
-  changes with the community.
+* **保持您的 Flutter 副本為最新。**
+  私有或自訂版本的 Flutter 容易落後於官方版本，可能不包含重要的安全性修正與增強功能。建議定期更新您的 Flutter 副本。如果您有針對 Flutter 進行改進，請務必同步更新您的分支，並考慮將您的修改貢獻給社群。
 
 [upgrade your package dependencies]: /install/upgrade
 

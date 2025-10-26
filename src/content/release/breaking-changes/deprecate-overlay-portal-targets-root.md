@@ -1,34 +1,30 @@
 ---
-title: Deprecate `OverlayPortal.targetsRootOverlay`
+title: 停用 `OverlayPortal.targetsRootOverlay`
 description: >-
-  Learn about changes to the OverlayPortal in Flutter.
+  了解 Flutter 中 OverlayPortal 的變更。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-The `OverlayPortal.targetsRootOverlay` property was deprecated and 
-replaced with `overlayLocation`.
+`OverlayPortal.targetsRootOverlay` 屬性已被停用，並由 `overlayLocation` 取代。
 
-## Context
+## 背景說明
 
-A parameter `overlayLocation` was added to the OverlayPortal default constructor to
-control where the overlay child renders. As the result, the constructor
-`OverlayPortal.targetsRootOverlay` was no longer useful.
+在 OverlayPortal 的預設建構函式中新增了一個參數 `overlayLocation`，用來控制 overlay 子元件的渲染位置。因此，建構函式 `OverlayPortal.targetsRootOverlay` 已不再具有實用價值。
 
-## Description of change
+## 變更說明
 
-The `OverlayPortal.targetsRootOverlay` was deprecated.
+`OverlayPortal.targetsRootOverlay` 已被停用。
 
-## Migration guide
+## 遷移指南
 
-If you are using `OverlayPortal.targetsRootOverlay`, you can use `OverlayPortal` with
-`overlayLocation` instead.
+如果你正在使用 `OverlayPortal.targetsRootOverlay`，可以改用 `OverlayPortal` 並搭配 `overlayLocation`。
 
-### Case 1: trivial case
+### 情境 1：簡單案例
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 Widget build(BuildContext context) {
@@ -40,7 +36,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 Widget build(BuildContext context) {
@@ -53,24 +49,24 @@ Widget build(BuildContext context) {
 }
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.35.0-0.0.pre<br>
-In stable release: TBD
+納入版本：3.35.0-0.0.pre<br>  
+正式版本：待定
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`OverlayPortal`][]
+* [`OverlayPortal`][`OverlayPortal`]
 
-Relevant issue:
+相關議題：
 
-* [Issue 168785][]
+* [Issue 168785][Issue 168785]
 
-Relevant PR:
+相關 PR：
 
-* [PR 174239][]
+* [PR 174239][PR 174239]
 
 [`OverlayPortal`]: {{site.api}}/flutter/widgets/OverlayPortal-class.html
 [Issue 168785]: {{site.repo.flutter}}/issues/168785

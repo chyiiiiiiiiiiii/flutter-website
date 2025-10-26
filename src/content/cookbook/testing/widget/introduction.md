@@ -1,46 +1,40 @@
 ---
-title: An introduction to widget testing
-description: Learn more about widget testing in Flutter.
-shortTitle: Introduction
+title: 元件（Widget）測試簡介
+description: 進一步了解 Flutter 中的元件（Widget）測試。
+shortTitle: 簡介
 ---
 
 <?code-excerpt path-base="cookbook/testing/widget/introduction/"?>
 
-In the [introduction to unit testing][] recipe,
-you learned how to test Dart classes using the `test` package.
-To test widget classes, you need a few additional tools provided by the
-[`flutter_test`][] package, which ships with the Flutter SDK.
+在 [單元測試簡介][introduction to unit testing] 教學中，
+你已學會如何使用 `test` 套件來測試 Dart 類別。
+若要測試元件（Widget）類別，你還需要一些由
+[`flutter_test`][`flutter_test`] 套件（隨 Flutter SDK 提供）所提供的額外工具。
 
-The `flutter_test` package provides the following tools for
-testing widgets:
+`flutter_test` 套件為測試元件（Widget）提供了以下工具：
 
-  * The [`WidgetTester`][] allows building and interacting
-    with widgets in a test environment.
-  * The [`testWidgets()`][] function automatically
-    creates a new `WidgetTester` for each test case,
-    and is used in place of the normal `test()` function.
-  * The [`Finder`][] classes allow searching for widgets
-    in the test environment.
-  * Widget-specific [`Matcher`][] constants help verify
-   whether a `Finder` locates a widget or
-    multiple widgets in the test environment.
+  * [`WidgetTester`][`WidgetTester`] 可讓你在測試環境中建立並互動
+    元件（Widget）。
+  * [`testWidgets()`][`testWidgets()`] 函式會自動為每個測試案例建立新的 `WidgetTester`，
+    並用來取代一般的 `test()` 函式。
+  * [`Finder`][`Finder`] 類別可用於在測試環境中搜尋元件（Widget）。
+  * 元件專用的 [`Matcher`][`Matcher`] 常數可協助驗證
+   `Finder` 是否能在測試環境中定位單一或多個元件（Widget）。
 
-If this sounds overwhelming, don't worry. Learn how all of these pieces fit
-together throughout this recipe, which uses the following steps:
+如果你覺得這些資訊有點複雜，別擔心。本教學將透過以下步驟，帶你了解這些工具如何整合運作：
 
-  1. Add the `flutter_test` dependency.
-  2. Create a widget to test.
-  3. Create a `testWidgets` test.
-  4. Build the widget using the `WidgetTester`.
-  5. Search for the widget using a `Finder`.
-  6. Verify the widget using a `Matcher`.
+  1. 新增 `flutter_test` 相依套件。
+  2. 建立要測試的元件（Widget）。
+  3. 建立 `testWidgets` 測試。
+  4. 使用 `WidgetTester` 建立元件（Widget）。
+  5. 使用 `Finder` 搜尋元件（Widget）。
+  6. 使用 `Matcher` 驗證元件（Widget）。
 
-## 1. Add the `flutter_test` dependency
+## 1. 新增 `flutter_test` 相依套件
 
-Before writing tests, include the `flutter_test`
-dependency in the `dev_dependencies` section of the `pubspec.yaml` file.
-If creating a new Flutter project with the command line tools or
-a code editor, this dependency should already be in place.
+在撰寫測試之前，請先在 `pubspec.yaml` 檔案的 `dev_dependencies` 區段中
+加入 `flutter_test` 相依套件。
+如果你是透過命令列工具或程式碼編輯器建立新的 Flutter 專案，這個相依套件應該已經預設包含在內。
 
 ```yaml
 dev_dependencies:
@@ -48,10 +42,10 @@ dev_dependencies:
     sdk: flutter
 ```
 
-## 2. Create a widget to test
+## 2. 建立要測試的元件（Widget）
 
-Next, create a widget for testing. For this recipe,
-create a widget that displays a `title` and `message`.
+接下來，建立一個用於測試的元件（Widget）。在本教學範例中，
+請建立一個顯示 `title` 和 `message` 的元件。
 
 <?code-excerpt "test/main_test.dart (widget)"?>
 ```dart
@@ -74,16 +68,15 @@ class MyWidget extends StatelessWidget {
 }
 ```
 
-## 3. Create a `testWidgets` test
+## 3. 建立`testWidgets`測試
 
-With a widget to test, begin by writing your first test.
-Use the [`testWidgets()`][] function provided by the
-`flutter_test` package to define a test.
-The `testWidgets` function allows you to define a
-widget test and creates a `WidgetTester` to work with.
+有了要測試的元件（Widget）後，首先撰寫你的第一個測試。
+使用`flutter_test`套件所提供的 [`testWidgets()`][`testWidgets()`] 函式來定義一個測試。
+`testWidgets` 函式可讓你定義一個
+元件測試（widget test），並建立一個`WidgetTester`以供操作。
 
-This test verifies that `MyWidget` displays a given title and message.
-It is titled accordingly, and it will be populated in the next section.
+此測試會驗證`MyWidget`是否正確顯示指定的標題與訊息。
+測試標題也相應命名，並將於下一節中補充內容。
 
 <?code-excerpt "test/main_step3_test.dart (main)"?>
 ```dart
@@ -97,14 +90,12 @@ void main() {
 }
 ```
 
-## 4. Build the widget using the `WidgetTester`
+## 4. 使用 `WidgetTester` 建立元件（Widget）
 
-Next, build `MyWidget` inside the test environment by using the
-[`pumpWidget()`][] method provided by `WidgetTester`.
-The `pumpWidget` method builds and renders the provided widget.
+接下來，請利用 `WidgetTester` 所提供的 [`pumpWidget()`][`pumpWidget()`] 方法，在測試環境中建立 `MyWidget`。
+`pumpWidget` 方法會建立並渲染所提供的元件（Widget）。
 
-Create a `MyWidget` instance that displays "T" as the title
-and "M" as the message.
+建立一個 `MyWidget` 實例，並顯示 "T" 作為標題，以及 "M" 作為訊息。
 
 <?code-excerpt "test/main_step4_test.dart (main)"?>
 ```dart
@@ -116,51 +107,36 @@ void main() {
 }
 ```
 
-### Notes about the pump() methods
+### 關於 pump() 方法的注意事項
 
-After the initial call to `pumpWidget()`, the `WidgetTester` provides
-additional ways to rebuild the same widget. This is useful if you're
-working with a `StatefulWidget` or animations.
+在最初呼叫 `pumpWidget()` 之後，`WidgetTester` 提供了額外的方法來重建相同的元件（Widget）。這在你處理 `StatefulWidget` 或動畫（Animation）時特別有用。
 
-For example, tapping a button calls `setState()`, but Flutter won't
-automatically rebuild your widget in the test environment.
-Use one of the following methods to ask Flutter to rebuild the widget.
+舉例來說，點擊按鈕會呼叫 `setState()`，但在測試環境中 Flutter 並不會自動重建你的元件（Widget）。
+你可以使用以下其中一種方法，要求 Flutter 重新建立元件。
 
-[`tester.pump(Duration duration)`][]
-: Schedules a frame and triggers a rebuild of the widget.
-  If a `Duration` is specified, it advances the clock by
-  that amount and schedules a frame. It does not schedule
-  multiple frames even if the duration is longer than a
-  single frame.
+[`tester.pump(Duration duration)`][`tester.pump(Duration duration)`]
+: 排程一個 frame 並觸發元件（Widget）的重建。
+  如果指定了 `Duration`，則會將時鐘推進該段時間並排程一個 frame。即使 duration 長於單一 frame，也只會排程一次 frame，不會排程多個 frame。
 
 :::note
-To kick off the animation, you need to call `pump()`
-once (with no duration specified) to start the ticker.
-Without it, the animation does not start.
+要啟動動畫（Animation），你需要先呼叫一次 `pump()`（不帶 duration 參數），以啟動 ticker。
+否則動畫將不會開始。
 :::
 
-[`tester.pumpAndSettle()`][]
-: Repeatedly calls `pump()` with the given duration until
-  there are no longer any frames scheduled.
-  This, essentially, waits for all animations to complete.
+[`tester.pumpAndSettle()`][`tester.pumpAndSettle()`]
+: 會以給定的 duration 重複呼叫 `pump()`，直到沒有任何 frame 被排程為止。
+  基本上，這會等待所有動畫（Animation）完成。
 
-These methods provide fine-grained control over the build lifecycle,
-which is particularly useful while testing.
+這些方法能讓你對元件建構生命週期有更細緻的控制，在測試時特別實用。
 
-## 5. Search for our widget using a `Finder`
+## 5. 使用 `Finder` 搜尋我們的元件（Widget）
 
-With a widget in the test environment, search
-through the widget tree for the `title` and `message`
-Text widgets using a `Finder`. This allows verification that
-the widgets are being displayed correctly.
+有了在測試環境中的元件（Widget）後，可以透過元件樹搜尋 `title` 和 `message` 文字元件（Text Widgets），方法是使用 `Finder`。這可以驗證元件是否正確顯示。
 
-For this purpose, use the top-level [`find()`][]
-method provided by the `flutter_test` package to create the `Finders`.
-Since you know you're looking for `Text` widgets, use the
-[`find.text()`][] method.
+為此，請使用 `flutter_test` 套件所提供的頂層 [`find()`][`find()`] 方法來建立 `Finders`。
+由於你知道要找的是 `Text` 元件（Widget），因此可以使用 [`find.text()`][`find.text()`] 方法。
 
-For more information about `Finder` classes, see the
-[Finding widgets in a widget test][] recipe.
+關於 `Finder` 類別的更多資訊，請參閱 [Finding widgets in a widget test][Finding widgets in a widget test] 教學。
 
 <?code-excerpt "test/main_step5_test.dart (main)"?>
 ```dart
@@ -175,16 +151,13 @@ void main() {
 }
 ```
 
-## 6. Verify the widget using a `Matcher`
+## 6. 使用 `Matcher` 驗證元件（Widget）
 
-Finally, verify the title and message `Text` widgets appear on screen
-using the `Matcher` constants provided by `flutter_test`.
-`Matcher` classes are a core part of the `test` package,
-and provide a common way to verify a given
-value meets expectations.
+最後，請使用 `Matcher` 常數（由 `flutter_test` 提供）來驗證標題和訊息 `Text` 元件（Widgets）是否出現在螢幕上。  
+`Matcher` 類別是 `test` 套件的核心部分，提供了一種通用方式來驗證指定的值是否符合預期。
 
-Ensure that the widgets appear on screen exactly one time.
-For this purpose, use the [`findsOneWidget`][] `Matcher`.
+請確保這些元件（Widgets）在螢幕上恰好出現一次。  
+為此，請使用 [`findsOneWidget`][`findsOneWidget`] `Matcher`。
 
 <?code-excerpt "test/main_step6_test.dart (main)"?>
 ```dart
@@ -202,24 +175,23 @@ void main() {
 }
 ```
 
-### Additional Matchers
+### 其他比對器（Matchers）
 
-In addition to `findsOneWidget`, `flutter_test` provides additional
-matchers for common cases.
+除了 `findsOneWidget` 之外，`flutter_test` 也提供了額外的比對器（matchers），以因應常見情境。
 
-[`findsNothing`][]
-: Verifies that no widgets are found.
+[`findsNothing`][`findsNothing`]
+: 驗證沒有找到任何元件（Widgets）。
 
-[`findsWidgets`][]
-: Verifies that one or more widgets are found.
+[`findsWidgets`][`findsWidgets`]
+: 驗證找到一個或多個元件（Widgets）。
 
-[`findsNWidgets`][]
-: Verifies that a specific number of widgets are found.
+[`findsNWidgets`][`findsNWidgets`]
+: 驗證找到特定數量的元件（Widgets）。
 
-[`matchesGoldenFile`][]
-: Verifies that a widget's rendering matches a particular bitmap image ("golden file" testing).
+[`matchesGoldenFile`][`matchesGoldenFile`]
+: 驗證元件（Widget）的渲染結果是否符合特定的點陣圖圖片（即「golden file」測試）。
 
-## Complete example
+## 完整範例
 
 <?code-excerpt "test/main_test.dart"?>
 ```dart
@@ -266,19 +238,54 @@ class MyWidget extends StatelessWidget {
 
 
 [`find()`]: {{site.api}}/flutter/flutter_test/find-constant.html
+# 元件（Widget）測試簡介
+
 [`find.text()`]: {{site.api}}/flutter/flutter_test/CommonFinders/text.html
+在開發 Flutter 應用程式時，撰寫測試是確保應用程式品質與穩定性的關鍵步驟。本節將介紹如何針對 Flutter 元件（Widget）進行測試。
+
 [`findsNothing`]: {{site.api}}/flutter/flutter_test/findsNothing-constant.html
+元件測試（Widget testing）介於單元測試與整合測試之間。它允許你在模擬的環境中建立並互動元件，驗證其行為與 UI 是否符合預期。
+
 [`findsOneWidget`]: {{site.api}}/flutter/flutter_test/findsOneWidget-constant.html
+進行元件測試時，通常會使用 Flutter 提供的 `flutter_test` 套件。這個套件提供了多種工具，協助你渲染元件、模擬使用者互動，以及檢查元件樹的狀態。
+
 [`findsNWidgets`]: {{site.api}}/flutter/flutter_test/findsNWidgets.html
+元件測試的主要優點包括：
+
 [`findsWidgets`]: {{site.api}}/flutter/flutter_test/findsWidgets-constant.html
+- 可以快速驗證 UI 元件的外觀與行為。
+- 減少回歸錯誤，提升開發效率。
+- 讓重構 UI 時更有信心。
+
 [`matchesGoldenFile`]: {{site.api}}/flutter/flutter_test/matchesGoldenFile.html
+與單元測試不同，元件測試會建立一個完整的元件樹，並可模擬多種互動情境。而與整合測試相比，元件測試執行速度更快，且較不依賴外部系統。
+
 [`Finder`]: {{site.api}}/flutter/flutter_test/Finder-class.html
+接下來的章節將帶你了解如何撰寫基本的元件測試、模擬使用者操作，以及如何檢查元件的狀態與輸出。
+
 [Finding widgets in a widget test]: /cookbook/testing/widget/finders
+## 什麼是元件測試？
+
 [`flutter_test`]: {{site.api}}/flutter/flutter_test/flutter_test-library.html
+元件測試是針對單一元件（Widget）或一組元件進行的測試。它會在虛擬環境中建立元件樹，並驗證元件的行為與 UI 呈現是否正確。
+
 [introduction to unit testing]: /cookbook/testing/unit/introduction
+例如，你可以測試一個按鈕在被點擊時，是否正確地更新畫面或觸發事件。
+
 [`Matcher`]: {{site.api}}/flutter/package-matcher_matcher/Matcher-class.html
+## 何時該撰寫元件測試？
+
 [`pumpWidget()`]: {{site.api}}/flutter/flutter_test/WidgetTester/pumpWidget.html
+當你希望確保 UI 元件在不同情境下都能正確運作時，就應該撰寫元件測試。這對於複雜的互動元件或自訂元件特別重要。
+
 [`tester.pump(Duration duration)`]: {{site.api}}/flutter/flutter_test/TestWidgetsFlutterBinding/pump.html
+## 如何開始？
+
 [`tester.pumpAndSettle()`]: {{site.api}}/flutter/flutter_test/WidgetTester/pumpAndSettle.html
+要開始進行元件測試，請確保你的專案已加入 `flutter_test` 套件。你可以在 `pubspec.yaml`（設定檔）中找到相關設定。
+
 [`testWidgets()`]: {{site.api}}/flutter/flutter_test/testWidgets.html
+接著，建立測試檔案，並使用 `testWidgets()` 方法來撰寫你的元件測試案例。
+
 [`WidgetTester`]: {{site.api}}/flutter/flutter_test/WidgetTester-class.html
+後續章節將提供更多元件測試的實作範例與最佳實踐。

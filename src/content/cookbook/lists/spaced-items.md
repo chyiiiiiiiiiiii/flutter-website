@@ -1,6 +1,6 @@
 ---
-title: List with spaced items
-description: How to create a list with spaced or expanded items 
+title: 間距排列的清單項目
+description: 如何建立具有間距或展開項目的清單
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,48 +8,44 @@ js:
 
 <?code-excerpt path-base="cookbook/lists/spaced_items/"?>
 
-Perhaps you want to create a list where all list items
-are spaced evenly, so that the items take up the visible space.
-For example, the four items in the following image are spaced evenly,
-with "Item 0" at the top, and "Item 3" at the bottom.
+有時你可能想建立一個清單，讓所有清單項目能夠平均分配間距，讓項目填滿可見空間。
+例如，下圖中的四個項目就是平均分布的，
+"Item 0" 在最上方，而 "Item 3" 在最下方。
 
 ![Spaced items](/assets/images/docs/cookbook/spaced-items-1.png){:.site-mobile-screenshot}
 
-At the same time, you might want to allow users
-to scroll through the list when the list of items won't fit,
-maybe because a device is too small, a user resized a window,
-or the number of items exceeds the screen size.
+同時，你可能也希望當清單項目無法完全顯示時，
+允許使用者可以捲動清單，
+這可能是因為裝置螢幕太小、使用者調整了視窗大小，
+或是項目數量超過了螢幕可顯示的範圍。
 
 ![Scrollable items](/assets/images/docs/cookbook/spaced-items-2.png){:.site-mobile-screenshot}
 
-Typically, you use [`Spacer`][] to tune the spacing between widgets,
-or [`Expanded`][] to expand a widget to fill the available space.
-However, these solutions are not possible inside scrollable widgets,
-because they need a finite height constraint.
+一般來說，你可以使用 [`Spacer`][`Spacer`] 來調整元件（Widgets）之間的間距，
+或使用 [`Expanded`][`Expanded`] 讓元件展開填滿可用空間。
+然而，這些解法在可捲動元件（如滾動元件）中無法使用，
+因為它們需要有限的高度約束。
 
-This recipe demonstrates how to use [`LayoutBuilder`][] and [`ConstrainedBox`][]
-to space out list items evenly when there is enough space, and to allow
-users to scroll when there is not enough space,
-using the following steps:
+本教學將示範如何使用 [`LayoutBuilder`][`LayoutBuilder`] 和 [`ConstrainedBox`][`ConstrainedBox`]，
+在空間足夠時平均分配清單項目間距，空間不足時則允許使用者捲動，
+步驟如下：
 
-  1. Add a [`LayoutBuilder`][] with a [`SingleChildScrollView`][].
-  2. Add a [`ConstrainedBox`][] inside the [`SingleChildScrollView`][].
-  3. Create a [`Column`][] with spaced items.
+  1. 加入一個帶有 [`SingleChildScrollView`][`SingleChildScrollView`] 的 [`LayoutBuilder`][`LayoutBuilder`]。
+  2. 在 [`SingleChildScrollView`][`SingleChildScrollView`] 中加入 [`ConstrainedBox`][`ConstrainedBox`]。
+  3. 建立一個具有間距項目的 [`Column`][`Column`]。
 
-## 1. Add a `LayoutBuilder` with a `SingleChildScrollView`
+## 1. 加入一個帶有 `SingleChildScrollView` 的 `LayoutBuilder`
 
-Start by creating a [`LayoutBuilder`][]. You need to provide
-a `builder` callback function with two parameters:
+首先，建立一個 [`LayoutBuilder`][`LayoutBuilder`]。你需要提供一個帶有兩個參數的 `builder` callback 函式：
 
-  1. The [`BuildContext`][] provided by the [`LayoutBuilder`][].
-  2. The [`BoxConstraints`][] of the parent widget.
+  1. 由 [`LayoutBuilder`][`LayoutBuilder`] 提供的 [`BuildContext`][`BuildContext`]。
+  2. 父元件的 [`BoxConstraints`][`BoxConstraints`]。
 
-In this recipe, you won't be using the [`BuildContext`][],
-but you will need the [`BoxConstraints`][] in the next step.
+在本教學中，你不會用到 [`BuildContext`][`BuildContext`]，
+但你會在下一步用到 [`BoxConstraints`][`BoxConstraints`]。
 
-Inside the `builder` function, return a [`SingleChildScrollView`][].
-This widget ensures that the child widget can be scrolled,
-even when the parent container is too small.
+在 `builder` 函式內，回傳一個 [`SingleChildScrollView`][`SingleChildScrollView`]。
+這個元件（Widget）可以確保子元件即使在父容器太小時也能捲動顯示。
 
 <?code-excerpt "lib/spaced_list.dart (builder)"?>
 ```dart
@@ -60,20 +56,20 @@ LayoutBuilder(
 );
 ```
 
-## 2. Add a `ConstrainedBox` inside the `SingleChildScrollView`
+## 2. 在`SingleChildScrollView`中加入`ConstrainedBox`
 
-In this step, add a [`ConstrainedBox`][]
-as the child of the [`SingleChildScrollView`][].
+在這個步驟中，將一個 [`ConstrainedBox`][`ConstrainedBox`]
+作為 [`SingleChildScrollView`][`SingleChildScrollView`] 的子元件（child）加入。
 
-The [`ConstrainedBox`][] widget imposes additional constraints to its child.
+[`ConstrainedBox`][`ConstrainedBox`] 元件會對其子元件施加額外的限制條件（constraints）。
 
-Configure the constraint by setting the `minHeight` parameter to be
-the `maxHeight` of the [`LayoutBuilder`][] constraints.
+請透過設定 `minHeight` 參數為
+[`LayoutBuilder`][`LayoutBuilder`] 限制條件中的 `maxHeight` 來配置這個限制。
 
-This ensures that the child widget 
-is constrained to have a minimum height equal to the available
-space provided by the [`LayoutBuilder`][] constraints,
-namely the maximum height of the [`BoxConstraints`][].
+這樣可以確保子元件
+會被限制為最小高度等於
+[`LayoutBuilder`][`LayoutBuilder`] 限制條件所提供的可用空間，
+也就是 [`BoxConstraints`][`BoxConstraints`] 的最大高度。
 
 <?code-excerpt "lib/spaced_list.dart (constrainedBox)"?>
 ```dart
@@ -89,17 +85,16 @@ LayoutBuilder(
 );
 ```
 
-However, you don't set the `maxHeight` parameter,
-because you need to allow the child to be larger
-than the [`LayoutBuilder`][] size,
-in case the items don't fit the screen.
+然而，你不需要設定 `maxHeight` 參數，
+因為你需要允許子元件（child）可以大於 [`LayoutBuilder`][`LayoutBuilder`] 的尺寸，
+以防這些項目無法完全顯示在螢幕上。
 
-## 3. Create a `Column` with spaced items
+## 3. 建立具有間距的 `Column`
 
-Finally, add a [`Column`][] as the child of the [`ConstrainedBox`][].
+最後，將 [`Column`][`Column`] 作為 [`ConstrainedBox`][`ConstrainedBox`] 的子元件（child）。
 
-To space the items evenly, 
-set the `mainAxisAlignment` to `MainAxisAlignment.spaceBetween`.
+為了讓項目之間平均分配間距，
+請將 `mainAxisAlignment` 設為 `MainAxisAlignment.spaceBetween`。
 
 <?code-excerpt "lib/spaced_list.dart (column)"?>
 ```dart
@@ -122,13 +117,11 @@ LayoutBuilder(
 );
 ```
 
-Alternatively, you can use the [`Spacer`][] widget 
-to tune the spacing between the items,
-or the [`Expanded`][] widget, if you want one widget to take more space than others.
+另外，你也可以使用 [`Spacer`][`Spacer`] 元件（Widget）來調整項目之間的間距，  
+或者如果你希望某個元件（Widget）佔據比其他元件更多的空間，則可以使用 [`Expanded`][`Expanded`] 元件（Widget）。
 
-For that, you have to wrap the [`Column`] with an [`IntrinsicHeight`][] widget,
-which forces the [`Column`][] widget to size itself to a minimum height,
-instead of expanding infinitely.
+為此，你需要將 [`Column`] 包裹在 [`IntrinsicHeight`][`IntrinsicHeight`] 元件（Widget）中，  
+這會強制 [`Column`][`Column`] 元件（Widget）以最小高度自我調整，而不是無限擴展。
 
 <?code-excerpt "lib/spaced_list.dart (intrinsic)"?>
 ```dart
@@ -154,17 +147,16 @@ LayoutBuilder(
 ```
 
 :::tip
-Play around with different devices, resizing the app,
-or resizing the browser window, and see how the item list adapts
-to the available space.
+請嘗試在不同裝置上操作、調整應用程式大小，
+或調整瀏覽器視窗大小，觀察項目清單如何根據可用空間自動調整。
 :::
 
-## Interactive example
+## 互動範例
 
-This example shows a list of items that are spaced evenly within a column.
-The list can be scrolled up and down when the items don't fit the screen.
-The number of items is defined by the variable `items`,
-change this value to see what happens when the items won't fit the screen.
+此範例展示了一個項目清單，這些項目會在一個欄位中平均分配間距。
+當項目無法完全顯示於螢幕時，清單可以上下捲動。
+項目的數量由變數 `items` 所定義，
+你可以變更這個值，觀察當項目無法完全顯示於螢幕時會發生什麼情況。
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter Spaced Items hands-on example in DartPad" run="true"
@@ -223,12 +215,39 @@ class ItemWidget extends StatelessWidget {
 }
 ```
 
+(https://api.flutter.dev/flutter/widgets/ListView-class.html)
 [`BoxConstraints`]: {{site.api}}/flutter/rendering/BoxConstraints-class.html
+# 有間距的清單項目
+
 [`BuildContext`]: {{site.api}}/flutter/widgets/BuildContext-class.html
+本範例說明如何在 `ListView` 的清單項目之間加入間距。
+
 [`Column`]: {{site.api}}/flutter/widgets/Column-class.html
+你可以使用 `ListView.separated` 來在清單項目之間自動插入分隔元件（Widget），例如 `SizedBox` 或 `Divider`。
+
 [`ConstrainedBox`]: {{site.api}}/flutter/widgets/ConstrainedBox-class.html
+```dart
+ListView.separated(
+  itemCount: items.length,
+  itemBuilder: (context, index) {
+    return ListTile(
+      title: Text('項目 \$index'),
+    );
+  },
+  separatorBuilder: (context, index) => const SizedBox(height: 8),
+)
+```
+
 [`Expanded`]: {{site.api}}/flutter/widgets/Expanded-class.html
+在上述範例中，每個清單項目之間會有 8 像素的垂直間距。
+
 [`IntrinsicHeight`]: {{site.api}}/flutter/widgets/IntrinsicHeight-class.html
+你也可以將 `SizedBox` 換成 `Divider`，以顯示分隔線：
+
 [`LayoutBuilder`]: {{site.api}}/flutter/widgets/LayoutBuilder-class.html
+```dart
+separatorBuilder: (context, index) => const Divider(),
+```
+
 [`SingleChildScrollView`]: {{site.api}}/flutter/widgets/SingleChildScrollView-class.html
-[`Spacer`]: {{site.api}}/flutter/widgets/Spacer-class.html
+這種方式可以讓你的清單項目更易於閱讀，並提升整體的版面配置效果。

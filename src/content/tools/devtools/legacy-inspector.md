@@ -1,150 +1,104 @@
 ---
-title: Use the legacy Flutter inspector
-description: Learn how to use the legacy Flutter inspector to explore a Flutter app's widget tree.
+title: 使用舊版 Flutter Inspector
+description: 學習如何使用舊版 Flutter Inspector 來探索 Flutter 應用程式的元件樹（widget tree）。
 ---
 
 <?code-excerpt path-base="visual_debugging/"?>
 
 :::note
-Please note that the legacy inspector will be removed in a future release. Let us know if there are issues preventing you from using the [new inspector][] by [filing a bug][].
+請注意，舊版 Inspector 將在未來的版本中移除。如果有任何問題導致你無法使用[新版 Inspector][new inspector]，請[回報問題][filing a bug]讓我們知道。
 :::
 
 [new inspector]: /tools/devtools/inspector
 [filing a bug]: https://github.com/flutter/devtools/issues/new 
 
-## The legacy Flutter inspector
+## 舊版 Flutter Inspector
 
-![Screenshot of the legacy Flutter inspector window](/assets/images/docs/tools/devtools/inspector_legacy_screenshot.png){:width="100%"}
+![舊版 Flutter Inspector 視窗的截圖](/assets/images/docs/tools/devtools/inspector_legacy_screenshot.png){:width="100%"}
 
-### Debugging layout issues visually
+### 視覺化除錯版面配置問題
 
-The following is a guide to the features available in the
-inspector's toolbar. When space is limited, the icon is
-used as the visual version of the label.
+以下是 Inspector 工具列中可用功能的導覽說明。當空間有限時，會以圖示作為標籤的視覺化版本。
 
-![Select widget mode icon](/assets/images/docs/tools/devtools/select-widget-mode-icon.png){:width="20px"} **Select widget mode**
-: Enable this button in order to select
-  a widget on the device to inspect it. To learn more,
-  check out [Inspecting a widget](#inspecting-a-widget).
+![選取元件模式圖示](/assets/images/docs/tools/devtools/select-widget-mode-icon.png){:width="20px"} **選取元件模式（Select widget mode）**
+: 啟用此按鈕後，可以在裝置上選取一個元件（Widget）進行檢查。欲了解更多資訊，請參考[檢查元件](#檢查元件-inspecting-a-widget)。
 
-![Refresh tree icon](/assets/images/docs/tools/devtools/refresh-tree-icon.png){:width="20px"} **Refresh tree**
-: Reload the current widget info.
+![重新整理樹狀圖圖示](/assets/images/docs/tools/devtools/refresh-tree-icon.png){:width="20px"} **重新整理樹狀圖（Refresh tree）**
+: 重新載入目前的元件資訊。
 
-![Slow animations icon](/assets/images/docs/tools/devtools/slow-animations-icon.png){:width="20px"} **[Slow animations][]**
-: Run animations 5 times slower to help fine-tune them.
+![慢速動畫圖示](/assets/images/docs/tools/devtools/slow-animations-icon.png){:width="20px"} **[慢速動畫][Slow animations]**
+: 讓動畫以 5 倍慢速運行，方便微調動畫效果。
 
-![Show guidelines mode icon](/assets/images/docs/tools/devtools/debug-paint-mode-icon.png){:width="20px"} **[Show guidelines][]**
-: Overlay guidelines to assist with fixing layout issues.
+![顯示輔助線模式圖示](/assets/images/docs/tools/devtools/debug-paint-mode-icon.png){:width="20px"} **[顯示輔助線][Show guidelines]**
+: 疊加輔助線，協助修正版面配置問題。
 
-![Show baselines icon](/assets/images/docs/tools/devtools/paint-baselines-icon.png){:width="20px"} **[Show baselines][]**
-: Show baselines, which are used for aligning text.
-  Can be useful for checking if text is aligned.
+![顯示基線圖示](/assets/images/docs/tools/devtools/paint-baselines-icon.png){:width="20px"} **[顯示基線][Show baselines]**
+: 顯示基線（baseline），用於對齊文字。可用來檢查文字是否正確對齊。
 
-![Highlight repaints icon](/assets/images/docs/tools/devtools/repaint-rainbow-icon.png){:width="20px"} **[Highlight repaints][]**
-: Show borders that change color when elements repaint.
-  Useful for finding unnecessary repaints.
+![高亮重繪圖示](/assets/images/docs/tools/devtools/repaint-rainbow-icon.png){:width="20px"} **[高亮重繪][Highlight repaints]**
+: 顯示邊框，當元素重繪時會變色。可用於找出不必要的重繪。
 
-![Highlight oversized images icon](/assets/images/docs/tools/devtools/invert_oversized_images_icon.png){:width="20px"} **[Highlight oversized images][]**
-: Highlights images that are using too much memory
-  by inverting colors and flipping them.
+![高亮過大圖片圖示](/assets/images/docs/tools/devtools/invert_oversized_images_icon.png){:width="20px"} **[高亮過大圖片][Highlight oversized images]**
+: 反轉顏色並翻轉圖片，突顯佔用過多記憶體的圖片。
 
-[Slow animations]: #slow-animations
+[Slow animations]: #慢速動畫-slow-animations
 [Show guidelines]: #show-guidelines
-[Show baselines]: #show-baselines
+[Show baselines]: #顯示基線-show-baselines
 [Highlight repaints]: #highlight-repaints
-[Highlight oversized images]: #highlight-oversized-images
+[Highlight oversized images]: #標示過大的圖片
 
-## Inspecting a widget
+## 檢查元件（Inspecting a widget）
 
-You can browse the interactive widget tree to view nearby
-widgets and see their field values.
+你可以瀏覽互動式元件樹（widget tree），以查看附近的元件及其欄位值。
 
-To locate individual UI elements in the widget tree,
-click the **Select Widget Mode** button in the toolbar.
-This puts the app on the device into a "widget select" mode.
-Click any widget in the app's UI; this selects the widget on the
-app's screen, and scrolls the widget tree to the corresponding node.
-Toggle the **Select Widget Mode** button again to exit
-widget select mode.
+若要在元件樹中定位特定的 UI 元素，請點選工具列中的 **選取元件模式（Select Widget Mode）** 按鈕。這會讓裝置上的應用程式進入「元件選取」模式。點擊應用程式 UI 中的任一元件，即可選取該元件，並自動將元件樹捲動到對應的節點。再次切換 **選取元件模式** 按鈕即可離開元件選取模式。
 
-When debugging layout issues, the key fields to look at are the
-`size` and `constraints` fields. The constraints flow down the tree,
-and the sizes flow back up. For more information on how this works,
-see [Understanding constraints][].
+在除錯版面配置問題時，關鍵欄位為 `size` 和 `constraints` 欄位。限制（constraints）會由樹狀結構向下傳遞，尺寸（sizes）則會向上回傳。關於此運作方式的詳細資訊，請參考[理解 constraints][Understanding constraints]。
 
 ## Flutter Layout Explorer
 
-The Flutter Layout Explorer helps you to better understand
-Flutter layouts.
+Flutter Layout Explorer 可協助你更深入了解 Flutter 的版面配置。
 
-For an overview of what you can do with this tool, see
-the Flutter Explorer video:
+如需此工具的功能總覽，請參考 Flutter Explorer 影片：
 
 {% ytEmbed 'Jakrc3Tn_y4', 'DevTools Layout Explorer' %}
 
-You might also find the following step-by-step article useful:
+你也可以參考以下的逐步教學文章：
 
-* [How to debug layout issues with the Flutter Inspector][debug-article]
+* [如何使用 Flutter Inspector 除錯版面配置問題][debug-article]
 
 [debug-article]: {{site.flutter-medium}}/how-to-debug-layout-issues-with-the-flutter-inspector-87460a7b9db
 
-### Use the Layout Explorer
+### 使用 Layout Explorer
 
-From the Flutter Inspector, select a widget. The Layout Explorer
-supports both [flex layouts][] and fixed size layouts, and has
-specific tooling for both kinds.
+在 Flutter Inspector 中，選取一個元件。Layout Explorer 支援 [flex 版面配置][flex layouts]與固定尺寸（fixed size）版面配置，並針對這兩種類型提供專屬工具。
 
-#### Flex layouts
+#### Flex 版面配置
 
-When you select a flex widget (for example, [`Row`][], [`Column`][], [`Flex`][])
-or a direct child of a flex widget, the flex layout tool will
-appear in the Layout Explorer.
+當你選取一個 flex 元件（例如 [`Row`][`Row`]、[`Column`][`Column`]、[`Flex`][`Flex`]）或其直接子元件時，flex 版面配置工具會出現在 Layout Explorer 中。
 
-The Layout Explorer visualizes how [`Flex`][] widgets and their
-children are laid out. The explorer identifies the main axis
-and cross axis, as well as the current alignment for each
-(for example, start, end, and spaceBetween).
-It also shows details like flex factor, flex fit, and layout
-constraints.
+Layout Explorer 會視覺化 [`Flex`][`Flex`] 元件及其子元件的版面配置情況。Explorer 會標示主軸（main axis）與交叉軸（cross axis），以及目前每個軸的對齊方式（例如 start、end、spaceBetween）。同時也會顯示如 flex factor、flex fit 及版面配置限制等詳細資訊。
 
-Additionally, the explorer shows layout constraint violations
-and render overflow errors. Violated layout constraints
-are colored red, and overflow errors are presented in the
-standard  "yellow-tape" pattern, as you might see on a running
-device. These visualizations aim to improve understanding of
-why overflow errors occur as well as how to fix them.
+此外，Explorer 會顯示版面配置限制違規（constraint violations）及渲染溢位（render overflow）錯誤。違反的版面限制會以紅色標示，溢位錯誤則以標準的「黃色膠帶」圖樣顯示，就像你在實際裝置上看到的一樣。這些視覺化設計旨在幫助你理解溢位錯誤發生的原因，以及如何修正。
 
-![The Layout Explorer showing errors and device inspector](/assets/images/docs/tools/devtools/layout_explorer_errors_and_device.webp){:width="100%"}
+![Layout Explorer 顯示錯誤與裝置 Inspector](/assets/images/docs/tools/devtools/layout_explorer_errors_and_device.webp){:width="100%"}
 
-Clicking a widget in the layout explorer mirrors
-the selection on the on-device inspector. **Select Widget Mode**
-needs to be enabled for this. To enable it,
-click on the **Select Widget Mode** button in the inspector.
+在 Layout Explorer 中點擊元件，會同步選取裝置上的 Inspector。此功能需啟用 **選取元件模式（Select Widget Mode）**。啟用方式是在 Inspector 中點擊 **選取元件模式** 按鈕。
 
-![The Select Widget Mode button in the inspector](/assets/images/docs/tools/devtools/select-widget-mode-button.png)
+![Inspector 中的選取元件模式按鈕](/assets/images/docs/tools/devtools/select-widget-mode-button.png)
 
-For some properties, like flex factor, flex fit, and alignment,
-you can modify the value via dropdown lists in the explorer.
-When modifying a widget property, you see the new value reflected
-not only in the Layout Explorer, but also on the
-device running your Flutter app. The explorer animates
-on property changes so that the effect of the change is clear.
-Widget property changes made from the layout explorer don't
-modify your source code and are reverted on hot reload.
+對於某些屬性，例如 flex factor、flex fit 及對齊方式，你可以透過 Explorer 中的下拉選單修改其值。當你修改元件屬性時，不僅會即時反映在 Layout Explorer，也會顯示在執行中的 Flutter 應用程式裝置上。Explorer 會針對屬性變更進行動畫顯示，讓你清楚看到變更效果。透過 Layout Explorer 修改元件屬性不會影響你的原始程式碼，且在 hot reload 時會還原。
 
-##### Interactive Properties
+##### 互動式屬性（Interactive Properties）
 
-Layout Explorer supports modifying [`mainAxisAlignment`][],
-[`crossAxisAlignment`][], and [`FlexParentData.flex`][].
-In the future, we may add support for additional properties
-such as [`mainAxisSize`][], [`textDirection`][], and
-[`FlexParentData.fit`][].
+Layout Explorer 支援修改 [`mainAxisAlignment`][`mainAxisAlignment`]、[`crossAxisAlignment`][`crossAxisAlignment`] 及 [`FlexParentData.flex`][`FlexParentData.flex`]。
+未來我們可能會加入更多屬性的支援，例如 [`mainAxisSize`][`mainAxisSize`]、[`textDirection`][`textDirection`] 及 [`FlexParentData.fit`][`FlexParentData.fit`]。
 
 ###### mainAxisAlignment
 
-![The Layout Explorer changing main axis alignment](/assets/images/docs/tools/devtools/layout_explorer_main_axis_alignment.webp){:width="100%"}
+![Layout Explorer 調整主軸對齊方式](/assets/images/docs/tools/devtools/layout_explorer_main_axis_alignment.webp){:width="100%"}
 
-Supported values:
+支援的值：
 
 * `MainAxisAlignment.start`
 * `MainAxisAlignment.end`
@@ -155,9 +109,9 @@ Supported values:
 
 ###### crossAxisAlignment
 
-![The Layout Explorer changing cross axis alignment](/assets/images/docs/tools/devtools/layout_explorer_cross_axis_alignment.webp){:width="100%"}
+![Layout Explorer 調整交叉軸對齊方式](/assets/images/docs/tools/devtools/layout_explorer_cross_axis_alignment.webp){:width="100%"}
 
-Supported values:
+支援的值：
 
 * `CrossAxisAlignment.start`
 * `CrossAxisAlignment.center`
@@ -166,43 +120,34 @@ Supported values:
 
 ###### FlexParentData.flex
 
-![The Layout Explorer changing flex factor](/assets/images/docs/tools/devtools/layout_explorer_flex.webp){:width="100%"}
+![Layout Explorer 調整 flex factor](/assets/images/docs/tools/devtools/layout_explorer_flex.webp){:width="100%"}
 
-Layout Explorer supports 7 flex options in the UI
-(null, 0, 1, 2, 3, 4, 5), but technically the flex
-factor of a flex widget's child can be any int.
+Layout Explorer 在 UI 中支援 7 種 flex 選項（null、0、1、2、3、4、5），但技術上 flex 元件子項目的 flex factor 可以是任意整數。
 
 ###### Flexible.fit
 
-![The Layout Explorer changing fit](/assets/images/docs/tools/devtools/layout_explorer_fit.webp){:width="100%"}
+![Layout Explorer 調整 fit](/assets/images/docs/tools/devtools/layout_explorer_fit.webp){:width="100%"}
 
-Layout Explorer supports the two different types of
-[`FlexFit`][]: `loose` and `tight`.
+Layout Explorer 支援兩種不同型態的 [`FlexFit`][`FlexFit`]：`loose` 與 `tight`。
 
-#### Fixed size layouts
+#### 固定尺寸版面配置（Fixed size layouts）
 
-When you select a fixed size widget that is not a child
-of a flex widget, fixed size layout information will appear
-in the Layout Explorer. You can see size, constraint, and padding
-information for both the selected widget and its nearest upstream
-RenderObject.
+當你選取一個不是 flex 元件子項的固定尺寸元件時，固定尺寸版面配置資訊會顯示在 Layout Explorer 中。你可以查看所選元件及其最近的上游 RenderObject 的尺寸、限制與 padding 資訊。
 
-![The Layout Explorer fixed size tool](/assets/images/docs/tools/devtools/layout_explorer_fixed_layout.png){:width="100%"}
+![Layout Explorer 固定尺寸工具](/assets/images/docs/tools/devtools/layout_explorer_fixed_layout.png){:width="100%"}
 
-## Visual debugging
+## 視覺化除錯（Visual debugging）
 
-The Flutter Inspector provides several options for visually debugging your app.
+Flutter Inspector 提供多種選項，協助你以視覺化方式除錯應用程式。
 
-![Inspector visual debugging options](/assets/images/docs/tools/devtools/visual_debugging_options.png){:width="100%"}
+![Inspector 視覺化除錯選項](/assets/images/docs/tools/devtools/visual_debugging_options.png){:width="100%"}
 
-### Slow animations
+### 慢速動畫（Slow animations）
 
-When enabled, this option runs animations 5 times slower for easier visual
-inspection.
-This can be useful if you want to carefully observe and tweak an animation that
-doesn't look quite right.
+啟用此選項時，動畫會以 5 倍慢速運行，方便你進行視覺檢查。
+如果你想仔細觀察並調整動畫效果，這會非常有用。
 
-This can also be set in code:
+你也可以在程式碼中設定此功能：
 
 <?code-excerpt "lib/slow_animations.dart"?>
 ```dart
@@ -213,28 +158,26 @@ void setSlowAnimations() {
 }
 ```
 
-This slows the animations by 5x.
+這會將動畫（Animation）速度減慢 5 倍。
 
-#### See also
+#### 另請參閱
 
-The following links provide more info.
+以下連結提供更多相關資訊。
 
-* [Flutter documentation: timeDilation property]({{site.api}}/flutter/scheduler/timeDilation.html)
+* [Flutter 文件：timeDilation 屬性]({{site.api}}/flutter/scheduler/timeDilation.html)
 
-The following screen recordings show before and after slowing an animation.
+以下螢幕錄影分別展示了動畫減速前後的效果。
 
-![Screen recording showing normal animation speed](/assets/images/docs/tools/devtools/debug-toggle-slow-animations-disabled.webp)
-![Screen recording showing slowed animation speed](/assets/images/docs/tools/devtools/debug-toggle-slow-animations-enabled.webp)
+![螢幕錄影：正常動畫速度](/assets/images/docs/tools/devtools/debug-toggle-slow-animations-disabled.webp)
+![螢幕錄影：動畫速度減慢](/assets/images/docs/tools/devtools/debug-toggle-slow-animations-enabled.webp)
 
-### Show guidelines
+### 顯示輔助線（Show guidelines）
 
-This feature draws guidelines over your app that display render boxes, alignments,
-paddings, scroll views, clippings and spacers.
+此功能會在您的應用程式上繪製輔助線，顯示 render boxes、對齊（alignments）、間距（paddings）、滾動視圖（scroll views）、裁剪（clippings）以及間隔元件（spacers）。
 
-This tool can be used for better understanding your layout. For instance,
-by finding unwanted padding or understanding widget alignment.
+這個工具有助於更好地理解您的版面配置，例如找出不需要的間距，或了解元件（Widget）對齊方式。
 
-You can also enable this in code:
+您也可以在程式碼中啟用此功能：
 
 <?code-excerpt "lib/layout_guidelines.dart"?>
 ```dart
@@ -247,65 +190,57 @@ void showLayoutGuidelines() {
 
 #### Render boxes
 
-Widgets that draw to the screen create a [render box][], the
-building blocks of Flutter layouts. They're shown with a bright blue border:
+會繪製到螢幕上的元件（Widgets）會建立一個 [render box][render box]，這是 Flutter 版面配置的基礎組件。這些 render box 會以亮藍色邊框顯示：
 
 ![Screenshot of render box guidelines](/assets/images/docs/tools/devtools/debug-toggle-guideline-render-box.png)
 
-#### Alignments
+#### 對齊（Alignments）
 
-Alignments are shown with yellow arrows. These arrows show the vertical
-and horizontal offsets of a widget relative to its parent.
-For example, this button's icon is shown as being centered by the four arrows:
+對齊會以黃色箭頭顯示。這些箭頭表示元件相對於其父元件的垂直與水平偏移。例如，下方這個按鈕的圖示，透過四個箭頭顯示其已置中：
 
 ![Screenshot of alignment guidelines](/assets/images/docs/tools/devtools/debug-toggle-guidelines-alignment.png)
 
-#### Padding
+#### Padding（內距）
 
-Padding is shown with a semi-transparent blue background:
+Padding（內距）會以半透明藍色背景顯示：
 
 ![Screenshot of padding guidelines](/assets/images/docs/tools/devtools/debug-toggle-guidelines-padding.png)
 
-#### Scroll views
+#### Scroll views（可滾動視圖）
 
-Widgets with scrolling contents (such as list views) are shown with green arrows:
+具有可滾動內容的元件（如 ListView）會以綠色箭頭顯示：
 
 ![Screenshot of scroll view guidelines](/assets/images/docs/tools/devtools/debug-toggle-guidelines-scroll.png)
 
-#### Clipping
+#### Clipping（裁剪）
 
-Clipping, for example when using the [ClipRect widget][], are shown
-with a dashed pink line with a scissors icon:
+裁剪，例如使用 [ClipRect widget][ClipRect widget] 時，會以帶有剪刀圖示的粉紅色虛線顯示：
 
 [ClipRect widget]: {{site.api}}/flutter/widgets/ClipRect-class.html
 
 ![Screenshot of clip guidelines](/assets/images/docs/tools/devtools/debug-toggle-guidelines-clip.png)
 
-#### Spacers
+#### Spacers（間距元件）
 
-Spacer widgets are shown with a grey background,
-such as this `SizedBox` without a child:
+Spacer 元件會以灰色背景顯示，例如這個沒有子元件的 `SizedBox`：
 
 ![Screenshot of spacer guidelines](/assets/images/docs/tools/devtools/debug-toggle-guidelines-spacer.png)
 
-### Show baselines
+### 顯示基線（Show baselines）
 
-This option makes all baselines visible.
-Baselines are horizontal lines used to position text.
+此選項會讓所有基線（baseline）可見。基線是用來定位文字的水平線。
 
-This can be useful for checking whether text is precisely aligned vertically.
-For example, the text baselines in the following screenshot are slightly misaligned:
+這對於檢查文字是否垂直精確對齊很有幫助。例如，下方螢幕截圖中的文字基線就有些微不對齊：
 
 ![Screenshot with show baselines enabled](/assets/images/docs/tools/devtools/debug-toggle-guidelines-baseline.png)
 
-The [Baseline][] widget can be used to adjust baselines.
+你可以使用 [Baseline][Baseline] 元件來調整基線。
 
 [Baseline]: {{site.api}}/flutter/widgets/Baseline-class.html
 
-A line is drawn on any [render box][] that has a baseline set;
-alphabetic baselines are shown as green and ideographic as yellow.
+只要 [render box][render box] 設定了基線，就會繪製一條線；字母基線會以綠色顯示，表意文字基線則以黃色顯示。
 
-You can also enable this in code:
+你也可以在程式碼中啟用這個功能：
 
 <?code-excerpt "lib/show_baselines.dart"?>
 ```dart
@@ -316,24 +251,20 @@ void showBaselines() {
 }
 ```
 
-### Highlight repaints
+### 高亮顯示重繪區域
 
-This option draws a border around all [render boxes][]
-that changes color every time that box repaints.
+此選項會在所有 [render boxes][render boxes] 周圍繪製一個邊框，並且每當該區塊重繪時，邊框顏色就會改變。  
 
 [render boxes]: {{site.api}}/flutter/rendering/RenderBox-class.html
 
-This rotating rainbow of colors is useful for finding parts of your app
-that are repainting too often and potentially harming performance.
+這種旋轉變換的彩虹色效果，有助於找出應用程式中過於頻繁重繪、可能影響效能的部分。
 
-For example, one small animation could be causing an entire page
-to repaint on every frame.
-Wrapping the animation in a [RepaintBoundary widget][] limits
-the repainting to just the animation.
+舉例來說，一個小型動畫 (Animation) 可能會導致整個頁面在每一幀都重繪。  
+將動畫包裹在 [RepaintBoundary widget][RepaintBoundary widget] 中，可以將重繪範圍限制在動畫本身。  
 
 [RepaintBoundary widget]: {{site.api}}/flutter/widgets/RepaintBoundary-class.html
 
-Here the progress indicator causes its container to repaint:
+以下範例中，進度指示器會導致其容器 (Container) 一起重繪：
 
 <?code-excerpt "lib/highlight_repaints.dart (everything-repaints)"?>
 ```dart
@@ -352,8 +283,7 @@ class EverythingRepaintsPage extends StatelessWidget {
 
 ![Screen recording of a whole screen repainting](/assets/images/docs/tools/devtools/debug-toggle-guidelines-repaint-1.webp)
 
-Wrapping the progress indicator in a `RepaintBoundary` causes
-only that section of the screen to repaint:
+將進度指示器包裹在`RepaintBoundary`中，只會讓螢幕的該區塊進行重繪：
 
 <?code-excerpt "lib/highlight_repaints.dart (area-repaints)"?>
 ```dart
@@ -374,11 +304,11 @@ class AreaRepaintsPage extends StatelessWidget {
 
 ![Screen recording of a just a progress indicator repainting](/assets/images/docs/tools/devtools/debug-toggle-guidelines-repaint-2.webp)
 
-`RepaintBoundary` widgets have tradeoffs. They can help with performance,
-but they also have an overhead of creating a new canvas,
-which uses additional memory.
+`RepaintBoundary` 元件（Widgets）有其取捨。它們有助於提升效能，
+但同時也會產生建立新 canvas 的額外負擔，
+這會佔用更多記憶體。
 
-You can also enable this option in code:
+你也可以在程式碼中啟用這個選項：
 
 <?code-excerpt "lib/highlight_repaints.dart (toggle)"?>
 ```dart
@@ -389,34 +319,31 @@ void highlightRepaints() {
 }
 ```
 
-### Highlight oversized images
+### 標示過大的圖片
 
-This option highlights images that are too large by both inverting their colors
-and flipping them vertically:
+此選項會將過大的圖片以反轉顏色並垂直翻轉的方式加以標示：
 
 ![A highlighted oversized image](/assets/images/docs/tools/devtools/debug-toggle-guidelines-oversized.png)
 
-The highlighted images use more memory than is required;
-for example, a large 5MB image displayed at 100 by 100 pixels.
+被標示的圖片會佔用比實際需求更多的記憶體；
+例如，一張 5MB 的大型圖片僅以 100 x 100 像素顯示。
 
-Such images can cause poor performance, especially on lower-end devices
-and when you have many images, as in a list view,
-this performance hit can add up.
-Information about each image is printed in the debug console:
+這類圖片可能導致效能不佳，特別是在低階裝置上，
+以及當你有大量圖片（如列表檢視）時，
+效能損失會累積。
+每張圖片的相關資訊會輸出至偵錯主控台：
 
 ```console
 dash.png has a display size of 213×392 but a decode size of 2130×392, which uses an additional 2542KB.
 ```
 
-Images are deemed too large if they use at least 128KB more than required.
+若圖片資源檔案比實際需求多使用了至少 128KB，則會被視為過大。
 
-#### Fixing images
+#### 修正圖片
 
-Wherever possible, the best way to fix this problem is resizing
-the image asset file so it's smaller.
+在可能的情況下，最佳的解決方式是將圖片資源檔案重新調整大小，使其變得更小。
 
-If this isn't possible, you can use the `cacheHeight` and `cacheWidth`
-parameters on the `Image` constructor:
+如果無法這麼做，你可以在 `Image` 建構函式（constructor）上使用 `cacheHeight` 和 `cacheWidth` 參數：
 
 <?code-excerpt "lib/oversized_images.dart (resized-image)"?>
 ```dart
@@ -430,13 +357,9 @@ class ResizedImage extends StatelessWidget {
 }
 ```
 
-This makes the engine decode this image at the specified size,
-and reduces memory usage (decoding and storage is still more expensive
-than if the image asset itself was shrunk).
-The image is rendered to the constraints of the layout or width and height
-regardless of these parameters.
+這會讓引擎以指定的尺寸解碼此圖片，並降低記憶體使用量（解碼與儲存的成本仍然高於直接縮小圖片資源本身）。不論這些參數如何，圖片都會根據版面配置或寬高的限制進行渲染。
 
-This property can also be set in code:
+此屬性也可以在程式碼中設定：
 
 <?code-excerpt "lib/oversized_images.dart (toggle)"?>
 ```dart
@@ -445,77 +368,55 @@ void showOversizedImages() {
 }
 ```
 
-#### More information
+#### 更多資訊
 
-You can learn more at the following link:
+你可以在以下連結了解更多：
 
-* [Flutter documentation: debugInvertOversizedImages]({{site.api}}/flutter/painting/debugInvertOversizedImages.html)
+* [Flutter 文件：debugInvertOversizedImages]({{site.api}}/flutter/painting/debugInvertOversizedImages.html)
 
 [render box]: {{site.api}}/flutter/rendering/RenderBox-class.html
 
-## Details Tree
+## 詳細樹（Details Tree）
 
-Select the **Widget Details Tree** tab to display the details tree for the
-selected widget. From here, you can gather useful information about a
-widget's properties, render object, and children.
+選擇 **Widget Details Tree** 分頁，可以顯示所選元件（Widget）的詳細樹。你可以在這裡取得元件的屬性、渲染物件（render object）以及子元件（children）的相關資訊。
 
-![The Details Tree view](/assets/images/docs/tools/devtools/inspector_details_tree.png){:width="100%"}
+![詳細樹檢視畫面](/assets/images/docs/tools/devtools/inspector_details_tree.png){:width="100%"}
 
-## Track widget creation
+## 追蹤元件建立（Track widget creation）
 
-Part of the functionality of the Flutter inspector is based on
-instrumenting the application code in order to better understand
-the source locations where widgets are created. The source
-instrumentation allows the Flutter inspector to present the
-widget tree in a manner similar to how the UI was defined
-in your source code. Without it, the tree of nodes in the
-widget tree are much deeper, and it can be more difficult to
-understand how the runtime widget hierarchy corresponds to
-your application's UI.
+Flutter Inspector 的部分功能是透過儀器化（instrumenting）應用程式程式碼，以更好地理解元件（Widget）建立的原始位置。這種原始碼儀器化讓 Flutter Inspector 能以接近你原始程式碼定義 UI 的方式來呈現元件樹。如果沒有這項功能，元件樹中的節點會更深層，且較難理解執行時的元件階層與你的應用程式 UI 之間的對應關係。
 
-You can disable this feature by passing `--no-track-widget-creation` to
-the `flutter run` command.
+你可以在 `flutter run` 命令中傳入 `--no-track-widget-creation` 來停用此功能。
 
-Here are examples of what your widget tree might look like
-with and without track widget creation enabled.
+以下是啟用與未啟用追蹤元件建立功能時，元件樹可能的呈現範例。
 
-Track widget creation enabled (default):
+啟用追蹤元件建立（預設）：
 
-![The widget tree with track widget creation enabled](/assets/images/docs/tools/devtools/track_widget_creation_enabled.png){:width="100%"}
+![啟用追蹤元件建立時的元件樹](/assets/images/docs/tools/devtools/track_widget_creation_enabled.png){:width="100%"}
 
-Track widget creation disabled (not recommended):
+停用追蹤元件建立（不建議）：
 
-![The widget tree with track widget creation disabled](/assets/images/docs/tools/devtools/track_widget_creation_disabled.png){:width="100%"}
+![停用追蹤元件建立時的元件樹](/assets/images/docs/tools/devtools/track_widget_creation_disabled.png){:width="100%"}
 
-This feature prevents otherwise-identical `const` Widgets from
-being considered equal in debug builds. For more details, see
-the discussion on [common problems when debugging][].
+此功能會讓在 debug 建置中，原本相同的 `const` 元件（Widgets）不被視為相等。更多細節請參考 [除錯時常見問題討論][common problems when debugging]。
 
-## Inspector settings
+## Inspector 設定
 
-![The Flutter Inspector Settings dialog](/assets/images/docs/tools/devtools/flutter-inspector-settings.png){:width="100%"}
+![Flutter Inspector 設定對話框](/assets/images/docs/tools/devtools/flutter-inspector-settings.png){:width="100%"}
 
-### Enable hover inspection
+### 啟用滑鼠懸停檢查（Enable hover inspection）
 
-Hovering over any widget displays its properties and values.
+將滑鼠懸停在任一元件（Widget）上時，會顯示其屬性與數值。
 
-Toggling this value enables or disables the hover inspection functionality.
+切換此選項可啟用或停用滑鼠懸停檢查功能。
 
-### Package directories
+### 套件目錄（Package directories）
 
-By default, DevTools limits the widgets displayed in the widget tree
-to those from the project's root directory, and those from Flutter. This
-filtering only applies to the widgets in the Inspector Widget Tree (left side
-of the Inspector)—not the Widget Details Tree (right side of the Inspector
-in the same tab view as the Layout Explorer).
-In the Widget Details Tree,
-you can see all widgets in the tree from all packages.
+預設情況下，DevTools 只會在元件樹中顯示來自專案根目錄以及 Flutter 的元件。這個過濾僅適用於 Inspector Widget Tree（Inspector 左側的元件樹），不適用於 Widget Details Tree（Inspector 右側，與 Layout Explorer 同分頁的詳細樹）。在 Widget Details Tree 中，你可以看到樹中所有套件的所有元件。
 
-In order to show other widgets,
-a parent directory of theirs must
-be added to the Package Directories.
+若要顯示其他元件，必須將其父目錄加入至 Package Directories。
 
-For example, consider the following directory structure:
+例如，請參考以下目錄結構：
 
 ```plaintext
 project_foo
@@ -525,27 +426,20 @@ project_foo
     widgets_B
 ```
 
-Running your app from `project_foo_app` displays only widgets from
-`project_foo/pkgs/project_foo_app` in the widget inspector tree.
+從 `project_foo_app` 執行你的應用程式時，元件檢查器樹（widget inspector tree）中只會顯示來自 `project_foo/pkgs/project_foo_app` 的元件（Widgets）。
 
-To show widgets from `widgets_A` in the widget tree,
-add `project_foo/pkgs/widgets_A` to the package directories.
+若要在元件樹中顯示來自 `widgets_A` 的元件，請將 `project_foo/pkgs/widgets_A` 加入套件目錄（package directories）。
 
-To display _all_ widgets from your project root in the widget tree,
-add `project_foo` to the package directories.
+若要在元件樹中從你的專案根目錄顯示「所有」元件，請將 `project_foo` 加入套件目錄。
 
-Changes to your package directories persist the next time the
-widget inspector is opened for the app.
+對套件目錄的變更會在下次為該應用程式開啟元件檢查器時持續生效。
 
-## Other resources
+## 其他資源
 
-For a demonstration of what's generally possible with the inspector,
-see the [DartConf 2018 talk][] demonstrating the IntelliJ version
-of the Flutter inspector.
+若想了解元件檢查器（inspector）的一般功能展示，請參考 [DartConf 2018 talk][DartConf 2018 talk]，該影片展示了 Flutter inspector 的 IntelliJ 版本。
 
-To learn how to visually debug layout issues
-using DevTools, check out a guided
-[Flutter Inspector tutorial][inspector-tutorial].
+若想學習如何使用 DevTools 以視覺化方式偵錯版面配置問題，請參考導覽式的
+[Flutter Inspector 教學][inspector-tutorial]。
 
 [`Column`]: {{site.api}}/flutter/widgets/Column-class.html
 [common problems when debugging]: /testing/debugging

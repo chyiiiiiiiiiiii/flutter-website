@@ -1,45 +1,33 @@
 ---
-title: Updated default text styles for menus
+title: 更新選單的預設文字樣式
 description: >-
-  The default text styles for menus are updated to
-  match the Material 3 specification.
+  選單的預設文字樣式已更新，以符合 Material 3 規範。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-The default text styles used for menus are updated
-to match the Material 3 specification.
+選單所使用的預設文字樣式已更新，以符合 Material 3 規範。
 
-## Context
+## 背景說明
 
-The default text style for `MenuItemButton` (a widget used
-in a `MenuBar`, and in a menu created with `MenuAnchor`), 
-and `DropdownMenuEntry` (in the `DropdownMenu`) is
-updated to match the Material 3 specification.
+`MenuItemButton`（用於`MenuBar`以及使用`MenuAnchor`建立的選單中的元件（Widget））和`DropdownMenuEntry`（在`DropdownMenu`中） 的預設文字樣式已更新，以符合 Material 3 規範。
 
-Likewise, the default text style for the `DropdownMenu`s `TextField` is updated
-to match the Material 3 specification.
+同樣地，`DropdownMenu`的`TextField`預設文字樣式也已更新，以符合 Material 3 規範。
 
-## Description of change
+## 變更說明
 
-The default text style for `MenuItemButton` (a widget used
-in a `MenuBar`, and in a menu created with `MenuAnchor`), 
-and `DropdownMenuEntry` (in the `DropdownMenu`) is updated from
-`TextTheme.bodyLarge` to `TextTheme.labelLarge` for Material 3.
+`MenuItemButton`（用於`MenuBar`以及使用`MenuAnchor`建立的選單中的元件（Widget））和`DropdownMenuEntry`（在`DropdownMenu`中）的預設文字樣式，從`TextTheme.bodyLarge`更新為 Material 3 的`TextTheme.labelLarge`。
 
-The default text style for the `DropdownMenu`s `TextField` is updated from
-`TextTheme.labelLarge` to `TextTheme.bodyLarge` for Material 3.
+`DropdownMenu`的`TextField`預設文字樣式，從`TextTheme.labelLarge`更新為 Material 3 的`TextTheme.bodyLarge`。
 
-## Migration guide
+## 遷移指南
 
-A `MenuItemButton` for Material 3 uses
-`TextTheme.labelLarge` as the default text style. 
-To use the previous default text style, set the `TextTheme.bodyLarge` text style
-in the `MenuItemButton.style` or `MenuButtonThemeData.style` properties.
+Material 3 的`MenuItemButton`會使用`TextTheme.labelLarge`作為預設文字樣式。  
+若要使用先前的預設文字樣式，請在`MenuItemButton.style`或`MenuButtonThemeData.style`屬性中設定`TextTheme.bodyLarge`文字樣式。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 MenuItemButton(
@@ -56,7 +44,7 @@ menuButtonTheme: MenuButtonThemeData(
 ),
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 MenuItemButton(
@@ -76,13 +64,13 @@ menuButtonTheme: MenuButtonThemeData(
 ),
 ```
 
-A `DropdownMenu`'s `TextField` for Material 3 
-uses `TextTheme.bodyLarge` as the default text style. 
-To use the previous default text style, 
-set the `TextTheme.labelLarge` text style in 
-the `DropdownMenu.textStyle` or `DropdownMenuThemeData.textStyle` properties.
+`DropdownMenu` 的 `TextField` 在 Material 3 中  
+預設會使用 `TextTheme.bodyLarge` 作為文字樣式。  
+若要使用先前的預設文字樣式，  
+請在 `DropdownMenu.textStyle` 或 `DropdownMenuThemeData.textStyle` 屬性中  
+設定 `TextTheme.labelLarge` 文字樣式。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 DropdownMenu<ColorLabel>(
@@ -104,7 +92,7 @@ dropdownMenuTheme: DropdownMenuThemeData(
 ),
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 DropdownMenu<ColorLabel>(
@@ -130,13 +118,12 @@ dropdownMenuTheme: DropdownMenuThemeData(
 ),
 ```
 
-A `DropdownMenu`'s `DropdownMenuEntry` for Material 3 
-uses `TextTheme.labelLarge` as the default text style. 
-To use the previous default text style, set the
-`TextTheme.bodyLarge` text style in
-the `DropdownMenuEntry.style` or `MenuButtonThemeData.style` properties.
+`DropdownMenu` 的 `DropdownMenuEntry` 在 Material 3 中  
+預設會使用 `TextTheme.labelLarge` 作為文字樣式（text style）。  
+若要使用先前的預設文字樣式，請在  
+`DropdownMenuEntry.style` 或 `MenuButtonThemeData.style` 屬性中設定 `TextTheme.bodyLarge` 文字樣式。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 DropdownMenuEntry<ColorLabel>(
@@ -153,7 +140,7 @@ menuButtonTheme: MenuButtonThemeData(
 ),
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 DropdownMenuEntry<ColorLabel>(
@@ -173,27 +160,27 @@ menuButtonTheme: MenuButtonThemeData(
 ),
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.14.0-11.0.pre<br>
-In stable release: 3.16
+合併於版本：3.14.0-11.0.pre<br>  
+穩定版釋出：3.16
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`MenuBar`][]
-* [`MenuAnchor`][]
-* [`MenuItemButton`][]
-* [`MenuButtonTheme`][]
-* [`DropdownMenu`][]
-* [`DropdownMenuEntry`][]
-* [`DropdownMenuTheme`][]
-* [`TextTheme`][]
+* [`MenuBar`][`MenuBar`]
+* [`MenuAnchor`][`MenuAnchor`]
+* [`MenuItemButton`][`MenuItemButton`]
+* [`MenuButtonTheme`][`MenuButtonTheme`]
+* [`DropdownMenu`][`DropdownMenu`]
+* [`DropdownMenuEntry`][`DropdownMenuEntry`]
+* [`DropdownMenuTheme`][`DropdownMenuTheme`]
+* [`TextTheme`][`TextTheme`]
 
-Relevant PRs:
+相關 PR：
 
-* [Update default menu text styles for Material 3][]
+* [Update default menu text styles for Material 3][Update default menu text styles for Material 3]
 
 [`MenuBar`]: {{site.api}}/flutter/material/MenuBar-class.html
 [`MenuAnchor`]: {{site.api}}/flutter/material/MenuAnchor-class.html

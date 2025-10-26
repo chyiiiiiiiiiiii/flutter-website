@@ -1,40 +1,38 @@
 ---
-title: Make PageView.controller nullable
+title: 讓 PageView.controller 可為 null
 description: >-
-  PageView.controller is now nullable.
+  PageView.controller 現在可為 null。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-If a controller isn't provided in the constructor,
-the `controller` member is `null`. This makes
-`PageView` and its `controller` property consistent with other widgets.
+如果在建構函式中未提供 controller，則 `controller` 成員會是 `null`。這讓 `PageView` 及其 `controller` 屬性與其他元件（Widgets）保持一致。
 
-## Migration guide
+## 遷移指南
 
-Before:
+變更前：
 
 ```dart
 pageView.controller.page
 ```
 
-After:
+之後：
 
 ```dart
 pageView.controller!.page
 ```
 
-## Timeline
+## 時間軸
 
-Landed in version: 3.19.0-12.0.pre<br>
-In stable release: 3.22.0
+合併於版本：3.19.0-12.0.pre<br>  
+進入穩定版：3.22.0
 
-## References
+## 參考資料
 
-Relevant issues:
+相關議題：
 
-* [PageView uses global controller, that is never disposed. (Issue 141119)][]
+* [PageView uses global controller, that is never disposed. (Issue 141119)][PageView uses global controller, that is never disposed. (Issue 141119)]
 
 [PageView uses global controller, that is never disposed. (Issue 141119)]: {{site.repo.flutter}}/issues/141119

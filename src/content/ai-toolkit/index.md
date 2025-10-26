@@ -1,64 +1,46 @@
 ---
 title: AI Toolkit
 description: >
-  Learn how to add the AI Toolkit chatbot
-  to your Flutter application.
+  學習如何將 AI Toolkit 聊天機器人
+  加入到你的 Flutter 應用程式中。
 next:
-  title: User experience
+  title: 使用者體驗
   path: /ai-toolkit/user-experience
 ---
 
-Hello and welcome to the Flutter AI Toolkit!
+您好，歡迎來到 Flutter AI Toolkit！
 
-The AI Toolkit is a set of AI chat-related widgets that make
-it easy to add an AI chat window to your Flutter app.
-The AI Toolkit is organized around an abstract
-LLM provider API to make it easy to swap out the
-LLM provider that you'd like your chat provider to use.
-Out of the box, it comes with support for two LLM provider
-integrations: Google Gemini AI and Firebase Vertex AI.
+AI Toolkit 是一套與 AI 聊天相關的元件，能讓你輕鬆地在 Flutter 應用程式中加入 AI 聊天視窗。AI Toolkit 以抽象化的大型語言模型（LLM）提供者 API 為核心設計，方便你隨時切換想要用於聊天的 LLM 提供者。開箱即用，支援兩種 LLM 提供者整合：Google Gemini AI 以及 Firebase Vertex AI。
 
-## Key features
+## 主要功能
 
-* **Multi-turn chat**: Maintains context across multiple interactions.
-* **Streaming responses**: Displays AI responses in
-  real-time as they are generated.
-* **Rich text display**: Supports formatted text in chat messages.
-* **Voice input**: Allows users to input prompts using speech.
-* **Multimedia attachments**: Enables sending and
-  receiving various media types.
-* **Custom styling**: Offers extensive customization to
-  match your app's design.
-* **Chat serialization/deserialization**: Store and retrieve conversations
-  between app sessions.
-* **Custom response widgets**: Introduce specialized UI components
-  to present LLM responses.
-* **Pluggable LLM support**: Implement a simple interface to plug
-  in your own LLM.
-* **Cross-platform support**: Compatible with Android, iOS, web,
-  and macOS platforms.
+* **多輪對話**：可在多次互動間維持上下文。
+* **串流回應**：AI 回應會即時顯示，隨生成內容同步呈現。
+* **豐富文字顯示**：支援聊天訊息中的格式化文字。
+* **語音輸入**：允許使用者透過語音輸入提示。
+* **多媒體附件**：可傳送與接收各種媒體類型。
+* **自訂樣式**：提供高度自訂化，能符合你的應用程式設計。
+* **聊天序列化／反序列化**：可在應用程式不同階段儲存與讀取對話內容。
+* **自訂回應元件**：可引入專屬 UI 元件來呈現 LLM 回應。
+* **可插拔 LLM 支援**：只需實作簡單介面，即可接入自有 LLM。
+* **跨平台支援**：相容於 Android、iOS、Web 及 macOS 平台。
 
-## Online Demo
+## 線上展示
 
-Here's the online demo hosting the AI Toolkit:
+這裡有一個線上展示，展示 AI Toolkit：
 
 <a href="https://flutter-ai-toolkit-examp-60bad.web.app/">
 <img src="/assets/images/docs/ai-toolkit/ai-toolkit-app.png" alt="AI demo app">
 </a>
 
-The [source code for this demo][src-code] is available in the repo on GitHub.
+這個展示的[原始碼][src-code]可在 GitHub 的儲存庫中取得。
 
-Or, you can open it in [Firebase Studio][],
-Google's full-stack AI workspace and IDE that runs in the cloud:
+你也可以在 [Firebase Studio][Firebase Studio] 中開啟，這是 Google 的雲端全方位 AI 工作空間與 IDE：
 
 <a href="https://studio.firebase.google.com/new?template=https%3A%2F%2Fgithub.com%2Fflutter%2Fai">
   <picture>
-    <source
-      media="(prefers-color-scheme: dark)"
-      srcset="https://cdn.firebasestudio.dev/btn/try_light_32.svg">
-    <source
-      media="(prefers-color-scheme: light)"
-      srcset="https://cdn.firebasestudio.dev/btn/try_dark_32.svg">
+    
+    
     <img
       height="32"
       alt="Try in Firebase Studio"
@@ -69,12 +51,12 @@ Google's full-stack AI workspace and IDE that runs in the cloud:
 [src-code]: {{site.github}}/flutter/ai/blob/main/example/lib/demo/demo.dart
 [Firebase Studio]: https://firebase.studio/
 
-## Get started
+## 開始使用
 
 <ol>
-<li><b>Installation</b>
+<li><b>安裝</b>
 
-Add the following dependencies to your `pubspec.yaml` file:
+請在你的 `pubspec.yaml` 檔案中加入以下相依套件：
 
 ```yaml
 dependencies:
@@ -84,21 +66,21 @@ dependencies:
 ```
 </li>
 
-<li><b>Gemini AI configuration</b>
+<li><b>Gemini AI 設定</b>
 
-The toolkit supports both Google Gemini AI and
-Firebase Vertex AI as LLM providers.
-To use Google Gemini AI,
-[obtain an API key][] from Gemini AI Studio.
-Be careful not to check this key into your source code
-repository to prevent unauthorized access.
+此工具包同時支援 Google Gemini AI 與 Firebase Vertex AI 作為大型語言模型 (LLM) 提供者。
+若要使用 Google Gemini AI，請先至 Gemini AI Studio
+[取得 API 金鑰][obtain an API key]。
+請注意，切勿將此金鑰提交到你的原始碼儲存庫，以避免未經授權的存取。
+
 
 [obtain an API key]: https://aistudio.google.com/app/apikey
 
-You'll also need to choose a specific Gemini model name
-to use in creating an instance of the Gemini model.
-The following example uses `gemini-2.0-flash`,
-but you can choose from an [ever-expanding set of models][models].
+你也需要選擇一個特定的 Gemini 模型名稱，
+以便在建立 Gemini 模型實例時使用。
+以下範例使用 `gemini-2.0-flash`，
+但你也可以從[持續擴充的模型清單][models]中選擇其他模型。
+
 
 [models]: https://ai.google.dev/gemini-api/docs/models/gemini
 
@@ -127,40 +109,29 @@ class ChatPage extends StatelessWidget {
 }
 ```
 
-The `GenerativeModel` class comes from the
-`google_generative_ai` package.
-The AI Toolkit builds on top of this package with
-the `GeminiProvider`, which plugs Gemini AI into the
-`LlmChatView`, the top-level widget that provides an
-LLM-based chat conversation with your users.
+`GenerativeModel` 類別來自 `google_generative_ai` 套件。  
+AI Toolkit 以此套件為基礎，並透過 `GeminiProvider` 將 Gemini AI 插入到 `LlmChatView`，這是一個頂層元件（Widget），可為你的使用者提供基於大型語言模型 (LLM) 的聊天對話功能。
 
-For a complete example, check out [`gemini.dart`][] on GitHub.
+如需完整範例，請參考 [`gemini.dart`][`gemini.dart`]（GitHub）。
 
 [`gemini.dart`]: {{site.github}}/flutter/ai/blob/main/example/lib/gemini/gemini.dart
 </li>
 
-<li><b>Vertex AI configuration</b>
+<li><b>Vertex AI 設定</b>
 
-While Gemini AI is useful for quick prototyping,
-the recommended solution for production apps is
-Vertex AI in Firebase. This eliminates the need
-for an API key in your client app and replaces it
-with a more secure Firebase project.
-To use Vertex AI in your project,
-follow the steps described in the
-[Get started with the Gemini API using the Vertex AI in Firebase SDKs][vertex] docs.
+雖然 Gemini AI 很適合快速原型開發，  
+但建議在正式上線的應用程式中使用 Firebase 的 Vertex AI。這樣一來，就不需要在用戶端應用程式中存放 API 金鑰，而是以更安全的 Firebase 專案取代。  
+若要在你的專案中使用 Vertex AI，請依照  
+[Get started with the Gemini API using the Vertex AI in Firebase SDKs][vertex] 文件中的步驟操作。
 
 [vertex]: https://firebase.google.com/docs/vertex-ai/get-started?platform=flutter
 
-Once that's complete, integrate the new Firebase project
-into your Flutter app using the `flutterfire CLI` tool,
-as described in the [Add Firebase to your Flutter app][firebase] docs.
+完成上述步驟後，請依照 [Add Firebase to your Flutter app][firebase] 文件的說明，使用 `flutterfire CLI` 工具將新的 Firebase 專案整合到你的 Flutter 應用程式中。
 
 [firebase]: https://firebase.google.com/docs/flutter/setup
 
-After following these instructions,
-you're ready to use Firebase Vertex AI in your Flutter app.
-Start by initializing Firebase:
+完成這些設定後，你就可以在 Flutter 應用程式中使用 Firebase Vertex AI 了。  
+首先，初始化 Firebase：
 
 ```dart
 import 'package:firebase_core/firebase_core.dart';
@@ -180,8 +151,8 @@ void main() async {
 // ...app stuff here
 ```
 
-With Firebase properly initialized in your Flutter app,
-you're now ready to create an instance of the Vertex provider:
+當你已在 Flutter 應用程式中正確初始化 Firebase 後，
+現在就可以建立 Vertex provider 的實例了：
 
 ```dart
 class ChatPage extends StatelessWidget {
@@ -203,29 +174,20 @@ class ChatPage extends StatelessWidget {
 ```
 
 
-The `FirebaseVertexAI` class comes from the
-`firebase_vertexai` package. The AI Toolkit
-builds the `VertexProvider` class to expose
-Vertex AI to the `LlmChatView`.
-Note that you provide a model name
-([you have several options][options] from which to choose),
-but you do not provide an API key.
-All of that is handled as part of the Firebase project.
+`FirebaseVertexAI` 類別來自 `firebase_vertexai` 套件。AI Toolkit 會建立 `VertexProvider` 類別，以將 Vertex AI 暴露給 `LlmChatView`。請注意，您需要提供模型名稱（[您有多種選擇][options]），但不需要提供 API 金鑰。這些都會由 Firebase 專案自動處理。
 
-For a complete example, check out [vertex.dart][] on GitHub.
+如需完整範例，請參考 GitHub 上的 [vertex.dart][vertex.dart]。
 
 [options]: https://firebase.google.com/docs/vertex-ai/gemini-models#available-model-names
 [vertex.dart]: {{site.github}}/flutter/ai/blob/main/example/lib/vertex/vertex.dart
 </li>
 
-<li><b>Set up device permissions</b>
+<li><b>設定裝置權限</b>
 
-To enable your users to take advantage of features like voice input and media
-attachments, ensure that your app has the necessary permissions:
+若要讓您的使用者能夠使用語音輸入及媒體附件等功能，請確保您的應用程式已取得必要的權限：
 
-* **Network access:**
-  To enable network access on macOS,
-  add the following to your `*.entitlements` files:
+* **網路存取權限：**
+  若要在 macOS 上啟用網路存取，請在您的 `*.entitlements` 檔案中加入以下內容：
 
   ```xml
   <plist version="1.0">
@@ -237,8 +199,7 @@ attachments, ensure that your app has the necessary permissions:
   </plist>
   ```
 
-  To enable network access on Android,
-  ensure that your `AndroidManifest.xml` file contains the following:
+  若要在 Android 啟用網路存取，請確保您的 `AndroidManifest.xml` 檔案包含以下內容：
 
   ```xml
   <manifest xmlns:android="http://schemas.android.com/apk/res/android">
@@ -247,14 +208,13 @@ attachments, ensure that your app has the necessary permissions:
   </manifest>
   ```
 
-* **Microphone access**: Configure according to the
-  [record package's permission setup instructions][record].
-* **File selection**: Follow the [file_selector plugin's instructions][file].
-* **Image selection**: To take a picture on _or_ select a picture from their
-  device, refer to the
-  [image_picker plugin's installation instructions][image_picker].
-* **Web photo**: To take a picture on the web, configure the app
-  according to the [camera plugin's setup instructions][camera].
+* **麥克風存取權限**：請依照
+  [record 套件的權限設定說明][record]進行設定。
+* **檔案選擇**：請參考 [file_selector 外掛的說明][file]。
+* **圖片選擇**：若要拍照或從裝置選擇圖片，
+  請參考 [image_picker 外掛的安裝說明][image_picker]。
+* **網頁拍照**：若要在網頁端拍照，請依照
+  [camera 外掛的設定說明][camera]進行應用程式設定。
 
 [camera]: {{site.pub-pkg}}/camera#setup
 [file]: {{site.pub-pkg}}/file_selector#usage
@@ -263,47 +223,47 @@ attachments, ensure that your app has the necessary permissions:
 </li>
 </ol>
 
-## Examples
+## 範例
 
-To execute the [example apps][] in the repo,
-you'll need to replace the `example/lib/gemini_api_key.dart`
-and `example/lib/firebase_options.dart` files,
-both of which are just placeholders. They're needed
-to enable the example projects in the `example/lib` folder.
+若要執行此儲存庫中的 [範例應用程式][example apps]，
+你需要替換 `example/lib/gemini_api_key.dart`
+與 `example/lib/firebase_options.dart` 這兩個檔案，
+這兩個檔案目前都只是占位符。它們是
+啟用 `example/lib` 目錄下範例專案所必需的。
 
 **gemini_api_key.dart**
 
-Most of the example apps rely on a Gemini API key,
-so for those to work, you'll need to plug your API key
-in the `example/lib/gemini_api_key.dart` file.
-You can get an API key in [Gemini AI Studio][].
+大多數範例應用程式都依賴 Gemini API 金鑰，
+因此你必須將自己的 API 金鑰
+填入 `example/lib/gemini_api_key.dart` 檔案中才能正常運作。
+你可以在 [Gemini AI Studio][Gemini AI Studio] 取得 API 金鑰。
 
 :::note
-**Be careful not to check the `gemini_api_key.dart` file into your git repo.**
+**請務必不要將 `gemini_api_key.dart` 檔案提交到你的 git 儲存庫中。**
 :::
 
 **firebase_options.dart**
 
-To use the [Vertex AI example app][vertex-ex],
-place your Firebase configuration details
-into the `example/lib/firebase_options.dart` file.
-You can do this with the `flutterfire CLI` tool as described
-in the [Add Firebase to your Flutter app][add-fb] docs
-**from within the `example` directory**.
+若要使用 [Vertex AI 範例應用程式][vertex-ex]，
+請將你的 Firebase 設定資訊
+放入 `example/lib/firebase_options.dart` 檔案中。
+你可以依照 [將 Firebase 新增至你的 Flutter 應用程式][add-fb]
+文件中的說明，使用 `flutterfire CLI` 工具
+**在 `example` 目錄下** 完成這個步驟。
 
 :::note
-**Be careful not to check the `firebase_options.dart`
-file into your git repo.**
+**請務必不要將 `firebase_options.dart`
+檔案提交到你的 git 儲存庫中。**
 :::
 
-## Feedback!
+## 意見回饋！
 
-Along the way, as you use this package,
-please [log issues and feature requests][file-issues] as well as
-submit any [code you'd like to contribute][submit].
-We want your feedback and your contributions
-to ensure that the AI Toolkit is just as robust and useful
-as it can be for your real-world apps.
+在你使用這個套件的過程中，
+歡迎[回報問題與功能需求][file-issues]，
+也歡迎[貢獻你想提交的程式碼][submit]。
+我們非常重視你的回饋與貢獻，
+希望能讓 AI Toolkit 在真實應用中
+更加穩健且實用。
 
 [add-fb]: https://firebase.google.com/docs/flutter/setup
 [example apps]: {{site.github}}/flutter/ai/tree/main/example/lib

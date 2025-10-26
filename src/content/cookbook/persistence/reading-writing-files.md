@@ -1,61 +1,56 @@
 ---
-title: Read and write files
-description: How to read from and write to files on disk.
+title: 讀寫檔案
+description: 如何在磁碟上讀取與寫入檔案。
 ---
 
 <?code-excerpt path-base="cookbook/persistence/reading_writing_files/"?>
 
-In some cases, you need to read and write files to disk.
-For example, you might need to persist data across app launches,
-or download data from the internet and save it for later offline use.
+在某些情況下，你需要將檔案讀寫到磁碟上。
+例如，你可能需要在應用程式啟動之間持久化資料，
+或是從網路下載資料並儲存起來以供離線使用。
 
-To save files to disk on mobile or desktop apps,
-combine the [`path_provider`][] plugin with the [`dart:io`][] library.
+若要在行動裝置或桌面應用程式中將檔案儲存到磁碟，
+請結合 [`path_provider`][`path_provider`] 套件與 [`dart:io`][`dart:io`] 函式庫。
 
-This recipe uses the following steps:
+本教學將採用以下步驟：
 
-  1. Find the correct local path.
-  2. Create a reference to the file location.
-  3. Write data to the file.
-  4. Read data from the file.
+  1. 找到正確的本機路徑。
+  2. 建立檔案位置的參考。
+  3. 將資料寫入檔案。
+  4. 從檔案讀取資料。
 
-To learn more, watch this Package of the Week video
-on the `path_provider` package:
+想進一步了解，請觀看這支關於 `path_provider` 套件的「本週套件」介紹影片：
 
 {% ytEmbed 'Ci4t-NkOY3I', 'path_provider | Flutter package of the week' %}
 
 :::note
-This recipe doesn't work with web apps at this time.
-To follow the discussion on this issue,
-check out `flutter/flutter` [issue #45296]({{site.repo.flutter}}/issues/45296).
+本教學目前不支援網頁應用程式。
+若想追蹤相關討論，
+請參考 `flutter/flutter` [issue #45296]({{site.repo.flutter}}/issues/45296)。
 :::
 
-## 1. Find the correct local path
+## 1. 找到正確的本機路徑
 
-This example displays a counter. When the counter changes,
-write data on disk so you can read it again when the app loads.
-Where should you store this data?
+本範例會顯示一個計數器。當計數器變動時，
+會將資料寫入磁碟，以便在應用程式重新載入時再次讀取。
+那麼，應該將這些資料儲存在哪裡呢？
 
-The [`path_provider`][] package
-provides a platform-agnostic way to access commonly used locations on the
-device's file system. The plugin currently supports access to
-two file system locations:
+[`path_provider`][`path_provider`] 套件
+提供一種與平台無關的方式，讓你可以存取裝置檔案系統中常用的位置。該套件目前支援存取
+兩個檔案系統位置：
 
-*Temporary directory*
-: A temporary directory (cache) that the system can
-  clear at any time. On iOS, this corresponds to the
-  [`NSCachesDirectory`][]. On Android, this is the value that
-  [`getCacheDir()`][] returns.
+*暫存目錄（Temporary directory）*
+：一個暫時性的目錄（快取），系統可能隨時清除。在 iOS 上，對應到
+  [`NSCachesDirectory`][`NSCachesDirectory`]。在 Android 上，則為
+  [`getCacheDir()`][`getCacheDir()`] 回傳的值。
 
-*Documents directory*
-: A directory for the app to store files that only
-  it can access. The system clears the directory only when the app
-  is deleted.
-  On iOS, this corresponds to the `NSDocumentDirectory`.
-  On Android, this is the `AppData` directory.
+*文件目錄（Documents directory）*
+：一個專供應用程式儲存檔案的目錄，只有該應用程式能夠存取。系統僅在應用程式被刪除時才會清除該目錄。
+  在 iOS 上，對應到 `NSDocumentDirectory`。
+  在 Android 上，則為 `AppData` 目錄。
 
-This example stores information in the documents directory.
-You can find the path to the documents directory as follows:
+本範例會將資訊儲存在文件目錄（Documents directory）中。
+你可以透過以下方式找到文件目錄的路徑：
 
 <?code-excerpt "lib/main.dart (localPath)"?>
 ```dart
@@ -68,11 +63,9 @@ import 'package:path_provider/path_provider.dart';
   }
 ```
 
-## 2. Create a reference to the file location
+## 2. 建立檔案位置的參考
 
-Once you know where to store the file, create a reference to the
-file's full location. You can use the [`File`][]
-class from the [`dart:io`][] library to achieve this.
+當你已經知道要將檔案儲存在哪裡時，請建立一個指向該檔案完整位置的參考。你可以使用 [`File`][`File`] 類別，這個類別來自 [`dart:io`][`dart:io`] 函式庫，來達成這個目的。
 
 <?code-excerpt "lib/main.dart (localFile)"?>
 ```dart
@@ -82,13 +75,13 @@ Future<File> get _localFile async {
 }
 ```
 
-## 3. Write data to the file
+## 3. 將資料寫入檔案
 
-Now that you have a `File` to work with,
-use it to read and write data.
-First, write some data to the file.
-The counter is an integer, but is written to the
-file as a string using the `'$counter'` syntax.
+現在你已經有了`File`可以使用，
+接下來就可以用它來讀取與寫入資料。
+首先，將一些資料寫入檔案。
+計數器是一個整數，但會使用`'$counter'`語法
+以字串的形式寫入檔案。
 
 <?code-excerpt "lib/main.dart (writeCounter)"?>
 ```dart
@@ -100,10 +93,10 @@ Future<File> writeCounter(int counter) async {
 }
 ```
 
-## 4. Read data from the file
+## 4. 從檔案讀取資料
 
-Now that you have some data on disk, you can read it.
-Once again, use the `File` class.
+現在你已經將一些資料寫入磁碟，可以開始讀取這些資料了。
+同樣地，請再次使用 `File` 類別。
 
 <?code-excerpt "lib/main.dart (readCounter)"?>
 ```dart
@@ -122,7 +115,7 @@ Future<int> readCounter() async {
 }
 ```
 
-## Complete example
+## 完整範例
 
 <?code-excerpt "lib/main.dart"?>
 ```dart
@@ -224,8 +217,8 @@ class _FlutterDemoState extends State<FlutterDemo> {
 }
 ```
 
-[`dart:io`]: {{site.api}}/flutter/dart-io/dart-io-library.html
-[`File`]: {{site.api}}/flutter/dart-io/File-class.html
-[`getCacheDir()`]: {{site.android-dev}}/reference/android/content/Context#getCacheDir()
-[`NSCachesDirectory`]: {{site.apple-dev}}/documentation/foundation/nssearchpathdirectory/nscachesdirectory
+[`dart:io`]: {{site.api}}/flutter/dart-io/dart-io-library.html  
+[`File`]: {{site.api}}/flutter/dart-io/File-class.html  
+[`getCacheDir()`]: {{site.android-dev}}/reference/android/content/Context#getCacheDir()  
+[`NSCachesDirectory`]: {{site.apple-dev}}/documentation/foundation/nssearchpathdirectory/nscachesdirectory  
 [`path_provider`]: {{site.pub-pkg}}/path_provider

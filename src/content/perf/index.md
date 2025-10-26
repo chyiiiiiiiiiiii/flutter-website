@@ -1,93 +1,69 @@
 ---
-title: Performance
-description: Evaluating the performance of your app from several angles.
+title: 效能
+description: 從多個角度評估您的應用程式效能。
 ---
 
 {% ytEmbed 'PKGguGUwSYE', 'Flutter performance tips | Flutter in Focus' %}
 
 :::note
-If your app has a performance issue and you are
-trying to debug it, check out the DevTool's page
-on [Using the Performance view][].
+如果您的應用程式出現效能問題，並且您正在嘗試進行除錯，請參考 DevTool 的[效能檢視使用方式][Using the Performance view]頁面。
 :::
 
 [Using the Performance view]: /tools/devtools/performance
 
-What is performance? Why is performance important? How do I improve performance?
+什麼是效能？為什麼效能很重要？我要如何提升效能？
 
-Our goal is to answer those three questions (mainly the third one), and
-anything related to them. This document should serve as the single entry
-point or the root node of a tree of resources that addresses any questions
-that you have about performance.
+我們的目標是回答這三個問題（主要是第三個），以及與這些問題相關的所有事項。本文件應作為所有效能相關問題的單一入口點，或是資源樹的根節點，協助您找到解答。
 
-The answers to the first two questions are mostly philosophical,
-and not as helpful to many developers who visit this page with specific
-performance issues that need to be solved.
-Therefore, the answers to those
-questions are in the [appendix](/perf/appendix).
+前兩個問題的答案大多偏向哲學層面，對於許多帶著特定效能問題前來的開發者來說，幫助有限。因此，這兩個問題的答案已放在[附錄](/perf/appendix)中。
 
-To improve performance, you first need metrics: some measurable numbers to
-verify the problems and improvements.
-In the [metrics](/perf/metrics) page,
-you'll see which metrics are currently used,
-and which tools and APIs are available to get the metrics.
+要提升效能，首先需要有指標：一些可量測的數據來驗證問題與改善成效。在[效能指標](/perf/metrics)頁面中，您可以看到目前常用的效能指標，以及可用來取得這些指標的工具與 API。
 
-There is a list of [Frequently asked questions](/perf/faq),
-so you can find out if the questions you have or the problems you're having
-were already answered or encountered, and whether there are existing solutions.
-(Alternatively, you can check the Flutter GitHub issue database using the
-[performance][performance] label.)
+我們也整理了一份[常見問題集](/perf/faq)，方便您查詢自己遇到的問題是否已經有人提出過，或是否已有現成的解決方案。（另外，您也可以在 Flutter GitHub 問題資料庫中，使用[performance][performance]標籤進行查詢。）
 
-Finally, the performance issues are divided into four categories. They
-correspond to the four labels that are used in the Flutter GitHub issue
-database: "[perf: speed][speed]", "[perf: memory][memory]",
-"[perf: app size][size]", "[perf: energy][energy]".
+最後，效能問題分為四大類，這也對應到 Flutter GitHub 問題資料庫中所使用的四個標籤：「[perf: speed][speed]」、「[perf: memory][memory]」、「[perf: app size][size]」、「[perf: energy][energy]」。
 
-The rest of the content is organized using those four categories.
+後續內容將依據這四個類別進行組織與說明。
 
 {% comment %}
-Let's put "speed" (rendering) first as it's the most popular performance issue
-category.
+我們將「速度」（渲染）放在最前面，因為它是最常見的效能問題類別。
 {% endcomment -%}
 
-## Speed
+## 速度（Speed）
 
-Are your animations janky (not smooth)? Learn how to
-evaluate and fix rendering issues.
+您的動畫是否卡頓、不流暢？學習如何評估並修正渲染相關問題。
 
-[Improving rendering performance](/perf/rendering-performance)
+[提升渲染效能](/perf/rendering-performance)
 
 {% comment %}
-Do your apps take a long time to open? We'll also cover the startup speed issue
-in some future pages.
+您的應用程式啟動很慢嗎？我們也會在未來的頁面中介紹啟動速度相關議題。
 {% endcomment -%}
 
 {% comment %}
 
-TODO(<https://github.com/flutter/website/issues/8249>): Reintroduce this article and add this link back.
+TODO(<https://github.com/flutter/website/issues/8249>)：重新引入這篇文章並補上連結。
 
-## Memory
+## 記憶體（Memory）
 
-[Using memory wisely](/perf/memory)
+[善用記憶體資源](/perf/memory)
 
 {% endcomment -%}
 
-## App size
+## 應用程式大小（App size）
 
-How to measure your app's size. The smaller the size,
-the quicker it is to download.
+如何測量您的應用程式大小。應用程式越小，下載速度越快。
 
-[Measuring your app's size][]
+[測量您的應用程式大小][Measuring your app's size]
 
 {% comment %}
 
-TODO(<https://github.com/flutter/website/issues/8249>): Reintroduce this article and add this link back.
+TODO(<https://github.com/flutter/website/issues/8249>)：重新引入這篇文章並補上連結。
 
-## Energy
+## 能源（Energy）
 
-How to ensure a longer battery life when running your app.
+如何確保您的應用程式運行時能延長電池壽命。
 
-[Preserving your battery](/perf/power)
+[延長電池續航力](/perf/power)
 
 {% endcomment -%}
 

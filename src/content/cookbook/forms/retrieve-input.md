@@ -1,6 +1,6 @@
 ---
-title: Retrieve the value of a text field
-description: How to retrieve text from a text field.
+title: 取得文字欄位的值
+description: 如何從文字欄位 (text field) 取得文字。
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,24 +8,22 @@ js:
 
 <?code-excerpt path-base="cookbook/forms/retrieve_input"?>
 
-In this recipe,
-learn how to retrieve the text a user has entered into a text field
-using the following steps:
+在本教學中，
+你將學習如何透過以下步驟，
+取得使用者在文字欄位 (text field) 中輸入的文字：
 
-  1. Create a `TextEditingController`.
-  2. Supply the `TextEditingController` to a `TextField`.
-  3. Display the current value of the text field.
+  1. 建立`TextEditingController`。
+  2. 將`TextEditingController`提供給`TextField`。
+  3. 顯示文字欄位目前的值。
 
-## 1. Create a `TextEditingController`
+## 1. 建立`TextEditingController`
 
-To retrieve the text a user has entered into a text field,
-create a [`TextEditingController`][]
-and supply it to a `TextField` or `TextFormField`.
+若要取得使用者在文字欄位 (text field) 中輸入的文字，
+請建立一個[`TextEditingController`][`TextEditingController`]，
+並將其提供給`TextField`或`TextFormField`。
 
 :::important
-Call `dispose` of the `TextEditingController` when
-you've finished using it. This ensures that you discard any resources
-used by the object.
+當你不再使用`TextEditingController`時，請呼叫其`dispose`。這能確保釋放該物件所佔用的資源。
 :::
 
 <?code-excerpt "lib/starter.dart (Starter)" remove="return Container();"?>
@@ -59,25 +57,23 @@ class _MyCustomFormState extends State<MyCustomForm> {
 }
 ```
 
-## 2. Supply the `TextEditingController` to a `TextField`
+## 2. 將 `TextEditingController` 提供給 `TextField`
 
-Now that you have a `TextEditingController`, wire it up
-to a text field using the `controller` property:
+現在你已經有了一個 `TextEditingController`，接下來請使用 `controller` 屬性，將它連接到一個文字欄位 (text field)：
 
 <?code-excerpt "lib/step2.dart (TextFieldController)"?>
 ```dart
 return TextField(controller: myController);
 ```
 
-## 3. Display the current value of the text field
+## 3. 顯示文字欄位 (text field) 的目前值
 
-After supplying the `TextEditingController` to the text field,
-begin reading values. Use the [`text`][]
-property provided by the `TextEditingController` to retrieve the
-String that the user has entered into the text field.
+在將 `TextEditingController` 提供給文字欄位 (text field) 之後，
+即可開始讀取值。使用 `TextEditingController` 所提供的 [`text`][`text`]
+屬性來取得使用者在文字欄位 (text field) 中輸入的字串 (String)。
 
-The following code displays an alert dialog with the current
-value of the text field when the user taps a floating action button.
+以下程式碼會在使用者點擊浮動操作按鈕（floating action button）時，
+顯示一個包含目前文字欄位 (text field) 值的提示對話框（alert dialog）。
 
 <?code-excerpt "lib/step3.dart (FloatingActionButton)" replace="/^floatingActionButton\: //g"?>
 ```dart
@@ -101,7 +97,7 @@ FloatingActionButton(
 ),
 ```
 
-## Interactive example
+## 互動範例
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter retrieve input hands-on example in DartPad" run="true"
@@ -175,7 +171,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/retrieve-input.webp" alt="Retrieve Text Input Demo" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/retrieve-input.webp" alt="擷取文字輸入 (Retrieve Text Input) 示範" class="site-mobile-screenshot" />
 </noscript>
 
 

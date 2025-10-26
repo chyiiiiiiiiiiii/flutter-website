@@ -1,6 +1,6 @@
 ---
-title: Focus and text fields
-description: How focus works with text fields.
+title: 焦點與文字欄位 (text field)
+description: 焦點在文字欄位 (text field) 中的運作方式。
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,28 +8,26 @@ js:
 
 <?code-excerpt path-base="cookbook/forms/focus/"?>
 
-When a text field is selected and accepting input,
-it is said to have "focus."
-Generally, users shift focus to a text field by tapping,
-and developers shift focus to a text field programmatically by
-using the tools described in this recipe.
+當文字欄位 (text field) 被選取並開始接受輸入時，
+我們稱它具有「焦點」(focus)。
+一般來說，使用者會透過點擊來將焦點移到文字欄位，
+而開發者則可以透過本教學所介紹的工具，
+以程式方式將焦點移到文字欄位。
 
-Managing focus is a fundamental tool for creating forms with an intuitive
-flow. For example, say you have a search screen with a text field.
-When the user navigates to the search screen,
-you can set the focus to the text field for the search term.
-This allows the user to start typing as soon as the screen
-is visible, without needing to manually tap the text field.
+管理焦點是建立具備直覺流程的表單時非常重要的工具。
+舉例來說，假設你有一個搜尋畫面，其中包含一個文字欄位。
+當使用者導覽至搜尋畫面時，
+你可以將焦點設置在搜尋字詞的文字欄位上。
+這樣一來，使用者在畫面顯示後就能立即開始輸入，
+無需手動點擊文字欄位。
 
-In this recipe, learn how to give the focus
-to a text field as soon as it's visible,
-as well as how to give focus to a text field
-when a button is tapped.
+在本教學中，你將學習如何在文字欄位一顯示時就給予焦點，
+以及如何在按下按鈕時將焦點給予文字欄位。
 
-## Focus a text field as soon as it's visible
+## 文字欄位一顯示就取得焦點
 
-To give focus to a text field as soon as it's visible,
-use the `autofocus` property.
+若要讓文字欄位在顯示時立即取得焦點，
+請使用 `autofocus` 屬性。
 
 ```dart
 TextField(
@@ -37,33 +35,30 @@ TextField(
 );
 ```
 
-For more information on handling input and creating text fields,
-see the [Forms][] section of the cookbook.
+如需更多有關處理輸入（Input）及建立文字欄位（text field）的資訊，
+請參閱本食譜的 [Forms][Forms] 章節。
 
-## Focus a text field when a button is tapped
+## 當按鈕被點擊時，聚焦文字欄位（text field）
 
-Rather than immediately shifting focus to a specific text field,
-you might need to give focus to a text field at a later point in time.
-In the real world, you might also need to give focus to a specific
-text field in response to an API call or a validation error.
-In this example, give focus to a text field after the user
-presses a button using the following steps:
+有時候，您可能不希望立即將焦點移到特定的文字欄位（text field），
+而是需要在稍後的某個時間點才將焦點給予文字欄位。
+在實際應用中，您也可能需要根據 API 呼叫或驗證錯誤，
+將焦點移到指定的文字欄位。
+本範例將在使用者按下按鈕後，依照以下步驟將焦點給予文字欄位：
 
-  1. Create a `FocusNode`.
-  2. Pass the `FocusNode` to a `TextField`.
-  3. Give focus to the `TextField` when a button is tapped.
+  1. 建立 `FocusNode`。
+  2. 將 `FocusNode` 傳遞給 `TextField`。
+  3. 當按鈕被點擊時，將焦點給予 `TextField`。
 
-### 1. Create a `FocusNode`
+### 1. 建立 `FocusNode`
 
-First, create a [`FocusNode`][].
-Use the `FocusNode` to identify a specific `TextField` in Flutter's
-"focus tree." This allows you to give focus to the `TextField`
-in the next steps.
+首先，建立一個 [`FocusNode`][`FocusNode`]。
+使用 `FocusNode` 來識別 Flutter「焦點樹（focus tree）」中的特定 `TextField`。
+這樣您就能在後續步驟中將焦點給予 `TextField`。
 
-Since focus nodes are long-lived objects, manage the lifecycle
-using a `State` object. Use the following instructions to create
-a `FocusNode` instance inside the `initState()` method of a
-`State` class, and clean it up in the `dispose()` method:
+由於焦點節點（focus nodes）是長期存在的物件，建議使用 `State` 物件來管理其生命週期。
+請依照以下指引，在 `State` 類別的 `initState()` 方法中建立 `FocusNode` 實例，
+並於 `dispose()` 方法中進行清理：
 
 <?code-excerpt "lib/starter.dart (Starter)" remove="return Container();"?>
 ```dart
@@ -104,10 +99,10 @@ class _MyCustomFormState extends State<MyCustomForm> {
 }
 ```
 
-### 2. Pass the `FocusNode` to a `TextField`
+### 2. 將 `FocusNode` 傳遞給 `TextField`
 
-Now that you have a `FocusNode`,
-pass it to a specific `TextField` in the `build()` method.
+現在你已經有了 `FocusNode`，
+請在 `build()` 方法中，將其傳遞給特定的 `TextField`。
 
 <?code-excerpt "lib/step2.dart (Build)"?>
 ```dart
@@ -117,11 +112,9 @@ Widget build(BuildContext context) {
 }
 ```
 
-### 3. Give focus to the `TextField` when a button is tapped
+### 3. 當按下按鈕時，讓 `TextField` 取得焦點
 
-Finally, focus the text field when the user taps a floating
-action button. Use the [`requestFocus()`][] method to perform
-this task.
+最後，當使用者點擊浮動操作按鈕（floating action button）時，讓文字欄位 (text field) 取得焦點。請使用 [`requestFocus()`][`requestFocus()`] 方法來完成這個任務。
 
 <?code-excerpt "lib/step3.dart (FloatingActionButton)" replace="/^floatingActionButton\: //g"?>
 ```dart
@@ -132,7 +125,7 @@ FloatingActionButton(
 ),
 ```
 
-## Interactive example
+## 互動範例
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter text focus hands-on example in DartPad" run="true"
@@ -208,7 +201,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/focus.webp" alt="Text Field Focus Demo" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/focus.webp" alt="文字欄位焦點示範" class="site-mobile-screenshot" />
 </noscript>
 
 

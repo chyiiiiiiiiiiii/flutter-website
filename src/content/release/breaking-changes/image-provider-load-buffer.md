@@ -1,59 +1,38 @@
 ---
-title: Adding ImageProvider.loadBuffer
+title: 新增 ImageProvider.loadBuffer
 description: >
-  ImageProviders must now be implemented using the
-  new loadBuffer API instead of the existing load API.
+  ImageProvider 現在必須使用新的 loadBuffer API 來實作，
+  不再使用現有的 load API。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-* `ImageProvider` now has a method called `loadBuffer` that functions
-   similarly to `load`, except that it decodes from an `ui.ImmutableBuffer`.
-* `ui.ImmutableBuffer` can now be created directly from an asset key.
-* The `AssetBundle` classes can now load an `ui.ImmutableBuffer`.
-* The `PaintingBinding` now has a method called
-  `instantiateImageCodecFromBuffer`, which functions similarly to
-  `instantiateImageCodec`.
-* `ImageProvider.load` is now deprecated, it will be removed in a future
-   release.
-* `PaintingBinding.instantiateImageCodec` is now deprecated, it will be removed
-   in a future release.
+* `ImageProvider` 現在新增了一個名為 `loadBuffer` 的方法，其功能類似於 `load`，但它是從 `ui.ImmutableBuffer` 進行解碼。
+* `ui.ImmutableBuffer` 現在可以直接由資源鍵（asset key）建立。
+* `AssetBundle` 類別現在可以載入 `ui.ImmutableBuffer`。
+* `PaintingBinding` 現在新增了一個名為 `instantiateImageCodecFromBuffer` 的方法，其功能與 `instantiateImageCodec` 類似。
+* `ImageProvider.load` 現已被棄用，未來版本將會移除。
+* `PaintingBinding.instantiateImageCodec` 現已被棄用，未來版本將會移除。
 
-## Context
+## 背景
 
-`ImageProvider.loadBuffer` is a new method that must be implemented in order to
-load images. This API allows asset-based image loading to be performed faster
-and with less memory impact on application.
+`ImageProvider.loadBuffer` 是一個必須實作的新方法，用於載入圖片。此 API 讓基於資源的圖片載入能更快速，並減少對應用程式的記憶體影響。
 
-## Description of change
+## 變更說明
 
-When loading asset images, previously the image provider API required multiple
-copies of the compressed data. First, when opening the asset the data was
-copied into the external heap and exposed to Dart as a typed data array. Then
-that typed data array was eventually converted into an `ui.ImmutableBuffer`,
-which internally copies the data into a second structure for decoding.
+以往載入資源圖片時，ImageProvider API 需要多次複製壓縮資料。首先，開啟資源時會將資料複製到外部堆積（external heap），並以型別化資料陣列（typed data array）形式暴露給 Dart。接著，該型別化資料陣列最終會轉換成 `ui.ImmutableBuffer`，而其內部又會將資料複製到另一個結構以進行解碼。
 
-With the addition of `ui.ImmutableBuffer.fromAsset`, compressed image bytes can
-be loaded directly into the structure used for decoding. Using this approach
-requires changes to the byte loading pipeline of `ImageProvider`. This process
-is also faster, because it bypasses some additional scheduling overhead of the
-previous method channel based loader.
+隨著 `ui.ImmutableBuffer.fromAsset` 的加入，壓縮圖片位元組可直接載入到解碼所需的結構中。採用此方式需要調整 `ImageProvider` 的位元組載入流程。此流程也更快，因為它省略了先前基於方法通道（method channel）的載入器所需的額外排程負擔。
 
-`ImageProvider.loadBuffer` otherwise has the same contract as
-`ImageProvider.load`, except it provides a new decoding callback that expects
-an `ui.ImmutableBuffer` instead of a `Uint8List`. For `ImageProvider` classes
-that acquire bytes from places other than assets, the convenience method
-`ui.ImmutableBuffer.fromUint8List` can be used for compatibility.
+`ImageProvider.loadBuffer` 的合約基本與 `ImageProvider.load` 相同，但它提供了一個新的解碼回呼（callback），該回呼預期接收 `ui.ImmutableBuffer` 而非 `Uint8List`。對於從非資源來源取得位元組的 `ImageProvider` 類別，可使用便利方法 `ui.ImmutableBuffer.fromUint8List` 以確保相容性。
 
-## Migration guide
+## 遷移指南
 
-Classes that subclass `ImageProvider` must implement the `loadBuffer` method for
-loading assets. Classes that delegate to or call the methods of an
-`ImageProvider` directly must use `loadBuffer` instead of `load`.
+繼承 `ImageProvider` 的類別，必須實作 `loadBuffer` 方法以載入資源。直接委派或呼叫 `ImageProvider` 方法的類別，必須改用 `loadBuffer`，而非 `load`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 class MyImageProvider extends ImageProvider<MyImageProvider> {
@@ -82,7 +61,7 @@ class MyDelegatingProvider extends ImageProvider<MyDelegatingProvider> {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 class MyImageProvider extends ImageProvider<MyImageProvider> {
@@ -112,22 +91,20 @@ class MyDelegatingProvider extends ImageProvider<MyDelegatingProvider> {
 }
 ```
 
-In both cases you might choose to keep the
-previous implementation of `ImageProvider.load`
-to give users of your code time to migrate as well.
+在這兩種情況下，你都可以選擇保留先前的 `ImageProvider.load` 實作，讓你的程式碼使用者也有時間進行遷移。
 
-## Timeline
+## 時程
 
-Landed in version: 3.1.0-0.0.pre.976<br>
-In stable release: 3.3.0
+合併進版本：3.1.0-0.0.pre.976<br>  
+穩定版發佈：3.3.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`ImmutableBuffer`]({{site.api}}/flutter/dart-ui/ImmutableBuffer-class.html)
 * [`ImageProvider`]({{site.api}}/flutter/painting/ImageProvider-class.html)
 
-Relevant PR:
+相關 PR：
 
 * [Use immutable buffer for loading asset images]({{site.repo.flutter}}/pull/103496)

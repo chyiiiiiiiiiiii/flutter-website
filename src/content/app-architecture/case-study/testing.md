@@ -1,31 +1,29 @@
 ---
-title: Testing each layer
-shortTitle: Testing
+title: 測試每一層
+shortTitle: 測試
 description: >-
-  How to test an app that implements MVVM architecture.
+  如何測試實作 MVVM 架構的應用程式。
 prev:
-  title: Dependency injection
+  title: 依賴注入
   path: /app-architecture/case-study/dependency-injection
 ---
 
-## Testing the UI layer
+## 測試 UI 層
 
-One way to determine whether your architecture is sound is
-considering how easy (or difficult) the application is to test.
-Because view models and views have well-defined inputs,
-their dependencies can easily be mocked or faked,
-and unit tests are easily written.
+判斷你的架構是否健全的一種方式，是考慮應用程式是否容易測試。
+由於 view model 與 view（檢視）有明確定義的輸入，
+它們的依賴可以輕鬆地被 mock（模擬）或 fake（偽造），
+因此很容易撰寫單元測試。
 
-### ViewModel unit tests
+### ViewModel 單元測試
 
-To test the UI logic of the view model, you should write unit tests that
-don't rely on Flutter libraries or testing frameworks.
+為了測試 view model 的 UI 邏輯，你應該撰寫不依賴 Flutter 函式庫或測試框架的單元測試。
 
-Repositories are a view model's only dependencies
-(unless you're implementing [use-cases][]),
-and writing `mocks` or `fakes` of the repository is
-the only setup you need to do.
-In this example test, a fake called `FakeBookingRepository` is used.
+Repository 是 view model 唯一的依賴
+（除非你有實作 [use-cases][use-cases]），
+而對 repository 進行 `mocks` 或 `fakes`
+就是你所需的唯一測試前置作業。
+在這個範例測試中，使用了一個名為 `FakeBookingRepository` 的 fake（偽造物件）。
 
 ```dart title=home_screen_test.dart
 void main() {
@@ -44,9 +42,9 @@ void main() {
 }
 ```
 
-The [`FakeBookingRepository`][] class implements [`BookingRepository`][].
-In the [data layer section][] of this case-study,
-the `BookingRepository` class is explained thoroughly.
+[`FakeBookingRepository`][`FakeBookingRepository`] 類別實作了 [`BookingRepository`][`BookingRepository`]。
+在本案例研究的 [data layer section][data layer section] 中，
+對 `BookingRepository` 類別有詳細的說明。
 
 ```dart title=fake_booking_repository.dart
 class FakeBookingRepository implements BookingRepository {
@@ -62,16 +60,14 @@ class FakeBookingRepository implements BookingRepository {
 ```
 
 :::note
-If you're using this architecture with [use-cases][], these would
-similarly need to be faked.
+如果你在這個架構中使用了 [use-cases][use-cases]，同樣也需要對這些 use-cases 進行假資料（fake）處理。
 :::
 
-### View widget tests
+### View 元件（Widget）測試
 
-Once you've written tests for your view model,
-you've already created the fakes you need to write widget tests as well.
-The following example shows how the `HomeScreen` widget tests
-are set up using the `HomeViewModel` and needed repositories:
+當你已經為 view model 撰寫了測試後，
+你也已經建立了撰寫元件（Widget）測試所需的假資料（fakes）。
+以下範例展示了如何使用 `HomeViewModel` 以及所需的 repositories 來設定 `HomeScreen` 元件（Widget）測試：
 
 ```dart title=home_screen_test.dart
 void main() {
@@ -96,20 +92,20 @@ void main() {
 }
 ```
 
-This setup creates the two fake repositories needed,
-and passes them into a `HomeViewModel` object.
-This class doesn't need to be faked.
+這個設定會建立兩個所需的假資料庫（fake repositories），
+並將它們傳遞給`HomeViewModel`物件。
+這個類別本身不需要被模擬（faked）。
 
 :::note
-The code also defines a `MockGoRouter`.
-The router is mocked using [`package:mocktail`][],
-and is outside the scope of this case-study. 
-You can find general testing guidance in [Flutter's testing documentation][].
+這段程式碼同時也定義了一個`MockGoRouter`。
+路由器（router）則是使用[`package:mocktail`][`package:mocktail`]進行模擬（mock），
+這部分不在本案例研究（case-study）的討論範圍內。
+你可以在[Flutter 的測試文件][Flutter's testing documentation]中找到一般的測試指引。
 :::
 
-After the view model and its dependencies are defined,
-the Widget tree that will be tested needs to be created.
-In the tests for `HomeScreen`, a `loadWidget` method is defined.
+在定義好 view model 及其相依項目之後，
+就需要建立要進行測試的元件樹（Widget tree）。
+在`HomeScreen`的測試中，會定義一個`loadWidget`方法。
 
 ```dart title=home_screen_test.dart highlightLines=11-23
 void main() {
@@ -141,9 +137,9 @@ void main() {
 }
 ```
 
-This method turns around and calls `testApp`,
-a generalized method used for all widget tests in the compass app.
-It looks like this:
+這個方法會再去呼叫 `testApp`，
+這是一個在 compass app 中用於所有元件測試（widget tests）的通用方法。
+其內容如下：
 
 ```dart title=testing/app.dart
 void testApp(
@@ -174,23 +170,22 @@ void testApp(
 }
 ```
 
-This function's only job is to create a widget tree that can be tested.
+這個函式的唯一工作，就是建立一個可以進行測試的元件樹（widget tree）。
 
-The `loadWidget` method passes in the unique parts of a widget tree for testing.
-In this case, that includes the `HomeScreen` and its view model,
-as well as some additional faked repositories that
-are higher in the widget tree.
+`loadWidget` 方法會傳入元件樹中要進行測試的獨特部分。
+在這個例子中，包含了 `HomeScreen` 及其 view model，
+還有一些在元件樹較高層級的額外假造（faked）repository。
 
-The most important thing to take away is that view and view model tests
-only require mocking repositories if your architecture is sound.
+最重要的重點是，只要你的架構設計良好，
+view 和 view model 的測試只需要對 repository 進行 mock（模擬）。
 
-## Testing the data layer
+## 測試資料層
 
-Similar to the UI layer, the components of the data layer have
-well-defined inputs and outputs, making both sides fake-able.
-To write unit tests for any given repository,
-mock the services that it depends on.
-The following example shows a unit test for the `BookingRepository`.
+和 UI 層類似，資料層的元件也有明確定義的輸入與輸出，
+因此兩端都可以被 fake（模擬）。
+若要為某個 repository 撰寫單元測試，
+只需 mock（模擬）它所依賴的 service。
+以下範例展示了針對 `BookingRepository` 的單元測試。
 
 ```dart title=booking_repository_remote_test.dart
 void main() {
@@ -214,9 +209,9 @@ void main() {
 }
 ```
 
-To learn more about writing mocks and fakes,
-check out examples in the [Compass App `testing` directory][] or
-read [Flutter's testing documentation][].
+想進一步了解如何撰寫 mock 和 fake，
+請參考 [Compass App `testing` 目錄][Compass App `testing` directory] 中的範例，
+或閱讀 [Flutter 的測試文件][Flutter's testing documentation]。
 
 [use-cases]: /app-architecture/guide#optional-domain-layer
 [`FakeBookingRepository`]: https://github.com/flutter/samples/blob/main/compass_app/app/testing/fakes/repositories/fake_booking_repository.dart
@@ -226,9 +221,9 @@ read [Flutter's testing documentation][].
 [Flutter's testing documentation]: /testing/overview
 [Compass App `testing` directory]: https://github.com/flutter/samples/tree/main/compass_app/app/testing
 
-## Feedback
+## 意見回饋
 
-As this section of the website is evolving,
-we [welcome your feedback][]!
+由於本網站的此區塊仍在持續優化中，
+我們[歡迎您的意見回饋][welcome your feedback]！
 
 [welcome your feedback]: https://google.qualtrics.com/jfe/form/SV_4T0XuR9Ts29acw6?page="case-study/testing"

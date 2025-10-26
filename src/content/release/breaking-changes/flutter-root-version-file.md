@@ -1,34 +1,33 @@
 ---
-title: $FLUTTER_ROOT/bin/cache/flutter.version.json replaces $FLUTTER_ROOT/version
+title: $FLUTTER_ROOT/bin/cache/flutter.version.json 取代 $FLUTTER_ROOT/version
 description: >-
-  The deprecated '$FLUTTER_ROOT/version' tool file output has been replaced by
-  '$FLUTTER_ROOT/bin/cache/flutter.version.json', and any build scripts or
-  references to it must also be updated.
+  已淘汰的 `$FLUTTER_ROOT/version` 工具檔案輸出已被
+  `$FLUTTER_ROOT/bin/cache/flutter.version.json` 取代，所有建置腳本或相關引用也必須一併更新。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-The `flutter` tool will no longer
-output the `$FLUTTER_ROOT/version` metadata file, and
-only output `$FLUTTER_ROOT/bin/cache/flutter.version.json`.
+`flutter` 工具將不再
+輸出 `$FLUTTER_ROOT/version` 中繼資料檔案，
+僅會輸出 `$FLUTTER_ROOT/bin/cache/flutter.version.json`。
 
-Tools and build scripts that rely on the presence of `$FLUTTER_ROOT/version`
-need to be updated.
+依賴 `$FLUTTER_ROOT/version`
+存在的工具與建置腳本需要進行更新。
 
-## Background
+## 背景
 
-[In 2023][PR 124558], `$FLUTTER_ROOT/bin/cache/fluttter.version.json` was added
-as a newer file format that replaces `$FLUTTER_ROOT/version`.
+[在 2023 年][PR 124558]，`$FLUTTER_ROOT/bin/cache/fluttter.version.json` 被新增為
+取代 `$FLUTTER_ROOT/version` 的較新檔案格式。
 
-So a file that looked something like this:
+因此，原本看起來像這樣的檔案：
 
 ```plaintext title="version"
 3.33.0-1.0.pre-1070
 ```
 
-Was replaced by something like this:
+已被類似以下內容所取代：
 
 ```json title="flutter.version.json"
 {
@@ -47,21 +46,21 @@ Was replaced by something like this:
 }
 ```
 
-Generating both files is a source of technical debt.
+同時產生這兩個檔案會造成技術債務。
 
-## Migration guide
+## 遷移指南
 
-Most Flutter developers don't parse or use this file, but
-custom tools or CI configurations might.
+大多數 Flutter 開發者並不會解析或使用這個檔案，但
+自訂工具或 CI（持續整合）設定可能會用到。
 
-For example, the Flutter team's own `api.flutter.dev` generation script:
+例如，Flutter 團隊自己的 `api.flutter.dev` 產生腳本：
 
 ```dart title="post_processe_docs.dart"
 final File versionFile = File('version');
 final String version = versionFile.readAsStringSync();
 ```
 
-Was updated in [172601][PR 172601] to:
+已在 [172601][PR 172601] 中更新為：
 
 ```dart
 final File versionFile = File(path.join(checkoutPath, 'bin', 'cache', 'flutter.version.json'));
@@ -72,30 +71,30 @@ final String version = () {
 }();
 ```
 
-To temporarily opt-out of `$FLUTTER_ROOT/version` no longer being emitted:
+若要暫時讓`$FLUTTER_ROOT/version`繼續被輸出（暫時取消其停止輸出），請執行以下操作：
 
 ```sh
 flutter config --no-enable-omit-legacy-version-file
 ```
 
-## Timeline
+## 時程表
 
-Landed in version: 3.33.0-1.0.pre-1416<br>
-Stable release: _Not published yet_
+納入版本：3.33.0-1.0.pre-1416<br>  
+穩定版發布：_尚未發布_
 
-One stable release after this change lands,
-`--no-enable-omit-legacy-version-file` will be removed.
+在此變更納入後的一個穩定版中，  
+`--no-enable-omit-legacy-version-file` 將會被移除。
 
-## References
+## 參考資料
 
-Relevant Issues:
+相關議題：
 
-- [Issue 171900][], where `FLUTTER_ROOT/version` was slated for removal
+- [Issue 171900][Issue 171900]，`FLUTTER_ROOT/version` 預計將被移除
 
-Relevant PRs:
+相關 PR：
 
-- [PR 124558][], where `flutter.version.json` was added as the new format
-- [PR 172601][], an example of migrating a script to use `flutter.version.json`
+- [PR 124558][PR 124558]，`flutter.version.json` 被新增為新的格式
+- [PR 172601][PR 172601]，展示如何將腳本遷移至使用 `flutter.version.json`
 
 [Issue 171900]: {{site.repo.flutter}}/issues/171900
 [PR 124558]: {{site.repo.flutter}}/pull/124558

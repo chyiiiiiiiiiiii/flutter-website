@@ -1,42 +1,29 @@
 ---
-title: Create useful bug reports
+title: 建立有用的錯誤回報
 description: >
-  Where to file bug reports and enhancement requests for 
-  flutter and the website.
+  回報 Flutter 及網站錯誤與功能增強需求的地點。
 ---
 
-The instructions in this document detail the current steps
-required to provide the most actionable bug reports for
-crashes and other bad behavior. Each step is optional but
-will greatly improve how quickly issues are diagnosed and addressed.
-We appreciate your effort in sending us as much feedback as possible.
+本文件說明目前提供最具參考價值的錯誤回報（如閃退或其他異常行為）所需的步驟。每個步驟都是可選的，但能大幅提升問題被診斷與處理的速度。我們非常感謝您盡可能提供更多回饋。
 
-## Create an issue on GitHub
+## 在 GitHub 建立 Issue
 
-* To report a Flutter crash or bug,
-  [create an issue in the flutter/flutter project][Flutter issue].
-* To report a problem with the website,
-  [create an issue in the flutter/website project][Website issue].
+* 若要回報 Flutter 的閃退或錯誤，請[在 flutter/flutter 專案建立 issue][Flutter issue]。
+* 若要回報網站相關問題，請[在 flutter/website 專案建立 issue][Website issue]。
 
-## Provide a minimal reproducible code sample
+## 提供最小可重現的程式碼範例
 
-Create a minimal Flutter app that shows the problem you are facing,
-and paste it into the GitHub issue.
+請建立一個最小的 Flutter 應用程式來展示您遇到的問題，並將該程式碼貼到 GitHub issue 中。
 
-To create it you can use `flutter create bug` command and update
-the `main.dart` file.
+您可以使用 `flutter create bug` 指令來建立，並更新 `main.dart` 檔案。
 
-Alternatively, you can use [DartPad][], which is capable
-of creating and running small Flutter apps.
+另外，您也可以使用 [DartPad][DartPad]，它可以建立並執行小型 Flutter 應用程式。
 
-If your problem goes out of what can be placed in a single file, for example
-you have a problem with native channels, you can upload the full code of
-the reproduction into a separate repository and link it.
+如果您的問題無法只用單一檔案呈現，例如涉及原生通道（native channels）相關問題，您可以將完整重現程式碼上傳到另一個儲存庫並提供連結。
 
-## Provide some Flutter diagnostics
+## 提供一些 Flutter 診斷資訊
 
-* Run `flutter doctor -v` in your project directory and paste
-  the results into the GitHub issue:
+* 在您的專案目錄下執行 `flutter doctor -v`，並將結果貼到 GitHub issue 中：
 
 ```plaintext
 [✓] Flutter (Channel stable, 1.22.3, on Mac OS X 10.15.7 19H2, locale en-US)
@@ -71,37 +58,27 @@ the reproduction into a separate repository and link it.
     • iPhone (mobile) • 00000000-0000000000000000 • ios • iOS 14.0
 ```
 
-## Run the command in verbose mode
+## 以詳細模式執行指令
 
-Follow these steps only if your issue is related to the
-`flutter` tool.
+僅當您的問題與 `flutter` 工具相關時，請依照以下步驟操作。
 
-* All Flutter commands accept the `--verbose` flag.
-  If attached to the issue, the output from this command
-  might aid in diagnosing the problem.
-* Attach the results of the command to the GitHub issue.
+* 所有 Flutter 指令皆可接受 `--verbose` 旗標。
+  若將此指令的輸出附加於問題回報，可能有助於診斷問題。
+* 請將該指令的執行結果附加至 GitHub 問題單。
 ![flutter verbose](/assets/images/docs/verbose_flag.png){:width="100%"}
 
-## Provide the most recent logs
+## 提供最新的日誌
 
-* Logs for the currently connected device are accessed
-  using `flutter logs`.
-* If the crash is reproducible, clear the logs
-  (⌘ + k on Mac), reproduce the crash and copy the
-  newly generated logs into a file attached to the bug report.
-* If you are getting exceptions thrown by the framework,
-  include all the output between and including the dashed
-  lines of the first such exception.
+* 可使用 `flutter logs` 取得目前連接裝置的日誌。
+* 若當機可重現，請先清除日誌（在 Mac 上為 ⌘ + k），然後重現當機，並將新產生的日誌複製到檔案中，隨同錯誤回報一併附上。
+* 若您遇到框架丟出例外，請包含第一個此類例外的虛線之間（含虛線）的所有輸出內容。
 ![flutter logs](/assets/images/docs/logs.png){:width="100%"}
 
-## Provide the crash report
+## 提供當機報告
 
-* When the iOS simulator crashes,
-  a crash report is generated in `~/Library/Logs/DiagnosticReports/`.
-* When an iOS device crashes,
-  a crash report is generated in `~/Library/Logs/CrashReporter/MobileDevice`.
-* Find the report corresponding to the crash (usually the latest)
-  and attach it to the GitHub issue.
+* 當 iOS 模擬器發生當機時，會在 `~/Library/Logs/DiagnosticReports/` 產生當機報告。
+* 當 iOS 裝置發生當機時，會在 `~/Library/Logs/CrashReporter/MobileDevice` 產生當機報告。
+* 請找到對應於此次當機的報告（通常是最新的），並將其附加至 GitHub 問題單。
 ![crash report](/assets/images/docs/crash_reports.png){:width="100%"}
 
 

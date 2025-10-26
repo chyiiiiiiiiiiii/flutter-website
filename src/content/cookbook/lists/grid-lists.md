@@ -1,6 +1,6 @@
 ---
-title: Create a grid list
-description: How to implement a grid list.
+title: 建立格狀清單
+description: 如何實作格狀清單。
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,16 +8,14 @@ js:
 
 <?code-excerpt path-base="cookbook/lists/grid_lists"?>
 
-In some cases, you might want to display your items as a grid rather than
-a normal list of items that come one after the next.
-For this task, use the [`GridView`][] widget.
+在某些情境下，你可能希望將項目以格狀（Grid）方式顯示，而不是一般依序排列的清單。
+此時，可以使用 [`GridView`][`GridView`] 元件（Widget）。
 
-The simplest way to get started using grids is by using the
-[`GridView.count()`][] constructor,
-because it allows you to specify how many rows or columns you'd like.
+最簡單開始使用格狀清單的方法，是透過 [`GridView.count()`][`GridView.count()`] 建構函式（constructor），
+因為它允許你指定想要多少列或欄。
 
-To visualize how `GridView` works,
-generate a list of 100 widgets that display their index in the list.
+為了更直觀地了解 `GridView` 的運作方式，
+你可以產生一個包含 100 個元件（Widget）的清單，並在每個元件上顯示其在清單中的索引（widget index）。
 
 <?code-excerpt "lib/main.dart (GridView)" replace="/^body\: //g"?>
 ```dart
@@ -38,7 +36,7 @@ GridView.count(
 ),
 ```
 
-## Interactive example
+## 互動範例
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter GridView hands-on example in DartPad" run="true"
@@ -80,9 +78,4 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-<noscript>
-  <img src="/assets/images/docs/cookbook/grid-list.webp" alt="Grid List Demo" class="site-mobile-screenshot" />
-</noscript>
-
-[`GridView`]: {{site.api}}/flutter/widgets/GridView-class.html
-[`GridView.count()`]: {{site.api}}/flutter/widgets/GridView/GridView.count.html
+<img src="/assets/images/docs/cookbook/grid-list.webp" alt="Grid List Demo" class="site-mobile-screenshot" />

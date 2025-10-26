@@ -1,6 +1,6 @@
 ---
-title: Fade a widget in and out
-description: How to fade a widget in and out.
+title: 讓元件淡入淡出
+description: 如何讓元件淡入淡出。
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,48 +8,45 @@ js:
 
 <?code-excerpt path-base="cookbook/animation/opacity_animation/"?>
 
-UI developers often need to show and hide elements on screen.
-However, quickly popping elements on and off the screen can
-feel jarring to end users. Instead,
-fade elements in and out with an opacity animation to create
-a smooth experience.
+UI 開發人員經常需要在螢幕上顯示或隱藏元素。
+然而，讓元素快速地出現或消失，對最終使用者來說可能會感覺突兀。相反地，
+透過透明度（opacity）動畫讓元素淡入淡出，可以營造更流暢的體驗。
 
-The [`AnimatedOpacity`][] widget makes it easy to perform opacity
-animations. This recipe uses the following steps:
+[`AnimatedOpacity`][`AnimatedOpacity`] 元件（Widget）讓你可以輕鬆實現透明度動畫。
+本教學將採用以下步驟：
 
-  1. Create a box to fade in and out.
-  2. Define a `StatefulWidget`.
-  3. Display a button that toggles the visibility.
-  4. Fade the box in and out.
+  1. 建立一個可以淡入淡出的方塊。
+  2. 定義 `StatefulWidget`。
+  3. 顯示一個切換可見性的按鈕。
+  4. 讓方塊淡入淡出。
 
-## 1. Create a box to fade in and out
+## 1. 建立一個可以淡入淡出的方塊
 
-First, create something to fade in and out. For this example,
-draw a green box on screen.
+首先，建立一個可以淡入淡出的物件。本範例會在螢幕上繪製一個綠色方塊。
 
 <?code-excerpt "lib/main.dart (Container)" replace="/^child: //g;/\),$/)/g"?>
 ```dart
 Container(width: 200, height: 200, color: Colors.green)
 ```
 
-## 2. Define a `StatefulWidget`
+## 2. 定義一個 `StatefulWidget`
 
-Now that you have a green box to animate,
-you need a way to know whether the box should be visible.
-To accomplish this, use a [`StatefulWidget`][].
+現在你已經有了一個綠色方塊可以進行動畫 (Animation)，
+你需要一種方式來判斷這個方塊是否應該顯示。
+為了達成這個目的，可以使用 [`StatefulWidget`][`StatefulWidget`]。
 
-A `StatefulWidget` is a class that creates a `State` object.
-The `State` object holds some data about the app and provides a way to
-update that data. When updating the data,
-you can also ask Flutter to rebuild the UI with those changes.
+`StatefulWidget` 是一個用來建立 `State` 物件的類別。
+`State` 物件會保存一些關於應用程式的資料，並且提供
+更新這些資料的方法。在更新資料時，
+你也可以要求 Flutter 依照這些變更重新建立 UI。
 
-In this case, you have one piece of data:
-a boolean representing whether the button is visible.
+在這個例子中，你只需要一個資料欄位：
+一個布林值，用來表示按鈕是否可見。
 
-To construct a `StatefulWidget`, create two classes: A
-`StatefulWidget` and a corresponding `State` class.
-Pro tip: The Flutter plugins for Android Studio and VSCode include
-the `stful` snippet to quickly generate this code.
+要建立一個 `StatefulWidget`，需要建立兩個類別：一個
+`StatefulWidget` 以及對應的 `State` 類別。
+專業小技巧：Flutter 的 Android Studio 與 VSCode 插件
+都內建 `stful` 程式碼片段，可以快速產生這段程式碼。
 
 <?code-excerpt "lib/starter.dart (Starter)" remove="return Container();"?>
 ```dart
@@ -77,21 +74,20 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 ```
 
-## 3. Display a button that toggles the visibility
+## 3. 顯示一個切換可見性的按鈕
 
-Now that you have some data to determine whether the green box
-should be visible, you need a way to update that data.
-In this example, if the box is visible, hide it.
-If the box is hidden, show it.
+現在你已經有了用來判斷綠色方塊是否應該顯示的資料，接下來需要一個方法來更新這個資料。
+在這個範例中，如果方塊目前是可見的，就將它隱藏；
+如果方塊是隱藏的，就將它顯示出來。
 
-To handle this, display a button. When a user presses the button,
-flip the boolean from true to false, or false to true.
-Make this change using [`setState()`][],
-which is a method on the `State` class.
-This tells Flutter to rebuild the widget.
+為了處理這個需求，請顯示一個按鈕。當使用者按下按鈕時，
+將布林值從 true 變為 false，或從 false 變為 true。
+這個變更可以透過 [`setState()`][`setState()`] 來完成，
+這是一個在 `State` 類別上的方法。
+這會通知 Flutter 重新建構元件（Widget）。
 
-For more information on working with user input,
-see the [Gestures][] section of the cookbook.
+若想了解更多有關處理使用者輸入（Input）的資訊，
+請參閱 cookbook 的 [Gestures][Gestures] 章節。
 
 <?code-excerpt "lib/main.dart (FAB)" replace="/^floatingActionButton: //g;/^\),$/)/g"?>
 ```dart
@@ -108,17 +104,15 @@ FloatingActionButton(
 )
 ```
 
-## 4. Fade the box in and out
+## 4. 讓方塊淡入淡出
 
-You have a green box on screen and a button to toggle the visibility
-to `true` or `false`. How to fade the box in and out? With an
-[`AnimatedOpacity`][] widget.
+你在螢幕上有一個綠色方塊，並有一個按鈕可以切換其可見性為 `true` 或 `false`。要如何讓方塊淡入淡出呢？可以使用 [`AnimatedOpacity`][`AnimatedOpacity`] 元件 (Widget)。
 
-The `AnimatedOpacity` widget requires three arguments:
+`AnimatedOpacity` 元件需要三個參數：
 
-* `opacity`: A value from 0.0 (invisible) to 1.0 (fully visible).
-* `duration`: How long the animation should take to complete.
-* `child`: The widget to animate. In this case, the green box.
+* `opacity`：一個從 0.0（不可見）到 1.0（完全可見）的值。
+* `duration`：動畫（Animation）完成所需的時間長度。
+* `child`：要進行動畫的元件（Widget）。在這個例子中，就是綠色方塊。
 
 <?code-excerpt "lib/main.dart (AnimatedOpacity)" replace="/^child: //g;/^\),$/)/g"?>
 ```dart
@@ -132,7 +126,7 @@ AnimatedOpacity(
 )
 ```
 
-## Interactive example
+## 互動範例
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Implicit Animation Opacity DartPad hands-on example" run="true"
@@ -201,7 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/fade-in-out.webp" alt="Fade In and Out Demo" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/fade-in-out.webp" alt="淡入淡出示範" class="site-mobile-screenshot" />
 </noscript>
 
 [`AnimatedOpacity`]: {{site.api}}/flutter/widgets/AnimatedOpacity-class.html

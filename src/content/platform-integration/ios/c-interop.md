@@ -1,23 +1,23 @@
 ---
-title: "Binding to native iOS code using dart:ffi"
-description: "To use C code in your Flutter program, use the dart:ffi library."
+title: "使用 dart:ffi 綁定原生 iOS 程式碼"
+description: "若要在 Flutter 程式中使用 C 程式碼，請使用 dart:ffi 函式庫。"
 ---
 
 <?code-excerpt path-base="platform_integration"?>
 
-Flutter mobile and desktop apps can use the
-[dart:ffi][] library to call native C APIs.
-_FFI_ stands for [_foreign function interface._][FFI]
-Other terms for similar functionality include
-_native interface_ and _language bindings._
+Flutter 行動與桌面應用程式可以利用
+[dart:ffi][dart:ffi] 函式庫來呼叫原生 C API。
+_FFI_ 代表 [_foreign function interface_，外部函式介面][FFI]。
+其他類似功能的術語還包括
+_native interface_（原生介面）與 _language bindings_（語言綁定）。
 
 :::note
-This page describes using the `dart:ffi` library
-in iOS apps. For information on Android, see
-[Binding to native Android code using dart:ffi][android-ffi].
-For information in macOS, see
-[Binding to native macOS code using dart:ffi][macos-ffi].
-This feature is not yet supported for web plugins.
+本頁說明如何在 iOS 應用程式中使用 `dart:ffi` 函式庫。
+如需 Android 相關資訊，請參閱
+[Binding to native Android code using dart:ffi][android-ffi]。
+如需 macOS 相關資訊，請參閱
+[Binding to native macOS code using dart:ffi][macos-ffi]。
+此功能目前尚未支援 Web 外掛程式。
 :::
 
 [android-ffi]: /platform-integration/android/c-interop
@@ -25,48 +25,45 @@ This feature is not yet supported for web plugins.
 [dart:ffi]: {{site.dart.api}}/dart-ffi/dart-ffi-library.html
 [FFI]: https://en.wikipedia.org/wiki/Foreign_function_interface
 
-Before your library or program can use the FFI library
-to bind to native code, you must ensure that the
-native code is loaded and its symbols are visible to Dart.
-This page focuses on compiling, packaging,
-and loading iOS native code within a Flutter plugin or app.
+在您的函式庫或程式能夠使用 FFI 函式庫
+綁定原生程式碼之前，必須確保
+原生程式碼已經載入，且其符號對 Dart 可見。
+本頁著重於在 Flutter 外掛程式或應用程式中
+編譯、封裝與載入 iOS 原生程式碼。
 
-This tutorial demonstrates how to bundle C/C++
-sources in a Flutter plugin and bind to them using
-the Dart FFI library on iOS.
-In this walkthrough, you'll create a C function
-that implements 32-bit addition and then
-exposes it through a Dart plugin named "native_add".
+本教學將示範如何在 Flutter 外掛程式中
+封裝 C/C++ 原始碼，並在 iOS 上
+透過 Dart FFI 函式庫進行綁定。
+在這個步驟導引中，您將建立一個實作 32 位元加法的 C 函式，
+並透過名為 "native_add" 的 Dart 外掛程式將其公開。
 
-## Dynamic vs static linking
+## 動態連結與靜態連結
 
-A native library can be linked into an app either
-dynamically or statically. A statically linked library
-is embedded into the app's executable image,
-and is loaded when the app starts.
+原生函式庫可以透過動態連結或靜態連結的方式
+整合到應用程式中。靜態連結的函式庫
+會被嵌入到應用程式的可執行映像檔中，
+並於應用程式啟動時載入。
 
-Symbols from a statically linked library can be
-loaded using `DynamicLibrary.executable` or
-`DynamicLibrary.process`.
+來自靜態連結函式庫的符號可以透過
+`DynamicLibrary.executable` 或
+`DynamicLibrary.process` 載入。
 
-A dynamically linked library, by contrast, is distributed
-in a separate file or folder within the app,
-and loaded on-demand. On iOS, the dynamically linked
-library is distributed as a `.framework` folder.
+相較之下，動態連結的函式庫則以獨立檔案或資料夾的形式
+分發於應用程式內，並於需要時載入。在 iOS 上，
+動態連結函式庫會以 `.framework` 資料夾的形式分發。
 
-A dynamically linked library can be loaded into
-Dart using `DynamicLibrary.open`.
+可以使用 `DynamicLibrary.open` 將動態連結函式庫載入到 Dart 中。
 
-API documentation is available from the
-[Dart API reference documentation][].
+API 文件可參考
+[Dart API reference documentation][Dart API reference documentation]。
 
 
 [Dart API reference documentation]: {{site.dart.api}}
 
-## Create an FFI plugin
+## 建立 FFI 外掛程式
 
-To create an FFI plugin called "native_add",
-do the following:
+若要建立名為 "native_add" 的 FFI 外掛程式，
+請依照下列步驟操作：
 
 ```console
 $ flutter create --platforms=android,ios,macos,windows,linux --template=plugin_ffi native_add
@@ -74,80 +71,55 @@ $ cd native_add
 ```
 
 :::note
-You can exclude platforms from `--platforms` that you don't want
-to build to. However, you need to include the platform of 
-the device you are testing on.
+你可以從 `--platforms` 中排除你不想建置的平台。然而，你必須包含你測試裝置的平台。
 :::
 
-This will create a plugin with C/C++ sources in `native_add/src`.
-These sources are built by the native build files in the various
-os build folders.
+這會在 `native_add/src` 中建立一個包含 C/C++ 原始碼的 plugin。這些原始碼會由各個作業系統建置資料夾中的原生建置檔案進行建置。
 
-The FFI library can only bind against C symbols,
-so in C++ these symbols are marked `extern "C"`.
+FFI 函式庫只能綁定到 C 符號，因此在 C++ 中這些符號會被標記為 `extern "C"`。
 
-You should also add attributes to indicate that the
-symbols are referenced from Dart,
-to prevent the linker from discarding the symbols
-during link-time optimization.
-`__attribute__((visibility("default"))) __attribute__((used))`.
+你也應該加上屬性來標示這些符號會從 Dart 被參考，以避免 linker 在連結時最佳化階段將這些符號移除。`__attribute__((visibility("default"))) __attribute__((used))`。
 
-On iOS, the `native_add/ios/native_add.podspec` links the code.
+在 iOS 上，`native_add/ios/native_add.podspec` 會連結這段程式碼。
 
-The native code is invoked from dart in `lib/native_add_bindings_generated.dart`.
+原生程式碼會從 Dart 於 `lib/native_add_bindings_generated.dart` 呼叫。
 
-The bindings are generated with [package:ffigen]({{site.pub-pkg}}/ffigen).
+綁定會使用 [package:ffigen]({{site.pub-pkg}}/ffigen) 產生。
 
-## Other use cases
+## 其他使用情境
 
-### iOS and macOS
+### iOS 和 macOS
 
-Dynamically linked libraries are automatically loaded by
-the dynamic linker when the app starts. Their constituent
-symbols can be resolved using [`DynamicLibrary.process`][].
-You can also get a handle to the library with
-[`DynamicLibrary.open`][] to restrict the scope of
-symbol resolution, but it's unclear how Apple's
-review process handles this.
+動態連結函式庫會在應用程式啟動時由動態連結器自動載入。它們的符號可以透過 [`DynamicLibrary.process`][`DynamicLibrary.process`] 來解析。
+你也可以使用 [`DynamicLibrary.open`][`DynamicLibrary.open`] 取得函式庫的 handle，以限制符號解析的範圍，但目前尚不清楚 Apple 的審查流程會如何處理這種做法。
 
-Symbols statically linked into the application binary
-can be resolved using [`DynamicLibrary.executable`][] or
-[`DynamicLibrary.process`][].
+靜態連結到應用程式二進位檔內的符號，可以透過 [`DynamicLibrary.executable`][`DynamicLibrary.executable`] 或 [`DynamicLibrary.process`][`DynamicLibrary.process`] 來解析。
 
 
 [`DynamicLibrary.executable`]: {{site.dart.api}}/dart-ffi/DynamicLibrary/DynamicLibrary.executable.html
 [`DynamicLibrary.open`]: {{site.dart.api}}/dart-ffi/DynamicLibrary/DynamicLibrary.open.html
 [`DynamicLibrary.process`]: {{site.dart.api}}/dart-ffi/DynamicLibrary/DynamicLibrary.process.html
 
-#### Platform library
+#### 平台函式庫
 
-To link against a platform library,
-use the following instructions:
+若要連結平台函式庫，請依照以下步驟操作：
 
-1. In Xcode, open `Runner.xcworkspace`.
-1. Select the target platform.
-1. Click **+** in the **Linked Frameworks and Libraries**
-   section.
-1. Select the system library to link against.
+1. 在 Xcode 中開啟 `Runner.xcworkspace`。
+1. 選擇目標平台。
+1. 在 **Linked Frameworks and Libraries** 區段點擊 **+**。
+1. 選擇要連結的系統函式庫。
 
-#### First-party library
+#### 第一方函式庫
 
-A first-party native library can be included either
-as source or as a (signed) `.framework` file.
-It's probably possible to include statically linked
-archives as well, but it requires testing.
+第一方原生函式庫可以直接以原始碼或 (已簽署的) `.framework` 檔案方式納入。應該也可以納入靜態連結的歸檔檔案，但這需要進一步測試。
 
-#### Source code
+#### 原始碼
 
-To link directly to source code,
-use the following instructions:
+若要直接連結原始碼，請依照以下步驟操作：
 
- 1. In Xcode, open `Runner.xcworkspace`.
- 2. Add the C/C++/Objective-C/Swift
-    source files to the Xcode project.
- 3. Add the following prefix to the
-    exported symbol declarations to ensure they
-    are visible to Dart:
+ 1. 在 Xcode 中開啟 `Runner.xcworkspace`。
+ 2. 將 C/C++/Objective-C/Swift 原始碼檔加入 Xcode 專案。
+ 3. 在要導出的符號宣告前加上下列前綴，以確保 Dart 可以看到這些符號：
 
     **C/C++/Objective-C**
 
@@ -161,60 +133,42 @@ use the following instructions:
     @_cdecl("myFunctionName")
     ```
 
-#### Compiled (dynamic) library
+#### 已編譯（動態）函式庫
 
-To link to a compiled dynamic library,
-use the following instructions:
+若要連結至已編譯的動態函式庫，請依照以下步驟操作：
 
-1. If a properly signed `Framework` file is present,
-   open `Runner.xcworkspace`.
-1. Add the framework file to the **Embedded Binaries**
-   section.
-1. Also add it to the **Linked Frameworks & Libraries**
-   section of the target in Xcode.
+1. 如果有正確簽署的 `Framework` 檔案，請開啟 `Runner.xcworkspace`。
+1. 將 framework 檔案加入 **Embedded Binaries** 區段。
+1. 也請將其加入 Xcode 目標的 **Linked Frameworks & Libraries** 區段。
 
-#### Open-source third-party library
+#### 開源第三方函式庫
 
-To create a Flutter plugin that includes both
-C/C++/Objective-C _and_ Dart code,
-use the following instructions:
+若要建立同時包含 C/C++/Objective-C 及 Dart 程式碼的 Flutter 外掛（plugin），請依照以下步驟操作：
 
-1. In your plugin project,
-   open `ios/<myproject>.podspec`.
-1. Add the native code to the `source_files`
-   field.
+1. 在你的外掛專案中，開啟 `ios/<myproject>.podspec`。
+1. 將原生程式碼加入 `source_files` 欄位。
 
-The native code is then statically linked into
-the application binary of any app that uses
-this plugin.
+這些原生程式碼會被靜態連結進所有使用此外掛的應用程式二進位檔中。
 
-#### Closed-source third-party library
+#### 封閉原始碼第三方函式庫
 
-To create a Flutter plugin that includes Dart
-source code, but distribute the C/C++ library
-in binary form, use the following instructions:
+若要建立包含 Dart 原始碼，但以二進位形式分發 C/C++ 函式庫的 Flutter 外掛，請依照以下步驟操作：
 
-1. In your plugin project,
-   open `ios/<myproject>.podspec`.
-1. Add a `vendored_frameworks` field.
-   See the [CocoaPods example][].
+1. 在你的外掛專案中，開啟 `ios/<myproject>.podspec`。
+1. 新增 `vendored_frameworks` 欄位。請參考 [CocoaPods 範例][CocoaPods example]。
 
 :::warning
-**Do not** upload this plugin
-(or any plugin containing binary code) to pub.dev.
-Instead, this plugin should be downloaded
-from a trusted third-party,
-as shown in the CocoaPods example.
+**請勿**將此外掛（或任何包含二進位程式碼的外掛）上傳至 pub.dev。
+此外掛應由可信任的第三方下載，如 CocoaPods 範例所示。
 :::
 
 [CocoaPods example]: {{site.github}}/CocoaPods/CocoaPods/blob/master/examples/Vendored%20Framework%20Example/Example%20Pods/VendoredFrameworkExample.podspec
 
-## Stripping iOS symbols
+## 移除 iOS 符號（Stripping iOS symbols）
 
-When creating a release archive (IPA),
-the symbols are stripped by Xcode.
+當建立發行版封存檔（IPA）時，Xcode 會自動移除符號。
 
-1. In Xcode, go to **Target Runner > Build Settings > Strip Style**.
-2. Change from **All Symbols** to **Non-Global Symbols**.
+1. 在 Xcode 中，前往 **Target Runner > Build Settings > Strip Style**。
+2. 將設定從 **All Symbols** 改為 **Non-Global Symbols**。
 
 {% render docs/resource-links/ffi-video-resources.md, site: site %}

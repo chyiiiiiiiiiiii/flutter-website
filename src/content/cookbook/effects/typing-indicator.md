@@ -1,6 +1,6 @@
 ---
-title: Create a typing indicator
-description: How to implement a typing indicator.
+title: 建立輸入中指示器
+description: 如何實作輸入中指示器。
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -10,28 +10,26 @@ js:
 
 {% render docs/deprecated.md %}
 
-Modern chat apps display indicators when other users
-are actively typing responses. These indicators help
-prevent rapid and conflicting responses between you
-and the other person. In this recipe, you build a
-speech bubble typing indicator that animates in and out of view.
+現代的聊天應用程式會在其他使用者
+正在輸入回應時顯示指示器。這些指示器有助於
+避免你和對方之間產生快速且相互衝突的回應。在本教學中，你將建立一個
+會以動畫方式顯示與隱藏的對話泡泡輸入中指示器。
 
-The following animation shows the app's behavior:
+下方動畫展示了應用程式的行為：
 
 ![The typing indicator is turned on and off](/assets/images/docs/cookbook/effects/TypingIndicator.webp){:.site-mobile-screenshot}
 
-## Define the typing indicator widget
+## 定義輸入中指示器元件 (Widget)
 
-The typing indicator exists within its own widget so that
-it can be used anywhere in your app. As with any widget
-that controls animations, the typing indicator needs to
-be a stateful widget. The widget accepts a boolean value 
-that determines whether the indicator is visible.
-This speech-bubble-typing indicator accepts a color
-for the bubbles and two colors for the light and dark
-phases of the flashing circles within the large speech bubble.
+輸入中指示器存在於它自己的元件（Widget）中，
+因此可以在你的應用程式中的任何地方使用。和所有控制動畫的元件一樣，
+輸入中指示器需要是一個有狀態元件（StatefulWidget）。
+該元件接受一個布林值（boolean），
+用來決定指示器是否顯示。
+這個對話泡泡輸入中指示器可接受一個泡泡顏色，
+以及兩個分別用於大對話泡泡內閃爍圓圈的明亮與深色階段的顏色。
 
-Define a new stateful widget called `TypingIndicator`.
+請定義一個名為 `TypingIndicator` 的新有狀態元件（StatefulWidget）。
 
 <?code-excerpt "lib/excerpt1.dart (typing-indicator)"?>
 ```dart
@@ -62,27 +60,15 @@ class _TypingIndicatorState extends State<TypingIndicator> {
 }
 ```
 
-## Make room for the typing indicator
+## 為輸入中指示器預留空間
 
-The typing indicator doesn't occupy any space when it
-isn't displayed. Therefore, the indicator needs to grow
-in height when it appears, and shrink in height
-when it disappears.
+當輸入中指示器未顯示時，它不會佔據任何空間。因此，當指示器出現時，需要增加其高度；當指示器消失時，則需要縮小其高度。
 
-The height of the typing indicator could be the natural
-height of the speech bubbles within the typing indicator.
-However, the speech bubbles expand with an elastic curve.
-This elasticity would be too visually jarring if it quickly 
-pushed all the conversation messages up or down. Instead,
-the height of the typing indicator animates on its own,
-smoothly expanding before the bubbles appear.
-When the bubbles disappear, the height smoothly contracts to zero. 
-This behavior requires an [explicit animation][] for the
-height of the typing indicator.
+輸入中指示器的高度可以設為其內部對話泡泡的自然高度。然而，這些對話泡泡會以彈性的曲線展開。如果這種彈性效果快速地將所有對話訊息往上或往下推，視覺上會顯得過於突兀。
 
-Define an animation for the height of the typing indicator,
-and then apply that animated value to the `SizedBox`
-widget within the typing indicator.
+因此，輸入中指示器的高度會先自行進行動畫，於泡泡出現前平滑地展開。當泡泡消失時，高度則會平滑地收縮至零。這種行為需要針對輸入中指示器的高度進行[明確動畫][explicit animation]。
+
+請定義一個用於輸入中指示器高度的動畫，然後將該動畫值套用到輸入中指示器內的`SizedBox`元件。
 
 <?code-excerpt "lib/excerpt2.dart (typing-indicator-state)"?>
 ```dart
@@ -151,50 +137,28 @@ class _TypingIndicatorState extends State<TypingIndicator>
 }
 ```
 
-The `TypingIndicator` runs an animation forward or backward
-depending on whether the incoming `showIndicator` variable
-is `true` or `false`, respectively.
+`TypingIndicator` 會根據傳入的 `showIndicator` 變數是 `true` 還是 `false`，分別向前或向後執行動畫。
 
-The animation that controls the height uses different
-animation curves depending on its direction.
-When the animation moves forward, it needs to quickly make 
-space for the speech bubbles. For this reason,
-the forward curve runs the entire height animation within
-the first 40% of the overall appearance animation.
-When the animation reverses, it needs to give the speech bubbles
-enough time to disappear before contracting the height. 
-An ease-out curve that uses all the available time is a
-good way to accomplish this behavior.
+控制高度的動畫會根據動畫的方向使用不同的動畫曲線（animation curve）。
+當動畫向前移動時，需要快速為對話泡泡（speech bubbles）騰出空間。因此，向前的曲線會在整體出現動畫的前 40% 內完成整個高度動畫。
+當動畫反向時，則需要給對話泡泡足夠的時間消失，再縮減高度。此時，使用一條涵蓋所有可用時間的 ease-out 曲線，是實現這種行為的好方法。
 
 :::note
-The `AnimatedBuilder` widget rebuilds the `SizedBox`
-widget as the `_indicatorSpaceAnimation` changes.
-The alternative to using `AnimatedBuilder` is to
-invoke `setState()` every time the animation changes, 
-and then rebuild the entire widget tree within `TypingIndicator`. 
-Invoking `setState()` in this manner is acceptable,
-but as other widgets are added to this widget tree,
-rebuilding the entire tree just to change the height 
-of the `SizedBox` widget wastes CPU cycles.
+`AnimatedBuilder` 元件（Widget）會在 `_indicatorSpaceAnimation` 改變時重建 `SizedBox` 元件。
+如果不使用 `AnimatedBuilder`，另一種做法是每次動畫變化時呼叫 `setState()`，然後在 `TypingIndicator` 內重建整個元件樹（widget tree）。
+以這種方式呼叫 `setState()` 是可以接受的，但隨著更多元件加入到這個元件樹中，僅僅為了改變 `SizedBox` 元件的高度而重建整棵樹，會浪費 CPU 資源。
 :::
 
-## Animate the speech bubbles
+## 動畫化對話泡泡
 
-The typing indicator displays three speech bubbles.
-The first two bubbles are small and round. The third
-bubble is oblong and contains a few flashing circles. 
-These bubbles are staggered in position from the lower
-left of the available space.
+輸入指示器（typing indicator）會顯示三個對話泡泡（speech bubbles）。
+前兩個泡泡較小且呈圓形，第三個泡泡則較長，內含幾個閃爍的小圓點。
+這些泡泡會從可用空間的左下方以錯落的方式排列。
 
-Each bubble appears by animating its scale from 0% to 100%,
-and each bubble does this at slightly different times so
-that it looks like each bubble appears after the one before it.
-This is called a [staggered animation][].
+每個泡泡會透過將縮放比例（scale）從 0% 動畫到 100% 來出現，而且每個泡泡的動畫時機略有不同，讓每個泡泡看起來像是依序出現。
+這種效果稱為[錯落動畫（staggered animation）][staggered animation]。
 
-Paint the three bubbles in the desired positions from the
-lower left. Then, animate the scale of the bubbles
-so that the bubbles are staggered whenever the `showIndicator`
-property changes.
+將三個泡泡繪製在左下方的理想位置，然後在 `showIndicator` 屬性變化時，對泡泡的縮放進行動畫處理，讓泡泡以錯落的方式出現。
 
 <?code-excerpt "lib/excerpt3.dart (bubbles)"?>
 ```dart
@@ -403,18 +367,11 @@ class StatusBubble extends StatelessWidget {
 }
 ```
 
-## Animate the flashing circles
+## 製作閃爍圓點動畫
 
-Within the large speech bubble, the typing indicator
-displays three small circles that flash repeatedly.
-Each circle flashes at a slightly different time,
-giving the impression that a single light source is 
-moving behind each circle. This flashing animation
-repeats indefinitely.
+在大型對話框中，輸入指示器會顯示三個不斷閃爍的小圓點。每個圓點閃爍的時間略有不同，營造出單一光源在每個圓點後方移動的視覺效果。這個閃爍動畫會無限重複。
 
-Introduce a repeating `AnimationController` to
-implement the circle flashing and pass it to the
-`StatusBubble`.
+請引入一個重複的 `AnimationController` 來實作圓點閃爍效果，並將其傳遞給 `StatusBubble`。
 
 <?code-excerpt "lib/excerpt4.dart (animation-controller)"?>
 ```dart
@@ -611,25 +568,15 @@ class FlashingCircle extends StatelessWidget {
 }
 ```
 
-Each circle calculates its color using a sine (`sin`)
-function so that the color changes gradually at the
-minimum and maximum points. Additionally,
-each circle animates its color within a specified interval
-that takes up a portion of the overall animation time.
-The position of these intervals generates the visual
-effect of a single light source moving behind the three dots.
+每個圓點會利用正弦（`sin`）函數來計算其顏色，讓顏色在最小值與最大值時能夠平滑地變化。此外，每個圓點都會在指定的時間區間內進行顏色動畫，這個區間只佔整體動畫時間的一部分。這些區間的位置安排，產生了像是單一光源在三個圓點背後移動的視覺效果。
 
-Congratulations! You now have a typing indicator that lets users
-know when someone else is typing. The indicator animates in and out,
-and displays a repeating animation while the other user is typing.
+恭喜你！你現在已經有一個輸入指示器（typing indicator），可以讓使用者知道其他人正在輸入。這個指示器會以動畫方式顯示與隱藏，並在對方輸入時持續重複播放動畫。
 
-## Interactive example
+## 互動範例
 
-Run the app:
+執行應用程式：
 
-* Click the round on/off switch at the bottom
-  of the screen to turn the typing indicator bubble
-  on and off.
+* 點擊螢幕底部的圓形開關，可以開啟或關閉輸入指示器泡泡。
 
 <!-- Start DartPad -->
 

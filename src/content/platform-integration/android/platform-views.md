@@ -1,73 +1,61 @@
 ---
-title: Hosting native Android views in your Flutter app with Platform Views
+title: 在 Flutter 應用程式中使用 Platform Views 嵌入原生 Android 視圖
 shortTitle: Android platform-views
-description: Learn how to host native Android views in your Flutter app with Platform Views.
+description: 學習如何在 Flutter 應用程式中透過 Platform Views 嵌入原生 Android 視圖。
 ---
 
 <?code-excerpt path-base="platform_integration/platform_views"?>
 
-Platform views allow you to embed native views in a Flutter app,
-so you can apply transforms, clips, and opacity to the native view
-from Dart.
+Platform Views 允許你在 Flutter 應用程式中嵌入原生視圖，因此你可以從 Dart 端對原生視圖進行變換、裁剪以及透明度等操作。
 
-This allows you, for example, to use the native
-Google Maps from the Android SDK
-directly inside your Flutter app.
+這讓你可以，例如，直接在 Flutter 應用程式內使用來自 Android SDK 的原生 Google Maps。
 
 :::note
-This page discusses how to host your own native Android views
-within a Flutter app.
-If you'd like to embed native iOS views in your Flutter app,
-see [Hosting native iOS views][].
-If you'd like to embed native macOS views in your Flutter app,
-see [Hosting native macOS views][].
+本頁說明如何在 Flutter 應用程式中嵌入你自己的原生 Android 視圖。
+如果你想在 Flutter 應用程式中嵌入原生 iOS 視圖，請參考[Hosting native iOS views][Hosting native iOS views]。
+如果你想在 Flutter 應用程式中嵌入原生 macOS 視圖，請參考[Hosting native macOS views][Hosting native macOS views]。
 :::
 
 [Hosting native iOS views]: /platform-integration/ios/platform-views
 [Hosting native macOS views]: /platform-integration/macos/platform-views
 
-Platform Views on Android have two implementations. They come with tradeoffs
-both in terms of performance and fidelity. 
-Platform views require Android API 23+.
+Android 上的 Platform Views 有兩種實作方式。這兩種方式在效能與呈現品質上各有取捨。
+Platform Views 需要 Android API 23 以上版本。
 
 ## [Hybrid Composition](#hybrid-composition)
 
-Platform Views are rendered as they are normally. Flutter content is rendered into a texture.
-SurfaceFlinger composes the Flutter content and the platform views.
+Platform Views 會以原生方式進行渲染。Flutter 內容則渲染到一個 texture 上。
+SurfaceFlinger 負責將 Flutter 內容與 platform views 組合顯示。
 
-* `+` best performance and fidelity of Android views.
-* `-` Flutter performance suffers.
-* `-` FPS of application will be lower.
-* `-` Certain transformations that can be applied to Flutter widgets will not work when applied to platform views.
+* `+` 最佳的 Android 視圖效能與呈現品質。
+* `-` Flutter 效能會受到影響。
+* `-` 應用程式的 FPS 會較低。
+* `-` 某些可套用於 Flutter 元件 (Widgets) 的變換操作，無法套用於 platform views。
 
-## [Texture Layer](#texturelayerhybridcomposition) (or Texture Layer Hybrid Composition)
+## [Texture Layer](#texturelayerhybridcomposition)（或稱 Texture Layer Hybrid Composition）
 
-Platform Views are rendered into a texture.
-Flutter draws the platform views (via the texture).
-Flutter content is rendered directly into a Surface.
+Platform Views 會被渲染到一個 texture 上。
+Flutter 會繪製這些 platform views（透過該 texture）。
+Flutter 內容則直接渲染到 Surface 上。
 
-* `+` good performance for Android Views
-* `+` best performance for Flutter rendering.
-* `+` all transformations work correctly.
-* `-` quick scrolling (e.g. a web view) will be janky
-* `-` SurfaceViews are problematic in this mode and will be moved into a virtual display (breaking a11y)
-* `-` Text magnifier will break unless Flutter is rendered into a TextureView.
+* `+` 提供良好的 Android 視圖效能
+* `+` 提供最佳的 Flutter 渲染效能。
+* `+` 所有變換操作皆可正確運作。
+* `-` 快速捲動（例如 web view）時會有卡頓現象
+* `-` SurfaceViews 在此模式下會有問題，並會被移至虛擬顯示（導致無障礙功能失效）
+* `-` 除非 Flutter 被渲染到 TextureView，否則文字放大鏡功能會失效。
 
-To create a platform view on Android,
-use the following steps:
+要在 Android 上建立 platform view，請依照下列步驟：
 
-## On the Dart side
+## Dart 端操作
 
-On the Dart side, create a `Widget`
-and add one of the following build implementations.
+在 Dart 端，建立一個 `Widget`，並加入下列其中一種 build 實作方式。
 
 ### Hybrid composition
 
-In your Dart file,
-for example `native_view_example.dart`,
-use the following instructions:
+在你的 Dart 檔案中，例如 `native_view_example.dart`，請依照下列指示操作：
 
-1. Add the following imports:  
+1. 新增以下 import：  
 
    <?code-excerpt "lib/native_view_example_1.dart (import)"?>
    ```dart
@@ -78,7 +66,7 @@ use the following instructions:
    import 'package:flutter/services.dart';
    ```  
     
-2. Implement a `build()` method:
+2. 實作 `build()` 方法：
 
    <?code-excerpt "lib/native_view_example_1.dart (hybrid-composition)"?>
    ```dart
@@ -115,11 +103,11 @@ use the following instructions:
    }
    ```
 
-For more information, see the API docs for:
+如需更多資訊，請參閱以下 API 文件：
 
-* [`PlatformViewLink`][]
-* [`AndroidViewSurface`][]
-* [`PlatformViewsService`][]
+* [`PlatformViewLink`][`PlatformViewLink`]
+* [`AndroidViewSurface`][`AndroidViewSurface`]
+* [`PlatformViewsService`][`PlatformViewsService`]
 
 [`AndroidViewSurface`]: {{site.api}}/flutter/widgets/AndroidViewSurface-class.html
 [`PlatformViewLink`]: {{site.api}}/flutter/widgets/PlatformViewLink-class.html
@@ -127,11 +115,11 @@ For more information, see the API docs for:
 
 ### TextureLayerHybridComposition
 
-In your Dart file,
-for example `native_view_example.dart`,
-use the following instructions:
+在你的 Dart 檔案中，
+例如 `native_view_example.dart`，
+請依照下列步驟操作：
 
-1. Add the following imports:
+1. 新增以下匯入：
 
    <?code-excerpt "lib/native_view_example_2.dart (import)"?>
    ```dart
@@ -139,7 +127,7 @@ use the following instructions:
    import 'package:flutter/services.dart';
    ```
 
-2. Implement a `build()` method:
+2. 實作 `build()` 方法：
 
    <?code-excerpt "lib/native_view_example_2.dart (virtual-display)"?>
    ```dart
@@ -158,26 +146,25 @@ use the following instructions:
    }
    ```
 
-For more information, see the API docs for:
+如需更多資訊，請參閱 API 文件：
 
-* [`AndroidView`][]
+* [`AndroidView`][`AndroidView`]
 
 [`AndroidView`]: {{site.api}}/flutter/widgets/AndroidView-class.html
 
-## On the platform side
+## 在平台端
 
-On the platform side, use the standard
-`io.flutter.plugin.platform` package
-in either Kotlin or Java:
+在平台端，請於 Kotlin 或 Java 中使用標準的
+`io.flutter.plugin.platform` 套件：
 
 {% tabs "android-language" %}
 {% tab "Kotlin" %}
 
-In your native code, implement the following:
+在您的原生程式碼中，請實作以下內容：
 
-Extend `io.flutter.plugin.platform.PlatformView`
-to provide a reference to the `android.view.View`
-(for example, `NativeView.kt`):
+擴充 `io.flutter.plugin.platform.PlatformView`
+以提供對 `android.view.View` 的參考
+（例如，`NativeView.kt`）：
 
 ```kotlin
 package dev.flutter.example
@@ -206,9 +193,7 @@ internal class NativeView(context: Context, id: Int, creationParams: Map<String?
 }
 ```
 
-Create a factory class that creates an instance of the
-`NativeView` created earlier
-(for example, `NativeViewFactory.kt`):
+建立一個 factory 類別，用來建立先前所建立的 `NativeView` 實例（例如，`NativeViewFactory.kt`）：
 
 ```kotlin
 package dev.flutter.example
@@ -226,12 +211,12 @@ class NativeViewFactory : PlatformViewFactory(StandardMessageCodec.INSTANCE) {
 }
 ```
 
-Finally, register the platform view.
-You can do this in an app or a plugin.
+最後，請註冊 platform view。  
+你可以在應用程式或外掛程式（plugin）中進行這個步驟。
 
-For app registration,
-modify the app's main activity
-(for example, `MainActivity.kt`):
+若要在應用程式中註冊，  
+請修改應用程式的 main activity  
+（例如，`MainActivity.kt`）：
 
 ```kotlin
 package dev.flutter.example
@@ -251,9 +236,9 @@ class MainActivity : FlutterActivity() {
 }
 ```
 
-For plugin registration,
-modify the plugin's main class
-(for example, `PlatformViewPlugin.kt`):
+若要進行 plugin 註冊，
+請修改該 plugin 的主類別
+（例如，`PlatformViewPlugin.kt`）：
 
 ```kotlin
 package dev.flutter.plugin.example
@@ -275,11 +260,11 @@ class PlatformViewPlugin : FlutterPlugin {
 {% endtab %}
 {% tab "Java" %}
 
-In your native code, implement the following:
+在你的原生程式碼中，請實作以下內容：
 
-Extend `io.flutter.plugin.platform.PlatformView`
-to provide a reference to the `android.view.View`
-(for example, `NativeView.java`):
+繼承 `io.flutter.plugin.platform.PlatformView`
+以提供對 `android.view.View` 的參考
+（例如，`NativeView.java`）：
 
 ```java
 package dev.flutter.example;
@@ -314,9 +299,8 @@ class NativeView implements PlatformView {
 }
 ```
 
-Create a factory class that creates an
-instance of the `NativeView` created earlier
-(for example, `NativeViewFactory.java`):
+建立一個 factory 類別，用來建立先前所建立的 `NativeView` 實例
+（例如，`NativeViewFactory.java`）：
 
 ```java
 package dev.flutter.example;
@@ -344,12 +328,12 @@ class NativeViewFactory extends PlatformViewFactory {
 }
 ```
 
-Finally, register the platform view.
-You can do this in an app or a plugin.
+最後，註冊 platform view（平台視圖）。
+你可以在應用程式（app）或外掛（plugin）中進行這個動作。
 
-For app registration,
-modify the app's main activity
-(for example, `MainActivity.java`):
+若要在應用程式中註冊，
+請修改應用程式的主要 activity
+（例如，`MainActivity.java`）：
 
 ```java
 package dev.flutter.example;
@@ -369,9 +353,9 @@ public class MainActivity extends FlutterActivity {
 }
 ```
 
-For plugin registration,
-modify the plugin's main file
-(for example, `PlatformViewPlugin.java`):
+若要進行 plugin 註冊，  
+請修改該 plugin 的主檔案  
+（例如：`PlatformViewPlugin.java`）：
 
 ```java
 package dev.flutter.plugin.example;
@@ -395,20 +379,20 @@ public class PlatformViewPlugin implements FlutterPlugin {
 {% endtab %}
 {% endtabs %}
 
-For more information, see the API docs for:
+如需更多資訊，請參閱以下 API 文件：
 
-* [`FlutterPlugin`][]
-* [`PlatformViewRegistry`][]
-* [`PlatformViewFactory`][]
-* [`PlatformView`][]
+* [`FlutterPlugin`][`FlutterPlugin`]
+* [`PlatformViewRegistry`][`PlatformViewRegistry`]
+* [`PlatformViewFactory`][`PlatformViewFactory`]
+* [`PlatformView`][`PlatformView`]
 
 [`FlutterPlugin`]: {{site.api}}/javadoc/io/flutter/embedding/engine/plugins/FlutterPlugin.html
 [`PlatformView`]: {{site.api}}/javadoc/io/flutter/plugin/platform/PlatformView.html
 [`PlatformViewFactory`]: {{site.api}}/javadoc/io/flutter/plugin/platform/PlatformViewFactory.html
 [`PlatformViewRegistry`]: {{site.api}}/javadoc/io/flutter/plugin/platform/PlatformViewRegistry.html
 
-Finally, modify your `build.gradle` file
-to require one of the minimal Android SDK versions:
+最後，請修改你的 `build.gradle` 檔案，
+以要求其中一個最低版本的 Android SDK：
 
 ```kotlin
 android {
@@ -418,25 +402,22 @@ android {
     }
 }
 ```
-### Surface Views 
+### Surface Views
 
-Handling SurfaceViews is problematic for Flutter and should be avoided when possible.
+在 Flutter 中處理 SurfaceView 具有一定的困難性，建議盡可能避免使用。
 
-### Manual view invalidation
+### 手動檢查檢視（Manual view invalidation）
 
-Certain Android Views do not invalidate themselves when their content changes.
-Some example views include `SurfaceView` and `SurfaceTexture`.
-When your Platform View includes these views you are required to
-manually invalidate the view after they have been drawn to
-(or more specifically: after the swap chain is flipped).
-Manual view invalidation is done by calling `invalidate` on the View 
-or one of its parent views.
+某些 Android View 在其內容變更時不會自動進行無效化（invalidate）。
+舉例來說，包括 `SurfaceView` 和 `SurfaceTexture` 等 View。
+當你的 Platform View（平台檢視）中包含這些 View 時，你必須在它們被繪製之後（更精確地說：在 swap chain 被翻轉之後），手動使該 View 無效化。
+手動檢查檢視可透過呼叫 View 或其父 View 的 `invalidate` 方法來完成。
 
 [`AndroidViewSurface`]: {{site.api}}/flutter/widgets/AndroidViewSurface-class.html
 
-### Issues 
+### 已知問題
 
-[Existing Platform View issues](https://github.com/flutter/flutter/issues?q=is%3Aopen+is%3Aissue+label%3A%22a%3A+platform-views%22)
+[現有 Platform View 問題](https://github.com/flutter/flutter/issues?q=is%3Aopen+is%3Aissue+label%3A%22a%3A+platform-views%22)
 
 {% render docs/platform-view-perf.md, site: site %}
 

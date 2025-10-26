@@ -1,33 +1,27 @@
 ---
-title: Build for and integrate with multiple platforms
-shortTitle: Platform integration
+title: 為多平台開發與整合
+shortTitle: 平台整合
 description: >-
-  Learn how to develop for different platforms and
-  integrate with platform-specific features in Flutter apps.
+  學習如何在 Flutter 應用程式中，針對不同平台開發並整合平台專屬功能。
 ---
 
-Flutter enables you to build, test, and deploy beautiful, natively compiled,
-multi-platform applications from a single codebase.
+Flutter 讓你能夠從單一程式碼庫建構、測試與部署美觀、原生編譯的多平台應用程式。
 
-## Overview
+## 概覽
 
-Flutter and its core packages often automatically support and integrate
-with Flutter's officially [supported platforms][].
-Some platforms require you to [set up additional tooling](#setup),
-but once your development environment is set up,
-Flutter apps are usually functional across platforms out of the box.
+Flutter 及其核心套件通常會自動支援並整合 Flutter 官方[支援的平台][supported platforms]。
+部分平台可能需要你[額外設定開發工具](#setup)，
+但只要你的開發環境設定完成，
+Flutter 應用程式通常能夠直接在多平台上運作。
 
-Occasionally you need to integrate with platform-specific functionality.
-For example, you might want to use a native library that's
-only available on iOS and iPadOS.
-For many use cases, you can find and use one of the many [Flutter plugins][]
-provided by the Flutter team and the amazing Flutter community.
-If none of them meet your needs, you can
-[write platform-specific code][] and even [create your own plugin][].
+有時你會需要整合平台專屬的功能。
+例如，你可能想要使用僅在 iOS 與 iPadOS 上可用的原生函式庫。
+針對許多使用情境，你可以找到並使用 Flutter 團隊及優秀社群所提供的[Flutter 套件 (plugins)][Flutter plugins]。
+若這些套件都無法滿足你的需求，你也可以
+[撰寫平台專屬程式碼][write platform-specific code]，甚至[建立自己的套件 (plugin)][create your own plugin]。
 
 :::tip
-If you're exploring building your app for multiple platforms,
-also consider building your UI with [adaptive and responsive design][] in mind.
+如果你正在探索為多平台建構應用程式，也請考慮以[自適應與響應式設計][adaptive and responsive design]來打造你的 UI。
 :::
 
 [supported platforms]: /reference/supported-platforms
@@ -36,348 +30,246 @@ also consider building your UI with [adaptive and responsive design][] in mind.
 [create your own plugin]: /packages-and-plugins/developing-packages
 [adaptive and responsive design]: /ui/adaptive-responsive/
 
-## Set up platform development {:#setup}
+## 設定平台開發環境 {:#setup}
 
-While Flutter apps can be built for a variety of [supported platforms][]
-with little to no modifications to your code,
-your development environment might require additional setup
-when targeting a new platform.
+雖然 Flutter 應用程式可以針對多種[支援的平台][supported platforms]建構，
+且幾乎不需修改程式碼，
+但當你要針對新平台開發時，開發環境可能需要額外設定。
 
-To set up development for an additional platform,
-select the platform from the following:
+若要為額外的平台設定開發環境，請從下方選擇平台：
 
 <div class="card-grid">
   <a class="card outlined-card" href="/platform-integration/android/setup">
     <div class="card-header">
-      <span class="card-title">Target Android</span>
-      <span class="card-subtitle">On any device</span>
+      <span class="card-title">目標 Android</span>
+      <span class="card-subtitle">適用於任何裝置</span>
     </div>
     <div class="card-content">
-      <p>Set up your development environment to build Flutter apps for Android.</p>
+      <p>設定你的開發環境，以建構適用於 Android 的 Flutter 應用程式。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/platform-integration/ios/setup">
     <div class="card-header">
-      <span class="card-title">Target iOS</span>
-      <span class="card-subtitle">On macOS only</span>
+      <span class="card-title">目標 iOS</span>
+      <span class="card-subtitle">僅限 macOS</span>
     </div>
     <div class="card-content">
-      <p>Set up your development environment to build Flutter apps for iOS.</p>
+      <p>設定你的開發環境，以建構適用於 iOS 的 Flutter 應用程式。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/platform-integration/web/setup">
     <div class="card-header">
-      <span class="card-title">Target Web</span>
-      <span class="card-subtitle">On any device</span>
+      <span class="card-title">目標 Web</span>
+      <span class="card-subtitle">適用於任何裝置</span>
     </div>
     <div class="card-content">
-      <p>Set up your development environment to build Flutter apps for the web.</p>
+      <p>設定你的開發環境，以建構適用於網頁的 Flutter 應用程式。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/platform-integration/windows/setup">
     <div class="card-header">
-      <span class="card-title">Target Windows</span>
-      <span class="card-subtitle">On Windows only</span>
+      <span class="card-title">目標 Windows</span>
+      <span class="card-subtitle">僅限 Windows</span>
     </div>
     <div class="card-content">
-      <p>Set up your development environment to build Flutter apps for Windows.</p>
+      <p>設定你的開發環境，以建構適用於 Windows 的 Flutter 應用程式。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/platform-integration/macos/setup">
     <div class="card-header">
-      <span class="card-title">Target macOS</span>
-      <span class="card-subtitle">On macOS only</span>
+      <span class="card-title">目標 macOS</span>
+      <span class="card-subtitle">僅限 macOS</span>
     </div>
     <div class="card-content">
-      <p>Set up your development environment to build Flutter apps for macOS.</p>
+      <p>設定你的開發環境，以建構適用於 macOS 的 Flutter 應用程式。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/platform-integration/linux/setup">
     <div class="card-header">
-      <span class="card-title">Target Linux</span>
-      <span class="card-subtitle">On Linux only</span>
+      <span class="card-title">目標 Linux</span>
+      <span class="card-subtitle">僅限 Linux</span>
     </div>
     <div class="card-content">
-      <p>Set up your development environment to build Flutter apps for Linux.</p>
+      <p>設定你的開發環境，以建構適用於 Linux 的 Flutter 應用程式。</p>
     </div>
   </a>
 </div>
 
-## Integrate with each platform {:#integrate}
+## 與各平台整合 {:#integrate}
 
-If the situation you're trying to solve is not
-covered by an existing [Flutter plugin][],
-check out the following guides to learn how to
-integrate with each of the supported platforms.
+如果你要解決的情境並未被現有的[Flutter 套件 (plugin)][Flutter plugin]涵蓋，
+請參考下列指南，瞭解如何與各支援平台整合。
 
 [Flutter plugin]: /packages-and-plugins/using-packages#searching-for-packages
 
-### Integrate with Android {:#android}
+### 與 Android 整合 {:#android}
 
-Learn how to add custom integrations with Android to your Flutter app.
+學習如何將自訂整合加入你的 Flutter 應用程式中的 Android。
 
 <div class="card-grid">
   <a class="card outlined-card" href="/platform-integration/android/splash-screen">
     <div class="card-header">
-      <span class="card-title">Add a splash screen</span>
+      <span class="card-title">新增啟動畫面</span>
     </div>
     <div class="card-content">
-      <p>Learn how to add a splash screen to your app on Android.</p>
+      <p>學習如何在 Android 上為你的應用程式新增啟動畫面。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/platform-integration/android/predictive-back">
     <div class="card-header">
-      <span class="card-title">Support predictive back</span>
+      <span class="card-title">支援預測返回</span>
     </div>
     <div class="card-content">
-      <p>Learn how to add the predictive back gesture to your app on Android.</p>
+      <p>學習如何在 Android 上為你的應用程式新增預測返回手勢。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/platform-integration/android/call-jetpack-apis">
     <div class="card-header">
-      <span class="card-title">Call JetPack APIs</span>
+      <span class="card-title">呼叫 JetPack API</span>
     </div>
     <div class="card-content">
-      <p>Learn how the latest Android APIs in your app from Dart.</p>
+      <p>學習如何從 Dart 在你的應用程式中呼叫最新的 Android API。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/platform-integration/android/c-interop">
     <div class="card-header">
-      <span class="card-title">Bind to native code</span>
+      <span class="card-title">綁定原生程式碼</span>
     </div>
     <div class="card-content">
-      <p>Learn how to bind to native C code from your app on Android.</p>
+      <p>學習如何在 Android 上從你的應用程式綁定原生 C 程式碼。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/platform-integration/android/platform-views">
     <div class="card-header">
-      <span class="card-title">Embed an Android view</span>
+      <span class="card-title">嵌入 Android 視圖</span>
     </div>
     <div class="card-content">
-      <p>Learn how to host native Android views in your app.</p>
+      <p>學習如何在你的應用程式中承載原生 Android 視圖。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/platform-integration/android/compose-activity">
     <div class="card-header">
-      <span class="card-title">Launch a Compose activity</span>
+      <span class="card-title">啟動 Compose 活動</span>
     </div>
     <div class="card-content">
-      <p>Learn how to launch a Jetpack Compose activity from your app.</p>
+      <p>學習如何從你的應用程式啟動 Jetpack Compose 活動。</p>
     </div>
   </a>
 </div>
 
-### Integrate with iOS {:#ios}
+### 與 iOS 整合 {:#ios}
 
-Learn how to add custom integrations with iOS to your Flutter app.
+學習如何將自訂整合加入你的 Flutter 應用程式中的 iOS。
 
 <div class="card-grid">
   <a class="card outlined-card" href="/platform-integration/ios/launch-screen">
     <div class="card-header">
-      <span class="card-title">Add a launch screen</span>
+      <span class="card-title">新增啟動畫面</span>
     </div>
     <div class="card-content">
-      <p>Learn how to add a launch screen to your app on iOS.</p>
+      <p>學習如何在 iOS 上為你的應用程式新增啟動畫面。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/platform-integration/ios/apple-frameworks">
     <div class="card-header">
-      <span class="card-title">Leverage system frameworks</span>
+      <span class="card-title">善用系統 Framework</span>
     </div>
     <div class="card-content">
-      <p>Learn about plugins that support functionality from native iOS frameworks.</p>
+      <p>瞭解支援原生 iOS framework 功能的套件 (plugin)。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/platform-integration/ios/c-interop">
     <div class="card-header">
-      <span class="card-title">Bind to native code</span>
+      <span class="card-title">綁定原生程式碼</span>
     </div>
     <div class="card-content">
-      <p>Learn how to bind to native C, Objective-C, and Swift code from your app.</p>
+      <p>學習如何從你的應用程式綁定原生 C、Objective-C 與 Swift 程式碼。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/platform-integration/ios/platform-views">
     <div class="card-header">
-      <span class="card-title">Embed an iOS view</span>
+      <span class="card-title">嵌入 iOS 視圖</span>
     </div>
     <div class="card-content">
-      <p>Learn how to host native iOS views in your app.</p>
+      <p>學習如何在你的應用程式中承載原生 iOS 視圖。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/platform-integration/ios/app-extensions">
     <div class="card-header">
-      <span class="card-title">Add an app extension</span>
+      <span class="card-title">新增 App Extension</span>
     </div>
     <div class="card-content">
-      <p>Learn how to add an iOS app extension to your app.</p>
+      <p>學習如何在你的應用程式中新增 iOS App Extension。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/platform-integration/ios/ios-latest">
     <div class="card-header">
-      <span class="card-title">Support new iOS features</span>
+      <span class="card-title">支援 iOS 新功能</span>
     </div>
     <div class="card-content">
-      <p>Learn about Flutter's support for new or upcoming iOS features.</p>
+      <p>瞭解 Flutter 對於 iOS 新功能或即將推出功能的支援情形。</p>
     </div>
   </a>
 </div>
 
-### Integrate with the web {:#web}
+### 與 Web 整合 {:#web}
 
-Learn how to add custom integrations with the
-web platform to your Flutter app.
+學習如何將自訂整合加入你的 Flutter 應用程式中的 Web 平台。
 
 <div class="card-grid">
   <a class="card outlined-card" href="/platform-integration/web/initialization">
     <div class="card-header">
-      <span class="card-title">Customize app initialization</span>
+      <span class="card-title">自訂應用程式初始化</span>
     </div>
     <div class="card-content">
-      <p>Customize how your Flutter app is initialized on the web.</p>
+      <p>自訂你的 Flutter 應用程式在 Web 上的初始化方式。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/platform-integration/android/c-interop">
     <div class="card-header">
-      <span class="card-title">Bind to native code</span>
+      <span class="card-title">綁定原生程式碼</span>
     </div>
     <div class="card-content">
-      <p>Learn how to bind to native C code from your app on Android.</p>
+      <p>學習如何在 Android 上從你的應用程式綁定原生 C 程式碼。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/platform-integration/web/web-content-in-flutter">
     <div class="card-header">
-      <span class="card-title">Embed web content</span>
+      <span class="card-title">嵌入網頁內容</span>
     </div>
     <div class="card-content">
-      <p>Learn how to embed native web content in your app.</p>
+      <p>學習如何在你的應用程式中嵌入原生網頁內容。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/platform-integration/web/embedding-flutter-web">
     <div class="card-header">
-      <span class="card-title">Embed your app</span>
+      <span class="card-title">嵌入你的應用程式</span>
     </div>
     <div class="card-content">
-      <p>Learn how to embed your Flutter app in another web app.</p>
+      <p>學習如何將你的 Flutter 應用程式嵌入其他網頁應用程式中。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/platform-integration/web/wasm/">
     <div class="card-header">
-      <span class="card-title">Compile to WebAssembly</span>
+      <span class="card-title">編譯為 WebAssembly</span>
     </div>
     <div class="card-content">
-      <p>Learn how to take advantage of WebAssembly in your Flutter web app.</p>
+      <p>學習如何在你的 Flutter Web 應用程式中善用 WebAssembly。</p>
     </div>
   </a>
   <a class="card outlined-card" href="{{site.dart-site}}/interop/js-interop" target="_blank">
     <div class="card-header">
       <span class="card-title">
-        <span>Interop with JavaScript</span>
+        <span>與 JavaScript 互通</span>
         <span class="material-symbols" aria-hidden="true" style="font-size: 1rem;" translate="no">open_in_new</span>
       </span>
     </div>
     <div class="card-content">
-      <p>Learn how to integrate with JavaScript from your Dart code.</p>
+      <p>學習如何從 Dart 程式碼與 JavaScript 整合。</p>
     </div>
   </a>
 </div>
 
-### Integrate with Windows {:#windows}
+### 與 Windows 整合 {:#windows}
 
-Learn how to add custom integrations with Windows to your Flutter app.
-
-<div class="card-grid">
-  <a class="card outlined-card" href="/platform-integration/windows/building/#integrating-with-windows">
-    <div class="card-header">
-      <span class="card-title">Bind to native code</span>
-    </div>
-    <div class="card-content">
-      <p>Learn how to bind to native C code from your app on Windows.</p>
-    </div>
-  </a>
-  <a class="card outlined-card" href="/platform-integration/windows/building/#distributing-windows-apps">
-    <div class="card-header">
-      <span class="card-title">Distribute your app</span>
-    </div>
-    <div class="card-content">
-      <p>Learn about different options for distributing your app on Windows.</p>
-    </div>
-  </a>
-  <a class="card outlined-card" href="platform-integration/windows/building#supporting-windows-ui-guidelines">
-    <div class="card-header">
-      <span class="card-title">Follow Windows UI conventions</span>
-    </div>
-    <div class="card-content">
-      <p>Learn different techniques to integrate with the Windows look and feel.</p>
-    </div>
-  </a>
-</div>
-
-### Integrate with macOS {:#macos}
-
-Learn how to add custom integrations with macOS to your Flutter app.
-
-<div class="card-grid">
-  <a class="card outlined-card" href="/platform-integration/macos/c-interop">
-    <div class="card-header">
-      <span class="card-title">Bind to native code</span>
-    </div>
-    <div class="card-content">
-      <p>Learn how to bind to native C, Objective-C, and Swift code from your app.</p>
-    </div>
-  </a>
-  <a class="card outlined-card" href="/platform-integration/macos/platform-views">
-    <div class="card-header">
-      <span class="card-title">Embed a macOS view</span>
-    </div>
-    <div class="card-content">
-      <p>Learn how to host native macOS views in your app.</p>
-    </div>
-  </a>
-  <a class="card outlined-card" href="/platform-integration/macos/building#entitlements-and-the-app-sandbox">
-    <div class="card-header">
-      <span class="card-title">Set up macOS entitlements</span>
-    </div>
-    <div class="card-content">
-      <p>Learn how to enable specific capabilities and services for your app.</p>
-    </div>
-  </a>
-  <a class="card outlined-card" href="/platform-integration/macos/building#integrating-with-macos-look-and-feel">
-    <div class="card-header">
-      <span class="card-title">Integrate with the macOS visual style</span>
-    </div>
-    <div class="card-content">
-      <p>Learn different techniques to integrate with the macOS look and feel.</p>
-    </div>
-  </a>
-</div>
-
-### Integrate with Linux {:#linux}
-
-Learn how to add custom integrations with Linux to your Flutter app.
-
-<div class="card-grid">
-  <a class="card outlined-card" href="/platform-integration/linux/building#integrate-with-linux">
-    <div class="card-header">
-      <span class="card-title">Bind to native code</span>
-    </div>
-    <div class="card-content">
-      <p>Learn how to use and bind to native Linux libraries and code.</p>
-    </div>
-  </a>
-  <a class="card outlined-card" href="/platform-integration/linux/building#prepare-linux-apps-for-distribution">
-    <div class="card-header">
-      <span class="card-title">Prepare for distribution</span>
-    </div>
-    <div class="card-content">
-      <p>Prepare your Flutter app for distributing to Linux users.</p>
-    </div>
-  </a>
-  <a class="card outlined-card" href="/deployment/linux/">
-    <div class="card-header">
-      <span class="card-title">Deploy to the Snap Store</span>
-    </div>
-    <div class="card-content">
-      <p>Learn how to deploy your Linux desktop app to the Snap Store.</p>
-    </div>
-  </a>
-</div>
+學習如何

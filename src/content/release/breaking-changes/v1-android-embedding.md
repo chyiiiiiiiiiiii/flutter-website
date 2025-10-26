@@ -1,17 +1,18 @@
 ---
-title: Removal of v1 Android embedding Java APIs
+title: 移除 v1 Android embedding Java API
 description: >-
-  Learn how to account for the removal of the Android v1 embedding APIs.
+  了解如何因應 Android v1 embedding API 的移除。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-Android's v1 embedding has been removed in Flutter 3.29.0.
-This follows the deprecation described in
-[Android v1 embedding app and plugin creation deprecation][].
-The following is a full list of classes removed.
+Android 的 v1 embedding 已於 Flutter 3.29.0 中被移除。
+這是繼
+[Android v1 embedding app and plugin creation deprecation][Android v1 embedding app and plugin creation deprecation]
+所描述的淘汰政策之後的後續措施。
+以下為被移除的所有類別完整清單。
 
 ```text
 io.flutter.app.FlutterActivity
@@ -30,52 +31,37 @@ io.flutter.view.FlutterNativeView
 io.flutter.view.FlutterView
 ```
 
-If your project references any of the above classes, consult the following
-list for instructions on migration.
+如果您的專案有參考到上述任何類別，請參考下方列表以獲取遷移指引。
 
-* `io.flutter.app.FlutterActivity` was
-   replaced with `io.flutter.embedding.android.FlutterActivity`.
-* `io.flutter.app.FlutterActivityDelegate` was
-   replaced with `io.flutter.embedding.android.FlutterActivityAndFragmentDelegate`.
-* `io.flutter.app.FlutterActivityEvents` was removed.
-* `io.flutter.app.FlutterApplication` was removed.
-   Flutter projects with custom `Application` implementations should
-   instead extend the base `android.app.Application`.
-* `io.flutter.app.FlutterFragmentActivity` was
-  replaced with `io.flutter.embedding.android.FlutterFragmentActivity`.
-* `io.flutter.app.FlutterPlayStoreSplitApplication` was
-  replaced with `io.flutter.embedding.android.FlutterPlayStoreSplitApplication`.
-* `io.flutter.app.FlutterPluginRegistry` was removed,
-   as it only served to let plugins support apps using the v1 embedding.
-* `io.flutter.embedding.engine.plugins.shim.ShimPluginRegistry` was removed,
-   as it only served to support let plugins support apps using the v1 embedding.
-* `io.flutter.embedding.engine.plugins.shim.ShimRegistrar` was removed,
-   as it only served to support let plugins support apps using the v1 embedding.
-* `io.flutter.view.FlutterMain` was
-   replaced by `io.flutter.embedding.engine.loader.FlutterLoader`.
-* `io.flutter.view.FlutterNativeView` was
-   replaced by `io.flutter.embedding.android.FlutterView`.
-* `io.flutter.view.FlutterView` was
-   replaced by `io.flutter.embedding.android.FlutterView`.
+* `io.flutter.app.FlutterActivity` 已被 `io.flutter.embedding.android.FlutterActivity` 取代。
+* `io.flutter.app.FlutterActivityDelegate` 已被 `io.flutter.embedding.android.FlutterActivityAndFragmentDelegate` 取代。
+* `io.flutter.app.FlutterActivityEvents` 已被移除。
+* `io.flutter.app.FlutterApplication` 已被移除。
+  Flutter 專案若有自訂 `Application` 實作，應改為繼承基礎的 `android.app.Application`。
+* `io.flutter.app.FlutterFragmentActivity` 已被 `io.flutter.embedding.android.FlutterFragmentActivity` 取代。
+* `io.flutter.app.FlutterPlayStoreSplitApplication` 已被 `io.flutter.embedding.android.FlutterPlayStoreSplitApplication` 取代。
+* `io.flutter.app.FlutterPluginRegistry` 已被移除，因其僅用於讓套件支援使用 v1 embedding 的應用程式。
+* `io.flutter.embedding.engine.plugins.shim.ShimPluginRegistry` 已被移除，因其僅用於讓套件支援使用 v1 embedding 的應用程式。
+* `io.flutter.embedding.engine.plugins.shim.ShimRegistrar` 已被移除，因其僅用於讓套件支援使用 v1 embedding 的應用程式。
+* `io.flutter.view.FlutterMain` 已被 `io.flutter.embedding.engine.loader.FlutterLoader` 取代。
+* `io.flutter.view.FlutterNativeView` 已被 `io.flutter.embedding.android.FlutterView` 取代。
+* `io.flutter.view.FlutterView` 已被 `io.flutter.embedding.android.FlutterView` 取代。
 
 [Android v1 embedding app and plugin creation deprecation]: /release/breaking-changes/android-v1-embedding-create-deprecation
 
-## Plugin authors
+## 套件作者
 
-Plugins should remove the `registerWith` method from
-their `FlutterPlugin` interface implementation:
+套件應從其 `FlutterPlugin` 介面的實作中移除 `registerWith` 方法：
 
 ```java
 public static void registerWith(@NonNull io.flutter.plugin.common.PluginRegistry.Registrar registrar);
 ```
 
-For an example of this migration,
-check out the pull request to remove this method from the
-Flutter team-owned plugins: [flutter/packages#6494][].
+如需此遷移的範例，請參考 Flutter 團隊所擁有的 plugins 中移除此方法的 pull request：[flutter/packages#6494][flutter/packages#6494]。
 
 [flutter/packages#6494]: {{site.github}}/flutter/packages/pull/6494
 
-## Timeline
+## 時程
 
-Landed in version: 3.28.0-0.1.pre<br>
-In stable release: 3.29
+導入版本：3.28.0-0.1.pre<br>  
+正式版發佈：3.29

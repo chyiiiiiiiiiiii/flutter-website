@@ -1,49 +1,40 @@
 ---
-title: The forgetChild() method must call super
+title: forgetChild() 方法必須呼叫 super
 description: >
-    Any element subclasses that override forgetChild are required to call super.
+    任何覆寫 forgetChild 的元素子類別都必須呼叫 super。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-A recent global key duplication detection refactor now requires
-`Element` subclasses that override the `forgetChild()` to call `super()`.
+近期針對全域 key 重複偵測的重構，現在要求所有覆寫 `forgetChild()` 的 `Element` 子類別必須呼叫 `super()`。
 
-## Context
+## 背景說明
 
-When encountering a global key duplication that will be
-cleaned up by an element rebuild later,
-we must not report global key duplication.
-Our previous implementation threw an error as soon as
-duplication was detected, and didn't wait for the rebuild if the
-element with the duplicated global key would have rebuilt.
+當遇到一個全域 key 重複的情況，且該情況會在元素重建（rebuild）時被清理時，
+我們不應該回報全域 key 重複。
+先前的實作方式是在偵測到重複時立即拋出錯誤，
+而不會等待重建（即使具有重複全域 key 的元素會被重建）。
 
-The new implementation keeps track of all global
-key duplications during a build cycle, and only verifies global
-key duplication at the end of the that cycle instead of
-throwing an error immediately. As part of the refactoring,
-we implemented a mechanism to remove previous global key
-duplication in `forgetChild` if the rebuild had happened.
-This, however, requires all `Element` subclasses that
-override `forgetChild` to call the `super` method.
+新的實作會在一次建構（build）週期內追蹤所有全域 key 重複情況，
+並只會在該週期結束時才驗證全域 key 是否重複，而不是立即拋出錯誤。
+在這次重構過程中，我們實作了一個機制，
+如果發生重建，則會在 `forgetChild` 中移除先前的全域 key 重複紀錄。
+然而，這需要所有覆寫 `forgetChild` 的 `Element` 子類別都必須呼叫 `super` 方法。
 
-## Description of change
+## 變更說明
 
-The `forgetChild` of abstract class `Element` has a base
-implementation to remove global key reservation,
-and it is enforced by the `@mustCallSuper` meta tag.
-All subclasses that override the method have to call `super`;
-otherwise, the analyzer shows a linting error and
-global key duplication detection might throw an unexpected error.
+抽象類別 `Element` 的 `forgetChild` 提供了移除全域 key 保留的基礎實作，
+並且透過 `@mustCallSuper` meta 標籤強制執行。
+所有覆寫該方法的子類別都必須呼叫 `super`；
+否則，分析器會顯示 lint 錯誤，且全域 key 重複偵測可能會拋出非預期錯誤。
 
-## Migration guide
+## 遷移指南
 
-In the following example, an app's `Element`
-subclass overrides the `forgetChild` method.
+在以下範例中，一個應用程式的 `Element` 子類別覆寫了 `forgetChild` 方法。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 class CustomElement extends Element {
@@ -55,7 +46,7 @@ class CustomElement extends Element {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 class CustomElement extends Element {
@@ -68,25 +59,25 @@ class CustomElement extends Element {
 }
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 1.16.3<br>
-In stable release: 1.17
+合併於版本：1.16.3<br>  
+進入穩定版本：1.17
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`Element`][]
-* [`forgetChild()`][]
+* [`Element`][`Element`]
+* [`forgetChild()`][`forgetChild()`]
 
-Relevant issues:
+相關議題：
 
-* [Issue 43780][]
+* [Issue 43780][Issue 43780]
 
-Relevant PRs:
+相關 PR：
 
-* [PR 43790: Fix global key error][]
+* [PR 43790: Fix global key error][PR 43790: Fix global key error]
 
 
 [`Element`]: {{site.api}}/flutter/widgets/Element-class.html

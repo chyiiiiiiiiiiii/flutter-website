@@ -1,39 +1,35 @@
 ---
-title: Deprecated API removed after v3.19
+title: v3.19 之後移除的已棄用 API
 description: >-
-  After reaching end of life, the following deprecated APIs
-  were removed from Flutter.
+  在達到生命週期終止後，以下已棄用的 API
+  已從 Flutter 中移除。
 ---
 
-## Summary
+## 摘要
 
-In accordance with Flutter's [Deprecation Policy][],
-deprecated APIs that reached end of life after the
-3.19 stable release have been removed.
+根據 Flutter 的 [棄用政策][Deprecation Policy]，
+在 3.19 穩定版發佈後，達到生命週期終止的已棄用 API 已被移除。
 
-All affected APIs have been compiled into this
-primary source to aid in migration.
-To further aid your migration, check out this
-[quick reference sheet][].
+所有受影響的 API 都已彙整於此主要來源，方便您進行遷移。
+為了進一步協助您的遷移，請參考這份
+[快速參考表][quick reference sheet]。
 
 [Deprecation Policy]: {{site.repo.flutter}}/blob/main/docs/contributing/Tree-hygiene.md#deprecations
 [quick reference sheet]: /go/deprecations-removed-after-3-19
 
-## Changes
+## 變更內容
 
-This section lists the deprecations by the package and affected class.
+本節依套件及受影響的類別列出被棄用的項目。
 
 ### `TextTheme`
 
-Package: flutter
-Supported by Flutter Fix: yes
+套件：flutter  
+支援 Flutter Fix：是
 
-Several `TextStyle` properties of `TextTheme` were deprecated in v3.1 to support new
-stylings from the Material Design specification. They
-are listed in the following table alongside the appropriate replacement in the
-new API.
+`TextTheme` 的多個 `TextStyle` 屬性在 v3.1 時已被棄用，以支援 Material Design 規範中的新樣式。
+它們與新 API 中對應的替代項目如下表所示。
 
-| Deprecation | New API |
+| 棄用項目 | 新 API |
 |---|---|
 | headline1	| displayLarge |
 | headline2	| displayMedium |
@@ -49,9 +45,9 @@ new API.
 | button	  | labelLarge |
 | overline	| labelSmall |
 
-**Migration guide**
+**遷移指南**
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 // TextTheme
@@ -106,7 +102,7 @@ style = textTheme.button,
 style = textTheme.overline,
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 // TextTheme
@@ -159,16 +155,16 @@ style = textTheme.labelLarge;
 style = textTheme.labelSmall;
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
-* [`TextTheme`][]
+* [`TextTheme`][`TextTheme`]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#109817][]
-* Removed in [#139255][]
+* 在 [#109817][#109817] 中標記為已淘汰（Deprecated）
+* 在 [#139255][#139255] 中移除
 
 [`TextTheme`]: {{site.api}}/flutter/material/TextTheme-class.html
 
@@ -179,19 +175,14 @@ Relevant PRs:
 
 ### `ThemeData`
 
-Package: flutter
-Supported by Flutter Fix: yes
+套件：flutter  
+Flutter Fix 支援：是
 
-Several `Color` properties of `ThemeData` were deprecated in v3.3 to support new stylings
-from the Material Design specification. These colors were `errorColor`, `backgroundColor`,
- `bottomAppBarColor`, and `toggleableActiveColor`. The first two are replaced by
- properties of the `ThemeData.colorScheme`, while `bottomAppBarColor` is replaced by the
- color of the component theme, `BottomAppBarTheme`. The `toggleableActiveColor` was no
- longer used by the framework and was removed.
+為了支援 Material Design 規範中的新樣式，`ThemeData` 的多個 `Color` 屬性自 v3.3 起已被標記為已淘汰（Deprecated）。這些顏色包括 `errorColor`、`backgroundColor`、`bottomAppBarColor` 和 `toggleableActiveColor`。前兩者已由 `ThemeData.colorScheme` 的屬性取代，而 `bottomAppBarColor` 則由元件主題（component theme）的顏色 `BottomAppBarTheme` 取代。`toggleableActiveColor` 已不再被框架使用，因此被移除。
 
-**Migration guide**
+**遷移指南**
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 var myTheme = ThemeData(
@@ -208,7 +199,7 @@ var bottomAppBarColor = myTheme.bottomAppBarColor;
 var toggleableActiveColor = myTheme.toggleableActiveColor;
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 var myTheme = ThemeData(
@@ -229,18 +220,18 @@ var bottomAppBarColor = myTheme.bottomAppBarTheme.color;
 var toggleableActiveColor = Colors.orange;
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
-* [`ThemeData`][]
-* [`ColorScheme`][]
-* [`BottomAppBarTheme`][]
+* [`ThemeData`][`ThemeData`]
+* [`ColorScheme`][`ColorScheme`]
+* [`BottomAppBarTheme`][`BottomAppBarTheme`]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#110162][], [#111080][], and [#97972][]
-* Removed in [#144178][], [#144080][], [#144079][], and [#144078][]
+* 在 [#110162][#110162]、[#111080][#111080] 和 [#97972][#97972] 中標記為已淘汰
+* 在 [#144178][#144178]、[#144080][#144080]、[#144079][#144079] 和 [#144078][#144078] 中移除
 
 [`ThemeData`]: {{site.api}}/flutter/material/ThemeData-class.html
 [`ColorScheme`]: {{site.api}}/flutter/material/ColorScheme-class.html
@@ -258,18 +249,14 @@ Relevant PRs:
 
 ### `CupertinoContextMenu.previewBuilder`
 
-Package: flutter
-Supported by Flutter Fix: yes
+套件：flutter  
+Flutter Fix 支援：是
 
-The `previewBuilder` was replaced by the `builder` of `CupertinoContextMenu` after
-v3.4. By adding `builder`, the entirety of the animation executed by the context
-menu is covered, the second half of which was performed by `previewBuilder`, and
-delineated by `CupertinoContextMenu.animationOpensAt`.
+`previewBuilder` 在 v3.4 之後被 `CupertinoContextMenu` 的 `builder` 取代。透過加入 `builder`，可涵蓋由 context menu 執行的整個動畫（Animation），其中後半段原本是由 `previewBuilder` 執行，並由 `CupertinoContextMenu.animationOpensAt` 劃分。
 
+**遷移指南**
 
-**Migration guide**
-
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 CupertinoContextMenu(
@@ -295,7 +282,7 @@ CupertinoContextMenu(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 CupertinoContextMenu(
@@ -358,16 +345,16 @@ CupertinoContextMenu(
  )
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
-* [`CupertinoContextMenu`][]
+* [`CupertinoContextMenu`][`CupertinoContextMenu`]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#110616][]
-* Removed in [#143990][]
+* 在 [#110616][#110616] 中標記為已淘汰
+* 在 [#143990][#143990] 中移除
 
 [`CupertinoContextMenu`]: {{site.api}}/flutter/cupertino/CupertinoContextMenu-class.html
 
@@ -378,19 +365,14 @@ Relevant PRs:
 
 ### `Scrollbar.showTrackOnHover`
 
-Package: flutter
-Supported by Flutter Fix: yes
+套件：flutter  
+Flutter Fix 支援：是
 
-The `showTrackOnHover` property of `Scrollbar`, and its associated component theme,
-`ScrollbarThemeData.showTrackOnHover`, were replaced by the stateful property
-`ScrollbarThemeData.trackVisibility` after v3.4. By utilizing `trackVisibility`,
-all permutations of state can factor into revealing the scrollbar track, not
-just hover.
+`Scrollbar` 的 `showTrackOnHover` 屬性，以及其相關的元件主題 `ScrollbarThemeData.showTrackOnHover`，自 v3.4 之後已由具狀態的屬性 `ScrollbarThemeData.trackVisibility` 取代。透過使用 `trackVisibility`，所有狀態的組合都可以用於顯示 scrollbar 軌道，而不僅僅是滑鼠懸停時。
 
+**遷移指南**
 
-**Migration guide**
-
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 Scrollbar(
@@ -402,7 +384,7 @@ ScrollbarThemeData(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 Scrollbar(
@@ -419,19 +401,19 @@ ScrollbarThemeData(
 );
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
-* [`Scrollbar`][]
-* [`ScrollbarThemeData`][]
-* [`MaterialState`][]
-* [`MaterialStateProperty`][]
+* [`Scrollbar`][`Scrollbar`]
+* [`ScrollbarThemeData`][`ScrollbarThemeData`]
+* [`MaterialState`][`MaterialState`]
+* [`MaterialStateProperty`][`MaterialStateProperty`]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#111706][]
-* Removed in [#144180][]
+* 已在 [#111706][#111706] 標記為已淘汰
+* 已在 [#144180][#144180] 移除
 
 [`Scrollbar`]: {{site.api}}/flutter/material/Scrollbar-class.html
 [`ScrollbarThemeData`]: {{site.api}}/flutter/material/ScrollbarThemeData-class.html
@@ -443,20 +425,16 @@ Relevant PRs:
 
 ---
 
-### `KeepAliveHandle.release` method
+### `KeepAliveHandle.release` 方法
 
-Package: flutter
-Supported by Flutter Fix: no
+套件：flutter  
+Flutter Fix 支援：否
 
-The `release` method of `KeepAliveHandle` was removed and replaced by calling
-`dispose` after v3.3. This change was made because `release` was found to often
-be called without then calling `dispose`, leading to memory leaks. The `dispose`
-method executes the same functionality as `release` did now.
+`KeepAliveHandle` 的 `release` 方法自 v3.3 之後已被移除，並改為呼叫 `dispose`。進行此更動的原因是發現 `release` 經常被呼叫後，未再呼叫 `dispose`，導致記憶體洩漏。現在，`dispose` 方法執行的功能與過去的 `release` 相同。
 
+**遷移指南**
 
-**Migration guide**
-
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 KeepAliveHandle handle = KeepAliveHandle();
@@ -464,23 +442,23 @@ handle.release();
 handle.dispose();
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 KeepAliveHandle handle = KeepAliveHandle();
 handle.dispose();
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
-* [`KeepAliveHandle`][]
+* [`KeepAliveHandle`][`KeepAliveHandle`]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#108384][]
-* Removed in [#143961][]
+* 在 [#108384][#108384] 標記為已棄用
+* 在 [#143961][#143961] 移除
 
 [`KeepAliveHandle`]: {{site.api}}/flutter/widgets/KeepAliveHandle-class.html
 
@@ -491,17 +469,14 @@ Relevant PRs:
 
 ### `InteractiveViewer.alignPanAxis`
 
-Package: flutter
-Supported by Flutter Fix: yes
+套件：flutter  
+Flutter Fix 支援：是
 
-The `alignPanAxis` property of `InteractiveViewer` was removed and replaced with
-`panAxis` after v3.3. This change was made to enable more modes of panning in
-`InteractiveViewer`.
+`InteractiveViewer` 的 `alignPanAxis` 屬性自 v3.3 後已被移除，並以 `panAxis` 取代。此變更是為了讓 `InteractiveViewer` 支援更多平移（panning）模式。
 
+**遷移指南**
 
-**Migration guide**
-
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 InteractiveViewer(
@@ -509,7 +484,7 @@ InteractiveViewer(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 InteractiveViewer(
@@ -517,17 +492,17 @@ InteractiveViewer(
 );
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
-* [`InteractiveViewer`][]
-* [`PanAxis`][]
+* [`InteractiveViewer`][`InteractiveViewer`]
+* [`PanAxis`][`PanAxis`]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#109014][]
-* Removed in [#142500][]
+* 已在 [#109014][#109014] 標記為過時
+* 已在 [#142500][#142500] 移除
 
 [`InteractiveViewer`]: {{site.api}}/flutter/widgets/InteractiveViewer-class.html
 [`PanAxis`]: {{site.api}}/flutter/widgets/PanAxis.html
@@ -539,39 +514,35 @@ Relevant PRs:
 
 ### `MediaQuery.boldTextOverride`
 
-Package: flutter
-Supported by Flutter Fix: yes
+套件：flutter
+Flutter Fix 支援：是
 
-The `boldTextOverride` method of `MediaQuery` was removed and replaced with
-`boldTextOf` after v3.5. This change was made as part of larger refactor of
-`MediaQuery`, most notably reducing the number of rebuilds that would be
-triggered by widgets that depend on it.
+`MediaQuery` 的 `boldTextOverride` 方法自 v3.5 之後已被移除，並以 `boldTextOf` 取代。這項變更是 `MediaQuery` 大規模重構的一部分，最顯著的改進是減少了依賴該元件 (Widget) 的元件所觸發的重建次數。
 
+**遷移指南**
 
-**Migration guide**
-
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 MediaQuery.boldTextOverride(context);
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 MediaQuery.boldTextOf(context)
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
-* [`MediaQuery`][]
+* [`MediaQuery`][`MediaQuery`]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#114459][]
-* Removed in [#143960][]
+* 在 [#114459][#114459] 宣告為已淘汰
+* 在 [#143960][#143960] 移除
 
 [`MediaQuery`]: {{site.api}}/flutter/widgets/MediaQuery-class.html
 
@@ -580,29 +551,28 @@ Relevant PRs:
 
 ---
 
-### Renamed builder typedefs for `AnimatedList`
+### `AnimatedList` 的 builder 類型定義已重新命名
 
-Package: flutter
-Supported by Flutter Fix: no
+套件：flutter  
+Flutter Fix 支援：否
 
-With the addition of `AnimatedGrid`, `AnimatedList` was refactored to share a common base
-class. The previously named `AnimatedListItemBuilder` and `AnimatedListRemovedItemBuilder`
-were renamed to better reflect the classes they could be used with after v3.5.
-Rename any references to `AnimatedItemBuilder` and `AnimatedRemovedItemBuilder`.
+隨著 `AnimatedGrid` 的加入，`AnimatedList` 已重構為共用一個基底類別。  
+原先名稱為 `AnimatedListItemBuilder` 和 `AnimatedListRemovedItemBuilder` 的類型定義，為了更貼切反映 v3.5 之後可搭配的類別，已重新命名。  
+請將所有對 `AnimatedItemBuilder` 和 `AnimatedRemovedItemBuilder` 的引用進行重新命名。
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
-* [`AnimatedGrid`][]
-* [`AnimatedList`][]
-* [`AnimatedItemBuilder`][]
-* [`AnimatedRemovedItemBuilder`][]
+* [`AnimatedGrid`][`AnimatedGrid`]
+* [`AnimatedList`][`AnimatedList`]
+* [`AnimatedItemBuilder`][`AnimatedItemBuilder`]
+* [`AnimatedRemovedItemBuilder`][`AnimatedRemovedItemBuilder`]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#113793][]
-* Removed in [#143974][]
+* 在 [#113793][#113793] 宣告為已淘汰
+* 在 [#143974][#143974] 移除
 
 [`AnimatedGrid`]: {{site.api}}/flutter/widgets/AnimatedGrid-class.html
 [`AnimatedList`]: {{site.api}}/flutter/widgets/AnimatedList-class.html
@@ -616,16 +586,15 @@ Relevant PRs:
 
 ### `FlutterDriver.enableAccessibility`
 
-Package: flutter_driver
-Supported by Flutter Fix: yes
+套件：flutter_driver  
+Flutter Fix 支援：是
 
-The `enableAccessibility` method of `flutterDriver` was deprecated in v2.3. It
-was removed and replaced with `setSemantics`. This change made is possible to
-enable or disable accessibility, rather than only enable it.
+`flutterDriver` 的 `enableAccessibility` 方法自 v2.3 起已被標記為已淘汰。  
+該方法已被移除，並以 `setSemantics` 取代。這項變更讓你可以選擇啟用或停用無障礙功能，而不再只能啟用。
 
-**Migration guide**
+**遷移指南**
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 FlutterDriver driver = FlutterDriver.connectedTo(
@@ -634,7 +603,7 @@ FlutterDriver driver = FlutterDriver.connectedTo(
 driver.enableAccessibility();
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 FlutterDriver driver = FlutterDriver.connectedTo(
@@ -643,16 +612,16 @@ FlutterDriver driver = FlutterDriver.connectedTo(
 driver.setSemantics(true);
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
-* [`FlutterDriver`][]
+* [`FlutterDriver`][`FlutterDriver`]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#82939][]
-* Removed in [#143979][]
+* 在 [#82939][#82939] 標記為已淘汰
+* 在 [#143979][#143979] 移除
 
 [`FlutterDriver`]: {{site.api}}/flutter/flutter_driver/FlutterDriver-class.html
 
@@ -663,15 +632,15 @@ Relevant PRs:
 
 ### `TimelineSummary.writeSummaryToFile`
 
-Package: flutter_driver
-Supported by Flutter Fix: yes
+套件：flutter_driver  
+支援 Flutter Fix：是
 
-The `writeSummaryToFile` method of `TimelineSummary` was deprecated in v2.1. It
-was removed and replaced with `writeTimelineToFile`.
+`TimelineSummary` 的 `writeSummaryToFile` 方法自 v2.1 起已被標記為淘汰，  
+現已移除並以 `writeTimelineToFile` 取代。
 
-**Migration guide**
+**遷移指南**
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 TimelineSummary summary = TimelineSummary.summarize(
@@ -683,7 +652,7 @@ summary.writeSummaryToFile(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 TimelineSummary summary = TimelineSummary.summarize(
@@ -695,16 +664,16 @@ summary.writeTimelineToFile(
 );
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
-* [`TimelineSummary`][]
+* [`TimelineSummary`][`TimelineSummary`]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#79310][]
-* Removed in [#143983][]
+* 在 [#79310][#79310] 宣告為已淘汰（Deprecated）
+* 在 [#143983][#143983] 移除
 
 [`TimelineSummary`]: {{site.api}}/flutter/flutter_driver/TimelineSummary-class.html
 
@@ -713,27 +682,24 @@ Relevant PRs:
 
 ### `Android Platform Views on API 22 and below `
 
-Supported by Flutter Fix: no
+Flutter Fix 是否支援：否
 
-As of Flutter 3.0 platform views require api 23 or higher. In Flutter 3.19 we now throw UnsupportedOperationException 
-when using platform views on android devices running api level 22 and below. 
+自 Flutter 3.0 起，平台視圖（platform views）僅支援 API 23 或更高版本。在 Flutter 3.19 中，若於執行 API 等級 22 或以下的 Android 裝置上使用平台視圖，將會拋出 `UnsupportedOperationException`。
 
-**Migration guide**
+**遷移指南**
 
-Set minimum api level to 23 (or higher) or check the android api level before displaying a platform view. 
+請將最低 API 等級設為 23（或更高），或是在顯示平台視圖前先檢查 Android API 等級。
 
 ---
 
-The [previously announced][] deprecations for context menus, relating to `ToolbarOptions`
-as well as parts of `TextSelectionController` and `SelectableRegionState` were not
-removed this cycle, to allow more time for migration.
-Expect these deprecations to be removed in the next cycle, which will
-be announced again when the time comes.
+[先前公告][previously announced] 關於 context menus（內容選單）的淘汰，涉及 `ToolbarOptions` 以及部分 `TextSelectionController` 和 `SelectableRegionState`，本次尚未移除，以便提供更多遷移時間。
+預計這些淘汰項目將於下個週期移除，屆時將再次公告。
+
 
 [previously announced]: https://groups.google.com/g/flutter-announce/c/8XjXpUKlnf8
 
 ---
 
-## Timeline
+## 時程
 
-In stable release: 3.22.0
+穩定版發佈：3.22.0

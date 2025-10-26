@@ -1,75 +1,57 @@
 ---
-title: AndroidX migration
-description: How to migrate existing Flutter projects to AndroidX.
+title: AndroidX 遷移
+description: 如何將現有的 Flutter 專案遷移至 AndroidX。
 ---
 
 {% render docs/breaking-changes.md %}
 
 :::note
-You might be directed to this page if Flutter detects
-that your project doesn't use AndroidX.
+如果 Flutter 偵測到你的專案尚未使用 AndroidX，可能會將你導向此頁面。
 :::
 
-[AndroidX][] is a major improvement
-to the original Android Support Library.
+[AndroidX][AndroidX] 是對原始 Android 支援函式庫（Support Library）的一項重大改進。
 
-It provides the `androidx.*` package libraries,
-unbundled from the platform API. This means that it
-offers backward compatibility and is updated
-more frequently than the Android platform.
+它提供了 `androidx.*` 套件函式庫，這些函式庫已從平台 API 中拆分出來。這代表它能夠向下相容，並且比 Android 平台更頻繁地獲得更新。
 
 [AndroidX]: {{site.android-dev}}/jetpack/androidx
 
-## Common Questions
+## 常見問題
 
-### How do I migrate my existing app, plugin or host-editable module project to AndroidX?
+### 如何將現有的應用程式、套件或可編輯主機模組專案遷移至 AndroidX？
 
-_You will need Android Studio 3.2 or higher.
-If you don't have it installed,
-you can download the latest version from the
-[Android Studio][] site_.
+_你需要安裝 Android Studio 3.2 或更高版本。
+如果尚未安裝，可以從
+[Android Studio][Android Studio] 網站下載最新版。_
 
-1. Open Android Studio.
-2. Select **Open an existing Android Studio Project**.
-3. Open the `android` directory within your app.
-4. Wait until the project has been synced successfully.
-   (This happens automatically once you open the project,
-   but if it doesn't, select **Sync Project with Gradle Files**
-   from the **File** menu).
-5. Select **Migrate to AndroidX** from the Refactor menu.
-6. If you're asked to back up the project before proceeding,
-   check **Backup project as Zip file**, then click **Migrate**.
-   Lastly, save the zip file in your location of preference.
+1. 開啟 Android Studio。
+2. 選擇 **Open an existing Android Studio Project**（開啟現有的 Android Studio 專案）。
+3. 開啟應用程式中的 `android` 目錄。
+4. 等待專案同步完成。
+   （當你開啟專案時會自動執行，但如果沒有，請從 **File** 選單選擇 **Sync Project with Gradle Files**。）
+5. 從 Refactor 選單選擇 **Migrate to AndroidX**（遷移至 AndroidX）。
+6. 如果系統詢問你是否要在繼續前備份專案，請勾選 **Backup project as Zip file**（將專案備份為 Zip 檔案），然後點擊 **Migrate**。最後，將 zip 檔案儲存在你偏好的位置。
    <img width="500" src="/assets/images/docs/androidx/migrate_prompt.png" alt="Select backup project as zip file" />
-7. The refactoring preview shows the list of changes.
-   Finally, click **Do Refactor**:
+7. 重構預覽會顯示變更清單。最後，點擊 **Do Refactor**（執行重構）：
    <img width="600" src="/assets/images/docs/androidx/do_androidx_refactor.png" alt="An animation of the bottom-up page transition on Android" />
-8. That is it! You successfully migrated your project to AndroidX.
+8. 完成！你已成功將專案遷移至 AndroidX。
 
-Finally, if you migrated a plugin,
-publish the new AndroidX version to pub and update
-your `CHANGELOG.md` to indicate that this new version
-is compatible with AndroidX.
+最後，如果你遷移的是套件（plugin），請將新的 AndroidX 版本發佈到 pub，並更新你的 `CHANGELOG.md`，以標示此新版本已相容於 AndroidX。
 
 [Android Studio]: {{site.android-dev}}/studio
 
-### What if I can't use Android Studio?
+### 如果我無法使用 Android Studio 怎麼辦？
 
-You can create a new project using the Flutter tool
-and then move the Dart code and
-assets to the new project.
+你可以使用 Flutter 工具建立新專案，然後將 Dart 程式碼與資源（assets）移動到新專案中。
 
-To create a new project run:
+要建立新專案，請執行：
 
 ```console
 flutter create -t <project-type> <new-project-path>
 ```
 
-### Add to app
+### 加入至應用程式
 
-If your Flutter project is a module type for adding
-to an existing Android app, and contains a
-`.android` directory, add the following line to `pubspec.yaml`:
+如果你的 Flutter 專案是用於整合至現有 Android 應用程式的模組類型，且包含 `.android` 目錄，請在 `pubspec.yaml` 中加入以下這一行：
 
 ```yaml
  module:
@@ -77,55 +59,53 @@ to an existing Android app, and contains a
     androidX: true # Add this line.
 ```
 
-Finally, run `flutter clean`.
+最後，執行 `flutter clean`。
 
-If your module contains an `android` directory instead,
-then follow the steps in previous section.
+如果你的模組包含 `android` 目錄，
+請參考前一節的步驟進行。
 
-### How do I know if my project is using AndroidX?
+### 如何判斷我的專案是否使用 AndroidX？
 
-Starting from Flutter v1.12.13, new projects created with
+從 Flutter v1.12.13 開始，使用
 `flutter create -t <project-type>`
-use AndroidX by default.
+建立的新專案預設即採用 AndroidX。
 
-Projects created prior to this Flutter version
-mustn't depend on any [old build artifact][] or
-[old Support Library class][].
+在此 Flutter 版本之前建立的專案，
+不得依賴任何[舊的建置產物][old build artifact]或
+[舊的 Support Library 類別][old Support Library class]。
 
 [old build artifact]: {{site.android-dev}}/jetpack/androidx/migrate/artifact-mappings
 [old Support Library class]: {{site.android-dev}}/jetpack/androidx/migrate/class-mappings
 
-In an app or module project,
-the file `android/gradle.properties`
-or `.android/gradle.properties`
-must contain:
+在應用程式或模組專案中，
+檔案 `android/gradle.properties`
+或 `.android/gradle.properties`
+必須包含以下內容：
 
 ```properties
 android.useAndroidX=true
 android.enableJetifier=true
 ```
 
-### What if I don't migrate my app or module to AndroidX?
+### 如果我不將我的應用程式或模組遷移到 AndroidX 會怎樣？
 
-Your app might continue to work. However,
-combining AndroidX and Support artifacts
-is generally not recommended because it can
-result in dependency conflicts or
-other kind of Gradle failures.
-As a result, as more plugins migrate to AndroidX,
-plugins depending on Android core libraries are likely
-to cause build failures.
+您的應用程式可能仍然可以運作。然而，
+一般不建議同時混用 AndroidX 與 Support 套件，
+因為這可能會導致相依性衝突或
+其他類型的 Gradle 錯誤。
+因此，隨著越來越多的套件遷移到 AndroidX，
+依賴 Android 核心函式庫的套件很可能
+會造成建置失敗。
 
-### What if my app is migrated to AndroidX, but not all of the plugins I use?
+### 如果我的應用程式已經遷移到 AndroidX，但我使用的套件還沒全部遷移怎麼辦？
 
-The Flutter tool uses Jetifier to automatically
-migrate Flutter plugins using the Support Library
-to AndroidX, so you can use the same plugins even
-if they haven't been migrated to AndroidX yet.
+Flutter 工具會使用 Jetifier 自動將
+使用 Support Library 的 Flutter 套件
+遷移到 AndroidX，因此即使這些套件尚未
+遷移到 AndroidX，您仍然可以繼續使用。
 
-### I'm having issues migrating to AndroidX
+### 遷移到 AndroidX 時遇到問題
 
-[Open an issue on GitHub][] and add `[androidx-migration]`
-to the title of the issue.
+[請在 GitHub 上提出 issue][Open an issue on GitHub]，並在 issue 標題中加上 `[androidx-migration]`。
 
 [Open an issue on GitHub]: {{site.repo.flutter}}/issues/new/choose

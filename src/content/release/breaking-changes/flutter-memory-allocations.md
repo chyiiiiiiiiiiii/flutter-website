@@ -1,21 +1,20 @@
 ---
-title: Deprecate MemoryAllocations in favor of FlutterMemoryAllocations
+title: 棄用 MemoryAllocations，改用 FlutterMemoryAllocations
 description: >-
-  MemoryAllocations is renamed to FlutterMemoryAllocations.
+  MemoryAllocations 已更名為 FlutterMemoryAllocations。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-Disposables in pure Dart projects can't use `MemoryAllocations` in Flutter. 
-So, to be leak-trackable they need a Dart-only class.
-`MemoryAllocations` in Flutter is renamed to make the name
-available to a non-Flutter, Dart project.
+純 Dart 專案中的 Disposables 無法在 Flutter 中使用 `MemoryAllocations`。
+因此，若要支援記憶體洩漏追蹤，這些專案需要一個僅限 Dart 的類別。
+Flutter 中的 `MemoryAllocations` 已更名，以便讓這個名稱可供非 Flutter 的 Dart 專案使用。
 
-## Migration guide
+## 遷移指南
 
-Before:
+更改前：
 
 ```dart 
 if (kFlutterMemoryAllocationsEnabled) {
@@ -27,7 +26,7 @@ if (kFlutterMemoryAllocationsEnabled) {
 }
 ```
 
-After:
+之後：
 
 ```dart 
 if (kFlutterMemoryAllocationsEnabled) {
@@ -39,15 +38,15 @@ if (kFlutterMemoryAllocationsEnabled) {
 }
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.19.0-2.0.pre<br>
-Landed in stable: 3.22.0
+合併至版本：3.19.0-2.0.pre<br>  
+合併至穩定版：3.22.0
 
-## References
+## 參考資料
 
-Relevant issues:
+相關議題：
 
-* [Rename MemoryAllocations to FlutterMemoryAllocations (Issue 140622)][]
+* [將 MemoryAllocations 重新命名為 FlutterMemoryAllocations (Issue 140622)][Rename MemoryAllocations to FlutterMemoryAllocations (Issue 140622)]
 
 [Rename MemoryAllocations to FlutterMemoryAllocations (Issue 140622)]: {{site.repo.flutter}}/issues/140622

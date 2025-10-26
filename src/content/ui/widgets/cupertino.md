@@ -1,9 +1,9 @@
 ---
-title: Cupertino widgets
+title: Cupertino 元件 (Widgets)
 shortTitle: Cupertino
 description: >
-  A catalog of Flutter's cupertino widgets that align with
-  Apple's Human Interface Guidelines for iOS and macOS.
+  一份 Flutter 的 Cupertino 元件 (Widgets) 目錄，這些元件遵循
+  Apple 的 iOS 與 macOS 人機介面指引（Human Interface Guidelines）。
 ---
 
 {{< youtube D0xwcz2IqAY >}}

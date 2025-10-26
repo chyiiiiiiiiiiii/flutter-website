@@ -1,62 +1,100 @@
-# DevTools 2.31.0 release notes
+# DevTools 2.31.0 版本發行說明
 
-The 2.31.0 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](https://docs.flutter.dev/tools/devtools).
+Dart 與 Flutter DevTools 2.31.0 版本
+包含以下變更以及其他一般性改進。
+若想進一步了解 DevTools，請參閱
+[DevTools overview](https://docs.flutter.dev/tools/devtools)。
 
-## General updates
+## 一般更新
 
-* Added a new feature for deep link validation,
-  supporting deep link web checks on Android. - [#6935](https://github.com/flutter/devtools/pull/6935)
-* Added the basic plumbing to allow connections to a Dart Tooling Daemon. - [#7009](https://github.com/flutter/devtools/pull/7009)
-* Made table text selectable [#6919](https://github.com/flutter/devtools/pull/6919)
+* 新增深層連結驗證功能，
+  支援在 Android 上進行深層連結 Web 檢查。- [#6935](https://github.com/flutter/devtools/pull/6935)
+* 新增基礎設施以允許連線至 Dart Tooling Daemon。- [#7009](https://github.com/flutter/devtools/pull/7009)
+* 表格文字現在可被選取。 [#6919](https://github.com/flutter/devtools/pull/6919)
 
-## Inspector updates
+## Inspector 更新
 
-* When done typing in the search field, the
-  next selection is now automatically selected - [#6677](https://github.com/flutter/devtools/pull/6677)
-* Added link to package directory documentation,
-  from the inspect settings dialog - [#6825](https://github.com/flutter/devtools/pull/6825)
+* 當在搜尋欄位輸入完成後，
+  現在會自動選取下一個項目。- [#6677](https://github.com/flutter/devtools/pull/6677)
+* 在檢查設定對話框中新增連結至套件目錄文件。- [#6825](https://github.com/flutter/devtools/pull/6825)
 
   ![Link to documentation](/assets/images/docs/tools/devtools/release-notes/images-2.31.0/link-to-doc.png "Link to documentation")
 
-* Fix bug where widgets owned by the Flutter framework were
-  showing up in the widget tree view - [#6857](https://github.com/flutter/devtools/pull/6857)
-* Only cache pub root directories added by the user - [#6897](https://github.com/flutter/devtools/pull/6897)
-* Remove Flutter pub root if it was accidentally cached - [#6911](https://github.com/flutter/devtools/pull/6911)
+* 修正 Flutter framework 所擁有的元件會
+  顯示在元件樹檢視中的錯誤。- [#6857](https://github.com/flutter/devtools/pull/6857)
+* 僅快取使用者新增的 pub 根目錄。- [#6897](https://github.com/flutter/devtools/pull/6897)
+* 若 Flutter pub 根目錄被誤快取，則移除該目錄。- [#6911](https://github.com/flutter/devtools/pull/6911)
 
-## Performance updates
+## 效能更新
 
-* Changed raster layer preview background to a checkerboard. - [#6827](https://github.com/flutter/devtools/pull/6827)
+* 將 raster layer 預覽背景改為棋盤格樣式。- [#6827](https://github.com/flutter/devtools/pull/6827)
 
-## CPU profiler updates
+## CPU 分析器更新
 
-* Added hover cards to show sampling rate for the item in drop down. - [#7010](https://github.com/flutter/devtools/pull/7010)
+* 在下拉選單項目新增 hover 卡片，顯示採樣率。- [#7010](https://github.com/flutter/devtools/pull/7010)
 
   ![Sampling rate for dropdown](/assets/images/docs/tools/devtools/release-notes/images-2.31.0/hover-for-dropdown.png "Sampling rate for dropdown")
 
-## Debugger updates
+## 除錯器更新
 
-* Highlight `extension type` as a declaration keyword,
-  highlight the `$` in identifier interpolation as part of the interpolation,
-  and properly highlight comments within type arguments. - [6837](https://github.com/flutter/devtools/pull/6837)
+* 將 `extension type` 標示為宣告關鍵字，
+  在識別字插值中將 `# DevTools 2.31.0 版本發行說明
 
-## Logging updates
+Dart 與 Flutter DevTools 2.31.0 版本
+包含以下變更及其他一般性改進。
+若想進一步了解 DevTools，請參閱
+[DevTools overview](https://docs.flutter.dev/tools/devtools)。
 
-* Added scrollbar to details pane. - [#6917](https://github.com/flutter/devtools/pull/6917)
+## 一般更新
 
-## VS Code Sidebar updates
+* 新增深層連結 (deep link) 驗證功能，
+  支援在 Android 上進行深層連結 Web 檢查。- [#6935](https://github.com/flutter/devtools/pull/6935)
+* 新增基礎架構以支援連線至 Dart Tooling Daemon。- [#7009](https://github.com/flutter/devtools/pull/7009)
+* 表格文字現在可被選取 [#6919](https://github.com/flutter/devtools/pull/6919)
 
-* Fixed an issue that prevented the VS code sidebar from
-  loading in recent beta/master builds. - [#6984](https://github.com/flutter/devtools/pull/6984)
+## Inspector 更新
 
-## DevTools Extension updates
+* 當在搜尋欄位輸入完成後，
+  現在會自動選取下一個項目 - [#6677](https://github.com/flutter/devtools/pull/6677)
+* 在檢查設定對話框中，新增連結至套件目錄 (package directory) 文件 - [#6825](https://github.com/flutter/devtools/pull/6825)
 
-* Fixed a couple bugs preventing Dart server apps from
-  connecting to DevTools extensions. - [#6982](https://github.com/flutter/devtools/pull/6982), [#6993](https://github.com/flutter/devtools/pull/6993)
+  ![Link to documentation](/assets/images/docs/tools/devtools/release-notes/images-2.31.0/link-to-doc.png "Link to documentation")
 
-## Full commit history
+* 修正 Flutter framework 所擁有的元件 (Widgets)
+  會顯示在元件樹檢視中的錯誤 - [#6857](https://github.com/flutter/devtools/pull/6857)
+* 僅快取使用者新增的 pub 根目錄 - [#6897](https://github.com/flutter/devtools/pull/6897)
+* 若 Flutter pub 根目錄被誤快取，則移除該目錄 - [#6911](https://github.com/flutter/devtools/pull/6911)
 
-To find a complete list of changes in this release, check out the
-[DevTools git log](https://github.com/flutter/devtools/tree/v2.31.0).
+## 效能 (Performance) 更新
+
+* 將 raster layer 預覽背景改為棋盤格樣式。- [#6827](https://github.com/flutter/devtools/pull/6827)
+
+## CPU 分析器 (Profiler) 更新
+
+* 在下拉選單項目新增 hover 卡片，顯示採樣率。- [#7010](https://github.com/flutter/devtools/pull/7010)
+
+  ![Sampling rate for dropdown](/assets/images/docs/tools/devtools/release-notes/images-2.31.0/hover-for-dropdown.png "Sampling rate for dropdown")
+
+## 除錯器 (Debugger) 更新
+
+* 將 ` 作為插值的一部分高亮顯示，
+  並正確高亮顯示型別參數中的註解。- [6837](https://github.com/flutter/devtools/pull/6837)
+
+## 日誌更新
+
+* 在詳細資訊窗格新增捲軸。- [#6917](https://github.com/flutter/devtools/pull/6917)
+
+## VS Code 側邊欄更新
+
+* 修正近期 beta/master 版本中
+  VS Code 側邊欄無法載入的問題。- [#6984](https://github.com/flutter/devtools/pull/6984)
+
+## DevTools 擴充功能更新
+
+* 修正數個導致 Dart 伺服器應用程式
+  無法連線至 DevTools 擴充功能的錯誤。- [#6982](https://github.com/flutter/devtools/pull/6982), [#6993](https://github.com/flutter/devtools/pull/6993)
+
+## 完整提交紀錄
+
+如需本次發行的完整變更清單，請參閱
+[DevTools git log](https://github.com/flutter/devtools/tree/v2.31.0)。

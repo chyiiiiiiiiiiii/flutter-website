@@ -1,94 +1,75 @@
 ---
-title: Writing custom platform-specific code
-shortTitle: Platform-specific code
-description: Learn how to write custom platform-specific code in your app.
+title: 撰寫自訂平台專屬程式碼
+shortTitle: 平台專屬程式碼
+description: 學習如何在你的應用程式中撰寫自訂平台專屬程式碼。
 ---
 
 <?code-excerpt path-base="platform_integration"?>
 
-This guide describes how to use custom platform-specific
-code with Flutter.
+本指南說明如何在 Flutter 中使用自訂的
+平台專屬程式碼。
 
-## Overview
+## 概覽
 
-You can use platform-specific code in your Flutter app.
-A few common ways to do this include:
+你可以在 Flutter 應用程式中使用平台專屬程式碼。
+常見的方式包括：
 
-* Use Flutter's platform channel APIs to pass messages
-  between Flutter and your desired platforms. For more
-  information, see [Call platform-specific code using platform channels](#example).
+* 使用 Flutter 的平台通道（platform channel）API，在 Flutter 與你想要的目標平台之間傳遞訊息。
+  詳細資訊請參閱[使用平台通道呼叫平台專屬程式碼](#example)。
 
-* Use the `Pigeon` package to generate type-safe
-  platform-specific code. For more
-  information, see [Call platform-specific code using the Pigeon package](#pigeon).
+* 使用 `Pigeon` 套件來產生型別安全的
+  平台專屬程式碼。
+  詳細資訊請參閱[使用 Pigeon 套件呼叫平台專屬程式碼](#pigeon)。
 
-Flutter supports the following platforms and
-platform-specific languages:
+Flutter 支援下列平台及其專屬語言：
 
-* **Android**: Kotlin, Java
-* **iOS**: Swift, Objective-C
-* **Windows**: C++
-* **macOS**: Objective-C
-* **Linux**: C
+* **Android**：Kotlin、Java
+* **iOS**：Swift、Objective-C
+* **Windows**：C++
+* **macOS**：Objective-C
+* **Linux**：C
 
 :::note
-* The information in this page is valid for most platforms,
-  but platform-specific code for the web generally uses
-  [JS interoperability][] instead.
+* 本頁資訊適用於大多數平台，但網頁平台的專屬程式碼通常改用
+  [JS 互操作性][JS interoperability]。
 
-* This guide addresses using the platform channel mechanism
-  if you need to use the platform's APIs in a non-Dart language.
-  However, you can also write platform-specific Dart code
-  in your Flutter app by inspecting the
-  [`defaultTargetPlatform`][] property.
-  [Platform adaptations][] lists some
-  platform-specific adaptations that Flutter
-  automatically performs for you in the framework.
+* 本指南主要說明當你需要在非 Dart 語言中使用平台 API 時，如何使用平台通道機制。
+  不過，你也可以在 Flutter 應用程式中，透過檢查
+  [`defaultTargetPlatform`][`defaultTargetPlatform`] 屬性，撰寫平台專屬的 Dart 程式碼。
+  [平台自動適配][Platform adaptations]列出了一些 Flutter 框架自動為你處理的平台專屬適配。
 :::
 
 [`defaultTargetPlatform`]: {{site.api}}/flutter/foundation/defaultTargetPlatform.html
 
-## Architectural overview of platform channels {:#architecture}
+## 平台通道的架構概覽 {:#architecture}
 
-Messages are passed between the client (UI)
-and host (platform) using platform
-channels as illustrated in this diagram:
+訊息會透過平台通道（platform channels）在客戶端（UI）
+與主機端（平台）之間傳遞，如下圖所示：
 
-![Platform channels architecture](/assets/images/docs/PlatformChannels.png){:width="100%"}
+![平台通道架構圖](/assets/images/docs/PlatformChannels.png){:width="100%"}
 
-In the preceding diagram, messages and responses are passed
-asynchronously through channels to ensure the user interface
-remains responsive. On the client side,
-[`MethodChannel` for Flutter][] enables
-sending messages that correspond to method calls. On the
-platform side, [`MethodChannel` for Android][] and
-[`FlutterMethodChannel` for iOS][] enable receiving method
-calls and sending back a result. These classes allow you to
-develop a platform plugin with very little _boilerplate_
-code.
+在上圖中，訊息與回應會透過通道非同步傳遞，以確保使用者介面維持回應性。在客戶端，
+[Flutter 的 `MethodChannel`][`MethodChannel` for Flutter]
+可用於傳送對應於方法呼叫的訊息。在平台端，[Android 的 `MethodChannel`][`MethodChannel` for Android]
+以及 [iOS 的 `FlutterMethodChannel`][`FlutterMethodChannel` for iOS]
+可用於接收方法呼叫並回傳結果。這些類別讓你能用極少的_樣板程式碼_（boilerplate）開發平台外掛（plugin）。
 
 :::note
-* Even though Flutter sends messages to and from Dart asynchronously,
-  whenever you invoke a channel method, you must invoke that method on the
-  platform's main thread. See the [section on threading][]
-  for more information.
-* If desired, method calls can also be sent in the reverse direction,
-  with the platform acting as client to methods implemented in Dart.
-  For a concrete example, check out the [`quick_actions`][] plugin.
+* 即使 Flutter 以非同步方式在 Dart 之間傳送訊息，每當你呼叫通道方法時，仍必須在
+  平台的主執行緒（main thread）上呼叫該方法。詳情請參閱[執行緒相關章節][section on threading]。
+* 若有需要，也可以反向傳送方法呼叫，讓平台端作為客戶端，呼叫 Dart 實作的方法。
+  具體範例請參考 [`quick_actions`][`quick_actions`] 外掛。
 :::
 
-## Data types support {:#codec}
+## 支援的資料型別 {:#codec}
 
-The standard platform channel APIs and the Pigeon package
-use a standard message codec called [`StandardMessageCodec`][]
-that supports efficient binary serialization of simple
-JSON-like values, such as booleans, numbers, Strings,
-byte buffers, Lists, and Maps. The serialization and
-deserialization of these values to and from messages happens
-automatically when you send and receive values.
+標準平台通道 API 及 Pigeon 套件
+使用一種稱為 [`StandardMessageCodec`][`StandardMessageCodec`]
+的標準訊息編解碼器（message codec），能有效率地將簡單的
+類 JSON 值（如布林值、數字、字串、位元緩衝區、List、Map）進行二進位序列化。
+當你傳送與接收這些值時，序列化與反序列化會自動處理。
 
-The following table shows how Dart values are received on the
-platform side and vice versa:
+下表顯示 Dart 值在平台端的對應，以及反之亦然：
 
 {% tabs "platform-channel-language" %}
 {% tab "Kotlin" %}
@@ -137,7 +118,7 @@ platform side and vice versa:
 
 | Dart              | Swift                                     |
 | ----------------- | ----------------------------------------- |
-| `null`            | `nil` (`NSNull` when nested)              |
+| `null`            | `nil` (`NSNull` 當為巢狀時)              |
 | `bool`            | `NSNumber(value: Bool)`                   |
 | `int` (<=32 bits) | `NSNumber(value: Int32)`                  |
 | `int` (>32 bits)  | `NSNumber(value: Int)`                    |
@@ -158,7 +139,7 @@ platform side and vice versa:
 
 | Dart              | Objective-C                                      |
 | ----------------- | ------------------------------------------------ |
-| `null`            | `nil` (`NSNull` when nested)                     |
+| `null`            | `nil` (`NSNull` 當為巢狀時)                     |
 | `bool`            | `NSNumber numberWithBool:`                       |
 | `int` (<=32 bits) | `NSNumber numberWithInt:`                        |
 | `int` (>32 bits)  | `NSNumber numberWithLong:`                       |
@@ -220,59 +201,54 @@ platform side and vice versa:
 
 [MessageCodec]: https://api.flutter.dev/flutter/services/MessageCodec-class.html
 
-## Call platform-specific code using platform channels {:#example}
+## 使用平台通道呼叫平台專屬程式碼 {:#example}
 
-The following code demonstrates how to call
-a platform-specific API to retrieve and display
-the current battery level.  It uses
-the Android `BatteryManager` API,
-the iOS `device.batteryLevel` API,
-the Windows `GetSystemPowerStatus` API,
-and the Linux `UPower` API with a single
-platform message, `getBatteryLevel()`.
+以下程式碼示範如何呼叫
+平台專屬 API 來取得並顯示
+目前的電池電量。它分別使用
+Android 的 `BatteryManager` API、
+iOS 的 `device.batteryLevel` API、
+Windows 的 `GetSystemPowerStatus` API，
+以及 Linux 的 `UPower` API，並透過單一
+平台訊息 `getBatteryLevel()` 完成。
 
-The example adds the platform-specific code inside
-the main app itself.  If you want to reuse the
-platform-specific code for multiple apps,
-the project creation step is slightly different
-(see [developing packages][plugins]),
-but the platform channel code
-is still written in the same way.
+此範例將平台專屬程式碼直接寫在
+主應用程式中。如果你想要在多個應用程式間重複使用這些
+平台專屬程式碼，專案建立步驟會略有不同
+（請參閱[開發套件][plugins]），
+但平台通道的程式碼
+撰寫方式仍然相同。
 
 :::note
-The full, runnable source-code for this example is
-available in [`/examples/platform_channel/`][]
-for Android with Java, iOS with Objective-C,
-Windows with C++, and Linux with C.
-For iOS with Swift,
-see [`/examples/platform_channel_swift/`][].
+本範例的完整可執行原始碼可在 [`/examples/platform_channel/`][`/examples/platform_channel/`]
+找到，涵蓋 Android（Java）、iOS（Objective-C）、Windows（C++）、Linux（C）。
+若需 iOS（Swift）版本，請參閱 [`/examples/platform_channel_swift/`][`/examples/platform_channel_swift/`]。
 :::
 
-### Step 1: Create a new app project {:#example-project}
+### 步驟 1：建立新應用程式專案 {:#example-project}
 
-Start by creating a new app:
+首先建立一個新的應用程式：
 
-* In a terminal run: `flutter create batterylevel`
+* 在終端機執行：`flutter create batterylevel`
 
-By default, our template supports writing Android code using Kotlin,
-or iOS code using Swift. To use Java or Objective-C,
-use the `-i` and/or `-a` flags:
+預設情況下，範本支援使用 Kotlin 撰寫 Android 程式碼，
+或使用 Swift 撰寫 iOS 程式碼。若要使用 Java 或 Objective-C，
+請加上 `-i` 和/或 `-a` 旗標：
 
-* In a terminal run: `flutter create -i objc -a java batterylevel`
+* 在終端機執行：`flutter create -i objc -a java batterylevel`
 
-### Step 2: Create the Flutter platform client {:#example-client}
+### 步驟 2：建立 Flutter 平台端客戶端 {:#example-client}
 
-The app's `State` class holds the current app state.
-Extend that to hold the current battery state.
+應用程式的 `State` 類別負責維護目前的應用程式狀態。
+擴充它以儲存目前的電池狀態。
 
-First, construct the channel. Use a `MethodChannel` with a single
-platform method that returns the battery level.
+首先，建立通道。使用一個帶有單一
+平台方法的 `MethodChannel`，該方法會回傳電池電量。
 
-The client and host sides of a channel are connected through
-a channel name passed in the channel constructor.
-All channel names used in a single app must
-be unique; prefix the channel name with a unique 'domain
-prefix', for example: `samples.flutter.dev/battery`.
+通道的客戶端與主機端會透過
+在通道建構子中傳入的通道名稱連接。
+單一應用程式中所有通道名稱必須
+唯一；建議以獨特的「網域前綴」作為前綴，例如：`samples.flutter.dev/battery`。
 
 <?code-excerpt "platform_channels/lib/platform_channels.dart (import)"?>
 ```dart
@@ -288,16 +264,9 @@ class _MyHomePageState extends State<MyHomePage> {
   // Get battery level.
 ```
 
-Next, invoke a method on the method channel,
-specifying the concrete method to call using
-the `String` identifier `getBatteryLevel`.
-The call might fail&mdash;for example,
-if the platform doesn't support the
-platform API (such as when running in a simulator),
-so wrap the `invokeMethod` call in a try-catch statement.
+接下來，請在 method channel 上呼叫方法，並使用 `String` 識別符指定要呼叫的具體方法 `getBatteryLevel`。這個呼叫有可能會失敗——例如，如果平台不支援該平台 API（像是在模擬器中執行時），因此請將 `invokeMethod` 呼叫包裹在 try-catch 陳述式中。
 
-Use the returned result to update the user interface state in `_batteryLevel`
-inside `setState`.
+使用回傳的結果，在 `setState` 內的 `_batteryLevel` 中更新使用者介面狀態。
 
 <?code-excerpt "platform_channels/lib/platform_channels.dart (get-battery)"?>
 ```dart
@@ -319,9 +288,7 @@ Future<void> _getBatteryLevel() async {
 }
 ```
 
-Finally, replace the `build` method from the template to
-contain a small user interface that displays the battery
-state in a string, and a button for refreshing the value.
+最後，請將範本中的 `build` 方法替換為包含一個簡單的使用者介面，該介面會以字串顯示電池狀態，並提供一個按鈕用於重新整理該數值。
 
 <?code-excerpt "platform_channels/lib/platform_channels.dart (build)"?>
 ```dart
@@ -344,27 +311,22 @@ Widget build(BuildContext context) {
 }
 ```
 
-### Step 3: Add an Android platform-specific implementation
+### 步驟 3：新增 Android 平台專屬實作
 
 {% tabs "android-language" %}
 {% tab "Kotlin" %}
 
-Start by opening the Android host portion of your Flutter app
-in Android Studio:
+首先，在 Android Studio 中開啟你的 Flutter 應用程式的 Android 主機端部分：
 
-1. Start Android Studio
+1. 啟動 Android Studio
 
-1. Select the menu item **File > Open...**
+1. 選擇選單項目 **File > Open...**
 
-1. Navigate to the directory holding your Flutter app,
-   and select the **android** folder inside it. Click **OK**.
+1. 導航至你的 Flutter 應用程式所在的目錄，並選取其中的 **android** 資料夾。點擊 **OK**。
 
-1. Open the file `MainActivity.kt` located in the **kotlin** folder in the
-   Project view.
+1. 在專案檢視（Project view）中，打開 **kotlin** 資料夾下的 `MainActivity.kt` 檔案。
 
-Inside the `configureFlutterEngine()` method, create a `MethodChannel` and call
-`setMethodCallHandler()`. Make sure to use the same channel name as
-was used on the Flutter client side.
+在 `configureFlutterEngine()` 方法內，建立一個 `MethodChannel` 並呼叫 `setMethodCallHandler()`。請確保使用與 Flutter 客戶端端相同的 channel 名稱。
 
 ```kotlin title="MainActivity.kt"
 import androidx.annotation.NonNull
@@ -386,11 +348,9 @@ class MainActivity: FlutterActivity() {
 }
 ```
 
-Add the Android Kotlin code that uses the Android battery APIs to
-retrieve the battery level. This code is exactly the same as you
-would write in a native Android app.
+新增 Android Kotlin 程式碼，利用 Android 的電池 API 來取得電池電量。這段程式碼與你在原生 Android 應用程式中撰寫的方式完全相同。
 
-First, add the needed imports at the top of the file:
+首先，在檔案頂部加入所需的 import：
 
 ```kotlin title="MainActivity.kt"
 import android.content.Context
@@ -402,8 +362,7 @@ import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 ```
 
-Next, add the following method in the `MainActivity` class,
-below the `configureFlutterEngine()` method:
+接下來，請在 `MainActivity` 類別中，於 `configureFlutterEngine()` 方法的下方新增以下方法：
 
 ```kotlin title="MainActivity.kt"
   private fun getBatteryLevel(): Int {
@@ -420,15 +379,13 @@ below the `configureFlutterEngine()` method:
   }
 ```
 
-Finally, complete the `setMethodCallHandler()` method added earlier.
-You need to handle a single platform method, `getBatteryLevel()`,
-so test for that in the `call` argument.
-The implementation of this platform method calls the
-Android code written in the previous step, and returns a response for both
-the success and error cases using the `result` argument.
-If an unknown method is called, report that instead.
+最後，請完成先前新增的 `setMethodCallHandler()` 方法。
+你只需要處理單一的平台方法 `getBatteryLevel()`，
+因此請在 `call` 參數中進行判斷。
+這個平台方法的實作會呼叫前一步撰寫的 Android 程式碼，並透過 `result` 參數回傳成功或錯誤的回應。
+如果呼叫了未知的方法，則回報該情況。
 
-Remove the following code:
+請移除以下程式碼：
 
 ```kotlin title="MainActivity.kt"
     MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler {
@@ -438,7 +395,7 @@ Remove the following code:
     }
 ```
 
-And replace with the following:
+並替換為以下內容：
 
 ```kotlin title="MainActivity.kt"
     MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler {
@@ -461,23 +418,18 @@ And replace with the following:
 {% endtab %}
 {% tab "Java" %}
 
-Start by opening the Android host portion of your Flutter app
-in Android Studio:
+首先，在 Android Studio 中開啟你的 Flutter 應用程式的 Android 主機端部分：
 
-1. Start Android Studio
+1. 啟動 Android Studio
 
-1. Select the menu item **File > Open...**
+1. 選擇選單項目 **File > Open...**
 
-1. Navigate to the directory holding your Flutter app,
-   and select the **android** folder inside it. Click **OK**.
+1. 導航至存放你的 Flutter 應用程式的目錄，並選取其中的 **android** 資料夾。點擊 **OK**。
 
-1. Open the `MainActivity.java` file located in the **java** folder in the
-   Project view.
+1. 在 Project 檢視中，開啟 **java** 資料夾下的 `MainActivity.java` 檔案。
 
-Next, create a `MethodChannel` and set a `MethodCallHandler`
-inside the `configureFlutterEngine()` method.
-Make sure to use the same channel name as was used on the
-Flutter client side.
+接下來，建立一個 `MethodChannel`，並在 `configureFlutterEngine()` 方法中設置一個 `MethodCallHandler`。
+請確保使用與 Flutter 客戶端端相同的 channel 名稱。
 
 ```java title="MainActivity.java"
 import androidx.annotation.NonNull;
@@ -502,11 +454,9 @@ public class MainActivity extends FlutterActivity {
 }
 ```
 
-Add the Android Java code that uses the Android battery APIs to
-retrieve the battery level. This code is exactly the same as you
-would write in a native Android app.
+新增使用 Android 電池 API 來取得電池電量的 Android Java 程式碼。這段程式碼與你在原生 Android 應用程式中撰寫的方式完全相同。
 
-First, add the needed imports at the top of the file:
+首先，在檔案頂部加入所需的 import：
 
 ```java title="MainActivity.java"
 import android.content.ContextWrapper;
@@ -518,8 +468,7 @@ import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 ```
 
-Then add the following as a new method in the activity class,
-below the `configureFlutterEngine()` method:
+然後，請在 activity 類別中，於 `configureFlutterEngine()` 方法下方新增以下方法：
 
 ```java title="MainActivity.java"
   private int getBatteryLevel() {
@@ -538,15 +487,13 @@ below the `configureFlutterEngine()` method:
   }
 ```
 
-Finally, complete the `setMethodCallHandler()` method added earlier.
-You need to handle a single platform method, `getBatteryLevel()`,
-so test for that in the `call` argument. The implementation of
-this platform method calls the Android code written
-in the previous step, and returns a response for both
-the success and error cases using the `result` argument.
-If an unknown method is called, report that instead.
+最後，請完成先前新增的 `setMethodCallHandler()` 方法。
+你需要處理一個單一的平台方法 `getBatteryLevel()`，
+因此請在 `call` 參數中檢查該方法。這個平台方法的實作會呼叫前一步所撰寫的 Android 程式碼，
+並透過 `result` 參數分別回傳成功與錯誤的回應。
+如果呼叫到未知的方法，則應回報該情況。
 
-Remove the following code:
+請移除以下程式碼：
 
 ```java title="MainActivity.java"
       new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), CHANNEL)
@@ -558,7 +505,7 @@ Remove the following code:
       );
 ```
 
-And replace with the following:
+並替換為以下內容：
 
 ```java title="MainActivity.java"
       new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), CHANNEL)
@@ -583,34 +530,28 @@ And replace with the following:
 {% endtab %}
 {% endtabs %}
 
-You should now be able to run the app on Android. If using the Android
-Emulator, set the battery level in the Extended Controls panel
-accessible from the **...** button in the toolbar.
+你現在應該可以在 Android 上執行這個應用程式了。如果你使用的是 Android 模擬器，請在工具列的 **...** 按鈕中開啟 Extended Controls 面板，並設定電池電量。
 
-### Step 4: Add an iOS platform-specific implementation
+### 步驟 4：新增 iOS 平台專屬實作
 
 {% tabs "darwin-language" %}
 {% tab "Swift" %}
 
-Start by opening the iOS host portion of your Flutter app in Xcode:
+首先，在 Xcode 中開啟你的 Flutter 應用程式的 iOS 主機部分：
 
-1. Start Xcode.
+1. 啟動 Xcode。
 
-1. Select the menu item **File > Open...**.
+1. 選擇選單項目 **File > Open...**。
 
-1. Navigate to the directory holding your Flutter app, and select the **ios**
-folder inside it. Click **OK**.
+1. 導航到存放你的 Flutter 應用程式的目錄，並選取其中的 **ios** 資料夾。點擊 **OK**。
 
-Add support for Swift in the standard template setup that uses Objective-C:
+在使用 Objective-C 的標準範本設定中新增對 Swift 的支援：
 
-1. **Expand Runner > Runner** in the Project navigator.
+1. 在專案導覽器中**展開 Runner > Runner**。
 
-1. Open the file `AppDelegate.swift` located under **Runner > Runner**
-   in the Project navigator.
+1. 在專案導覽器的 **Runner > Runner** 下，開啟檔案 `AppDelegate.swift`。
 
-Override the `application:didFinishLaunchingWithOptions:` function and create
-a `FlutterMethodChannel` tied to the channel name
-`samples.flutter.dev/battery`:
+覆寫 `application:didFinishLaunchingWithOptions:` 函式，並建立一個與頻道名稱 `samples.flutter.dev/battery` 綁定的 `FlutterMethodChannel`：
 
 ```swift title="AppDelegate.swift"
 @main
@@ -634,11 +575,9 @@ a `FlutterMethodChannel` tied to the channel name
 }
 ```
 
-Next, add the iOS Swift code that uses the iOS battery APIs to retrieve
-the battery level. This code is exactly the same as you
-would write in a native iOS app.
+接下來，新增使用 iOS 電池 API 來取得電池電量的 iOS Swift 程式碼。這段程式碼與你在原生 iOS 應用程式中撰寫的方式完全相同。
 
-Add the following as a new method at the bottom of `AppDelegate.swift`:
+請將以下內容作為新方法，加入至`AppDelegate.swift`的底部：
 
 ```swift title="AppDelegate.swift"
 private func receiveBatteryLevel(result: FlutterResult) {
@@ -654,12 +593,12 @@ private func receiveBatteryLevel(result: FlutterResult) {
 }
 ```
 
-Finally, complete the `setMethodCallHandler()` method added earlier.
-You need to handle a single platform method, `getBatteryLevel()`,
-so test for that in the `call` argument.
-The implementation of this platform method calls
-the iOS code written in the previous step. If an unknown method
-is called, report that instead.
+最後，請完成先前新增的 `setMethodCallHandler()` 方法。
+你需要處理單一的平台方法 `getBatteryLevel()`，
+因此請在 `call` 參數中進行判斷。
+這個平台方法的實作會呼叫
+你在前一步撰寫的 iOS 程式碼。如果收到未知的方法呼叫，
+則應回報該情況。
 
 ```swift title="AppDelegate.swift"
 batteryChannel.setMethodCallHandler({
@@ -676,24 +615,22 @@ batteryChannel.setMethodCallHandler({
 {% endtab %}
 {% tab "Objective-C" %}
 
-Start by opening the iOS host portion of the Flutter app in Xcode:
+首先，在 Xcode 中開啟 Flutter 應用程式的 iOS 主機端部分：
 
-1. Start Xcode.
+1. 啟動 Xcode。
 
-1. Select the menu item **File > Open...**.
+1. 選擇選單項目 **File > Open...**。
 
-1. Navigate to the directory holding your Flutter app,
-   and select the **ios** folder inside it. Click **OK**.
+1. 導航至存放你的 Flutter 應用程式的目錄，
+   並選擇其中的 **ios** 資料夾。點擊 **OK**。
 
-1. Make sure the Xcode projects builds without errors.
+1. 確認 Xcode 專案可以順利建置且沒有錯誤。
 
-1. Open the file `AppDelegate.m`, located under **Runner > Runner**
-   in the Project navigator.
+1. 在專案導覽器中，開啟位於 **Runner > Runner** 下的 `AppDelegate.m` 檔案。
 
-Create a `FlutterMethodChannel` and add a handler inside the `application
-didFinishLaunchingWithOptions:` method.
-Make sure to use the same channel name
-as was used on the Flutter client side.
+在 `application
+didFinishLaunchingWithOptions:` 方法中建立 `FlutterMethodChannel`，並新增一個處理器（handler）。
+請確保所使用的 channel 名稱與 Flutter 客戶端端一致。
 
 ```objc title="AppDelegate.m"
 #import <Flutter/Flutter.h>
@@ -717,11 +654,9 @@ as was used on the Flutter client side.
 }
 ```
 
-Next, add the iOS ObjectiveC code that uses the iOS battery APIs to
-retrieve the battery level. This code is exactly the same as you
-would write in a native iOS app.
+接下來，新增使用 iOS 電池 API 來取得電池電量的 iOS ObjectiveC 程式碼。這段程式碼與你在原生 iOS 應用程式中撰寫的方式完全相同。
 
-Add the following method in the `AppDelegate` class, just before `@end`:
+請在 `AppDelegate` 類別中，於 `@end` 之前加入以下方法：
 
 ```objc title="AppDelegate.m"
 - (int)getBatteryLevel {
@@ -735,12 +670,10 @@ Add the following method in the `AppDelegate` class, just before `@end`:
 }
 ```
 
-Finally, complete the `setMethodCallHandler()` method added earlier.
-You need to handle a single platform method, `getBatteryLevel()`,
-so test for that in the `call` argument. The implementation of
-this platform method calls the iOS code written in the previous step,
-and returns a response for both the success and error cases using
-the `result` argument. If an unknown method is called, report that instead.
+最後，請完成先前新增的 `setMethodCallHandler()` 方法。
+你需要處理單一平台方法 `getBatteryLevel()`，
+因此請在 `call` 參數中進行判斷。這個平台方法的實作會呼叫前一步所撰寫的 iOS 程式碼，
+並透過 `result` 參數回傳成功或錯誤時的回應。如果收到未知的方法呼叫，則回報該情況。
 
 ```objc title="AppDelegate.m"
 __weak typeof(self) weakSelf = self;
@@ -765,34 +698,28 @@ __weak typeof(self) weakSelf = self;
 {% endtab %}
 {% endtabs %}
 
-You should now be able to run the app on iOS.
-If using the iOS Simulator,
-note that it doesn't support battery APIs,
-and the app displays 'Battery level not available'.
+你現在應該可以在 iOS 上執行這個應用程式了。  
+如果你使用的是 iOS 模擬器，請注意它不支援電池相關 API，因此應用程式會顯示「Battery level not available」（電池電量無法取得）。
 
-### Step 5: Add a Windows platform-specific implementation
+### 步驟 5：新增 Windows 平台專屬實作
 
-Start by opening the Windows host portion of your Flutter app in Visual Studio:
+首先，請在 Visual Studio 中開啟你的 Flutter 應用程式的 Windows host 部分：
 
-1. Run `flutter build windows` in your project directory once to generate
-   the Visual Studio solution file.
+1. 在你的專案目錄下執行 `flutter build windows` 一次，以產生 Visual Studio 的解決方案檔案。
 
-1. Start Visual Studio.
+2. 啟動 Visual Studio。
 
-1. Select **Open a project or solution**.
+3. 選擇 **Open a project or solution**（開啟專案或解決方案）。
 
-1. Navigate to the directory holding your Flutter app, then into the **build**
-   folder, then the **windows** folder, then select the `batterylevel.sln` file.
-   Click **Open**.
+4. 導航至你的 Flutter 應用程式所在的目錄，然後進入 **build** 資料夾，再進入 **windows** 資料夾，接著選擇 `batterylevel.sln` 檔案。點選 **Open**（開啟）。
 
-Add the C++ implementation of the platform channel method:
+新增平台通道方法的 C++ 實作：
 
-1. Expand **batterylevel > Source Files** in the Solution Explorer.
+1. 在 Solution Explorer（方案總管）中展開 **batterylevel > Source Files**。
 
-1. Open the file `flutter_window.cpp`.
+2. 開啟檔案 `flutter_window.cpp`。
 
-First, add the necessary includes to the top of the file, just
-after `#include "flutter_window.h"`:
+首先，在檔案頂部、緊接著 `#include "flutter_window.h"` 之後，加入必要的 include：
 
 ```cpp title="flutter_window.cpp"
 #include <flutter/event_channel.h>
@@ -805,9 +732,7 @@ after `#include "flutter_window.h"`:
 #include <memory>
 ```
 
-Edit the `FlutterWindow::OnCreate` method and create
-a `flutter::MethodChannel` tied to the channel name
-`samples.flutter.dev/battery`:
+編輯 `FlutterWindow::OnCreate` 方法，並建立一個與頻道名稱 `samples.flutter.dev/battery` 綁定的 `flutter::MethodChannel`：
 
 ```cpp title="flutter_window.cpp"
 bool FlutterWindow::OnCreate() {
@@ -828,12 +753,9 @@ bool FlutterWindow::OnCreate() {
 }
 ```
 
-Next, add the C++ code that uses the Windows battery APIs to
-retrieve the battery level. This code is exactly the same as
-you would write in a native Windows application.
+接下來，新增使用 Windows 電池 API 來取得電池電量的 C++ 程式碼。這段程式碼與你在原生 Windows 應用程式中撰寫的方式完全相同。
 
-Add the following as a new function at the top of
-`flutter_window.cpp` just after the `#include` section:
+請將以下內容作為一個新函式，新增在 `flutter_window.cpp` 頂端、緊接在 `#include` 區段之後：
 
 ```cpp title="flutter_window.cpp"
 static int GetBatteryLevel() {
@@ -845,14 +767,14 @@ static int GetBatteryLevel() {
 }
 ```
 
-Finally, complete the `setMethodCallHandler()` method added earlier.
-You need to handle a single platform method, `getBatteryLevel()`,
-so test for that in the `call` argument.
-The implementation of this platform method calls
-the Windows code written in the previous step. If an unknown method
-is called, report that instead.
+最後，請完成先前新增的 `setMethodCallHandler()` 方法。
+你只需要處理一個平台方法 `getBatteryLevel()`，
+因此請在 `call` 參數中進行判斷。
+這個平台方法的實作會呼叫
+前一步所撰寫的 Windows 程式碼。如果收到未知的方法呼叫，
+則請回報該情況。
 
-Remove the following code:
+請移除以下程式碼：
 
 ```cpp title="flutter_window.cpp"
   channel.SetMethodCallHandler(
@@ -862,7 +784,7 @@ Remove the following code:
       });
 ```
 
-And replace with the following:
+並替換為以下內容：
 
 ```cpp title="flutter_window.cpp"
   channel.SetMethodCallHandler(
@@ -881,37 +803,36 @@ And replace with the following:
       });
 ```
 
-You should now be able to run the application on Windows.
-If your device doesn't have a battery,
-it displays 'Battery level not available'.
+你現在應該可以在 Windows 上執行這個應用程式了。
+如果你的裝置沒有電池，
+它會顯示「Battery level not available」（無法取得電池電量）。
 
-### Step 6: Add a macOS platform-specific implementation
+### 步驟 6：新增 macOS 平台專屬實作
 
-Start by opening the macOS host portion of your Flutter app in Xcode:
+首先，在 Xcode 中開啟 Flutter 應用程式的 macOS host 部分：
 
-1. Start Xcode.
+1. 啟動 Xcode。
 
-1. Select the menu item **File > Open...**.
+1. 選擇選單項目 **File > Open...**。
 
-1. Navigate to the directory holding your Flutter app, and select the **macos**
-folder inside it. Click **OK**.
+1. 導航至你的 Flutter 應用程式所在的目錄，然後選擇裡面的 **macos**
+資料夾。點擊 **OK**。
 
-Add the Swift implementation of the platform channel method:
+新增平台通道（platform channel）方法的 Swift 實作：
 
-1. **Expand Runner > Runner** in the Project navigator.
+1. 在專案導覽器中**展開 Runner > Runner**。
 
-1. Open the file `MainFlutterWindow.swift` located under **Runner > Runner**
-   in the Project navigator.
+1. 在專案導覽器中，開啟位於 **Runner > Runner** 下的 `MainFlutterWindow.swift` 檔案。
 
-First, add the necessary import to the top of the file, just after
-`import FlutterMacOS`:
+首先，在檔案頂部、緊接在
+`import FlutterMacOS` 之後，加入必要的 import：
 
 ```swift title="MainFlutterWindow.swift"
 import IOKit.ps
 ```
 
-Create a `FlutterMethodChannel` tied to the channel name
-`samples.flutter.dev/battery` in the `awakeFromNib` method:
+建立一個`FlutterMethodChannel`，並綁定至該 channel 名稱，
+於`awakeFromNib`方法中`samples.flutter.dev/battery`：
 
 ```swift title="MainFlutterWindow.swift"
   override func awakeFromNib() {
@@ -933,11 +854,9 @@ Create a `FlutterMethodChannel` tied to the channel name
 }
 ```
 
-Next, add the macOS Swift code that uses the IOKit battery APIs to retrieve
-the battery level. This code is exactly the same as you
-would write in a native macOS app.
+接下來，新增一段 macOS Swift 程式碼，這段程式碼會使用 IOKit 電池 API 來取得電池電量。這段程式碼的寫法與你在原生 macOS 應用程式中撰寫的方式完全相同。
 
-Add the following as a new method at the bottom of `MainFlutterWindow.swift`:
+請將下列內容作為新方法，加入到`MainFlutterWindow.swift`的最下方：
 
 ```swift title="MainFlutterWindow.swift"
 private func getBatteryLevel() -> Int? {
@@ -954,12 +873,12 @@ private func getBatteryLevel() -> Int? {
 }
 ```
 
-Finally, complete the `setMethodCallHandler` method added earlier.
-You need to handle a single platform method, `getBatteryLevel()`,
-so test for that in the `call` argument.
-The implementation of this platform method calls
-the macOS code written in the previous step. If an unknown method
-is called, report that instead.
+最後，請完成先前新增的 `setMethodCallHandler` 方法。
+你需要處理單一平台方法 `getBatteryLevel()`，
+因此請在 `call` 參數中檢查這一點。
+這個平台方法的實作會呼叫
+你在前一步所撰寫的 macOS 程式碼。如果呼叫到未知的方法，
+則應回報該情況。
 
 ```swift title="MainFlutterWindow.swift"
 batteryChannel.setMethodCallHandler { (call, result) in
@@ -980,41 +899,38 @@ batteryChannel.setMethodCallHandler { (call, result) in
 }
 ```
 
-You should now be able to run the application on macOS.
-If your device doesn't have a battery,
-it displays 'Battery level not available'.
+你現在應該可以在 macOS 上執行這個應用程式了。
+如果你的裝置沒有電池，
+它會顯示「Battery level not available」。
 
-### Step 7: Add a Linux platform-specific implementation
+### 步驟 7：新增 Linux 平台專屬實作
 
-For this example you need to install the `upower` developer headers.
-This is likely available from your distribution, for example with:
+在這個範例中，你需要安裝 `upower` 開發標頭（developer headers）。
+這通常可以從你的 Linux 發行版取得，例如可以使用以下指令安裝：
 
 ```console
 sudo apt install libupower-glib-dev
 ```
 
-Start by opening the Linux host portion of your Flutter app in the editor
-of your choice. The instructions below are for Visual Studio Code with the
-"C/C++" and "CMake" extensions installed, but can be adjusted for other IDEs.
+首先，請在你選擇的編輯器中開啟 Flutter 應用程式的 Linux host 部分。以下說明以安裝了「C/C++」與「CMake」擴充功能的 Visual Studio Code 為例，其他 IDE 也可依此調整操作。
 
-1. Launch Visual Studio Code.
+1. 啟動 Visual Studio Code。
 
-1. Open the **linux** directory inside your project.
+1. 開啟專案中的 **linux** 目錄。
 
-1. Choose **Yes** in the prompt asking: `Would you like to configure project "linux"?`.
-   This enables C++ autocomplete.
+1. 當出現詢問「`Would you like to configure project "linux"?`」的提示時，請選擇 **Yes**。  
+   這樣可以啟用 C++ 自動補全功能。
 
-1. Open the file `runner/my_application.cc`.
+1. 開啟檔案 `runner/my_application.cc`。
 
-First, add the necessary includes to the top of the file, just
-after `#include <flutter_linux/flutter_linux.h>`:
+首先，在檔案頂部、緊接在 `#include <flutter_linux/flutter_linux.h>` 之後，加入必要的 include：
 
 ```c title="runner/my_application.cc"
 #include <math.h>
 #include <upower.h>
 ```
 
-Add an `FlMethodChannel` to the `_MyApplication` struct:
+在 `_MyApplication` 結構體中新增一個 `FlMethodChannel`：
 
 ```c title="runnner/my_application.cc"
 struct _MyApplication {
@@ -1024,7 +940,7 @@ struct _MyApplication {
 };
 ```
 
-Make sure to clean it up in `my_application_dispose`:
+請確保在 `my_application_dispose` 中進行清理：
 
 ```c title="runner/my_application.cc"
 static void my_application_dispose(GObject* object) {
@@ -1035,10 +951,7 @@ static void my_application_dispose(GObject* object) {
 }
 ```
 
-Edit the `my_application_activate` method and initialize
-`battery_channel` using the channel name
-`samples.flutter.dev/battery`, just after the call to
-`fl_register_plugins`:
+編輯 `my_application_activate` 方法，並在呼叫 `fl_register_plugins` 之後，使用頻道名稱 `samples.flutter.dev/battery` 初始化 `battery_channel`：
 
 ```c title="runner/my_application.cc"
 static void my_application_activate(GApplication* application) {
@@ -1056,12 +969,9 @@ static void my_application_activate(GApplication* application) {
 }
 ```
 
-Next, add the C code that uses the Linux battery APIs to
-retrieve the battery level. This code is exactly the same as
-you would write in a native Linux application.
+接下來，新增使用 Linux 電池 API 來取得電池電量的 C 程式碼。這段程式碼與你在原生 Linux 應用程式中撰寫的方式完全相同。
 
-Add the following as a new function at the top of
-`my_application.cc` just after the `G_DEFINE_TYPE` line:
+請在 `G_DEFINE_TYPE` 這一行之後，於 `my_application.cc` 檔案頂部新增以下新函式：
 
 ```c title="runner/my_application.cc"
 static FlMethodResponse* get_battery_level() {
@@ -1083,15 +993,12 @@ static FlMethodResponse* get_battery_level() {
 }
 ```
 
-Finally, add the `battery_method_call_handler` function referenced
-in the earlier call to `fl_method_channel_set_method_call_handler`.
-You need to handle a single platform method, `getBatteryLevel`,
-so test for that in the `method_call` argument.
-The implementation of this function calls
-the Linux code written in the previous step. If an unknown method
-is called, report that instead.
+最後，請加入前面在呼叫 `fl_method_channel_set_method_call_handler` 時所參考的 `battery_method_call_handler` 函式。
+你只需要處理一個平台方法 `getBatteryLevel`，
+因此請在 `method_call` 參數中檢查這一點。
+這個函式的實作會呼叫你在前一步撰寫的 Linux 程式碼。如果收到未知的方法呼叫，則回報該情況。
 
-Add the following code after the `get_battery_level` function:
+請將以下程式碼加入在 `get_battery_level` 函式之後：
 
 ```cpp title="runner/my_application.cpp"
 static void battery_method_call_handler(FlMethodChannel* channel,
@@ -1111,39 +1018,32 @@ static void battery_method_call_handler(FlMethodChannel* channel,
 }
 ```
 
-You should now be able to run the application on Linux.
-If your device doesn't have a battery,
-it displays 'Battery level not available'.
+你現在應該可以在 Linux 上執行這個應用程式了。  
+如果你的裝置沒有電池，  
+它會顯示「Battery level not available」（無法取得電池電量）。
 
-## Call platform-specific code using the Pigeon package {:#pigeon}
+## 使用 Pigeon 套件呼叫平台專屬程式碼 {:#pigeon}
 
-You can use the [`Pigeon`][] package as
-an alternative to Flutter's platform channel APIs
-to generate code that sends messages in a
-structured, type-safe manner. The workflow for Pigeon
-looks like this:
+你可以使用 [`Pigeon`][`Pigeon`] 套件，  
+作為 Flutter 平台通道（platform channel）API 的替代方案，  
+以產生能以結構化且型別安全方式傳遞訊息的程式碼。  
+Pigeon 的工作流程如下：
 
-  * The Flutter app sends structured
-    type-safe messages to its _host_, the non-Dart portion
-    of the app, over a platform channel.
+  * Flutter 應用程式會透過平台通道，  
+    將結構化且型別安全的訊息傳送給其 _host_（非 Dart 部分的應用程式）。
 
-  * The _host_ listens on the platform channel, and receives
-    the message. It then calls into any number of
-    platform-specific APIs using the native programming
-    language and sends a response back to the _client_,
-    the Flutter portion of the app.
+  * _host_ 會在平台通道上監聽並接收訊息，  
+    然後使用原生程式語言呼叫任意數量的  
+    平台專屬 API，並將回應傳回給 _client_（Flutter 部分的應用程式）。
 
-Using this package eliminates the need to match
-strings between host and client for the names and
-data types of messages. It supports nested classes,
-grouping messages into APIs, generation of asynchronous
-wrapper code, and sending messages in either direction. The
-generated code is readable and guarantees there are no
-conflicts between multiple clients of different versions.
+使用這個套件可以省去 host 與 client 之間，  
+針對訊息名稱與資料型別進行字串對應的需求。  
+它支援巢狀類別、將訊息分組為 API、產生非同步包裝程式碼，  
+並可雙向傳遞訊息。產生的程式碼可讀性高，  
+並保證不同版本的多個 client 之間不會有衝突。
 
-With Pigeon, the messaging protocol is defined
-in a subset of Dart that then generates messaging
-code for Android, iOS, macOS, or Windows. For example:
+使用 Pigeon 時，訊息協定會以 Dart 的子集來定義，  
+然後產生適用於 Android、iOS、macOS 或 Windows 的訊息傳遞程式碼。舉例來說：
 
 <?code-excerpt "pigeon/lib/pigeon_source.dart (search)"?>
 ```dart title="pigeon_source.dart"
@@ -1180,38 +1080,25 @@ Future<void> onClick() async {
 }
 ```
 
-You can find a complete example and more information
-on the [`pigeon`][] page on pub.dev.
+你可以在 pub.dev 上的 [`pigeon`][`pigeon`] 頁面找到完整範例與更多資訊。
 
-## Channels and platform threading
+## Channel 與平台執行緒
 
-When invoking channels on the platform side destined for Flutter,
-invoke them on the platform's main thread.
-When invoking channels in Flutter destined for the platform side,
-either invoke them from any `Isolate` that is the root
-`Isolate`, _or_ that is registered as a background `Isolate`.
-The handlers for the platform side can execute on the platform's main thread
-or they can execute on a background thread if using a Task Queue.
-You can invoke the platform side handlers asynchronously
-and on any thread.
+當你在平台端呼叫要傳送給 Flutter 的 channel 時，請在平台的主執行緒（main thread）上執行。
+當你在 Flutter 中呼叫要傳送給平台端的 channel 時，可以從任何作為 root `Isolate` 的 `Isolate`，_或_ 是已註冊為背景 `Isolate` 的 `Isolate` 來呼叫。
+平台端的 handler 可以在平台主執行緒上執行，也可以在使用 Task Queue 時於背景執行緒執行。
+你可以在任何執行緒上非同步呼叫平台端的 handler。
 
 :::note
-On Android, the platform's main thread is sometimes
-called the "main thread", but it is technically defined
-as [the UI thread][]. Annotate methods that need
-to be run on the UI thread with `@UiThread`.
-On iOS, this thread is officially
-referred to as [the main thread][].
+在 Android 上，平台的主執行緒有時被稱為「main thread」，但技術上定義為 [UI thread][the UI thread]。需要在 UI thread 執行的方法請加上 `@UiThread` 標註。
+在 iOS 上，這個執行緒正式稱為 [main thread][the main thread]。
 :::
 
-### Use plugins and channels from a background isolate {: #using-plugins-and-channels-from-background-isolates }
+### 從背景 isolate 使用 plugin 與 channel {: #using-plugins-and-channels-from-background-isolates }
 
-Plugins and channels can be used by any `Isolate`, but that `Isolate` has to be
-a root `Isolate` (the one created by Flutter) or registered as a background
-`Isolate` for a root `Isolate`.
+任何 `Isolate` 都可以使用 plugin 與 channel，但該 `Isolate` 必須是 root `Isolate`（由 Flutter 建立的），或是已註冊為 root `Isolate` 的背景 `Isolate`。
 
-The following example shows how to register a background `Isolate` in order to
-use a plugin from a background `Isolate`.
+以下範例展示如何註冊背景 `Isolate`，以便從背景 `Isolate` 使用 plugin。
 
 ```dart
 import 'package:flutter/services.dart';
@@ -1229,11 +1116,11 @@ void main() {
 }
 ```
 
-### Execute channel handlers on a background thread (Android) {: #executing-channel-handlers-on-background-threads }
+### 在背景執行緒上執行 channel handler（Android） {: #executing-channel-handlers-on-background-threads }
 
-In order for a channel's platform side handler to
-execute on a background thread on an Android app, you must
-use the Task Queue API.
+若要讓某個 channel 的平台端 handler
+在 Android 應用程式中於背景執行緒上執行，您必須
+使用 Task Queue API。
 
 {% tabs "lang-tabs" %}
 
@@ -1275,11 +1162,9 @@ public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
 
 {% endtabs %}
 
-### Execute channel handlers on a background thread (iOS)
+### 在背景執行緒上執行 channel handlers（iOS）
 
-In order for a channel's platform side handler to
-execute on a background thread on an iOS app, you must use
-the Task Queue API.
+若要讓某個 channel 的平台端 handler 能夠在 iOS 應用程式的背景執行緒上執行，必須使用 Task Queue API。
 
 {% tabs "lang-tabs" %}
 
@@ -1319,15 +1204,14 @@ public static func register(with registrar: FlutterPluginRegistrar) {
 
 {% endtabs %}
 
-### Jump to the UI thread (Android) {: #jumping-to-the-ui-thread-in-android }
+### 切換至 UI 執行緒（Android） {: #jumping-to-the-ui-thread-in-android }
 
-To comply with channels' UI thread requirement,
-you might need to jump from a background thread
-to Android's UI thread to execute a channel method.
-In Android, you can accomplish this by `post()`ing a
-`Runnable` to Android's UI thread `Looper`,
-which causes the `Runnable` to execute on the
-main thread at the next opportunity.
+為了符合通道（channels）對 UI 執行緒的要求，
+你可能需要從背景執行緒切換到 Android 的 UI 執行緒，
+以執行通道方法。
+在 Android 中，你可以透過`post()`
+將`Runnable`提交給 Android 的 UI 執行緒`Looper`，
+這會讓`Runnable`在主執行緒（main thread）下次有機會時執行。
 
 {% tabs "lang-tabs" %}
 
@@ -1356,13 +1240,12 @@ new Handler(Looper.getMainLooper()).post(new Runnable() {
 
 {% endtabs %}
 
-### Jump to the main thread (iOS) {: #jumping-to-the-main-thread-in-ios }
+### 跳轉到主執行緒（iOS） {: #jumping-to-the-main-thread-in-ios }
 
-To comply with channel's main thread requirement,
-you might need to jump from a background thread to
-iOS's main thread to execute a channel method.
-You can accomplish this in iOS by executing a
-[block][] on the main [dispatch queue][]:
+為了符合 channel 的主執行緒要求，
+你可能需要從背景執行緒跳轉到
+iOS 的主執行緒來執行 channel 方法。
+你可以透過在 iOS 的主 [dispatch queue][dispatch queue] 上執行一個 [block][block] 來達成：
 
 {% tabs "lang-tabs" %}
 
@@ -1388,72 +1271,39 @@ DispatchQueue.main.async {
 
 {% endtabs %}
 
-## Supplementals
+## 補充說明
 
-### Common channels and codecs {:#codec2}
+### 常用的通道與編解碼器 {:#codec2}
 
-The following is a list of some common platform channel APIs
-that you can use to write platform-specific code:
+以下列出一些常見的 Platform Channel API，可用於撰寫平台專屬（platform-specific）程式碼：
 
-* [`MethodChannel`][] for Flutter: A named channel that you
-  can use to communicate with platform plugins using
-  asynchronous method calls. By default this channel uses
-  the [`StandardMessageCodec`][] codec.
-  This channel is not type safe, which means calling and
-  receiving messages depends on the host and client
-  declaring the same arguments and data types in order for
-  messages to work.
+* [`MethodChannel`][`MethodChannel`]（Flutter）：一個具名通道（named channel），可用於透過非同步方法呼叫與平台插件（plugin）進行通訊。預設情況下，此通道使用 [`StandardMessageCodec`][`StandardMessageCodec`] 編解碼器（codec）。此通道並非型別安全（type safe），也就是說，訊息的呼叫與接收必須依賴主端（host）與客戶端（client）宣告相同的參數與資料型別，訊息才能正確傳遞。
 
-* [`BasicMessageChannel`][] for Flutter: A named channel
-  that supports basic, asynchronous message passing, using a
-  supported message codec. Not type safe.
+* [`BasicMessageChannel`][`BasicMessageChannel`]（Flutter）：一個具名通道，支援基本的非同步訊息傳遞，並可搭配支援的訊息編解碼器（message codec）使用。此通道同樣不具型別安全。
 
-* [Engine Embedder APIs][] for Platforms: These
-  platform-specific APIs contain platform-specific
-  channel APIs.
+* [Engine Embedder APIs][Engine Embedder APIs]（Platforms）：這些平台專屬 API 包含平台專屬的通道 API。
 
-You can create your own codec or use an existing one. The
-following is a list of some existing codecs that you can use
-with platform-specific code:
+你可以自行建立編解碼器（codec），或使用現有的編解碼器。以下是可與平台專屬程式碼搭配使用的一些現有編解碼器：
 
-* [`StandardMessageCodec`][]: A commonly used message codec
-  that encodes and decodes a wide range of data types into
-  a platform-agnostic binary format for transmission across
-  platform channels. The serialization and deserialization
-  of values to and from messages happens automatically when
-  you send and receive values. For a list of supported
-  data types, see [Platform channel data types support](#codec).
+* [`StandardMessageCodec`][`StandardMessageCodec`]：一個常用的訊息編解碼器，可將各種資料型別編碼與解碼為平台無關的二進位格式，方便跨平台通道傳輸。當你傳送與接收資料時，值的序列化與反序列化會自動進行。支援的資料型別請參考 [Platform channel data types support](#支援的資料型別-codec)。
 
-* [`BinaryCodec`][]: A message codec that passes raw binary
-  data between the Dart side of your Flutter app and the
-  native platform side. It does not perform any higher-level
-  encoding or decoding of data structures.
+* [`BinaryCodec`][`BinaryCodec`]：一種訊息編解碼器，能在 Flutter 應用程式的 Dart 端與原生平台端之間傳遞原始二進位資料，不會對資料結構進行高階編碼或解碼。
 
-* [`StringCodec`][]: A message codec that encodes and
-  decodes strings, using UTF-8 encoding.
+* [`StringCodec`][`StringCodec`]：一種訊息編解碼器，使用 UTF-8 編碼來編碼與解碼字串。
 
-* [`JSONMessageCodec`][]: A message codec that encodes and
-  decodes JSON-formatted data, using UTF-8 encoding.
+* [`JSONMessageCodec`][`JSONMessageCodec`]：一種訊息編解碼器，使用 UTF-8 編碼來編碼與解碼 JSON 格式的資料。
 
-* [`FirestoreMessageCodec`][]: A message codec that handles
-  the exchange of messages sent across the platform channel
-  between your Flutter app and the native
-  Firebase Firestore SDKs (on Android and iOS).
+* [`FirestoreMessageCodec`][`FirestoreMessageCodec`]：一種訊息編解碼器，專門處理 Flutter 應用程式與原生 Firebase Firestore SDK（Android 與 iOS）之間，透過平台通道傳送的訊息交換。
 
 [MessageCodec]: {{site.api}}/flutter/services/MessageCodec-class.html
 
-### Separate platform-specific code from UI code {:#separate}
+### 將平台專屬程式碼與 UI 程式碼分離 {:#separate}
 
-If you expect to use your platform-specific code
-in multiple Flutter apps, you might consider
-separating the code into a platform plugin located
-in a directory outside your main application.
-See [developing packages][] for details.
+如果你預期會在多個 Flutter 應用程式中重複使用平台專屬程式碼，建議將這些程式碼獨立為平台插件（plugin），並放在主應用程式目錄之外的資料夾中。詳情請參考 [developing packages][developing packages]。
 
-### Publish platform-specific code as a package {:#publish}
+### 以套件形式發佈平台專屬程式碼 {:#publish}
 
-To share your platform-specific code with other developers
-in the Flutter ecosystem, see [publishing packages][].
+若要將你的平台專屬程式碼分享給 Flutter 生態系中的其他開發者，請參考 [publishing packages][publishing packages]。
 
 [`BasicMessageChannel`]: {{site.api}}/flutter/services/BasicMessageChannel-class.html
 [`BinaryCodec`]: {{site.api}}/flutter/services/BinaryCodec-class.html
@@ -1475,7 +1325,7 @@ in the Flutter ecosystem, see [publishing packages][].
 [Platform adaptations]: /platform-integration/platform-adaptations
 [publishing packages]: /packages-and-plugins/developing-packages#publish
 [`quick_actions`]: {{site.pub}}/packages/quick_actions
-[section on threading]: #channels-and-platform-threading
+[section on threading]: #channel-與平台執行緒
 [`StandardMessageCodec`]: {{site.api}}/flutter/services/StandardMessageCodec-class.html
 [`StringCodec`]: {{site.api}}/flutter/services/StringCodec-class.html
 [the main thread]: {{site.apple-dev}}/documentation/uikit?language=objc

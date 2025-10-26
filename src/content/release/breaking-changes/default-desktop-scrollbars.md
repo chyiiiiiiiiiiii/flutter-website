@@ -1,45 +1,28 @@
 ---
-title: Default Scrollbars on Desktop
+title: 桌面預設捲軸
 description: >
-  ScrollBehaviors will now automatically build Scrollbars on Desktop platforms.
+  ScrollBehaviors 現在會在桌面平台自動建立 Scrollbars。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-`ScrollBehavior`s now automatically apply `Scrollbar`s to
-scrolling widgets on desktop platforms - Mac, Windows and Linux.
+`ScrollBehavior` 現在會自動將 `Scrollbar` 套用到桌面平台（Mac、Windows 和 Linux）上的滾動元件 (Scrolling Widgets)。
 
-## Context
+## 背景說明
 
-Prior to this change, `Scrollbar`s were applied to scrolling widgets
-manually by the developer across all platforms. This did not match
-developer expectations when executing Flutter applications on desktop platforms.
+在此變更之前，`Scrollbar` 必須由開發者在所有平台上手動套用到滾動元件 (Scrolling Widgets)。這與開發者在桌面平台執行 Flutter 應用程式時的預期不符。
 
-Now, the inherited `ScrollBehavior` applies a `Scrollbar` automatically
-to most scrolling widgets. This is similar to how `GlowingOverscrollIndicator`
-is created by `ScrollBehavior`. The few widgets that are exempt from this
-behavior are listed below.
+現在，繼承的 `ScrollBehavior` 會自動將 `Scrollbar` 套用到大多數滾動元件 (Scrolling Widgets)。這與 `GlowingOverscrollIndicator` 由 `ScrollBehavior` 建立的方式類似。少數不受此行為影響的元件，會在下方列出。
 
-To provide better management and control of this feature, `ScrollBehavior`
-has also been updated. The `buildViewportChrome` method, which applied
-a `GlowingOverscrollIndicator`, has been deprecated. Instead, `ScrollBehavior`
-now supports individual methods for decorating the viewport, `buildScrollbar`
-and `buildOverscrollIndicator`. These methods can be overridden to control
-what is built around the scrollable.
+為了讓這項功能的管理與控制更加完善，`ScrollBehavior` 也已更新。原本用來套用 `GlowingOverscrollIndicator` 的 `buildViewportChrome` 方法已被棄用。取而代之的是，`ScrollBehavior` 現在支援用於裝飾 viewport 的個別方法，`buildScrollbar` 及 `buildOverscrollIndicator`。這些方法可被覆寫，以控制滾動元件 (Scrollable) 周圍的建構內容。
 
-Furthermore, `ScrollBehavior` subclasses `MaterialScrollBehavior` and
-`CupertinoScrollBehavior` have been made public, allowing developers to extend
-and build upon the other existing `ScrollBehavior`s in the framework. These
-subclasses were previously private. 
+此外，`ScrollBehavior` 現在繼承自公開的 `MaterialScrollBehavior` 和 `CupertinoScrollBehavior`，讓開發者能擴充並建構框架中其他現有的 `ScrollBehavior`。這些子類過去是私有的。
 
+## 變更說明
 
-## Description of change
-
-The previous approach called on developers to create their own `Scrollbar`s on
-all platforms. In some use cases, a `ScrollController` would need to be provided
-to the `Scrollbar` and the scrollable widget.
+先前的做法要求開發者在所有平台上自行建立 `Scrollbar`。在某些使用情境下，還需要將 `ScrollController` 提供給 `Scrollbar` 及滾動元件 (Scrollable Widget)。
 
 ```dart
 final ScrollController controller = ScrollController();
@@ -54,9 +37,7 @@ Scrollbar(
 );
 ```
 
-The `ScrollBehavior` now applies the `Scrollbar` automatically
-when executing on desktop, and handles providing the `ScrollController`
-to the `Scrollbar` for you.
+`ScrollBehavior` 現在在桌面執行時會自動套用 `Scrollbar`，並且會自動將 `ScrollController` 提供給 `Scrollbar`。
 
 ```dart
 final ScrollController controller = ScrollController();
@@ -68,53 +49,37 @@ ListView.builder(
 );
 ```
 
-Some widgets in the framework are exempt from
-this automatic `Scrollbar` application.
-They are:
+框架中的某些元件（Widgets）不會自動套用`Scrollbar`。  
+這些元件包括：
 
-- `EditableText`, when `maxLines` is 1.
+- 當`maxLines`為 1 時的`EditableText`
 - `ListWheelScrollView`
 - `PageView`
 - `NestedScrollView`
 
-Since these widgets manually override the inherited `ScrollBehavior`
-to remove `Scrollbar`s, all of these widgets now have a `scrollBehavior`
-parameter so that one can be provided to use instead of the override.
+由於這些元件會手動覆寫繼承的`ScrollBehavior`以移除`Scrollbar`，因此這些元件現在都新增了一個`scrollBehavior`參數，讓你可以提供自訂值來取代預設的覆寫行為。
 
-This change did not cause any test failures, crashes, or error messages
-in the course of development, but it may result in two `Scrollbar`s
-being rendered in your application if you are manually adding `Scrollbar`s
-on desktop platforms.
+在開發過程中，這項變更並未導致任何測試失敗、當機或錯誤訊息，但如果你在桌面平台上手動新增`Scrollbar`，可能會導致應用程式中同時渲染出兩個`Scrollbar`。
 
-If you are seeing this in your application, there are several ways to
-control and configure this feature.
+如果你在應用程式中遇到這種情況，有幾種方式可以控制與設定此功能：
 
-- Remove the manually applied `Scrollbar`s in your
-  application when running on desktop.
+- 在桌面環境下，移除你應用程式中手動套用的`Scrollbar`。
 
-- Extend `ScrollBehavior`, `MaterialScrollBehavior`,
-  or `CupertinoScrollBehavior` to modify the default behavior.
+- 擴充`ScrollBehavior`、`MaterialScrollBehavior`或`CupertinoScrollBehavior`來修改預設行為。
   
-  - With your own `ScrollBehavior`, you can apply it app-wide by setting
-    `MaterialApp.scrollBehavior` or `CupertinoApp.scrollBehavior`.
-  - Or, if you wish to only apply it to specific widgets, add a
-    `ScrollConfiguration` above the widget in question with your
-    custom `ScrollBehavior`.
+  - 透過自訂的`ScrollBehavior`，你可以設定`MaterialApp.scrollBehavior`或`CupertinoApp.scrollBehavior`，將其套用至整個應用程式。
+  - 或者，如果只想套用於特定元件，則可在該元件上方新增`ScrollConfiguration`，並傳入自訂的`ScrollBehavior`。
 
-Your scrollable widgets then inherits this and reflects this behavior.
+你的可滾動元件（Widgets）會繼承並反映這個行為。
 
-- Instead of creating your own `ScrollBehavior`, another option for changing
-  the default behavior is to copy the existing `ScrollBehavior`, and toggle the
-  desired feature.
-  - Create a `ScrollConfiguration` in your widget tree, and
-    provide a modified copy of the existing `ScrollBehavior` in
-    the current context using `copyWith`.
+- 若不想自行建立`ScrollBehavior`，另一個改變預設行為的選項是複製現有的`ScrollBehavior`，並切換你想要的功能。
+  - 在元件樹中建立`ScrollConfiguration`，並利用`copyWith`於目前 context 中提供修改過的`ScrollBehavior`副本。
 
-## Migration guide
+## 遷移指南
 
-### Removing manual `Scrollbar`s on desktop
+### 移除桌面上的手動`Scrollbar`
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 final ScrollController controller = ScrollController();
@@ -129,7 +94,7 @@ Scrollbar(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 final ScrollController controller = ScrollController();
@@ -156,9 +121,9 @@ switch (currentPlatform) {
 }
 ```
 
-### Setting a custom `ScrollBehavior` for your application
+### 為您的應用程式設定自訂的 `ScrollBehavior`
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 // MaterialApps previously had a private ScrollBehavior.
@@ -167,7 +132,7 @@ MaterialApp(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 // MaterialApps previously had a private ScrollBehavior.
@@ -183,9 +148,9 @@ MaterialApp(
 );
 ```
 
-### Setting a custom `ScrollBehavior` for a specific widget
+### 為特定元件（Widget）設定自訂的 `ScrollBehavior`
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 final ScrollController controller = ScrollController();
@@ -197,7 +162,7 @@ ListView.builder(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 // MaterialApps previously had a private ScrollBehavior.
@@ -219,9 +184,9 @@ ScrollConfiguration(
 );
 ```
 
-### Copy and modify existing `ScrollBehavior`
+### 複製並修改現有的 `ScrollBehavior`
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 final ScrollController controller = ScrollController();
@@ -233,7 +198,7 @@ ListView.builder(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 // ScrollBehavior can be copied and adjusted.
@@ -249,31 +214,31 @@ ScrollConfiguration(
 );
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 2.2.0-10.0.pre<br>
-In stable release: 2.2.0
+合併至版本：2.2.0-10.0.pre<br>  
+正式版發佈：2.2.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`ScrollConfiguration`][]
-* [`ScrollBehavior`][]
-* [`MaterialScrollBehavior`][]
-* [`CupertinoScrollBehavior`][]
-* [`Scrollbar`][]
-* [`CupertinoScrollbar`][]
+* [`ScrollConfiguration`][`ScrollConfiguration`]
+* [`ScrollBehavior`][`ScrollBehavior`]
+* [`MaterialScrollBehavior`][`MaterialScrollBehavior`]
+* [`CupertinoScrollBehavior`][`CupertinoScrollBehavior`]
+* [`Scrollbar`][`Scrollbar`]
+* [`CupertinoScrollbar`][`CupertinoScrollbar`]
 
-Relevant issues:
+相關議題：
 
-* [Issue #40107][]
-* [Issue #70866][]
+* [Issue #40107][Issue #40107]
+* [Issue #70866][Issue #70866]
 
-Relevant PRs:
+相關 PR：
 
-* [Exposing ScrollBehaviors for app-wide settings][]
-* [Automatically applying Scrollbars on desktop platforms with configurable ScrollBehaviors][]
+* [Exposing ScrollBehaviors for app-wide settings][Exposing ScrollBehaviors for app-wide settings]
+* [Automatically applying Scrollbars on desktop platforms with configurable ScrollBehaviors][Automatically applying Scrollbars on desktop platforms with configurable ScrollBehaviors]
 
 
 [`ScrollConfiguration`]: {{site.api}}/flutter/widgets/ScrollConfiguration-class.html

@@ -1,75 +1,60 @@
 ---
-title: LayoutBuilder optimization
+title: LayoutBuilder 最佳化
 description: >
-  LayoutBuilder and SliverLayoutBuilder call the builder function less often.
+  LayoutBuilder 與 SliverLayoutBuilder 現在會更少次地呼叫 builder 函式。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-This guide explains how to migrate Flutter applications after
-[the LayoutBuilder optimization][1].
+本指南說明在 [LayoutBuilder 最佳化][1] 後，如何遷移 Flutter 應用程式。
 
-## Context
+## 背景說明
 
-[LayoutBuilder][2] and [SliverLayoutBuilder][3] call
-the [builder][4] function more often than necessary to
-fulfill their primary goal of allowing apps to adapt their
-widget structure to parent layout constraints.
-This has led to less efficient and jankier applications
-because widgets are rebuilt unnecessarily.
+[LayoutBuilder][2] 與 [SliverLayoutBuilder][3] 會比必要次數更頻繁地呼叫 [builder][4] 函式，
+以達到讓應用程式根據父層版面配置限制（layout constraints）調整元件（Widget）結構的主要目標。
+這導致元件被不必要地重建，造成應用程式效能降低與卡頓。
 
-This transitively affects [OrientationBuilder][5] as well.
+這也會間接影響 [OrientationBuilder][5]。
 
-In order to improve app performance
-the [LayoutBuilder optimization][1] was made,
-which results in calling the `builder` function less often.
+為了提升應用程式效能，進行了 [LayoutBuilder 最佳化][1]，
+使得 `builder` 函式被呼叫的次數減少。
 
-Apps that rely on this function to be called with a certain frequency may break.
-The app may exhibit some combination of the following symptoms:
+如果您的應用程式依賴這個函式以特定頻率被呼叫，可能會因此產生問題。
+應用程式可能會出現以下一種或多種現象：
 
-* The `builder` function is not called when it would before the upgrade to the
-  Flutter version that introduced the optimization.
-* The UI of a widget is missing.
-* The UI of a widget is not updating.
+* 在升級到引入此最佳化的 Flutter 版本後，`builder` 函式未被呼叫，而在升級前會被呼叫。
+* 某個元件（Widget）的 UI 消失。
+* 某個元件（Widget）的 UI 沒有更新。
 
-## Description of change
+## 變更說明
 
-Prior to the optimization the builder function passed to `LayoutBuilder` or
-`SliverLayoutBuilder` was called when any one of the following happened:
+在最佳化之前，傳遞給 `LayoutBuilder` 或 `SliverLayoutBuilder` 的 builder 函式會在下列任一情況發生時被呼叫：
 
-1. `LayoutBuilder` is rebuilt due to a widget configuration change
-   (this typically happens when the widget that uses `LayoutBuilder` rebuilds
-   due to `setState`, `didUpdateWidget` or `didChangeDependencies`).
-1. `LayoutBuilder` is laid out and receives layout constraints from its parent
-   that are _different_ from the last received constraints.
-1. `LayoutBuilder` is laid out and receives layout constraints from its parent
-   that are the _same_ as the constraints received last time.
+1. 由於元件設定變更，`LayoutBuilder` 被重建
+   （通常發生在使用 `LayoutBuilder` 的元件因 `setState`、`didUpdateWidget` 或 `didChangeDependencies` 而重建時）。
+2. `LayoutBuilder` 進行版面配置，且從父元件收到的版面配置限制與上次收到的不同。
+3. `LayoutBuilder` 進行版面配置，且從父元件收到的版面配置限制與上次收到的相同。
 
-After the optimization the builder function is no longer called in the latter
-case. If the constraints are the same and the widget configuration did not
-change, the builder function is not called.
+最佳化後，builder 函式在第三種情況下將不再被呼叫。
+如果版面配置限制相同且元件設定未變，則不會呼叫 builder 函式。
 
-Your app can break if it relies on the relayout to cause the rebuilding of the
-`LayoutBuilder` rather than on an explicit call to `setState`. This usually
-happens by accident. You meant to add `setState`, but you forgot because the app
-continued functioning as you wanted, and therefore nothing reminded you to add
-it.
+如果您的應用程式依賴重新版面配置（relayout）來觸發 `LayoutBuilder` 的重建，
+而不是明確呼叫 `setState`，就可能因此出現問題。
+這通常是無意間發生的。您本來應該加上 `setState`，但因為應用程式仍如預期運作而忘記加上，
+因此沒有任何提示提醒您補上。
 
-## Migration guide
+## 遷移指南
 
-Look for usages of `LayoutBuilder` and `SliverLayoutBuilder` and make sure to
-call `setState` any time the widget state changes.
+請檢查所有 `LayoutBuilder` 與 `SliverLayoutBuilder` 的用法，並確保每當元件狀態改變時都會呼叫 `setState`。
 
-**Example**: in the example below the contents of the builder function depend
-on the value of the `_counter` field. Therefore, whenever the value is updated,
-you should call `setState` to tell the framework to rebuild the widget. However,
-this example may have previously worked even without calling `setState`, if the
-`_ResizingBox` triggers a relayout of `LayoutBuilder`.
+**範例**：在下方範例中，builder 函式的內容依賴 `_counter` 欄位的值。
+因此，每當該值被更新時，您應該呼叫 `setState` 來通知框架重建元件（Widget）。
+然而，即使未呼叫 `setState`，此範例過去也可能能正常運作，
+如果 `_ResizingBox` 會觸發 `LayoutBuilder` 的重新版面配置（relayout）。
 
-Code before migration (note the missing `setState` inside the `onPressed`
-callback):
+遷移前的程式碼（請注意 `onPressed` 回呼中缺少 `setState`）：
 
 ```dart
 import 'package:flutter/material.dart';
@@ -166,7 +151,7 @@ class _ResizingBoxState extends State<_ResizingBox>
 }
 ```
 
-Code after migration (`setState` added to `onPressed`):
+遷移後的程式碼（已將 `setState` 加入至 `onPressed`）：
 
 ```dart
 import 'package:flutter/material.dart';
@@ -265,11 +250,8 @@ class _ResizingBoxState extends State<_ResizingBox>
 }
 ```
 
-Watch for usages of `Animation` and `LayoutBuilder` in the same widget.
-Animations have internal mutable state that changes on every frame. If the
-logic of your builder function depends on the value of the animation, it may
-require a `setState` to update in tandem with the animation. To do that, add an
-[animation listener][7] that calls `setState`, like so:
+請留意在同一個元件（Widget）中同時使用 `Animation` 和 `LayoutBuilder` 的情況。  
+動畫（Animation）具有內部可變狀態，會在每一幀變化。如果你的 builder 函式邏輯依賴於動畫的值，則可能需要 `setState` 來隨動畫同步更新。為達到此目的，請加入一個[動畫監聽器][7]，並在其中呼叫 `setState`，如下所示：
 
 ```dart
 Animation animation = … create animation …;
@@ -280,22 +262,22 @@ animation.addListener(() {
 });
 ```
 
-## Timeline
+## 時程
 
-This change was released in Flutter v1.20.0.
+此變更於 Flutter v1.20.0 版本中發布。
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`LayoutBuilder`][2]
 * [`SliverLayoutBuilder`][3]
 
-Relevant issue:
+相關議題：
 
 * [Issue 6469][8]
 
-Relevant PR:
+相關 PR：
 
 * [LayoutBuilder: skip calling builder when constraints are the same][6]
 

@@ -1,43 +1,36 @@
 ---
-title: Semantics Order of the Overlay Entries in Modal Routes
+title: Modal 路由中 Overlay 項目的語意順序
 description: >
-  The scope of the modal route has a higher semantics
-  traverse order than its modal barrier.
+  Modal 路由的範圍（scope）在語意遍歷順序上
+  高於其 modal barrier。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-We changed the semantics traverse order of the overlay entries in modal routes.
-Accessibility talk back or voice over now focuses the scope of a modal route
-first instead of its modal barrier.
+我們調整了 Modal 路由中 overlay 項目的語意遍歷順序。
+現在，無障礙輔助功能（如 TalkBack 或 VoiceOver）會優先聚焦於 Modal 路由的範圍（scope），而非其 modal barrier。
 
-## Context
+## 背景
 
-The modal route has two overlay entries, the scope and the modal barrier. The
-scope is the actual content of the modal route, and the modal barrier is the
-background of the route if its scope does not cover the entire screen. If the
-modal route returns true for `barrierDismissible`, the modal barrier becomes
-accessibility focusable because users can tap the modal barrier to pop the
-modal route. This change specifically made the accessibility to focus the scope
-first before the modal barrier.
+Modal 路由包含兩個 overlay 項目：範圍（scope）與 modal barrier。  
+範圍是 Modal 路由實際的內容，而 modal barrier 則是在範圍未覆蓋整個螢幕時，作為路由背景的部分。  
+如果 Modal 路由對於 `barrierDismissible` 回傳 true，modal barrier 會變為可被無障礙聚焦，因為使用者可以點擊 modal barrier 來彈出（pop）Modal 路由。  
+本次變更特別讓無障礙聚焦於範圍（scope）之後，才聚焦於 modal barrier。
 
-## Description of change
+## 變更說明
 
-We added additional semantics node above both
-the overlay entries of modal routes.
-Those semantics nodes denote the semantics
-traverse order of these two overlay entries.
-This also changed the structure of semantics tree.
+我們在 Modal 路由的兩個 overlay 項目之上新增了額外的語意節點（semantics node）。
+這些語意節點標示了這兩個 overlay 項目的語意遍歷順序。
+這同時也改變了語意樹（semantics tree）的結構。
 
-## Migration guide
+## 移轉指南
 
-If your tests start failing due to semantics tree changes after the update,
-you can migrate your code by expecting a new node on above of the modal route
-overlay entries.
+如果在更新後，您的測試因語意樹結構變更而失敗，
+您可以透過預期 Modal 路由 overlay 項目上方會有一個新的節點，來調整您的程式碼。
 
-Code before migration:
+移轉前的程式碼：
 
 ```dart
 import 'dart:ui';
@@ -87,7 +80,7 @@ SemanticsNode getChild(SemanticsNode node) {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 import 'dart:ui';
@@ -137,25 +130,25 @@ SemanticsNode getChild(SemanticsNode node) {
 }
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 1.19.0<br>
-In stable release: 1.20
+合併於版本：1.19.0<br>  
+正式版發佈於：1.20
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`ModalRoute`][]
-* [`OverlayEntry`][]
+* [`ModalRoute`][`ModalRoute`]
+* [`OverlayEntry`][`OverlayEntry`]
 
-Relevant issue:
+相關議題：
 
-* [Issue 46625][]
+* [Issue 46625][Issue 46625]
 
-Relevant PR:
+相關 PR：
 
-* [PR 59290][]
+* [PR 59290][PR 59290]
 
 [`ModalRoute`]: {{site.api}}/flutter/widgets/ModalRoute-class.html
 [`OverlayEntry`]: {{site.api}}/flutter/widgets/OverlayEntry-class.html

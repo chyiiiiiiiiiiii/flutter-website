@@ -1,5 +1,5 @@
 ---
 layout: toc
-title: Persistence
-description: Content covering persistence in Flutter apps.
+title: 永續性（Persistence）
+description: 涵蓋 Flutter 應用程式中資料永續性的相關內容。
 ---

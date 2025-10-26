@@ -1,38 +1,26 @@
 ---
-title: showAutocorrectionPromptRect method added to TextInputClient 
+title: showAutocorrectionPromptRect 方法新增至 TextInputClient
 description: >
-  A new method, void showAutocorrectionPromptRect(int start, int end), 
-  was added to the TextInputClient interface
+  在 TextInputClient 介面中新增了一個新方法：void showAutocorrectionPromptRect(int start, int end)
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-A new method,`void showAutocorrectionPromptRect(int start, int end)`,
-was added to the `TextInputClient` interface.
+在`TextInputClient`介面中新增了一個新方法：`void showAutocorrectionPromptRect(int start, int end)`。
 
-## Context
+## 背景
 
-In order to display the iOS autocorrection highlight,
-the iOS text input plugin needed a way to inform the
-Flutter framework of the highlight's start and end position.
+為了在 iOS 顯示自動修正（autocorrection）高亮區域，iOS 輸入插件需要有一種方式，能夠通知 Flutter 框架高亮區域的起始與結束位置。
 
-## Description of change
+## 變更說明
 
-A new method, `void showAutocorrectionPromptRect(int start, int end)`,
-was added to the `TextInputClient` interface. iOS calls this method
-when it finds a new potential autocorrect candidate
-in the current user input, or when the range of a previously
-highlighted candidate changes.
+在`TextInputClient`介面中新增了一個新方法：`void showAutocorrectionPromptRect(int start, int end)`。當 iOS 在目前使用者輸入中發現新的自動修正候選字詞，或是先前已高亮的候選字詞範圍發生變化時，會呼叫此方法。
 
-## Migration guide
+## 遷移指南
 
-If your application doesn't implement or subclass `TextInputClient`,
-no migration is needed. If your application doesn't target iOS,
-or the class that implemented the `textInputClient` interface doesn't 
-support autocorrect, you only need to add an empty implementation
-for the new method:
+如果您的應用程式沒有實作或繼承`TextInputClient`，則不需要進行遷移。如果您的應用程式不支援 iOS，或是實作`textInputClient`介面的類別不支援自動修正（autocorrect），您只需要為這個新方法新增一個空的實作即可：
 
 ```dart
 class CustomTextInputClient implements TextInputClient {
@@ -40,12 +28,10 @@ class CustomTextInputClient implements TextInputClient {
 }
 ```
 
-Otherwise, if your app targets iOS and supports autocorrect on iOS,
-we recommend that you add a sensible implementation of
-`void showAutocorrectionPromptRect(int start, int end)` 
-to your `TextInputClient` subclass. 
+否則，如果您的應用程式目標平台為 iOS 並且支援 iOS 上的自動校正（autocorrect），
+我們建議您在您的`TextInputClient`子類別中，為`void showAutocorrectionPromptRect(int start, int end)`新增一個合理的實作。
 
-Code after migration:
+遷移後的程式碼如下：
 
 ```dart
 // Assume your `TextInputClient` is a `State` subclass, and it has a variable 
@@ -83,23 +69,23 @@ class CustomTextInputClient extends State<...> implements TextInputClient {
 }
 ```
 
-## Timeline
+## 時程
 
-In stable release: 1.20
+在穩定版本發佈：1.20
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`TextInputClient`][]
+* [`TextInputClient`][`TextInputClient`]
 
-Relevant issue:
+相關議題：
 
-* [Issue 12920][]
+* [Issue 12920][Issue 12920]
 
-Relevant PR:
+相關 PR：
 
-* [iOS UITextInput autocorrection prompt][]
+* [iOS UITextInput autocorrection prompt][iOS UITextInput autocorrection prompt]
 
 
 [iOS UITextInput autocorrection prompt]: {{site.repo.flutter}}/pull/54119/

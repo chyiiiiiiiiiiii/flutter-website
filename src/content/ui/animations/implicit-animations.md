@@ -1,41 +1,39 @@
 ---
-title: Implicit animations
-description: Where to find more information on using implicit animations in Flutter.
+title: 隱式動畫
+description: 在 Flutter 中使用隱式動畫的進一步資訊。
 ---
 
-With Flutter's [animation library][],
-you can add motion and create visual effects
-for the widgets in your UI.
-One part of the library is an assortment of widgets
-that manage animations for you.
-These widgets are collectively referred to as _implicit animations_,
-or _implicitly animated widgets_, deriving their name from the
-[`ImplicitlyAnimatedWidget`][] class that they implement.
-The following set of resources provide many ways to learn
-about implicit animations in Flutter.
+透過 Flutter 的 [動畫函式庫][animation library]，
+你可以為 UI 中的元件 (Widgets) 增添動態效果與視覺特效。
+這個函式庫的一部分包含了一系列
+能自動管理動畫的元件 (Widgets)。
+這些元件統稱為 _隱式動畫_，
+或稱 _隱式動畫元件 (implicitly animated widgets)_，
+名稱來源於它們所實作的
+[`ImplicitlyAnimatedWidget`][`ImplicitlyAnimatedWidget`] 類別。
+下列資源提供多種學習 Flutter 隱式動畫的方法。
 
-## Documentation
+## 文件
 
-[Implicit animations codelab][]
-: Jump right into the code!
-  This codelab uses interactive examples
-  and step-by-step instructions to teach you
-  how to use implicit animations.
+[隱式動畫 codelab][Implicit animations codelab]
+: 直接進入程式碼實作！
+  這份 codelab 透過互動式範例
+  及逐步教學，帶你學會
+  如何使用隱式動畫。
 
-[`AnimatedContainer` sample][]
-: A step-by-step recipe for using the
-  [`AnimatedContainer`][] implicitly animated widget.
+[`AnimatedContainer` 範例][`AnimatedContainer` sample]
+: 使用
+  [`AnimatedContainer`][`AnimatedContainer`] 隱式動畫元件的
+  步驟教學。
 
-[`ImplicitlyAnimatedWidget`][] API page
-: All implicit animations extend the `ImplicitlyAnimatedWidget` class.
+[`ImplicitlyAnimatedWidget`][`ImplicitlyAnimatedWidget`] API 文件
+: 所有隱式動畫皆繼承自 `ImplicitlyAnimatedWidget` 類別。
 
-## Flutter in Focus videos
+## Flutter in Focus 影片
 
-Flutter in Focus videos feature 5-10 minute tutorials
-with real code that cover techniques
-that every Flutter dev needs to know from top to bottom.
-The following videos cover topics
-that are relevant to implicit animations.
+Flutter in Focus 影片系列提供 5-10 分鐘的教學，
+以實際程式碼示範每位 Flutter 開發者都必須熟悉的技巧。
+以下影片涵蓋與隱式動畫相關的主題。
 
 {% ytEmbed 'IVTjpW3W33s', 'Flutter implicit animation basics' %}
 
@@ -43,20 +41,20 @@ that are relevant to implicit animations.
 
 ## The Boring Show
 
-Watch the Boring Show to follow Google Engineers build apps
-from scratch in Flutter. The following episode covers
-using implicit animations in a news aggregator app.
+觀看 The Boring Show，跟著 Google 工程師從零開始用 Flutter 開發應用程式。
+以下集數介紹如何在新聞聚合應用中
+使用隱式動畫。
 
 {% ytEmbed '8ehlWchLVlQ', 'Adding implicit animations to a news application' %}
 
-## Widget of the Week videos
+## Widget of the Week 影片
 
-A weekly series of short animated videos each showing
-the important features of one particular widget.
-In about 60 seconds, you'll see real code for each
-widget with a demo about how it works.
-The following Widget of the Week videos cover
-implicitly animated widgets:
+每週推出的短動畫影片系列，介紹
+單一元件 (Widget) 的重要特性。
+約 60 秒內，你將看到每個元件的實際程式碼
+及其運作展示。
+以下 Widget of the Week 影片涵蓋
+隱式動畫元件：
 
 {% assign animatedWidgets = 'AnimatedOpacity, AnimatedPadding, AnimatedPositioned, AnimatedSwitcher' | split: ", " %}
 {% assign animatedUrls = 'QZAvjqOqiLY, PY2m0fhGNz4, hC3s2YdtWt8, 2W7POjFb88g' | split: ", " %}

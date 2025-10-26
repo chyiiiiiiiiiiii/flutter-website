@@ -1,61 +1,52 @@
 ---
-title: Using slivers to achieve fancy scrolling
+title: 使用 slivers 實現炫酷捲動效果
 description: >-
-  Where to find information on using slivers to
-  implement fancy scrolling effects, like elastic scrolling, in Flutter.
+  在 Flutter 中，如何利用 slivers 實現炫酷的捲動效果，例如彈性捲動，及相關資源。
 showToc: false
 ---
 
-A sliver is a portion of a scrollable area that you
-can define to behave in a special way.
-You can use slivers to achieve custom scrolling effects,
-such as elastic scrolling.
+Sliver 是可捲動區域中的一部分，你可以自訂其特殊行為。
+你可以利用 slivers 來實現自訂的捲動效果，例如彈性捲動。
 
-For a free, instructor-led video workshop that uses DartPad,
-check out the following video about using slivers.
+如果你想參加免費的講師帶領影片工作坊（使用 DartPad），
+可以參考以下關於 slivers 的教學影片。
 
 {% ytEmbed 'YY-_yrZdjGc', 'Building scrolling experiences in Flutter' %}
 
-## Resources
+## 資源
 
-For more information on implementing fancy scrolling effects
-in Flutter, see the following resources:
+想了解更多在 Flutter 中實現炫酷捲動效果的方法，請參考以下資源：
 
-**[Slivers, Demystified][]**
-: A free article on Medium that
-  explains how to implement custom scrolling
-  using the sliver classes.
+**[Slivers, Demystified][Slivers, Demystified]**
+: 一篇免費的 Medium 文章，說明如何利用 sliver 類別來實現自訂捲動。
 
 **[SliverAppBar][sliver-app-bar-video]**
-: A one-minute Widget-of-the-week
-  video that gives an overview of the
-  `SliverAppBar` widget.
+: 一分鐘的 Widget-of-the-week
+  影片，簡要介紹 `SliverAppBar` 元件 (Widget)。
 
   {% ytEmbed 'R9C5KMJKluE', 'SliverAppBar | Flutter widget of the week' %}
 
-**[SliverList and SliverGrid][]**
-: A one-minute Widget-of-the-week
-  video that gives an overview of the `SliverList`
-  and `SliverGrid` widgets.
+**[SliverList and SliverGrid][SliverList and SliverGrid]**
+: 一分鐘的 Widget-of-the-week
+  影片，簡要介紹 `SliverList` 與 `SliverGrid` 元件 (Widget)。
 
   {% ytEmbed 'ORiTTaVY6mM', 'SliverList & SliverGrid | Flutter widget of the week' %}
 
-**[Slivers explained - Making dynamic layouts][]**
-: A 50-minute episode of [The Boring Show][]
-  where Ian Hickson, Flutter's Tech Lead, and Filip Hracek
-  discuss the power of slivers.
+**[Slivers explained - Making dynamic layouts][Slivers explained - Making dynamic layouts]**
+: [The Boring Show][The Boring Show] 的一集長達 50 分鐘的節目，
+  由 Flutter 技術負責人 Ian Hickson 和 Filip Hracek
+  一同討論 slivers 的強大功能。
 
   {% ytEmbed 'Mz3kHQxBjGg', 'Slivers explained - Making dynamic layouts' %}
 
-## API docs
+## API 文件
 
-To learn more about the available sliver APIs,
-check out these related API docs:
+想進一步了解可用的 sliver API，請參考以下相關 API 文件：
 
-* [`CustomScrollView`][]
-* [`SliverAppBar`][]
-* [`SliverGrid`][]
-* [`SliverList`][]
+* [`CustomScrollView`][`CustomScrollView`]
+* [`SliverAppBar`][`SliverAppBar`]
+* [`SliverGrid`][`SliverGrid`]
+* [`SliverList`][`SliverList`]
 
 [`CustomScrollView`]: {{site.api}}/flutter/widgets/CustomScrollView-class.html
 [sliver-app-bar-video]: {{site.yt.watch}}?v=R9C5KMJKluE

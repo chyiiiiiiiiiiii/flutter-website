@@ -1,47 +1,41 @@
 ---
-title: Communicating between layers
-shortTitle: Dependency injection
+title: 層與層之間的溝通
+shortTitle: 依賴注入
 description: >-
-  How to implement dependency injection to communicate between MVVM layers.
+  如何實作依賴注入（Dependency Injection）來實現 MVVM 各層之間的溝通。
 prev:
-  title: Data layer
+  title: 資料層
   path: /app-architecture/case-study/data-layer
 next:
-  title: Testing
+  title: 測試
   path: /app-architecture/case-study/testing
 ---
 
-Along with defining clear responsibilities for each component of the architecture,
-it's important to consider how the components communicate.
-This refers to both the rules that dictate communication,
-and the technical implementation of how components communicate.
-An app's architecture should answer the following questions:
+除了為架構中的每個元件（Component）定義明確的職責之外，還必須考慮元件之間如何溝通。
+這不僅包含規範溝通的規則，也包括元件間實際溝通的技術實作方式。
+一個應用程式的架構應該回答下列問題：
 
-* Which components are allowed to communicate with which other components
-  (including components of the same type)?
-* What do these components expose as output to each other?
-* How is any given layer 'wired up' to another layer?
+* 哪些元件允許與哪些其他元件進行溝通（包括同類型的元件）？
+* 這些元件彼此之間會暴露哪些輸出？
+* 各層之間是如何「串接」起來的？
 
 ![A diagram showing the components of app architecture.](/assets/images/docs/app-architecture/guide/feature-architecture-simplified.png)
 
-Using this diagram as a guide, the rules of engagement are as follows:
+以此圖為指引，元件間的互動規則如下：
 
-| Component  | Rules of engagement                                                                                                                                                                                                                                               |
-|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| View       | <ol><li> A view is only aware of exactly one view model, and is never aware of any other layer or component. When created, Flutter passes the view model to the view as an argument, exposing the view model's data and command callbacks to the view. </li></ul> |
-| ViewModel  | <ol><li>A ViewModel belongs to exactly one view, which can see its data, but the model never needs to know that a view exists.</li><li>A view model is aware of one or more repositories, which are passed into the view model's constructor.</li></ul>           |
-| Repository | <ol><li>A repository can be aware of many services, which are passed as arguments into the repository constructor.</li><li>A repository can be used by many view models, but it never needs to be aware of them.</li></ol>                                        |
-| Service    | <ol><li>A service can be used by many repositories, but it never needs to be aware of a repository (or any other object).</li></ol>                                                                                                                               |
+| 元件        | 互動規則                                                                                                                                                                                                                                               |
+|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| View        | <ol><li>View（檢視）只會知道且僅會知道一個 ViewModel，且永遠不會知道其他層或元件。當 View 被建立時，Flutter 會將 ViewModel 作為參數傳遞給 View，讓 View 可以存取 ViewModel 的資料與命令回呼。</li></ul>                |
+| ViewModel   | <ol><li>一個 ViewModel（檢視模型）只屬於一個 View，View 可以看到 ViewModel 的資料，但 ViewModel 不需要知道 View 的存在。</li><li>ViewModel 可以知道一個或多個 Repository（儲存庫），這些 Repository 會透過建構子注入。</li></ul> |
+| Repository  | <ol><li>Repository（儲存庫）可以知道多個 Service（服務），這些 Service 會作為參數傳入 Repository 的建構子。</li><li>Repository 可以被多個 ViewModel 使用，但 Repository 不需要知道 ViewModel 的存在。</li></ol>      |
+| Service     | <ol><li>Service（服務）可以被多個 Repository 使用，但 Service 不需要知道 Repository（或其他任何物件）的存在。</li></ol>                                                                                                   |
 
 {:.table .table-striped}
 
-## Dependency injection
+## 依賴注入（Dependency injection）
 
-This guide has shown how these different components communicate
-with each other by using inputs and outputs.
-In every case, communication between two layers is facilitated by passing
-a component into the constructor methods (of the components that
-consume its data), such as a `Service` into a `Repository.`
+本指南已說明這些不同元件如何透過輸入與輸出進行溝通。
+在每一種情境下，兩層之間的溝通都是透過將一個元件作為參數傳遞給建構子（由消費該資料的元件來接收），例如將 `Service` 傳入 `Repository.`。
 
 ```dart
 class MyRepository {
@@ -52,19 +46,12 @@ class MyRepository {
 }
 ```
 
-One thing that's missing, however, is object creation. Where,
-in an application, is the `MyService` instance created so that it can be
-passed into `MyRepository`?
-This answer to this question involves a
-pattern known as [dependency injection][].
+然而，目前還缺少一個部分，那就是物件的建立。在應用程式中，`MyService` 實例是在哪裡被建立，才能傳遞給 `MyRepository` 呢？
+這個問題的答案涉及一種稱為 [依賴注入（dependency injection）][dependency injection] 的設計模式。
 
-In the Compass app, *dependency injection* is handled using
-[`package:provider`][]. Based on their experience building Flutter apps,
-teams at Google recommend using `package:provider` to implement
-dependency injection.
+在 Compass 應用程式中，*依賴注入（dependency injection）* 是透過 [`package:provider`][`package:provider`] 來處理的。根據 Google 團隊在建構 Flutter 應用程式的經驗，他們建議使用 `package:provider` 來實作依賴注入。
 
-Services and repositories are exposed to the top level of the widget tree of
-the Flutter application as `Provider` objects.
+服務（services）和資料儲存庫（repositories）會以 `Provider` 物件的形式，暴露在 Flutter 應用程式的元件樹（widget tree）頂層。
 
 ```dart title=dependencies.dart
 runApp(
@@ -97,15 +84,10 @@ runApp(
 );
 ```
 
-Services are exposed only so they can immediately be
-injected into repositories via the `BuildContext.read` method from `provider`,
-as shown in the preceding snippet.
-Repositories are then exposed so that they can be
-injected into view models as needed.
+Services 之所以被公開，是為了能夠立即透過 `provider` 的 `BuildContext.read` 方法注入到 repositories（資料儲存庫）中，如前述程式碼片段所示。
+接著，repositories 會被公開，以便在需要時注入到 view models（檢視模型）中。
 
-Slightly lower in the widget tree, view models that correspond to
-a full screen are created in the [`package:go_router`][] configuration,
-where provider is again used to inject the necessary repositories.
+在元件樹（widget tree）稍微下層的地方，對應整個螢幕的 view models 會在 [`package:go_router`][`package:go_router`] 設定中建立，此時同樣會使用 provider 來注入所需的 repositories。
 
 ```dart title=router.dart
 // This code was modified for demo purposes.
@@ -144,8 +126,8 @@ GoRouter router(
     );
 ```
 
-Within the view model or repository, the injected component should be private.
-For example, the `HomeViewModel` class looks like this:
+在 view model 或 repository 中，被注入的元件應設為 private（私有）。
+例如，`HomeViewModel` 類別會像這樣：
 
 ```dart title=home_viewmodel.dart
 class HomeViewModel extends ChangeNotifier {
@@ -162,23 +144,18 @@ class HomeViewModel extends ChangeNotifier {
 }
 ```
 
-Private methods prevent the view, which has access to the view model, from
-calling methods on the repository directly.
+私有方法可防止具有 view model 存取權限的 view，直接呼叫 repository 上的方法。
 
-This concludes the code walkthrough of the Compass app. This page only walked
-through the architecture-related code, but it doesn't tell the whole story. Most
-utility code, widget code, and UI styling was ignored. Browse the code in
-the [Compass app repository][] for a complete
-example of a robust Flutter application built following these principles.
+以上就是 Compass 應用程式的程式碼導覽。本頁僅介紹了與架構相關的程式碼，並未涵蓋全部內容。大多數工具程式碼、元件（Widget）程式碼，以及 UI 樣式設計都未包含在內。您可以瀏覽 [Compass app repository][Compass app repository]，參考一個完整且健壯、遵循這些原則所建構的 Flutter 應用程式範例。
 
 [`package:provider`]: {{site.pub-pkg}}/provider
 [`package:go_router`]: {{site.pub-pkg}}/go_router
 [Compass app repository]: https://github.com/flutter/samples/tree/main/compass_app
 [dependency injection]: https://en.wikipedia.org/wiki/Dependency_injection
 
-## Feedback
+## 意見回饋
 
-As this section of the website is evolving,
-we [welcome your feedback][]!
+由於本網站的這一部分仍在持續發展中，
+我們[歡迎您的意見回饋][welcome your feedback]！
 
 [welcome your feedback]: https://google.qualtrics.com/jfe/form/SV_4T0XuR9Ts29acw6?page="case-study/dependency-injection"

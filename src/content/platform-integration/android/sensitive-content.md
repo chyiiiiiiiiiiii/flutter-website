@@ -1,39 +1,25 @@
 ---
-title: Protect your app's sensitive content
-shortTitle: Sensitive content
+title: 保護您的應用程式敏感內容
+shortTitle: 敏感內容
 description: >-
-  Learn how to protect sensitive content in your Flutter app.
+  了解如何在您的 Flutter 應用程式中保護敏感內容。
 ---
 
-This feature is available on Android API 35+, and you can try it out by using
-the [`SensitiveContent`] widget. See the guide below for details.
+此功能適用於 Android API 35 以上版本，您可以透過使用 [`SensitiveContent`] 元件（Widget）來體驗。詳情請參閱下方指南。
 
-## About the `SensitiveContent` widget
+## 關於 `SensitiveContent` 元件（Widget）
 
-You can use the `SensitiveContent` widget in your app to set the content
-sensitivity of a child `Widget` to one of the following [`ContentSensitivity`]
-values: `notSensitive`, `sensitive`, or `autoSensitive`. The mode that you
-choose helps to determine if the device screen should be obscured
-(blacked out) during media projection to protect users’ sensitive data.
+您可以在應用程式中使用 `SensitiveContent` 元件，將子元件（Widget）`Widget` 的內容敏感度設為下列其中一個 [`ContentSensitivity`] 值：`notSensitive`、`sensitive` 或 `autoSensitive`。您選擇的模式將協助決定在媒體投影期間，是否需要將裝置螢幕遮蔽（黑屏），以保護使用者的敏感資料。
 
-You can have as many `SensitiveContent` widgets in your app as you wish,
-but if _any_ one of those widgets has a `sensitive` content value, then the
-screen will be obscured during media projection. Thus, for most use cases,
-using multiple `SensitiveContent` widgets provides no advantage over having
-one `SensitiveContent` widget in your app’s widget tree. This feature is
-available on Android API 35+ and has no effect on lower API versions and
-other platforms.
+您可以在應用程式中加入任意多個 `SensitiveContent` 元件，但只要其中_任何一個_元件的內容值為 `sensitive`，則在媒體投影期間螢幕都會被遮蔽。因此，在大多數情境下，使用多個 `SensitiveContent` 元件並不會比在元件樹中只放一個 `SensitiveContent` 元件有額外優勢。此功能僅適用於 Android API 35 以上版本，對於較低 API 版本及其他平台則無任何影響。
 
 :::note
-The `autoSensitive` value isn't supported as of Flutter 3.35 and behaves
-the same as `notSensitive`. See the [Issue #160879][] for more information.
+截至 Flutter 3.35，`autoSensitive` 值尚未支援，行為與 `notSensitive` 相同。詳情請參閱 [Issue #160879][Issue #160879]。
 :::
 
-## Using the `SensitiveContent` widget
+## 使用 `SensitiveContent` 元件（Widget）
 
-Given some content that you want to protect from media screen share
-(for example, a `MySensitiveContent()` widget), you can wrap it with the
-`SensitiveContent` widget as shown in the following example:
+若有某些內容您希望避免被媒體螢幕分享（例如 `MySensitiveContent()` 元件），可以如以下範例所示，將其包裹在 `SensitiveContent` 元件中：
 
 ```dart
 class MyWidget extends StatelessWidget {
@@ -47,15 +33,12 @@ class MyWidget extends StatelessWidget {
 }
 ```
 
-When running on Android API 34 and below, the screen will not be obscured
-during media projection. The widget will exist in the tree but has no other
-effect, and you do not need to avoid usages of `SensitiveContent` on platforms
-that do not support this feature.
+當在 Android API 34 及以下版本執行時，進行媒體投影期間螢幕不會被遮蔽。該元件（Widget）會存在於元件樹中，但不會產生其他效果，因此在不支援此功能的平台上，無需避免使用 `SensitiveContent`。
 
-## For more information
+## 進一步了解
 
-For more information, visit the [`SensitiveContent`][]
-and [`ContentSensitivity`][] API docs.
+如需更多資訊，請參閱 [`SensitiveContent`][`SensitiveContent`]
+以及 [`ContentSensitivity`][`ContentSensitivity`] API 文件。
 
 [`SensitiveContent`]: {{site.api}}/flutter/widgets/SensitiveContent-class.html
 [`ContentSensitivity`]: {{site.api}}/flutter/services/ContentSensitivity.html

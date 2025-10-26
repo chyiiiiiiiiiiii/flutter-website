@@ -1,7 +1,7 @@
 ---
-title: Animation and motion widgets
-shortTitle: Animation
-description: A catalog of Flutter's animation widgets.
+title: 動畫與動態元件 (Animation and motion widgets)
+shortTitle: 動畫 (Animation)
+description: Flutter 動畫元件 (Animation widgets) 目錄。
 ---
 
 {% render docs/catalog-page.md, categoryName:"Animation and motion", catalog:catalog %}

@@ -1,6 +1,6 @@
 ---
-title: Add Material touch ripples
-description: How to implement ripple animations.
+title: 新增 Material 觸控漣漪效果
+description: 如何實作漣漪動畫 (ripple animations)。
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,16 +8,14 @@ js:
 
 <?code-excerpt path-base="cookbook/gestures/ripples/"?>
 
-Widgets that follow the Material Design guidelines display
-a ripple animation when tapped.
+遵循 Material Design 指南的元件 (Widgets)，在被點擊時會顯示漣漪動畫 (ripple animation)。
 
-Flutter provides the [`InkWell`][]
-widget to perform this effect.
-Create a ripple effect using the following steps:
+Flutter 提供了 [`InkWell`][`InkWell`]
+元件 (Widget) 來實現這個效果。
+請依照以下步驟建立漣漪效果：
 
-  1. Create a widget that supports tap.
-  2. Wrap it in an `InkWell` widget to manage tap callbacks and
-     ripple animations.
+  1. 建立一個支援點擊的元件 (Widget)。
+  2. 使用 `InkWell` 元件 (Widget) 將其包裹，以管理點擊回呼與漣漪動畫。
 
 <?code-excerpt "lib/main.dart (InkWell)" replace="/return //g;/^\);$/)/g"?>
 ```dart
@@ -36,7 +34,7 @@ InkWell(
 )
 ```
 
-## Interactive example
+## 互動範例
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter Material ripples hands-on example in DartPad" run="true"
@@ -95,7 +93,7 @@ class MyButton extends StatelessWidget {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/ripples.webp" alt="Ripples Demo" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/ripples.webp" alt="波紋效果示範" class="site-mobile-screenshot" />
 </noscript>
 
 

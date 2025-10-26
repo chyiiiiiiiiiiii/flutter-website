@@ -1,62 +1,50 @@
 ---
-title: Code formatting
+title: 程式碼格式化
 description: >-
-  Flutter's code formatter formats your code
-  following recommended style guidelines.
+  Flutter 的程式碼格式化工具會依照建議的風格指引來格式化你的程式碼。
 ---
 
+雖然你的程式碼可以依照任何偏好的風格撰寫，但根據我們的經驗，開發團隊通常會發現以下做法更有效率：
 
-While your code might follow any preferred style&mdash;in our
-experience&mdash;teams of developers might find it more productive to:
+* 採用單一且共用的程式碼風格，以及
+* 透過自動格式化來強制執行這種風格。
 
-* Have a single, shared style, and
-* Enforce this style through automatic formatting.
+否則，團隊在程式碼審查（code review）時，常常會因為格式問題而爭論不休，浪費了本可用於討論程式行為的寶貴時間。
 
-The alternative is often tiring formatting debates during code reviews,
-where time might be better spent on code behavior rather than code style.
+## 在 VS Code 中自動格式化程式碼
 
-## Automatically formatting code in VS Code
+安裝 `Flutter` 擴充套件（請參考 [VS Code setup][VS Code setup]），即可在 VS Code 中自動格式化程式碼。
 
-Install the `Flutter` extension (see [VS Code setup][])
-to get automatic formatting of code in VS Code.
+若要自動格式化目前原始碼視窗中的程式碼，請在程式碼視窗中按右鍵，然後選擇 `Format Document`。
+你也可以在 VS Code 的 **Preferences** 中為此功能新增鍵盤快捷鍵。
 
-To automatically format the code in the current source code window,
-right-click in the code window and select `Format Document`.
-You can add a keyboard shortcut to this VS Code **Preferences**.
-
-To automatically format code whenever you save a file, set the
-`editor.formatOnSave` setting to `true`.
+若要在每次儲存檔案時自動格式化程式碼，請將 `editor.formatOnSave` 設定設為 `true`。
 
 [VS Code setup]: /tools/vs-code#setup
 
-## Automatically formatting code in Android Studio and IntelliJ
+## 在 Android Studio 與 IntelliJ 中自動格式化程式碼
 
-Install the `Dart` plugin (see [Android Studio and IntelliJ setup][])
-to get automatic formatting of code in Android Studio and IntelliJ.
-To format your code in the current source code window:
+安裝 `Dart` 外掛（請參考 [Android Studio and IntelliJ setup][Android Studio and IntelliJ setup]），即可在 Android Studio 與 IntelliJ 中自動格式化程式碼。
+若要格式化目前原始碼視窗中的程式碼：
 
-* On macOS,
-  press <kbd>Cmd</kbd> + <kbd>Option</kbd> + <kbd>L</kbd>.
-* On Windows and Linux,
-  press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>L</kbd>.
+* 在 macOS 上，
+  請按下 <kbd>Cmd</kbd> + <kbd>Option</kbd> + <kbd>L</kbd>。
+* 在 Windows 與 Linux 上，
+  請按下 <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>L</kbd>。
 
-Android Studio and IntelliJ also provide a checkbox named
-**Format code on save** on the Flutter page in **Preferences**
-on macOS or **Settings** on Windows and Linux.
-This option corrects formatting in the current file when you save it.
+Android Studio 與 IntelliJ 也在 macOS 的 **Preferences** 或 Windows、Linux 的 **Settings** 中的 Flutter 頁面，提供名為 **Format code on save** 的勾選框。
+啟用此選項後，每當你儲存檔案時，系統會自動修正目前檔案的格式。
 
 [Android Studio and IntelliJ setup]: /tools/android-studio#setup
 
-## Automatically formatting code with the `dart` command
+## 使用 `dart` 指令自動格式化程式碼
 
-To correct code formatting in the command line interface (CLI),
-run the `dart format` command:
+若要在命令列介面（Command Line Interface）中修正程式碼格式，請執行 `dart format` 指令：
 
 ```console
 $ dart format path1 path2 [...]
 ```
 
-To learn more about the Dart formatter,
-check out the dart.dev docs on [`dart format`][].
+若想進一步瞭解 Dart formatter，請參閱 dart.dev 文件中的[`dart format`][`dart format`]。
 
 [`dart format`]: {{site.dart-site}}/tools/dart-format

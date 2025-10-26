@@ -1,43 +1,21 @@
 ---
-title: New Buttons and Button themes
-description: The basic material button classes have been replaced.
+title: 新的按鈕與按鈕主題
+description: 基本的 Material 按鈕類別已被取代。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-A new set of basic material button widgets and themes have been added
-to Flutter. The original classes have been deprecated and will
-eventually be removed. The overall goal is to make buttons more
-flexible, and easier to configure via constructor parameters or
-themes.
+Flutter 新增了一組全新的基本 Material 按鈕元件（Widgets）與主題。原本的類別已經被標記為過時（deprecated），最終將會被移除。這次更新的整體目標是讓按鈕更加靈活，並且更容易透過建構子參數或主題（theme）來設定。
 
-The `FlatButton`, `RaisedButton` and `OutlineButton` widgets have been
-replaced by `TextButton`, `ElevatedButton`, and `OutlinedButton`
-respectively. Each new button class has its own theme:
-`TextButtonTheme`, `ElevatedButtonTheme`, and
-`OutlinedButtonTheme`. The original `ButtonTheme` class is no longer
-used. The appearance of buttons is specified by a `ButtonStyle`
-object, instead of a large set of widget parameters and
-properties. This is roughly comparable to the way that the appearance
-of text is defined with a `TextStyle` object. The new button themes
-are also configured with a `ButtonStyle` object. A `ButtonStyle` is
-itself just a collection of visual properties. Many of these
-properties are defined with `MaterialStateProperty`, which means that
-their value can depend on the button's state.
+`FlatButton`、`RaisedButton` 和 `OutlineButton` 元件（Widgets）已分別被 `TextButton`、`ElevatedButton` 和 `OutlinedButton` 取代。每個新的按鈕類別都有自己的主題：`TextButtonTheme`、`ElevatedButtonTheme` 和 `OutlinedButtonTheme`。原本的 `ButtonTheme` 類別已不再使用。按鈕的外觀現在是由 `ButtonStyle` 物件來指定，而不是過去大量的元件參數與屬性。這種方式大致上類似於用 `TextStyle` 物件來定義文字的外觀。新的按鈕主題同樣也是透過 `ButtonStyle` 物件來設定。`ButtonStyle` 本身就是一組視覺屬性的集合。其中許多屬性是用 `MaterialStateProperty` 來定義，這表示它們的值可以根據按鈕的狀態而改變。
 
+## 背景說明
 
-## Context
+我們並沒有嘗試直接在原有的按鈕類別及其主題上進行演進，而是引入了全新的替代按鈕元件（Widgets）與主題。這麼做除了讓我們避免了為了向下相容而產生的複雜性，也讓 Flutter 的命名重新與 Material Design 規範保持一致，因為規範中也採用了這些新的按鈕元件名稱。
 
-Rather than try and evolve the existing button classes and their theme
-in-place, we have introduced new replacement button widgets and
-themes. In addition to freeing us from the backwards compatibility
-labyrinth that evolving the existing classes in-place would entail,
-the new names sync Flutter back up with the Material Design spec,
-which uses the new names for the button components.
-
-| Old Widget      | Old Theme     | New Widget       | New Theme             |
+| 舊元件（Widget） | 舊主題（Theme） | 新元件（Widget） | 新主題（Theme） |
 |-----------------|---------------|------------------|-----------------------|
 | `FlatButton`    | `ButtonTheme` | `TextButton`     | `TextButtonTheme`     |
 | `RaisedButton`  | `ButtonTheme` | `ElevatedButton` | `ElevatedButtonTheme` |
@@ -45,43 +23,17 @@ which uses the new names for the button components.
 
 {:.table .table-striped .nowrap}
 
-The new themes follow the "normalized" pattern that Flutter adopted
-for new Material widgets about a year ago. Theme properties and widget
-constructor parameters are null by default. Non-null theme properties
-and widget parameters specify an override of the component's default
-value. Implementing and documenting default values is the sole
-responsibility of the button component widgets. The defaults
-themselves are based primarily on the overall Theme's colorScheme and
-textTheme.
+新的主題遵循 Flutter 約一年前為新 Material 元件（Widgets）採用的「標準化（normalized）」設計模式。主題屬性與元件建構子的參數預設為 null。非 null 的主題屬性與元件參數則代表要覆寫元件的預設值。實作與說明預設值是按鈕元件（Widgets）本身的唯一責任。這些預設值主要依據整體 Theme 的 colorScheme 與 textTheme 來決定。
 
-Visually, the new buttons look a little different, because they match
-the current Material Design spec and because their colors are
-configured in terms of the overall Theme's ColorScheme. There are
-other small differences in padding, rounded corner radii, and the
-hover/focus/pressed feedback.
+在視覺上，新的按鈕看起來會有些不同，因為它們符合目前的 Material Design 規範，並且顏色設定是根據整體 Theme 的 ColorScheme。此外，在內距（padding）、圓角半徑（rounded corner radii）、以及 hover/focus/pressed 等反饋效果上，也有一些細微差異。
 
-Many applications will be able to just substitute the new class names
-for the old ones. Apps with golden image tests or with buttons whose
-appearance has been configured with constructor parameters or with the
-original `ButtonTheme` may need to consult the migration guide and the
-introductory material that follows.
+許多應用程式只需將舊的類別名稱直接替換為新的即可。如果你的應用程式有 golden image 測試，或是按鈕的外觀是透過建構子參數或原本的 `ButtonTheme` 來設定，則可能需要參考遷移指南以及後續的說明內容。
 
-## API Change: ButtonStyle instead of individual style properties
+## API 變更：以 ButtonStyle 取代個別樣式屬性
 
-Except for simple use cases, the APIs of the new button classes are
-not compatible with the old classes. The visual attributes of the new
-buttons and themes are configured with a single `ButtonStyle` object,
-similar to how a `TextField` or a `Text` widget can be configured with a
-`TextStyle` object. Most of the `ButtonStyle` properties are defined with
-`MaterialStateProperty`, so that a single property can represent
-different values depending on the button's pressed/focused/hovered/etc
-state.
+除了簡單的使用情境外，新的按鈕類別 API 與舊有類別並不相容。新的按鈕與主題的視覺屬性是透過單一的 `ButtonStyle` 物件來設定，這種方式類似於如何用 `TextField` 或 `Text` 元件（Widget）搭配 `TextStyle` 物件來設定外觀。大多數 `ButtonStyle` 屬性是以 `MaterialStateProperty` 來定義，因此單一屬性可以根據按鈕的 pressed/focused/hovered 等不同狀態對應不同的值。
 
-A button's `ButtonStyle` doesn't define the button's visual properties,
-it defines overrides of the buttons default visual properties,
-where the default properties are computed by the button widget
-itself. For example, to override a `TextButton`'s default foreground
-(text/icon) color for all states, one could write:
+按鈕的 `ButtonStyle` 並不會定義按鈕的所有視覺屬性，而是用來覆寫按鈕預設的視覺屬性，這些預設屬性是由按鈕元件（Widget）本身計算而來。例如，若要覆寫 `TextButton` 在所有狀態下的預設前景（文字/圖示）顏色，可以這樣寫：
 
 ```dart
 TextButton(
@@ -93,10 +45,7 @@ TextButton(
 )
 ```
 
-This kind of override is common; however, in many cases what's also
-needed are overrides for the overlay colors that the text button uses
-to indicate its hovered/focus/pressed state.  This can be done by
-adding the `overlayColor` property to the `ButtonStyle`.
+這類覆寫（override）很常見；然而，在許多情況下，還需要針對文字按鈕（text button）在滑鼠懸停、獲得焦點或被按下時所使用的覆蓋顏色（overlay colors）進行額外的覆寫。這可以透過在`ButtonStyle`中加入`overlayColor`屬性來實現。
 
 ```dart
 TextButton(
@@ -118,10 +67,7 @@ TextButton(
 )
 ```
 
-A color `MaterialStateProperty` only needs to return a value for the
-colors whose default should be overridden. If it returns null, the
-widget's default will be used instead. For example, to just override
-the text button's focus overlay color:
+`MaterialStateProperty` 顏色只需要針對那些預設值需要被覆蓋的顏色回傳一個值。如果回傳 `null`，則會使用元件（Widget）的預設值。例如，若只想覆蓋文字按鈕的 focus overlay 顏色：
 
 ```dart
 TextButton(
@@ -139,19 +85,16 @@ TextButton(
 )
 ```
 
-### The `styleFrom()` ButtonStyle utility methods
+### `styleFrom()` ButtonStyle 公用方法
 
-The Material Design spec defines buttons' foreground and overlay colors in
-terms of the color scheme's primary color. The primary color is
-rendered at different opacities, depending on the button's state. To
-simplify creating a button style that includes all of the properties
-that depend on color scheme colors, each button class includes a
-static styleFrom() method which constructs a `ButtonStyle` from a simple
-set of values, including the `ColorScheme` colors it depends on.
+Material Design 規範以色彩方案（color scheme）的主色（primary color）來定義按鈕的前景色（foreground）與覆蓋色（overlay）。  
+主色會根據按鈕的不同狀態，以不同的透明度（opacity）顯示。
 
-This example creates a button that overrides its foreground color, as
-well as its overlay color, using the specified primary color and the
-opacities from the Material Design spec.
+為了簡化建立包含所有依賴色彩方案顏色屬性的按鈕樣式，每個按鈕類別都包含一個靜態的 `styleFrom()` 方法，  
+該方法可以根據一組簡單的值（包括其所依賴的 `ColorScheme` 顏色）來建構一個 `styleFrom()`。
+
+以下範例建立了一個按鈕，並覆寫其前景色與覆蓋色，這些顏色會使用指定的主色，  
+以及 Material Design 規範中所定義的透明度。
 
 ```dart
 TextButton(
@@ -163,9 +106,7 @@ TextButton(
 )
 ```
 
-The `TextButton` documentation indicates that the foreground color when
-the button is disabled is based on the color scheme's `disabledForegroundColor`
-color. To override that as well, using styleFrom():
+`TextButton` 文件指出，當按鈕處於停用狀態時，其前景顏色會根據配色方案（color scheme）的 `disabledForegroundColor` 顏色來設定。若也需要覆寫這個設定，可以使用 `styleFrom()` 來達成：
 
 ```dart
 TextButton(
@@ -178,55 +119,25 @@ TextButton(
 )
 ```
 
-Using the `styleFrom()` method is the preferred way to create a
-`ButtonStyle` if you're trying to create a Material Design
-variation. The most flexible approach is defining a `ButtonStyle`
-directly, with `MaterialStateProperty` values for the states whose
-appearance you want to override.
+使用 `styleFrom()` 方法是建立 `ButtonStyle` 的首選方式，特別是當你想要創建 Material Design 變體時。最具彈性的做法是直接定義 `ButtonStyle`，並針對你希望覆蓋外觀的狀態指定 `MaterialStateProperty` 值。
 
-## ButtonStyle defaults
+## ButtonStyle 預設值
 
-Widgets like the new button classes _compute_ their default values
-based on the overall theme's `colorScheme` and `textTheme` as well as
-button's current state. In a few cases they also consider if the
-overall theme's color scheme is light or dark.  Each button has a
-protected method that computes its default style as needed. Although
-apps won't call this method directly, its API doc explains what all
-of the defaults are.  When a button or button theme specifies
-`ButtonStyle`, only the button style's non-null properties override the
-computed defaults. The button's `style` parameter overrides non-null
-properties specified by the corresponding button theme. For example if
-`foregroundColor` property of a `TextButton`'s style is non-null, it
-overrides the same property for the `TextButonTheme`'s style.
+像新按鈕類別這樣的元件會根據整體主題的 `colorScheme` 和 `textTheme`，以及按鈕目前的狀態，來「計算」其預設值。在某些情況下，它們也會考慮整體主題的配色方案是明亮還是深色。每個按鈕都有一個受保護的方法，會在需要時計算其預設樣式。雖然應用程式不會直接呼叫這個方法，但其 API 文件會說明所有預設值。
 
-As explained earlier, each button class includes a static method
-called `styleFrom` which constructs a ButtonStyle from a simple set of
-values, including the `ColorScheme` colors it depends on. In many common
-cases, using `styleFrom` to create a one-off `ButtonStyle` that
-overrides the defaults, is simplest. This is particularly true when
-the custom style's objective is to override one of the color scheme
-colors, like `primary` or `onPrimary` that the default style depends
-on.  For other cases you can create a `ButtonStyle` object
-directly. Doing so enables you to control the value of visual
-properties, like colors, for all of the button's possible states -
-like pressed, hovered, disabled, and focused.
+當按鈕或按鈕主題指定了 `ButtonStyle` 時，只有按鈕樣式中非 null 的屬性會覆蓋計算出來的預設值。按鈕的 `style` 參數會覆蓋對應按鈕主題中指定的非 null 屬性。例如，如果 `TextButton` 的樣式中的 `foregroundColor` 屬性非 null，則會覆蓋 `TextButonTheme` 樣式中的同一屬性。
 
+如前所述，每個按鈕類別都包含一個名為 `styleFrom` 的靜態方法，該方法會根據一組簡單的值（包含其依賴的 `ColorScheme` 顏色）來建立 ButtonStyle。在許多常見情境下，使用 `styleFrom` 來建立一次性的 `ButtonStyle`，以覆蓋預設值，是最簡單的做法。這在自訂樣式的目的是要覆蓋預設樣式所依賴的配色方案顏色（如 `primary` 或 `onPrimary`）時尤其適用。其他情況下，你可以直接建立 `ButtonStyle` 物件。這麼做可以讓你控制所有按鈕可能狀態（如按下、懸停、停用、聚焦）下的視覺屬性（如顏色）值。
 
-## Migration guide
+## 遷移指南
 
-Use the following information to migrate your buttons to the
-new API.
+請參考以下資訊，將你的按鈕遷移至新 API。
 
-### Restoring the original button visuals
+### 還原原始按鈕外觀
 
-In many cases it's possible to just switch from the old button class
-to the new one.  That's assuming that the small changes in size/shape
-and the likely bigger change in colors, aren't a concern.
+在許多情況下，只需將舊的按鈕類別切換為新的即可。前提是你不介意尺寸／形狀上的些微變化，以及（通常）顏色上的較大變化。
 
-To preserve the original buttons' appearance in these cases, one can
-define button styles that match the original as closely as you
-like. For example, the following style makes a `TextButton` look
-like a default `FlatButton`:
+若要在這些情況下保留原始按鈕的外觀，可以自訂按鈕樣式，使其盡可能貼近原始設計。例如，下列樣式會讓 `TextButton` 看起來像預設的 `FlatButton`：
 
 ```dart
 final ButtonStyle flatButtonStyle = TextButton.styleFrom(
@@ -245,7 +156,7 @@ TextButton(
 )
 ```
 
-Similarly, to make an `ElevatedButton` look like a default `RaisedButton`:
+同樣地，若要讓`ElevatedButton`看起來像預設的`RaisedButton`：
 
 ```dart
 final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
@@ -264,11 +175,7 @@ ElevatedButton(
 )
 ```
 
-The `OutlineButton` style for `OutlinedButton` is a little more
-complicated because the outline's color changes to the primary color
-when the button is pressed. The outline's appearance is defined by a
-`BorderSide` and you'll use a `MaterialStateProperty` to define the pressed
-outline color:
+`OutlinedButton` 的 `OutlineButton` 樣式會稍微複雜一些，因為當按鈕被按下時，外框（outline）的顏色會變成主色（primary color）。外框的外觀是由 `BorderSide` 定義，而你將會使用 `MaterialStateProperty` 來定義按下時的外框顏色：
 
 ```dart
 final ButtonStyle outlineButtonStyle = OutlinedButton.styleFrom(
@@ -299,9 +206,7 @@ OutlinedButton(
 )
 ```
 
-To restore the default appearance for buttons throughout an
-application, you can configure the new button themes in the
-application's theme:
+若要在整個應用程式中還原按鈕的預設外觀，您可以在應用程式的主題（theme）中設定新的按鈕主題：
 
 ```dart
 MaterialApp(
@@ -313,9 +218,7 @@ MaterialApp(
 )
 ```
 
-To restore the default appearance for buttons in part of an
-application you can wrap a widget subtree with `TextButtonTheme`,
-`ElevatedButtonTheme`, or `OutlinedButtonTheme`. For example:
+若要在應用程式的某個部分恢復按鈕的預設外觀，您可以將元件（Widget）子樹包裹在 `TextButtonTheme`、`ElevatedButtonTheme` 或 `OutlinedButtonTheme` 之中。例如：
 
 ```dart
 TextButtonTheme(
@@ -324,10 +227,9 @@ TextButtonTheme(
 )
 ```
 
-### Migrating buttons with custom colors
+### 遷移具有自訂顏色的按鈕
 
-The following sections cover use of the following `FlatButton`,
-`RaisedButton`, and `OutlineButton` color parameters:
+以下章節將說明 `FlatButton`、`RaisedButton` 和 `OutlineButton` 這些顏色參數的使用方式：
 
 ```dart
 textColor
@@ -340,15 +242,11 @@ highlightColor*
 splashColor
 ```
 
-The new button classes do not support a separate highlight color
-because it's no longer part of the Material Design.
+新的按鈕類別（button classes）不再支援單獨設定高亮顏色，因為這已經不再是 Material Design 的一部分。
 
-#### Migrating buttons with custom foreground and background colors
+#### 遷移具有自訂前景色與背景色的按鈕
 
-Two common customizations for the original button classes are a custom
-foreground color for `FlatButton`, or custom foreground and background
-colors for `RaisedButton`.  Producing the same result with the new
-button classes is simple:
+在原本的按鈕類別中，兩個常見的自訂方式分別是為 `FlatButton` 設定自訂前景色，或是為 `RaisedButton` 同時設定自訂前景色與背景色。使用新的按鈕類別要達到相同效果非常簡單：
 
 ```dart
 FlatButton(
@@ -366,12 +264,9 @@ TextButton(
 )
 ```
 
-In this case the `TextButton`'s foreground (text/icon) color as well as
-its hovered/focused/pressed overlay colors will be based on
-`Colors.red`. By default, the `TextButton`'s background fill color is
-transparent.
+在此情境下，`TextButton` 的前景（文字／圖示）顏色，以及其滑鼠懸停、獲得焦點、按下時的覆蓋顏色，將會依據 `Colors.red` 來設定。預設情況下，`TextButton` 的背景填充顏色為透明。
 
-Migrating a `RaisedButton` with custom foreground and background colors:
+將具有自訂前景與背景顏色的 `RaisedButton` 進行遷移：
 
 ```dart
 RaisedButton(
@@ -391,20 +286,15 @@ ElevatedButton(
 )
 ```
 
-In this case the button's use of the color scheme's primary color is
-reversed relative to the `TextButton`: primary is button's background
-fill color and `onPrimary` is the foreground (text/icon) color.
+在這個情境下，按鈕對於配色方案（color scheme）中的主色（primary color）的使用方式與`TextButton`相反：primary 是按鈕的背景填充顏色，而`onPrimary`則是前景（文字／圖示）的顏色。
 
-#### Migrating buttons with custom overlay colors
+#### 遷移具有自訂覆蓋顏色的按鈕
 
-Overriding a button's default focused, hovered, highlighted, or splash
-colors is less common. The `FlatButton`, `RaisedButton`, and `OutlineButton`
-classes have individual parameters for these state-dependent
-colors. The new `TextButton`, `ElevatedButton`, and `OutlinedButton` classes
-use a single `MaterialStateProperty<Color>` parameter instead. The new
-buttons allow one to specify state-dependent values for all of the
-colors, the original buttons only supported specifying what's now
-called the "overlayColor".
+覆寫按鈕預設的聚焦（focused）、懸停（hovered）、高亮（highlighted）或水波（splash）顏色並不常見。`FlatButton`、`RaisedButton`和`OutlineButton`這些類別有各自的參數來設定這些依狀態變化的顏色。
+
+而新的`TextButton`、`ElevatedButton`和`OutlinedButton`類別則改為只使用單一的`MaterialStateProperty<Color>`參數。
+
+新的按鈕允許你為所有顏色指定依狀態變化的值，而原本的按鈕僅支援指定現在稱為「overlayColor」的顏色。
 
 ```dart
 FlatButton(
@@ -433,27 +323,16 @@ TextButton(
 )
 ```
 
-The new version is more flexible although less compact. In the
-original version, the precedence of the different states is
-implicit (and undocumented) and fixed, in the new version, it's
-explicit.  For an app that specified these colors frequently, the
-easiest migration path would be to define one or more `ButtonStyles`
-that match the example above - and just use the style parameter - or
-to define a stateless wrapper widget that encapsulated the three color
-parameters.
+新版本雖然不如舊版精簡，但更加靈活。在原本的版本中，不同狀態的優先順序是隱含（且未記錄）且固定的；而在新版本中，這些優先順序則是明確定義的。  
+對於經常指定這些顏色的應用程式，最簡單的遷移方式是定義一個或多個`ButtonStyles`，使其符合上述範例，然後只需使用 style 參數；或者定義一個無狀態包裝元件（stateless wrapper widget），將這三個顏色參數封裝起來。
 
-#### Migrating buttons with custom disabled colors
+#### 遷移具有自訂停用顏色的按鈕
 
-This is a relatively rare customization.  The `FlatButton`,
-`RaisedButton`, and `OutlineButton` classes have `disabledTextColor` and
-`disabledColor` parameters that define the background and foreground
-colors when the button's `onPressed` callback is null.
+這是一種相對少見的自訂情境。`FlatButton`、`RaisedButton` 和 `OutlineButton` 類別具有 `disabledTextColor` 和 `disabledColor` 參數，用來定義當按鈕的 `onPressed` 回呼為 null 時的背景與前景顏色。
 
-By default, all of the buttons use the color scheme's `disabledForegroundColor`
-color, with opacity 0.38 for the disabled foreground color. Only
-`ElevatedButton` has a non-transparent background color and its default
-value is the `disabledForegroundColor` color with opacity 0.12. So in many cases
-one can just use the `styleFrom` method to override the disabled colors:
+預設情況下，所有按鈕都會使用色彩方案（color scheme）的 `disabledForegroundColor` 顏色，並以 0.38 的透明度作為停用狀態的前景顏色。  
+只有 `ElevatedButton` 具有非透明的背景顏色，其預設值為 `disabledForegroundColor` 顏色並帶有 0.12 的透明度。  
+因此，在許多情況下，你只需要使用 `styleFrom` 方法來覆寫停用狀態的顏色即可：
 
 ```dart
 RaisedButton(
@@ -470,9 +349,9 @@ ElevatedButton(
 )
 ```
 
-For complete control over the disabled colors, one must define the
-`ElevatedButton`'s style explicitly, in terms of
-`MaterialStateProperties`:
+若要完全控制 disabled 狀態下的顏色，必須明確定義
+`ElevatedButton` 的樣式，並以
+`MaterialStateProperties` 為基礎：
 
 ```dart
 RaisedButton(
@@ -502,19 +381,13 @@ ElevatedButton(
 )
 ```
 
-As with the previous case, there are obvious ways to make the new
-version more compact in an app where this migration comes up often.
+與前述案例類似，在經常需要進行此遷移的應用程式中，有明顯的方法可以讓新版本更加精簡。
 
-#### Migrating buttons with custom elevations
+#### 遷移具有自訂陰影高度（elevation）的按鈕
 
-This is also a relatively rare customization. Typically, only
-`ElevatedButton`s (originally called `RaisedButtons`)
-include elevation changes. For elevations that are proportional
-to a baseline elevation (per the Material Design specification),
-one can override all of them quite simply.
+這同樣是相對少見的自訂情境。通常，只有`ElevatedButton`（最初稱為`RaisedButtons`）才會包含陰影高度（elevation）的變化。對於根據基準陰影高度（依據 Material Design 規範）成比例調整的陰影高度，可以很簡單地覆寫所有狀態。
 
-By default, a disabled button's elevation is 0, and the remaining
-states are defined relative to a baseline of 2:
+預設情況下，已停用（disabled）的按鈕陰影高度為 0，其餘狀態則是以基準值 2 為相對定義：
 
 ```dart
 disabled: 0
@@ -522,8 +395,7 @@ hovered or focused: baseline + 2
 pressed: baseline + 6
 ```
 
-So to migrate a `RaisedButton` for which all elevations have been
-defined:
+因此，若要遷移一個已定義所有 elevation 的 `RaisedButton`：
 
 ```dart
 RaisedButton(
@@ -543,8 +415,7 @@ ElevatedButton(
 )
 ```
 
-To arbitrarily override just one elevation, like the pressed
-elevation:
+若只想任意覆寫其中一個 elevation，例如 pressed elevation：
 
 ```dart
 RaisedButton(
@@ -567,17 +438,11 @@ ElevatedButton(
 )
 ```
 
-#### Migrating buttons with custom shapes and borders
+#### 遷移具有自訂形狀與邊框的按鈕
 
-The original `FlatButton`, `RaisedButton`, and `OutlineButton` classes all
-provide a shape parameter which defines both the button's shape and
-the appearance of its outline. The corresponding new classes and their
-themes support specifying the button's shape and its border
-separately, with `OutlinedBorder shape` and `BorderSide side` parameters.
+原本的 `FlatButton`、`RaisedButton` 和 `OutlineButton` 類別都提供了一個 shape 參數，用來同時定義按鈕的形狀以及其外框（outline）的外觀。對應的新類別及其主題化（theming）則支援分別指定按鈕的形狀與邊框，分別透過 `OutlinedBorder shape` 和 `BorderSide side` 參數來設定。
 
-In this example the original `OutlineButton` version specifies the same
-color for border in its highlighted (pressed) state as for other
-states.
+在這個範例中，原本的 `OutlineButton` 版本在高亮（按下）狀態下，邊框顏色與其他狀態相同。
 
 ```dart
 OutlineButton(
@@ -604,11 +469,7 @@ OutlinedButton(
 )
 ```
 
-Most of the new `OutlinedButton` widget's style parameters, including
-its shape and border, can be specified with `MaterialStateProperty`
-values, which is to say that they can have different values depending
-on the button's state. To specify a different border color when the
-button is pressed, do the following:
+大多數新的 `OutlinedButton` 元件（Widget）的樣式參數，包括其形狀與邊框，都可以使用 `MaterialStateProperty` 值來指定。也就是說，這些參數可以根據按鈕的不同狀態設定不同的值。若要在按鈕被按下時指定不同的邊框顏色，請按照以下步驟操作：
 
 ```dart
 OutlineButton(
@@ -639,31 +500,31 @@ OutlinedButton(
 )
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 1.20.0-0.0.pre<br>
-In stable release: 2.0.0
+導入版本：1.20.0-0.0.pre<br>  
+穩定版本：2.0.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`ButtonStyle`][]
-* [`ButtonStyleButton`][]
-* [`ElevatedButton`][]
-* [`ElevatedButtonTheme`][]
-* [`ElevatedButtonThemeData`][]
-* [`OutlinedButton`][]
-* [`OutlinedButtonTheme`][]
-* [`OutlinedButtonThemeData`][]
-* [`TextButton`][]
-* [`TextButtonTheme`][]
-* [`TextButtonThemeData`][]
+* [`ButtonStyle`][`ButtonStyle`]
+* [`ButtonStyleButton`][`ButtonStyleButton`]
+* [`ElevatedButton`][`ElevatedButton`]
+* [`ElevatedButtonTheme`][`ElevatedButtonTheme`]
+* [`ElevatedButtonThemeData`][`ElevatedButtonThemeData`]
+* [`OutlinedButton`][`OutlinedButton`]
+* [`OutlinedButtonTheme`][`OutlinedButtonTheme`]
+* [`OutlinedButtonThemeData`][`OutlinedButtonThemeData`]
+* [`TextButton`][`TextButton`]
+* [`TextButtonTheme`][`TextButtonTheme`]
+* [`TextButtonThemeData`][`TextButtonThemeData`]
 
-Relevant PRs:
+相關 PR：
 
-* [PR 59702: New Button Universe][]
-* [PR 73352: Deprecated obsolete Material classes: FlatButton, RaisedButton, OutlineButton][]
+* [PR 59702: New Button Universe][PR 59702: New Button Universe]
+* [PR 73352: Deprecated obsolete Material classes: FlatButton, RaisedButton, OutlineButton][PR 73352: Deprecated obsolete Material classes: FlatButton, RaisedButton, OutlineButton]
 
 
 [`ButtonStyle`]: {{site.api}}/flutter/material/ButtonStyle-class.html

@@ -1,43 +1,40 @@
 ---
-title: Intro to Dart
-description: Learn about the Dart programming language
+title: Dart 簡介
+description: 認識 Dart 程式語言
 prev:
-  title: Fundamentals
+  title: 基礎知識
   path: /get-started/fundamentals
 next:
-  title: Widgets
+  title: 元件 (Widgets)
   path: /get-started/fundamentals/widgets
 ---
 
-To get started with Flutter, 
-you need to have some familiarity with 
-the Dart programming language, which Flutter 
-applications are written in.
-This page is a gentle introduction to Dart, 
-and if you're comfortable reading the 
-code examples, feel free to skip this page. 
-You do not need to be an expert in Dart to 
-continue with this series.
+要開始使用 Flutter，
+你需要對 Dart 程式語言有一些基本認識，因為 Flutter
+應用程式就是以 Dart 撰寫的。
+本頁將會對 Dart 做一個簡單的介紹，
+如果你已經能夠輕鬆閱讀
+以下的程式碼範例，也可以直接跳過本頁。
+你不需要成為 Dart 專家，
+也能繼續學習這個系列課程。
 
 ## Dart
 
-Flutter applications are built in [Dart][],
-a language that will look familiar
-to anyone who's written Java, Javascript,
-or any other C-like language.  
+Flutter 應用程式是使用 [Dart][Dart] 開發的，
+這是一種對曾經寫過 Java、JavaScript，
+或其他 C 語系語言的人來說會感到熟悉的語言。
 
 :::note
-Installing Flutter also installs Dart,
-so you don't need to install Dart separately.
+安裝 Flutter 時也會一併安裝 Dart，
+因此你不需要另外安裝 Dart。
 :::
 
-The following example is a small program that 
-fetches data from dart.dev, 
-decodes the returned json, 
-and prints it to the console. 
-If you're confident in your ability to 
-understand this program, 
-feel free to skip to the next page.
+以下是一個簡單的程式範例，
+它會從 dart.dev 取得資料，
+解碼回傳的 JSON，
+並將結果輸出到主控台。
+如果你能夠理解這個程式的內容，
+可以直接跳到下一頁。
 
 ```dart
 import 'dart:convert';
@@ -73,52 +70,49 @@ void main() async {
 }
 ```
 
-This program has two parts: 
-the `Package` class declaration, and the business logic, 
-which is contained in the [`main`][] function.
+這個程式包含兩個部分：
+`Package` 類別宣告，以及商業邏輯，
+商業邏輯包含在 [`main`][`main`] 函式中。
 
-The `Package` class contains many of the most common
-features you'll use when working with [classes in Dart][].
-This class has three members, 
-and defines a constructor and a method.
+`Package` 類別包含了你在 [Dart 類別][classes in Dart] 中常用的許多功能。
+這個類別有三個成員，
+並定義了一個建構函式和一個方法。
 
-The Dart language is [type safe][]; it uses 
-static type checking to ensure that 
-a variable's value always matches the
-variable's static type. 
-When defining a class, annotating the members with 
-`String` is required, 
-but it is often optional due to type inference. 
-In the `main` function in this example 
-there are many lines that start with `final variableName =`. 
-These lines are type safe, 
-despite not being explicitly given a type.
+Dart 語言具有 [型別安全][type safe]；它使用
+靜態型別檢查來確保
+變數的值始終符合
+該變數的靜態型別。
+在定義類別時，成員標註
+`String` 是必要的，
+但由於型別推斷，通常可以省略。
+在本範例的 `main` 函式中，
+有多行是以 `final variableName =` 開頭。
+這些行雖然沒有明確指定型別，
+但依然是型別安全的。
 
-Dart also has built-in [sound null safety][]. 
-In the example, the `description` member is 
-declared with the type `String?`. 
-The `?` at the end of `String?` means that 
-this property can be null. 
-The other two members cannot be null, 
-and the program will not compile if 
-you tried to set them to `null`. 
-You can see this demonstrated in the constructor for 
-the `Package` class. It takes two required,
-positional arguments and one optional, named argument.
+Dart 也內建了 [嚴格 Null 安全][sound null safety]。
+在範例中，`description` 成員
+被宣告為 `String?` 型別。
+`String?` 結尾的 `?` 表示
+這個屬性可以為 null。
+另外兩個成員則不能為 null，
+如果你嘗試將它們設為 `null`，
+程式將無法編譯。
+你可以在 `Package` 類別的建構函式中看到這點。
+它接受兩個必要的
+位置參數，以及一個可選的命名參數。
 
-Next in the example is the `main` function. 
-All Dart programs, including Flutter apps, 
-start with a `main` function. 
-The function showcases several basic Dart language features, 
-including using libraries, marking functions as async, 
-making function calls, using `if` statement control-flow,
-and more.
+接下來範例中是 `main` 函式。
+所有 Dart 程式，包括 Flutter 應用程式，
+都從 `main` 函式開始。
+這個函式展示了多項 Dart 語言的基本功能，
+包含使用函式庫、標記函式為 async、
+呼叫函式、使用 `if` 控制流程語句，
+以及更多。
 
-:::note Where does initialization code go?
-The main entrypoint in a starter
-Flutter app is in `lib/main.dart`.
-The default `main` method looks
-like the following:
+:::note 初始化程式碼該放在哪裡？
+啟動版 Flutter 應用程式的主要進入點在 `lib/main.dart`。
+預設的 `main` 方法如下所示：
 
 ```dart title="lib/main.dart"
 void main() {
@@ -126,43 +120,34 @@ void main() {
 }       
 ```
 
-Perform any _quick_ initialization (less than a frame or two)
-_before_ calling `runApp()`,
-though be aware that the widget tree hasn't been created yet.
-If you want to perform initialization that takes awhile,
-such as loading data from disk or over a network,
-do it in a way that won't block the main UI thread.
-For more information, check out [Asynchronous programming][],
-the [`FutureBuilder`][] API, [Deferred components][],
-or the [Working with long lists][] cookbook recipe,
-as appropriate.
+在呼叫 `runApp()` 之前，請進行任何「快速」初始化（少於一至兩幀的時間），
+但請注意，此時元件樹（widget tree）尚未建立。
+如果你需要執行較耗時的初始化，例如從磁碟或網路載入資料，
+請以不會阻塞主 UI 執行緒的方式進行。
+如需更多資訊，請參閱 [非同步程式設計][Asynchronous programming]、
+[`FutureBuilder`][`FutureBuilder`] API、[延遲載入元件（Deferred components）][Deferred components]，
+或 [處理長清單][Working with long lists] cookbook 教學，視需求選用。
 
-Every stateful widget has an `initState()`
-method that is called when the widget is
-created and added to the widget tree.
-You can override this method and perform
-initialization there, though the first line of
-this method _must_ be `super.initState()`.
+每個有狀態元件（stateful widget）都有一個 `initState()` 方法，
+該方法會在元件被建立並加入元件樹時呼叫。
+你可以覆寫這個方法並在其中執行初始化，
+但此方法的第一行 _必須_ 是 `super.initState()`。
 
-Finally, hot reloading your app does _not_
-call `initState` or `main` again.
-Hot restart calls both.
+最後，熱重載（hot reload）你的應用程式時，
+_不會_ 再次呼叫 `initState` 或 `main`。
+熱重啟（hot restart）則會呼叫這兩者。
 :::
 
-If these features aren't familiar to you, 
-you can find resources to learn Dart on the 
-[Bootstrap into Dart][] page.
+如果你對這些功能還不熟悉，
+可以在 [Bootstrap into Dart][Bootstrap into Dart] 頁面找到學習 Dart 的資源。
 
-## Next: Widgets
+## 下一步：元件 (Widgets)
 
-This page is an introduction to Dart,
-and helps you become familiar with reading
-Flutter and Dart code. It's okay if you don't
-feel clear on all the code on this page, 
-as long as you feel comfortable with the _syntax_
-of the Dart language.
-In the next section, you'll learn about the 
-building block of Flutter apps: widgets.
+本頁介紹 Dart，
+幫助你熟悉閱讀 Flutter 與 Dart 程式碼。
+如果你對本頁的所有程式碼還不完全理解也沒關係，
+只要你對 Dart 語言的_語法_感到自在即可。
+在下一節，你將學習 Flutter 應用程式的基礎組件：元件 (Widgets)。
 
 [Asynchronous programming]: {{site.dart-site}}/libraries/async/async-await
 [Dart]: {{site.dart-site}}
@@ -175,9 +160,9 @@ building block of Flutter apps: widgets.
 [Working with long lists]: /cookbook/lists/long-lists
 [Bootstrap into Dart]: /resources/bootstrap-into-dart
 
-## Feedback
+## 意見回饋
 
-As this section of the website is evolving, 
-we [welcome your feedback][]!
+由於本網站區塊仍在持續改進中，
+我們[歡迎你的意見回饋][welcome your feedback]！
 
 [welcome your feedback]: https://google.qualtrics.com/jfe/form/SV_6A9KxXR7XmMrNsy?page="dart"

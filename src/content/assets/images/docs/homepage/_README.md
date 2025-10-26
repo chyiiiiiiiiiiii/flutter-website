@@ -1,2 +1,2 @@
-These images aren't used on our site,
-but they're referenced elsewhere, so shouldn't be deleted for now.
+這些圖片目前未在我們的網站上使用，
+但在其他地方有被引用，因此暫時不應刪除。

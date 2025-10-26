@@ -1,39 +1,24 @@
 ---
-title: Material Theme System Updates
+title: Material 主題系統更新
 description: >-
-  `CardTheme`, `DialogTheme`, and `TabBarTheme` have been normalized to follow
-  Flutter's convention for component themes in the Material library. In 
-  `ThemeData`, the type of these properties have also changed accordingly.
+  `CardTheme`、`DialogTheme` 和 `TabBarTheme` 已標準化，以遵循 Flutter 的 Material 函式庫中元件主題（component themes）的慣例。在 `ThemeData` 中，這些屬性的型別也已相應變更。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-`CardTheme`, `DialogTheme` and `TabBarTheme` were refactored to 
-conform to Flutter's conventions for component themes. `CardThemeData`, 
-`DialogThemeData` and `TabBarThemeData` were added to define overrides for the
-defaults of the component visual properties.
+`CardTheme`、`DialogTheme` 和 `TabBarTheme` 已重構，以符合 Flutter 關於元件主題（component themes）的慣例。`CardThemeData`、`DialogThemeData` 和 `TabBarThemeData` 則新增，用於定義元件視覺屬性的預設值覆寫。
 
-During card theme normalization, the type of `ThemeData.cardTheme` is changed
-to `Object?` to accept both `CardTheme` and `CardThemeData`, in order to have
-a smooth transition for the breaking changes. The same approach was used for
-`dialogTheme` and `tabBarTheme`.
+在卡片主題（card theme）標準化過程中，`ThemeData.cardTheme` 的型別已變更為 `Object?`，以同時接受 `CardTheme` 和 `CardThemeData`，從而順利過渡這些破壞性變更。相同的做法也應用於 `dialogTheme` 和 `tabBarTheme`。
 
-To complete the transition and fully conform to the `ThemeData` convention, the 
-type of `ThemeData.cardTheme` has been changed to `CardThemeData?`; the type of
-`ThemeData.dialogTheme` has been changed to `DialogThemeData?`; and the type of
-`ThemeData.tabBarTheme` has been changed to `TabBarThemeData?`.
+為了完成過渡並完全符合 `ThemeData` 的慣例，`ThemeData.cardTheme` 的型別已變更為 `CardThemeData?`；`ThemeData.dialogTheme` 的型別已變更為 `DialogThemeData?`；`ThemeData.tabBarTheme` 的型別已變更為 `TabBarThemeData?`。
 
-## Migration guide
+## 遷移指南
 
-Previously, the type of `ThemeData.cardTheme` was `Object?` to accept both
-`CardTheme` and `CardThemeData`. Now that the type has been changed to
-`CardThemeData?`, a migration is required if `ThemeData.cardTheme` is used.
-Similarly, the types of `ThemeData.dialogTheme` and `ThemeData.tabBarTheme` 
-should be migrated to `DialogThemeData` and `TabBarThemeData`, respectively.
+先前，`ThemeData.cardTheme` 的型別為 `Object?`，可同時接受 `CardTheme` 和 `CardThemeData`。現在型別已變更為 `CardThemeData?`，若有使用 `ThemeData.cardTheme`，則需要進行遷移。同理，`ThemeData.dialogTheme` 和 `ThemeData.tabBarTheme` 的型別也應分別遷移為 `DialogThemeData` 和 `TabBarThemeData`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 final ThemeData theme = ThemeData(
@@ -43,7 +28,7 @@ final ThemeData theme = ThemeData(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 final ThemeData theme = ThemeData(
@@ -53,23 +38,23 @@ final ThemeData theme = ThemeData(
 );
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.31.0-0.0.pre<br>
-In stable release: 3.32
+合併於版本：3.31.0-0.0.pre<br>  
+穩定版釋出：3.32
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`ThemeData`][]
-* [`CardTheme`][]
-* [`DialogTheme`][]
-* [`TabBarTheme`][]
+* [`ThemeData`][`ThemeData`]
+* [`CardTheme`][`CardTheme`]
+* [`DialogTheme`][`DialogTheme`]
+* [`TabBarTheme`][`TabBarTheme`]
 
-Relevant PRs:
+相關 PR：
 
-* [Change cardTheme, dialogTheme, and tabBarTheme type to xxxThemeData][]
+* [Change cardTheme, dialogTheme, and tabBarTheme type to xxxThemeData][Change cardTheme, dialogTheme, and tabBarTheme type to xxxThemeData]
 
 [Change cardTheme, dialogTheme, and tabBarTheme type to xxxThemeData]: {{site.github}}/flutter/flutter/pull/157292
 [`ThemeData`]: {{site.api}}/flutter/material/ThemeData-class.html

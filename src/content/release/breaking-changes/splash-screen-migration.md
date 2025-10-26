@@ -1,30 +1,17 @@
 ---
-title: Deprecated Splash Screen API Migration
-description: How to migrate from Manifest/Activity defined splash screen.
+title: 已淘汰的 Splash Screen API 遷移指南
+description: 如何從 Manifest/Activity 定義的 splash screen 遷移。
 ---
 
 {% render docs/breaking-changes.md %}
 
-Prior to Flutter 2.5, Flutter apps could add a splash
-screen by defining it within the metadata of their application manifest file
-(`AndroidManifest.xml`), by implementing [`provideSplashScreen`][] within
-their [`FlutterActivity`][], or both. This would display momentarily in between
-the time after the Android launch screen is shown and when Flutter has
-drawn the first frame. This approach is now deprecated as of Flutter 2.5.
-Flutter now automatically keeps the Android launch screen displayed
-until it draws the first frame.
+在 Flutter 2.5 之前，Flutter 應用程式可以透過在應用程式的 manifest 檔案（`AndroidManifest.xml`）的 metadata 中定義 splash screen，或是在其 [`FlutterActivity`][`FlutterActivity`] 內實作 [`provideSplashScreen`][`provideSplashScreen`]，或兩者皆用。這種方式會在 Android 啟動畫面顯示結束與 Flutter 繪製第一幀之間的短暫時間內顯示 splash screen。自 Flutter 2.5 起，這種做法已被淘汰。Flutter 現在會自動維持 Android 啟動畫面顯示，直到繪製出第一幀為止。
 
-To migrate from defining a custom splash screen to just defining a custom
-launch screen for your application, follow the steps that correspond
-to how your application's custom splash screen was defined
-prior to the 2.5 release.
+若要從自訂 splash screen 遷移為僅定義自訂啟動畫面，請依照下列步驟，根據你的應用程式在 2.5 版本之前如何定義自訂 splash screen 進行調整。
 
-**Custom splash screen defined in [`FlutterActivity`][]**
+**在 [`FlutterActivity`][`FlutterActivity`] 中定義自訂 splash screen**
 
-1. Locate your application's implementation of `provideSplashScreen()`
-   within its `FlutterActivity` and **delete it**. This implementation should involve
-   the construction of your application's custom splash screen
-   as a `Drawable`. For example:
+1. 找到你的應用程式在 `FlutterActivity` 中對 `provideSplashScreen()` 的實作，並**刪除**它。這段實作通常會將你的自訂 splash screen 建構為 `Drawable`。例如：
 
    ```java
    @Override
@@ -36,19 +23,14 @@ prior to the 2.5 release.
    }
    ```
 
-2. Use the steps in the section directly following to ensure that your
-   `Drawable` splash screen (`R.some_splash_screen` in the previous example)
-   is properly configured as your application's custom launch screen.
+2. 請依照下方章節的步驟，確保您的`Drawable`啟動畫面（在前述範例中為`R.some_splash_screen`）已正確設定為應用程式的自訂啟動畫面。
 
-**Custom splash screen defined in Manifest**
+**在 Manifest 中定義自訂啟動畫面**
 
-1. Locate your application's `AndroidManifest.xml` file.
-   Within this file, find the `activity` element.
-   Within this element, identify the `android:theme` attribute
-   and the `meta-data` element that defines
-   a splash screen as an
-   `io.flutter.embedding.android.SplashScreenDrawable`,
-   and update it. For example:
+1. 找到您的應用程式`AndroidManifest.xml`檔案。
+   在此檔案中，尋找`activity`元素。
+   在該元素內，確認`android:theme`屬性以及定義啟動畫面的`meta-data`元素，
+   並將其更新為`io.flutter.embedding.android.SplashScreenDrawable`。例如：
 
    ```xml
    <activity
@@ -62,16 +44,11 @@ prior to the 2.5 release.
    </activity>
    ```
 
-2. If the `android:theme` attribute isn't specified, add the attribute and
-   [define a launch theme][] for your application's launch screen.
+2. 如果未指定 `android:theme` 屬性，請新增該屬性，並且[為您的應用程式啟動畫面定義啟動主題][define a launch theme]。
 
-3. Delete the `meta-data` element, as Flutter no longer
-   uses that, but it can cause a crash.
+3. 刪除 `meta-data` 元素，因為 Flutter 已不再使用該元素，且其可能導致應用程式崩潰。
 
-4. Locate the definition of the theme specified by the `android:theme` attribute
-   within your application's `style` resources. This theme specifies the
-   launch theme of your application. Ensure that the `style` attribute configures the
-   `android:windowBackground` attribute with your custom splash screen. For example:
+4. 在您的應用程式 `style` 資源中，找到由 `android:theme` 屬性所指定的主題定義。這個主題會指定您的應用程式啟動主題。請確保 `style` 屬性已將 `android:windowBackground` 屬性設定為您自訂的 splash screen。例如：
 
    ```xml
    <resources>
@@ -86,6 +63,6 @@ prior to the 2.5 release.
    </resources>
    ```
 
-[`provideSplashScreen`]: {{site.api}}/javadoc/io/flutter/embedding/android/SplashScreenProvider.html#provideSplashScreen--
-[`FlutterActivity`]: {{site.api}}/javadoc/io/flutter/embedding/android/FlutterActivity.html
+[`provideSplashScreen`]: {{site.api}}/javadoc/io/flutter/embedding/android/SplashScreenProvider.html#provideSplashScreen--  
+[`FlutterActivity`]: {{site.api}}/javadoc/io/flutter/embedding/android/FlutterActivity.html  
 [define a launch theme]:  /platform-integration/android/splash-screen

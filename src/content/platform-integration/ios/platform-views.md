@@ -1,53 +1,48 @@
 ---
-title: Host native iOS views in your Flutter app with platform views
-shortTitle: iOS platform views
+title: 在 Flutter 應用程式中以平台視圖 (Platform Views) 托管原生 iOS 視圖
+shortTitle: iOS 平台視圖
 description: >-
-  Learn how to host native iOS views in your Flutter app with platform views.
+  學習如何在 Flutter 應用程式中以平台視圖 (Platform Views) 托管原生 iOS 視圖。
 ---
 
 <?code-excerpt path-base="platform_integration/platform_views"?>
 
-Platform views allow you to embed native views in a Flutter app,
-so you can apply transforms, clips, and opacity to the native view
-from Dart.
+平台視圖 (Platform views) 允許你在 Flutter 應用程式中嵌入原生視圖，
+因此你可以從 Dart 端對原生視圖進行變換、裁剪以及調整透明度。
 
-This allows you, for example, to use the native
-Google Maps from the Android and iOS SDKs
-directly inside your Flutter app.
+這讓你能夠，例如，直接在 Flutter 應用程式中
+使用 Android 和 iOS SDK 提供的原生 Google Maps。
 
 :::note
-This page discusses how to host your own native iOS views
-within a Flutter app.
-If you'd like to embed native Android views in your Flutter app,
-see [Hosting native Android views][].
-If you'd like to embed native macOS views in your Flutter app,
-see [Hosting native macOS views][].
+本頁說明如何在 Flutter 應用程式中托管你自己的原生 iOS 視圖。
+如果你想在 Flutter 應用程式中嵌入原生 Android 視圖，
+請參考 [Hosting native Android views][Hosting native Android views]。
+如果你想在 Flutter 應用程式中嵌入原生 macOS 視圖，
+請參考 [Hosting native macOS views][Hosting native macOS views]。
 :::
 
 [Hosting native Android views]: /platform-integration/android/platform-views
 [Hosting native macOS views]: /platform-integration/macos/platform-views
 
+iOS 僅使用 Hybrid composition（混合組合），
+這表示原生的
+`UIView` 會被加入到視圖階層中。
 
-iOS only uses Hybrid composition,
-which means that the native
-`UIView` is appended to the view hierarchy.
+要在 iOS 上建立平台視圖，
+請依照以下步驟操作：
 
-To create a platform view on iOS,
-use the following instructions:
+## Dart 端
 
-## On the Dart side
+在 Dart 端，建立一個 `Widget`，
+並新增建構（build）實作，
+如以下步驟所示。
 
-On the Dart side, create a `Widget`
-and add the build implementation,
-as shown in the following steps.
-
-In the Dart widget file, make changes similar to those 
-shown in `native_view_example.dart`:
+在 Dart 元件（Widget）檔案中，進行如 `native_view_example.dart` 所示的修改：
 
 <ol>
 <li>
 
-Add the following imports:
+新增以下匯入：
 
 <?code-excerpt "lib/native_view_example_3.dart (import)"?>
 ```dart
@@ -59,7 +54,7 @@ import 'package:flutter/services.dart';
 
 <li>
 
-Implement a `build()` method:
+實作一個 `build()` 方法：
 
 <?code-excerpt "lib/native_view_example_3.dart (ios-composition)"?>
 ```dart
@@ -81,22 +76,22 @@ Widget build(BuildContext context) {
 </li>
 </ol>
 
-For more information, see the API docs for:
-[`UIKitView`][].
+如需更多資訊，請參閱 API 文件：
+[`UIKitView`][`UIKitView`]。
 
 [`UIKitView`]: {{site.api}}/flutter/widgets/UiKitView-class.html
 
-## On the platform side
+## 平台端
 
-On the platform side, use either Swift or Objective-C:
+在平台端，可以使用 Swift 或 Objective-C：
 
 {% tabs "darwin-language" %}
 {% tab "Swift" %}
 
-Implement the factory and the platform view.
-The `FLNativeViewFactory` creates the platform view,
-and the platform view provides a reference to the `UIView`.
-For example, `FLNativeView.swift`:
+實作 factory 以及平台 view。
+`FLNativeViewFactory` 會建立平台 view，
+而平台 view 則會提供 `UIView` 的參考。
+例如，`FLNativeView.swift`：
 
 ```swift
 import Flutter
@@ -159,11 +154,11 @@ class FLNativeView: NSObject, FlutterPlatformView {
 }
 ```
 
-Finally, register the platform view.
-This can be done in an app or a plugin.
+最後，註冊 platform view（平台視圖）。
+這個步驟可以在應用程式或外掛程式（plugin）中完成。
 
-For app registration,
-modify the App's `AppDelegate.swift`:
+若要在應用程式中註冊，
+請修改 App 的 `AppDelegate.swift`：
 
 ```swift
 import Flutter
@@ -188,9 +183,9 @@ import UIKit
 }
 ```
 
-For plugin registration,
-modify the plugin's main file
-(for example, `FLPlugin.swift`):
+若要註冊 plugin，
+請修改該 plugin 的主檔案
+（例如：`FLPlugin.swift`）：
 
 ```swift
 import Flutter
@@ -207,8 +202,8 @@ class FLPlugin: NSObject, FlutterPlugin {
 {% endtab %}
 {% tab "Objective-C" %}
 
-In Objective-C, add the headers for the factory and the platform view.
-For example, as shown in `FLNativeView.h`:
+在 Objective-C 中，請加入 factory 和 platform view 的標頭檔。
+例如，如`FLNativeView.h`所示：
 
 ```objc
 #import <Flutter/Flutter.h>
@@ -228,10 +223,7 @@ For example, as shown in `FLNativeView.h`:
 @end
 ```
 
-Implement the factory and the platform view.
-The `FLNativeViewFactory` creates the platform view,
-and the platform view provides a reference to the
-`UIView`. For example, `FLNativeView.m`:
+實作 factory 與 platform view。`FLNativeViewFactory` 負責建立 platform view，而 platform view 則提供對 `UIView` 的參考。例如，`FLNativeView.m`：
 
 ```objc
 #import "FLNativeView.h"
@@ -285,11 +277,11 @@ and the platform view provides a reference to the
 @end
 ```
 
-Finally, register the platform view.
-This can be done in an app or a plugin.
+最後，註冊 platform view（平台視圖）。
+這個步驟可以在應用程式或插件中完成。
 
-For app registration,
-modify the App's `AppDelegate.m`:
+若要在應用程式中註冊，
+請修改 App 的 `AppDelegate.m`：
 
 ```objc
 #import "AppDelegate.h"
@@ -316,9 +308,7 @@ modify the App's `AppDelegate.m`:
 @end
 ```
 
-For plugin registration,
-modify the main plugin file
-(for example, `FLPlugin.m`):
+若要註冊 plugin，請修改主要的 plugin 檔案（例如：`FLPlugin.m`）：
 
 ```objc
 #import <Flutter/Flutter.h>
@@ -341,21 +331,21 @@ modify the main plugin file
 {% endtab %}
 {% endtabs %}
 
-For more information, see the API docs for:
+如需更多資訊，請參閱以下 API 文件：
 
-* [`FlutterPlatformViewFactory`][]
-* [`FlutterPlatformView`][]
-* [`PlatformView`][]
+* [`FlutterPlatformViewFactory`][`FlutterPlatformViewFactory`]
+* [`FlutterPlatformView`][`FlutterPlatformView`]
+* [`PlatformView`][`PlatformView`]
 
 [`FlutterPlatformView`]: {{site.api}}/ios-embedder/protocol_flutter_platform_view-p.html
 [`FlutterPlatformViewFactory`]: {{site.api}}/ios-embedder/protocol_flutter_platform_view_factory-p.html
 [`PlatformView`]: {{site.api}}/javadoc/io/flutter/plugin/platform/PlatformView.html
 
-## Putting it together
+## 綜合應用
 
-When implementing the `build()` method in Dart,
-you can use [`defaultTargetPlatform`][]
-to detect the platform, and decide which widget to use:
+當你在 Dart 中實作 `build()` 方法時，
+可以使用 [`defaultTargetPlatform`][`defaultTargetPlatform`]
+來偵測平台，並決定要使用哪個元件（Widget）：
 
 <?code-excerpt "lib/native_view_example_3.dart (together-widget)"?>
 ```dart
@@ -378,28 +368,24 @@ Widget build(BuildContext context) {
 }
 ```
 
-## Performance
+## 效能
 
-Platform views in Flutter come with performance trade-offs.
+在 Flutter 中使用平台視圖（Platform Views）會帶來效能上的權衡。
 
-For complex cases, there are some techniques that can be used 
-to mitigate performance issues.
+針對較複雜的情境，可以採用一些技巧來減輕效能問題。
 
-For example, you could use a placeholder texture while an 
-animation is happening in Dart. 
-In other words, if an animation is slow while a platform view is rendered, 
-then consider taking a screenshot of the native view and
-rendering it as a texture.
+例如，你可以在 Dart 執行動畫（Animation）時，先使用一個佔位的紋理（texture）。
+換句話說，如果在渲染平台視圖時動畫運作緩慢，可以考慮先對原生視圖截圖，然後將其作為紋理來渲染。
 
-## Composition limitations
+## 組合限制
 
-There are some limitations when composing iOS Platform Views.
+在組合 iOS 平台視圖（Platform Views）時有一些限制。
 
-- The [`ShaderMask`][] and [`ColorFiltered`][] widgets are not supported.
-- The [`BackdropFilter`][] widget is supported,
-  but there are some limitations on how it can be used. 
-  For more details, check out the
-  [iOS Platform View Backdrop Filter Blur design doc][design-doc].
+- 不支援 [`ShaderMask`][`ShaderMask`] 和 [`ColorFiltered`][`ColorFiltered`] 元件（Widgets）。
+- 支援 [`BackdropFilter`][`BackdropFilter`] 元件（Widget），
+  但在使用方式上有一些限制。
+  詳細資訊請參閱
+  [iOS Platform View Backdrop Filter Blur design doc][design-doc]。
 
 [`ShaderMask`]: {{site.api}}/flutter/foundation/ShaderMask.html
 [`ColorFiltered`]: {{site.api}}/flutter/foundation/ColorFiltered.html

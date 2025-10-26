@@ -1,64 +1,60 @@
-# DevTools 2.7.0 release notes
+# DevTools 2.7.0 發行說明
 
-The 2.7.0 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](/tools/devtools).
+Dart 與 Flutter DevTools 2.7.0 版本
+帶來了以下變更，以及其他一般性改進。
+想進一步了解 DevTools，請參閱
+[DevTools overview](/tools/devtools)。
 
-## General updates
+## 一般更新
 
-* Improvements for initial page load time -
+* 初始頁面載入時間優化 -
   [#3309](https://github.com/flutter/devtools/pull/3309)
-* Fix a couple scrollbar-related issues -
-  [#3393](https://github.com/flutter/devtools/pull/3393),
+* 修正數個與捲軸相關的問題 -
+  [#3393](https://github.com/flutter/devtools/pull/3393)、
   [#3401](https://github.com/flutter/devtools/pull/3401)
 
-## Debugger updates
+## 除錯工具（Debugger）更新
 
-* Add an open file dialog (ctrl / cmd + p) -
-  [#3342](https://github.com/flutter/devtools/pull/3342),
-  [#3354](https://github.com/flutter/devtools/pull/3354),
-  [#3371](https://github.com/flutter/devtools/pull/3371),
+* 新增開啟檔案對話框（ctrl / cmd + p）功能 -
+  [#3342](https://github.com/flutter/devtools/pull/3342)、
+  [#3354](https://github.com/flutter/devtools/pull/3354)、
+  [#3371](https://github.com/flutter/devtools/pull/3371)、
   [#3384](https://github.com/flutter/devtools/pull/3384)
 
   ![Open file dialog](/assets/images/docs/tools/devtools/release-notes/images-2.7.0/image1.gif "Open file dialog")
 
-* Add a copy button to the call stack view -
+* 在呼叫堆疊（call stack）檢視中新增複製按鈕 -
   [#3334](https://github.com/flutter/devtools/pull/3334)
 
   ![Call stack view](/assets/images/docs/tools/devtools/release-notes/images-2.7.0/image2.png "Call stack view")
 
-## CPU profiler updates
+## CPU 分析器（profiler）更新
 
-* Added functionality to load an app startup profile for Flutter apps.
-  This profile will contain CPU samples from the initialization
-  of the Dart VM up until the first Flutter frame has been rendered -
+* 新增載入 Flutter 應用程式啟動分析檔（app startup profile）的功能。
+  此分析檔將包含從 Dart VM 初始化到第一個 Flutter 畫面（frame）渲染為止的 CPU 取樣資料 -
   [#3357](https://github.com/flutter/devtools/pull/3357)
 
   ![Profile button](/assets/images/docs/tools/devtools/release-notes/images-2.7.0/image3.png "Profile button")
 
-  When the app startup profile has been loaded,
-  you will see that the "AppStartUp" user tag is selected for the profile.
-  You can also load the app startup profile
-  by selecting this user tag filter, when present,
-  in the list of available user tags.
-  
+  當應用程式啟動分析檔載入後，
+  你會看到「AppStartUp」使用者標籤（user tag）已被選取於分析檔中。
+  你也可以在可用的使用者標籤清單中，選擇此標籤來載入啟動分析檔（若有出現）。
+
   ![User tag example](/assets/images/docs/tools/devtools/release-notes/images-2.7.0/image4.png "User tag example")
 
-* Added multi-isolate support.
-  Select which isolate you want to profile
-  from the isolate selector at the bottom of the page -
+* 新增多 isolate 支援。
+  可於頁面底部的 isolate 選擇器中，選擇你想要分析的 isolate -
   [#3362](https://github.com/flutter/devtools/pull/3362)
 
   ![isolate selector](/assets/images/docs/tools/devtools/release-notes/images-2.7.0/image5.png "isolate selector")
 
-* Add class names to CPU stack frames in the profiler -
+* 在分析器的 CPU 堆疊框架（stack frame）中加入類別名稱（class name）顯示 -
   [#3385](https://github.com/flutter/devtools/pull/3385)
 
   ![Class names](/assets/images/docs/tools/devtools/release-notes/images-2.7.0/image6.png "Class names")
 
-## Full commit history
+## 完整提交紀錄
 
-To find a complete list of changes since the previous release,
-check out 
-[the diff on GitHub](https://github.com/flutter/devtools/compare/v2.6.0...v2.7.0).
+若要查閱自上個版本以來的完整變更清單，
+請參閱
+[the diff on GitHub](https://github.com/flutter/devtools/compare/v2.6.0...v2.7.0)。

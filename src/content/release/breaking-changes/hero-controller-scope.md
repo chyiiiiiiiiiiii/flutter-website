@@ -1,34 +1,33 @@
 ---
-title: More strict assertions in the Navigator and the Hero controller scope
+title: 在 Navigator 與 Hero controller scope 中更嚴格的斷言
 description: >
-  Added additional assertions to guarantee that
-  one hero controller scope can only subscribe to one navigator at a time.
+  新增了額外的斷言，以保證
+  一個 hero controller scope 同一時間只能訂閱一個 navigator。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-The framework throws an assertion error when it detects there are
-multiple navigators registered with one hero controller scope.
+當框架偵測到有多個 Navigator 註冊到同一個 hero controller scope 時，
+將會拋出斷言錯誤。
 
-## Context
+## 背景說明
 
-The hero controller scope hosts a hero controller for its widget
-subtree. The hero controller can only support one navigator at
-a time. Previously, there was no assertion to guarantee that.
+hero controller scope 會為其元件（Widget）子樹提供一個 hero controller。
+hero controller 一次只能支援一個 Navigator。先前並沒有斷言來保證這一點。
 
-## Description of change
+## 變更說明
 
-If the code starts throwing assertion errors after this change,
-it means the code was already broken even before this change.
-Multiple navigators may be registered under the same hero
-controller scope, and they can not trigger hero animations when
-their route changes. This change only surfaced this problem.
+如果在這次變更後，程式碼開始拋出斷言錯誤，
+這代表在這次變更之前，程式碼就已經存在問題。
+可能有多個 Navigator 被註冊在同一個 hero controller scope 下，
+而當它們的 Route 發生變化時，將無法觸發 hero 動畫（Animation）。
+這次的變更只是讓這個問題浮現出來。
 
-## Migration guide
+## 遷移指南
 
-An example application that starts to throw exceptions.
+以下是一個在此變更後開始拋出例外的範例應用程式。
 
 ```dart
 import 'package:flutter/material.dart';
@@ -70,7 +69,7 @@ void main() {
 }
 ```
 
-You can fix this application by introducing your own hero controller scopes.
+你可以透過自行引入 hero controller 範疇（hero controller scopes）來修正這個應用程式。
 
 ```dart
 import 'package:flutter/material.dart';
@@ -116,26 +115,26 @@ void main() {
 }
 ```
 
-## Timeline
+## 時間軸
 
-Landed in version: 1.20.0<br>
-In stable release: 1.20
+新增於版本：1.20.0<br>  
+進入穩定版：1.20
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`Navigator`][]
-* [`HeroController`][]
-* [`HeroControllerScope`][]
+* [`Navigator`][`Navigator`]
+* [`HeroController`][`HeroController`]
+* [`HeroControllerScope`][`HeroControllerScope`]
 
-Relevant issue:
+相關議題：
 
-* [Issue 45938][]
+* [Issue 45938][Issue 45938]
 
-Relevant PR:
+相關 PR：
 
-* [Clean up hero controller scope][]
+* [Clean up hero controller scope][Clean up hero controller scope]
 
 [Clean up hero controller scope]: {{site.repo.flutter}}/pull/60655
 [`Navigator`]: {{site.api}}/flutter/widgets/Navigator-class.html

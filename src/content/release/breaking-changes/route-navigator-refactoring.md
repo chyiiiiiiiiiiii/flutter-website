@@ -1,53 +1,35 @@
 ---
-title: Route and Navigator Refactoring
+title: Route 與 Navigator 重構
 description: >
-  Some APIs and function signatures of the
-  Route and Navigator classes have changed.
+  Route 與 Navigator 類別的部分 API 及函式簽章已變更。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-The `Route` class no longer manages its overlay entries in overlay,
-and its `install()` method no longer has an `insertionPoint` parameter.
-The `isInitialRoute` property in `RouteSetting` has been deprecated,
-and `Navigator.pop()` no longer returns a value.
+`Route` 類別不再於 overlay 中管理其 overlay entries，且其 `install()` 方法不再有 `insertionPoint` 參數。
+`RouteSetting` 中的 `isInitialRoute` 屬性已被棄用，`Navigator.pop()` 也不再回傳任何值。
 
-## Context
+## 背景
 
-We refactored the navigator APIs to prepare for the new page API
-and the introduction of the `Router` widget as outlined in
-the [Router][] design document.
-This refactoring introduced some function signature changes
-in order to make the existing navigator APIs continue to work
-with the new page API.
+我們重構了 navigator API，以因應新的 page API 以及 [Router][Router] 設計文件中所提及的 `Router` 元件 (Widget) 的導入。
+這次重構帶來了一些函式簽章的變更，以確保現有的 navigator API 能夠繼續與新的 page API 搭配運作。
 
-## Description of change
+## 變更說明
 
-The boolean return value of `Navigator.pop()` was not well
-defined, and the user could achieve the same result by calling
-`Navigator.canPop()`.
-Since the API for `Navigator.canPop()` was better defined,
-we simplified `Navigator.pop()` to not return a boolean value.
- 
-On the other hand, the navigator requires the ability
-to manually rearrange entries in the overlay to allow
-the user to change the route history in the new API.
-We changed it so that the route only creates and destroys
-its overlay entries, while the navigator inserts or
-removes overlay entries from the overlay.
-We also removed the `insertionPoint` argument of
-`Route.install()` because it was obsolete after the change.
+`Navigator.pop()` 的布林值回傳結果定義不明確，且使用者可透過呼叫 `Navigator.canPop()` 達到相同效果。
+由於 `Navigator.canPop()` 的 API 定義較為明確，我們簡化了 `Navigator.pop()`，使其不再回傳布林值。
 
-Finally, we removed the `isInitialRoute` property from
-`RouteSetting` as part of refactoring, and provided the
-`onGenerateInitialRoutes` API for full control of
-initial routes generation.
+另一方面，navigator 需要能夠手動重新排列 overlay 中的 entries，讓使用者在新 API 下可以變更 route 歷史紀錄。
+我們將其調整為 route 僅負責建立與銷毀其 overlay entries，而 navigator 則負責將 overlay entries 插入或移除 overlay。
+同時，我們也移除了 `Route.install()` 的 `insertionPoint` 參數，因為在此變更後已不再需要。
 
-## Migration guide
+最後，作為重構的一部分，我們從 `RouteSetting` 移除了 `isInitialRoute` 屬性，並提供了 `onGenerateInitialRoutes` API 以便完全掌控初始 routes 的產生。
 
-Case 1: An app depends on `pop()` returning a boolean value.
+## 遷移指南
+
+情境 1：應用程式依賴 `pop()` 回傳布林值。
 
 ```dart
 TextField(
@@ -60,8 +42,7 @@ TextField(
 )
 ```
 
-You could use `Navigator.canPop()` in combination with
-`Navigator.pop()` to achieve the same result.
+你可以將 `Navigator.canPop()` 與 `Navigator.pop()` 結合使用，以達到相同的效果。
 
 ```dart
 TextField(
@@ -76,7 +57,7 @@ TextField(
 )
 ```
 
-Case 2: An app generates routes based on `isInitialRoute`.
+案例 2：應用程式根據 `isInitialRoute` 動態產生 Route。
 
 ```dart
 MaterialApp(
@@ -89,11 +70,11 @@ MaterialApp(
 )
 ```
 
-There are different ways to migrate this change.
-One way is to set an explicit value for `MaterialApp.initialRoute`.
-You can then test for this value in place of `isInitialRoute`.
-As `initialRoute` inherits its default value outside of Flutter's scope,
-you must set an explicit value for it.
+有多種方式可以遷移這項變更。
+其中一種方式是為 `MaterialApp.initialRoute` 設定明確的值。
+接著，你可以在需要 `isInitialRoute` 的地方檢查這個值。
+由於 `initialRoute` 的預設值是在 Flutter 範疇之外繼承的，
+因此你必須為它設定明確的值。
 
 ```dart
 MaterialApp(
@@ -107,9 +88,8 @@ MaterialApp(
 )
 ```
 
-If there is a more complicated use case,
-you can use the new API, `onGenerateInitialRoutes`,
-in `MaterialApp` or `CupertinoApp`.
+如果有更複雜的使用情境，  
+你可以在 `MaterialApp` 或 `CupertinoApp` 中使用新的 API，`onGenerateInitialRoutes`。
 
 ```dart
 MaterialApp(
@@ -122,33 +102,33 @@ MaterialApp(
 )
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 1.16.3<br>
-In stable release: 1.17
+合併於版本：1.16.3<br>  
+正式版釋出：1.17
 
-## References
+## 參考資料
 
-Design doc:
+設計文件：
 
-* [Router][]
+* [Router][Router]
 
-API documentation:
+API 文件：
 
-* [`Route`][]
-* [`Route.install`][]
-* [`RouteSetting.isInitialRoute`][]
-* [`Navigator`][]
-* [`Navigator.pop`][]
-* [`Navigator.canPop`][]
+* [`Route`][`Route`]
+* [`Route.install`][`Route.install`]
+* [`RouteSetting.isInitialRoute`][`RouteSetting.isInitialRoute`]
+* [`Navigator`][`Navigator`]
+* [`Navigator.pop`][`Navigator.pop`]
+* [`Navigator.canPop`][`Navigator.canPop`]
 
-Relevant issue:
+相關議題：
 
-* [Issue 45938: Router][]
+* [Issue 45938: Router][Issue 45938: Router]
 
-Relevant PR:
+相關 PR：
 
-* [PR 44930][] - Refactor the imperative api to continue working in the new navigation system
+* [PR 44930][PR 44930] - 重構命令式 API 以支援新導覽系統
 
 
 [Issue 45938: Router]: {{site.repo.flutter}}/issues/45938

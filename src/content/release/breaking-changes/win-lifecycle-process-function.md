@@ -1,39 +1,31 @@
 ---
-title: Introduction of FlutterEngine::ProcessExternalWindowMessage
+title: 引入 FlutterEngine::ProcessExternalWindowMessage
 description: >-
-  External windows should call ProcessExternalWindowMessage to
-  be considered for application lifecycle events.
+  外部視窗應呼叫 ProcessExternalWindowMessage，
+  以納入應用程式生命週期事件的考量。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-When you add any external windows to your Flutter app,
-you need to include them in the Window's app lifecycle logic.
-To include the window, its `WndProc` function should invoke
-`FlutterEngine::ProcessExternalWindowMessage`.
+當你在 Flutter 應用程式中新增任何外部視窗時，
+你需要將它們納入 Windows 的應用程式生命週期邏輯中。
+為了納入該視窗，其 `WndProc` 函式應該呼叫
+`FlutterEngine::ProcessExternalWindowMessage`。
 
-## Who is affected
+## 受影響對象
 
-Windows applications built against Flutter 3.13 or newer that
-open non-Flutter windows.
+針對 Flutter 3.13 或更新版本建置，且會開啟非 Flutter 視窗的 Windows 應用程式。
 
-## Description of change
+## 變更說明
 
-Implementing application lifecycle on Windows involves listening for Window
-messages in order to update the lifecycle state. In order for additional
-non-Flutter windows to affect the lifecycle state, they must forward their
-window messages to `FlutterEngine::ProcessExternalWindowMessage` from their
-`WndProc` functions. This function returns an `std::optional<LRESULT>`, which
-is `std::nullopt` when the message is received, but not consumed. When the
-returned result has a value, the message has been consumed, and further
-processing in `WndProc` should cease.
+在 Windows 上實作應用程式生命週期時，需監聽視窗訊息以更新生命週期狀態。若要讓額外的非 Flutter 視窗影響生命週期狀態，必須從它們的 `WndProc` 函式將其視窗訊息轉發至 `FlutterEngine::ProcessExternalWindowMessage`。此函式會回傳一個 `std::optional<LRESULT>`，當訊息被接收但未被消耗時，為 `std::nullopt`。當回傳結果有值時，表示該訊息已被消耗，`WndProc` 中的後續處理應停止。
 
-## Migration guide
+## 遷移指南
 
-The following example `WndProc` procedure invokes
-`FlutterEngine::ProcessExternalWindowMessage`:
+以下範例中的 `WndProc` 程序會呼叫
+`FlutterEngine::ProcessExternalWindowMessage`：
 
 ```cpp
 LRESULT Window::Messagehandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
@@ -45,15 +37,15 @@ LRESULT Window::Messagehandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam
 }
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.14.0-3.0.pre<br>
-In stable release: 3.16
+合併於版本：3.14.0-3.0.pre<br>  
+穩定版釋出：3.16
 
-## References
+## 參考資料
 
-Relevant PRs:
+相關 PR：
 
-* [Reintroduce Windows lifecycle with guard for posthumous OnWindowStateEvent][]
+* [Reintroduce Windows lifecycle with guard for posthumous OnWindowStateEvent][Reintroduce Windows lifecycle with guard for posthumous OnWindowStateEvent]
 
 [Reintroduce Windows lifecycle with guard for posthumous OnWindowStateEvent]: {{site.repo.engine}}/pull/44344

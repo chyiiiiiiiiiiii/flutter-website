@@ -1,38 +1,32 @@
 ---
 title: AI
 description: >
-  Learn about the resources available for adding
-  generative AI to your Flutter application.
+  瞭解可用於將生成式 AI 加入您的 Flutter 應用程式的相關資源。
 ---
 
-{% ytEmbed '1AuzJEiHjO4', 'Quick overview of the Google AI Dart SDK' %}
+{% ytEmbed '1AuzJEiHjO4', 'Google AI Dart SDK 快速總覽' %}
 
-The Google AI Dart SDK enables you to use Google's
-state-of-the-art generative AI models (like Gemini)
-to build AI-powered features and applications.
+Google AI Dart SDK 讓您能夠使用 Google 最先進的生成式 AI 模型（如 Gemini），打造具備 AI 功能的特色與應用程式。
 
-Integrate features like advanced text generation,
-summarization, chat, and more to your Dart or Flutter
-apps with minimal setup, and deploy across multiple platforms.
+只需最少的設定，即可將進階文字生成、摘要、聊天等功能整合至您的 Dart 或 Flutter 應用程式，並可跨多平台部署。
 
-The **NEW** [Flutter AI Toolkit][] shows you how to integrate
-an AI generated chatbot into your Flutter app.
-**Check it out!**
+**全新** [Flutter AI Toolkit][Flutter AI Toolkit] 提供如何將 AI 生成聊天機器人整合進 Flutter 應用程式的教學。
+**立即了解！**
 
 [Flutter AI Toolkit]: /ai-toolkit
 
-Other resources include:
+其他相關資源包括：
 
-* [Get started with the Gemini API in Dart or Flutter apps][tutorial]
+* [在 Dart 或 Flutter 應用程式中開始使用 Gemini API][tutorial]
 * [Google Generative AI SDK for Dart and Flutter][pkg]
 
 [pkg]: {{site.pub-pkg}}/google_generative_ai
 [tutorial]: https://ai.google.dev/gemini-api/docs/get-started/dart
 
-Also, check out the following videos from Google I/O 2024:
+同時，也歡迎觀看來自 Google I/O 2024 的以下影片：
 
-* [Build generative AI agents with Vertex AI Agent Builder and Flutter][vertex-video]
-* [Gemini API and Flutter: Practical, AI-driven apps with Google AI tools][gemini-video]
+* [使用 Vertex AI Agent Builder 與 Flutter 建立生成式 AI agent][vertex-video]
+* [Gemini API 與 Flutter：運用 Google AI 工具打造實用的 AI 應用程式][gemini-video]
 
 
 [gemini-video]: {{site.youtube-site}}/watch?v=B1RKFL6ASts

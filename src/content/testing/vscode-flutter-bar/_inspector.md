@@ -1,1 +1,1 @@
-![Small blue magnifying class with the Flutter logo inside it that opens the Widget inspector](/assets/images/docs/testing/debugging/vscode-ui/icons/inspector.png)
+![帶有 Flutter 標誌的小型藍色放大鏡，點擊後可開啟元件檢查器 (Widget inspector)](/assets/images/docs/testing/debugging/vscode-ui/icons/inspector.png)

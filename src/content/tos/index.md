@@ -1,34 +1,18 @@
 ---
-title: Terms of Service
-description: The terms of service for the Flutter website.
+title: 服務條款
+description: Flutter 網站的服務條款。
 showBreadcrumbs: false
 ---
 
-The Flutter website (the "Website") is hosted by Google. By using and / or
-visiting the Website, you consent to be bound by Google's general
-[Terms of Service][] and [Privacy Policy][].
+Flutter 網站（以下簡稱「本網站」）由 Google 主機託管。當您使用及／或瀏覽本網站，即表示您同意遵守 Google 的一般[服務條款][Terms of Service]及[隱私權政策][Privacy Policy]。
 
-The "Flutter" name and the Flutter logo
+「Flutter」名稱及 Flutter 標誌
 <img src="/assets/images/branding/flutter/logo/square.svg" width="24px" alt="Flutter logo" class="text-icon">
-(the "Flutter Marks") are trademarks owned by Google and are not included
-within the assets licensed under the Creative Commons Attribution 4.0
-International License.  Google grants you a non-transferable,
-non-exclusive, royalty-free limited license to use the Flutter Marks
-subject to your compliance with the [Flutter Brand Guidelines](/brand).
-Except as set forth above, nothing herein grants or should be deemed
-to grant to you any right, title or interest in or to the Flutter Marks.
+（以下簡稱「Flutter 標誌」）為 Google 所擁有的商標，並未包含於 Creative Commons Attribution 4.0 International License（創用 CC 姓名標示 4.0 國際授權條款）下授權的資源中。Google 授予您不可轉讓、非專屬、免權利金的有限授權，允許您在遵守 [Flutter 品牌指引](/brand)的前提下使用 Flutter 標誌。除上述明確授權外，本條款並未授予您任何 Flutter 標誌的權利、所有權或利益，也不應被視為授予您該等權利。
 
-As noted above, Google owns the Flutter trademarks, but we license them
-so they can be used by the developer community to support the Flutter
-SDK, including through training materials and other community content.
+如前所述，Google 擁有 Flutter 商標，但我們授權社群使用，以便開發者社群能夠支援 Flutter SDK，包括用於教學材料及其他社群內容。
 
-At the same time, it's important to make sure that people don't
-use the marks in ways that could cause confusion or otherwise misuse
-the marks, so we have prepared [brand guidelines](/brand) that describe the
-allowed uses of the marks. Our goal in protecting the Flutter trademarks
-is to benefit the entire community by ensuring that the marks are only used
-in ways that are consistent with Google's mission to provide a free and open
-source SDK.
+同時，我們也重視防止他人以可能造成混淆或其他不當方式使用這些標誌，因此我們制定了[品牌指引](/brand)，說明標誌的允許使用方式。我們保護 Flutter 商標的目標，是確保標誌僅用於符合 Google 推廣自由且開源 SDK 使命的情境，從而造福整個社群。
 
 [Terms of Service]: https://policies.google.com/terms
 [Privacy Policy]: https://policies.google.com/privacy

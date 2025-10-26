@@ -1,27 +1,24 @@
 ---
-title: Architecting Flutter apps
-shortTitle: Architecture
+title: 架構設計 Flutter 應用程式
+shortTitle: 架構
 description: >
-  Learn how to structure Flutter apps.
+  學習如何組織與架構 Flutter 應用程式。
 showToc: false
 next:
-  title: Architecture concepts
+  title: 架構概念
   path: /app-architecture/concepts
 ---
 
 <div class="side-by-side">
 <div>
 
-Architecture is an important part of building a
-maintainable, resilient, and scalable Flutter app.
-In this guide, you'll learn app architecture principles and
-best practices for building Flutter apps.
+架構（Architecture）是打造可維護、具韌性且可擴展 Flutter 應用程式的重要一環。
+在本指南中，你將學習到 Flutter 應用程式的架構原則與最佳實踐。
 
-'Architecture' is a word that's hard to define.
-It's a broad term and can refer to any number
-of topics depending on the context. In this guide,
-'architecture' refers to how to structure, organize, and design
-your Flutter app in order to scale as your project requirements and team grow.
+「架構」是一個難以明確定義的詞彙。
+這是一個廣泛的術語，根據不同情境可能指涉許多主題。在本指南中，
+「架構」是指如何組織、規劃與設計你的 Flutter 應用程式，
+以因應專案需求與團隊規模的成長。
 
 </div>
 <div class="centered-rows">
@@ -30,66 +27,53 @@ your Flutter app in order to scale as your project requirements and team grow.
 </div>
 
 
-## What you'll learn
+## 你將學到什麼
 
-* Benefits of intentional architecture
-* Common architectural principles
-* The Flutter team's recommended app architecture
-* MVVM and state management
-* Dependency injection
-* Common design patterns for writing robust Flutter applications
+* 有意識地設計架構的好處
+* 常見的架構原則
+* Flutter 團隊推薦的應用程式架構
+* MVVM 與狀態管理
+* 相依性注入（Dependency Injection）
+* 撰寫健壯 Flutter 應用程式的常見設計模式
 
 {% comment %}
-TODO @ewindmill complete this list as pages land, add links.
+TODO @ewindmill 隨著頁面上線補齊此清單，並加入連結。
 {% endcomment %}
 
-## Benefits of intentional architecture
+## 有意識架構設計的好處
 
-Good app architecture provides a number of benefits to
-engineering teams and their end users.
+良好的應用程式架構能為工程團隊及最終使用者帶來多項好處。
 
-* Maintainability - App architecture makes it easier to modify, update, and fix
-  issues over time.
-* Scalability - A well thought out application allows more people to contribute
-  to the same codebase concurrently, with minimal code conflicts.
-* Testability - Applications with intentional architecture generally have
-  simpler classes with well-defined inputs and outputs, which makes them easier
-  to mock and test.
-* Lower cognitive load - Developers who are new to the project will be more
-  productive in a shorter amount of time, and code reviews are generally less
-  time-consuming when code is easier to understand.
-* A better user experience - Features can ship faster and with fewer bugs.
+* 可維護性 — 良好的應用程式架構讓後續修改、更新及修復問題變得更容易。
+* 可擴展性 — 經過深思熟慮的應用程式設計，能讓更多人同時貢獻同一份程式碼庫，且減少程式碼衝突。
+* 可測試性 — 有意識設計的應用程式，通常類別較為簡潔，且有明確的輸入與輸出，使其更容易進行模擬與測試。
+* 降低認知負荷 — 新加入專案的開發者能在更短時間內上手，且當程式碼更易理解時，程式碼審查也會更省時。
+* 更佳的使用者體驗 — 新功能能更快上線且有更少的錯誤。
 
-## How to use this guide
+## 如何使用本指南
 
-This is a guide for building scalable Flutter applications and was written for
-teams that have multiple developers contributing to the same code base,
-who're building a feature-rich application.
-If you're writing a Flutter app that has a *growing team and codebase*,
-this guidance is for you.
+本指南旨在協助你打造可擴展的 Flutter 應用程式，適用於有多位開發者共同貢獻同一程式碼庫、並且功能豐富的團隊。
+如果你正在開發一個 *團隊與程式碼庫持續成長* 的 Flutter 應用程式，
+這份指引就是為你而設。
 
-Along with general architectural advice, this guide gives concrete examples of
-best practices and includes specific recommendations.
-Some libraries can be swapped out, and very large teams with unique complexity
-might find that some parts don't apply.
-In either case, the ideas remain sound.
-This is the recommended way to build a Flutter app.
+除了提供一般性的架構建議外，本指南也會給出具體的最佳實踐範例與明確建議。
+部分函式庫可依需求替換，而對於極大型且具獨特複雜度的團隊，某些內容可能不完全適用。
+無論如何，這些理念依然值得參考。
+這是建構 Flutter 應用程式的推薦方式。
 
-In the first part of this guide, you'll learn about common architectural
-principles from a high level. In the second part,
-the guide walks through specific and
-concrete recommendations of architecting Flutter apps.
-Finally, at the end of the guide, you'll find a list of design patterns and
-sample code that shows the recommendations in action.
+本指南的第一部分，將從高層次介紹常見的架構原則。第二部分，
+則會帶你逐步了解 Flutter 應用程式架構的具體建議與實作方式。
+最後，在指南結尾，你將看到設計模式清單與範例程式碼，展示這些建議如何實際應用。
+
 
 [Common architectural principles]: /app-architecture/concepts
 [recommended app architecture]: /app-architecture/guide
 [MVVM]: /app-architecture/guide#mvvm
 
 
-## Feedback
+## 意見回饋
 
-As this section of the website is evolving,
-we [welcome your feedback][]!
+由於本網站區塊仍在持續發展中，
+我們[歡迎你的意見回饋][welcome your feedback]！
 
 [welcome your feedback]: https://google.qualtrics.com/jfe/form/SV_4T0XuR9Ts29acw6?page="index"

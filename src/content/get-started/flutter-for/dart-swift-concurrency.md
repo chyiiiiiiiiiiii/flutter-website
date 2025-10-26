@@ -1,82 +1,72 @@
 ---
-title: Flutter concurrency for Swift developers
+title: 適用於 Swift 開發者的 Flutter 並行處理
 description: >
-  Leverage your Swift concurrency knowledge while learning Flutter and Dart.
+  運用你在 Swift 並行處理上的知識，學習 Flutter 與 Dart。
 ---
 
 <?code-excerpt path-base="resources/dart_swift_concurrency"?>
 
-Both Dart and Swift support concurrent programming. 
-This guide should help you understand how
-concurrency works in Dart and how it compares to Swift.
-With this understanding, you can create
-high-performing iOS apps. 
+Dart 與 Swift 都支援並行（concurrent）程式設計。
+本指南將協助你理解 Dart 中的並行處理運作方式，以及它與 Swift 的比較。
+有了這些知識，你就能打造高效能的 iOS 應用程式。
 
-When developing in the Apple ecosystem, 
-some tasks might take a long time to complete. 
-These tasks include fetching or processing large amounts of data.
-iOS developers typically use Grand Central Dispatch (GCD)
-to schedule tasks using a shared thread pool.
-With GCD, developers add tasks to dispatch queues
-and GCD decides on which thread to execute them.
+在 Apple 生態系統開發時，
+有些任務可能需要較長的時間才能完成，
+例如擷取或處理大量資料。
+iOS 開發者通常會使用 Grand Central Dispatch（GCD）
+來透過共用執行緒池排程任務。
+利用 GCD，開發者可以將任務加入 dispatch queue，
+而 GCD 會決定要在哪個執行緒上執行這些任務。
 
-But, GCD spins up threads to 
-handle remaining work items.
-This means you can end up with a large number of threads 
-and the system can become over committed.
-With Swift, the structured concurrency model reduced the number 
-of threads and context switches. 
-Now, each core has only one thread.
+然而，GCD 會啟動新的執行緒來
+處理剩餘的工作項目。
+這代表你最終可能會有大量的執行緒，
+導致系統資源過度分配。
+自從 Swift 採用結構化並行（structured concurrency）模型後，
+減少了執行緒數量與上下文切換。
+現在，每個核心只會有一個執行緒。
 
-Dart has a single-threaded execution model, 
-with support for `Isolates`, an event loop, and asynchronous code. 
-An `Isolate` is Dart's implementation of a lightweight thread.
-Unless you spawn an `Isolate`, your Dart code runs in the 
-main UI thread driven by an event loop. 
-Flutter's event loop is 
-equivalent to the iOS main loop—in other words, 
-the Looper attached to the main thread.
+Dart 採用單執行緒執行模型，
+並支援 `Isolates`、事件迴圈（event loop）與非同步程式碼。
+`Isolate` 是 Dart 實作的輕量級執行緒。
+除非你自行產生 `Isolate`，否則 Dart 程式碼會在
+由事件迴圈驅動的主 UI 執行緒上執行。
+Flutter 的事件迴圈
+等同於 iOS 的主迴圈（main loop）——換句話說，
+就是附加在主執行緒的 Looper。
 
-Dart's single-threaded model doesn't mean 
-you are required to run everything 
-as a blocking operation that causes the UI to freeze. 
-Instead, use the asynchronous 
-features that the Dart language provides, 
-such as `async`/`await`.
+Dart 的單執行緒模型並不代表
+你必須將所有操作都以阻塞方式執行，導致 UI 停滯。
+相反地，你可以善用 Dart 語言所提供的非同步
+功能，例如 `async`/`await`。
 
-## Asynchronous Programming
+## 非同步程式設計
 
-An asynchronous operation allows other operations 
-to execute before it completes. 
-Both Dart and Swift support asynchronous functions 
-using the `async` and `await` keywords. 
-In both cases, `async` marks that a function 
-performs asynchronous work, 
-and `await` tells the system to await a result 
-from function. This means that the Dart VM _could_ 
-suspend the function, if necessary. 
-For more details on asynchronous programming, check out
-[Concurrency in Dart]({{site.dart-site}}/guides/language/concurrency).
+非同步操作允許其他操作在其完成前先行執行。
+Dart 與 Swift 都支援使用 `async` 與 `await` 關鍵字來撰寫非同步函式。
+在兩者中，`async` 用來標記函式會執行非同步工作，
+而 `await` 則告訴系統要等待函式的結果。
+這表示 Dart VM _可以_ 在必要時暫停該函式。
+想了解更多非同步程式設計細節，請參考
+[Concurrency in Dart]({{site.dart-site}}/guides/language/concurrency)。
 
-### Leveraging the main thread/isolate
+### 善用主執行緒／isolate
 
-For Apple operating systems, the primary (also called the main) 
-thread is where the application begins running. 
-Rendering the user interface always happens on the main thread. 
-One difference between Swift and Dart is that  
-Swift might use different threads for different tasks, 
-and Swift doesn't guarantee which thread is used. 
-So, when dispatching UI updates in Swift, 
-you might need to ensure that the work occurs on the main thread. 
+在 Apple 作業系統中，主要（也稱為主）執行緒是應用程式開始執行的地方。
+UI 的繪製總是在主執行緒上進行。
+Swift 與 Dart 之間的一個差異在於，
+Swift 可能會針對不同任務使用不同的執行緒，
+而且 Swift 並不保證會用哪一條執行緒。
+因此，在 Swift 中進行 UI 更新時，
+你可能需要確保相關工作是在主執行緒上執行。
 
-Say you want to write a function that fetches the 
-weather asynchronously and 
-displays the results. 
+假設你想撰寫一個能夠非同步取得天氣資訊並
+顯示結果的函式。
 
-In GCD, to manually dispatch a process to the main thread, 
-you might do something like the following.  
+在 GCD 中，若要手動將處理程序派發到主執行緒，
+你可能會這麼做：
 
-First, define the `Weather` `enum`:
+首先，定義 `Weather` `enum`：
 
 ```swift
 enum Weather: String {
@@ -84,11 +74,10 @@ enum Weather: String {
 }
 ```
 
-Next, define the view model and mark it as an [`@Observable`][] 
-that publishes the `result` of type `Weather?`. 
-Use GCD to create a background `DispatchQueue` to 
-send the work to the pool of threads, and then dispatch 
-back to the main thread to update the `result`. 
+接下來，定義 view model，並將其標記為 [`@Observable`][`@Observable`]，  
+用來發布型別為 `Weather?` 的 `result`。  
+使用 GCD 建立背景 `DispatchQueue`，  
+將工作派送到執行緒池，然後再切回主執行緒以更新 `result`。 
 
 ```swift
 @Observable class ContentViewModel {
@@ -106,7 +95,7 @@ back to the main thread to update the `result`.
 }
 ```
 
-Finally, display the results:
+最後，顯示結果：
 
 ```swift
 struct ContentView: View {
@@ -120,12 +109,9 @@ struct ContentView: View {
 }
 ```
 
-More recently, Swift introduced _actors_ to support 
-synchronization for shared, mutable state. 
-To ensure that work is performed on the main thread,
-define a view model class that is marked as a `@MainActor`, 
-with a `load()` function that internally calls an 
-asynchronous function using `Task`.   
+最近，Swift 引入了 _actors_（行為者）來支援對共享可變狀態的同步處理。  
+為了確保工作在主執行緒（main thread）上執行，請定義一個標記為 `@MainActor` 的 view model 類別，  
+並在其中建立一個 `load()` 函式，該函式會在內部使用 `Task` 呼叫非同步函式。   
 
 ```swift
 @MainActor @Observable class ContentViewModel {
@@ -139,8 +125,8 @@ asynchronous function using `Task`.
 }
 ```
 
-Next, define the view model as a state using `@State`, 
-with a `load()` function that can be called by the view model:
+接下來，使用 `@State` 將 view model 定義為一個 state，  
+並提供一個可由 view model 呼叫的 `load()` 函式：
 
 ```swift
 struct ContentView: View {
@@ -154,20 +140,16 @@ struct ContentView: View {
 }
 ```
 
-In Dart, all work runs on the main isolate by default. 
-To implement the same example in Dart, 
-first, create the `Weather` `enum`:
+在 Dart 中，所有工作預設都在主 isolate 上執行。
+若要在 Dart 中實作相同的範例，
+首先，建立 `Weather` `enum`：
 
 <?code-excerpt "lib/async_weather.dart (weather)"?>
 ```dart
 enum Weather { rainy, windy, sunny }
 ```
 
-Then, define a simple view model (similar to what was created in SwiftUI), 
-to fetch the weather. In Dart, a `Future` object represents a value to be
-provided in the future. A `Future` is similar to Swift's `@Observable`. 
-In this example, a function within the view model
-returns a `Future<Weather>` object:
+接下來，定義一個簡單的 view model（類似於在 SwiftUI 中建立的），用來取得天氣資料。在 Dart 中，`Future` 物件代表一個未來會提供的值。`Future` 類似於 Swift 的 `@Observable`。在這個範例中，view model 內的一個函式會回傳一個 `Future<Weather>` 物件：
 
 <?code-excerpt "lib/async_weather.dart (home-page-view-model)"?>
 ```dart
@@ -181,22 +163,16 @@ class HomePageViewModel {
 }
 ```
 
-The `load()` function in this example shares 
-similarities with the Swift code. 
-The Dart function is marked as `async` because
-it uses the `await` keyword.
+本範例中的 `load()` 函式與 Swift 程式碼有相似之處。  
+Dart 函式會標記為 `async`，因為它使用了 `await` 關鍵字。
 
-Additionally, a Dart function marked as `async`
-automatically returns a `Future`.
-In other words, you don't have to create a 
-`Future` instance manually 
-inside functions marked as `async`.
+此外，被標記為 `async` 的 Dart 函式會自動回傳 `Future`。  
+換句話說，你不需要在標記為 `async` 的函式內手動建立 `Future` 實例。
 
-For the last step, display the weather value. 
-In Flutter, [`FutureBuilder`]({{site.api}}/flutter/widgets/FutureBuilder-class.html) and 
-[`StreamBuilder`]({{site.api}}/flutter/widgets/StreamBuilder-class.html)  
-widgets are used to display the results of a Future in the UI. 
-The following example uses a `FutureBuilder`:
+最後一步，顯示天氣數值。  
+在 Flutter 中，[`FutureBuilder`]({{site.api}}/flutter/widgets/FutureBuilder-class.html) 與 [`StreamBuilder`]({{site.api}}/flutter/widgets/StreamBuilder-class.html)  
+元件 (Widgets) 可用來在 UI 中顯示 Future 的結果。  
+以下範例使用了 `FutureBuilder`：
 
 <?code-excerpt "lib/async_weather.dart (home-page-widget)"?>
 ```dart
@@ -229,23 +205,17 @@ class HomePage extends StatelessWidget {
 }
 ```
 
-For the complete example, check out the
-[async_weather][] file on GitHub.
+完整範例請參考 GitHub 上的 [async_weather][async_weather] 檔案。
 
 [async_weather]: {{site.repo.this}}/examples/resources/dart_swift_concurrency/lib/async_weather.dart
 
-### Leveraging a background thread/isolate
+### 善用背景執行緒／isolate
 
-Flutter apps can run on a variety of multi-core hardware, 
-including devices running macOS and iOS. 
-To improve the performance of these applications, 
-you must sometimes run tasks on different cores
-concurrently. This is especially important 
-to avoid blocking UI rendering with long-running operations. 
+Flutter 應用程式（Flutter apps）可在各種多核心硬體上執行，包括運行 macOS 和 iOS 的裝置。  
+為了提升這些應用程式的效能，有時必須在不同核心上同時執行任務（concurrently）。這一點尤其重要，可以避免長時間執行的操作阻塞 UI 繪製。
 
-In Swift, you can leverage GCD to run tasks on global queues
-with different quality of service class (qos) properties. 
-This indicates the task's priority.
+在 Swift 中，你可以利用 GCD（Grand Central Dispatch）在具有不同服務品質（quality of service，qos）屬性的全域佇列（global queues）上執行任務。  
+這代表了任務的優先順序。
 
 ```swift
 func parse(string: String, completion: @escaping ([String:Any]) -> Void) {
@@ -259,12 +229,11 @@ func parse(string: String, completion: @escaping ([String:Any]) -> Void) {
 }
 ```
 
-In Dart, you can offload computation to a worker isolate, 
-often called a background worker. 
-A common scenario spawns a simple worker isolate and 
-returns the results in a message when the worker exits. 
-As of Dart 2.19, you can use `Isolate.run()` to 
-spawn an isolate and run computations:
+在 Dart 中，你可以將運算工作分派給 worker isolate，這通常被稱為背景工作者。
+
+一個常見的情境是啟動一個簡單的 worker isolate，並在 worker 結束時以訊息回傳結果。
+
+自 Dart 2.19 起，你可以使用 `Isolate.run()` 來啟動 isolate 並執行運算：
 
 ```dart
 void main() async {
@@ -276,15 +245,13 @@ void main() async {
 }
 ```
 
-In Flutter, you can also use the `compute` function 
-to spin up an isolate to run a callback function:
+在 Flutter 中，你也可以使用 `compute` 函式來啟動一個 isolate，執行回呼函式（callback function）：
 
 ```dart
 final jsonData = await compute(getNumberOfKeys, jsonString);
 ```
 
-In this case, the callback function is a top-level
-function as shown below:
+在這個例子中，回呼函式（callback function）是一個頂層函式，如下所示：
 
 ```dart
 Map<String, dynamic> getNumberOfKeys(String jsonString) {
@@ -292,11 +259,7 @@ Map<String, dynamic> getNumberOfKeys(String jsonString) {
 }
 ```
 
-You can find more information on Dart at
-[Learning Dart as a Swift developer][],
-and more information on Flutter at
-[Flutter for SwiftUI developers][] or
-[Flutter for UIKit developers][].
+你可以在 [Learning Dart as a Swift developer][Learning Dart as a Swift developer] 取得更多關於 Dart 的資訊，並可在 [Flutter for SwiftUI developers][Flutter for SwiftUI developers] 或 [Flutter for UIKit developers][Flutter for UIKit developers] 了解更多 Flutter 相關內容。
 
 [Learning Dart as a Swift developer]: {{site.dart-site}}/guides/language/coming-from/swift-to-dart
 [Flutter for SwiftUI developers]: /get-started/flutter-for/swiftui-devs

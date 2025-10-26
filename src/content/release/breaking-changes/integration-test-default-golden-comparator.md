@@ -1,28 +1,20 @@
 ---
-title: Integration test default golden-file comparators changed on Android and iOS.
+title: Android 和 iOS 上的整合測試預設 golden-file 比對器已變更
 description: >-
-  When using `package:integration_test` to run a test _on_ an Android device or
-  emulator, or an iOS device or simulator, the default `goldenFileComparator`
-  has changed, and correctly uses the host filesystem.
+  當使用 `package:integration_test` 在 Android 裝置或模擬器，或 iOS 裝置或模擬器上執行測試時，預設的 `goldenFileComparator` 已經變更，並且現在會正確使用主機檔案系統。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-Unless a user-defined [`goldenFileComparator`][] is set, either manually in a
-test, or using a `flutter_test_config.dart` file, Android and iOS devices
-and emulators/simulators have a new default that proxies to the local host
-filesystem, fixing a long-standing bug ([#143299][Issue 143299]).
+除非在測試中手動設定了使用者自訂的 [`goldenFileComparator`][`goldenFileComparator`]，或是在 `flutter_test_config.dart` 檔案中設定，否則 Android 和 iOS 裝置及模擬器／模擬器現在有了新的預設值，會代理到本地主機的檔案系統，修正了一個長期存在的錯誤（[#143299][Issue 143299]）。
 
-## Background
+## 背景
 
-The package [`integration_test`][], and its integration with [`flutter_test`][]
-has historically had a bug where using [`matchesGoldenFile`][] or similar APIs
-where a `FileSystemException` was thrown.
+套件 [`integration_test`][`integration_test`] 及其與 [`flutter_test`][`flutter_test`] 的整合，過去存在一個錯誤，當使用 [`matchesGoldenFile`][`matchesGoldenFile`] 或類似 API 時，會拋出 `FileSystemException`。
 
-Some users may have worked around this issue by writing and using a custom
-[`goldenFileComparator`][]:
+有些使用者可能透過撰寫並使用自訂的 [`goldenFileComparator`][`goldenFileComparator`] 來繞過這個問題：
 
 ```dart
 import 'package:integration_test/integration_test.dart';
@@ -35,8 +27,7 @@ void main() {
 }
 ```
 
-Such workarounds are no longer necessary, and if type checking the default,
-will no longer work as before:
+這類變通方法現在已不再需要，而且如果對預設值進行型別檢查，也將無法像以前那樣運作：
 
 ```dart
 if (goldenFileComparator is ...) {
@@ -44,15 +35,13 @@ if (goldenFileComparator is ...) {
 }
 ```
 
-## Migration guide
+## 遷移指南
 
-In most cases, we expect users to have to do nothing - this will be in a sense
-_new_ functionality that replaced functionality that did not work and caused
-an unhandled exception which would fail a test.
+在大多數情況下，我們預期使用者無需進行任何操作——這在某種意義上是
+_新的_ 功能，用來取代原本無法運作且會導致未處理例外、進而導致測試失敗的功能。
 
-In cases where users wrote custom test infrastructure and comparators, consider
-instead removing the [`goldenFileComparator`][] overrides, and instead rely on
-the (new) default which should work as expected:
+如果你有撰寫自訂的測試基礎架構與比較器（comparator），建議考慮移除 [`goldenFileComparator`][`goldenFileComparator`] 覆寫（override），
+改為依賴（新的）預設值，這應該會如預期般運作：
 
 ```diff
 import 'package:integration_test/integration_test.dart';
@@ -65,30 +54,29 @@ void main() {
 }
 ```
 
-_Fun fact_: The existing code that was used for
-the _web_ platform was [reused][PR 160484].
+_有趣的小知識_：現有用於 _web_ 平台的程式碼已被[重複利用][PR 160484]。
 
-## Timeline
+## 時程
 
-Landed in version: 3.29.0-0.0.pre<br>
-Stable release: 3.32
+合併於版本：3.29.0-0.0.pre<br>  
+穩定版發布：3.32
 
-## References
+## 參考資料
 
-Relevant APIs:
+相關 API：
 
-- [`flutter_test`][], which talks about `flutter_test_config.dart` and its capabilities.
-- [`goldenFileComparator`][], which implements comparison, and is user-configurable.
+- [`flutter_test`][`flutter_test`]，說明了 `flutter_test_config.dart` 及其功能。
+- [`goldenFileComparator`][`goldenFileComparator`]，實作了比較功能，且可由使用者自訂。
 
-Relevant Issues:
+相關議題：
 
-- [Issue 143299][], one of many user reports about the long-standing bug.
-- [Issue 160043][], which explains in technical detail why [`matchesGoldenFile`][] failed.
+- [Issue 143299][Issue 143299]，這是許多使用者回報長期存在錯誤的其中之一。
+- [Issue 160043][Issue 160043]，詳細技術說明了為何 [`matchesGoldenFile`][`matchesGoldenFile`] 會失敗。
 
-Relevant PRs:
+相關 PR：
 
-- [PR 160215][], where the web tool implementation was refactored to make it generic.
-- [PR 160484][], which uses the Dart VM service protocol to proxy between device and host.
+- [PR 160215][PR 160215]，在此將 web 工具的實作重構為通用版本。
+- [PR 160484][PR 160484]，利用 Dart VM 服務協定在裝置與主機之間進行代理。
 
 [`flutter_test`]: {{site.api}}/flutter/flutter_test
 [`goldenFileComparator`]: {{site.api}}/flutter/flutter_test/goldenFileComparator.html

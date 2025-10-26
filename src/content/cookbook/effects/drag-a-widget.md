@@ -1,6 +1,6 @@
 ---
-title: Drag a UI element
-description: How to implement a draggable UI element.
+title: 拖曳 UI 元件
+description: 如何實作可拖曳的 UI 元件。
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,38 +8,34 @@ js:
 
 <?code-excerpt path-base="cookbook/effects/drag_a_widget"?>
 
-Drag and drop is a common mobile app interaction.
-As the user long presses (sometimes called _touch & hold_)
-on a widget, another widget appears beneath the
-user's finger, and the user drags the widget to a
-final location and releases it.
-In this recipe, you'll build a drag-and-drop interaction
-where the user long presses on a choice of food,
-and then drags that food to the picture of the customer who
-is paying for it.
+拖放（Drag and drop）是行動應用程式中常見的互動方式。
+當使用者長按（有時稱為 _觸控並按住_）某個元件（Widget）時，
+另一個元件會出現在使用者手指下方，
+接著使用者可以將該元件拖曳到最終位置後放開。
+在本教學中，你將建立一個拖放互動，
+讓使用者可以長按選擇一項食物，
+然後將該食物拖曳到正在付款的顧客圖片上。
 
-The following animation shows the app's behavior:
+下方動畫展示了此應用程式的行為：
 
 ![Ordering the food by dragging it to the person](/assets/images/docs/cookbook/effects/DragAUIElement.webp){:.site-mobile-screenshot}
 
-This recipe begins with a prebuilt list of menu items and
-a row of customers.
-The first step is to recognize a long press
-and display a draggable photo of a menu item.
+本教學從一個預先建立好的菜單項目清單和一排顧客開始。
+第一步是偵測長按動作，
+並顯示一張可拖曳的菜單項目照片。
 
-## Press and drag
+## 按壓並拖曳
 
-Flutter provides a widget called [`LongPressDraggable`][]
-that provides the exact behavior that you need to begin
-a drag-and-drop interaction. A `LongPressDraggable`
-widget recognizes when a long press occurs and then 
-displays a new widget near the user's finger.
-As the user drags, the widget follows the user's finger.
-`LongPressDraggable` gives you full control over the 
-widget that the user drags.
+Flutter 提供了一個名為 [`LongPressDraggable`][`LongPressDraggable`] 的元件，
+它正好能實現你需要的拖放互動行為。`LongPressDraggable`
+元件會在偵測到長按時，
+於使用者手指附近顯示一個新的元件。
+當使用者拖曳時，該元件會跟隨手指移動。
+`LongPressDraggable` 讓你可以完全控制
+使用者拖曳的元件內容。
 
-Each menu list item is displayed with a custom
-`MenuListItem` widget.
+每個菜單清單項目都會以自訂的
+`MenuListItem` 元件顯示。
 
 <?code-excerpt "lib/main.dart (MenuListItem)" replace="/^child: //g;/^\),$/)/g"?>
 ```dart
@@ -50,7 +46,7 @@ MenuListItem(
 )
 ```
 
-Wrap the `MenuListItem` widget with a `LongPressDraggable` widget.
+將 `MenuListItem` 元件（Widget）包裹在 `LongPressDraggable` 元件（Widget）中。
 
 <?code-excerpt "lib/main.dart (LongPressDraggable)" replace="/^return //g;/^\),$/)/g"?>
 ```dart
@@ -69,42 +65,29 @@ LongPressDraggable<Item>(
 );
 ```
 
-In this case, when the user long presses on the
-`MenuListItem` widget, the `LongPressDraggable`
-widget displays a `DraggingListItem`.
-This `DraggingListItem` displays a photo of the
-selected food item, centered beneath 
-the user's finger.
+在這個範例中，當使用者長按`MenuListItem`元件時，`LongPressDraggable`元件會顯示`DraggingListItem`。  
+這個`DraggingListItem`會在使用者手指下方置中顯示所選食物項目的照片。
 
-The `dragAnchorStrategy` property is set to
-[`pointerDragAnchorStrategy`][].
-This property value instructs `LongPressDraggable`
-to base the `DraggableListItem`'s position on the 
-user's finger. As the user moves a finger,
-the `DraggableListItem` moves with it.
+`dragAnchorStrategy`屬性被設為[`pointerDragAnchorStrategy`][`pointerDragAnchorStrategy`]。  
+這個屬性值會指示`LongPressDraggable`根據使用者的手指來決定`DraggableListItem`的位置。  
+當使用者移動手指時，`DraggableListItem`也會跟著移動。
 
-Dragging and dropping is of little use if no information
-is transmitted when the item is dropped.
-For this reason, `LongPressDraggable` takes a `data` parameter. 
-In this case, the type of `data` is `Item`,
-which holds information about the 
-food menu item that the user pressed on.
+如果在拖曳結束時沒有傳遞任何資訊，拖放操作就沒有什麼意義。  
+因此，`LongPressDraggable`會接收`data`參數。  
+在這個範例中，`data`的型別是`Item`，它保存了使用者按下的食物菜單項目的相關資訊。
 
-The `data` associated with a `LongPressDraggable`
-is sent to a special widget called `DragTarget`,
-where the user releases the drag gesture.
-You'll implement the drop behavior next.
+與`LongPressDraggable`相關聯的`data`會被傳送到一個特殊的元件，稱為`DragTarget`，  
+當使用者釋放拖曳手勢時，資料就會傳遞到這裡。  
+接下來你將實作拖放的行為。
 
-## Drop the draggable
+## 放下可拖曳元件
 
-The user can drop a `LongPressDraggable` wherever they choose,
-but dropping the draggable has no effect unless it's dropped
-on top of a `DragTarget`. When the user drops a draggable on
-top of a `DragTarget` widget, the `DragTarget` widget 
-can either accept or reject the data from the draggable.
+使用者可以將`LongPressDraggable`放到任何他們想要的位置，  
+但只有當它被放到`DragTarget`上時才會產生效果。  
+當使用者將可拖曳元件放到`DragTarget`元件上時，`DragTarget`元件可以選擇接受或拒絕來自 draggable 的資料。
 
-In this recipe, the user should drop a menu item on a
-`CustomerCart` widget to add the menu item to the user's cart.
+在這個範例中，使用者應該將菜單項目拖放到`CustomerCart`元件上，  
+以將該菜單項目加入使用者的購物車。
 
 <?code-excerpt "lib/main.dart (CustomerCart)" replace="/^return //g;/^\),$/)/g"?>
 ```dart
@@ -115,7 +98,7 @@ CustomerCart(
 );
 ```
 
-Wrap the `CustomerCart` widget with a `DragTarget` widget.
+將 `CustomerCart` 元件（Widget）包裹在 `DragTarget` 元件（Widget）中。
 
 <?code-excerpt "lib/main.dart (DragTarget)" replace="/^child: //g;/^\),$/)/g"?>
 ```dart
@@ -133,43 +116,33 @@ DragTarget<Item>(
 )
 ```
 
-The `DragTarget` displays your existing widget and
-also coordinates with `LongPressDraggable` to recognize
-when the user drags a draggable on top of the `DragTarget`.
-The `DragTarget` also recognizes when the user drops
-a draggable on top of the `DragTarget` widget.
+`DragTarget` 會顯示你現有的元件（Widget），並且與 `LongPressDraggable` 協同運作，以辨識使用者何時將可拖曳項目拖曳到 `DragTarget` 上方。
+`DragTarget` 也能辨識使用者何時將可拖曳項目放到 `DragTarget` 元件（Widget）上。
 
-When the user drags a draggable on the `DragTarget` widget,
-`candidateItems` contains the data items that the user is dragging.
-This draggable allows you to change what your widget looks
-like when the user is dragging over it. In this case,
-the `Customer` widget turns red whenever any items are dragged above the 
-`DragTarget` widget. The red visual appearance is configured with the 
-`highlighted` property within the `CustomerCart` widget.
+當使用者在 `DragTarget` 元件（Widget）上拖曳可拖曳項目時，
+`candidateItems` 會包含使用者正在拖曳的資料項目。
+這個可拖曳項目允許你在使用者拖曳到元件上方時，改變元件的外觀。
+在這個例子中，當任何項目被拖曳到 `DragTarget` 元件（Widget）上方時，`Customer` 元件（Widget）會變成紅色。
+紅色的視覺效果是透過 `CustomerCart` 元件（Widget）內的 `highlighted` 屬性來設定的。
 
-When the user drops a draggable on the `DragTarget` widget,
-the `onAcceptWithDetails` callback is invoked. This is when you get
-to decide whether or not to accept the data that was dropped.
-In this case, the item is always accepted and processed. 
-You might choose to inspect the incoming item to make a
-different decision. 
+當使用者將可拖曳項目放到 `DragTarget` 元件（Widget）上時，
+`onAcceptWithDetails` callback 會被呼叫。這時你可以決定是否要接受被放下的資料。
+在這個例子中，項目總是會被接受並處理。
+你也可以選擇檢查傳入的項目，以做出不同的決策。
 
-Notice that the type of item dropped on `DragTarget`
-must match the type of the item dragged from `LongPressDraggable`.
-If the types are not compatible, then 
-the `onAcceptWithDetails` method isn't invoked.
+請注意，拖曳到 `DragTarget` 上的項目類型必須與從 `LongPressDraggable` 拖曳的項目類型相符。
+如果類型不相容，則不會呼叫 `onAcceptWithDetails` 方法。
 
-With a `DragTarget` widget configured to accept your
-desired data, you can now transmit data from one part
-of your UI to another by dragging and dropping.
+當你將 `DragTarget` 元件（Widget）設定為接受你想要的資料後，
+就可以透過拖放的方式，將資料從 UI 的一個部分傳送到另一個部分。
 
-In the next step,
-you update the customer's cart with the dropped menu item.
+在下一步中，
+你會用拖放的選單項目來更新顧客的購物車。
 
-## Add a menu item to a cart
+## 將選單項目加入購物車
 
-Each customer is represented by a `Customer` object,
-which maintains a cart of items and a price total.
+每個顧客都由一個 `Customer` 物件所表示，
+該物件會維護一個購物車項目清單以及總價。
 
 <?code-excerpt "lib/main.dart (CustomerClass)"?>
 ```dart
@@ -191,11 +164,9 @@ class Customer {
 }
 ```
 
-The `CustomerCart` widget displays the customer's photo,
-name, total, and item count based on a `Customer` instance.
+`CustomerCart` 元件（Widget）會根據 `Customer` 實例，顯示顧客的照片、姓名、總金額以及商品數量。
 
-To update a customer's cart when a menu item is dropped,
-add the dropped item to the associated `Customer` object.
+若要在拖放菜單項目到顧客購物車時更新內容，請將拖放的項目加入對應的 `Customer` 物件中。
 
 <?code-excerpt "lib/main.dart (AddCart)"?>
 ```dart
@@ -209,32 +180,20 @@ void _itemDroppedOnCustomerCart({
 }
 ```
 
-The `_itemDroppedOnCustomerCart` method is invoked in
-`onAcceptWithDetails()` when the user drops a menu item on a
-`CustomerCart` widget. By adding the dropped item to the 
-`customer` object, and invoking `setState()` to cause a
-layout update, the UI refreshes with the new customer's
-price total and item count.
+當使用者將選單項目拖放到`CustomerCart`元件（Widget）上時，`_itemDroppedOnCustomerCart`方法會在`onAcceptWithDetails()`中被呼叫。透過將拖放的項目加入`customer`物件，並呼叫`setState()`以觸發版面配置更新，UI 會隨即刷新，顯示新的顧客價格總計與項目數量。
 
-Congratulations! You have a drag-and-drop interaction
-that adds food items to a customer's shopping cart.
+恭喜你！你已經完成了一個可以將食物項目拖放至顧客購物車的拖放互動效果。
 
-## Interactive example
+## 互動範例
 
-Run the app:
+執行此應用程式：
 
-* Scroll through the food items.
-* Press and hold on one with your
-  finger or click and hold with the
-  mouse.
-* While holding, the food item's image
-  will appear above the list.
-* Drag the image and drop it on one of the
-  people at the bottom of the screen.
-  The text under the image updates to
-  reflect the charge for that person.
-  You can continue to add food items
-  and watch the charges accumulate.
+* 捲動瀏覽食物項目。
+* 用手指長按其中一個項目，或用滑鼠點擊並按住。
+* 按住時，該食物項目的圖片會顯示在清單上方。
+* 拖曳圖片並將其放到螢幕下方的某位人物上。
+  圖片下方的文字會更新，顯示該人物的消費金額。
+  你可以持續新增食物項目，觀察消費金額累積的變化。
 
 <!-- Start DartPad -->
 

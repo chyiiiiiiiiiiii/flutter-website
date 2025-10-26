@@ -1,5 +1,5 @@
 ---
 layout: toc
-title: Testing & debugging
-description: Content covering testing and debugging Flutter apps.
+title: 測試與除錯
+description: 涵蓋 Flutter 應用程式測試與除錯相關內容。
 ---

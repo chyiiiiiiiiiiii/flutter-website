@@ -1,24 +1,24 @@
 ---
-title: Install Flutter
-shortTitle: Install
+title: 安裝 Flutter
+shortTitle: 安裝
 description: >-
-  Learn how to install the Flutter SDK.
+  學習如何安裝 Flutter SDK（Flutter 軟體開發套件）。
 ---
 
-Learn how to install the Flutter SDK and
-manage the resulting installation.
+學習如何安裝 Flutter SDK（Flutter 軟體開發套件），
+並管理安裝後的環境。
 
 :::recommend
-If you've never set up or developed an app with Flutter before
-and plan to use VS Code or another Code OSS-based editor,
-follow [Set up and test drive Flutter][] instead.
+如果你從未設定或開發過 Flutter 應用程式，
+且打算使用 VS Code 或其他基於 Code OSS 的編輯器，
+請改為參考 [設定並試用 Flutter][Set up and test drive Flutter]。
 :::
 
 [Set up and test drive Flutter]: /get-started/quick
 
-## Try Flutter {:#try}
+## 線上試用 Flutter {:#try}
 
-You can quickly try Flutter online without any local setup.
+你可以直接在網頁上快速試用 Flutter，無需本地安裝。
 
 <div class="card-grid">
   <a class="card outlined-card" href="{{site.dartpad}}" target="_blank">
@@ -29,7 +29,7 @@ You can quickly try Flutter online without any local setup.
       </span>
     </div>
     <div class="card-content">
-      <p>Quickly build and run simple single-file Flutter apps on the web.</p>
+      <p>可在網頁上快速建立並執行簡單的單檔案 Flutter 應用程式。</p>
     </div>
   </a>
   <a class="card outlined-card" href="https://firebase.studio" target="_blank">
@@ -40,70 +40,69 @@ You can quickly try Flutter online without any local setup.
       </span>
     </div>
     <div class="card-content">
-      <p>Develop complex Flutter apps in an AI-assisted workspace in the cloud.</p>
+      <p>在雲端的 AI 協助工作區中開發進階 Flutter 應用程式。</p>
     </div>
   </a>
 </div>
 
 <a id="get-started" aria-hidden="true"></a>
 
-## Install Flutter {: #install}
+## 安裝 Flutter {: #install}
 
-To get started developing with Flutter,
-follow these steps to install and set up Flutter
-for your preferred development environment and target devices.
+若要開始使用 Flutter 進行開發，
+請依照以下步驟安裝並設定 Flutter，
+以符合你偏好的開發環境及目標裝置。
 
 <div class="card-grid">
   <a class="card outlined-card" href="/install/with-vs-code">
     <div class="card-header">
-      <span class="card-title">Install with VS Code</span>
-      <span class="card-subtitle">Recommended</span>
+      <span class="card-title">使用 VS Code 安裝</span>
+      <span class="card-subtitle">推薦</span>
     </div>
     <div class="card-content">
-      <p>Use VS Code or another Code - OSS derived editor to quickly
-        set up your Flutter development environment.</p>
+      <p>使用 VS Code 或其他基於 Code OSS 的編輯器，
+        快速設定你的 Flutter 開發環境。</p>
     </div>
   </a>
   <a class="card outlined-card" href="/install/manual">
     <div class="card-header">
-      <span class="card-title">Install manually</span>
-      <span class="card-subtitle">For specific releases</span>
+      <span class="card-title">手動安裝</span>
+      <span class="card-subtitle">指定版本</span>
     </div>
     <div class="card-content">
-      <p>Manually install and set up a specific release of the Flutter SDK
-        for your preferred development environment.</p>
+      <p>手動安裝並設定特定版本的 Flutter SDK，
+        以符合你偏好的開發環境。</p>
     </div>
   </a>
 </div>
 
 :::tip
-If you've never set up or developed an app with Flutter before
-and plan to use VS Code or another Code - OSS derived editor,
-consider following the [Flutter quick start][] instead.
+如果你從未設定或開發過 Flutter 應用程式，
+且打算使用 VS Code 或其他基於 Code OSS 的編輯器，
+建議參考 [Flutter 快速入門][Flutter quick start]。
 :::
 
 [Flutter quick start]: /get-started/quick
 
-## Update Flutter {: #update}
+## 更新 Flutter {: #update}
 
-If you already have Flutter installed and would like to
-upgrade your Flutter SDK installation or change to a different release channel,
-check out [Upgrading Flutter][].
+如果你已安裝 Flutter，並希望升級 Flutter SDK（Flutter 軟體開發套件）或切換至其他發行頻道，
+請參考 [升級 Flutter][Upgrading Flutter]。
 
-When upgrading, also remember to check out the published list of
-[breaking changes and migration guides][].
+升級時，也請記得查閱已發布的
+[重大變更與移轉指南][breaking changes and migration guides]。
 
 [Upgrading Flutter]: /install/upgrade
 [breaking changes and migration guides]: /release/breaking-changes
 
-## Download previous releases {: #previous-releases}
+## 下載舊版發行版本 {: #previous-releases}
 
-If you're looking to download and install previous releases of Flutter,
-check out the [SDK archive][].
+如果你需要下載並安裝舊版 Flutter，
+請參考 [SDK 歷史版本存檔][SDK archive]。
 
 :::note
-We recommend keeping your apps and development environments
-up to date with the **latest** `stable` or `beta` releases.
+我們建議你的應用程式及開發環境
+保持在**最新** `stable` 或 `beta` 發行版本。
 :::
 
 [SDK archive]: /install/archive

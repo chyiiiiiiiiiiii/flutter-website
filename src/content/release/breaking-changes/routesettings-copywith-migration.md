@@ -1,49 +1,46 @@
 ---
-title: Migration guide for RouteSettings copyWith
-description: Removal of RouteSettings copyWith and how to migrate
+title: RouteSettings copyWith 遷移指南
+description: RouteSettings copyWith 移除及遷移方式
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-The `RouteSettings.copyWith` method is removed, and apps that use
-it need to use the constructor to create a new `RouteSettings`
-instance instead.
+`RouteSettings.copyWith` 方法已被移除，所有使用該方法的應用程式需改為使用建構函式來建立新的 `RouteSettings` 實例。
 
-## Context
+## 背景
 
-With the introduction of the [`Page`][] class,
-the `RouteSettings.copyWith` was no longer a viable API.
+隨著 [`Page`][`Page`] 類別的引入，`RouteSettings.copyWith` 不再是一個可行的 API。
 
-## Description of change
+## 變更說明
 
-`RouteSettings.copyWith` was removed
+`RouteSettings.copyWith` 已被移除
 
-## Migration guide
+## 遷移指南
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 RouteSettings newSettings = oldSettings.copyWith(name: 'new name');
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 RouteSettings newSettings = RouteSettings(name: 'new name', arguments: oldSettings.arguments);
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.5.0-9.0.pre-137-gc6f6095acd<br>
-In stable release: 3.7
+合併於版本：3.5.0-9.0.pre-137-gc6f6095acd<br>  
+正式版釋出：3.7
 
-## References
+## 參考資料
 
-Relevant PRs:
+相關 PR：
 
-* [PR 113860][]: Removes RouteSetting.copyWith.
+* [PR 113860][PR 113860]：移除 RouteSetting.copyWith。
 
 [PR 113860]: {{site.repo.flutter}}/pull/113860
 [`Page`]: {{site.api}}/flutter/widgets/Page-class.html

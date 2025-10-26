@@ -1,7 +1,7 @@
 ---
-title: Games
-description: A catalog of recipes to help you build games with Flutter.
+title: 遊戲
+description: 協助你使用 Flutter 建立遊戲的食譜目錄。
 ---
 
 {% include docs/cookbook-group-index.md -%}
-- [Add ads to your mobile Flutter app or game](/cookbook/plugins/google-mobile-ads)
+- [在你的行動 Flutter 應用程式或遊戲中加入廣告](/cookbook/plugins/google-mobile-ads)

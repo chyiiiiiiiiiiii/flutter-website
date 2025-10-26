@@ -1,231 +1,155 @@
 ---
-title: Build and release a macOS app
-description: How to release a Flutter app to the macOS App Store.
+title: 建置與發佈 macOS 應用程式
+description: 如何將 Flutter 應用程式發佈到 macOS App Store。
 shortTitle: macOS
 ---
 
-This guide provides a step-by-step walkthrough of releasing a
-Flutter app to the [App Store][appstore].
+本指南將逐步說明如何將 Flutter 應用程式發佈到 [App Store][appstore]。
 
-## Preliminaries
+## 前置作業
 
-Before beginning the process of releasing your app,
-ensure that it meets
-Apple's [App Review Guidelines][appreview].
+在開始發佈應用程式的流程之前，請確保您的應用程式符合 Apple 的 [App Review Guidelines][appreview]（應用程式審查指引）。
 
-In order to publish your app to the App Store,
-you must first enroll in the
-[Apple Developer Program][devprogram].
-You can read more about the various
-membership options in Apple's
-[Choosing a Membership][devprogram_membership] guide.
+若要將您的應用程式發佈到 App Store，您必須先註冊加入 [Apple Developer Program][devprogram]。您可以參考 Apple 的 [Choosing a Membership][devprogram_membership] 指南，了解不同的會員方案。
 
-## Register your app on App Store Connect
+## 在 App Store Connect 註冊您的應用程式
 
-Manage your app's life cycle on
-[App Store Connect][appstoreconnect_login] (formerly iTunes Connect).
-You define your app name and description, add screenshots,
-set pricing, and manage releases to the App Store and TestFlight.
+請在 [App Store Connect][appstoreconnect_login] (formerly iTunes Connect) 上管理您的應用程式生命週期。您可以在此定義應用程式名稱與描述、加入螢幕截圖、設定價格，並管理發佈到 App Store 與 TestFlight 的版本。
 
-Registering your app involves two steps: registering a unique
-Bundle ID, and creating an application record on App Store Connect.
+註冊應用程式包含兩個步驟：註冊唯一的 Bundle ID，並在 App Store Connect 上建立應用程式記錄。
 
-For a detailed overview of App Store Connect, see the
-[App Store Connect][appstoreconnect_guide] guide.
+如需 App Store Connect 的詳細介紹，請參閱 [App Store Connect][appstoreconnect_guide] 指南。
 
-### Register a Bundle ID
+### 註冊 Bundle ID
 
-Every macOS application is associated with a Bundle ID,
-a unique identifier registered with Apple.
-To register a Bundle ID for your app, follow these steps:
+每個 macOS 應用程式都會關聯一個 Bundle ID，這是向 Apple 註冊的唯一識別碼。請依照下列步驟為您的應用程式註冊 Bundle ID：
 
-1. Open the [App IDs][devportal_appids] page of your developer account.
-1. Click **+** to create a new Bundle ID.
-1. Enter an app name, select **Explicit App ID**, and enter an ID.
-1. Select the services your app uses, then click **Continue**.
-1. On the next page, confirm the details and click **Register**
-   to register your Bundle ID.
+1. 開啟您的開發者帳號中的 [App IDs][devportal_appids] 頁面。
+1. 點選 **+** 以建立新的 Bundle ID。
+1. 輸入應用程式名稱，選擇 **Explicit App ID**，並輸入一個 ID。
+1. 選擇您的應用程式所需的服務，然後點選 **Continue**。
+1. 在下一頁確認細節，點選 **Register** 以註冊您的 Bundle ID。
 
-### Create an application record on App Store Connect
+### 在 App Store Connect 建立應用程式記錄
 
-Register your app on App Store Connect:
+請在 App Store Connect 註冊您的應用程式：
 
-1. Open [App Store Connect][appstoreconnect_login] in your browser.
-1. On the App Store Connect landing page, click **My Apps**.
-1. Click **+** in the top-left corner of the My Apps page,
-   then select **New App**.
-1. Fill in your app details in the form that appears.
-   In the Platforms section, ensure that macOS is checked.
-   Since Flutter does not currently support tvOS,
-   leave that checkbox unchecked. Click **Create**.
-1. Navigate to the application details for your app and select
-   **App Information** from the sidebar.
-1. In the General Information section, select the Bundle ID
-   you registered in the preceding step.
+1. 在瀏覽器中開啟 [App Store Connect][appstoreconnect_login]。
+1. 於 App Store Connect 首頁，點選 **My Apps**。
+1. 在 My Apps 頁面左上角點選 **+**，然後選擇 **New App**。
+1. 在出現的表單中填寫您的應用程式資訊。在 Platforms 區段，請確保已勾選 macOS。由於 Flutter 目前尚未支援 tvOS，請勿勾選該選項。點選 **Create**。
+1. 前往您的應用程式詳細資訊頁面，並從側邊欄選擇 **App Information**。
+1. 在 General Information 區段，選擇您在前述步驟註冊的 Bundle ID。
 
-For a detailed overview,
-see [Add an app to your account][appstoreconnect_guide_register].
+如需詳細說明，請參閱 [Add an app to your account][appstoreconnect_guide_register]。
 
-## Review Xcode project settings
+## 檢查 Xcode 專案設定
 
-This step covers reviewing the most important settings
-in the Xcode workspace.
-For detailed procedures and descriptions, see
-[Prepare for app distribution][distributionguide_config].
+本步驟將說明如何檢查 Xcode 工作區中最重要的設定。詳細的操作步驟與說明，請參閱 [Prepare for app distribution][distributionguide_config]。
 
-Navigate to your target's settings in Xcode:
+請依下列步驟前往 Xcode 目標的設定頁面：
 
-1. In Xcode, open `Runner.xcworkspace` in your app's `macos` folder.
-1. To view your app's settings, select the **Runner** project in the Xcode
-   project navigator. Then, in the main view sidebar, select the **Runner**
-   target.
-1. Select the **General** tab.
+1. 在 Xcode 中，開啟您應用程式的 `Runner.xcworkspace` 資料夾內的 `macos`。
+1. 若要檢視應用程式設定，請在 Xcode 專案導覽器中選擇 **Runner** 專案，然後在主視圖側邊欄選擇 **Runner** 目標。
+1. 選擇 **General** 分頁。
 
-Verify the most important settings.
+請確認以下重要設定：
 
-In the **Identity** section:
+在 **Identity** 區段：
 
 `App Category`
-: The app category under which your app will be listed on the Mac App Store. This cannot be none.
+: 您的應用程式將在 Mac App Store 上歸類的應用程式類別。此項不可為 none。
 
 `Bundle Identifier` 
-: The App ID you registered on App Store Connect.
+: 您在 App Store Connect 註冊的 App ID。
 
-In the **Deployment info** section:
+在 **Deployment info** 區段：
 
 `Deployment Target`
-: The minimum macOS version that your app supports.
-  To check which versions of macOS that Flutter supports deploying to,
-  check out Flutter's [Supported deployment platforms][].
+: 您的應用程式支援的最低 macOS 版本。
+  若要查詢 Flutter 支援部署的 macOS 版本，請參閱 Flutter 的 [Supported deployment platforms][Supported deployment platforms]。
 
-In the **Signing & Capabilities** section:
+在 **Signing & Capabilities** 區段：
 
 `Automatically manage signing`
-: Whether Xcode should automatically manage app signing
-  and provisioning.  This is set `true` by default, which should
-  be sufficient for most apps. For more complex scenarios,
-  see the [Code Signing Guide][codesigning_guide].
+: 指定 Xcode 是否應自動管理應用程式簽署與佈建。預設為 `true`，對大多數應用程式來說已足夠。如需更複雜的情境，請參閱 [Code Signing Guide][codesigning_guide]。
 
 `Team`
-: Select the team associated with your registered Apple Developer
-  account. If required, select **Add Account...**,
-  then update this setting.
+: 選擇與您註冊的 Apple Developer 帳號相關聯的團隊。如果需要，請選擇 **Add Account...**，然後更新此設定。
 
-The **General** tab of your project settings should resemble
-the following:
+您的專案設定的 **General** 分頁應類似下圖：
 
 ![Xcode Project Settings](/assets/images/docs/releaseguide/macos_xcode_settings.png){:width="100%"}
 
-For a detailed overview of app signing, see
-[Create, export, and delete signing certificates][appsigning].
+如需應用程式簽署的詳細說明，請參閱 [Create, export, and delete signing certificates][appsigning]。
 
 [Supported deployment platforms]: /reference/supported-platforms
 
-## Configuring the app's name, bundle identifier and copyright
+## 設定應用程式名稱、Bundle Identifier 與版權
 
-The configuration for the product identifiers are centralized 
-in `macos/Runner/Configs/AppInfo.xcconfig`. For the app's name,
-set `PRODUCT_NAME`, for the copyright set `PRODUCT_COPYRIGHT`,
-and finally set `PRODUCT_BUNDLE_IDENTIFIER` for the app's
-bundle identifier.
+產品識別資訊的設定集中於 `macos/Runner/Configs/AppInfo.xcconfig`。若要設定應用程式名稱，請設置 `PRODUCT_NAME`；設定版權請設置 `PRODUCT_COPYRIGHT`；最後，請於 `PRODUCT_BUNDLE_IDENTIFIER` 設定應用程式的 bundle identifier。
 
-## Updating the app's version number
+## 更新應用程式版本號
 
-The default version number of the app is `1.0.0`.
-To update it, navigate to the `pubspec.yaml` file
-and update the following line:
+應用程式的預設版本號為 `1.0.0`。若要更新版本號，請前往 `pubspec.yaml` 檔案，並更新下列這一行：
 
 `version: 1.0.0+1`
 
-The version number is three numbers separated by dots,
-such as `1.0.0` in the example above, followed by an optional
-build number such as `1` in the example above, separated by a `+`.
+版本號由三個以點號分隔的數字組成，例如上述範例中的 `1.0.0`，後面可選擇加上一個 build number，如範例中的 `1`，兩者以 `+` 分隔。
 
-Both the version and the build number can be overridden in Flutter's
-build by specifying `--build-name` and `--build-number`,
-respectively.
+在 Flutter 的建置過程中，您也可以分別透過指定 `--build-name` 與 `--build-number` 來覆寫版本號與 build number。
 
-In macOS, `build-name` uses `CFBundleShortVersionString`
-while `build-number` uses `CFBundleVersion`.
-Read more about iOS versioning at [Core Foundation Keys][]
-on the Apple Developer's site.
+在 macOS 中，`build-name` 使用 `CFBundleShortVersionString`，而 `build-number` 則使用 `CFBundleVersion`。更多關於 iOS 版本編號的資訊，請參閱 Apple Developer 網站上的 [Core Foundation Keys][Core Foundation Keys]。
 
-## Add an app icon
+## 新增應用程式圖示
 
-When a new Flutter app is created, a placeholder icon set is created.
-This step covers replacing these placeholder icons with your
-app's icons:
+當您建立新的 Flutter 應用程式時，會自動產生一組預設的佔位圖示。本步驟將說明如何將這些佔位圖示替換為您自己的應用程式圖示：
 
-1. Review the [macOS App Icon][appicon] guidelines.
-1. In the Xcode project navigator, select `Assets.xcassets` in the
-   `Runner` folder. Update the placeholder icons with your own app icons.
-1. Verify the icon has been replaced by running your app using
-   `flutter run -d macos`.
+1. 請參閱 [macOS App Icon][appicon] 指南。
+1. 在 Xcode 專案導覽器中，選擇 `Assets.xcassets`（位於 `Runner` 資料夾）。將預設圖示替換為您自己的應用程式圖示。
+1. 使用 `flutter run -d macos` 執行您的應用程式，確認圖示已被替換。
 
-## Create a build archive with Xcode
+## 使用 Xcode 建立 Build Archive
 
-This step covers creating a build archive and uploading
-your build to App Store Connect using Xcode.
+本步驟將說明如何建立 build archive 並使用 Xcode 將您的建置上傳至 App Store Connect。
 
-During development, you've been building, debugging, and testing
-with _debug_ builds. When you're ready to ship your app to users
-on the App Store or TestFlight, you need to prepare a _release_ build.
-At this point, you might consider [obfuscating your Dart code][]
-to make it more difficult to reverse engineer. Obfuscating
-your code involves adding a couple flags to your build command.
+在開發過程中，您通常會使用 _debug_ 版本進行建置、除錯與測試。當您準備好將應用程式發佈到 App Store 或 TestFlight 給使用者時，必須準備 _release_ 版本。此時，您可以考慮[混淆您的 Dart 程式碼][obfuscating your Dart code]，以增加逆向工程的難度。混淆程式碼只需在建置指令中加入幾個參數即可。
 
-In Xcode, configure the app version and build:
+在 Xcode 中，請設定應用程式的版本與 build：
 
-1. Open `Runner.xcworkspace` in your app's `macos` folder. To do this from
-   the command line, run the following command from the base directory of your
-   application project.
+1. 開啟您應用程式的 `macos` 資料夾內的 `Runner.xcworkspace`。若要從命令列執行，請在應用程式專案的根目錄下執行以下指令。
    ```console
    open macos/Runner.xcworkspace
    ```
-1. Select **Runner** in the Xcode project navigator, then select the
-   **Runner** target in the settings view sidebar.
-1. In the Identity section, update the **Version** to the user-facing
-   version number you wish to publish.
-1. In the Identity section, update the **Build** identifier to a unique
-   build number used to track this build on App Store Connect.
-   Each upload requires a unique build number.
+1. 在 Xcode 專案導覽器中選取 **Runner**，然後在設定檢視側邊欄中選取
+   **Runner** 目標（target）。
+1. 在 Identity（識別）區段中，將 **Version**（版本）更新為你希望發布給使用者的版本號。
+1. 在 Identity（識別）區段中，將 **Build**（建置）識別碼更新為用於在 App Store Connect 追蹤此建置的唯一建置號碼。
+   每次上傳都需要唯一的建置號碼。
 
-Finally, create a build archive and upload it to App Store Connect:
+最後，建立建置封存檔（build archive）並上傳至 App Store Connect：
 
-1. Create a release Archive of your application. From the base directory of
-   your application project, run the following.
+1. 建立你的應用程式的發行版封存檔（release Archive）。在你的應用程式專案的根目錄下，執行以下指令。
    ```console
    flutter build macos
    ```
-1. Open Xcode and select **Product > Archive** to open the archive created
-   in the previous step.
-1. Click the **Validate App** button. If any issues are reported,
-   address them and produce another build. You can reuse the same
-   build ID until you upload an archive.
-1. After the archive has been successfully validated, click
-   **Distribute App**. You can follow the status of your build in the
-   Activities tab of your app's details page on
-   [App Store Connect][appstoreconnect_login].
+1. 開啟 Xcode，選擇 **Product > Archive**，以開啟在前一個步驟建立的封存檔（archive）。
+1. 點擊 **Validate App** 按鈕。如果有任何問題被回報，請修正後重新建立一次 build。在你上傳封存檔（archive）之前，可以重複使用相同的 build ID。
+1. 當封存檔驗證成功後，點擊 **Distribute App**。你可以在 [App Store Connect][appstoreconnect_login] 上，進入你的 App 詳細資訊頁面的 Activities 分頁，追蹤 build 的狀態。
 
-You should receive an email within 30 minutes notifying you that
-your build has been validated and is available to release to testers
-on TestFlight. At this point you can choose whether to release
-on TestFlight, or go ahead and release your app to the App Store.
+你應該會在 30 分鐘內收到一封電子郵件，通知你的 build 已通過驗證，並可在 TestFlight 上釋出給測試者。此時你可以選擇要在 TestFlight 上釋出，或直接將你的 App 發佈到 App Store。
 
-For more details, see
-[Upload an app to App Store Connect][distributionguide_upload].
+更多詳細資訊，請參閱
+[Upload an app to App Store Connect][distributionguide_upload]。
 
-## Create a build archive with Codemagic CLI tools
+## 使用 Codemagic CLI 工具建立 build 封存檔
 
-This step covers creating a build archive and uploading
-your build to App Store Connect using Flutter build commands 
-and [Codemagic CLI Tools][codemagic_cli_tools] executed in a terminal
-in the Flutter project directory.
+本步驟說明如何使用 Flutter build 指令及 [Codemagic CLI 工具][codemagic_cli_tools]，在 Flutter 專案目錄的終端機中建立 build 封存檔並上傳到 App Store Connect。
 
 <ol>
 <li>
 
-Install the Codemagic CLI tools:
+安裝 Codemagic CLI 工具：
 
 ```bash
 pip3 install codemagic-cli-tools
@@ -234,10 +158,7 @@ pip3 install codemagic-cli-tools
 </li>
 <li>
 
-You'll need to generate an [App Store Connect API Key][appstoreconnect_api_key]
-with App Manager access to automate operations with App Store Connect. To make
-subsequent commands more concise, set the following environment variables from
-the new key: issuer id, key id, and API key file.
+你需要產生一組具有 App Manager 存取權限的 [App Store Connect API Key][appstoreconnect_api_key]，以便自動化與 App Store Connect 的操作。為了讓後續指令更簡潔，請將新金鑰中的 issuer id、key id 以及 API 金鑰檔案設為以下環境變數。
 
 ```bash
 export APP_STORE_CONNECT_ISSUER_ID=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee
@@ -248,30 +169,26 @@ export APP_STORE_CONNECT_PRIVATE_KEY=`cat /path/to/api/key/AuthKey_XXXYYYZZZ.p8`
 </li>
 <li>
 
-You need to export or create a Mac App Distribution and a Mac Installer
-Distribution certificate to perform code signing and package a build archive.
+你需要匯出或建立 Mac App Distribution 以及 Mac Installer Distribution 憑證，才能進行程式碼簽署並封裝建置歸檔檔案。
 
-If you have existing [certificates][devportal_certificates], you can export the
-private keys by executing the following command for each certificate:
+如果你已有現有的 [憑證][devportal_certificates]，可以針對每個憑證執行以下指令來匯出私鑰：
 
 ```bash
 openssl pkcs12 -in <certificate_name>.p12 -nodes -nocerts | openssl rsa -out cert_key
 ```
 
-Or you can create a new private key by executing the following command:
+或者，你也可以執行以下指令來建立新的私密金鑰：
 
 ```bash
 ssh-keygen -t rsa -b 2048 -m PEM -f cert_key -q -N ""
 ```
 
-Later, you can have CLI tools automatically create a new Mac App Distribution and
-Mac Installer Distribution certificate. You can use the same private key for
-each new certificate.
+之後，你可以讓命令列介面 (Command Line Interface, CLI) 工具自動建立新的 Mac App Distribution 以及 Mac Installer Distribution 憑證。你可以為每個新憑證使用相同的私密金鑰。
 
 </li>
 <li>
 
-Fetch the code signing files from App Store Connect:
+從 App Store Connect 取得程式碼簽章檔案：
 
 ```bash
 app-store-connect fetch-signing-files YOUR.APP.BUNDLE_ID \
@@ -281,14 +198,12 @@ app-store-connect fetch-signing-files YOUR.APP.BUNDLE_ID \
     --create
 ```
 
-Where `cert_key` is either your exported Mac App Distribution certificate private key
-or a new private key which automatically generates a new certificate. 
+其中 `cert_key` 可以是你匯出的 Mac App Distribution 憑證私鑰，或是一組新的私鑰（將自動產生新的憑證）。
 
 </li>
 <li>
 
-If you do not have a Mac Installer Distribution certificate,
-you can create a new certificate by executing the following:
+如果你沒有 Mac Installer Distribution 憑證，可以透過執行以下指令來建立新的憑證：
 
 ```bash
 app-store-connect certificates create \
@@ -297,12 +212,12 @@ app-store-connect certificates create \
     --save
 ```
 
-Use `cert_key` of the private key you created earlier.
+請使用你先前建立的私密金鑰中的 `cert_key`。
 
 </li>
 <li>
 
-Fetch the Mac Installer Distribution certificates:
+取得 Mac Installer Distribution 憑證：
 
 ```bash
 app-store-connect certificates list \
@@ -314,25 +229,24 @@ app-store-connect certificates list \
 </li>
 <li>
 
-Set up a new temporary keychain to be used for code signing:
+建立一個新的暫存金鑰圈（keychain），用於程式碼簽署（code signing）：
 
 ```bash
 keychain initialize
 ```
 
-:::note Restore Login Keychain!
-After running `keychain initialize` you **must** run the following:<br>
+:::note 恢復登入鑰匙圈！
+在執行 `keychain initialize` 之後，您**必須**執行以下指令：<br>
 
 `keychain use-login`
 
-This sets your login keychain as the default to avoid potential
-authentication issues with apps on your machine.
+這會將您的登入鑰匙圈設為預設，以避免您機器上的應用程式發生潛在的驗證問題。
 :::
 
 </li>
 <li>
 
-Now add the fetched certificates to your keychain:
+現在，將擷取到的憑證加入您的鑰匙圈：
 
 ```bash
 keychain add-certificates
@@ -341,7 +255,7 @@ keychain add-certificates
 </li>
 <li>
 
-Update the Xcode project settings to use fetched code signing profiles: 
+更新 Xcode 專案設定以使用取得的程式碼簽署設定檔： 
 
 ```bash
 xcode-project use-profiles
@@ -351,7 +265,7 @@ xcode-project use-profiles
 
 <li>
 
-Install Flutter dependencies:
+安裝 Flutter 相關依賴套件：
 
 ```bash
 flutter packages pub get
@@ -360,7 +274,7 @@ flutter packages pub get
 </li>
 <li>
 
-Install CocoaPods dependencies:
+安裝 CocoaPods 相依套件：
 
 ```bash
 find . -name "Podfile" -execdir pod install \;
@@ -369,7 +283,7 @@ find . -name "Podfile" -execdir pod install \;
 </li>
 <li>
 
-Build the Flutter macOS project:
+建置 Flutter macOS 專案：
 
 ```bash
 flutter build macos --release
@@ -378,7 +292,7 @@ flutter build macos --release
 </li>
 <li>
 
-Package the app:
+封裝應用程式：
 
 ```bash
 APP_NAME=$(find $(pwd) -name "*.app")
@@ -398,7 +312,7 @@ rm -f unsigned.pkg
 </li>
 <li>
 
-Publish the packaged app to App Store Connect:
+將已封裝的應用程式發佈到 App Store Connect：
 
 ```bash
 app-store-connect publish \
@@ -408,9 +322,7 @@ app-store-connect publish \
 </li>
 <li>
 
-As mentioned earlier, don't forget to set your login keychain
-as the default to avoid authentication issues
-with apps on your machine:
+如前所述，請不要忘記將您的登入鑰匙圈（login keychain）設為預設值，以避免您電腦上的應用程式出現驗證問題：
 
 ```bash
 keychain use-login
@@ -419,59 +331,38 @@ keychain use-login
 </li>
 </ol>
 
-## Release your app on TestFlight
+## 在 TestFlight 發佈您的應用程式
 
-[TestFlight][] allows developers to push their apps
-to internal and external testers. This optional step
-covers releasing your build on TestFlight.
+[TestFlight][TestFlight] 讓開發者可以將應用程式推送給內部和外部測試者。這個選用步驟說明如何在 TestFlight 上發佈您的建置版本。
 
-1. Navigate to the TestFlight tab of your app's application
-   details page on [App Store Connect][appstoreconnect_login].
-1. Select **Internal Testing** in the sidebar.
-1. Select the build to publish to testers, then click **Save**.
-1. Add the email addresses of any internal testers.
-   You can add additional internal users in the **Users and Roles**
-   page of App Store Connect,
-   available from the dropdown menu at the top of the page.
+1. 前往 [App Store Connect][appstoreconnect_login] 中您應用程式的詳細資訊頁面的 TestFlight 分頁。
+1. 在側邊欄選擇 **Internal Testing**（內部測試）。
+1. 選擇要發佈給測試者的建置版本，然後點擊 **Save**（儲存）。
+1. 新增任何內部測試者的電子郵件地址。您也可以在 App Store Connect 頁面頂部下拉選單中的 **Users and Roles**（使用者與角色）頁面新增更多內部使用者。
 
-## Distribute to registered devices
+## 發佈到已註冊裝置
 
-See [distribution guide][distributionguide_macos] 
-to prepare an archive for distribution to designated Mac computers.
+請參閱 [distribution guide][distributionguide_macos]，以準備可分發到指定 Mac 電腦的封存檔案。
 
-## Release your app to the App Store
+## 將您的應用程式發佈到 App Store
 
-When you're ready to release your app to the world,
-follow these steps to submit your app for review and
-release to the App Store:
+當您準備好將應用程式發佈給全球用戶時，請依照以下步驟提交您的應用程式進行審查並發佈到 App Store：
 
-1. Select **Pricing and Availability** from the sidebar of your app's
-   application details page on
-   [App Store Connect][appstoreconnect_login] and complete the
-   required information.
-1. Select the status from the sidebar. If this is the first
-   release of this app, its status is
-   **1.0 Prepare for Submission**. Complete all required fields.
-1. Click **Submit for Review**.
+1. 在 [App Store Connect][appstoreconnect_login] 中，於應用程式詳細資訊頁面的側邊欄選擇 **Pricing and Availability**（價格與可用性），並填寫所需資訊。
+1. 從側邊欄選擇狀態。如果這是此應用程式的首次發佈，狀態會是 **1.0 Prepare for Submission**（1.0 準備提交）。請完成所有必填欄位。
+1. 點擊 **Submit for Review**（提交審查）。
 
-Apple notifies you when their app review process is complete.
-Your app is released according to the instructions you
-specified in the **Version Release** section.
+Apple 會在應用程式審查流程完成時通知您。您的應用程式將依據您在 **Version Release**（版本發佈）區段中指定的指示發佈。
 
-For more details, see
-[Distribute an app through the App Store][distributionguide_submit].
+如需更多細節，請參閱 [Distribute an app through the App Store][distributionguide_submit]。
 
-## Troubleshooting
+## 疑難排解
 
-The [Distribute your app][distributionguide] guide provides a
-detailed overview of the process of releasing an app to the App Store.
+[Distribute your app][distributionguide] 指南提供了將應用程式發佈到 App Store 的詳細流程說明。
 
-## Additional resources
+## 其他資源
 
-To learn how to package and distribute your Flutter desktop app 
-for macOS the open source way, without using a paid Apple developer 
-account, check out the step-by-step 
-[macOS packaging guide][macos_packaging_guide].
+若想了解如何以開源方式（不需付費 Apple 開發者帳號）封裝並分發您的 Flutter 桌面應用程式（macOS），請參考逐步說明的 [macOS packaging guide][macos_packaging_guide]。
 
 [appicon]: {{site.apple-dev}}/design/human-interface-guidelines/macos/icons-and-images/app-icon/
 [appreview]: {{site.apple-dev}}/app-store/review/

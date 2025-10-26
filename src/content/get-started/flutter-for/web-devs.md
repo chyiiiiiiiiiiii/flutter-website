@@ -1,41 +1,27 @@
 ---
-title: Flutter for web developers
+title: 給網頁開發者的 Flutter 指南
 description: >-
-  Learn how to apply Web developer knowledge when building Flutter apps.
+  學習如何將 Web 開發知識應用於 Flutter 應用程式開發。
 ---
 
 <?code-excerpt path-base="get-started/flutter-for/web_devs"?>
 
-This page is for users who are familiar with the HTML
-and CSS syntax for arranging components of an application's UI.
-It maps HTML/CSS code snippets to their Flutter/Dart code equivalents.
+本頁面適用於熟悉 HTML 與 CSS 語法、用於安排應用程式 UI 元件（Widgets）的使用者。此頁將 HTML/CSS 程式碼片段對應到其 Flutter/Dart 程式碼等價寫法。
 
-Flutter is a framework for building cross-platform applications
-that uses the Dart programming language.
-To understand some differences between programming with Dart
-and programming with Javascript, 
-see [Learning Dart as a JavaScript Developer][].
+Flutter 是一個用於建構跨平台應用程式的框架，採用 Dart 程式語言。若想了解 Dart 與 JavaScript 程式設計之間的一些差異，請參閱[作為 JavaScript 開發者學習 Dart][Learning Dart as a JavaScript Developer]。
 
-One of the fundamental differences between
-designing a web layout and a Flutter layout,
-is learning how constraints work,
-and how widgets are sized and positioned.
-To learn more, see [Understanding constraints][].
+設計網頁版面與 Flutter 版面配置其中一個根本性的差異，在於理解「限制條件（constraints）」的運作方式，以及元件（Widgets）如何被調整大小與定位。欲進一步了解，請參閱[理解限制條件][Understanding constraints]。
 
-The examples assume:
+本頁範例假設：
 
-* The HTML document starts with `<!DOCTYPE html>`, and the CSS box model
-  for all HTML elements is set to [`border-box`][],
-  for consistency with the Flutter model.
+* HTML 文件以 `<!DOCTYPE html>` 開頭，且所有 HTML 元素的 CSS box model 都設為 [`border-box`][`border-box`]，以與 Flutter 的模型保持一致。
 
   ```css
   {
       box-sizing: border-box;
   }
   ```
-* In Flutter, the default styling of the 'Lorem ipsum' text
-  is defined by the `bold24Roboto` variable as follows,
-  to keep the syntax simple:
+* 在 Flutter 中，'Lorem ipsum' 文字的預設樣式是由 `bold24Roboto` 變數定義，如下所示，以保持語法簡潔：
 
   <?code-excerpt "lib/main.dart (text-style)"?>
   ```dart
@@ -47,26 +33,21 @@ The examples assume:
   ```
 
 :::secondary
-How is react-style, or _declarative_, programming different from the
-traditional imperative style?
-For a comparison, see [Introduction to declarative UI][].
+react 風格，或稱為 _宣告式_（declarative）程式設計，與傳統的命令式（imperative）程式設計有何不同？
+如需比較，請參閱 [Introduction to declarative UI][Introduction to declarative UI]。
 :::
 
-## Performing basic layout operations
+## 執行基本版面配置操作
 
-The following examples show how to perform the most common UI layout tasks.
+以下範例展示如何執行最常見的 UI 版面配置任務。
 
-### Styling and aligning text
+### 文字的樣式設定與對齊
 
-Font style, size, and other text attributes that CSS
-handles with the font and color properties are individual
-properties of a [`TextStyle`][] child of a [`Text`][] widget.
+字體樣式、大小以及其他文字屬性，在 CSS 中通常透過 font 和 color 屬性處理，而在 Flutter 中則是 [`TextStyle`][`TextStyle`] 作為 [`Text`][`Text`] 元件（Widget）的子屬性來個別設定。
 
-For text-align property in CSS that is used for aligning text,
-there is a textAlign property of a [`Text`][] widget.
+至於 CSS 中用於文字對齊的 text-align 屬性，Flutter 則有 [`Text`][`Text`] 元件（Widget）的 textAlign 屬性可用。
 
-In both HTML and Flutter, child elements or widgets
-are anchored at the top left, by default.
+在 HTML 與 Flutter 中，子元素或元件（Widgets）預設都是錨定在左上角。
 
 ```css highlightLines=9
 <div class="grey-box">
@@ -99,18 +80,14 @@ final container = Container(
 );
 ```
 
-### Setting background color
+### 設定背景顏色
 
-In Flutter, you set the background color using the `color` property
-or the `decoration` property of a [`Container`][].
-However, you cannot supply both, since it would potentially
-result in the decoration drawing over the background color.
-The `color` property should be preferred
-when the background is a simple color.
-For other cases, such as gradients or images,
-use the `decoration` property.
+在 Flutter 中，你可以透過 `color` 屬性或 `decoration` 屬性來設定 [`Container`][`Container`] 的背景顏色。
+不過，這兩個屬性不能同時指定，因為這樣可能會導致裝飾（decoration）覆蓋背景顏色的情況。
+當背景僅需單一顏色時，建議優先使用 `color` 屬性。
+若需其他效果，例如漸層或圖片，則請使用 `decoration` 屬性。
 
-The CSS examples use the hex color equivalents to the Material color palette.
+CSS 範例中所使用的顏色為 Material 色彩調色盤的十六進位對應值。
 
 ```css highlightLines=6
 <div class="grey-box">
@@ -153,14 +130,11 @@ final container = Container(
 );
 ```
 
-### Centering components
+### 置中元件
 
-A [`Center`][] widget centers its child both horizontally
-and vertically.
+[`Center`][`Center`] 元件（Widget）會同時在水平與垂直方向上置中其子元件。
 
-To accomplish a similar effect in CSS, the parent element uses either a flex
-or table-cell display behavior. The examples on this page show the flex
-behavior.
+若要在 CSS 中達到類似的效果，父元素通常會使用 flex 或 table-cell 的 display 行為。本頁範例展示的是 flex 行為。
 
 ```css highlightLines=10-12
 <div class="grey-box">
@@ -193,18 +167,11 @@ final container = Container(
 );
 ```
 
-### Setting container width
+### 設定容器寬度
 
-To specify the width of a [`Container`][]
-widget, use its `width` property.
-This is a fixed width, unlike the CSS max-width property
-that adjusts the container width up to a maximum value.
-To mimic that effect in Flutter,
-use the `constraints` property of the Container.
-Create a new [`BoxConstraints`][] widget with a `minWidth` or `maxWidth`.
+若要指定 [`Container`][`Container`] 元件（Widget）的寬度，可以使用其 `width` 屬性。這是一個固定寬度，與 CSS 的 max-width 屬性不同，max-width 會根據最大值自動調整容器寬度。若要在 Flutter 中模擬這種效果，可以使用 Container 的 `constraints` 屬性。建立一個新的 [`BoxConstraints`][`BoxConstraints`] 元件，並搭配 `minWidth` 或 `maxWidth` 使用。
 
-For nested Containers, if the parent's width is less than the child's width,
-the child Container sizes itself to match the parent.
+對於巢狀的 Container，如果父容器的寬度小於子容器的寬度，子 Container 會自動調整大小以符合父容器。
 
 ```css highlightLines=9,20-21
 <div class="grey-box">
@@ -254,18 +221,15 @@ final container = Container(
 );
 ```
 
-## Manipulating position and size
+## 操作位置與尺寸
 
-The following examples show how to perform more complex operations
-on widget position, size, and background.
+以下範例展示如何對元件（Widget）的位置、尺寸與背景進行更複雜的操作。
 
-### Setting absolute position
+### 設定絕對位置
 
-By default, widgets are positioned relative to their parent.
+預設情況下，元件會相對於其父元件進行定位。
 
-To specify an absolute position for a widget as x-y coordinates,
-nest it in a [`Positioned`][] widget that is,
-in turn, nested in a [`Stack`][] widget.
+若要以 x-y 座標為元件指定絕對位置，請將其巢狀於 [`Positioned`][`Positioned`] 元件中，並進一步巢狀於 [`Stack`][`Stack`] 元件內。
 
 ```css highlightLines=8,18-20
 <div class="grey-box">
@@ -319,17 +283,15 @@ final container = Container(
 );
 ```
 
-### Rotating components
+### 旋轉元件 (Rotating components)
 
-To rotate a widget, nest it in a [`Transform`][] widget.
-Use the `Transform` widget's `alignment` and `origin` properties
-to specify the transform origin (fulcrum) in relative and absolute terms,
-respectively.
+若要旋轉一個元件（Widget），請將其巢狀於 [`Transform`][`Transform`] 元件中。
+使用 `Transform` 元件的 `alignment` 與 `origin` 屬性，
+分別以相對與絕對的方式指定變形原點（支點）。
 
-For a simple 2D rotation, in which the widget is rotated on the Z axis,
-create a new [`Matrix4`][] identity object
-and use its `rotateZ()` method to specify the rotation factor
-using radians (degrees × π / 180).
+若要進行簡單的 2D 旋轉（即在 Z 軸上旋轉元件），
+請建立一個新的 [`Matrix4`][`Matrix4`] 單位矩陣物件（identity object），
+並使用其 `rotateZ()` 方法，透過弧度（度數 × π / 180）來指定旋轉因子。
 
 ```css highlightLines=20
 <div class="grey-box">
@@ -382,19 +344,18 @@ final container = Container(
 );
 ```
 
-### Scaling components
+### 元件縮放
 
-To scale a widget up or down, nest it in a [`Transform`][] widget.
-Use the Transform widget's `alignment` and `origin` properties
-to specify the transform origin (fulcrum) in relative or absolute terms,
-respectively.
+若要放大或縮小一個元件（Widget），請將其包裹在 [`Transform`][`Transform`] 元件中。
+可以使用 Transform 元件的 `alignment` 和 `origin` 屬性，
+分別以相對或絕對方式指定變形的原點（支點）。
 
-For a simple scaling operation along the x-axis,
-create a new [`Matrix4`][] identity object
-and use its `scale()` method to specify the scaling factor.
+若要在 x 軸上進行簡單的縮放操作，
+請建立一個新的 [`Matrix4`][`Matrix4`] 單位矩陣物件，
+並使用其 `scale()` 方法來指定縮放係數。
 
-When you scale a parent widget,
-its child widgets are scaled accordingly.
+當你縮放父元件時，
+其子元件也會相應地被縮放。
 
 ```css highlightLines=20
 <div class="grey-box">
@@ -447,22 +408,16 @@ final container = Container(
 );
 ```
 
-### Applying a linear gradient
+### 套用線性漸層
 
-To apply a linear gradient to a widget's background,
-nest it in a [`Container`][] widget.
-Then use the `Container` widget's `decoration` property to create a
-[`BoxDecoration`][] object, and use `BoxDecoration`'s `gradient`
-property to transform the background fill.
+要將線性漸層應用於元件（Widget）的背景，請將其巢狀於 [`Container`][`Container`] 元件中。接著，使用 `Container` 元件的 `decoration` 屬性來建立一個 [`BoxDecoration`][`BoxDecoration`] 物件，並透過 `BoxDecoration` 的 `gradient` 屬性來轉換背景填色。
 
-The gradient "angle" is based on the Alignment (x, y) values:
+漸層的「角度」是根據 Alignment（x, y）值來決定：
 
-* If the beginning and ending x values are equal,
-  the gradient is vertical (0° | 180°).
-* If the beginning and ending y values are equal,
-  the gradient is horizontal (90° | 270°).
+* 如果起始與結束的 x 值相同，則漸層為垂直方向（0° | 180°）。
+* 如果起始與結束的 y 值相同，則漸層為水平方向（90° | 270°）。
 
-#### Vertical gradient
+#### 垂直漸層
 
 ```css highlightLines=19
 <div class="grey-box">
@@ -516,7 +471,7 @@ final container = Container(
 );
 ```
 
-#### Horizontal gradient
+#### 水平漸層
 
 ```css highlightLines=19
 <div class="grey-box">
@@ -570,16 +525,13 @@ final container = Container(
 );
 ```
 
-## Manipulating shapes
+## 操作圖形
 
-The following examples show how to make and customize shapes.
+以下範例展示如何建立與自訂圖形。
 
-### Rounding corners
+### 圓角處理
 
-To round the corners of a rectangular shape,
-use the `borderRadius` property of a [`BoxDecoration`][] object.
-Create a new [`BorderRadius`][]
-object that specifies the radius for rounding each corner.
+若要讓矩形圖形的角落變為圓角，可以使用 [`BoxDecoration`][`BoxDecoration`] 物件的 `borderRadius` 屬性。建立一個新的 [`BorderRadius`][`BorderRadius`] 物件，並指定每個角落的圓角半徑。
 
 ```css highlightLines=20
 <div class="grey-box">
@@ -630,20 +582,14 @@ final container = Container(
 );
 ```
 
-### Adding box shadows
+### 新增 box shadows（盒狀陰影）
 
-In CSS you can specify shadow offset and blur in shorthand,
-using the box-shadow property. This example shows two box shadows,
-with properties:
+在 CSS 中，你可以使用 `box-shadow` 屬性，以簡寫方式指定陰影的偏移量和模糊程度。以下範例展示了兩個 box shadows，其屬性為：
 
 * `xOffset: 0px, yOffset: 2px, blur: 4px, color: black @80% alpha`
 * `xOffset: 0px, yOffset: 06x, blur: 20px, color: black @50% alpha`
 
-In Flutter, each property and value is specified separately.
-Use the `boxShadow` property of `BoxDecoration` to create a list of
-[`BoxShadow`][] widgets. You can define one or multiple
-`BoxShadow` widgets, which can be stacked
-to customize the shadow depth, color, and so on.
+在 Flutter 中，每個屬性和值都需要分開指定。請使用 `BoxDecoration` 的 `boxShadow` 屬性來建立一個 [`BoxShadow`][`BoxShadow`] 元件（Widgets）清單。你可以定義一個或多個 `BoxShadow` 元件（Widgets），這些元件可以堆疊，以自訂陰影的深度、顏色等效果。
 
 ```css highlightLines=20-21
 <div class="grey-box">
@@ -707,16 +653,11 @@ final container = Container(
 );
 ```
 
-### Making circles and ellipses
+### 製作圓形與橢圓形
 
-Making a circle in CSS requires a workaround of applying a
-border-radius of 50% to all four sides of a rectangle,
-though there are [basic shapes][].
+在 CSS 中製作圓形通常需要透過將矩形的四個邊的 `border-radius` 設為 50% 來達成，雖然也有[基本形狀][basic shapes]可用。
 
-While this approach is supported
-with the `borderRadius` property of [`BoxDecoration`][],
-Flutter provides a `shape` property
-with [`BoxShape` enum][] for this purpose.
+這種做法可以透過 [`BoxDecoration`][`BoxDecoration`] 的 `borderRadius` 屬性來實現，而 Flutter 則提供了 `shape` 屬性，並搭配 [`BoxShape` enum][`BoxShape` enum] 來達成相同目的。
 
 ```css highlightLines=20-23
 <div class="grey-box">
@@ -771,23 +712,15 @@ final container = Container(
 );
 ```
 
-## Manipulating text
+## 操作文字
 
-The following examples show how to specify fonts and other
-text attributes. They also show how to transform text strings,
-customize spacing, and create excerpts.
+以下範例說明如何指定字型及其他文字屬性，同時也展示如何轉換文字字串、自訂間距，以及建立摘要。
 
-### Adjusting text spacing
+### 調整文字間距
 
-In CSS, you specify the amount of white space
-between each letter or word by giving a length value
-for the letter-spacing and word-spacing properties, respectively.
-The amount of space can be in px, pt, cm, em, etc.
+在 CSS 中，你可以透過設定 `letter-spacing` 和 `word-spacing` 屬性來指定每個字母或單字之間的空白量。這些屬性的值可以使用 px、pt、cm、em 等單位。
 
-In Flutter, you specify white space as logical pixels
-(negative values are allowed)
-for the `letterSpacing` and `wordSpacing` properties
-of a [`TextStyle`][] child of a `Text` widget.
+在 Flutter 中，你可以在 [`TextStyle`][`TextStyle`] 的 `letterSpacing` 和 `wordSpacing` 屬性（以邏輯像素為單位，允許負值）來指定空白量，並將其作為 `Text` 元件（Widget）的子元件（child）。
 
 ```css highlightLines=20
 <div class="grey-box">
@@ -840,19 +773,13 @@ final container = Container(
 );
 ```
 
-### Making inline formatting changes
+### 進行行內格式變更
 
-A [`Text`][] widget lets you display text
-with some formatting characteristics.
-To display text that uses multiple styles
-(in this example, a single word with emphasis),
-use a [`RichText`][] widget instead.
-Its `text` property can specify one or more
-[`TextSpan`][] objects that can be individually styled.
+[`Text`][`Text`] 元件（Widget）可讓你顯示具有部分格式設定特性的文字。  
+若要顯示具有多種樣式的文字（例如：讓單一單字加強顯示），請改用 [`RichText`][`RichText`] 元件。  
+其 `text` 屬性可以指定一個或多個 [`TextSpan`][`TextSpan`] 物件，這些物件可以各自設定樣式。
 
-In the following example, "Lorem" is in a `TextSpan`
-with the default (inherited) text styling,
-and "ipsum" is in a separate `TextSpan` with custom styling.
+在以下範例中，"Lorem" 會以預設（繼承）文字樣式顯示於 `TextSpan`，而 "ipsum" 則會以自訂樣式顯示於另一個 `TextSpan`。
 
 ```css highlightLines=3,11,21-4
 <div class="grey-box">
@@ -915,14 +842,11 @@ final container = Container(
 );
 ```
 
-### Creating text excerpts
+### 建立文字摘要
 
-An excerpt displays the initial line(s) of text in a paragraph,
-and handles the overflow text, often using an ellipsis.
+文字摘要會顯示段落的前幾行文字，並處理溢出的文字，通常會以省略號顯示。
 
-In Flutter, use the `maxLines` property of a [`Text`][] widget
-to specify the number of lines to include in the excerpt,
-and the `overflow` property for handling overflow text.
+在 Flutter 中，可以使用 [`Text`][`Text`] 元件（Widget）的 `maxLines` 屬性來指定摘要中要顯示的行數，並透過 `overflow` 屬性來處理溢出的文字。
 
 ```css highlightLines=20-23
 <div class="grey-box">
@@ -976,24 +900,24 @@ final container = Container(
 ```
 
 
-[basic shapes]: https://developer.mozilla.org/en-US/docs/Web/CSS/basic-shape
-[`border-box`]: https://css-tricks.com/box-sizing/
-[`BorderRadius`]: {{site.api}}/flutter/painting/BorderRadius-class.html
-[`BoxDecoration`]: {{site.api}}/flutter/painting/BoxDecoration-class.html
-[`BoxConstraints`]: {{site.api}}/flutter/rendering/BoxConstraints-class.html
-[`BoxShape` enum]: {{site.api}}/flutter/painting/BoxShape.html
-[`BoxShadow`]: {{site.api}}/flutter/painting/BoxShadow-class.html
-[`Center`]: {{site.api}}/flutter/widgets/Center-class.html
-[`Container`]: {{site.api}}/flutter/widgets/Container-class.html
-[Introduction to declarative UI]: /get-started/flutter-for/declarative
-[Learning Dart as a JavaScript Developer]: {{site.dart-site}}/guides/language/coming-from/js-to-dart
-[`Matrix4`]: {{site.api}}/flutter/vector_math_64/Matrix4-class.html
-[`Positioned`]: {{site.api}}/flutter/widgets/Positioned-class.html
-[`RichText`]: {{site.api}}/flutter/widgets/RichText-class.html
-[`Stack`]: {{site.api}}/flutter/widgets/Stack-class.html
-[`Text`]: {{site.api}}/flutter/widgets/Text-class.html
-[`TextSpan`]: {{site.api}}/flutter/painting/TextSpan-class.html
-[`TextStyle`]: {{site.api}}/flutter/painting/TextStyle-class.html
-[`Transform`]: {{site.api}}/flutter/widgets/Transform-class.html
+[basic shapes]: https://developer.mozilla.org/en-US/docs/Web/CSS/basic-shape  
+[`border-box`]: https://css-tricks.com/box-sizing/  
+[`BorderRadius`]: {{site.api}}/flutter/painting/BorderRadius-class.html  
+[`BoxDecoration`]: {{site.api}}/flutter/painting/BoxDecoration-class.html  
+[`BoxConstraints`]: {{site.api}}/flutter/rendering/BoxConstraints-class.html  
+[`BoxShape` enum]: {{site.api}}/flutter/painting/BoxShape.html  
+[`BoxShadow`]: {{site.api}}/flutter/painting/BoxShadow-class.html  
+[`Center`]: {{site.api}}/flutter/widgets/Center-class.html  
+[`Container`]: {{site.api}}/flutter/widgets/Container-class.html  
+[Introduction to declarative UI]: /get-started/flutter-for/declarative  
+[Learning Dart as a JavaScript Developer]: {{site.dart-site}}/guides/language/coming-from/js-to-dart  
+[`Matrix4`]: {{site.api}}/flutter/vector_math_64/Matrix4-class.html  
+[`Positioned`]: {{site.api}}/flutter/widgets/Positioned-class.html  
+[`RichText`]: {{site.api}}/flutter/widgets/RichText-class.html  
+[`Stack`]: {{site.api}}/flutter/widgets/Stack-class.html  
+[`Text`]: {{site.api}}/flutter/widgets/Text-class.html  
+[`TextSpan`]: {{site.api}}/flutter/painting/TextSpan-class.html  
+[`TextStyle`]: {{site.api}}/flutter/painting/TextStyle-class.html  
+[`Transform`]: {{site.api}}/flutter/widgets/Transform-class.html  
 [Understanding constraints]: /ui/layout/constraints
 

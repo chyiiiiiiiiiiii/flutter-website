@@ -1,52 +1,51 @@
 ---
-title: Deprecated API removed after v3.3
+title: v3.3 之後移除的已棄用 API
 description: >
-  After reaching end of life, the following deprecated APIs
-  were removed from Flutter.
+  在達到生命週期終點後，以下已棄用的 API
+  已從 Flutter 中移除。
 ---
 
-## Summary
+## 摘要
 
-In accordance with Flutter's [Deprecation Policy][],
-deprecated APIs that reached end of life after the
-3.3 stable release have been removed.
+根據 Flutter 的 [棄用政策][Deprecation Policy]，
+在 3.3 穩定版發佈後達到生命週期終點的
+已棄用 API 已被移除。
 
-All affected APIs have been compiled into this
-primary source to aid in migration. A
-[quick reference sheet][] is available as well.
+所有受影響的 API 已彙整於此主要來源，
+以協助遷移作業。另有提供
+[快速參考表][quick reference sheet]。
 
 [Deprecation Policy]: {{site.repo.flutter}}/blob/main/docs/contributing/Tree-hygiene.md#deprecations
 [quick reference sheet]: /go/deprecations-removed-after-3-3
 
-## Changes
+## 變更內容
 
-This section lists the deprecations, listed by the affected class.
+本節列出依受影響類別分類的棄用項目。
 
 ### `RenderUnconstrainedBox`
 
-Supported by Flutter Fix: no
+Flutter Fix 支援：否
 
-`RenderUnconstrainedBox` was deprecated in v2.1.
-Use `RenderConstraintsTransformBox` instead.
+`RenderUnconstrainedBox` 於 v2.1 棄用。
+請改用 `RenderConstraintsTransformBox`。
 
-Where unconstrained in both axes, provide `ConstraintsTransformBox.unconstrained`
-to `constraintsTransform`.
+若在兩個軸向皆無限制時，請將 `ConstraintsTransformBox.unconstrained`
+提供給 `constraintsTransform`。
 
-If `RenderUnconstrainedBox.constrainedAxis` was previously set,
-replace respectively:
+若先前已設定 `RenderUnconstrainedBox.constrainedAxis`，
+請分別替換如下：
 
-- Where `constrainedAxis` was previously `Axis.horizontal`, set
-  `constraintsTransform` to `ConstraintsTransformBox.widthUnconstrained`.
-- Where `constrainedAxis` was previously `Axis.vertical`, set
-  `constraintsTransform` to `ConstraintsTransformBox.heightUnconstrained`.
+- 若 `constrainedAxis` 先前為 `Axis.horizontal`，請將
+  `constraintsTransform` 設為 `ConstraintsTransformBox.widthUnconstrained`。
+- 若 `constrainedAxis` 先前為 `Axis.vertical`，請將
+  `constraintsTransform` 設為 `ConstraintsTransformBox.heightUnconstrained`。
 
-This change allowed for the introduction of several more types of constraint
-transformations through `ConstraintsTransformBox`. Other parameters of the old
-API are compatible with the new API.
+此變更允許透過 `ConstraintsTransformBox` 引入更多類型的限制轉換。
+舊 API 的其他參數與新 API 相容。
 
-**Migration guide**
+**遷移指南**
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 // Unconstrained
@@ -81,7 +80,7 @@ final RenderUnconstrainedBox unconstrained = RenderUnconstrainedBox(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 // Unconstrained
@@ -117,17 +116,17 @@ final RenderConstraintsTransformBox unconstrained = RenderConstraintsTransformBo
 );
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
-* [`RenderConstraintsTransformBox`][]
-* [`ConstraintsTransformBox`][]
+* [`RenderConstraintsTransformBox`][`RenderConstraintsTransformBox`]
+* [`ConstraintsTransformBox`][`ConstraintsTransformBox`]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#78673][]
-* Removed in [#111711][]
+* 在 [#78673][#78673] 中標記為已淘汰
+* 在 [#111711][#111711] 中移除
 
 [`RenderConstraintsTransformBox`]: {{site.api}}/flutter/rendering/RenderConstraintsTransformBox-class.html
 [`ConstraintsTransformBox`]: {{site.api}}/flutter/widgets/ConstraintsTransformBox-class.html
@@ -136,20 +135,19 @@ Relevant PRs:
 
 ---
 
-### `DragAnchor`, `Draggable.dragAnchor` & `LongPressDraggable.dragAnchor`
+### `DragAnchor`、`Draggable.dragAnchor` 與 `LongPressDraggable.dragAnchor`
 
-Supported by Flutter Fix: yes
+Flutter Fix 支援：是
 
-The enum `DragAnchor`, and its uses in `Draggable.dragAnchor` &
-`LongPressDraggable.dragAnchor` were deprecated in v2.1.
-Use `dragAnchorStrategy` instead.
+列舉型別 `DragAnchor` 以及其在 `Draggable.dragAnchor` 和
+`LongPressDraggable.dragAnchor` 中的用法已於 v2.1 標記為已淘汰。
+請改用 `dragAnchorStrategy`。
 
-This change allowed for more accurate feedback of the draggable widget when used
-in conjunction with other widgets like `Stack` and `InteractiveViewer`.
+此變更讓可拖曳元件（draggable widget）在與其他元件（如 `Stack` 和 `InteractiveViewer`）搭配使用時，能提供更精確的回饋。
 
-**Migration guide**
+**遷移指南**
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 Draggable draggable = Draggable();
@@ -161,7 +159,7 @@ longPressDraggable = LongPressDraggable(dragAnchor: DragAnchor.child);
 longPressDraggable = LongPressDraggable(dragAnchor: DragAnchor.pointer);
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 Draggable draggable = Draggable();
@@ -173,22 +171,22 @@ longPressDraggable = LongPressDraggable(dragAnchorStrategy: childDragAnchorStrat
 longPressDraggable = LongPressDraggable(dragAnchorStrategy: pointerDragAnchorStrategy);
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
-* [`Draggable`][]
-* [`LongPressDraggable`][]
-* [`DragAnchorStrategy`][]
+* [`Draggable`][`Draggable`]
+* [`LongPressDraggable`][`LongPressDraggable`]
+* [`DragAnchorStrategy`][`DragAnchorStrategy`]
 
-Relevant issues:
+相關議題：
 
-* [#73143][]
+* [#73143][#73143]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#79160][]
-* Removed in [#111713][]
+* 已於 [#79160][#79160] 標記為已淘汰
+* 已於 [#111713][#111713] 移除
 
 [`Draggable`]: {{site.api}}/flutter/widgets/Draggable-class.html
 [`LongPressDraggable`]: {{site.api}}/flutter/widgets/LongPressDraggable-class.html
@@ -201,56 +199,51 @@ Relevant PRs:
 
 ### `ScrollBehavior.buildViewportChrome`
 
-Supported by Flutter Fix: yes
+Flutter Fix 支援：是
 
-The method `ScrollBehavior.buildViewportChrome` was deprecated in v2.1.
+`ScrollBehavior.buildViewportChrome` 方法自 v2.1 起已被標記為已淘汰。
 
-This method was used by the `Scrollable` widget to apply an overscroll
-indicator, like `GlowingOverscrollIndicator`, by default on the appropriate
-platforms. As more default decorators have been added, like `Scrollbar`s, each
-has instead been split into individual methods to replace `buildViewportChrome`.
+此方法過去由 `Scrollable` 元件（Widget）用於在適當的平台上，預設套用像 `GlowingOverscrollIndicator` 這樣的 overscroll 指示器。隨著更多預設裝飾器（decorator）被加入，例如 `Scrollbar`，每一個現在都被拆分為獨立的方法，以取代 `buildViewportChrome`。
 
-This allows extending classes to only override the specific decorator, through
-`buildScrollbar` or `buildOverscrollIndicator`, rather than needing to rewrite
-code in order to maintain one or the other.
+這讓繼承的類別只需透過 `buildScrollbar` 或 `buildOverscrollIndicator` 覆寫特定的裝飾器，而不需要為了維護其中之一而重寫程式碼。
 
-**Migration guide**
+**遷移指南**
 
-[In-depth migration guide available][]
+[提供詳細的遷移指南][In-depth migration guide available]
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 final ScrollBehavior scrollBehavior = ScrollBehavior();
 scrollBehavior.buildViewportChrome(context, child, axisDirection);
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 final ScrollBehavior scrollBehavior = ScrollBehavior();
 scrollBehavior.buildOverscrollIndicator(context, child, axisDirection);
 ```
 
-**References**
+**參考資料**
 
-Design document:
+設計文件：
 
-* [Exposing & Updating ScrollBehaviors][]
+* [Exposing & Updating ScrollBehaviors][Exposing & Updating ScrollBehaviors]
 
-API documentation:
+API 文件：
 
-* [`ScrollBehavior`][]
+* [`ScrollBehavior`][`ScrollBehavior`]
 
-Relevant issues:
+相關議題：
 
-* [Scrollbars should be always visible and instantiated by default on web and desktop][]
+* [Scrollbars should be always visible and instantiated by default on web and desktop][Scrollbars should be always visible and instantiated by default on web and desktop]
 
-Relevant PRs:
+相關 PR：
 
-* [#76739][]
-* Deprecated in [#78588][]
-* Removed in [#111715][]
+* [#76739][#76739]
+* 在 [#78588][#78588] 中標記為已棄用
+* 在 [#111715][#111715] 中移除
 
 [In-depth migration guide available]: /release/breaking-changes/default-desktop-scrollbars
 [Exposing & Updating ScrollBehaviors]: /go/exposing-scroll-behaviors
@@ -262,6 +255,6 @@ Relevant PRs:
 
 ---
 
-## Timeline
+## 時程
 
-In stable release: 3.7
+在穩定版發佈：3.7

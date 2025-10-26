@@ -1,98 +1,58 @@
 ---
-title: The window singleton is deprecated
+title: window singleton 已被棄用
 description: >
-  In preparation for supporting multiple views and 
-  multiple windows the window singleton has been deprecated.
+  為了支援多視圖（multiple views）與多視窗（multiple windows），
+  window singleton 已被棄用。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-In preparation for supporting multiple views and multiple windows, the `window`
-singleton has been deprecated. Code previously relying on the `window` singleton
-needs to look up the specific view it wants to operate on via the `View.of` API
-or interact with the `PlatformDispatcher` directly.
+為了支援多視圖（multiple views）與多視窗（multiple windows），`window` singleton 已被棄用。先前依賴 `window` singleton 的程式碼，現在需要透過 `View.of` API 查找要操作的特定視圖，或直接與 `PlatformDispatcher` 互動。
 
-## Context
+## 背景說明
 
-Originally, Flutter assumed that an application would only consist of a single
-view (the `window`) into which content can be drawn. In a multi-view world, this
-assumption no longer makes sense and the APIs encoding this assumption have
-been deprecated. Instead, applications and libraries that relied on these APIs
-must choose a specific view they want to operate on and
-migrate to new multi-view compatible APIs as outlined in this migration guide.
+最初，Flutter 假設一個應用程式只包含一個單一視圖（即 `window`），所有內容都繪製於其中。在多視圖（multi-view）環境下，這個假設已不再合理，因此相關 API 也已被棄用。取而代之的是，依賴這些 API 的應用程式與函式庫，必須選擇要操作的特定視圖，並依照本遷移指南，遷移至新的多視圖相容 API。
 
-## Description of change
+## 變更說明
 
-The APIs that have been deprecated as part of this change are:
+本次變更中被棄用的 API 包含：
 
-* The global `window` property exposed by `dart:ui`.
-* The `window` property on the `BaseBinding` class,
-  which is usually accessed via
-  * `GestureBinding.instance.window`,
-  * `SchedulerBinding.instance.window`,
-  * `ServicesBinding.instance.window`,
-  * `PaintingBinding.instance.window`,
-  * `SemanticsBinding.instance.window`,
-  * `RendererBinding.instance.window`,
-  * `WidgetsBinding.instance.window`, or
-  * `WidgetTester.binding.window`.
-* The `SingletonFlutterView` class from `dart:ui`.
-* `TestWindow` from `flutter_test`, its constructors,
-  and all of its properties and methods.
+* 由 `dart:ui` 所公開的全域 `window` 屬性。
+* `BaseBinding` 類別上的 `window` 屬性，通常可透過下列方式存取：
+  * `GestureBinding.instance.window`，
+  * `SchedulerBinding.instance.window`，
+  * `ServicesBinding.instance.window`，
+  * `PaintingBinding.instance.window`，
+  * `SemanticsBinding.instance.window`，
+  * `RendererBinding.instance.window`，
+  * `WidgetsBinding.instance.window`，
+  * 或 `WidgetTester.binding.window`。
+* 來自 `dart:ui` 的 `SingletonFlutterView` 類別。
+* `flutter_test` 的 `TestWindow`，其建構子，以及其所有屬性與方法。
 
-The following options exist to migrate application and library code that relies
-on these deprecated APIs:
+針對依賴這些已棄用 API 的應用程式與函式庫程式碼，有以下遷移選項：
 
-If a `BuildContext` is available, consider looking up the current `FlutterView`
-via `View.of`. This returns the `FlutterView` into
-which the widgets built by the `build` method associated with the given context
-will be drawn. The `FlutterView` provides access to the same functionality
-that was previously available on the deprecated `SingletonFlutterView` class
-returned by the deprecated `window` properties mentioned above. However, some
-of the platform-specific functionality has moved to the `PlatformDispatcher`,
-which can be accessed from the `FlutterView` returned by `View.of` via
-`FlutterView.platformDispatcher`. Using `View.of` is the preferred way of
-migrating away from the deprecated properties mentioned above.
+若有 `BuildContext` 可用，建議透過 `View.of` 查找目前的 `FlutterView`。這會回傳 `FlutterView`，即與給定 context 關聯的 `build()` 方法所建構的元件將被繪製的視圖。`FlutterView` 提供與先前已棄用的 `SingletonFlutterView` 類別（由上述已棄用的 `window` 屬性回傳）相同的功能。不過，部分平台專屬功能已移至 `PlatformDispatcher`，可透過 `View.of` 回傳的 `FlutterView` 以 `FlutterView.platformDispatcher` 存取。使用 `View.of` 是遷移離上述已棄用屬性的推薦方式。
 
-If no `BuildContext` is available to look up a `FlutterView`, the
-`PlatformDispatcher` can be consulted directly to access platform-specific
-functionality. It also maintains a list of all available `FlutterView`s in
-`PlatformDispatcher.views` to access view-specific functionality. If possible,
-the `PlatformDispatcher` should be accessed via a binding (for example
-`WidgetsBinding.instance.platformDispatcher`) instead of using the static
-`PlatformDispatcher.instance` property. This ensures that the functionality
-of the `PlatformDispatcher` can be properly mocked out in tests.
+若沒有 `BuildContext` 可用來查找 `FlutterView`，則可直接查詢 `PlatformDispatcher` 以存取平台專屬功能。它同時也在 `PlatformDispatcher.views` 維護所有可用 `FlutterView` 的清單，方便存取特定視圖功能。如有可能，應透過 binding（例如 `WidgetsBinding.instance.platformDispatcher`）來存取 `PlatformDispatcher`，而非直接使用靜態 `PlatformDispatcher.instance` 屬性。這樣可確保 `PlatformDispatcher` 的功能在測試時能被正確 mock。
 
-### Testing
+### 測試
 
-For tests that accessed the `WidgetTester.binding.window` property to change
-window properties for testing, the following migrations are available:
+若測試程式中存取 `WidgetTester.binding.window` 屬性以變更 window 屬性，請依下列方式進行遷移：
 
-In tests written with `testWidgets`, two new properties have been added that
-together replace the functionality of `TestWindow`.
+在使用 `testWidgets` 撰寫的測試中，新增了兩個新屬性，合起來可取代 `TestWindow` 的功能。
 
-* `WidgetTester.view` will provide a `TestFlutterView` that can be modified
-  similarly to `WidgetTester.binding.window`, but with only view-specific
-  properties such as the size of a view, its display pixel ratio, etc.
-  * `WidgetTester.viewOf` is available for certain multi-view use cases, but
-      should not be required for any migrations from
-      `WidgetTester.binding.window`.
-* `WidgetTester.platformDispatcher` will provide access to a
-  `TestPlatformDispatcher` that can be used to modify platform specific
-  properties such as the platform's locale, whether certain system features
-  are available, etc.
+* `WidgetTester.view` 會提供一個可修改的 `TestFlutterView`，類似於 `WidgetTester.binding.window`，但僅包含視圖專屬屬性，例如視圖的尺寸、顯示像素比等。
+  * `WidgetTester.viewOf` 針對某些多視圖使用情境可用，但從 `WidgetTester.binding.window` 遷移時通常不需要。
+* `WidgetTester.platformDispatcher` 則可存取 `TestPlatformDispatcher`，可用來修改平台專屬屬性，例如平台語系、系統功能是否可用等。
 
-## Migration guide
+## 遷移指南
 
-Instead of accessing the static `window` property, application and library code
-that has access to a `BuildContext` should use `View.of` to look up the
-`FlutterView` the context is associated with. Some properties have moved to
-the `PlatformDispatcher` accessible from the view via the `platformDispatcher`
-getter.
+應用程式與函式庫程式碼，若可存取 `BuildContext`，應改用 `View.of` 查找與該 context 關聯的 `FlutterView`，而非直接存取靜態 `window` 屬性。部分屬性已移至可由視圖透過 `platformDispatcher` getter 存取的 `PlatformDispatcher`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 Widget build(BuildContext context) {
@@ -102,7 +62,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 Widget build(BuildContext context) {
@@ -112,10 +72,9 @@ Widget build(BuildContext context) {
 }
 ```
 
-If no `BuildContext` is available, the `PlatformDispatcher` exposed by the
-bindings can be consulted directly.
+如果沒有可用的 `BuildContext`，可以直接參考綁定所公開的 `PlatformDispatcher`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 double getTextScaleFactor() {
@@ -123,7 +82,7 @@ double getTextScaleFactor() {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 double getTextScaleFactor() {
@@ -132,18 +91,15 @@ double getTextScaleFactor() {
 }
 ```
 
-### Testing
+### 測試
 
-In tests written with `testWidget`, the new `view` and `platformDispatcher`
-accessors should be used instead.
+在使用 `testWidget` 撰寫的測試中，應改用新的 `view` 和 `platformDispatcher` 存取器。
 
-#### Setting view-specific properties
+#### 設定特定檢視的屬性
 
-`TestFlutterView` has also made an effort to make the test API clearer and more
-concise by using setters with the same name as their related getter instead of
-setters with the `TestValue` suffix.
+`TestFlutterView` 也針對測試 API 進行了優化，使其更清晰且簡潔，現在採用與相關 getter 同名的 setter，而非使用 `TestValue` 字尾的 setter。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 testWidget('test name', (WidgetTester tester) async {
@@ -159,7 +115,7 @@ testWidget('test name', (WidgetTester tester) async {
 });
 ```
 
-Code after migration
+遷移後的程式碼
 
 ```dart
 testWidget('test name', (WidgetTester tester) async {
@@ -175,16 +131,13 @@ testWidget('test name', (WidgetTester tester) async {
 });
 ```
 
-#### Resetting view-specific properties
+#### 重設檢視專屬屬性
 
-`TestFlutterView` retains the capability to reset individual properties or the
-entire view but, in order to be more clear and consist, the naming of these
-methods has changed from `clear<property>TestValue` and `clearAllTestValues` to
-`reset<property>` and `reset` respectively.
+`TestFlutterView` 仍然保有重設個別屬性或整個檢視的能力，但為了讓命名更加清晰且一致，這些方法的名稱已從 `clear<property>TestValue` 和 `clearAllTestValues` 分別更改為 `reset<property>` 和 `reset`。
 
-##### Resetting individual properties
+##### 重設個別屬性
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 testWidget('test name', (WidgetTester tester) async {
@@ -200,7 +153,7 @@ testWidget('test name', (WidgetTester tester) async {
 });
 ```
 
-Code after migration
+遷移後的程式碼
 
 ```dart
 testWidget('test name', (WidgetTester tester) async {
@@ -216,9 +169,9 @@ testWidget('test name', (WidgetTester tester) async {
 });
 ```
 
-##### Resetting all properties at once
+##### 一次重設所有屬性
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 testWidget('test name', (WidgetTester tester) async {
@@ -226,7 +179,7 @@ testWidget('test name', (WidgetTester tester) async {
 });
 ```
 
-Code after migration
+遷移後的程式碼
 
 ```dart
 testWidget('test name', (WidgetTester tester) async {
@@ -234,14 +187,11 @@ testWidget('test name', (WidgetTester tester) async {
 });
 ```
 
-#### Setting platform-specific properties
+#### 設定平台專屬屬性
 
-`TestPlatformDispatcher` retains the same functionality and naming scheme for
-test setters as did `TestWindow`, so migration of platform-specific properties
-mainly consists of calling the same setters on the new
-`WidgetTester.platformDispatcher` accessor.
+`TestPlatformDispatcher` 保留了與 `TestWindow` 相同的功能與命名規則，用於測試 setter，因此平台專屬屬性的遷移主要只需在新的 `WidgetTester.platformDispatcher` 存取器上呼叫相同的 setter 即可。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 testWidgets('test name', (WidgetTester tester) async {
@@ -259,7 +209,7 @@ testWidgets('test name', (WidgetTester tester) async {
 });
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 testWidgets('test name', (WidgetTester tester) async {
@@ -277,15 +227,13 @@ testWidgets('test name', (WidgetTester tester) async {
 });
 ```
 
-#### Resetting platform-specific properties
+#### 重設平台專屬屬性
 
-Similarly to setting properties, resetting platform-specific properties consists
-mainly of changing from the `binding.window` accessor to the
-`platformDispatcher` accessor.
+與設定屬性類似，重設平台專屬屬性主要是將 `binding.window` 存取器改為 `platformDispatcher` 存取器。
 
-##### Resetting individual properties
+##### 重設個別屬性
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 testWidgets('test name', (WidgetTester tester) async {
@@ -303,7 +251,7 @@ testWidgets('test name', (WidgetTester tester) async {
 });
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 testWidgets('test name', (WidgetTester tester) async {
@@ -321,9 +269,9 @@ testWidgets('test name', (WidgetTester tester) async {
 });
 ```
 
-##### Resetting all properties at once
+##### 一次重設所有屬性
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 testWidgets('test name', (WidgetTester tester) async {
@@ -331,7 +279,7 @@ testWidgets('test name', (WidgetTester tester) async {
 });
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 testWidgets('test name', (WidgetTester tester) async {
@@ -339,33 +287,33 @@ testWidgets('test name', (WidgetTester tester) async {
 });
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.9.0-13.0.pre.20<br>
-In stable release: 3.10.0
+合併於版本：3.9.0-13.0.pre.20<br>  
+正式版釋出：3.10.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`View.of`][]
-* [`FlutterView`][]
-* [`PlatformDispatcher`][]
-* [`TestPlatformDispatcher`][]
-* [`TestFlutterView`][]
-* [`TestWidgetsFlutterBinding.window`][]
+* [`View.of`][`View.of`]
+* [`FlutterView`][`FlutterView`]
+* [`PlatformDispatcher`][`PlatformDispatcher`]
+* [`TestPlatformDispatcher`][`TestPlatformDispatcher`]
+* [`TestFlutterView`][`TestFlutterView`]
+* [`TestWidgetsFlutterBinding.window`][`TestWidgetsFlutterBinding.window`]
 
-Relevant issues:
+相關議題：
 
-* [Issue 116929][]
-* [Issue 117481][]
-* [Issue 121915][]
+* [Issue 116929][Issue 116929]
+* [Issue 117481][Issue 117481]
+* [Issue 121915][Issue 121915]
 
-Relevant PRs:
+相關 PR：
 
-* [Deprecate SingletonFlutterWindow and global window singleton][]
-* [Deprecate BindingBase.window][]
-* [Deprecates `TestWindow`][]
+* [Deprecate SingletonFlutterWindow and global window singleton][Deprecate SingletonFlutterWindow and global window singleton]
+* [Deprecate BindingBase.window][Deprecate BindingBase.window]
+* [Deprecates `TestWindow`][Deprecates `TestWindow`]
 
 
 [`View.of`]: {{site.api}}/flutter/widgets/View/of.html

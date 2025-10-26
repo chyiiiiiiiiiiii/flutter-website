@@ -1,1 +1,1 @@
-![Small green almost circular arrow that indicates reloading the UI of a Flutter app and resetting any state values](/assets/images/docs/testing/debugging/vscode-ui/icons/hot-restart.png)
+![一個小型的綠色、近乎圓形的箭頭，表示重新載入 Flutter 應用程式的 UI 並重設所有狀態值](/assets/images/docs/testing/debugging/vscode-ui/icons/hot-restart.png)

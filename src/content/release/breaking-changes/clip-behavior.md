@@ -1,107 +1,64 @@
 ---
-title: Clip Behavior
+title: Clip 行為
 description: >
-  Flutter unifies clipBehavior and defaults to not clip in most cases.
+  Flutter 統一 clipBehavior，並在大多數情況下預設不進行裁剪（clip）。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-Flutter now defaults to _not_ clip except for a few specialized widgets
-(such as `ClipRect`). To override the no-clip default,
-explicitly set `clipBehavior` in widgets constructions.
+Flutter 現在除了少數特殊元件（如 `ClipRect`）外，預設**不進行裁剪（clip）**。若要覆寫不裁剪的預設行為，請在元件建構時明確設定 `clipBehavior`。
 
-## Context
+## 背景
 
-Flutter used to be slow because of clips. For example,
-the Flutter gallery app benchmark had an average frame
-rasterization time of about 35ms in May 2018,
-where the budget for smooth 60fps rendering is 16ms.
-By removing unnecessary clips and their related operations,
-we saw an almost 2x speedup from 35ms/frame to 17.5ms/frame.
+過去 Flutter 因為裁剪（clip）而導致效能較慢。例如，Flutter gallery app 的效能基準測試在 2018 年 5 月時，平均每幀光柵化（rasterization）時間約為 35 毫秒，而流暢 60fps 的繪製預算僅為 16 毫秒。透過移除不必要的裁剪及其相關操作，我們觀察到效能幾乎提升了 2 倍，從每幀 35 毫秒降至 17.5 毫秒。
 
 {% comment %}
-The following two images are not visible.
+以下兩張圖片無法顯示。
 ![](https://lh5.googleusercontent.com/Pn8FxuW2W3Cgvw9kIUvLLenrwXti7WRm_zPif3VJILa325d1Njm8aP47DXfK1r2Du-FwLKhI9umw5nMG6eNqn5fLnQBIt6VIPZ7Q2ETiCuXgQPD1cUYOeA-2Ph_DpvL27fK7m_Af)
 
-Here's a comparison of transition with and without clips.
+這是有裁剪與無裁剪時轉場的比較。
 
 ![](https://lh5.googleusercontent.com/gSFKigrEoekji0juxTVjj29PlIizjuxJsetHsIegLt85zCHknRIUOeICjMdEBjBhPZDZXcEzFh1WCOrdmZa9KZ5vghgS7Uo9IDAKyBtEJ7h3tKfIHXf6A4vxrHfj1a_0kuT6f4r2)
 {% endcomment %}
 
-The biggest cost associated with clipping at that time is that Flutter
-used to add a `saveLayer` call after each clip (unless it was a simple
-axis-aligned rectangle clip) to avoid the bleeding edge artifacts
-as described in [Issue 18057][]. Such behaviors were universal to
-material apps through widgets like `Card`, `Chip`, `Button`, and so on,
-which resulted in `PhysicalShape` and `PhysicalModel` clipping their content.
+當時裁剪的最大成本來自於 Flutter 會在每次裁剪後（除非是簡單的軸對齊矩形裁剪）加上一個 `saveLayer` 呼叫，以避免如 [Issue 18057][Issue 18057] 所描述的邊緣溢出（bleeding edge）問題。這種行為在 Material 應用中是普遍存在的，透過像 `Card`、`Chip`、`Button` 等元件實現，導致 `PhysicalShape` 和 `PhysicalModel` 都會裁剪其內容。
 
-A `saveLayer` call is especially expensive in older devices because
-it creates an offscreen render target, and a render target switch
-can sometimes cost about 1ms.
+`saveLayer` 呼叫在舊裝置上尤其耗費資源，因為它會建立一個離屏（offscreen）渲染目標，而切換渲染目標有時會花費約 1 毫秒。
 
-Even without `saveLayer` call, a clip is still expensive
-because it applies to all subsequent draws until it's restored.
-Therefore a single clip may slow down the performance on
-hundreds of draw operations.
+即使沒有 `saveLayer` 呼叫，裁剪本身仍然昂貴，因為它會套用到所有後續的繪製操作，直到恢復為止。因此，單一個裁剪可能會拖慢數百次繪製操作的效能。
 
-In addition to performance issues, Flutter also suffered from
-some correctness issues as the clip was not managed and implemented
-in a single place. In several places, `saveLayer` was inserted
-in the wrong place and it therefore only increased the performance
-cost without fixing any bleeding edge artifacts.
+除了效能問題外，Flutter 也曾因為裁剪的管理與實作分散在不同地方而出現正確性問題。在數個地方，`saveLayer` 被插入在錯誤的位置，結果只增加了效能負擔，卻無法修正任何邊緣溢出問題。
 
-So, we unified the `clipBehavior` control and its implementation in
-this breaking change. The default `clipBehavior` is `Clip.none`
-for most widgets to save performance, except the following:
+因此，在這次破壞性變更中，我們統一了 `clipBehavior` 控制及其實作。大多數元件的預設 `clipBehavior` 為 `Clip.none`，以提升效能，僅有以下例外：
 
-* `ClipPath` defaults to `Clip.antiAlias`
-* `ClipRRect` defaults to `Clip.antiAlias`
-* `ClipRect` defaults to `Clip.hardEdge`
-* `Stack` defaults to `Clip.hardEdge`
-* `EditableText` defaults to `Clip.hardEdge`
-* `ListWheelScrollView` defaults to `Clip.hardEdge`
-* `SingleChildScrollView` defaults to `Clip.hardEdge`
-* `NestedScrollView` defaults to `Clip.hardEdge`
-* `ShrinkWrappingViewport` defaults to `Clip.hardEdge`
+* `ClipPath` 預設為 `Clip.antiAlias`
+* `ClipRRect` 預設為 `Clip.antiAlias`
+* `ClipRect` 預設為 `Clip.hardEdge`
+* `Stack` 預設為 `Clip.hardEdge`
+* `EditableText` 預設為 `Clip.hardEdge`
+* `ListWheelScrollView` 預設為 `Clip.hardEdge`
+* `SingleChildScrollView` 預設為 `Clip.hardEdge`
+* `NestedScrollView` 預設為 `Clip.hardEdge`
+* `ShrinkWrappingViewport` 預設為 `Clip.hardEdge`
 
-## Migration guide
+## 遷移指南
 
-You have 4 choices for migrating your code:
+您有 4 種方式可以遷移您的程式碼：
 
-1. Leave your code as is if your content does not need
-   to be clipped (for example, none of the widgets' children
-   expand outside their parent's boundary).
-   This will likely have a positive impact on your app's
-   overall performance.
-2. Add `clipBehavior: Clip.hardEdge` if you need clipping,
-   and clipping without anti-alias is good enough for your
-   (and your clients') eyes. This is the common case
-   when you clip rectangles or shapes with very small curved areas
-   (such as the corners of rounded rectangles).
-3. Add `clipBehavior: Clip.antiAlias` if you need
-   anti-aliased clipping. This gives you smoother edges
-   at a slightly higher cost. This is the common case when
-   dealing with circles and arcs.
-4. Add `clip.antiAliasWithSaveLayer` if you want the exact
-   same behavior as before (May 2018). Be aware that it's
-   very costly in performance. This is likely to be only
-   rarely needed. One case where you might need this is if
-   you have an image overlaid on a very different background color.
-   In these cases, consider whether you can avoid overlapping
-   multiple colors in one spot (for example, by having the
-   background color only present where the image is absent).
+1. 如果您的內容不需要被裁剪（例如，所有元件的子項都不會超出父元件邊界），可以保持原樣。這通常會對應用程式的整體效能產生正面影響。
+2. 如果需要裁剪，且沒有抗鋸齒（anti-alias）也能接受，請加上 `clipBehavior: Clip.hardEdge`。這通常用於裁剪矩形或曲線區域很小的形狀（例如圓角矩形的角落）。
+3. 如果需要抗鋸齒裁剪，請加上 `clipBehavior: Clip.antiAlias`。這會讓邊緣更平滑，但成本略高。常見於處理圓形或弧形時。
+4. 如果您想要與 2018 年 5 月前完全相同的行為，請加上 `clip.antiAliasWithSaveLayer`。請注意這會大幅影響效能，通常很少需要。唯一可能需要這種行為的情境是圖片覆蓋在非常不同的背景色上。在這些情況下，建議考慮是否可以避免多種顏色重疊（例如，讓背景色只出現在圖片未覆蓋的區域）。
 
-For the `Stack` widget specifically, if you previously used
-`overflow: Overflow.visible`, replace it with `clipBehavior: Clip.none`.
+針對 `Stack` 元件，如果您之前使用 `overflow: Overflow.visible`，請改用 `clipBehavior: Clip.none`。
 
-For the `ListWheelViewport` widget, if you previously specified
-`clipToSize`, replace it with the corresponding `clipBehavior`:
-`Clip.none` for `clipToSize = false` and
-`Clip.hardEdge` for `clipToSize = true`.
+針對 `ListWheelViewport` 元件，如果您之前指定了 `clipToSize`，請改用對應的 `clipBehavior`：
+`Clip.none` 對應 `clipToSize = false`，
+`Clip.hardEdge` 對應 `clipToSize = true`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
     await tester.pumpWidget(
@@ -122,7 +79,7 @@ Code before migration:
     );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
     await tester.pumpWidget(
@@ -143,41 +100,41 @@ Code after migration:
     );
 ```
 
-## Timeline
+## 時間軸
 
-Landed in version: _various_<br>
-In stable release: 2.0.0
+合併於版本：_various_<br>  
+穩定版釋出：2.0.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`Clip`][]
+* [`Clip`][`Clip`]
 
-Relevant issues:
+相關議題（Issues）：
 
-* [Issue 13736][]
-* [Issue 18057][]
-* [Issue 21830][]
+* [Issue 13736][Issue 13736]
+* [Issue 18057][Issue 18057]
+* [Issue 21830][Issue 21830]
 
-Relevant PRs:
+相關 PR：
 
-* [PR 5420][]: Remove unnecessary saveLayer
-* [PR 18576][]: Add Clip enum to Material and related widgets
-* [PR 18616][]: Remove saveLayer after clip from dart
-* [PR 5647][]: Add ClipMode to ClipPath/ClipRRect and PhysicalShape layers
-* [PR 5670][]: Add anti-alias switch to canvas clip calls
-* [PR 5853][]: Rename clip mode to clip behavior
-* [PR 5868][]: Rename clip to clipBehavior in compositing.dart
-* [PR 5973][]: Call drawPaint instead of drawPath if there's clip
-* [PR 5952][]: Call drawPath without clip if possible
-* [PR 20205][]: Set default clipBehavior to Clip.none and update tests
-* [PR 20538][]: Expose clipBehavior to more Material Buttons
-* [PR 20751][]: Add customBorder to InkWell so it can clip ShapeBorder
-* [PR 20752][]: Set the default clip to Clip.none again
-* [PR 21012][]: Add default-no-clip tests to more buttons
-* [PR 21703][]: Default clipBehavior of ClipRect to hardEdge
-* [PR 21826][]: Missing default hardEdge clip for ClipRectLayer
+* [PR 5420][PR 5420]：移除不必要的 saveLayer
+* [PR 18576][PR 18576]：為 Material 及相關元件 (Widgets) 新增 Clip 列舉
+* [PR 18616][PR 18616]：從 dart 中移除 clip 後的 saveLayer
+* [PR 5647][PR 5647]：為 ClipPath/ClipRRect 與 PhysicalShape 圖層新增 ClipMode
+* [PR 5670][PR 5670]：為 canvas clip 呼叫新增抗鋸齒（anti-alias）開關
+* [PR 5853][PR 5853]：將 clip mode 更名為 clip behavior
+* [PR 5868][PR 5868]：在 compositing.dart 中將 clip 更名為 clipBehavior
+* [PR 5973][PR 5973]：若有 clip 則呼叫 drawPaint 取代 drawPath
+* [PR 5952][PR 5952]：如有可能，無 clip 時呼叫 drawPath
+* [PR 20205][PR 20205]：將預設 clipBehavior 設為 Clip.none 並更新測試
+* [PR 20538][PR 20538]：將 clipBehavior 釋出給更多 Material 按鈕
+* [PR 20751][PR 20751]：為 InkWell 新增 customBorder，使其可裁剪 ShapeBorder
+* [PR 20752][PR 20752]：再次將預設 clip 設為 Clip.none
+* [PR 21012][PR 21012]：為更多按鈕新增預設不裁剪（no-clip）測試
+* [PR 21703][PR 21703]：ClipRect 的預設 clipBehavior 設為 hardEdge
+* [PR 21826][PR 21826]：為 ClipRectLayer 補上預設 hardEdge clip
 
 [PR 5420]:  {{site.repo.engine}}/pull/5420
 [PR 5647]:  {{site.repo.engine}}/pull/5647

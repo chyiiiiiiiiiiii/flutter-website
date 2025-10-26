@@ -1,147 +1,122 @@
 ---
-title: Build and release a web app
-description: How to prepare for and release a web app.
+title: 建置與發佈網頁應用程式
+description: 如何準備並發佈網頁應用程式。
 shortTitle: Web
 ---
 
-During a typical development cycle,
-you test an app using `flutter run -d chrome`
-(for example) at the command line.
-This builds a _debug_ version of your app.
+在一般的開發週期中，
+你會在命令列介面（Command Line Interface）上使用 `flutter run -d chrome`
+（例如）來測試應用程式。
+這會建置你的應用程式的 _debug_（除錯）版本。
 
-This page helps you prepare a _release_ version
-of your app and covers the following topics:
+本頁將協助你準備應用程式的 _release_（發佈）版本，
+並涵蓋以下主題：
 
-* [Building the app for release](#building-the-app-for-release)
-* [Deploying to the web](#deploying-to-the-web)
-* [Deploying to Firebase Hosting](#deploying-to-firebase-hosting)
-* [Handling images on the web](#handling-images-on-the-web)
-* [Choosing a build mode and a renderer](#choosing-a-build-mode-and-a-renderer)
-* [Minification](#minification)
+* [建置發佈用的應用程式](#建置發佈用的應用程式)
+* [部署到網頁](#部署至-web)
+* [部署到 Firebase Hosting](#部署至-firebase-hosting)
+* [在網頁上處理圖片](#在-web-上處理圖片)
+* [選擇建置模式與渲染器](#選擇建置模式與繪製引擎)
+* [程式碼壓縮（Minification）](#程式碼壓縮-minification)
+## 建置發佈用的應用程式
 
-## Building the app for release
-
-Build the app for deployment using the `flutter build web` command. 
+請使用 `flutter build web` 指令來建置應用程式以供部署。 
 
 ```console
 flutter build web
 ```
 
-This
-generates the app, including the assets, and places the files into the
-`/build/web` directory of the project.
+這個動作會產生應用程式及其資源（assets），並將檔案放置在專案的`/build/web`目錄中。
 
-To validate the release build of your app,
-launch a web server (for example,
-`python -m http.server 8000`,
-or by using the [dhttpd][] package),
-and open the /build/web directory. Navigate to
-`localhost:8000` in your browser
-(given the python SimpleHTTPServer example)
-to view the release version of your app.
+若要驗證應用程式的發行版本（release build），請啟動一個網頁伺服器（例如`python -m http.server 8000`，或使用 [dhttpd][dhttpd] 套件），然後開啟 /build/web 目錄。在瀏覽器中前往`localhost:8000`（以 Python SimpleHTTPServer 為例），即可檢視應用程式的發行版本。
 
-## Additional build flags
-You might need to deploy a profile or debug build for testing.
-To do this, pass the `--profile` or `--debug` flag
-to the `flutter build web` command.
-Profile builds are specialized for performance profiling using Chrome DevTools,
-and debug builds can be used to configure dart2js
-to respect assertions and change the optimization level (using the `-O` flag.)
+## 其他建置旗標
 
-## Choosing a build mode and a renderer
+你可能需要部署 profile 或 debug 版本以進行測試。要這麼做，請在`flutter build web`指令中加入`--profile`或`--debug`旗標。Profile 版本專為使用 Chrome DevTools 進行效能分析而設計，debug 版本則可用來設定 dart2js 以支援 assertion 並調整最佳化等級（可使用`-O`旗標）。
 
-Flutter web provides two build modes (default and WebAssembly) and two renderers
-(`canvaskit` and `skwasm`).
+## 選擇建置模式與繪製引擎
 
-For more information, see [Web renderers][].
+Flutter Web 提供兩種建置模式（預設與 WebAssembly）以及兩種繪製引擎（`canvaskit` 和 `skwasm`）。
 
-## Deploying to the web
+如需更多資訊，請參閱 [Web renderers][Web renderers]。
 
-When you are ready to deploy your app,
-upload the release bundle
-to Firebase, the cloud, or a similar service.
-Here are a few possibilities, but there are
-many others:
+## 部署至 Web
 
-* [Firebase Hosting][]
-* [GitHub Pages][]
-* [Google Cloud Hosting][]
+當你準備好部署應用程式時，請將發行版 bundle 上傳至 Firebase、雲端或其他類似服務。以下是幾個常見選項，當然還有許多其他方式：
 
-## Deploying to Firebase Hosting
+* [Firebase Hosting][Firebase Hosting]
+* [GitHub Pages][GitHub Pages]
+* [Google Cloud Hosting][Google Cloud Hosting]
 
-You can use the Firebase CLI to build and release your Flutter app with Firebase
-Hosting.
+## 部署至 Firebase Hosting
 
-### Before you begin
+你可以使用 Firebase CLI 來建置並發佈 Flutter 應用程式至 Firebase Hosting。
 
-To get started, [install or update][install-firebase-cli] the Firebase CLI:
+### 開始之前
+
+請先[安裝或更新][install-firebase-cli] Firebase CLI：
 
 ```console
 npm install -g firebase-tools
 ```
 
-### Initialize Firebase
+### 初始化 Firebase
 
-1. Enable the web frameworks preview to the [Firebase framework-aware CLI][]:
+1. 在 [Firebase framework-aware CLI][Firebase framework-aware CLI] 中啟用 Web 框架預覽功能：
 
     ```console
     firebase experiments:enable webframeworks
     ```
 
-2. In an empty directory or an existing Flutter project, run the initialization
-command:
+2. 在一個空的目錄或現有的 Flutter 專案中，執行初始化指令：
 
     ```console
     firebase init hosting
     ```
 
-3. Answer `yes` when asked if you want to use a web framework.
+3. 當系統詢問是否要使用網頁框架時，請回答 `yes`。
 
-4. If you're in an empty directory,
-    you'll be asked to choose your web framework. Choose `Flutter Web`.
+4. 如果你目前位於一個空的目錄中，系統會請你選擇你的網頁框架。請選擇 `Flutter Web`。
 
-5. Choose your hosting source directory; this could be an existing flutter app.
+5. 選擇你的 Hosting 原始目錄；這可以是一個現有的 Flutter 應用程式。
 
-6. Select a region to host your files.
+6. 選擇一個區域來託管你的檔案。
 
-7. Choose whether to set up automatic builds and deploys with GitHub.
+7. 選擇是否要與 GitHub 設定自動建置與部署。
 
-8. Deploy the app to Firebase Hosting:
+8. 將應用程式部署到 Firebase Hosting：
 
     ```console
     firebase deploy
     ```
 
-    Running this command automatically runs `flutter build web --release`,
-    so you don't have to build your app in a separate step.
+    執行此指令會自動執行 `flutter build web --release`，
+因此你不需要另外分開建置你的應用程式。
 
-To learn more, visit the official [Firebase Hosting][] documentation for
-Flutter on the web.
+如需進一步了解，請參閱官方 [Firebase Hosting][Firebase Hosting]
+Flutter Web 相關文件。
 
-## Handling images on the web
+## 在 Web 上處理圖片
 
-The web supports the standard `Image` widget to display images.
-By design, web browsers run untrusted code without harming the host computer.
-This limits what you can do with images compared to mobile and desktop platforms.
+Web 支援標準的 `Image` 元件 (Widget) 來顯示圖片。
+基於設計，Web 瀏覽器會執行不受信任的程式碼，同時不會危害主機電腦。
+這使得你在 Web 上處理圖片時，功能上會受到比行動裝置與桌面平台更多的限制。
 
-For more information, see [Displaying images on the web][].
+如需更多資訊，請參閱 [Displaying images on the web][Displaying images on the web]。
 
-## Minification
+## 程式碼壓縮（Minification）
 
-To improve app start-up the compiler reduces the size of the compiled code by
-removing unused code (known as _tree shaking_), and by renaming code symbols to
-shorter strings (e.g. by renaming `AlignmentGeometryTween` to something like
-`ab`). Which of these two optimizations are applied depends on the build mode:
+為了提升應用程式啟動速度，編譯器會透過移除未使用的程式碼（稱為 _tree shaking_ 樹狀搖晃），以及將程式碼符號重新命名為較短的字串（例如將 `AlignmentGeometryTween` 重新命名為像是 `ab` 這樣的名稱），來減少編譯後程式碼的大小。這兩種最佳化方式會根據建置模式而有所不同：
 
-| Type of web app build | Code minified? | Tree shaking performed? |
-|-----------------------|----------------|-------------------------|
-| debug                 | No             | No                      |
-| profile               | No             | Yes                     |
-| release               | Yes            | Yes                     |
+| Web 應用程式建置類型 | 程式碼壓縮？ | 是否執行 tree shaking？ |
+|----------------------|--------------|------------------------|
+| debug                | 否           | 否                     |
+| profile              | 否           | 是                     |
+| release              | 是           | 是                     |
 
-## Embedding a Flutter app into an HTML page
+## 將 Flutter 應用程式嵌入 HTML 頁面
 
-See [Embedding Flutter web][].
+請參閱 [Embedding Flutter web][Embedding Flutter web]。
 
 [Embedding Flutter web]: /platform-integration/web/embedding-flutter-web
 

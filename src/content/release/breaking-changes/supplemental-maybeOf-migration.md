@@ -1,46 +1,29 @@
 ---
-title: Migrate `of` to non-nullable return values, and add `maybeOf`
+title: 將 `of` 遷移為非 nullable 回傳值，並新增 `maybeOf`
 description: >
-  To eliminate nullOk parameters to help with API sanity
-  in the face of null safety.
+  為了消除 nullOk 參數，以提升 API 在 null safety 下的合理性
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-This migration guide describes conversion of code that uses various static `of`
-functions to retrieve information from a context that used to return nullable
-values, but now return non-nullable values.
+本遷移指南說明如何將使用各種靜態 `of` 函式，從 context 取得資訊的程式碼，由原本回傳 nullable 值，轉為回傳非 nullable 值。
 
-## Context
+## 背景說明
 
-Flutter has a common pattern of allowing lookup of some types of widgets
-(typically [`InheritedWidget`][]s, but also others) using static member
-functions that are typically called `of`.
+Flutter 常見的設計模式是允許透過靜態成員函式查找某些型別的元件（通常是 [`InheritedWidget`][`InheritedWidget`]，但也包含其他類型），這些函式通常名為 `of`。
 
-When non-nullability was made the default, it was then desirable to have the
-most commonly used APIs return a non-nullable value. This is because saying
-`Scrollable.of(context)` and then still requiring an `!` operator or `?` and a
-fallback value after that call felt awkward, and was not idiomatic for
-non-nullable Dart code.
+當非 nullability 成為預設時，最常用的 API 回傳非 nullable 值會更理想。因為如果呼叫 `Scrollable.of(context)` 後，仍然需要使用 `!` 運算子或 `?` 並在後面加上預設值，這樣的寫法既不直觀，也不符合 Dart 非 nullable 程式碼的慣例。
 
-A lot of this migration was performed when we eliminated `nullOk` parameters in
-a [previous migration][], but some `of` methods were missed in that migration,
-and some were subsequently added with nullable return types, counter to our
-common pattern.
+大部分相關遷移已在[先前的遷移][previous migration]中，移除了 `nullOk` 參數，但有些 `of` 方法當時遺漏，之後又新增了一些回傳 nullable 的方法，這與我們一貫的設計模式不符。
 
-In this migration, the affected `of` accessors were split into two calls: one
-that returned a non-nullable value and threw an exception when the sought-after
-value was not present (still called `of`), and one that returned a nullable
-value that didn't throw an exception, and returned null if the value was not
-present (a new method called `maybeOf`).
+在本次遷移中，受影響的 `of` 存取器被拆分為兩種呼叫方式：一種是回傳非 nullable 值且在找不到對應值時會丟出例外（仍稱為 `of`），另一種則是回傳 nullable 值，不會丟出例外，若找不到值則回傳 null（新方法名為 `maybeOf`）。
 
-## Description of change
+## 變更說明
 
-The change modified these static `of` APIs to return non-nullable values.
-If a value is not found, they will also now assert in debug mode, and
-throw an exception in release mode.
+這次變更將這些靜態 `of` API 修改為回傳非 nullable 值。
+如果找不到對應值，這些 API 現在會在 debug 模式下 assert，並在 release 模式下丟出例外。
 
 * [`AutofillGroup.of`]
 * [`DefaultTabController.of`]
@@ -56,9 +39,7 @@ throw an exception in release mode.
 * [`Scrollable.of`]
 * [`ScrollNotificationObserver.of`]
 
-This change also introduced new static `maybeOf` APIs alongside
-the above functions, which return a nullable version of the same value, and
-simply return null if the value is not found, without throwing any exceptions.
+此外，本次變更也針對上述函式新增了新的靜態 `maybeOf` API，這些 API 會回傳相同型別的 nullable 值，若找不到值則直接回傳 null，不會丟出任何例外。
 
 * [`AutofillGroup.maybeOf`]
 * [`DefaultTabController.maybeOf`]
@@ -74,65 +55,58 @@ simply return null if the value is not found, without throwing any exceptions.
 * [`Scrollable.maybeOf`]
 * [`ScrollNotificationObserver.maybeOf`]
 
-## Migration guide
+## 遷移指南
 
-To modify your code to use the new form of the APIs, first convert all
-instances of the original static `of` functions (where its nullability is
-important) to use the `maybeOf` form instead.
+若要讓你的程式碼使用新版 API，請先將所有原本靜態 `of` 函式（當其 nullability 很重要時）改為使用 `maybeOf` 版本。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 ScrollController? controller = Scrollable.of(context);
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 ScrollController? controller = Scrollable.maybeOf(context);
 ```
 
-Then, for instances where the code calls the `of` API followed by
-an exclamation point, just remove the exclamation point: it can
-no longer return a nullable value.
+接著，針對程式碼中呼叫 `of` API 並在後方加上驚嘆號的情境，只需移除該驚嘆號：因為它現在不會再回傳可為 null 的值。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 ScrollController controller = Scrollable.of(context)!;
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 ScrollController controller = Scrollable.of(context);
 ```
 
-The following can also be helpful:
+以下內容也可能對您有所幫助：
 
-* [`unnecessary_non_null_assertion`][] (linter message) identifies
-  places where an  `!` operator should be removed
-* [`unnecessary_null_checks`][] (analysis option) identifies places
-  where the `?` operator isn't needed
-* [`unnecessary_null_in_if_null_operators`][] identifies places
-  where a `??` operator isn't needed
-* [`unnecessary_nullable_for_final_variable_declarations`][] (analysis option)
-  finds unnecessary question mark operators on `final` and `const` variables
+* [`unnecessary_non_null_assertion`][`unnecessary_non_null_assertion`] (linter message) 可協助找出應移除 `!` 運算子的地方
+* [`unnecessary_null_checks`][`unnecessary_null_checks`] (analysis option) 可協助找出不需要 `?` 運算子的地方
+* [`unnecessary_null_in_if_null_operators`][`unnecessary_null_in_if_null_operators`] 可協助找出不需要 `??` 運算子的地方
+* [`unnecessary_nullable_for_final_variable_declarations`][`unnecessary_nullable_for_final_variable_declarations`] (analysis option)
+  可協助找出在 `final` 和 `const` 變數上多餘的問號運算子
 
-## Timeline
+## 時程
 
-In stable release: 3.7
+穩定版發佈於：3.7
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`Material.of`][]
+* [`Material.of`][`Material.of`]
 
-Relevant PRs:
+相關 PR：
 
-* [Add `maybeOf` for all the cases when `of` returns nullable][]
-* [Add `Overlay.maybeOf`, make `Overlay.of` return a non-nullable instance][]
+* [為所有 `of` 回傳可為 null 的情境新增 `maybeOf`][Add `maybeOf` for all the cases when `of` returns nullable]
+* [新增 `Overlay.maybeOf`，讓 `Overlay.of` 回傳不可為 null 的實例][Add `Overlay.maybeOf`, make `Overlay.of` return a non-nullable instance]
 
 [previous migration]: /release/breaking-changes/eliminating-nullok-parameters
 [`unnecessary_non_null_assertion`]: {{site.dart-site}}/tools/diagnostic-messages#unnecessary_non_null_assertion

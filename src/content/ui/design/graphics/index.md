@@ -1,9 +1,9 @@
 ---
 layout: toc
-title: Custom drawing and graphics
-shortTitle: Drawing & graphics
+title: 自訂繪製與圖形
+shortTitle: 繪製與圖形
 description: >
-  Content covering how to create custom graphics and 
-  use your own shaders in Flutter apps.
+  介紹如何在 Flutter 應用程式中建立自訂圖形，
+  以及使用自有著色器（shader）。
 sitemap: false
 ---

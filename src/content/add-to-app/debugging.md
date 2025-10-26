@@ -1,45 +1,30 @@
 ---
-title: Debug your add-to-app module
-shortTitle: Debugging
-description: How to run, debug, and hot reload your add-to-app Flutter module.
+title: 偵錯你的 add-to-app 模組
+shortTitle: 偵錯
+description: 如何執行、偵錯與熱重載你的 add-to-app Flutter 模組。
 ---
 
-Once you've integrated the Flutter module to your project and used
-Flutter's platform APIs to run the Flutter engine and/or UI,
-you can then build and run your Android or iOS app the same way
-you run normal Android or iOS apps.
+當你已將 Flutter 模組整合到你的專案，並且使用 Flutter 的平台 API 來執行 Flutter 引擎和／或 UI 之後，你就可以像執行一般 Android 或 iOS 應用程式一樣，建置並執行你的 Android 或 iOS 應用程式。
 
-Flutter now powers the UI wherever your code includes
-`FlutterActivity` or `FlutterViewController`.
+只要你的程式碼中包含 `FlutterActivity` 或 `FlutterViewController`，Flutter 就會驅動該處的 UI。
 
-## Overview
+## 概覽
 
-You might be used to having your suite of favorite Flutter debugging tools
-available when running `flutter run` or an equivalent command from an IDE.
-But you can also use all your Flutter [debugging functionalities][] such as
-hot reload, performance overlays, DevTools, and setting breakpoints in
-add-to-app scenarios.
+你可能已經習慣在執行 `flutter run` 或從 IDE 執行等效指令時，能夠使用你最喜愛的一系列 Flutter 偵錯工具。但在 add-to-app 的情境下，你同樣可以使用所有 Flutter [偵錯功能][debugging functionalities]，例如熱重載、效能疊加、DevTools，以及設置中斷點等。
 
-The `flutter attach` command provides these functionalities.
-To run this command, you can use the SDK's CLI tools, VS Code
-or IntelliJ IDEA or Android Studio.
+`flutter attach` 指令提供了這些功能。你可以透過 SDK 的命令列工具（CLI）、VS Code、IntelliJ IDEA 或 Android Studio 來執行這個指令。
 
-The `flutter attach` command connects once you run your `FlutterEngine`.
-It remains attached until you dispose your `FlutterEngine`.
-You can invoke `flutter attach` before starting your engine.
-The `flutter attach` command waits for the next available Dart VM that
-your engine hosts.
+當你執行 `FlutterEngine` 時，`flutter attach` 指令會連線。它會持續附加，直到你釋放你的 `FlutterEngine`。你也可以在啟動引擎前呼叫 `flutter attach`。`flutter attach` 指令則會等待你的引擎所託管的下一個可用 Dart VM。
 
-## Debug from the Terminal
+## 從終端機進行偵錯
 
-To attach from the terminal, run `flutter attach`.
-To select a specific target device, add `-d <deviceId>`.
+若要從終端機附加，請執行 `flutter attach`。若要選擇特定目標裝置，請加上 `-d <deviceId>`。
 
 ```console
 $ flutter attach
 ```
 
-The command should print output resembling the following:
+該指令應該會輸出類似以下的內容：
 
 ```console
 Syncing files to device iPhone 15 Pro...
@@ -49,68 +34,66 @@ To hot reload the changes while running, press "r".
 To hot restart (and rebuild state). press "R".
 ```
 
-## Debug iOS extension in Xcode and VS Code
+## 在 Xcode 和 VS Code 中除錯 iOS 擴充功能
 
 {% render docs/debug/debug-flow-ios.md, add:'launch' %}
 
-## Debug Android extension in Android Studio
+## 在 Android Studio 中除錯 Android 擴充功能
 
 {% render docs/debug/debug-flow-androidstudio-as-start.md %}
 
 [debugging functionalities]: /testing/debugging
 
-## Debug without USB connection {:#wireless-debugging}
+## 無需 USB 連線進行除錯 {:#wireless-debugging}
 
-To debug your app over Wi-Fi on an iOS or Android device,
-use `flutter attach`.
+若要在 iOS 或 Android 裝置上透過 Wi-Fi 進行應用程式除錯，
+請使用 `flutter attach`。
 
-### Debug over Wi-Fi on iOS devices
+### 在 iOS 裝置上透過 Wi-Fi 除錯
 
-For an iOS target, complete the follow steps:
+針對 iOS 目標，請完成以下步驟：
 
-1. Verify your device connects to Xcode over Wi-Fi
-   as described in the [iOS setup guide][].
+1. 確認您的裝置已如 [iOS 設定指南][iOS setup guide] 所述，透過 Wi-Fi 連線至 Xcode。
 
-1. On your macOS development machine,
-   open **Xcode** <span aria-label="and then">></span>
+1. 在您的 macOS 開發機上，
+   開啟 **Xcode** <span aria-label="and then">></span>
    **Product** <span aria-label="and then">></span>
    **Scheme** <span aria-label="and then">></span>
-   **Edit Scheme...**.
+   **Edit Scheme...**。
 
-   You can also press <kbd>Cmd</kbd> + <kbd><</kbd>.
+   您也可以按下 <kbd>Cmd</kbd> + <kbd><</kbd>。
 
-1. Click **Run**.
+1. 點擊 **Run**。
 
-1. Click **Arguments**.
+1. 點擊 **Arguments**。
 
-1. In **Arguments Passed On Launch**, Click **+**.
+1. 在 **Arguments Passed On Launch** 中，點擊 **+**。
 
    {:type="a"}
-   1. If your dev machine uses IPv4, add `--vm-service-host=0.0.0.0`.
+   1. 如果您的開發機使用 IPv4，請加入 `--vm-service-host=0.0.0.0`。
 
-   1. If your dev machine uses IPv6, add `--vm-service-host=::0`.
+   1. 如果您的開發機使用 IPv6，請加入 `--vm-service-host=::0`。
 
    {% render docs/app-figure.md, img-class:"site-mobile-screenshot border", image:"development/add-to-app/debugging/wireless-port.png",
-   caption:"Arguments Passed On Launch with an IPv4 network added", width:"100%" %}
+   caption:"已新增 IPv4 網路的 Arguments Passed On Launch 畫面", width:"100%" %}
 
-#### To determine if you're on an IPv6 network
+#### 如何判斷您是否在 IPv6 網路下
 
-1. Open **Settings** <span aria-label="and then">></span> **Wi-Fi**.
+1. 開啟 **設定** <span aria-label="and then">></span> **Wi-Fi**。
 
-1. Click on your connected network.
+1. 點擊您已連線的網路。
 
-1. Click **Details...**
+1. 點擊 **詳細資訊...**
 
-1. Click **TCP/IP**.
+1. 點擊 **TCP/IP**。
 
-1. Check for an **IPv6 address** section.
+1. 檢查是否有 **IPv6 位址** 區段。
 
-   {% render docs/app-figure.md, img-class:"site-mobile-screenshot border", image:"development/add-to-app/ipv6.png", caption:"WiFi dialog box for macOS System Settings", width:"60%" %}
+   {% render docs/app-figure.md, img-class:"site-mobile-screenshot border", image:"development/add-to-app/ipv6.png", caption:"macOS 系統設定中的 WiFi 對話框", width:"60%" %}
 
-### Debug over Wi-Fi on Android devices
+### 在 Android 裝置上透過 Wi-Fi 除錯
 
-Verify your device connects to Android Studio over Wi-Fi
-as described in the [Android setup guide][].
+請依照 [Android 設定指南][Android setup guide] 所述，確認您的裝置已透過 Wi-Fi 連線至 Android Studio。
 
 [iOS setup guide]: /platform-integration/ios/setup
 [Android setup guide]: /platform-integration/android/setup#set-up-devices

@@ -1,5 +1,5 @@
 ---
 layout: toc
-title: State management
-description: Content covering state management in Flutter apps.
+title: 狀態管理
+description: 涵蓋 Flutter 應用程式中狀態管理的相關內容。
 ---

@@ -1,51 +1,35 @@
 ---
-title: Differentiate between ephemeral state and app state
-description: How to tell the difference between ephemeral and app state.
+title: 區分短暫狀態與應用程式狀態
+description: 如何分辨短暫狀態與應用程式狀態。
 prev:
-  title: Start thinking declaratively
+  title: 開始以宣告式思維設計
   path: /data-and-backend/state-mgmt/declarative
 next:
-  title: Simple app state management
+  title: 簡單的應用程式狀態管理
   path: /data-and-backend/state-mgmt/simple
 ---
 
-_This doc introduces app state, ephemeral state,
-and how you might manage each in a Flutter app._
+_本文件介紹應用程式狀態（app state）、短暫狀態（ephemeral state），以及你可以如何在 Flutter 應用程式中管理這兩者。_
 
-In the broadest possible sense, the state of an app is everything that
-exists in memory when the app is running. This includes the app's assets,
-all the variables that the Flutter framework keeps about the UI,
-animation state, textures, fonts, and so on. While this broadest
-possible definition of state is valid, it's not very useful for
-architecting an app.
+從最廣義的角度來看，應用程式的狀態是指當應用程式執行時，所有存在於記憶體中的內容。這包括應用程式的資源（assets）、Flutter 框架所維護的所有與 UI 相關的變數、動畫狀態、紋理、字型等等。雖然這種最廣義的狀態定義是正確的，但對於應用程式架構設計來說並不太實用。
 
-First, you don't even manage some state (like textures).
-The framework handles those for you. So a more useful definition of
-state is "whatever data you need in order to rebuild your UI at any
-moment in time". Second, the state that you _do_ manage yourself can
-be separated into two conceptual types: ephemeral state and app state.
+首先，有些狀態（例如紋理）你根本不需要自行管理，這些由框架自動處理。因此，更實用的狀態定義是：「你在任何時刻需要用來重建 UI 的資料」。其次，你自己需要管理的狀態又可以分為兩種概念型態：短暫狀態（ephemeral state）與應用程式狀態（app state）。
 
-## Ephemeral state
+## 短暫狀態（Ephemeral state）
 
-Ephemeral state (sometimes called _UI state_ or _local state_)
-is the state you can neatly contain in a single widget.
+短暫狀態（有時也稱為 _UI 狀態_ 或 _本地狀態_）是指你可以完全包在單一元件（Widget）內部的狀態。
 
-This is, intentionally, a vague definition, so here are a few examples.
+這個定義本身比較模糊，因此以下舉幾個例子：
 
-* current page in a [`PageView`][]
-* current progress of a complex animation
-* current selected tab in a `BottomNavigationBar`
+* [`PageView`][`PageView`] 中的目前頁面
+* 複雜動畫的目前進度
+* `BottomNavigationBar` 中目前選取的分頁
 
-Other parts of the widget tree seldom need to access this kind of state.
-There is no need to serialize it, and it doesn't change in complex ways.
+元件樹（widget tree）的其他部分很少需要存取這類狀態。不需要將其序列化，且其變化也不複雜。
 
-In other words, there is no need to use state management techniques
-(ScopedModel, Redux, etc.) on this kind of state.
-All you need is a `StatefulWidget`.
+換句話說，這類狀態不需要使用狀態管理技術（如 ScopedModel、Redux 等）來處理。你只需要一個 `StatefulWidget` 即可。
 
-Below, you see how the currently selected item in a bottom navigation bar is
-held in the `_index` field of the `_MyHomepageState` class.
-In this example, `_index` is ephemeral state.
+下方範例展示了如何將底部導覽列（bottom navigation bar）中目前選取的項目，儲存在 `_MyHomepageState` 類別的 `_index` 欄位中。在這個例子中，`_index` 就是短暫狀態（ephemeral state）。
 
 <?code-excerpt "state_mgmt/simple/lib/src/set_state.dart (ephemeral)" plaster="// ... items ..."?>
 ```dart
@@ -74,70 +58,43 @@ class _MyHomepageState extends State<MyHomepage> {
 }
 ```
 
-Here, using `setState()` and a field inside the StatefulWidget's State
-class is completely natural. No other part of your app needs to access
-`_index`. The variable only changes inside the `MyHomepage` widget.
-And, if the user closes and restarts the app,
-you don't mind that `_index` resets to zero.
+在這裡，使用 `setState()` 以及在 StatefulWidget 的 State 類別中的欄位是非常自然的。你的應用程式中沒有其他部分需要存取 `_index`。這個變數只會在 `MyHomepage` 元件（Widget）內部變動。而且，如果使用者關閉並重新啟動應用程式，你也不會介意 `_index` 會重設為零。
 
-## App state
+## 應用程式狀態（App state）
 
-State that is not ephemeral,
-that you want to share across many parts of your app,
-and that you want to keep between user sessions,
-is what we call application state
-(sometimes also called shared state).
+如果某個狀態不是暫時性的（ephemeral），你希望在應用程式的多個部分之間共享，並且希望能夠在使用者多次開啟應用程式時保留，那麼這就稱為應用程式狀態（application state，有時也稱為 shared state）。
 
-Examples of application state:
+應用程式狀態的範例：
 
-* User preferences
-* Login info
-* Notifications in a social networking app
-* The shopping cart in an e-commerce app
-* Read/unread state of articles in a news app
+* 使用者偏好設定
+* 登入資訊
+* 社群網路應用程式中的通知
+* 電子商務應用程式中的購物車
+* 新聞應用程式中文章的已讀／未讀狀態
 
-For managing app state, you'll want to research your options.
-Your choice depends on the complexity and nature of your app,
-your team's previous experience, and many other aspects. Read on.
+要管理應用程式狀態，你需要研究各種可用方案。你的選擇取決於應用程式的複雜度與特性、團隊過往的經驗，以及許多其他因素。請繼續閱讀下文。
 
-## There is no clear-cut rule
+## 沒有明確的規則
 
-To be clear, you _can_ use `State` and `setState()` to manage all of
-the state in your app. In fact, the Flutter team does this in many
-simple app samples (including the starter app that you get with every
-`flutter create`).
+需要說明的是，你 _可以_ 使用 `State` 和 `setState()` 來管理應用程式中的所有狀態。事實上，Flutter 團隊在許多簡單的應用程式範例（包括每個 `flutter create` 所附的入門範例）中就是這麼做的。
 
-It goes the other way, too. For example, you might decide that&mdash;in
-the context of your particular app&mdash;the selected tab in a bottom
-navigation bar is _not_ ephemeral state. You might need to change it
-from outside the class, keep it between sessions, and so on.
-In that case, the `_index` variable is app state.
+反過來說，也有不同的情況。例如，你可能會認為——在你的特定應用程式情境下——底部導覽列（bottom navigation bar）中被選取的分頁並 _不是_ 暫時性狀態。你可能需要從類別外部變更它、在多次啟動應用程式時保留它，等等。在這種情況下，`_index` 變數就是應用程式狀態。
 
-There is no clear-cut, universal rule to distinguish
-whether a particular variable is ephemeral or app state.
-Sometimes, you'll have to refactor one into another.
-For example, you'll start with some clearly ephemeral state,
-but as your application grows in features,
-it might need to be moved to app state.
+沒有明確、通用的規則可以區分某個變數究竟是暫時性狀態還是應用程式狀態。有時候，你需要將一種狀態重構為另一種。例如，你一開始可能將某些狀態設計為明顯的暫時性狀態，但隨著應用程式功能的增長，它可能需要被移動到應用程式狀態中。
 
-For that reason, take the following diagram with a large grain of salt:
+因此，請對下方這張圖保持高度保留態度：
 
 <img src='/assets/images/docs/development/data-and-backend/state-mgmt/ephemeral-vs-app-state.png' width="100%" class="diagram-wrap" alt="A flow chart. Start with 'Data'. 'Who needs it?'. Three options: 'Most widgets', 'Some widgets' and 'Single widget'. The first two options both lead to 'App state'. The 'Single widget' option leads to 'Ephemeral state'.">
 
 {% comment %}
-Source drawing for the png above: : https://docs.google.com/drawings/d/1p5Bvuagin9DZH8bNrpGfpQQvKwLartYhIvD0WKGa64k/edit?usp=sharing
+上方 png 的原始繪圖來源：: https://docs.google.com/drawings/d/1p5Bvuagin9DZH8bNrpGfpQQvKwLartYhIvD0WKGa64k/edit?usp=sharing
 {% endcomment %}
 
-When asked about React's setState versus Redux's store, the author of Redux,
-Dan Abramov, replied:
+當被問到 React 的 setState 與 Redux 的 store 有何不同時，Redux 的作者 Dan Abramov 回答：
 
-> "The rule of thumb is: [Do whatever is less awkward][]."
+> 「經驗法則是：[選擇較不尷尬的做法][Do whatever is less awkward]。」
 
-In summary, there are two conceptual types of state in any Flutter app.
-Ephemeral state can be implemented using `State` and `setState()`,
-and is often local to a single widget. The rest is your app state.
-Both types have their place in any Flutter app, and the split between
-the two depends on your own preference and the complexity of the app.
+總結來說，在任何 Flutter 應用程式中，概念上有兩種類型的狀態。暫時性狀態（ephemeral state）可以透過 `State` 和 `setState()` 來實作，通常只屬於單一元件（Widget）本地。其餘的則屬於你的應用程式狀態。這兩種狀態在 Flutter 應用程式中各有其位置，兩者的劃分取決於你的偏好以及應用程式的複雜度。
 
 [Do whatever is less awkward]: {{site.github}}/reduxjs/redux/issues/1287#issuecomment-175351978
 [`PageView`]: {{site.api}}/flutter/widgets/PageView-class.html

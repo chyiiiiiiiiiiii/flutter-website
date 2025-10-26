@@ -1,69 +1,61 @@
 ---
-title: Default drag scrolling devices
+title: 預設拖曳捲動裝置
 description: >
-  ScrollBehaviors will now configure what
-  PointerDeviceKinds can drag Scrollables.
+  ScrollBehaviors 現在會設定哪些
+  PointerDeviceKinds 可以拖曳滾動元件 (Scrollables)。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-`ScrollBehavior`s now allow or disallow drag scrolling from specified
-`PointerDeviceKind`s. `ScrollBehavior.dragDevices`, by default,
-allows scrolling widgets to be dragged by all `PointerDeviceKind`s
-except for `PointerDeviceKind.mouse`.
+`ScrollBehavior` 現在可以允許或禁止指定的 `PointerDeviceKind` 進行拖曳捲動。`ScrollBehavior.dragDevices` 預設情況下，
+允許所有 `PointerDeviceKind` 拖曳滾動元件 (Scrolling Widgets)，
+除了 `PointerDeviceKind.mouse` 之外。
 
-## Context
+## 背景說明
 
-Prior to this change, all `PointerDeviceKind`s could drag a `Scrollable` widget.
-This did not match developer expectations when interacting with Flutter
-applications using mouse input devices. This also made it difficult to execute
-other mouse gestures, like selecting text that was contained in a `Scrollable` widget.
+在這項變更之前，所有 `PointerDeviceKind` 都可以拖曳 `Scrollable` 元件 (Widget)。
+這與開發者在使用滑鼠輸入裝置操作 Flutter 應用程式時的預期不符。
+此外，這也讓執行其他滑鼠手勢變得困難，例如選取包含在 `Scrollable` 元件 (Widget) 內的文字。
 
-Now, the inherited `ScrollBehavior` manages which devices can drag scrolling widgets
-as specified by `ScrollBehavior.dragDevices`. This set of `PointerDeviceKind`s are
-allowed to drag.
+現在，繼承的 `ScrollBehavior` 會根據 `ScrollBehavior.dragDevices` 指定哪些裝置可以拖曳滾動元件。
+這組 `PointerDeviceKind` 可以進行拖曳操作。
 
-## Description of change
+## 變更說明
 
-This change fixed the unexpected ability to scroll by dragging with a mouse.
+這項變更修正了使用滑鼠拖曳進行捲動的非預期行為。
 
-If you have relied on the previous behavior in your application, there are several ways to
-control and configure this feature.
+如果你的應用程式依賴於先前的行為，現在有幾種方式可以控制與設定此功能。
 
-- Extend `ScrollBehavior`, `MaterialScrollBehavior`, or `CupertinoScrollBehavior`
-to modify the default behavior, overriding `ScrollBehavior.dragDevices`.
+- 繼承 `ScrollBehavior`、`MaterialScrollBehavior` 或 `CupertinoScrollBehavior`
+  來修改預設行為，覆寫 `ScrollBehavior.dragDevices`。
   
-  - With your own `ScrollBehavior`, you can apply it app-wide by setting
-    `MaterialApp.scrollBehavior` or `CupertinoApp.scrollBehavior`.
-  - Or, if you wish to only apply it to specific widgets, add a
-    `ScrollConfiguration` above the widget in question with your
-    custom `ScrollBehavior`.
+  - 使用你自訂的 `ScrollBehavior`，可以透過設定 `MaterialApp.scrollBehavior` 或 `CupertinoApp.scrollBehavior`
+    來套用至整個應用程式。
+  - 或者，如果只想套用到特定元件 (Widget)，
+    可以在該元件上方加入 `ScrollConfiguration`，並使用你自訂的 `ScrollBehavior`。
  
-Your scrollable widgets then inherit and reflect this behavior.
+你的滾動元件 (Scrolling Widgets) 會繼承並反映這個行為。
 
-- Instead of creating your own `ScrollBehavior`, another option for changing
-the default behavior is to copy the existing `ScrollBehavior`, and set different
-`dragDevices`.
-  - Create a `ScrollConfiguration` in your widget tree, and provide a modified copy
-    of the existing `ScrollBehavior` in the current context using `copyWith`.
+- 除了自訂 `ScrollBehavior` 外，另一個變更預設行為的方式是複製現有的 `ScrollBehavior`，
+  並設定不同的 `dragDevices`。
+  - 在元件樹中建立一個 `ScrollConfiguration`，並使用 `copyWith`
+    在目前的 context 中提供修改過的 `ScrollBehavior` 副本。
 
-To accommodate the new configuration of drag devices in `ScrollBehavior`,
-`GestureDetector.kind` has been deprecated along with
-all subclassed instances of the parameter.
-A flutter fix is available to migrate existing code
-for all gesture detectors from `kind` to `supportedDevices`.
-The previous parameter `kind` only allowed one `PointerDeviceKind` to
-be used to filter gestures.
-The introduction of `supportedDevices` makes it possible for more
-than one valid `PointerDeviceKind`.
+為了因應 `ScrollBehavior` 中拖曳裝置的新設定方式，
+`GestureDetector.kind` 以及所有該參數的子類別實例都已被棄用。
+Flutter 提供了 flutter fix，可協助將現有的手勢偵測器程式碼
+從 `kind` 遷移至 `supportedDevices`。
+先前的參數 `kind` 只允許一個 `PointerDeviceKind`
+用來過濾手勢。
+而新增的 `supportedDevices` 則讓多個有效的 `PointerDeviceKind` 成為可能。
 
-## Migration guide
+## 遷移指南
 
-### Setting a custom `ScrollBehavior` for your application
+### 為你的應用程式設定自訂的 `ScrollBehavior`
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 MaterialApp(
@@ -71,7 +63,7 @@ MaterialApp(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
@@ -91,9 +83,9 @@ MaterialApp(
 );
 ```
 
-### Setting a custom `ScrollBehavior` for a specific widget
+### 為特定元件（Widget）設定自訂的 `ScrollBehavior`
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 final ScrollController controller = ScrollController();
@@ -105,7 +97,7 @@ ListView.builder(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
@@ -131,9 +123,9 @@ ScrollConfiguration(
 );
 ```
 
-### Copy and modify existing `ScrollBehavior`
+### 複製並修改現有的 `ScrollBehavior`
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 final ScrollController controller = ScrollController();
@@ -145,7 +137,7 @@ ListView.builder(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 // ScrollBehavior can be copied and adjusted.
@@ -164,9 +156,9 @@ ScrollConfiguration(
 );
 ```
 
-### Migrate `GestureDetector`s from `kind` to `supportedDevices`
+### 將 `GestureDetector` 從 `kind` 遷移至 `supportedDevices`
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 VerticalDragGestureRecognizer(
@@ -174,7 +166,7 @@ VerticalDragGestureRecognizer(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 VerticalDragGestureRecognizer(
@@ -182,30 +174,30 @@ VerticalDragGestureRecognizer(
 );
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 2.3.0-12.0.pre<br>
-In stable release: 2.5
+合併於版本：2.3.0-12.0.pre<br>  
+正式版發佈於：2.5
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`ScrollConfiguration`][]
-* [`ScrollBehavior`][]
-* [`MaterialScrollBehavior`][]
-* [`CupertinoScrollBehavior`][]
-* [`PointerDeviceKind`][]
-* [`GestureDetector`][]
+* [`ScrollConfiguration`][`ScrollConfiguration`]
+* [`ScrollBehavior`][`ScrollBehavior`]
+* [`MaterialScrollBehavior`][`MaterialScrollBehavior`]
+* [`CupertinoScrollBehavior`][`CupertinoScrollBehavior`]
+* [`PointerDeviceKind`][`PointerDeviceKind`]
+* [`GestureDetector`][`GestureDetector`]
 
-Relevant issue:
+相關議題：
 
-* [Issue #71322][]
+* [Issue #71322][Issue #71322]
 
-Relevant PRs:
+相關 PR：
 
-* [Reject mouse drags by default in scrollables][]
-* [Deprecate GestureDetector.kind in favor of new supportedDevices][]
+* [Reject mouse drags by default in scrollables][Reject mouse drags by default in scrollables]
+* [Deprecate GestureDetector.kind in favor of new supportedDevices][Deprecate GestureDetector.kind in favor of new supportedDevices]
 
 
 [`ScrollConfiguration`]: {{site.api}}/flutter/widgets/ScrollConfiguration-class.html

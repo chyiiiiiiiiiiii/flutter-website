@@ -1,100 +1,68 @@
 ---
-title: Actions API revision
+title: Actions API 修訂
 description: >
-  Removes need for FocusNode in invocations, map Intent types to Actions.
+  移除在呼叫時需要 FocusNode，將 Intent 型別對應到 Actions。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-In Flutter an [`Intent`][] is an object that's typically bound
-to a keyboard key combination using the [`Shortcuts`][] widget.
-An `Intent` can be bound to an [`Action`][],
-which can update the application's state or perform other operations.
-In the course of using this API, we identified several drawbacks
-in the design, so we have updated the Actions API to make it easier
-to use and understand.
+在 Flutter 中，[`Intent`][`Intent`] 是一個物件，通常會透過 [`Shortcuts`][`Shortcuts`] 元件（Widget）綁定到某個鍵盤組合鍵。
+`Intent` 可以綁定到 [`Action`][`Action`]，
+進而更新應用程式的狀態或執行其他操作。
+在使用這個 API 的過程中，我們發現設計上有幾個缺點，因此我們對 Actions API 進行了更新，使其更容易使用與理解。
 
-In the previous Actions API design, actions were mapped from a
-[`LocalKey`][] to an `ActionFactory` that created a new
-`Action` each time the `invoke` method was called.
-In the current API, actions are mapped from the type of the `Intent`
-to an `Action` instance (with a `Map<Type, Action>`),
-and they are not created anew for each invocation.
+在先前的 Actions API 設計中，actions 是從 [`LocalKey`][`LocalKey`] 對應到 `ActionFactory`，
+每次呼叫 `invoke` 方法時都會建立一個新的 `Action`。
+在目前的 API 中，actions 是從 `Intent` 的型別對應到 `Action` 實例（帶有 `Map<Type, Action>`），
+而且不會在每次呼叫時重新建立。
 
-## Context
+## 背景說明
 
-The original Actions API design was oriented towards invoking actions from
-widgets, and having those actions act in the context of the widget.
-Teams have been using actions, and found several limitations in that
-design that needed to be addressed:
+原本的 Actions API 設計是以從元件（Widgets）中觸發 actions，並讓這些 actions 在該元件的上下文中運作為導向。
+團隊在實際使用 actions 時，發現此設計有幾個限制需要解決：
 
-1. Actions couldn't be invoked from outside of the widget hierarchy.
-   Examples of this include processing a script of commands,
-   some undo architectures, and some controller architectures.
+1. actions 無法從元件階層（widget hierarchy）之外被呼叫。
+   例如處理指令腳本、某些 undo 架構，以及某些 controller 架構。
 
-1. The mapping from shortcut key to `Intent` and then to
-   `Action` wasn't always clear, since the data structures
-   mapped LogicalKeySet =>Intent and then
-   `LocalKey` => `ActionFactory`. The new mapping is still
-   `LogicalKeySet` to `Intent` but then it maps `Type`
-   (`Intent` type) to `Action`, which is more direct and
-   readable, since the type of the intent is written in the mapping.
+2. 從快捷鍵對應到 `Intent` 再到 `Action` 的對應關係並不總是很清楚，因為資料結構是
+   LogicalKeySet => Intent，然後
+   `LocalKey` => `ActionFactory`。新的對應方式仍然是
+   `LogicalKeySet` 對 `Intent`，但接著會將 `Type`
+   （`Intent` 型別）對應到 `Action`，這樣更直接且易讀，因為 intent 的型別直接寫在對應表中。
 
-1. If the key binding for an action was in another part of the
-   widget hierarchy, it was not always possible for the `Intent`
-   to have access to the state necessary to decide if the
-   intent/action should be enabled or not.
+3. 如果某個 action 的鍵盤綁定在元件階層的其他地方，`Intent` 不一定能存取判斷 intent/action 是否應啟用所需的狀態。
 
-To address these issues, we made some significant changes to the API.
-The mapping of actions was made more intuitive,
-and the enabled interface was moved to the `Action` class.
-Some unnecessary arguments were removed from the `Action`'s
-`invoke` method and its constructor, and actions were allowed
-to return results from their invoke method.
-Actions were made into generics, accepting the type of `Intent`
-they handle, and `LocalKeys` were no longer used for identifying
-which action to run, and the type of the `Intent` is used instead.
+為了解決這些問題，我們對 API 進行了重大調整。
+actions 的對應方式變得更直觀，並將 enabled 介面移至 `Action` 類別。
+同時移除了一些不必要的 `Action` 的 `invoke` 方法與建構子的參數，並允許 actions 的 invoke 方法回傳結果。
+actions 現在改為泛型，接受它們所處理的 `Intent` 型別，且不再使用 `LocalKeys` 來識別要執行哪個 action，而是改用 `Intent` 的型別。
 
-The majority of these changes were made in the PRs for
-[Revise Action API][] and [Make Action.enabled be
-isEnabled(Intent intent) instead][], and are
-described in detail in [the design
-doc](/go/actions-and-shortcuts-design-revision).
+這些變更大多在 [Revise Action API][Revise Action API] 和 [Make Action.enabled be isEnabled(Intent intent) instead][Make Action.enabled be
+isEnabled(Intent intent) instead] 這兩個 PR 中完成，詳細內容可參考 [設計文件](/go/actions-and-shortcuts-design-revision)。
 
-## Description of change
+## 變更說明
 
-Here are the changes made to address the above problems:
+以下是針對上述問題所做的調整：
 
-1. The `Map<LocalKey, ActionFactory>` that was given to the [`Actions`][] widget
-   is now a `Map<Type, Action<Intent>>` (the type is the type of the Intent to
-   be passed to the Action).
-1. The `isEnabled` method was moved from the `Intent` class to the `Action`
-   class.
-1. The `FocusNode` argument to `Action.invoke` and `Actions.invoke` methods was removed.
-1. Invoking an action no longer creates a new instance of the `Action`.
-1. The `LocalKey` argument to the `Intent` constructor was removed.
-1. The `LocalKey` argument to `CallbackAction` was removed.
-1. The `Action` class is now a generic (`Action<T extends Intent>`) for better
-   type safety.
-1. The `OnInvokeCallback` used by `CallbackAction` no longer takes a `FocusNode`
-   argument.
-1. The `ActionDispatcher.invokeAction` signature has changed to not accept an
-   optional `FocusNode`, but instead take an optional `BuildContext`.
-1. The `LocalKey` static constants (named key by convention) in `Action`
-   subclasses have been removed.
-1. The `Action.invoke` and `ActionDispatcher.invokeAction` methods now return
-   the result of invoking the action as an `Object`.
-1. The `Action` class may now be listened to for state changes.
-1. The `ActionFactory` typedef has been removed, as it is no longer used.
+1. 提供給 [`Actions`][`Actions`] 元件（Widget）的 `Map<LocalKey, ActionFactory>`，現在是一個 `Map<Type, Action<Intent>>`（其型別為要傳遞給 Action 的 Intent 型別）。
+2. `isEnabled` 方法已從 `Intent` 類別移至 `Action` 類別。
+3. `FocusNode` 參數已從 `Action.invoke` 和 `Actions.invoke` 方法中移除。
+4. 呼叫 action 時不再建立新的 `Action` 實例。
+5. `LocalKey` 參數已從 `Intent` 建構子中移除。
+6. `LocalKey` 參數已從 `CallbackAction` 移除。
+7. `Action` 類別現在為泛型（`Action<T extends Intent>`），以提升型別安全性。
+8. `OnInvokeCallback` 現在由 `CallbackAction` 使用時，不再接受 `FocusNode` 參數。
+9. `ActionDispatcher.invokeAction` 的簽名已更改，不再接受可選的 `FocusNode`，而是改為可選的 `BuildContext`。
+10. `LocalKey` 靜態常數（依慣例命名為 key）已從 `Action` 子類別中移除。
+11. `Action.invoke` 和 `ActionDispatcher.invokeAction` 方法現在會回傳 action 執行的結果（`Object`）。
+12. `Action` 類別現在可以監聽狀態變化。
+13. `ActionFactory` typedef 已移除，因為已不再使用。
 
-## Example analyzer failures
+## 範例分析器錯誤
 
-Here are some example analyzer failures that might be encountered where an
-outdated use of the Actions API might be the cause of the problem. The specifics
-of the error might differ, and there may be other failures caused by these
-changes.
+以下是一些可能遇到的分析器（analyzer）錯誤範例，這些錯誤可能是因為使用了過時的 Actions API 所導致。實際錯誤內容可能有所不同，這些變更也可能導致其他錯誤發生。
 
 ```plaintext
 error: MyActionDispatcher.invokeAction' ('bool Function(Action<Intent>, Intent, {FocusNode focusNode})') isn't a valid override of 'ActionDispatcher.invokeAction' ('Object Function(Action<Intent>, Intent, [BuildContext])'). (invalid_override at [main] lib/main.dart:74)
@@ -110,23 +78,18 @@ error: The getter 'key' isn't defined for the type 'NextFocusAction'. (undefined
 error: The argument type 'Map<LocalKey, dynamic>' can't be assigned to the parameter type 'Map<Type, Action<Intent>>'. (argument_type_not_assignable at [main] lib/main.dart:418)
 ```
 
-## Migration guide
+## 遷移指南
 
-Significant changes area required to update existing code
-to the new API.
+要將現有程式碼更新至新版 API，需要進行重大變更。
 
-### Actions mapping for pre-defined actions
+### 預設動作（pre-defined actions）的 Actions 對應
 
-To update the action maps in the `Actions` widget for
-predefined actions in Flutter, like `ActivateAction`
-and `SelectAction`, do the following:
+若要在 `Actions` 元件（Widget）中，針對 Flutter 的預設動作（例如 `ActivateAction` 和 `SelectAction`）更新動作對應（action maps），請依照以下步驟操作：
 
-* Update the argument type of the `actions` argument
-* Use an instance of a specific `Intent` class in the
-  `Shortcuts` mapping, rather than an `Intent(TheAction.key)`
-  instance.
+* 更新 `actions` 參數的型別
+* 在 `Shortcuts` 對應中，使用特定的 `Intent` 類別實例，而非 `Intent(TheAction.key)` 實例。
 
-Code before migration:
+遷移前的程式碼如下：
 
 ```dart
 class MyWidget extends StatelessWidget {
@@ -148,7 +111,7 @@ class MyWidget extends StatelessWidget {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 class MyWidget extends StatelessWidget {
@@ -170,14 +133,11 @@ class MyWidget extends StatelessWidget {
 }
 ```
 
-### Custom actions
+### 自訂 Action
 
-To migrate your custom actions, eliminate the `LocalKeys`
-you've defined, and replace them with `Intent` subclasses,
-as well as changing the type of the argument to the `actions`
-argument of the `Actions` widget.
+若要遷移您的自訂 Action，請移除您所定義的 `LocalKeys`，並以 `Intent` 子類別取代，同時將 `Actions` 元件的 `actions` 參數型別進行相應更改。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 class MyAction extends Action {
@@ -211,7 +171,7 @@ class MyWidget extends StatelessWidget {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 // You may need to create new Intent subclasses if you used
@@ -246,25 +206,22 @@ class MyWidget extends StatelessWidget {
 }
 ```
 
-### Custom `Actions` and `Intents` with arguments
+### 帶參數的自訂 `Actions` 和 `Intents`
 
-To update actions that use intent arguments or hold state,
-you need to modify the arguments to the `invoke` method.
-In the example below, the code keeps the value of the
-argument in the intent as part of the action instance.
-This is because in the old design there is a new instance
-of the action created each time it's executed,
-and the resulting action could be kept by the
-[`ActionDispatcher`][] to record the state.
+若要更新使用 intent 參數或保存狀態的 action，  
+你需要修改傳遞給 `invoke` 方法的參數。
 
-In the example of post migration code below,
-the new `MyAction` returns the state as the result
-of calling `invoke`, since a new instance isn't created
-for each invocation. This state is returned to the caller of
-`Actions.invoke`, or `ActionDispatcher.invokeAction`,
-depending on how the action is invoked.
+在下方範例中，程式碼會將 intent 中的參數值保存在 action 實例中。  
+這是因為在舊的設計中，每次執行時都會建立新的 action 實例，  
+而產生的 action 可能會被 [`ActionDispatcher`][`ActionDispatcher`] 保留以記錄狀態。
 
-Code before migration:
+在下方遷移後的程式碼範例中，  
+新的 `MyAction` 會在呼叫 `invoke` 時，將狀態作為結果回傳，  
+因為每次呼叫時不會再建立新的實例。  
+這個狀態會回傳給 `Actions.invoke` 或 `ActionDispatcher.invokeAction` 的呼叫者，  
+具體取決於 action 的呼叫方式。
+
+遷移前的程式碼：
 
 ```dart
 class MyIntent extends Intent {
@@ -289,7 +246,7 @@ class MyAction extends Action {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 class MyIntent extends Intent {
@@ -307,29 +264,29 @@ class MyAction extends Action<MyIntent> {
 }
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 1.18<br>
-In stable release: 1.20
+合併於版本：1.18<br>  
+正式發行版本：1.20
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`Action`][]
-* [`ActionDispatcher`][]
-* [`Actions`][]
-* [`Intent`][]
-* [`Shortcuts`][]
+* [`Action`][`Action`]
+* [`ActionDispatcher`][`ActionDispatcher`]
+* [`Actions`][`Actions`]
+* [`Intent`][`Intent`]
+* [`Shortcuts`][`Shortcuts`]
 
-Relevant issue:
+相關議題：
 
-* [Issue 53276][]
+* [Issue 53276][Issue 53276]
 
-Relevant PRs:
+相關 PR：
 
-* [Revise Action API][]
-* [Make Action.enabled be isEnabled(Intent intent) instead][]
+* [Revise Action API][Revise Action API]
+* [Make Action.enabled be isEnabled(Intent intent) instead][Make Action.enabled be isEnabled(Intent intent) instead]
 
 [`Action`]: {{site.api}}/flutter/widgets/Action-class.html
 [`ActionDispatcher`]: {{site.api}}/flutter/widgets/ActionDispatcher-class.html

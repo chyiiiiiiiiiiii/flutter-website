@@ -1,40 +1,30 @@
 ---
-title: Updated `Checkbox.fillColor` behavior
+title: 已更新的 `Checkbox.fillColor` 行為
 description: >
-  Improved `Checkbox.fillColor` behavior applies the fill color to the
-  background when the checkbox is unselected.
+  改良後的 `Checkbox.fillColor` 行為會在核取方塊未被選取時，將填充色（fill color）套用到背景上。
 ---
 
 {% render docs/breaking-changes.md %}
 
-## Summary
+## 摘要
 
-The `Checkbox.fillColor` is now applied to the checkbox's background when
-the checkbox is unselected.
+現在，`Checkbox.fillColor` 會在核取方塊未被選取時套用到其背景上。
 
-## Context
+## 背景說明
 
-Previously, the `Checkbox.fillColor` was applied to the checkbox's border
-when the checkbox was unselected and its background was transparent.
-With this change, the `Checkbox.fillColor` is applied to the checkbox's
-background and the border uses the `Checkbox.side` color when the checkbox
-is unselected.
+先前，當核取方塊未被選取且背景為透明時，`Checkbox.fillColor` 會套用在核取方塊的邊框上。此變更後，`Checkbox.fillColor` 會套用到核取方塊的背景，而邊框則會使用 `Checkbox.side` 顏色（color），當核取方塊未被選取時。
 
-## Description of change
+## 變更說明
 
-The `Checkbox.fillColor` is now applied to the checkbox's background when
-the checkbox is unselected instead of being used as the border color.
+現在，`Checkbox.fillColor` 會在核取方塊未被選取時套用到其背景上，而不再作為邊框顏色使用。
 
-## Migration guide
+## 遷移指南
 
-The updated `Checkbox.fillColor` behavior applies the fill color to the
-checkbox's background in the unselected state. To get the previous behavior,
-set `Checbox.fillColor` to `Colors.transparent` in the unselected state and
-set `Checkbox.side` to the desired color.
+更新後的 `Checkbox.fillColor` 行為會在核取方塊未被選取狀態時，將填充色（fill color）套用到背景上。若要恢復先前的行為，請在未被選取狀態下，將 `Checbox.fillColor` 設為 `Colors.transparent`，並將 `Checkbox.side` 設為所需顏色。
 
-If you use the `Checkbox.fillColor` property to customize the checkbox.
+如果你使用 `Checkbox.fillColor` 屬性來自訂核取方塊。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 Checkbox(
@@ -55,7 +45,7 @@ Checkbox(
 ),
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 Checkbox(
@@ -77,9 +67,9 @@ Checkbox(
 ),
 ```
 
-If you use the `CheckboxThemeData.fillColor` property to customize the checkbox.
+如果你使用 `CheckboxThemeData.fillColor` 屬性來自訂 checkbox。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 checkboxTheme: CheckboxThemeData(
@@ -92,7 +82,7 @@ checkboxTheme: CheckboxThemeData(
 ),
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 checkboxTheme: CheckboxThemeData(
@@ -106,24 +96,24 @@ checkboxTheme: CheckboxThemeData(
 ),
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.10.0-17.0.pre<br>
-In stable release: 3.13.0
+合併於版本：3.10.0-17.0.pre<br>  
+正式版本：3.13.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
-* [`Checkbox.fillColor`][]
+* [`Checkbox.fillColor`][`Checkbox.fillColor`]
 
-Relevant issues:
+相關議題：
 
-* [Add `backgroundColor` to `Checkbox` and `CheckboxThemeData`][]
+* [將 `backgroundColor` 新增至 `Checkbox` 和 `CheckboxThemeData`][Add `backgroundColor` to `Checkbox` and `CheckboxThemeData`]
 
-Relevant PRs:
+相關 PR：
 
-* [`Checkbox.fillColor` should be applied to checkbox's background color when it is unchecked.][]
+* [`Checkbox.fillColor` 應在核取方塊（checkbox）未勾選時套用於其背景顏色。][`Checkbox.fillColor` should be applied to checkbox's background color when it is unchecked.]
 
 [`Checkbox.fillColor`]: {{site.api}}/flutter/material/Checkbox/fillColor.html
 

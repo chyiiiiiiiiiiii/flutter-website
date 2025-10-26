@@ -1,36 +1,36 @@
 ---
-title: Communicate with WebSockets
-description: How to connect to a web socket.
+title: 使用 WebSockets 通訊
+description: 如何連接到 WebSocket。
 ---
 
 <?code-excerpt path-base="cookbook/networking/web_sockets/"?>
 
-In addition to normal HTTP requests,
-you can connect to servers using `WebSockets`.
-`WebSockets` allow for two-way communication with a server
-without polling.
+除了一般的 HTTP 請求之外，
+你也可以使用 `WebSockets` 來連接到伺服器。
+`WebSockets` 允許你與伺服器進行雙向通訊，
+而不需要輪詢（polling）。
 
-In this example, connect to a
-[test WebSocket server sponsored by Lob.com][].
-The server sends back the same message you send to it.
-This recipe uses the following steps:
+在這個範例中，將會連接到
+[由 Lob.com 贊助的測試 WebSocket 伺服器][test WebSocket server sponsored by Lob.com]。
+該伺服器會回傳你所傳送的相同訊息。
+本教學食譜包含以下步驟：
 
-  1. Connect to a WebSocket server.
-  2. Listen for messages from the server.
-  3. Send data to the server.
-  4. Close the WebSocket connection.
+  1. 連接到 WebSocket 伺服器。
+  2. 監聽來自伺服器的訊息。
+  3. 傳送資料到伺服器。
+  4. 關閉 WebSocket 連線。
 
-## 1. Connect to a WebSocket server
+## 1. 連接到 WebSocket 伺服器
 
-The [`web_socket_channel`][] package provides the
-tools you need to connect to a WebSocket server.
+[`web_socket_channel`][`web_socket_channel`] 套件提供了
+你需要用來連接 WebSocket 伺服器的工具。
 
-The package provides a `WebSocketChannel`
-that allows you to both listen for messages
-from the server and push messages to the server.
+這個套件提供了一個 `WebSocketChannel`，
+讓你可以同時監聽來自伺服器的訊息，
+並向伺服器推送訊息。
 
-In Flutter, use the following line to
-create a `WebSocketChannel` that connects to a server:
+在 Flutter 中，可以使用以下程式碼
+建立一個連接到伺服器的 `WebSocketChannel`：
 
 <?code-excerpt "lib/main.dart (connect)" replace="/_channel/channel/g"?>
 ```dart
@@ -39,17 +39,17 @@ final channel = WebSocketChannel.connect(
 );
 ```
 
-## 2. Listen for messages from the server
+## 2. 監聽來自伺服器的訊息
 
-Now that you've established a connection,
-listen to messages from the server.
+現在你已經建立了連線，
+接下來要監聽來自伺服器的訊息。
 
-After sending a message to the test server,
-it sends the same message back.
+當你傳送訊息到測試伺服器後，
+伺服器會將相同的訊息回傳給你。
 
-In this example, use a [`StreamBuilder`][]
-widget to listen for new messages, and a
-[`Text`][] widget to display them.
+在這個範例中，使用 [`StreamBuilder`][`StreamBuilder`]
+元件（Widget）來監聽新訊息，並用
+[`Text`][`Text`] 元件（Widget）來顯示這些訊息。
 
 <?code-excerpt "lib/main.dart (StreamBuilder)" replace="/_channel/channel/g"?>
 ```dart
@@ -61,49 +61,48 @@ StreamBuilder(
 ),
 ```
 
-### How this works
+### 工作原理說明
 
-The `WebSocketChannel` provides a
-[`Stream`][] of messages from the server.
+`WebSocketChannel` 提供來自伺服器的
+[`Stream`][`Stream`] 訊息串流。
 
-The `Stream` class is a fundamental part of the `dart:async` package.
-It provides a way to listen to async events from a data source.
-Unlike `Future`, which returns a single async response,
-the `Stream` class can deliver many events over time.
+`Stream` 類別是 `dart:async` 套件中的基礎組件。
+它提供了一種方式，可以從資料來源監聽非同步事件。
+與 `Future` 只回傳單一非同步回應不同，
+`Stream` 類別能夠在一段時間內傳遞多個事件。
 
-The [`StreamBuilder`][] widget connects to a `Stream`
-and asks Flutter to rebuild every time it
-receives an event using the given `builder()` function.
+[`StreamBuilder`][`StreamBuilder`] 元件（Widget）會連接到 `Stream`，
+並在每次收到事件時，透過指定的 `builder()` 函式
+要求 Flutter 重新建構畫面。
 
-## 3. Send data to the server
+## 3. 傳送資料到伺服器
 
-To send data to the server,
-`add()` messages to the `sink` provided
-by the `WebSocketChannel`.
+若要將資料傳送到伺服器，
+請將訊息`add()`到由 `WebSocketChannel`
+所提供的 `sink`。
 
 <?code-excerpt "lib/main.dart (add)" replace="/_channel/channel/g;/_controller.text/'Hello!'/g"?>
 ```dart
 channel.sink.add('Hello!');
 ```
 
-### How this works
+### 運作原理
 
-The `WebSocketChannel` provides a
-[`StreamSink`][] to push messages to the server.
+`WebSocketChannel` 提供了一個
+[`StreamSink`][`StreamSink`]，可用來將訊息推送到伺服器。
 
-The `StreamSink` class provides a general way to add sync or async
-events to a data source.
+`StreamSink` 類別則提供了一種通用方式，能將同步或非同步事件加入資料來源。
 
-## 4. Close the WebSocket connection
+## 4. 關閉 WebSocket 連線
 
-After you're done using the WebSocket, close the connection:
+當你完成 WebSocket 的使用後，請關閉連線：
 
 <?code-excerpt "lib/main.dart (close)" replace="/_channel/channel/g"?>
 ```dart
 channel.sink.close();
 ```
 
-## Complete example
+## 完整範例
 
 <?code-excerpt "lib/main.dart"?>
 ```dart

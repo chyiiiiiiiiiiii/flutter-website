@@ -1,28 +1,18 @@
 ---
-title: Simple animations
-description: Learn the simplest way to implement animations in Flutter.
+title: 簡單動畫
+description: 學習在 Flutter 中實作動畫的最簡單方式。
 permalink: /tutorial/animations/
 ---
 
-Flutter provides a rich set of animation APIs, and the simplest way to
-start using them is with **implicit animations**. "Implicit
-animations" refers to a group of widgets that automatically animate
-changes to their properties without you needing to manage any
-behavior.
+Flutter 提供了豐富的動畫 (Animation) API，而最簡單開始使用這些 API 的方式，就是透過**隱式動畫 (implicit animations)**。所謂「隱式動畫」，是指一組元件 (Widgets)，當其屬性發生變化時，會自動對變化進行動畫處理，而無需你自行管理動畫行為。
 
-In this lesson, you'll learn about one of the most common and
-versatile implicit animation widgets: [`AnimatedContainer`][]. With
-just two additional lines of code, the background color of each `Tile`
-animates to a new color in about half a second.
+在本課程中，你將學習到其中一個最常見且多功能的隱式動畫元件 (Widgets)：[`AnimatedContainer`][`AnimatedContainer`]。只需多寫兩行程式碼，每個 `Tile` 的背景顏色就會在約半秒內以動畫方式變換為新顏色。
 
-## Convert `Container` to `AnimatedContainer`
+## 將 `Container` 轉換為 `AnimatedContainer`
 
-Currently, the `Tile.build`  method returns  a `Container` to display
-a letter. When the `hitType` changes, like from `HitType.none`
-to `HitType.hit`, the background color of the tile changes
-instantly (from white to green, in this example).
+目前，`Tile.build` 方法會回傳一個 `Container` 來顯示一個字母。當 `hitType` 發生變化時，例如從 `HitType.none` 變為 `HitType.hit`，該方塊的背景顏色會立即變化（在此範例中，從白色變為綠色）。
 
-Here's the current `Tile` widget code for reference:
+以下是目前 `Tile` 元件 (Widget) 的程式碼，供你參考：
 
 ```dart
 class Tile extends StatelessWidget {
@@ -56,16 +46,11 @@ class Tile extends StatelessWidget {
 }
 ```
 
-To make the color change animate smoothly, replace the `Container`
-widget with an `AnimatedContainer`.
+為了讓顏色變化能夠平滑地產生動畫，請將`Container`元件（Widget）替換為`AnimatedContainer`。
 
-An `AnimatedContainer` is like a `Container`, but it automatically
-animates changes to its properties over a specified `duration`. When
-properties like `color`, `height`, `width`, `decoration`, or
-`alignment` change, `AnimatedContainer` interpolates between the old
-and new values, creating a smooth transition.
+`AnimatedContainer`類似於`Container`，但它會在指定的`duration`內，自動對其屬性的變化產生動畫效果。當像是`color`、`height`、`width`、`decoration`或`alignment`這些屬性發生變化時，`AnimatedContainer`會在舊值與新值之間進行插值，產生平滑的過渡效果。
 
-Modify your `Tile` widget as follows:
+請依下列方式修改你的`Tile`元件（Widget）：
 
 ```dart
 class Tile extends StatelessWidget {
@@ -100,25 +85,17 @@ class Tile extends StatelessWidget {
 }
 ```
 
-**`duration`** is a required property that specifies how long the
-animation should take. In this example, `Duration(milliseconds: 500)`
-means the color transition will take half of one second. You can also
-specify seconds, minutes, and many other units of time.
+**`duration`** 是一個必填屬性，用來指定動畫（Animation）所需的時間長度。在這個範例中，`Duration(milliseconds: 500)` 表示顏色的漸變將會持續半秒鐘。你也可以指定秒、分鐘，或其他多種時間單位。
 
-Now, when the `hitType` changes and the `Tile` widget rebuilds
-(because `setState` was called in `GamePage`), the color of the tile
-will smoothly animate from its old color to the new one over the
-specified duration.
+現在，當 `hitType` 發生變化並且 `Tile` 元件（Widget）重新建構（因為在 `GamePage` 中呼叫了 `setState`），這個方塊的顏色會在指定的時間內，從舊顏色平滑地過渡到新顏色。
 
-## Adjust the curve
+## 調整曲線（curve）
 
-You can add a bit of customization to an implicit animation by passing
-it a [`Curve`][].  Different curves will change the speed of the animation
-at different points throughout the animation. 
+你可以透過傳遞一個 [`Curve`][`Curve`]，為隱式動畫加入一些自訂效果。不同的曲線（curve）會在動畫的不同階段改變動畫的速度。
 
 {%- comment %} TODO(ewindmill) diagram {%- endcomment %}
 
-To change the `Curve` of this animation, update the the code to the following:
+若要變更這個動畫的 `Curve`，請將程式碼更新如下：
 
 ```dart
 class Tile extends StatelessWidget {
@@ -155,15 +132,9 @@ class Tile extends StatelessWidget {
 }
 ```
 
-There are many different curves defined by the Flutter SDK, so feel
-free to try them out by passing different types to the
-`AnimatedContainer.curve` property.
+Flutter SDK（Flutter 軟體開發套件）中定義了許多不同的曲線，因此你可以嘗試將不同類型傳遞給 `AnimatedContainer.curve` 屬性來體驗各種效果。
 
-Implicit animations like `AnimatedContainer` are powerful because you
-just tell the widget what the new state should be, and it handles the
-"how" of the animation. For complex, custom animations, you can write
-your own animated widgets. If you’re curious, read the 
-[animations tutorial](https://docs.flutter.dev/ui/animations/tutorial).
+像 `AnimatedContainer` 這樣的隱式動畫（implicit animations）非常強大，因為你只需要告訴元件（Widget）新的狀態應該是什麼，其餘動畫「如何執行」的細節都會自動處理。對於複雜或自訂的動畫（Animation），你也可以自行撰寫自訂的動畫元件（animated widgets）。如果你感到好奇，可以參考 [animations tutorial](https://docs.flutter.dev/ui/animations/tutorial)。
 
 [`AnimatedContainer`]: {{site.api}}/flutter/widgets/AnimatedContainer-class.html
 [`Curve`]: {{site.curve}}/flutter/animation/Curves-class.html

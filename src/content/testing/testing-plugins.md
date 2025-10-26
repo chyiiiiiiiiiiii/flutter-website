@@ -1,89 +1,81 @@
 ---
-title: Testing plugins
-description: Learn how to test your plugin package.
+title: 測試插件
+description: 學習如何測試你的插件套件。
 ---
 
-All of the [usual types of Flutter tests][] apply to
-plugin packages as well, but because plugins contain
-native code they often also require other kinds of tests
-to test all of their functionality.
+所有[Flutter 常見的測試類型][usual types of Flutter tests]同樣適用於
+插件套件，但由於插件包含原生程式碼，
+因此通常還需要其他類型的測試來覆蓋其所有功能。
 
 [usual types of Flutter tests]: /testing/overview
 
 :::note
-To learn how to test your plugin code, read on.
-To learn how to avoid crashes from a plugin when
-testing your Flutter app, check out
-[Plugins in Flutter tests][].
+若想了解如何測試你的插件程式碼，請繼續閱讀。
+若想了解如何在測試 Flutter 應用程式時避免插件導致當機，請參考
+[Flutter 測試中的插件][Plugins in Flutter tests]。
 :::
 
 [Plugins in Flutter tests]: /testing/plugins-in-tests
 
-## Types of plugin tests
+## 插件測試的類型
 
-To see examples of each of these types of tests, you can
-[create a new plugin from the plugin template][plugin-tests]
-and look in the indicated directories.
+你可以[從插件範本建立一個新的插件][plugin-tests]，
+並查看指定的目錄，以了解每種測試類型的範例。
 
-* <strong>Dart [unit tests][] and [widget tests][]</strong>.
-  These tests allow you to test the Dart portion of your plugin
-  just as you would test the Dart code of a non-plugin package.
-  However, the plugin's native code [won't be loaded][],
-  so any calls to platform channels need to be [mocked in tests][].
+* <strong>Dart [單元測試][unit tests]與[元件測試][widget tests]</strong>。
+  這些測試讓你可以像測試非插件套件的 Dart 程式碼一樣，
+  測試插件中的 Dart 部分。
+  但插件的原生程式碼[不會被載入][won't be loaded]，
+  因此所有對平台通道（platform channels）的呼叫都需要[在測試中進行模擬（mock）][mocked in tests]。
 
-  See the `test` directory for an example.
+  範例請參考 `test` 目錄。
 
-* <strong>Dart [integration tests][]</strong>.
-  Since integration tests run in the context of a
-  Flutter application (the example app),
-  they can test both the Dart and native code,
-  as well as the interaction between them.
-  They are also useful for unit testing web implementation
-  code that needs to run in a browser.
+* <strong>Dart [整合測試][integration tests]</strong>。
+  由於整合測試會在 Flutter 應用程式（即範例 app）的環境下執行，
+  因此可以同時測試 Dart 與原生程式碼，
+  以及它們之間的互動。
+  此外，對於需要在瀏覽器中執行的 web 實作程式碼，也很適合用來做單元測試。
 
-  These are often the most important tests for a plugin.
-  However, Dart integration tests can't interact with native UI,
-  such as native dialogs or the contents of platform views.
+  這類測試通常是插件最重要的測試。
+  不過，Dart 整合測試無法與原生 UI 互動，
+  例如原生對話框或平台視圖（platform views）的內容。
 
-  See the  `example/integration_test` directory for an example.
+  範例請參考 `example/integration_test` 目錄。
 
-* <strong>Native unit tests.</strong>
-  Just as Dart unit tests can test the Dart portions
-  of a plugin in isolation, native unit tests can
-  test the native parts in isolation.
-  Each platform has its own native unit test system,
-  and the tests are written in the same native languages
-  as the code it is testing.
+* <strong>原生單元測試</strong>。
+  就像 Dart 單元測試可以獨立測試插件中的 Dart 部分一樣，
+  原生單元測試則可以獨立測試原生部分。
+  每個平台都有自己的原生單元測試系統，
+  測試會以與被測試原生程式碼相同的語言撰寫。
 
-  Native unit tests can be especially valuable
-  if you need to mock out APIs wrapped by your plugin code,
-  which isn't possible in a Dart integration test.
+  如果你需要模擬（mock）由插件程式碼包裝的 API，
+  而這在 Dart 整合測試中無法做到，
+  原生單元測試就特別有價值。
 
-  You can set up and use any native test frameworks
-  you are familiar with for each platform,
-  but the following are already configured in the plugin template:
+  你可以針對每個平台，設定並使用你熟悉的任何原生測試框架，
+  不過以下這些已經在插件範本中預先設定好：
 
-  * <strong>Android</strong>:
-    [JUnit][] tests can be found in `android/src/test/`.
+  * <strong>Android</strong>：
+    [JUnit][JUnit] 測試可在 `android/src/test/` 找到。
 
-  * <strong>iOS</strong> and <strong>macOS</strong>:
-    [XCTest][] tests can be found in `example/ios/RunnerTests/`
-    and `example/macos/RunnerTests/` respectively.
-    These are in the example directory,
-    not the top-level package directory,
-    because they are run via the example app's project.
+  * <strong>iOS</strong> 與 <strong>macOS</strong>：
+    [XCTest][XCTest] 測試分別可在 `example/ios/RunnerTests/`
+    與 `example/macos/RunnerTests/` 找到。
+    這些測試位於 example 目錄中，
+    而非套件的頂層目錄，
+    因為它們是透過範例 app 的專案來執行。
 
-  * <strong>Linux</strong> and <strong>Windows</strong>:
-    [GoogleTest][] tests can be found in `linux/test/`
-    and `windows/test/`, respectively.
+  * <strong>Linux</strong> 與 <strong>Windows</strong>：
+    [GoogleTest][GoogleTest] 測試分別可在 `linux/test/`
+    與 `windows/test/` 找到。
 
-Other types of tests, which aren't currently pre-configured
-in the template, are <strong>native UI tests</strong>.
-Running your application under a native UI testing framework,
-such as [Espresso][] or [XCUITest][],
-enables tests that interact with both native and Flutter UI elements,
-so can be useful if your plugin can't be tested without
-native UI interactions.
+其他類型的測試，目前尚未在範本中預先設定，
+例如<strong>原生 UI 測試</strong>。
+在原生 UI 測試框架下執行你的應用程式，
+如 [Espresso][Espresso] 或 [XCUITest][XCUITest]，
+可以讓測試同時與原生與 Flutter UI 元件互動，
+因此如果你的插件必須透過原生 UI 互動才能測試，
+這類測試會很有幫助。
 
 
 [Espresso]: {{site.repo.packages}}/tree/main/packages/espresso
@@ -98,109 +90,98 @@ native UI interactions.
 [XCTest]: {{site.apple-dev}}/documentation/xctest
 [XCUITest]: {{site.apple-dev}}/library/archive/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/09-ui_testing.html
 
-## Running tests
+## 執行測試
 
-### Dart unit tests
+### Dart 單元測試
 
-These can be run like any other Flutter unit tests,
-either from your preferred Flutter IDE,
-or using `flutter test`.
+這些測試可以像其他 Flutter 單元測試一樣執行，
+你可以在慣用的 Flutter IDE 中執行，
+或使用 `flutter test`。
 
-### Integration tests
+### 整合測試
 
-For information on running this type of test, check out the
-[integration test documentation][].
-The commands must be run in the `example` directory.
+關於執行這類測試的資訊，請參考
+[整合測試文件][integration test documentation]。
+指令必須在 `example` 目錄下執行。
 
 [integration test documentation]: /cookbook/testing/integration/introduction
 
-### Native unit tests
+### 原生單元測試
 
-For all platforms, you need to build the example
-application at least once before running the unit tests,
-to ensure that all of the platform-specific build
-files have been created.
+在所有平台上，你都需要先至少建置一次範例
+應用程式，才能執行單元測試，
+以確保所有平台專屬的建置檔案都已建立。
 
 <strong>Android JUnit</strong><br>
 
-If you have the example opened as an Android project
-in Android Studio, you can run the unit tests using
-the [Android Studio test UI][].
+如果你已經在 Android Studio 中以 Android 專案開啟範例，
+可以透過 [Android Studio 測試 UI][Android Studio test UI] 執行單元測試。
 
-To run the tests from the command line,
-use the following command in the `example/android` directory:
+若要從命令列執行測試，
+請在 `example/android` 目錄下使用以下指令：
 
 ```sh
 ./gradlew testDebugUnitTest
 ```
 
-<strong>iOS and macOS XCTest</strong><br>
+<strong>iOS 與 macOS XCTest</strong><br>
 
-If you have the example app opened in Xcode,
-you can run the unit tests using the [Xcode Test UI][].
+如果你已在 Xcode 中開啟範例應用程式，
+可以透過 [Xcode Test UI][Xcode Test UI] 執行單元測試。
 
-To run the tests from the command line,
-use the following command in the `example/ios` (for iOS)
-or `example/macos` (for macOS) directory:
+若要從命令列執行測試，
+請在 `example/ios`（iOS）或 `example/macos`（macOS）目錄下使用以下指令：
 
 ```sh
 xcodebuild test -workspace Runner.xcworkspace -scheme Runner -configuration Debug
 ```
 
-For iOS tests, you might need to first open
-`Runner.xcworkspace` in Xcode to configure code signing.
+針對 iOS 測試，你可能需要先在 Xcode 中開啟
+`Runner.xcworkspace`，以設定程式碼簽署（code signing）。
 
 <strong>Linux GoogleTest</strong><br>
 
-To run the tests from the command line,
-use the following command in the example directory,
-replacing "my_plugin" with your plugin project name:
+若要在命令列（Command Line Interface）執行測試，
+請在範例目錄下使用以下指令，
+並將 "my_plugin" 替換為你的插件專案名稱：
 
 ```sh
 build/linux/plugins/x64/debug/my_plugin/my_plugin_test
 ```
 
-If you built the example app in release mode rather than
-debug, replace "debug" with "release".
+如果你是以 release 模式而非 debug 模式建置範例應用程式，請將 "debug" 替換為 "release"。
 
 <strong>Windows GoogleTest</strong><br>
 
-If you have the example app opened in Visual Studio,
-you can run the unit tests using the [Visual Studio test UI][].
+如果你已在 Visual Studio 開啟範例應用程式，可以透過 [Visual Studio 測試 UI][Visual Studio test UI] 執行單元測試。
 
-To run the tests from the command line,
-use the following command in the example directory,
-replacing "my_plugin" with your plugin project name:
+若要在命令列執行測試，請在範例目錄下使用以下指令，並將 "my_plugin" 替換為你的 Plugin 專案名稱：
 
 ```sh
 build/windows/plugins/my_plugin/Debug/my_plugin_test.exe
 ```
 
-If you built the example app in release mode rather
-than debug, replace "Debug" with "Release".
+如果你是以 release 模式建置範例應用程式，
+請將 "Debug" 替換為 "Release"。
 
-## What types of tests to add
+## 應新增哪些類型的測試
 
-The [general advice for testing Flutter projects][general advice]
-applies to plugins as well.
-Some extra considerations for plugin testing:
+[針對 Flutter 專案的測試一般建議][general advice]
+同樣適用於套件（plugin）。
+針對套件測試，還有一些額外考量：
 
-* Since only integration tests can test the communication
-  between Dart and the native languages,
-  try to have at least one integration test of each
-  platform channel call.
+* 由於只有整合測試（integration tests）能測試 Dart 與原生語言之間的溝通，
+  建議每個平台通道呼叫（platform channel call）至少都要有一個整合測試。
 
-* If some flows can't be tested using integration
-  tests—for example if they require interacting with
-  native UI or mocking device state—consider writing
-  "end to end" tests of the two halves using unit tests:
+* 如果某些流程無法透過整合測試驗證——例如需要互動原生 UI 或模擬裝置狀態——
+  可以考慮分別針對兩個部分撰寫「端到端」（end to end）單元測試（unit tests）：
 
-  * Native unit tests that set up the necessary mocks,
-    then call into the method channel entry point
-    with a synthesized call and validate the method response.
+  * 原生單元測試：建立必要的模擬（mock），
+    然後以合成呼叫（synthesized call）進入方法通道（method channel）入口，
+    並驗證方法回應。
 
-  * Dart unit tests that mock the platform channel,
-    then call the plugin's public API and validate the results.
+  * Dart 單元測試：模擬平台通道（platform channel），
+    然後呼叫套件的公開 API，並驗證結果。
 
 [Android Studio test UI]: {{site.android-dev}}/studio/test/test-in-android-studio
 [general advice]: /testing/overview

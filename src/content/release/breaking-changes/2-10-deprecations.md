@@ -1,54 +1,51 @@
 ---
-title: Deprecated API removed after v2.10
+title: v2.10 之後移除的已棄用 API
 description: >
-  After reaching end of life, the following deprecated APIs
-  were removed from Flutter.
+  在達到生命週期終止後，以下已棄用的 API
+  已從 Flutter 中移除。
 ---
 
-## Summary
+## 摘要
 
-In accordance with Flutter's [Deprecation Policy][],
-deprecated APIs that reached end of life after the
-2.10 stable release have been removed.
+根據 Flutter 的 [棄用政策][Deprecation Policy]，
+在 2.10 穩定版發佈後達到生命週期終止的已棄用 API 已被移除。
 
-All affected APIs have been compiled into this
-primary source to aid in migration. A
-[quick reference sheet][] is available as well.
+所有受影響的 API 已彙整於此主要來源，協助您進行遷移。
+同時也提供[快速參考表][quick reference sheet]。
 
 
 [Deprecation Policy]: {{site.repo.flutter}}/blob/main/docs/contributing/Tree-hygiene.md#deprecations
 [quick reference sheet]: /go/deprecations-removed-after-2-10
 
-## Changes
+## 變更內容
 
-This section lists the deprecations by affected class.
+本節依受影響的類別列出棄用項目。
 
 ---
 
-### `maxLengthEnforced` of `TextField` & related classes
+### `maxLengthEnforced`（屬於 `TextField` 及相關類別）
 
-Supported by Flutter Fix: yes
+Flutter Fix 支援：是
 
-`maxLengthEnforced` was deprecated in v1.25.
+`maxLengthEnforced` 已於 v1.25 棄用。
 
-Use `maxLengthEnforcement` instead.
-Where `maxLengthEnforced` was true, replace with `MaxLengthEnforcement.enforce`.
-Where `maxLengthEnforced` was false, replace with `MaxLengthEnforcement.none`.
-This change allows more behaviors to be specified beyond the original binary
-choice, adding `MaxLengthEnforcement.truncateAfterCompositionEnds` as an
-additional option.
+請改用 `maxLengthEnforcement`。
+當 `maxLengthEnforced` 為 true 時，請改為使用 `MaxLengthEnforcement.enforce`。
+當 `maxLengthEnforced` 為 false 時，請改為使用 `MaxLengthEnforcement.none`。
+此變更允許指定更多行為，不再僅限於原本的二元選擇，並新增了 `MaxLengthEnforcement.truncateAfterCompositionEnds` 作為
+額外選項。
 
-The following classes all have the same change of API:
+以下類別皆有相同的 API 變更：
 
 - `TextField`
 - `TextFormField`
 - `CupertinoTextField`
 
-**Migration guide**
+**遷移指南**
 
-[In-depth migration guide available][]
+[詳細遷移指南請參閱][In-depth migration guide available]
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 const TextField textField = TextField(maxLengthEnforced: true);
@@ -64,7 +61,7 @@ const CupertinoTextField cupertinoTextField = CupertinoTextField(maxLengthEnforc
 final lengthEnforced = cupertinoTextField.maxLengthEnforced;
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 const TextField textField = TextField(maxLengthEnforcement: MaxLengthEnforcement.enforce);
@@ -80,22 +77,22 @@ const CupertinoTextField cupertinoTextField = CupertinoTextField(maxLengthEnforc
 final lengthEnforced = cupertinoTextField.maxLengthEnforcement;
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
-* [`TextField`][]
-* [`TextFormField`][]
-* [`CupertinoTextField`][]
+* [`TextField`][`TextField`]
+* [`TextFormField`][`TextFormField`]
+* [`CupertinoTextField`][`CupertinoTextField`]
 
-Relevant issues:
+相關議題：
 
 * [Issue 67898]({{site.repo.flutter}}/issues/67898)
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#68086]({{site.repo.flutter}}/pull/68086)
-* Removed in [#98539]({{site.repo.flutter}}/pull/98539)
+* 在 [#68086]({{site.repo.flutter}}/pull/68086) 標記為已淘汰
+* 在 [#98539]({{site.repo.flutter}}/pull/98539) 移除
 
 [In-depth migration guide available]: /release/breaking-changes/use-maxLengthEnforcement-instead-of-maxLengthEnforced
 [`TextField`]: {{site.api}}/flutter/material/TextField-class.html
@@ -104,79 +101,74 @@ Relevant PRs:
 
 ---
 
-### `VelocityTracker` constructor
+### `VelocityTracker` 建構函式
 
-Supported by Flutter Fix: yes
+支援 Flutter Fix：是
 
-The default constructor for `VelocityTracker`was deprecated in v1.22.
+`VelocityTracker` 的預設建構函式自 v1.22 起已被淘汰。
 
-The `VelocityTracker.withKind()` should be used instead. This allows for a
-`PointerDeviceKind` to be specified for the tracker. The previous default for
-`VelocityTracker.kind` was `PointerDeviceKind.touch`.
+建議改用 `VelocityTracker.withKind()`。這樣可以為追蹤器指定 `PointerDeviceKind`。先前 `VelocityTracker.kind` 的預設值為 `PointerDeviceKind.touch`。
 
-**Migration guide**
+**遷移指南**
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 final VelocityTracker tracker = VelocityTracker();
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 final VelocityTracker tracker = VelocityTracker.withKind(PointerDeviceKind.touch);
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
-* [`VelocityTracker`][]
-* [`PointerDeviceKind`][]
+* [`VelocityTracker`][`VelocityTracker`]
+* [`PointerDeviceKind`][`PointerDeviceKind`]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#66043]({{site.repo.flutter}}/pull/66043)
-* Removed in [#98541]({{site.repo.flutter}}/pull/98541)
+* 在 [#66043]({{site.repo.flutter}}/pull/66043) 標記為已淘汰（Deprecated）
+* 在 [#98541]({{site.repo.flutter}}/pull/98541) 移除
 
 [`VelocityTracker`]: {{site.api}}/flutter/gestures/VelocityTracker-class.html
 [`PointerDeviceKind`]: {{site.api}}/flutter/dart-ui/PointerDeviceKind.html
 
 ---
 
-### `DayPicker` & `MonthPicker`
+### `DayPicker` 與 `MonthPicker`
 
-Supported by Flutter Fix: no
+Flutter Fix 是否支援：否
 
-The `DayPicker` and `MonthPicker` widgets were first deprecated in v1.15, and
-then extended in v1.26.
+`DayPicker` 與 `MonthPicker` 元件（Widgets）最初於 v1.15 標記為已淘汰，並於 v1.26 擴充。
 
-They have been replaced by one comprehensive widget, `CalendarDatePicker`.
+它們已被一個更完整的元件（Widget）`CalendarDatePicker` 取代。
 
-These widgets were displayed using the `showDatePicker` method. This method was
-migrated to present the new `CalendarDatePicker` before this release, and so
-their final removal should not necessitate further action.
+這些元件原本是透過 `showDatePicker` 方法顯示。在本次版本之前，該方法已遷移為顯示新的 `CalendarDatePicker`，因此最終移除這些元件時，通常不需要額外處理。
 
-**References**
+**參考資料**
 
-Design document:
+設計文件：
 
-* [Material Date Picker Redesign][]
+* [Material Date Picker Redesign][Material Date Picker Redesign]
 
-API documentation:
+API 文件：
 
-* [`CalendarDatePicker`][]
-* [`showDatePicker`][]
+* [`CalendarDatePicker`][`CalendarDatePicker`]
+* [`showDatePicker`][`showDatePicker`]
 
-Relevant issues:
+相關議題：
 
 * [Issue 50133]({{site.repo.flutter}}/issues/50133)
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#50546]({{site.repo.flutter}}/issues/50546)
-* Removed in [#98543]({{site.repo.flutter}}/issues/98543)
+* 在 [#50546]({{site.repo.flutter}}/issues/50546) 標記為已淘汰（Deprecated）
+* 在 [#98543]({{site.repo.flutter}}/issues/98543) 移除
 
 [Material Date Picker Redesign]: /go/material-date-picker-redesign
 [`CalendarDatePicker`]: {{site.api}}/flutter/material/CalendarDatePicker-class.html
@@ -184,30 +176,27 @@ Relevant PRs:
 
 ---
 
-### `FlatButton`, `RaisedButton`, & `OutlineButton`
+### `FlatButton`、`RaisedButton` 與 `OutlineButton`
 
-Supported by Flutter Fix: no
+Flutter Fix 是否支援：否
 
-The `FlatButton`, `RaisedButton`, and `OutlineButton` widgets were first
-deprecated in v1.20, and then extended in v1.26.
+`FlatButton`、`RaisedButton` 以及 `OutlineButton` 元件（Widgets）最初於 v1.20 標記為已淘汰，並於 v1.26 擴充。
 
-They are replaced by new buttons, `TextButton`, `ElevatedButton`, and
-`OutlinedButton`. These new widgets also use new associated themes, rather than
-the generic `ButtonTheme`.
+它們已被新的按鈕元件（Widgets）`TextButton`、`ElevatedButton` 和 `OutlinedButton` 取代。這些新元件也採用新的專屬主題，而不再使用通用的 `ButtonTheme`。
 
-| Old Widget      | Old Theme     | New Widget       | New Theme             |
-|-----------------|---------------|------------------|-----------------------|
-| `FlatButton`    | `ButtonTheme` | `TextButton`     | `TextButtonTheme`     |
-| `RaisedButton`  | `ButtonTheme` | `ElevatedButton` | `ElevatedButtonTheme` |
-| `OutlineButton` | `ButtonTheme` | `OutlinedButton` | `OutlinedButtonTheme` |
+| 舊元件（Widget） | 舊主題      | 新元件（Widget） | 新主題                |
+|------------------|-------------|------------------|-----------------------|
+| `FlatButton`           | `ButtonTheme`      | `TextButton`           | `TextButtonTheme`                |
+| `RaisedButton`           | `ButtonTheme`      | `ElevatedButton`           | `ElevatedButtonTheme`                |
+| `OutlineButton`           | `ButtonTheme`      | `OutlinedButton`           | `OutlinedButtonTheme`                |
 
 {:.table .table-striped .nowrap}
 
-**Migration guide**
+**遷移指南**
 
-[In-depth migration guide available for detailed styling][]
+[提供詳細樣式調整的遷移指南][In-depth migration guide available for detailed styling]
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 FlatButton(
@@ -229,7 +218,7 @@ OutlineButton(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 TextButton(
@@ -251,31 +240,31 @@ OutlinedButton(
 );
 ```
 
-**References**
+**參考資料**
 
-Design document:
+設計文件：
 
-* [New Material buttons and themes][]
+* [New Material buttons and themes][New Material buttons and themes]
 
-API documentation:
+API 文件：
 
-* [`ButtonStyle`][]
-* [`ButtonStyleButton`][]
-* [`ElevatedButton`][]
-* [`ElevatedButtonTheme`][]
-* [`ElevatedButtonThemeData`][]
-* [`OutlinedButton`][]
-* [`OutlinedButtonTheme`][]
-* [`OutlinedButtonThemeData`][]
-* [`TextButton`][]
-* [`TextButtonTheme`][]
-* [`TextButtonThemeData`][]
+* [`ButtonStyle`][`ButtonStyle`]
+* [`ButtonStyleButton`][`ButtonStyleButton`]
+* [`ElevatedButton`][`ElevatedButton`]
+* [`ElevatedButtonTheme`][`ElevatedButtonTheme`]
+* [`ElevatedButtonThemeData`][`ElevatedButtonThemeData`]
+* [`OutlinedButton`][`OutlinedButton`]
+* [`OutlinedButtonTheme`][`OutlinedButtonTheme`]
+* [`OutlinedButtonThemeData`][`OutlinedButtonThemeData`]
+* [`TextButton`][`TextButton`]
+* [`TextButtonTheme`][`TextButtonTheme`]
+* [`TextButtonThemeData`][`TextButtonThemeData`]
 
-Relevant PRs:
+相關 PR：
 
-* New API added in [#59702]({{site.repo.flutter}}/issues/59702)
-* Deprecated in [#73352]({{site.repo.flutter}}/issues/73352)
-* Removed in [#98546]({{site.repo.flutter}}/issues/98546)
+* 新 API 於 [#59702]({{site.repo.flutter}}/issues/59702) 新增
+* 於 [#73352]({{site.repo.flutter}}/issues/73352) 標記為已淘汰
+* 於 [#98546]({{site.repo.flutter}}/issues/98546) 移除
 
 [In-depth migration guide available for detailed styling]: /release/breaking-changes/buttons
 [New Material buttons and themes]: /go/material-button-migration-guide
@@ -293,24 +282,23 @@ Relevant PRs:
 
 ---
 
-### `Scaffold` `SnackBar` methods
+### `Scaffold` `SnackBar` 方法
 
-Supported by Flutter Fix: no
+Flutter Fix 是否支援：否
 
-The following `Scaffold` `SnackBar` methods were deprecated in v1.23.
+以下 `Scaffold` `SnackBar` 方法在 v1.23 版本中已被淘汰。
 
 - `showSnackBar`
 - `removeCurrentSnackBar`
 - `hideCurrentSnackBar`
 
-The same named methods of the `ScaffoldMessenger` should be used instead. A
-default `ScaffoldMessenger` is already created in every `MaterialApp`.
+請改用 `ScaffoldMessenger` 中同名的方法。每個 `MaterialApp` 都已自動建立一個預設的 `ScaffoldMessenger`。
 
-**Migration guide**
+**遷移指南**
 
-[In-depth migration guide available][]
+[提供詳細遷移指南][In-depth migration guide available]
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 Scaffold.of(context).showSnackBar(mySnackBar);
@@ -318,7 +306,7 @@ Scaffold.of(context).removeCurrentSnackBar(mySnackBar);
 Scaffold.of(context).hideCurrentSnackBar(mySnackBar);
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 ScaffoldMessenger.of(context).showSnackBar(mySnackBar);
@@ -326,31 +314,31 @@ ScaffoldMessenger.of(context).removeCurrentSnackBar(mySnackBar);
 ScaffoldMessenger.of(context).hideCurrentSnackBar(mySnackBar);
 ```
 
-**References**
+**參考資料**
 
-Design document:
-* [ScaffoldMessenger Design][]
+設計文件：
+* [ScaffoldMessenger 設計][ScaffoldMessenger Design]
 
-Video content:
+影片內容：
 
-* [SnackBar Delivery][]
-* [Widget of the Week][]
+* [SnackBar 傳遞][SnackBar Delivery]
+* [本週元件 (Widget of the Week)][Widget of the Week]
 
-API documentation:
+API 文件：
 
-* [`ScaffoldMessenger`][]
-* [`SnackBar`][]
+* [`ScaffoldMessenger`][`ScaffoldMessenger`]
+* [`SnackBar`][`SnackBar`]
 
-Relevant issues:
+相關議題：
 
 * [Issue 57218]({{site.repo.flutter}}/issues/57218)
 * [Issue 62921]({{site.repo.flutter}}/issues/62921)
 
-Relevant PRs:
+相關 PR：
 
-* New API added in [#64101]({{site.repo.flutter}}/issues/64101)
-* Deprecated in [#67947]({{site.repo.flutter}}/issues/67947)
-* Removed in [#98549]({{site.repo.flutter}}/issues/98549)
+* 新 API 新增於 [#64101]({{site.repo.flutter}}/issues/64101)
+* 已棄用於 [#67947]({{site.repo.flutter}}/issues/67947)
+* 已移除於 [#98549]({{site.repo.flutter}}/issues/98549)
 
 [In-depth migration guide available]: /release/breaking-changes/scaffold-messenger
 [ScaffoldMessenger Design]: /go/scaffold-messenger
@@ -363,65 +351,62 @@ Relevant PRs:
 
 ### `RectangularSliderTrackShape.disabledThumbGapWidth`
 
-Supported by Flutter Fix: yes
+Flutter Fix 支援：是
 
-The `RectangularSliderTrackShape.disabledThumbGapWidth` was first deprecated in
-v1.5, and then extended in v1.26.
+`RectangularSliderTrackShape.disabledThumbGapWidth` 首次於 v1.5 被棄用，並於 v1.26 擴展。
 
-This was no longer used by the framework, as the animation of the slider thumb
-no longer occurs when disabled.
+此 API 已不再被框架使用，因為當滑桿（slider）停用時，滑桿拇指的動畫（Animation）不再執行。
 
-**Migration guide**
+**遷移指南**
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 RectangularSliderTrackShape(disabledThumbGapWidth: 2.0);
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 RectangularSliderTrackShape();
 ```
 
-**References**
+**參考資料**
 
-API documentation:
-* [`RectangularSliderTrackShape`][]
+API 文件：
+* [`RectangularSliderTrackShape`][`RectangularSliderTrackShape`]
 
-Relevant PRs:
-* Animation changed in [#30390]({{site.repo.flutter}}/issues/30390)
-* Deprecated in [#65246]({{site.repo.flutter}}/issues/65246)
-* Removed in [#98613]({{site.repo.flutter}}/issues/98613)
+相關 PR：
+* 動畫 (Animation) 變更於 [#30390]({{site.repo.flutter}}/issues/30390)
+* 已棄用於 [#65246]({{site.repo.flutter}}/issues/65246)
+* 已移除於 [#98613]({{site.repo.flutter}}/issues/98613)
 
 [`RectangularSliderTrackShape`]: {{site.api}}/flutter/material/RectangularSliderTrackShape-class.html
 
 ---
 
-### Text selection of `ThemeData` to `TextSelectionThemeData`
+### `ThemeData` 到 `TextSelectionThemeData` 的文字選取
 
-Supported by Flutter Fix: yes
+支援 Flutter Fix：是
 
-The following `ThemeData` members were first deprecated in v1.23, and extended
-in v1.26.
+以下 `ThemeData` 成員最初於 v1.23 棄用，並在 v1.26 擴展。
 
 - `useTextSelectionTheme`
 - `textSelectionColor`
 - `cursorColor`
 - `textSelectionHandleColor`
 
-These should be replaced by a more comprehensive `TextSelectionThemeData`,
-which is now specified in `ThemeData` itself.
+這些應改為更完整的 `TextSelectionThemeData`，
+目前已在 `ThemeData` 本身中指定。
 
-The `useTextSelectionTheme` flag served as a temporary migration flag to
-distinguish the two APIs, it can be removed now.
+`useTextSelectionTheme` 旗標曾作為暫時的遷移旗標，
+用來區分兩個 API，現在可以移除。
 
-**Migration guide**
+**遷移指南**
 
-[In-depth migration guide available][]
+[提供詳細遷移指南][In-depth migration guide available]
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 ThemeData(
@@ -432,7 +417,7 @@ ThemeData(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 ThemeData(
@@ -444,28 +429,28 @@ ThemeData(
 );
 ```
 
-**References**
+**參考資料**
 
-Design document:
+設計文件：
 
-* [Text Selection Theme][]
+* [Text Selection Theme][Text Selection Theme]
 
-API documentation:
+API 文件：
 
-* [`ThemeData`][]
-* [`TextSelectionThemeData`][]
+* [`ThemeData`][`ThemeData`]
+* [`TextSelectionThemeData`][`TextSelectionThemeData`]
 
-Relevant issues:
+相關議題：
 
 * [Issue 17635]({{site.repo.flutter}}/issues/17635)
 * [Issue 56082]({{site.repo.flutter}}/issues/56082)
 * [Issue 61227]({{site.repo.flutter}}/issues/61227)
 
-Relevant PRs:
+相關 PR：
 
-* New API added in [#62014]({{site.repo.flutter}}/issues/62014)
-* Deprecated in [#66485]({{site.repo.flutter}}/issues/66482)
-* Removed in [#98578]({{site.repo.flutter}}/issues/98578)
+* 新 API 於 [#62014]({{site.repo.flutter}}/issues/62014) 新增
+* 於 [#66485]({{site.repo.flutter}}/issues/66482) 標記為已淘汰
+* 於 [#98578]({{site.repo.flutter}}/issues/98578) 移除
 
 [In-depth migration guide available]: /release/breaking-changes/text-selection-theme
 [Text Selection Theme]: /go/text-selection-theme
@@ -474,47 +459,47 @@ Relevant PRs:
 
 ---
 
-### `RenderEditable.onSelectionChanged` to `TextSelectionDelegate.textEditingValue`
+### `RenderEditable.onSelectionChanged` 變更為 `TextSelectionDelegate.textEditingValue`
 
-Supported by Flutter Fix: no
+Flutter Fix 是否支援：否
 
-`RenderEditable.onSelectionChanged` and `TextSelectionDelegate.textEditingValue`
-were deprecated in v1.26.
+`RenderEditable.onSelectionChanged` 和 `TextSelectionDelegate.textEditingValue`
+已於 v1.26 標記為已淘汰。
 
-Instead of calling one or both of these methods, call
-`TextSelectionDelegate.userUpdateTextEditingValue`. This fixed a bug where the
-`TextInputFormatter` would receive the wrong selection value.
+請改為呼叫
+`TextSelectionDelegate.userUpdateTextEditingValue`，以取代呼叫其中一個或兩個方法。這樣可以修正
+`TextInputFormatter` 會收到錯誤選取值的問題。
 
-**Migration guide**
+**遷移指南**
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 renderEditable.onSelectionChanged(selection, renderObject, cause);
 textSelectionDelegate.textEditingValue = value;
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 textSelectionDelegate.userUpdateTextEditingValue(value, cause);
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
-* [`RenderEditable`][]
-* [`TextSelectionDelegate`][]
+* [`RenderEditable`][`RenderEditable`]
+* [`TextSelectionDelegate`][`TextSelectionDelegate`]
 
-Relevant issues:
+相關議題：
 
-* Resolved [#75505]({{site.repo.flutter}}/issues/75502)
+* 已解決 [#75505]({{site.repo.flutter}}/issues/75502)
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#75541]({{site.repo.flutter}}/issues/75541)
-* Removed in [#98582]({{site.repo.flutter}}/issues/98582)
+* 已在 [#75541]({{site.repo.flutter}}/issues/75541) 標記為已棄用
+* 已在 [#98582]({{site.repo.flutter}}/issues/98582) 移除
 
 [`RenderEditable`]: {{site.api}}/flutter/rendering/RenderEditable-class.html
 [`TextSelectionDelegate`]: {{site.api}}/flutter/services/TextSelectionDelegate-mixin.html
@@ -523,47 +508,45 @@ Relevant PRs:
 
 ### `Stack.overflow`
 
-Supported by Flutter Fix: yes
+Flutter Fix 支援：是
 
-`Stack.overflow`, as well as the `Overflow` enum were deprecated in v1.22.
+`Stack.overflow` 以及 `Overflow` 列舉（enum）已於 v1.22 棄用。
 
-The replacement is `Stack.clipBehavior`, a change made as part of unifying clip
-behaviors and semantics across the framework. Where `Overflow.visible` was used,
-use `Clip.none`. Where `Overflow.clip` was used, use `Clip.hardEdge`.
+建議改用 `Stack.clipBehavior`，這項變更是為了統一整個框架中的剪裁（clip）行為與語意。原本使用 `Overflow.visible` 的地方，請改用 `Clip.none`。原本使用 `Overflow.clip` 的地方，請改用 `Clip.hardEdge`。
 
-**Migration guide**
+**遷移指南**
 
-[In-depth migration guide available][]
+[提供詳細遷移指南][In-depth migration guide available]
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 const Stack stack = Stack(overflow: Overflow.visible);
 const Stack stack = Stack(overflow: Overflow.clip);
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 const Stack stack = Stack(clipBehavior: Clip.none);
 const Stack stack = Stack(clipBehavior: Clip.hardEdge);
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
-* [`Stack`][]
-* [`Clip`][]
+* [`Stack`][`Stack`]
+* [`Clip`][`Clip`]
 
-Relevant issues:
+相關議題：
 
-* Resolved [#66030]({{site.repo.flutter}}/issues/66030)
+* 已解決 [#66030]({{site.repo.flutter}}/issues/66030)
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#66305]({{site.repo.flutter}}/issues/66305)
-* Removed in [#98583]({{site.repo.flutter}}/issues/98583)
+* 已在 [#66305]({{site.repo.flutter}}/issues/66305) 標記為已棄用
+* 已在 [#98583]({{site.repo.flutter}}/issues/98583) 移除
 
 [In-depth migration guide available]: /release/breaking-changes/clip-behavior
 [`Stack`]: {{site.api}}/flutter/widgets/Stack-class.html
@@ -573,51 +556,49 @@ Relevant PRs:
 
 ### `UpdateLiveRegionEvent`
 
-Supported by Flutter Fix: no
+Flutter Fix 是否支援：否
 
-The `SemanticsEvent` `UpdateLiveRegionEvent`, was first deprecated in v1.12, and
-then extended in v1.26.
+`SemanticsEvent` `UpdateLiveRegionEvent`，首次於 v1.12 標記為已棄用，
+並於 v1.26 擴充。
 
-This was never implemented by the framework, and any references should be
-removed.
+此功能從未由框架實作，任何相關引用都應移除。
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
-* [`SemanticsEvent`][]
+* [`SemanticsEvent`][`SemanticsEvent`]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#45940]({{site.repo.flutter}}/issues/45940)
-* Removed in [#98615]({{site.repo.flutter}}/issues/98615)
+* 已在 [#45940]({{site.repo.flutter}}/issues/45940) 標記為已棄用
+* 已在 [#98615]({{site.repo.flutter}}/issues/98615) 移除
 
 [`SemanticsEvent`]: {{site.api}}/flutter/semantics/SemanticsEvent-class.html
 
 ---
 
-### `RenderObjectElement` methods
+### `RenderObjectElement` 方法
 
-Supported by Flutter Fix: yes
+Flutter Fix 是否支援：是
 
-The following `RenderObjectElement` methods were deprecated in v1.21.
+以下 `RenderObjectElement` 方法已於 v1.21 標記為已棄用。
 
 - `insertChildRenderObject`
 - `moveChildRenderObject`
 - `removeChildRenderObject`
 
-These methods are replaced, respectively, by:
+這些方法分別被以下方法取代：
 
 - `insertRenderObjectChild`
 - `moveRenderObjectChild`
 - `removeRenderObjectChild`
 
-These changes were made as a soft breaking deprecation in order to change the
-function signature.
+這些變更屬於軟性破壞性棄用，目的是為了調整函式簽章。
 
-**Migration guide**
+**遷移指南**
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 element.insertChildRenderObject(child, slot);
@@ -625,7 +606,7 @@ element.moveChildRenderObject(child, slot);
 element.removeChildRenderObject(child);
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 element.insertRenderObjectChild(child, slot);
@@ -633,25 +614,25 @@ element.moveRenderObjectChild(child, oldSlot, newSlot);
 element.removeRenderObjectChild(child, slot);
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
-* [`RenderObjectElement`][]
+* [`RenderObjectElement`][`RenderObjectElement`]
 
-Relevant issues:
+相關議題：
 
 * [Issue 63269]({{site.repo.flutter}}/issues/63269)
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#64254]({{site.repo.flutter}}/issues/64254)
-* Removed in [#98616]({{site.repo.flutter}}/issues/98616)
+* 已在 [#64254]({{site.repo.flutter}}/issues/64254) 標記為已淘汰
+* 已在 [#98616]({{site.repo.flutter}}/issues/98616) 移除
 
 [`RenderObjectElement`]: {{site.api}}/flutter/widgets/RenderObjectElement-class.html
 
 ---
 
-## Timeline
+## 時程
 
-In stable release: 3.0.0
+在穩定版發行：3.0.0

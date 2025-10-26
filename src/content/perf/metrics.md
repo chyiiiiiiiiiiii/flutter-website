@@ -1,47 +1,33 @@
 ---
-title: Performance metrics
-description: Flutter metrics, and which tools and APIs are used to get them
+title: 效能指標
+description: Flutter 效能指標，以及取得這些指標所使用的工具與 API
 ---
 
-* Startup time to the first frame
-  * Check the time when
-    [WidgetsBinding.instance.firstFrameRasterized][firstFrameRasterized] 
-    is true.
-  * See the
-    [perf dashboard](https://flutter-flutter-perf.skia.org/e/?queries=sub_result%3DtimeToFirstFrameRasterizedMicros).
+* 啟動至第一幀的時間
+  * 檢查 [WidgetsBinding.instance.firstFrameRasterized][firstFrameRasterized] 為 true 的時間點。
+  * 請參考 [perf dashboard](https://flutter-flutter-perf.skia.org/e/?queries=sub_result%3DtimeToFirstFrameRasterizedMicros)。
 
-* Frame buildDuration, rasterDuration, and totalSpan
-  * See [`FrameTiming`]({{site.api}}/flutter/dart-ui/FrameTiming-class.html)
-    in the API docs.
+* 幀的 buildDuration、rasterDuration 與 totalSpan
+  * 請參考 API 文件中的 [`FrameTiming`]({{site.api}}/flutter/dart-ui/FrameTiming-class.html)。
 
-* Statistics of frame `buildDuration` (`*_frame_build_time_millis`)
-  * We recommend monitoring four stats: average, 90th percentile, 99th
-    percentile, and worst frame build time.
-  * See, for example, [metrics][transition_build] for the 
-    `flutter_gallery__transition_perf` test.
+* 幀 `buildDuration`（`*_frame_build_time_millis`）的統計資料
+  * 建議監控四個統計數據：平均值、第 90 百分位、第 99 百分位，以及最差幀建構時間。
+  * 例如，請參考 `flutter_gallery__transition_perf` 測試的 [metrics][transition_build]。
 
-* Statistics of frame `rasterDuration` (`*_frame_build_time_millis`)
-  * We recommend monitoring four stats: average, 90th percentile, 99th
-    percentile, and worst frame build time.
-  * See, for example, [metrics][transition_raster] for the 
-    `flutter_gallery__transition_perf` test.
+* 幀 `rasterDuration`（`*_frame_build_time_millis`）的統計資料
+  * 建議監控四個統計數據：平均值、第 90 百分位、第 99 百分位，以及最差幀建構時間。
+  * 例如，請參考 `flutter_gallery__transition_perf` 測試的 [metrics][transition_raster]。
 
-* CPU/GPU usage (a good approximation for energy use)
-  * The usage is currently only available through trace events. See
-    [profiling_summarizer.dart][profiling_summarizer].
-  * See [metrics][cpu_gpu] for the `simple_animation_perf_ios` test.
+* CPU/GPU 使用率（可作為能耗的良好近似值）
+  * 目前僅能透過 trace events 取得使用率。請參考 [profiling_summarizer.dart][profiling_summarizer]。
+  * `simple_animation_perf_ios` 測試的 [metrics][cpu_gpu] 亦可參考。
 
-* release_size_bytes to approximately measure the size of a Flutter app
-  * See the [basic_material_app_android][], [basic_material_app_ios][],
-    [hello_world_android][], [hello_world_ios][], [flutter_gallery_android][],
-    and [flutter_gallery_ios][] tests.
-  * See [metrics][size_perf] in the dashboard.
-  * For info on how to measure the size more accurately,
-    see the [app size](/perf/app-size) page.
+* 使用 release_size_bytes 來大致測量 Flutter 應用程式的大小
+  * 請參考 [basic_material_app_android][basic_material_app_android]、[basic_material_app_ios][basic_material_app_ios]、[hello_world_android][hello_world_android]、[hello_world_ios][hello_world_ios]、[flutter_gallery_android][flutter_gallery_android] 以及 [flutter_gallery_ios][flutter_gallery_ios] 測試。
+  * 亦可參考 dashboard 中的 [metrics][size_perf]。
+  * 若需更精確的測量方式，請參考 [app size](/perf/app-size) 頁面。
 
-For a complete list of performance metrics Flutter measures per commit, visit 
-the following sites, click **Query**, and filter the **test** and 
-**sub_result** fields:
+如需 Flutter 每次提交所測量的完整效能指標清單，請造訪下列網站，點選 **Query**，並篩選 **test** 與 **sub_result** 欄位：
 
   * [https://flutter-flutter-perf.skia.org/e/](https://flutter-flutter-perf.skia.org/e/)
   * [https://flutter-engine-perf.skia.org/e/](https://flutter-engine-perf.skia.org/e/)

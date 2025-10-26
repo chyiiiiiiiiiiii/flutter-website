@@ -1,9 +1,9 @@
 ---
-title: Optimistic state
-description: "Improve the perception of responsiveness of an application by implementing optimistic state."
+title: 樂觀狀態（Optimistic state）
+description: "透過實作樂觀狀態，提升應用程式的響應式（responsiveness）體驗。"
 contentTags:
-  - user experience
-  - asynchronous dart
+  - 使用者體驗
+  - 非同步 Dart
 iconPath: /assets/images/docs/app-architecture/design-patterns/optimistic-state-icon.svg
 order: 0
 js:
@@ -13,67 +13,37 @@ js:
 
 <?code-excerpt path-base="app-architecture/optimistic_state"?>
 
-When building user experiences, 
-the perception of performance is sometimes just as important as 
-the actual performance of the code. 
-In general, users don’t like waiting for an action to finish to see the result, 
-and anything that takes more than a few milliseconds could be considered “slow”
-or “unresponsive” from the user’s perspective.
+在打造使用者體驗時，效能的「感知」有時和實際程式碼效能同樣重要。一般來說，使用者不喜歡等待動作完成後才看到結果，任何超過幾毫秒的延遲，從使用者角度來看都可能被認為是「慢」或「沒有回應」。
 
-Developers can help mitigate this negative perception 
-by presenting a successful UI state 
-before the background task is fully completed. 
-An example of this would be tapping a “Subscribe” button, 
-and seeing it change to “Subscribed” instantly, 
-even if the background call to the subscription API is still running.
+開發者可以藉由在背景任務尚未完全完成前，先呈現成功的 UI 狀態，來減輕這種負面感受。例如，點擊「訂閱」按鈕時，即使背景呼叫訂閱 API 尚在執行，也能立即看到按鈕變成「已訂閱」。
 
-This technique is known as Optimistic State, Optimistic UI or 
-Optimistic User Experience. 
-In this recipe, 
-you will implement an application feature using Optimistic State and 
-following the [Flutter architecture guidelines][].
+這種技巧稱為樂觀狀態（Optimistic State）、樂觀 UI（Optimistic UI）或樂觀使用者體驗（Optimistic User Experience）。在本教學中，你將會運用樂觀狀態來實作一個應用程式功能，並遵循 [Flutter 架構指引][Flutter architecture guidelines]。
 
-## Example feature: a subscribe button
+## 範例功能：訂閱按鈕
 
-This example implements a subscribe button similar to 
-the one you could find in a video streaming application or a newsletter.
+這個範例實作了一個訂閱按鈕，類似你在影音串流應用程式或電子報中會看到的設計。
 
 <img src='/assets/images/docs/cookbook/architecture/optimistic-state.png'
 class="site-mobile-screenshot" alt="Application with subscribe button" >
 
-When the button is tapped, the application then calls an external API, 
-performing a subscription action, 
-for example recording in a database that the user is now in 
-the subscription list. 
-For demo purposes, you will not implement the actual backend code, 
-instead you will replace this call with 
-a fake action that will simulate a network request.
+當按鈕被點擊時，應用程式會呼叫外部 API，執行訂閱動作，例如在資料庫中紀錄該使用者已加入訂閱清單。為了示範，本範例不會實作實際的後端程式碼，而是以一個模擬網路請求的假動作來取代。
 
-In the case that the call is successful, 
-the button text will change from “Subscribe” to “Subscribed”. 
-The button background color will change as well.
+如果呼叫成功，按鈕文字會從「訂閱」變成「已訂閱」，按鈕的背景顏色也會跟著改變。
 
-On the contrary, if the call fails, 
-the button text should revert back to “Subscribe”, 
-and the UI should show an error message to the user, 
-for example using a Snackbar.
+相反地，如果呼叫失敗，按鈕文字應該恢復為「訂閱」，並且 UI 會顯示錯誤訊息給使用者，例如透過 Snackbar 呈現。
 
-Following the Optimistic State idea, 
-the button should instantly change to “Subscribed” once it is tapped, 
-and only change back to “Subscribe” if the request failed.
+根據樂觀狀態的設計理念，按鈕在被點擊時應立即變成「已訂閱」，只有在請求失敗時才恢復為「訂閱」。
 
 <img src='/assets/images/docs/cookbook/architecture/optimistic-state.webp'
 class="site-mobile-screenshot" alt="Animation of application with subscribe button" >
 
-## Feature architecture
+## 功能架構
 
-Start by defining the feature architecture. 
-Following the architecture guidelines, 
-create these Dart classes in a Flutter project:
+首先，定義這個功能的架構。依照架構指引，在 Flutter 專案中建立以下 Dart 類別：
 
-- A `StatefulWidget` named `SubscribeButton`
-- A class named `SubscribeButtonViewModel` extending `ChangeNotifier`
-- A class named `SubscriptionRepository`
+- 一個名為 `SubscribeButton` 的 `StatefulWidget`
+- 一個繼承自 `ChangeNotifier` 的類別 `SubscribeButtonViewModel`
+- 一個名為 `SubscriptionRepository` 的類別
 
 <?code-excerpt "lib/starter.dart (Starter)"?>
 ```dart
@@ -96,21 +66,19 @@ class SubscribeButtonViewModel extends ChangeNotifier {}
 class SubscriptionRepository {}
 ```
 
-The `SubscribeButton` widget and the `SubscribeButtonViewModel` represent 
-the presentation layer of this solution. 
-The widget is going to display a button 
-that will show the text “Subscribe” or “Subscribed” 
-depending on the subscription state. 
-The view model will contain the subscription state. 
-When the button is tapped, 
-the widget will call the view model to perform the action.
+`SubscribeButton` 元件（Widget）與 `SubscribeButtonViewModel` 代表此解決方案的呈現層（presentation layer）。  
+該元件會顯示一個按鈕，  
+根據訂閱狀態顯示「Subscribe」或「Subscribed」文字。  
+ViewModel 會包含訂閱狀態。  
+當按鈕被點擊時，  
+元件會呼叫 ViewModel 來執行動作。
 
-The `SubscriptionRepository` will implement a subscribe method 
-that will throw an exception when the action fails. 
-The view model will call this method when performing the subscription action. 
+`SubscriptionRepository` 會實作一個 subscribe 方法，  
+當動作失敗時會拋出例外（exception）。  
+ViewModel 在執行訂閱動作時會呼叫此方法。
 
-Next, connect them together by adding the `SubscriptionRepository` 
-to the `SubscribeButtonViewModel`:
+接下來，透過將 `SubscriptionRepository`  
+加入到 `SubscribeButtonViewModel` 來將它們串接在一起：
 
 <?code-excerpt "lib/main.dart (ViewModelStart)" replace="/y;$/y;\n}/g"?>
 ```dart
@@ -121,7 +89,7 @@ class SubscribeButtonViewModel extends ChangeNotifier {
 }
 ```
 
-And add the `SubscribeButtonViewModel` to the `SubscribeButton` widget:
+並將 `SubscribeButtonViewModel` 加到 `SubscribeButton` 元件（Widget）中：
 
 <?code-excerpt "lib/main.dart (Widget)"?>
 ```dart
@@ -136,8 +104,8 @@ class SubscribeButton extends StatefulWidget {
 }
 ```
 
-Now that you have created the basic solution architecture, 
-you can create the `SubscribeButton` widget the following way:
+現在你已經建立了基本的解決方案架構，
+你可以用以下方式建立 `SubscribeButton` 元件（Widget）：
 
 <?code-excerpt "lib/main.dart (SubscribeButton)" replace="/^child: //g;/^\),$/)/g"?>
 ```dart
@@ -147,10 +115,9 @@ SubscribeButton(
   ),
 )
 ```
-### Implement the `SubscriptionRepository`
+### 實作 `SubscriptionRepository`
 
-Add a new asynchronous method named `subscribe()` 
-to the `SubscriptionRepository` with the following code:
+在 `SubscriptionRepository` 中新增一個名為 `subscribe()` 的非同步方法，並加入以下程式碼：
 
 <?code-excerpt "lib/main.dart (SubscriptionRepository)"?>
 ```dart
@@ -165,19 +132,19 @@ class SubscriptionRepository {
 }
 ```
 
-The call to `await Future.delayed()` with a duration of one second 
-has been added to simulate a long running request. 
-The method execution will pause for a second, and then it will continue running.
+對 `await Future.delayed()` 的呼叫，並設定為一秒的延遲，
+是用來模擬一個執行時間較長的請求。
+方法執行時會暫停一秒，然後再繼續執行。
 
-In order to simulate a request failing, 
-the subscribe method throws an exception at the end. 
-This will be used later on to show how to recover from a failed request 
-when implementing Optimistic State.
+為了模擬請求失敗的情境，
+`subscribe` 方法會在結尾拋出一個例外（exception）。
+這部分稍後會用於展示在實作 Optimistic State（樂觀狀態）時，
+如何從失敗的請求中恢復。
 
-### Implement the `SubscribeButtonViewModel`
+### 實作 `SubscribeButtonViewModel`
 
-To represented the subscription state, as well a possible error state, 
-add the following public members to the `SubscribeButtonViewModel`:
+為了表示訂閱（subscription）的狀態，以及可能發生的錯誤狀態，
+請在 `SubscribeButtonViewModel` 中新增以下公開成員：
 
 <?code-excerpt "lib/main.dart (States)"?>
 ```dart
@@ -188,18 +155,17 @@ bool subscribed = false;
 bool error = false;
 ```
 
-Both are set to `false` on start.
+兩者在啟動時都設為 `false`。
 
-Following the ideas of Optimistic State, 
-the `subscribed` state will change to `true` 
-as soon as the user taps the subscribe button. 
-And will only change back to `false` if the action fails.
+根據 Optimistic State（樂觀狀態）的設計理念，
+`subscribed` 狀態會在使用者點擊訂閱按鈕時立即變更為 `true`。
+只有當該動作失敗時，才會再變回 `false`。
 
-The `error` state will change to `true` when the action fails, 
-indicating the `SubscribeButton` widget to show an error message to the user. 
-The variable should go back to `false` once the error has been displayed.
+當動作失敗時，`error` 狀態會變更為 `true`，
+這會通知 `SubscribeButton` 元件（Widget）向使用者顯示錯誤訊息。
+錯誤訊息顯示完成後，該變數應該回復為 `false`。
 
-Next, implement an asynchronous `subscribe()` method:
+接下來，實作一個非同步的 `subscribe()` 方法：
 
 <?code-excerpt "lib/main.dart (subscribe)"?>
 ```dart
@@ -230,23 +196,17 @@ Future<void> subscribe() async {
 }
 ```
 
-As described previously, first the method sets the `subscribed` state to `true` 
-and then calls to `notifyListeners()`. 
-This forces the UI to update and the button changes its appearance, 
-showing the text “Subscribed” to the user.
+如前所述，這個方法首先將`subscribed`狀態設為`true`，然後呼叫`notifyListeners()`。  
+這會強制 UI 更新，按鈕的外觀也會隨之改變，向使用者顯示「Subscribed」這個文字。
 
-Then the method performs the actual call to the repository. 
-This call is wrapped by a `try-catch` 
-in order to catch any exceptions it may throw. 
-In case an exception is caught, the `subscribed` state is set back to `false`, 
-and the `error` state is set to `true`. 
-A final call to `notifyListeners()` is done 
-to change the UI back to ‘Subscribe’. 
+接著，該方法會實際呼叫 repository。  
+這個呼叫會被`try-catch`包裹，以捕捉可能拋出的任何例外。  
+如果捕捉到例外，則會將`subscribed`狀態設回`false`，並將`error`狀態設為`true`。  
+最後再呼叫`notifyListeners()`，將 UI 變回「Subscribe」。
 
-If there is no exception, the process is complete 
-because the UI is already reflecting the success state. 
+如果沒有發生例外，流程就已完成，因為 UI 已經反映出成功狀態。
 
-The complete `SubscribeButtonViewModel` should look like this:
+完整的`SubscribeButtonViewModel`應如下所示：
 
 <?code-excerpt "lib/main.dart (ViewModelFull)"?>
 ```dart
@@ -292,13 +252,13 @@ class SubscribeButtonViewModel extends ChangeNotifier {
 }
 ```
 
-### Implement the `SubscribeButton`
+### 實作 `SubscribeButton`
 
-In this step, 
-you will first implement the build method of the `SubscribeButton`, 
-and then implement the feature’s error handling.
+在這個步驟中，
+你將首先實作 `SubscribeButton` 的 build 方法，
+接著實作此功能的錯誤處理。
 
-Add the following code to the build method:
+請將以下程式碼加入 build 方法中：
 
 <?code-excerpt "lib/main.dart (build)"?>
 ```dart
@@ -321,18 +281,17 @@ Widget build(BuildContext context) {
 }
 ```
 
-This build method contains a `ListenableBuilder` 
-that listens to changes from the view model. 
-The builder then creates a `FilledButton` 
-that will display the text "Subscribed" or "Subscribe" 
-depending on the view model state. 
-The button style will also change depending on this state. 
-As well, when the button is tapped, 
-it runs the `subscribe()` method from the view model.
+這個 build 方法包含一個 `ListenableBuilder`，
+用來監聽來自 view model 的狀態變化。
+builder 會建立一個 `FilledButton`，
+根據 view model 的狀態顯示 "Subscribed" 或 "Subscribe" 文字。
+按鈕的樣式也會根據這個狀態改變。
+此外，當按鈕被點擊時，
+會執行 view model 中的 `subscribe()` 方法。
 
-The `SubscribeButtonStyle` can be found here. 
-Add this class next to the `SubscribeButton`. 
-Feel free to modify the `ButtonStyle`.
+`SubscribeButtonStyle` 可以在這裡找到。
+請將這個 class 加在 `SubscribeButton` 旁邊。
+你可以自由修改 `ButtonStyle`。
 
 <?code-excerpt "lib/main.dart (style)"?>
 ```dart
@@ -347,15 +306,15 @@ class SubscribeButtonStyle {
 }
 ```
 
-If you run the application now, 
-you will see how the button changes when you press it, 
-however it will change back to the original state without showing an error.
+如果你現在執行應用程式，  
+你會看到當你按下按鈕時，按鈕會發生變化，  
+但它會在沒有顯示錯誤的情況下回復到原本的狀態。
 
-### Handling errors
+### 錯誤處理
 
-To handle errors, 
-add the `initState()` and `dispose()` methods to the `SubscribeButtonState`, 
-and then add the `_onViewModelChange()` method.
+為了處理錯誤，  
+請在`SubscribeButtonState`中加入`initState()`和`dispose()`方法，  
+接著再加入`_onViewModelChange()`方法。
 
 <?code-excerpt "lib/main.dart (listener1)"?>
 ```dart
@@ -388,50 +347,50 @@ void _onViewModelChange() {
 }
 ```
 
-The `addListener()` call registers the `_onViewModelChange()` method 
-to be called when the view model notifies listeners. 
-It’s important to call `removeListener()` when the widget is disposed of, 
-in order to avoid errors.
+`addListener()` 呼叫會註冊 `_onViewModelChange()` 方法，
+當 view model 通知監聽者時會被呼叫。
+當元件（Widget）被銷毀時，務必呼叫 `removeListener()`，
+以避免發生錯誤。
 
-The `_onViewModelChange()` method checks the `error` state, 
-and if it is `true`, 
-displays a `Snackbar` to the user showing an error message. 
-As well, the `error` state is set back to `false`, 
-to avoid displaying the error message multiple times 
-if `notifyListeners()` is called again in the view model.
+`_onViewModelChange()` 方法會檢查 `error` 狀態，
+如果為 `true`，
+則會顯示 `Snackbar`，向使用者顯示錯誤訊息。
+同時，`error` 狀態會被設回 `false`，
+以避免當 view model 再次呼叫 `notifyListeners()` 時，
+重複顯示錯誤訊息。
 
-## Advanced Optimistic State
+## 進階 Optimistic State
 
-In this tutorial, 
-you’ve learned how to implement an Optimistic State with a single binary state, 
-but you can use this technique to create a more advanced solution 
-by incorporating a third temporal state 
-that indicates that the action is still running.
+在本教學中，
+你已學會如何用單一二元狀態來實作 Optimistic State（樂觀狀態），
+但你也可以運用此技巧，結合第三個暫時性狀態，
+來建立更進階的解決方案，
+用以表示某個動作仍在執行中。
 
-For example, in a chat application when the user sends a new message, 
-the application will display the new chat message in the chat window, 
-but with an icon indicating that the message is still pending to be delivered. 
-When the message is delivered, that icon would be removed.
+例如，在聊天應用程式中，當使用者傳送新訊息時，
+應用程式會在聊天視窗中顯示新的訊息，
+但會加上一個圖示，表示該訊息仍待傳送。
+當訊息成功送達後，該圖示就會被移除。
 
-In the subscribe button example, 
-you could add another flag in the view model 
-indicating that the `subscribe()` method is still running, 
-or use the Command pattern running state, 
-then modify the button style slightly to show that the operation is running.
+在訂閱按鈕的範例中，
+你可以在 view model 中再新增一個旗標（flag），
+用來表示 `subscribe()` 方法仍在執行中，
+或是使用 Command pattern 的執行狀態，
+然後稍微修改按鈕樣式，來顯示該操作正在進行。
 
-## Interactive example
+## 互動範例
 
-This example shows the `SubscribeButton` widget 
-together with the `SubscribeButtonViewModel` 
-and `SubscriptionRepository`, 
-which implement a subscribe tap action with Optimistic State.
+此範例展示了 `SubscribeButton` 元件（Widget），
+搭配 `SubscribeButtonViewModel`
+以及 `SubscriptionRepository`，
+共同實作了帶有 Optimistic State 的訂閱點擊動作。
 
-When you tap the button, 
-the button text changes from “Subscribe” to “Subscribed”. After a second, 
-the repository throws an exception, 
-which gets captured by the view model, 
-and the button reverts back to showing “Subscribe”, 
-while also displaying a Snackbar with an error message.
+當你點擊按鈕時，
+按鈕文字會從「Subscribe」變為「Subscribed」。一秒後，
+repository 會拋出例外，
+該例外會被 view model 捕捉，
+按鈕會回復顯示「Subscribe」，
+同時顯示一個 Snackbar，帶有錯誤訊息。
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter Optimistic State example in DartPad" run="true"

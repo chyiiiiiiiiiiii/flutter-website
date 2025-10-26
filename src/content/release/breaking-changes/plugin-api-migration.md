@@ -1,6 +1,6 @@
 ---
-title: Supporting the new Android plugins APIs
-description: How to update a plugin using the old APIs to support the new APIs.
+title: 支援新的 Android 插件 API
+description: 如何將使用舊 API 的插件升級以支援新 API。
 ---
 
 {% render docs/breaking-changes.md %}
@@ -8,77 +8,49 @@ description: How to update a plugin using the old APIs to support the new APIs.
 <?code-excerpt path-base="platform_integration/plugin_api_migration"?>
 
 :::note
-New plugins and all plugins that are compatible with Flutter 2
-(March 2021) can ignore this page.
+新開發的插件，以及所有相容於 Flutter 2（2021 年 3 月）之後的插件，可以忽略本頁內容。
 :::
 
 :::note
-You might be directed to this page if the framework detects that
-your app uses a plugin based on the old Android APIs.
+如果框架偵測到你的應用程式使用了基於舊 Android API 的插件，你可能會被導向本頁。
 :::
 
-_If you don't write or maintain an Android Flutter plugin,
-you can skip this page._
+_如果你沒有撰寫或維護 Android Flutter 插件，可以略過本頁內容。_
 
-As of the 1.12 release,
-new plugin APIs are available for the Android platform.
-The old APIs based on [`PluginRegistry.Registrar`][]
-won't be immediately deprecated,
-but we encourage you to migrate to the new APIs based on
-[`FlutterPlugin`][].
+自 1.12 版本起，
+Android 平台已提供新的插件 API。
+基於 [`PluginRegistry.Registrar`][`PluginRegistry.Registrar`] 的舊 API
+不會立即被棄用，
+但我們建議你遷移至基於 [`FlutterPlugin`][`FlutterPlugin`] 的新 API。
 
-The new API has the advantage of providing a cleaner set
-of accessors for lifecycle dependent components compared
-to the old APIs. For instance
-[`PluginRegistry.Registrar.activity()`][] could return null if
-Flutter isn't attached to any activities.
+新 API 的優點在於，與舊 API 相比，能夠為依賴生命週期的元件提供更乾淨的存取方式。例如，
+[`PluginRegistry.Registrar.activity()`][`PluginRegistry.Registrar.activity()`] 若 Flutter 尚未附加至任何 Activity，則可能會回傳 null。
 
-In other words, plugins using the old API might produce undefined
-behaviors when embedding Flutter into an Android app.
-Most of the [Flutter plugins][] provided by the flutter.dev
-team have been migrated already. (Learn how to become a
-[verified publisher][] on pub.dev!) For an example of
-a plugin that uses the new APIs, see the
-[battery plus package][].
+換句話說，使用舊 API 的插件，在將 Flutter 嵌入 Android 應用程式時，可能會產生未定義行為。
+flutter.dev 團隊所提供的大多數 [Flutter 插件][Flutter plugins] 已經完成遷移。（了解如何成為 pub.dev 上的 [verified publisher][verified publisher]！）若需使用新 API 插件的範例，請參考 [battery plus package][battery plus package]。
 
-## Upgrade steps
+## 升級步驟
 
-The following instructions outline the steps for supporting the new API:
+以下說明如何支援新 API 的步驟：
 
-1. Update the main plugin class (`*Plugin.java`) to implement the
-   [`FlutterPlugin`][] interface. For more complex plugins,
-   you can separate the `FlutterPlugin` and `MethodCallHandler`
-   into two classes. See the next section, [Basic plugin][],
-   for more details on accessing app resources with
-   the latest version (v2) of embedding.
+1. 將主要插件類別（`*Plugin.java`）更新為實作 [`FlutterPlugin`][`FlutterPlugin`] 介面。對於較複雜的插件，
+   你可以將 `FlutterPlugin` 和 `MethodCallHandler`
+   拆分為兩個類別。詳情請參閱下一節 [Basic plugin][Basic plugin]，了解如何透過最新版本（v2）embedding 存取應用程式資源。
    <br><br>
-   Also, note that the plugin should still contain the static
-   `registerWith()` method to remain compatible with apps that
-   don't use the v2 Android embedding.
-   (See [Upgrading pre 1.12 Android projects][] for details.)
-   The easiest thing to do (if possible) is move the logic from
-   `registerWith()` into a private method that both
-   `registerWith()` and `onAttachedToEngine()` can call.
-   Either `registerWith()` or `onAttachedToEngine()` will be called,
-   not both.
+   另外，請注意，插件仍需保留靜態 `registerWith()` 方法，以維持對未採用 v2 Android embedding 應用程式的相容性。
+   （詳情請參閱 [Upgrading pre 1.12 Android projects][Upgrading pre 1.12 Android projects]。）
+   最簡單的做法（若可行）是將 `registerWith()` 的邏輯移至一個私有方法，讓 `registerWith()` 和 `onAttachedToEngine()` 都能呼叫。
+   `registerWith()` 或 `onAttachedToEngine()` 其中之一會被呼叫，不會同時呼叫。
    <br><br>
-   In addition, you should document all non-overridden public members
-   within the plugin. In an add-to-app scenario,
-   these classes are accessible to a developer and
-   require documentation.
+   此外，你應該為插件中所有未覆寫的 public 成員撰寫文件。在 add-to-app 的情境下，
+   這些類別會對開發者公開，必須有相關說明。
 
-1. (Optional) If your plugin needs an `Activity` reference,
-   also implement the [`ActivityAware`][] interface.
+1. （選用）如果你的插件需要 `Activity` 參考，也請實作 [`ActivityAware`][`ActivityAware`] 介面。
 
-1. (Optional) If your plugin is expected to be held in a
-   background Service at any point in time, implement the
-   [`ServiceAware`][] interface.
+1. （選用）如果你的插件預期會在任何時刻被保留於背景 Service，請實作 [`ServiceAware`][`ServiceAware`] 介面。
 
-1. Update the example app's `MainActivity.java` to use the
-   v2 embedding `FlutterActivity`. For details, see
-   [Upgrading pre 1.12 Android projects][].
-   You might have to make a public constructor for your plugin class
-   if one didn't exist already. For example:
+1. 將範例應用程式的 `MainActivity.java` 更新為使用 v2 embedding 的 `FlutterActivity`。詳情請參閱 [Upgrading pre 1.12 Android projects][Upgrading pre 1.12 Android projects]。
+   如果你的插件類別尚未有公開建構子，可能需要新增。例如：
 
    ```java title="MainActivity.java"
     package io.flutter.plugins.firebasecoreexample;
@@ -93,10 +65,10 @@ The following instructions outline the steps for supporting the new API:
     }
     ```
 
-1. (Optional) If you removed `MainActivity.java`, update the
+1. （選用）如果你已移除 `MainActivity.java`，請更新
    `<plugin_name>/example/android/app/src/main/AndroidManifest.xml`
-   to use `io.flutter.embedding.android.FlutterActivity`.
-   For example:
+   以使用 `io.flutter.embedding.android.FlutterActivity`。
+   例如：
 
     ```xml title="AndroidManifest.xml"
      <activity android:name="io.flutter.embedding.android.FlutterActivity"
@@ -115,13 +87,13 @@ The following instructions outline the steps for supporting the new API:
         </activity>
     ```
 
-1. (Optional) Create an `EmbeddingV1Activity.java` file
-   that uses the v1 embedding for the example project
-   in the same folder as `MainActivity` to
-   keep testing the v1 embedding's compatibility
-   with your plugin. Note that you have to manually
-   register all the plugins instead of using
-   `GeneratedPluginRegistrant`.  For example:
+1. （選用）建立一個 `EmbeddingV1Activity.java` 檔案，
+   在與 `MainActivity` 相同的資料夾下，使用 v1 embedding
+   來測試範例專案，
+   以持續驗證你的插件與 v1 embedding 的相容性。
+   請注意，你必須手動註冊所有插件，
+   而不能使用 `GeneratedPluginRegistrant`。
+   例如：
 
     ```java title="EmbeddingV1Activity.java"
     package io.flutter.plugins.batteryexample;
@@ -139,14 +111,14 @@ The following instructions outline the steps for supporting the new API:
     }
     ```
 
-1.  Add `<meta-data android:name="flutterEmbedding" android:value="2"/>`
-    to the `<plugin_name>/example/android/app/src/main/AndroidManifest.xml`.
-    This sets the example app to use the v2 embedding.
+1.  將 `<meta-data android:name="flutterEmbedding" android:value="2"/>`
+    加入到 `<plugin_name>/example/android/app/src/main/AndroidManifest.xml`。
+    這會將範例應用程式設定為使用 v2 embedding。
 
-1. (Optional) If you created an `EmbeddingV1Activity`
-   in the previous step, add the `EmbeddingV1Activity` to the
-   `<plugin_name>/example/android/app/src/main/AndroidManifest.xml` file.
-   For example:
+1. （選用）如果你在前一個步驟中建立了 `EmbeddingV1Activity`，
+   請將 `EmbeddingV1Activity` 加入到
+   `<plugin_name>/example/android/app/src/main/AndroidManifest.xml` 檔案中。
+   例如：
 
     ```xml title="AndroidManifest.xml"
     <activity
@@ -159,13 +131,13 @@ The following instructions outline the steps for supporting the new API:
     </activity>
     ```
 
-## Testing your plugin
+## 測試你的插件
 
-The remaining steps address testing your plugin, which we encourage,
-but aren't required.
+以下步驟說明如何測試你的插件，我們鼓勵你這麼做，
+但這不是強制要求。
 
-1. Update `<plugin_name>/example/android/app/build.gradle`
-   to replace references to `android.support.test` with `androidx.test`:
+1. 更新 `<plugin_name>/example/android/app/build.gradle`，
+   將對 `android.support.test` 的引用替換為 `androidx.test`：
 
     ```groovy title="build.gradle"
     defaultConfig {
@@ -185,9 +157,8 @@ but aren't required.
     }
     ```
 
-1. Add tests files for `MainActivity` and `EmbeddingV1Activity`
-   in `<plugin_name>/example/android/app/src/androidTest/java/<plugin_path>/`.
-   You will need to create these directories. For example:
+1. 在 `<plugin_name>/example/android/app/src/androidTest/java/<plugin_path>/` 中為 `MainActivity` 和 `EmbeddingV1Activity` 新增測試檔案。
+   你需要自行建立這些目錄。例如：
 
     ```java title="MainActivityTest.java"
     package io.flutter.plugins.firebase.core;
@@ -220,9 +191,9 @@ but aren't required.
     }
     ```
 
-1. Add `integration_test` and `flutter_driver` dev_dependencies to
-   `<plugin_name>/pubspec.yaml` and
-   `<plugin_name>/example/pubspec.yaml`.
+1. 將 `integration_test` 和 `flutter_driver` 加入至
+   `<plugin_name>/pubspec.yaml` 以及
+   `<plugin_name>/example/pubspec.yaml` 的 dev_dependencies 中。
 
     ```yaml title="pubspec.yaml"
     integration_test:
@@ -231,11 +202,7 @@ but aren't required.
       sdk: flutter
     ```
 
-1. Update minimum Flutter version of environment in
-   `<plugin_name>/pubspec.yaml`. All plugins moving
-   forward will set the minimum version to 1.12.13+hotfix.6
-   which is the minimum version for which we can guarantee support.
-   For example:
+1. 在`<plugin_name>/pubspec.yaml`中更新環境的 Flutter 最低版本。所有未來的插件都會將最低版本設為 1.12.13+hotfix.6，這是我們能夠保證支援的最低版本。例如：
 
     ```yaml title="pubspec.yaml"
     environment:
@@ -243,11 +210,10 @@ but aren't required.
       flutter: ">=1.17.0"
     ```
 
-1. Create a simple test in `<plugin_name>/test/<plugin_name>_test.dart`.
-   For the purpose of testing the PR that adds the v2 embedding support,
-   we're trying to test some very basic functionality of the plugin.
-   This is a smoke test to ensure that the plugin properly registers
-   with the new embedder. For example:
+1. 在 `<plugin_name>/test/<plugin_name>_test.dart` 中建立一個簡單的測試。
+   為了測試新增 v2 embedding 支援的 PR，
+   我們嘗試測試這個 plugin（外掛）的一些最基本功能。
+   這是一個 smoke test（冒煙測試），用來確保該 plugin 能正確地註冊到新的 embedder（嵌入器）中。例如：
 
     <?code-excerpt "lib/test.dart (test)"?>
     ```dart
@@ -265,17 +231,15 @@ but aren't required.
     }
     ```
 
-1. Test run the `integration_test` tests locally. In a terminal,
-   do the following:
+1. 請在本機端先測試執行 `integration_test` 測試。在終端機中，請執行以下步驟：
 
     ```console
     flutter test integration_test/app_test.dart
     ```
 
-## Basic plugin
+## 基本插件
 
-To get started with a Flutter Android plugin in code,
-start by implementing `FlutterPlugin`.
+若要在程式碼中開始建立 Flutter Android 插件，請先實作 `FlutterPlugin`。
 
 ```java
 public class MyPlugin implements FlutterPlugin {
@@ -291,30 +255,19 @@ public class MyPlugin implements FlutterPlugin {
 }
 ```
 
-As shown above, your plugin might (or might not)
-be associated with a given Flutter experience at
-any given moment in time.
-You should take care to initialize your plugin's behavior
-in `onAttachedToEngine()`, and then cleanup your plugin's
-references in `onDetachedFromEngine()`.
+如上所示，您的 plugin 可能會（也可能不會）在任何特定時刻與某個 Flutter 體驗相關聯。您應該注意在 `onAttachedToEngine()` 中初始化 plugin 的行為，並在 `onDetachedFromEngine()` 中清理 plugin 的參考。
 
-The FlutterPluginBinding provides your plugin with a few
-important references:
+FlutterPluginBinding 會為您的 plugin 提供幾個重要的參考：
 
 **binding.getFlutterEngine()**
-: Returns the `FlutterEngine` that your plugin is attached to,
-  providing access to components like the `DartExecutor`,
-  `FlutterRenderer`, and more.
+: 返回 plugin 所附加的 `FlutterEngine`，可讓您存取像是 `DartExecutor`、`FlutterRenderer` 等元件。
 
 **binding.getApplicationContext()**
-: Returns the Android application's `Context` for the running app.
+: 返回執行中 Android 應用程式的 `Context`。
 
 ## UI/Activity plugin
 
-If your plugin needs to interact with the UI,
-such as requesting permissions, or altering Android UI chrome,
-then you need to take additional steps to define your plugin.
-You must implement the `ActivityAware` interface.
+如果您的 plugin 需要與 UI 互動，例如請求權限或修改 Android UI chrome，則需要額外步驟來定義您的 plugin。您必須實作 `ActivityAware` 介面。
 
 ```java
 public class MyPlugin implements FlutterPlugin, ActivityAware {
@@ -346,24 +299,15 @@ public class MyPlugin implements FlutterPlugin, ActivityAware {
 }
 ```
 
-To interact with an `Activity`, your `ActivityAware` plugin must
-implement appropriate behavior at 4 stages. First, your plugin
-is attached to an `Activity`. You can access that `Activity` and
-a number of its callbacks through the provided `ActivityPluginBinding`.
+要與`Activity`互動，您的`ActivityAware`插件必須在四個階段實作相應的行為。首先，您的插件會被附加到`Activity`。您可以透過提供的`ActivityPluginBinding`存取該`Activity`以及多個回呼函式。
 
-Since `Activity`s can be destroyed during configuration changes,
-you must clean up any references to the given `Activity` in
-`onDetachedFromActivityForConfigChanges()`,
-and then re-establish those references in
-`onReattachedToActivityForConfigChanges()`.
+由於`Activity`在組態變更期間可能會被銷毀，您必須在`onDetachedFromActivityForConfigChanges()`中清理對指定`Activity`的所有參考，然後在`onReattachedToActivityForConfigChanges()`中重新建立這些參考。
 
-Finally, in `onDetachedFromActivity()` your plugin should clean
-up all references related to `Activity` behavior and return to
-a non-UI configuration.
+最後，在`onDetachedFromActivity()`中，您的插件應該清除所有與`Activity`行為相關的參考，並回復至非 UI 組態。
 
 
 [`ActivityAware`]: {{site.api}}/javadoc/io/flutter/embedding/engine/plugins/activity/ActivityAware.html
-[Basic plugin]: #basic-plugin
+[Basic plugin]: #基本插件
 [battery plus package]: {{site.github}}/fluttercommunity/plus_plugins/tree/main/packages/battery_plus/battery_plus
 [Flutter plugins]: {{site.pub}}/flutter/packages
 [`FlutterPlugin`]: {{site.api}}/javadoc/io/flutter/embedding/engine/plugins/FlutterPlugin.html

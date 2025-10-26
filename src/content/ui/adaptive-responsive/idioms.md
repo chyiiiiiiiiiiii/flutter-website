@@ -1,113 +1,90 @@
 ---
-title: Platform idioms
+title: 平台慣用法
 description: >-
-  Learn how to create a responsive app
-  that responds to changes in the screen size. 
-shortTitle: Idioms
+  學習如何建立能夠響應螢幕尺寸變化的響應式應用程式。
+shortTitle: 慣用法
 ---
 
 <?code-excerpt path-base="ui/adaptive_app_demos"?>
 
-The final area to consider for adaptive apps is platform standards.
-Each platform has its own idioms and norms;
-these nominal or de facto standards inform user expectations
-of how an application should behave. Thanks, in part to the web,
-users are accustomed to more customized experiences,
-but reflecting these platform standards can still provide
-significant benefits:
+在開發自適應（adaptive）應用程式時，最後需要考慮的領域是平台標準。
+每個平台都有其自身的慣用法（idioms）與規範（norms）；
+這些名義上或實際上的標準會影響使用者對應用程式行為的預期。
+部分由於網路的普及，使用者已經習慣於更客製化的體驗，
+但遵循這些平台標準仍然能帶來顯著的好處：
 
-* **Reduce cognitive load**
-: By matching the user's existing mental model,
-  accomplishing tasks becomes intuitive,
-  which requires less thinking,
-  boosts productivity, and reduces frustrations.
+* **降低認知負擔**
+: 配合使用者既有的心理模型，完成任務會變得直覺，
+  需要思考的時間更少，提升生產力，也減少挫折感。
 
-* **Build trust**
-: Users can become wary or suspicious
-  when applications don't adhere to their expectations.
-  Conversely, a UI that feels familiar can build user trust
-  and can help improve the perception of quality.
-  This often has the added benefit of better app store
-  ratings—something we can all appreciate!
+* **建立信任感**
+: 當應用程式不符合使用者預期時，使用者可能會感到疑慮或不信任。
+  相反地，熟悉的 UI 能建立使用者信任，也有助於提升品質印象。
+  這通常還能帶來更好的應用程式商店評分——這是大家都樂見其成的！
 
-## Consider expected behavior on each platform
+## 考慮各平台的預期行為
 
-The first step is to spend some time considering what
-the expected appearance, presentation,
-or behavior is on this platform.
-Try to forget any limitations of your current implementation,
-and just envision the ideal user experience.
-Work backwards from there.
+第一步是花點時間思考，在這個平台上，
+預期的外觀、呈現方式或行為是什麼。
+試著暫時忘記你目前實作上的限制，
+只需想像理想的使用者體驗，
+然後再反推回來。
 
-Another way to think about this is to ask,
-"How would a user of this platform expect to achieve this goal?"
-Then, try to envision how that would work in your app
-without any compromises.
+另一種思考方式是問自己：
+「這個平台的使用者會如何預期達成這個目標？」
+接著，試著想像在你的應用程式中，沒有任何妥協的情況下，這會怎麼運作。
 
-This can be difficult if you aren't a regular user of the platform.
-You might be unaware of the specific idioms and can easily miss
-them completely. For example, a lifetime Android user is
-likely unaware of platform conventions on iOS,
-and the same holds true for macOS, Linux, and Windows.
-These differences might be subtle to you,
-but be painfully obvious to an experienced user.
+如果你不是該平台的常用者，這可能會很困難。
+你可能不了解某些特定的慣用法，甚至完全忽略它們。
+舉例來說，長期使用 Android 的人可能完全不清楚 iOS 上的慣例，
+macOS、Linux 和 Windows 之間也是如此。
+這些差異對你來說可能很細微，
+但對有經驗的使用者來說卻一目了然。
 
-### Find a platform advocate
+### 尋找平台倡議者
 
-If possible, assign someone as an advocate for each platform.
-Ideally, your advocate uses the platform as their primary device,
-and can offer the perspective of a highly opinionated user.
-To reduce the number of people, combine roles.
-Have one advocate for Windows and Android,
-one for Linux and the web, and one for Mac and iOS.
+如果可能的話，為每個平台指派一位倡議者（advocate）。
+理想情況下，這位倡議者會將該平台作為主要裝置，
+能以高度主觀的使用者角度提供意見。
+為了減少人力，可以合併角色。
+例如，一位負責 Windows 和 Android，
+一位負責 Linux 和 Web，
+另一位負責 Mac 和 iOS。
 
-The goal is to have constant, informed feedback so the app
-feels great on each platform. Advocates should be encouraged
-to be quite picky, calling out anything they feel differs from
-typical applications on their device. A simple example is how
-the default button in a dialog is typically on the left on Mac
-and Linux, but is on the right on Windows.
-Details like that are easy to miss if you aren't using a platform
-on a regular basis.
+目標是持續獲得有見地的回饋，讓應用程式在每個平台上都能有絕佳體驗。
+應鼓勵倡議者對細節十分講究，指出任何與該裝置常見應用程式不同的地方。
+舉個簡單例子，對話框中的預設按鈕在 Mac 和 Linux 上通常在左側，
+而在 Windows 上則在右側。
+如果你不是該平台的常用者，這類細節很容易被忽略。
 
 :::secondary Important
-Advocates don't need to be developers or
-even full-time team members. They can be designers,
-stakeholders, or external testers that are provided
-with regular builds.
+倡議者不需要是開發者，甚至不必是全職團隊成員。
+他們可以是設計師、利害關係人，或是定期取得測試版本的外部測試者。
 :::
 
-### Stay unique
+### 保持獨特性
 
-Conforming to expected behaviors doesn't mean that your app
-needs to use default components or styling.
-Many of the most popular multiplatform apps have very distinct
-and opinionated UIs including custom buttons, context menus,
-and title bars.
+遵循預期行為並不代表你的應用程式必須使用預設元件或樣式。
+許多最受歡迎的多平台應用程式都有非常鮮明且有主見的 UI，
+包括自訂按鈕、情境選單和標題列等。
 
-The more you can consolidate styling and behavior across platforms,
-the easier development and testing will be.
-The trick is to balance creating a unique experience with a
-strong identity, while respecting the norms of each platform.
+你能越多地統一跨平台的樣式與行為，開發與測試就會越容易。
+訣竅在於在打造獨特且具識別度的體驗，與尊重各平台規範之間取得平衡。
 
-## Common idioms and norms to consider
+## 常見的慣用法與規範
 
-Take a quick look at a few specific norms and idioms
-you might want to consider, and how you could approach
-them in Flutter.
+快速瀏覽幾個你可能需要考慮的具體規範與慣用法，
+以及你可以如何在 Flutter 中實現它們。
 
-### Scrollbar appearance and behavior
+### 捲軸（Scrollbar）的外觀與行為
 
-Desktop and mobile users expect scrollbars,
-but they expect them to behave differently on different platforms.
-Mobile users expect smaller scrollbars that only appear
-while scrolling, whereas desktop users generally expect
-omnipresent, larger scrollbars that they can click or drag.
+桌面與行動裝置的使用者都期望有捲軸（scrollbar），
+但他們對捲軸的行為在不同平台上有不同的預期。
+行動裝置使用者期望捲軸較小，且僅在捲動時出現；
+而桌面使用者則通常期望捲軸隨時可見、較大，且可以點擊或拖曳。
 
-Flutter comes with a built-in `Scrollbar` widget that already
-has support for adaptive colors and sizes according to the
-current platform. The one tweak you might want to make is to
-toggle `alwaysShown` when on a desktop platform:
+Flutter 內建的 `Scrollbar` 元件已經根據目前平台支援自適應的顏色與尺寸。
+你可能會想做的其中一個調整，是在桌面平台上切換 `alwaysShown`：
 
 <?code-excerpt "lib/pages/adaptive_grid_page.dart (scrollbar-always-shown)"?>
 ```dart
@@ -124,13 +101,11 @@ return Scrollbar(
 );
 ```
 
-This subtle attention to detail can make your app feel more
-comfortable on a given platform.
+這種對細節的微妙關注，能讓你的應用程式在特定平台上感覺更加舒適自然。
 
-### Multi-select
+### 多重選取（Multi-select）
 
-Dealing with multi-select within a list is another area
-with subtle differences across platforms:
+在清單中處理多重選取（multi-select）是另一個在不同平台間存在細微差異的領域：
 
 <?code-excerpt "lib/widgets/extra_widget_excerpts.dart (multi-select-shift)"?>
 ```dart
@@ -138,8 +113,8 @@ static bool get isSpanSelectModifierDown =>
     isKeyDown({LogicalKeyboardKey.shiftLeft, LogicalKeyboardKey.shiftRight});
 ```
 
-To perform a platform-aware check for control or command,
-you can write something like this:
+若要進行平台感知（platform-aware）的 Control 或 Command 檢查，
+你可以這樣撰寫：
 
 <?code-excerpt "lib/widgets/extra_widget_excerpts.dart (multi-select-modifier-down)"?>
 ```dart
@@ -160,40 +135,39 @@ static bool get isMultiSelectModifierDown {
 }
 ```
 
-A final consideration for keyboard users is the **Select All** action.
-If you have a large list of items of selectable items,
-many of your keyboard users will expect that they can use
-`Control+A` to select all the items.
+對於鍵盤使用者，最後一個需要考慮的動作是 **全選（Select All）**。
+如果你有一個包含大量可選項目的清單，
+許多鍵盤使用者會期望可以使用
+`Control+A` 來選取所有項目。
 
-#### Touch devices
+#### 觸控裝置
 
-On touch devices, multi-selection is typically simplified,
-with the expected behavior being similar to having the
-`isMultiSelectModifier` down on the desktop.
-You can select or deselect items using a single tap,
-and will usually have a button to **Select All** or
-**Clear** the current selection.
+在觸控裝置上，多重選取通常會被簡化，
+其預期行為類似於桌面上持續按下
+`isMultiSelectModifier` 的情境。
+你可以透過單次點擊來選取或取消選取項目，
+通常也會有一個按鈕來 **全選（Select All）** 或
+**清除（Clear）** 目前的選取狀態。
 
-How you handle multi-selection on different devices depends
-on your specific use cases, but the important thing is to
-make sure that you're offering each platform the best
-interaction model possible.
+你如何在不同裝置上處理多重選取，
+取決於你的具體使用情境，但最重要的是
+確保你為每個平台都提供了最佳的
+互動模型。
 
-### Selectable text
+### 可選取文字
 
-A common expectation on the web (and to a lesser extent desktop)
-is that most visible text can be selected with the mouse cursor.
-When text is not selectable,
-users on the web tend to have an adverse reaction.
+在網頁（以及在桌面上較少見）上，一個常見的預期行為是大多數可見文字都可以用滑鼠游標選取。
+當文字無法被選取時，
+網頁使用者通常會產生負面反應。
 
-Luckily, this is easy to support with the [`SelectableText`][] widget:
+幸運的是，這可以很容易地透過 [`SelectableText`][`SelectableText`] 元件（Widget）來支援：
 
 <?code-excerpt "lib/widgets/extra_widget_excerpts.dart (selectable-text)"?>
 ```dart
 return const SelectableText('Select me!');
 ```
 
-To support rich text, then use `TextSpan`:
+若要支援 rich text（豐富文字），請使用 `TextSpan`：
 
 <?code-excerpt "lib/widgets/extra_widget_excerpts.dart (rich-text-span)"?>
 ```dart
@@ -212,57 +186,32 @@ return const SelectableText.rich(
 
 [`SelectableText`]: {{site.api}}/flutter/material/SelectableText-class.html
 
-### Title bars
+### 標題列（Title bars）
 
-On modern desktop applications, it's common to customize
-the title bar of your app window, adding a logo for
-stronger branding or contextual controls to help save
-vertical space in your main UI.
+在現代桌面應用程式中，客製化應用程式視窗的標題列相當常見，例如加入品牌標誌以強化品牌識別，或加入情境控制元件，以幫助在主要 UI 中節省垂直空間。
 
 ![Samples of title bars](/assets/images/docs/ui/adaptive-responsive/titlebar.png){:width="100%"}
 
-This isn't supported directly in Flutter, but you can use the
-[`bits_dojo`][] package to disable the native title bars,
-and replace them with your own.
+Flutter 並未直接支援這項功能，但你可以使用 [`bits_dojo`][`bits_dojo`] 套件來停用原生標題列，並以你自訂的標題列取代。
 
-This package lets you add whatever widgets you want to the
-`TitleBar` because it uses pure Flutter widgets under the hood.
-This makes it easy to adapt the title bar as you navigate
-to different sections of the app.
+這個套件讓你可以在 `TitleBar` 中加入任何你想要的元件（Widgets），因為它底層完全採用 Flutter 元件實作。這讓你在導覽至應用程式不同區段時，能輕鬆調整標題列內容。
 
 [`bits_dojo`]: {{site.github}}/bitsdojo/bitsdojo_window
 
-### Context menus and tooltips
+### 右鍵選單（Context menus）與工具提示（Tooltips）
 
-On desktop, there are several interactions that
-manifest as a widget shown in an overlay,
-but with differences in how they're triggered, dismissed,
-and positioned:
+在桌面環境中，有幾種互動會以覆蓋層（overlay）顯示元件的方式呈現，但在觸發、關閉與定位方式上各有不同：
 
-* **Context menu**
-: Typically triggered by a right-click,
-  a context menu is positioned close to the mouse,
-  and is dismissed by clicking anywhere,
-  selecting an option from the menu, or clicking outside it.
+* **右鍵選單（Context menu）**
+: 通常由滑鼠右鍵點擊觸發，選單會顯示在滑鼠附近。當使用者點擊任意處、從選單中選擇一個選項，或點擊選單外部時，選單會被關閉。
 
-* **Tooltip**
-: Typically triggered by hovering for
-  200-400ms over an interactive element,
-  a tooltip is usually anchored to a widget
-  (as opposed to the mouse position) and is dismissed
-  when the mouse cursor leaves that widget.
+* **工具提示（Tooltip）**
+: 通常在滑鼠懸停於互動元件上 200-400 毫秒後觸發，工具提示通常錨定於某個元件（而非滑鼠位置），當滑鼠游標離開該元件時，提示會消失。
 
-* **Popup panel (also known as flyout)**
-: Similar to a tooltip,
-  a popup panel is usually anchored to a widget.
-  The main difference is that panels are most often
-  shown on a tap event, and they usually don't hide
-  themselves when the cursor leaves.
-  Instead, panels are typically dismissed by clicking
-  outside the panel or by pressing a **Close** or **Submit** button.
+* **彈出面板（Popup panel，也稱為 flyout）**
+: 類似於工具提示，彈出面板通常錨定於某個元件。主要差異在於面板多半是由點擊事件觸發，且當滑鼠游標離開時通常不會自動隱藏。相反地，面板一般會在點擊面板外部，或按下 **關閉（Close）** 或 **送出（Submit）** 按鈕時被關閉。
 
-To show basic tooltips in Flutter,
-use the built-in [`Tooltip`][] widget:
+若要在 Flutter 中顯示基本的工具提示（Tooltip），請使用內建的 [`Tooltip`][`Tooltip`] 元件（Widget）：
 
 <?code-excerpt "lib/widgets/extra_widget_excerpts.dart (tooltip)"?>
 ```dart
@@ -272,28 +221,27 @@ return const Tooltip(
 );
 ```
 
-Flutter also provides built-in context menus when editing
-or selecting text.
+Flutter 也在編輯或選取文字時，提供了內建的內容選單（context menu）。
 
-To show more advanced tooltips, popup panels,
-or create custom context menus,
-you either use one of the available packages,
-or build it yourself using a `Stack` or `Overlay`.
+若要顯示更進階的提示訊息（tooltip）、彈出面板（popup panel），
+或建立自訂的內容選單（context menu），
+你可以選擇使用現有的套件，
+或是自行利用 `Stack` 或 `Overlay` 來實作。
 
-Some available packages include:
+部分可用的套件包括：
 
-* [`context_menus`][]
-* [`anchored_popups`][]
-* [`flutter_portal`][]
-* [`super_tooltip`][]
-* [`custom_pop_up_menu`][]
+* [`context_menus`][`context_menus`]
+* [`anchored_popups`][`anchored_popups`]
+* [`flutter_portal`][`flutter_portal`]
+* [`super_tooltip`][`super_tooltip`]
+* [`custom_pop_up_menu`][`custom_pop_up_menu`]
 
-While these controls can be valuable for touch users as accelerators,
-they are essential for mouse users. These users expect
-to right-click things, edit content in place,
-and hover for more information. Failing to meet those expectations
-can lead to disappointed users, or at least,
-a feeling that something isn't quite right.
+雖然這些控制項對於觸控使用者來說可作為加速器（accelerator），
+但對於滑鼠使用者而言則是不可或缺的。這些使用者預期
+可以右鍵點擊項目、直接編輯內容，
+並且將滑鼠懸停以獲取更多資訊。若無法滿足這些預期，
+可能會導致使用者感到失望，或至少
+覺得體驗上有些不對勁。
 
 [`anchored_popups`]: {{site.pub}}/packages/anchored_popups
 [`context_menus`]: {{site.pub}}/packages/context_menus
@@ -302,16 +250,13 @@ a feeling that something isn't quite right.
 [`super_tooltip`]: {{site.pub}}/packages/super_tooltip
 [`Tooltip`]: {{site.api}}/flutter/material/Tooltip-class.html
 
-### Horizontal button order
+### 水平按鈕順序
 
-On Windows, when presenting a row of buttons,
-the confirmation button is placed at the start of
-the row (left side). On all other platforms,
-it's the opposite. The confirmation button is
-placed at the end of the row (right side).
+在 Windows 上，當呈現一排按鈕時，
+確認按鈕會放在該排的起始處（左側）。而在其他所有平台上，
+則相反，確認按鈕會放在該排的結尾處（右側）。
 
-This can be easily handled in Flutter using the
-`TextDirection` property on `Row`:
+這可以透過 Flutter 中 `TextDirection` 屬性搭配 `Row` 輕鬆實現：
 
 <?code-excerpt "lib/widgets/ok_cancel_dialog.dart (row-text-direction)"?>
 ```dart
@@ -342,58 +287,51 @@ return Row(
 
 ![Sample of embedded image](/assets/images/docs/ui/adaptive-responsive/embed_image2.png){:width="90%"}
 
-### Menu bar
+### 選單列（Menu bar）
 
-Another common pattern on desktop apps is the menu bar.
-On Windows and Linux, this menu lives as part of the Chrome title bar,
-whereas on macOS, it's located along the top of the primary screen.
+在桌面應用程式中，另一個常見的設計模式是選單列（menu bar）。
+在 Windows 和 Linux 上，這個選單會作為 Chrome 標題列的一部分存在，
+而在 macOS 上，則位於主螢幕的頂部。
 
-Currently, you can specify custom menu bar entries using
-a prototype plugin, but it's expected that this functionality will
-eventually be integrated into the main SDK.
+目前，你可以透過一個原型外掛（prototype plugin）來指定自訂選單列項目，
+但預期這項功能最終會整合進主要的 SDK 中。
 
-It's worth mentioning that on Windows and Linux,
-you can't combine a custom title bar with a menu bar.
-When you create a custom title bar,
-you're replacing the native one completely,
-which means you also lose the integrated native menu bar.
+值得一提的是，在 Windows 和 Linux 上，
+你無法將自訂標題列與選單列結合使用。
+當你建立自訂標題列時，
+你會完全取代原生的標題列，
+這也意味著你會失去整合的原生選單列。
 
-If you need both a custom title bar and a menu bar,
-you can achieve that by implementing it in Flutter,
-similar to a custom context menu.
+如果你同時需要自訂標題列和選單列，
+可以在 Flutter 中自行實作，方式類似於自訂右鍵選單（context menu）。
 
-### Drag and drop
+### 拖放（Drag and drop）
 
-One of the core interactions for both touch-based and
-pointer-based inputs is drag and drop. Although this
-interaction is expected for both types of input,
-there are important differences to think about when
-it comes to scrolling lists of draggable items.
+對於觸控式和指標式輸入來說，拖放（drag and drop）是核心互動之一。
+雖然這種互動在兩種輸入方式中都很常見，
+但在涉及可拖曳項目的滾動清單時，
+有一些重要的差異需要考慮。
 
-Generally speaking, touch users expect to see drag handles
-to differentiate draggable areas from scrollable ones,
-or alternatively, to initiate a drag by using a long
-press gesture. This is because scrolling and dragging
-are both sharing a single finger for input.
+一般來說，觸控使用者會期望看到拖曳把手（drag handles），
+以區分可拖曳區域與可滾動區域，
+或者透過長按手勢來啟動拖曳。
+這是因為滾動和拖曳通常都是用同一根手指進行操作。
 
-Mouse users have more input options. They can use a wheel
-or scrollbar to scroll, which generally eliminates the need
-for dedicated drag handles. If you look at the macOS
-Finder or Windows Explorer, you'll see that they work
-this way: you just select an item and start dragging.
+滑鼠使用者則有更多輸入選項。
+他們可以使用滾輪或捲軸來滾動，通常就不需要專門的拖曳把手。
+如果你觀察 macOS Finder 或 Windows Explorer，
+你會發現它們的運作方式是：只要選取一個項目並開始拖曳即可。
 
-In Flutter, you can implement drag and drop in many ways.
-Discussing specific implementations is outside
-the scope of this article, but some high level options
-include the following:
+在 Flutter 中，你可以用多種方式實作拖放功能。
+具體實作細節超出本文範疇，但高階的選項包括：
 
-* Use the [`Draggable`][] and [`DragTarget`][] APIs
-  directly for a custom look and feel.
+* 直接使用 [`Draggable`][`Draggable`] 和 [`DragTarget`][`DragTarget`] API，
+  以打造自訂的外觀與操作體驗。
 
-* Hook into `onPan` gesture events,
-  and move an object yourself within a parent `Stack`.
+* 監聽 `onPan` 手勢事件，
+  並在父層 `Stack` 中自行移動物件。
 
-* Use one of the [pre-made list packages][] on pub.dev.  
+* 使用 pub.dev 上的 [預製清單套件][pre-made list packages]。
 
 [`Draggable`]: {{site.api}}/flutter/widgets/Draggable-class.html
 [`DragTarget`]: {{site.api}}/flutter/widgets/DragTarget-class.html

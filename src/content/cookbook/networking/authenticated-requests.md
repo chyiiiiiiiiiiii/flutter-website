@@ -1,20 +1,17 @@
 ---
-title: Make authenticated requests
-description: How to fetch authorized data from a web service.
+title: 發送已驗證的請求
+description: 如何從網路服務獲取授權資料。
 ---
 
 <?code-excerpt path-base="cookbook/networking/authenticated_requests/"?>
 
-To fetch data from most web services, you need to provide
-authorization. There are many ways to do this,
-but perhaps the most common uses the `Authorization` HTTP header.
+要從大多數網路服務獲取資料，你需要提供授權。這有許多種方式，
+但最常見的方式之一是使用 `Authorization` HTTP 標頭（header）。
 
-## Add authorization headers
+## 新增授權標頭
 
-The [`http`][] package provides a
-convenient way to add headers to your requests.
-Alternatively, use the [`HttpHeaders`][]
-class from the `dart:io` library.
+[`http`][`http`] 套件提供了一個方便的方法，讓你可以為請求新增標頭（header）。
+或者，你也可以使用 `dart:io` 函式庫中的 [`HttpHeaders`][`HttpHeaders`] 類別。
 
 <?code-excerpt "lib/main.dart (get)"?>
 ```dart
@@ -25,10 +22,10 @@ final response = await http.get(
 );
 ```
 
-## Complete example
+## 完整範例
 
-This example builds upon the
-[Fetching data from the internet][] recipe.
+本範例是在
+[從網路擷取資料][Fetching data from the internet] 教學的基礎上進行擴充。
 
 <?code-excerpt "lib/main.dart"?>
 ```dart

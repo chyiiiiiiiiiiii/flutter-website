@@ -1,20 +1,15 @@
 ---
-title: Rebuild UI when state changes
-description: Instructions on how to manage state with ChangeNotifiers.
+title: 狀態變更時重建 UI
+description: 如何使用 ChangeNotifiers 管理狀態的說明。
 permalink: /tutorial/listenables/
 ---
 
-The view layer is your UI, and in Flutter, that refers to your app's
-widgets. As it pertains to this tutorial, the important part is wiring
-up your UI to respond to data changes from the ViewModel.
-[`ListenableBuilder`][] is a widget that can "listen" to a
-`ChangeNotifier`, and automatically rebuilds when it's provided
-`ChangeNotifier` calls `notifyListeners()`.
+View layer 指的是你的 UI，在 Flutter 中，這就是你的應用程式元件（Widgets）。在本教學中，重點在於將 UI 與 ViewModel 的資料變更連接起來，讓 UI 能夠對資料變動做出回應。
+[`ListenableBuilder`][`ListenableBuilder`] 是一個可以「監聽」`ChangeNotifier` 的元件，當它所提供的 `ChangeNotifier` 呼叫 `notifyListeners()` 時，會自動重新建構。
 
-## Create the ArticleView widget
+## 建立 ArticleView 元件
 
-Create the `ArticleView` widget that manages the overall page layout
-and state handling. Start with the basic class structure and widgets:
+建立 `ArticleView` 元件，負責整個頁面的版面配置與狀態處理。請從基本的類別結構與元件開始：
 
 ```dart
 class ArticleView extends StatelessWidget {
@@ -34,9 +29,9 @@ class ArticleView extends StatelessWidget {
 }
 ```
 
-## Create the ViewModel
+## 建立 ViewModel
 
-Create the ViewModel in this widget.
+在此元件（Widget）中建立 ViewModel。
 
 ```dart
 class ArticleView extends StatelessWidget {
@@ -58,11 +53,9 @@ class ArticleView extends StatelessWidget {
 }
 ```
 
-## Add ListenableBuilder
+## 新增 ListenableBuilder
 
-Wrap your UI in a `ListenableBuilder` to listen for state changes, and
-pass it a `ChangeNotifier` object. In this case, the
-`ArticleViewModel` extends `ChangeNotifier`.
+將你的 UI 包裹在 `ListenableBuilder` 中，以監聽狀態變化，並傳入一個 `ChangeNotifier` 物件。在這個例子中，`ArticleViewModel` 是繼承自 `ChangeNotifier` 的。
 
 ```dart
 class ArticleView extends StatelessWidget {
@@ -87,23 +80,16 @@ class ArticleView extends StatelessWidget {
 }
 ```
 
-`ListenableBuilder` uses the *builder* pattern, which requires a
-callback rather than a `child` widget to build the widget tree below
-it. These widgets are flexible because you can perform operations
-within the callback. 
+`ListenableBuilder` 採用了 *builder*（建構器）模式，這種模式需要一個 callback（回呼函式），而不是 `child` 元件（Widget）來建構其下方的元件樹。這類元件（Widgets）非常靈活，因為你可以在 callback 內執行各種操作。
 
+## 使用 switch 運算式處理所有狀態
 
-## Handle all states with switch expression
-
-Recall the `ArticleViewModel`, which has three properties that the UI
-is interested in: 
+回想一下 `ArticleViewModel`，它有三個 UI 會關注的屬性：
 * `Summary? summary`
 * `bool loading`
 * `String? errorMessage`
 
-The UI needs to display different widgets based on the combination of
-states of all three of those properties. Use Dart's switch expressions
-to handle all possible combinations in a clean, readable way:
+UI 需要根據這三個屬性的狀態組合來顯示不同的元件（Widgets）。你可以使用 Dart 的 switch 運算式，以乾淨且易讀的方式處理所有可能的組合：
 
 ```dart
 class ArticleView extends StatelessWidget {
@@ -144,23 +130,15 @@ class ArticleView extends StatelessWidget {
 }
 ```
 
-This is an excellent example of how a declarative, reactive framework
-like Flutter and a pattern like MVVM work together: The UI is rendered
-based on the state, and updates when a state changes demands it, but
-it doesn't manage any state or the process of updating itself. The
-business logic and rendering are completely separate from each other.
+這是一個極佳的範例，展示了像 Flutter 這樣的宣告式、反應式框架與 MVVM 模式如何協同運作：UI 會根據狀態進行渲染，並在狀態變更時自動更新，但 UI 本身不會管理任何狀態，也不會自行處理更新流程。商業邏輯與畫面渲染是完全分離的。
 
+## 完成 UI
 
-## Complete the UI
+現在只剩下使用 ViewModel 所提供的屬性與方法。
 
-The only thing remaining is to use the properties and methods provided
-by the ViewModel.
+接下來，建立`ArticlePage`元件（Widget），用來顯示實際的文章內容。這個可重複使用的元件會接收摘要資料與一個回呼函式（callback function）。
 
-Now create the `ArticlePage` widget that displays the actual article
-content. This reusable widget takes summary
-data and a callback function.
-
-Create a simple widget that accepts the required parameters:
+建立一個簡單的元件，並接受所需的參數：
 
 ```dart
 class ArticlePage extends StatelessWidget {
@@ -180,9 +158,9 @@ class ArticlePage extends StatelessWidget {
 }
 ```
 
-## Add scrollable layout
+## 新增可捲動的版面配置
 
-Replace the placeholder with a scrollable column layout:
+將占位符替換為可捲動的直向欄位（column）版面配置：
 
 ```dart
 class ArticlePage extends StatelessWidget {
@@ -208,9 +186,9 @@ class ArticlePage extends StatelessWidget {
 }
 ```
 
-## Add article content and button
+## 新增文章內容與按鈕
 
-Complete the layout with the article widget and navigation button:
+使用文章元件（Widget）與導覽按鈕，完成整體版面配置：
 
 ```dart
 class ArticlePage extends StatelessWidget {
@@ -244,14 +222,13 @@ class ArticlePage extends StatelessWidget {
 }
 ```
 
-## Create the ArticleWidget
+## 建立 ArticleWidget
 
-The `ArticleWidget` handles the display of the actual article content
-with proper styling and conditional rendering.
+`ArticleWidget` 負責以適當的樣式顯示實際的文章內容，並進行條件式渲染。
 
-## Create the basic ArticleWidget structure
+## 建立 ArticleWidget 的基本結構
 
-Start with the widget that accepts a summary parameter:
+首先建立一個接受 summary 參數的元件（Widget）：
 
 ```dart
 class ArticleWidget extends StatelessWidget {
@@ -266,9 +243,9 @@ class ArticleWidget extends StatelessWidget {
 }
 ```
 
-## Add padding and column layout
+## 加入內距與欄位版面配置
 
-Wrap the content in proper padding and layout:
+將內容包裹在適當的內距與版面配置中：
 
 ```dart
 class ArticleWidget extends StatelessWidget {
@@ -291,9 +268,9 @@ class ArticleWidget extends StatelessWidget {
 }
 ```
 
-## Add conditional image display
+## 新增條件式圖片顯示
 
-Add the article image that only shows when available:
+新增僅在有圖片時才顯示的文章圖片：
 
 ```dart
 class ArticleWidget extends StatelessWidget {
@@ -320,10 +297,9 @@ class ArticleWidget extends StatelessWidget {
 }
 ```
 
-## Complete with styled text content
+## 使用具備樣式的文字內容完成
 
-Replace the placeholder with properly styled title, description, and
-extract:
+將占位符替換為正確設計樣式的標題、描述，以及摘要內容：
 
 ```dart
 class ArticleWidget extends StatelessWidget {
@@ -363,23 +339,18 @@ class ArticleWidget extends StatelessWidget {
 }
 ```
 
-This widget demonstrates these important UI concepts:
+這個元件（Widget）展示了以下幾個重要的 UI 概念：
 
-- **Conditional rendering**: The `if` statements show content only
-  when available.
-- **Text styling**: Different text styles create visual hierarchy
-  using Flutter's theme system.
-- **Proper spacing**: The `spacing` parameter provides consistent
-  vertical spacing.
-- **Overflow handling**: `TextOverflow.ellipsis` prevents text from
-  breaking the layout.
+- **條件渲染**：`if` 敘述僅在內容可用時顯示內容。
+- **文字樣式**：不同的文字樣式運用 Flutter 的主題系統（theming）來建立視覺階層。
+- **適當間距**：`spacing` 參數提供一致的垂直間距。
+- **溢位處理**：`TextOverflow.ellipsis` 可防止文字破壞版面配置。
 
-## Update MainApp to use ArticleView
+## 更新 MainApp 以使用 ArticleView
 
-Connect everything together by updating your `MainApp` to use the
-complete `ArticleView`.
+將所有內容串連起來，請更新你的 `MainApp`，改為使用完整的 `ArticleView`。
 
-Replace your existing `MainApp` with this updated version:
+請將你現有的 `MainApp` 替換為以下這個更新版本：
 
 ```dart
 class MainApp extends StatelessWidget {
@@ -394,21 +365,18 @@ class MainApp extends StatelessWidget {
 }
 ```
 
-This change switches from the console-based test to the full UI
-experience with proper state management.
+這項變更將測試方式從以主控台為基礎，切換為完整的 UI 體驗，並具備正確的狀態管理。
 
-## Run the complete app
+## 執行完整應用程式
 
-Hot reload your app one final time. You should now see:
+最後再進行一次熱重載（hot reload）。你現在應該會看到：
 
-1. A loading spinner while the initial article loads
-2. The article content with title, description, and full text
-3. An image (if the article has one)
-4. A button to load another random article
+1. 在初始文章載入時顯示一個載入中的旋轉圖示（loading spinner）
+2. 顯示包含標題、描述與完整內文的文章內容
+3. 若文章有圖片則會顯示圖片
+4. 一個按鈕，可載入另一篇隨機文章
 
-Click the "Next random article" button to see the reactive UI in
-action. The app shows a loading state, fetches new data, and updates
-the display automatically.
+點擊「下一篇隨機文章」按鈕，即可看到響應式 UI 的實際運作。應用程式會顯示載入狀態、擷取新資料，並自動更新畫面。
 
 [`ListenableBuilder`]: https://api.flutter.dev/flutter/widgets/ListenableBuilder-class.html
 [widget]: https://docs.flutter.dev/ui/widgets-intro

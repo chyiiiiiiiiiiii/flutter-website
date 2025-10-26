@@ -1,1 +1,1 @@
-![Red empty square that indicates you want to stop the running Flutter app](/assets/images/docs/testing/debugging/vscode-ui/icons/stop.png)
+![紅色空心方形，表示您想要停止正在執行的 Flutter 應用程式](/assets/images/docs/testing/debugging/vscode-ui/icons/stop.png)

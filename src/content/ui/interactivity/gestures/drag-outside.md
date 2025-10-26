@@ -1,31 +1,31 @@
 ---
-title: Drag outside an app
-description: How to drag from an app to another app or the operating system.
+title: 拖曳至應用程式外部
+description: 如何從一個應用程式拖曳到另一個應用程式或作業系統。
 ---
 
-You might want to implement
-drag and drop somewhere in your app.
+你可能會想要在你的應用程式中
+實作拖放（drag and drop）功能。
 
-You have a couple potential approaches
-that you can take. One directly uses
-Flutter widgets and the other uses a package
-([super_drag_and_drop][]), available on [pub.dev][].
+你有幾種潛在的實作方式可選擇。
+其中一種是直接使用 Flutter 元件 (Widgets)，
+另一種則是使用一個套件
+（[super_drag_and_drop][super_drag_and_drop]），可在 [pub.dev][pub.dev] 上取得。
 
 [pub.dev]: {{site.pub}}
 [super_drag_and_drop]: {{site.pub-pkg}}/super_drag_and_drop
 
-## Create draggable widgets within your app
+## 在應用程式內建立可拖曳元件
 
-If you want to implement drag and drop within
-your application, you can use the [`Draggable`][]
-widget. For insight into this approach, see
-the [Drag a UI element within an app][] recipe.
+如果你想要在應用程式內部實作拖放功能，
+你可以使用 [`Draggable`][`Draggable`] 元件 (Widget)。
+如需此方法的詳細說明，請參考
+[在應用程式內拖曳 UI 元素][Drag a UI element within an app] 教學。
 
-An advantage of using `Draggable` and `DragTarget` is
-that you can supply Dart code to decide whether to accept a drop.
+使用 `Draggable` 和 `DragTarget` 的優點是
+你可以提供 Dart 程式碼來決定是否接受拖放。
 
-For more information, check out the
-[`Draggable` widget of the week][video] video.
+如需更多資訊，請參考
+[`Draggable` widget of the week][video] 影片。
 
 [Drag a UI element within an app]: /cookbook/effects/drag-a-widget
 [`Draggable`]:  {{site.api}}/flutter/widgets/Draggable-class.html
@@ -33,25 +33,22 @@ For more information, check out the
 [local data]: {{site.pub-api}}/super_drag_and_drop/latest/super_drag_and_drop/DragItem/localData.html
 [video]: https://youtu.be/q4x2G_9-Mu0?si=T4679e90U2yrloCs
 
-## Implement drag and drop between apps
+## 實作跨應用程式的拖放
 
-If you want to implement drag and drop within
-your application and _also_ between your
-application and another (possibly non-Flutter) app,
-check out the [super_drag_and_drop][] package.
+如果你想要在應用程式內部，
+以及你的應用程式與其他（可能不是 Flutter 的）應用程式之間
+實作拖放功能，請參考 [super_drag_and_drop][super_drag_and_drop] 套件。
 
-To avoid implementing two styles of drag and drop,
-one for drags outside of the app and another for
-dragging inside the app,
-you can supply [local data][] to the package to
-perform drags within your app.
+為了避免需要實作兩種不同的拖放方式，
+一種用於應用程式外部拖曳，另一種用於
+應用程式內部拖曳，
+你可以提供 [local data][local data] 給該套件，
+以在你的應用程式內執行拖曳操作。
 
-Another difference between this approach and
-using `Draggable` directly,
-is that you must tell the package up front
-what data your app accepts because the platform
-APIs need a synchronous response, which doesn't
-allow an asynchronous response from the framework.
+這種方法與直接使用 `Draggable` 的另一個不同之處在於，
+你必須事先告訴套件你的應用程式可以接受哪些資料，
+因為平台 API 需要同步回應，
+這不允許框架提供非同步回應。
 
-An advantage of using this approach is that it
-works across desktop, mobile, _and_ web.
+此方法的優點是
+它可同時支援桌面、行動裝置，_以及_ 網頁平台。

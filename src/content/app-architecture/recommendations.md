@@ -1,31 +1,24 @@
 ---
-title: Architecture recommendations and resources
-shortTitle: Architecture recommendations
+title: 架構建議與資源
+shortTitle: 架構建議
 description: >
-  Recommendations for building scalable Flutter applications.
+  建立可擴展 Flutter 應用程式的建議。
 prev:
-  title: Architecture case study
+  title: 架構案例研究
   path: /app-architecture/case-study
 next:
-  title: Design patterns
+  title: 設計模式
   path: /app-architecture/design-patterns
 ---
 
-This page presents architecture best practices, why they matter, and
-whether we recommend them for your Flutter application.
-You should treat these recommendations as recommendations,
-and not steadfast rules, and you should
-adapt them to your app's unique requirements.
+本頁介紹架構最佳實踐、其重要性，以及我們是否建議你在 Flutter 應用程式中採用這些做法。
+你應該將這些建議視為「建議」而非絕對規則，並根據你應用程式的獨特需求進行調整。
 
-The best practices on this page have a priority,
-which reflects how strongly the Flutter team recommends it.
+本頁的最佳實踐會標註優先順序，這代表 Flutter 團隊推薦的強烈程度。
 
-* **Strongly recommend:** You should always implement this recommendation if
-  you're starting to build a new application. You should strongly consider
-  refactoring an existing app to implement this practice unless doing so would
-  fundamentally clash with your current approach.
-* **Recommend**: This practice will likely improve your app.
-* **Conditional**: This practice can improve your app in certain circumstances.
+* **強烈建議：** 如果你正在開始建立新應用程式，應該始終實作這項建議。除非這會與你現有的做法根本衝突，否則你也應該強烈考慮重構現有應用程式以導入此實踐。
+* **建議：** 這項實踐很可能會提升你的應用程式品質。
+* **有條件：** 在特定情境下，這項實踐可以改善你的應用程式。
 <br /><br />
 
 {% for section in architectureRecommendations %}
@@ -33,19 +26,19 @@ which reflects how strongly the Flutter team recommends it.
 <p>{{section.description}}</p>
 <table class="table table-striped" style="border-bottom:1px #DADCE0 solid">
     <tr class="tr-main-head">
-      <th style="width: 30%">Recommendation</th>
-      <th style="width: 70%">Description</th>
+      <th style="width: 30%">建議</th>
+      <th style="width: 70%">說明</th>
     </tr>
     {% for rec in section.recommendations %}
     <tr>
       <td>
         <p>{{rec.recommendation}}</p>
         {% if rec.confidence == "strong" %}
-            <div class="rrec-pill success">Strongly recommend</div>
+            <div class="rrec-pill success">強烈建議</div>
         {% elsif rec.confidence == "recommend" %}
-            <div class="rrec-pill info">Recommend</div>
+            <div class="rrec-pill info">建議</div>
         {% else %}
-            <div class="rrec-pill">Conditional</div>
+            <div class="rrec-pill">有條件</div>
         {% endif %}
       </td>
       <td>
@@ -57,31 +50,26 @@ which reflects how strongly the Flutter team recommends it.
 <br />
 {% endfor %}
 
-## Recommended resources
+## 推薦資源
 
-* Code and templates
-  * [Compass app source code][] -
-    Source code of a full-featured, robust Flutter application that
-    implements many of these recommendations.
-  * [very_good_cli][] -
-    A Flutter application template made by
-    the Flutter experts Very Good Ventures.
-    This template generates a similar app structure.
-* Documentation
-  * [Very Good Engineering architecture documentation][] -
-    Very Good Engineering is a documentation site by VGV that has
-    technical articles, demos, and open-sourced projects.
-    It includes documentation on architecting Flutter applications.
-  * [State Management with ChangeNotifier walkthrough][] -
-    A gentle introduction into using the primitives in
-    the Flutter SDK for your state management.
-* Tooling
-  * [Flutter developer tools][] -
-    DevTools is a suite of performance and debugging tools for Dart and Flutter.
-  * [flutter_lints][] -
-    A package that contains the lints for
-    Flutter apps recommended by the Flutter team.
-    Use this package to encourage good coding practices across a team.
+* 程式碼與範本
+  * [Compass app source code][Compass app source code] -
+    一個功能完善且穩健的 Flutter 應用程式原始碼，實作了許多本頁建議。
+  * [very_good_cli][very_good_cli] -
+    由 Flutter 專家 Very Good Ventures 製作的 Flutter 應用程式範本。
+    此範本會產生類似的應用程式架構。
+* 文件
+  * [Very Good Engineering architecture documentation][Very Good Engineering architecture documentation] -
+    Very Good Engineering 是 VGV 推出的文件網站，包含技術文章、展示與開源專案。
+    其中也有關於 Flutter 應用程式架構的相關文件。
+  * [State Management with ChangeNotifier walkthrough][State Management with ChangeNotifier walkthrough] -
+    介紹如何使用 Flutter SDK 內建原始元件進行狀態管理的入門教學。
+* 工具
+  * [Flutter developer tools][Flutter developer tools] -
+    DevTools 是一套針對 Dart 與 Flutter 的效能與除錯工具。
+  * [flutter_lints][flutter_lints] -
+    一個收錄 Flutter 團隊推薦檢查規則（lints）的套件。
+    使用此套件可促進團隊間良好的程式撰寫習慣。
 
 
 [Separation-of-concerns]: https://en.wikipedia.org/wiki/Separation_of_concerns
@@ -99,9 +87,9 @@ which reflects how strongly the Flutter team recommends it.
 [Flutter developer tools]: /tools/devtools
 [flutter_lints]: https://pub.dev/packages/flutter_lints
 
-## Feedback
+## 意見回饋
 
-As this section of the website is evolving,
-we [welcome your feedback][]!
+由於本網站此區塊仍在持續演進中，
+我們[歡迎你的意見回饋][welcome your feedback]！
 
 [welcome your feedback]: https://google.qualtrics.com/jfe/form/SV_4T0XuR9Ts29acw6?page="recommendations"
