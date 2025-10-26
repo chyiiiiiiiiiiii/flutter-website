@@ -1,15 +1,15 @@
-- name: Get started
-  description: Set up your environment and start building.
+- name: 開始使用
+  description: 設定您的環境並開始建置。
   url: /get-started
-- name: Widget catalog
-  description: Dip into the rich set of Flutter widgets available in the SDK.
+- name: 元件目錄
+  description: 探索 SDK 中豐富的 Flutter 元件集。
   url: /ui/widgets
-- name: API docs
-  description: Bookmark the API reference docs for the Flutter framework.
+- name: API 文件
+  description: 將 Flutter 框架的 API 參考文件加入書籤。
   url: https://api.flutter.dev/
-- name: Guides and tutorials
-  description: Browse sample code, tutorials and how-tos.
+- name: 指南與教程
+  description: 瀏覽範例程式碼、教程和操作指南。
   url: /reference/learning-resources
-- name: Videos
-  description: View the many videos on the Flutter YouTube channel.
+- name: 影片
+  description: 查看 Flutter YouTube 頻道上的眾多影片。
   url: https://www.youtube.com/@flutterdev
