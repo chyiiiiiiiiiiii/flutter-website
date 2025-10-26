@@ -1,53 +1,54 @@
 ---
-title: v1.22 之後移除的已棄用 API
+title: Deprecated API removed after v1.22
 description: >
-  在達到生命週期終止（end of life）後，
-  下列已棄用的 API 已從 Flutter 中移除。
+  After reaching end of life, 
+  the following deprecated APIs were removed from Flutter.
 ---
 
-## 摘要
+## Summary
 
-根據 Flutter 的 [棄用政策（Deprecation Policy）][Deprecation Policy]，
-在 1.22 穩定版釋出後達到生命週期終止的
-已棄用 API 已被移除。
-這是 Flutter 首次移除已棄用的 API，
-其中部分棄用甚至早於我們
-遷移指南政策的制定。
+In accordance with Flutter's [Deprecation Policy][],
+deprecated APIs that reached end of life after the
+1.22 stable release have been removed.
+This is the first time that deprecated APIs
+have been removed from Flutter,
+and some of these deprecations predate our
+migration guide policy.
 
-所有受影響的 API 都已彙整於本
-主要來源，以協助遷移。
-同時也提供了[快速參考表][quick reference sheet]。
+All affected APIs have been compiled into this
+primary source to aid in migration. A
+[quick reference sheet][] is available as well.
 
-如需更多關於 Flutter 棄用政策的背景說明，
-可參考[設計文件][design document]與[文章][article]。
+A [design document][] and [article][] are available
+for more context on Flutter's deprecation policy.
 
 [Deprecation Policy]: {{site.repo.flutter}}/blob/main/docs/contributing/Tree-hygiene.md#deprecations
 [quick reference sheet]: /go/deprecations-removed-after-1-22
 [design document]: /go/deprecation-lifetime
 [article]: {{site.flutter-medium}}/deprecation-lifetime-in-flutter-e4d76ee738ad
 
-## 變更內容
+## Changes
 
-本節依受影響的類別列出相關棄用項目。
+This section lists the deprecations, listed by the affected class.
 
 ### `CupertinoDialog`
 
-支援修復工具：僅限 IDE 修復。
+Supported by fix tool: IDE fix only.
 
-`CupertinoDialog` 於 v0.2.3 棄用。
-請改用 `CupertinoAlertDialog` 或 `CupertinoPopupSurface`。
+`CupertinoDialog` was deprecated in v0.2.3.
+Use `CupertinoAlertDialog` or `CupertinoPopupSurface` instead.
 
-**遷移指南**
+**Migration guide**
 
 *CupertinoAlertDialog*
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 CupertinoDialog(child: myWidget);
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 CupertinoAlertDialog(content: myWidget);
@@ -55,33 +56,33 @@ CupertinoAlertDialog(content: myWidget);
 
 *CupertinoPopupSurface*
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 CupertinoDialog(child: myWidget);
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 CupertinoPopupSurface(child: myWidget);
 ```
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`CupertinoAlertDialog`][`CupertinoAlertDialog`]
-* [`CupertinoPopupSurface`][`CupertinoPopupSurface`]
+* [`CupertinoAlertDialog`][]
+* [`CupertinoPopupSurface`][]
 
-相關議題：
+Relevant issues:
 
-* [Deprecate CupertinoDialog class][Deprecate CupertinoDialog class]
+* [Deprecate CupertinoDialog class][]
 
-相關 PR：
+Relevant PRs:
 
-* 於 [#20649][#20649] 標記為已淘汰
-* 於 [#73604][#73604] 移除
+* Deprecated in [#20649][]
+* Removed in [#73604][]
 
 [`CupertinoAlertDialog`]: {{site.api}}/flutter/cupertino/CupertinoAlertDialog-class.html
 [`CupertinoPopupSurface`]: {{site.api}}/flutter/cupertino/CupertinoPopupSurface-class.html
@@ -91,20 +92,20 @@ API 文件：
 
 ---
 
-### Cupertino 導航列的 `actionsForegroundColor`
+### Cupertino navigation bars' `actionsForegroundColor`
 
-支援修正工具：否
+Supported by fix tool: No
 
 `CupertinoNavigationBar.actionsForegroundColor`
-與 `CupertinoSliverNavigationBar.actionsForegroundColor`
-自 v1.1.2 起已被標記為淘汰（deprecated）。
-現在，於 `CupertinoTheme` 設定 `primaryColor` 即可傳遞此設定。
-若要存取 `primaryColor`，
-請呼叫 `CupertinoTheme.of(context).primaryColor`。
+and `CupertinoSliverNavigationBar.actionsForegroundColor`
+were deprecated in v1.1.2.
+Setting `primaryColor` in your `CupertinoTheme` propagates this instead.
+To access the `primaryColor`,
+call `CupertinoTheme.of(context).primaryColor`.
 
-**遷移指南**
+**Migration guide**
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 CupertinoNavigationBar(
@@ -115,7 +116,7 @@ CupertinoSliverNavigationBar(
 );
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 CupertinoTheme(
@@ -129,23 +130,23 @@ CupertinoTheme(
 CupertinoTheme.of(context).primaryColor;
 ```
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`CupertinoNavigationBar`][`CupertinoNavigationBar`]
-* [`CupertinoSliverNavigationBar`][`CupertinoSliverNavigationBar`]
-* [`CupertinoTheme`][`CupertinoTheme`]
-* [`CupertinoThemeData`][`CupertinoThemeData`]
+* [`CupertinoNavigationBar`][]
+* [`CupertinoSliverNavigationBar`][]
+* [`CupertinoTheme`][]
+* [`CupertinoThemeData`][]
 
-相關議題：
+Relevant issues:
 
-* [Create a CupertinoApp and a CupertinoTheme][Create a CupertinoApp and a CupertinoTheme]
+* [Create a CupertinoApp and a CupertinoTheme][]
 
-相關 PR：
+Relevant PRs:
 
-* 在 [#23759][#23759] 中標記為已淘汰（Deprecated）
-* 在 [#73745][#73745] 中移除
+* Deprecated in [#23759][]
+* Removed in [#73745][]
 
 [`CupertinoNavigationBar`]: {{site.api}}/flutter/cupertino/CupertinoNavigationBar-class.html
 [`CupertinoSliverNavigationBar`]: {{site.api}}/flutter/cupertino/CupertinoSliverNavigationBar-class.html
@@ -159,42 +160,43 @@ API 文件：
 
 ### `CupertinoTextThemeData.brightness`
 
-支援修正工具：是
+Supported by fix tool: Yes
 
-`CupertinoTextThemeData.brightness` 已於 v1.10.14 被標記為已淘汰（Deprecated）。
-此欄位成員在標記為已淘汰時即已失效。
-此參數沒有替代方案，建議移除相關引用。
+`CupertinoTextThemeData.brightness` was deprecated in v1.10.14.
+This field member was made ineffective at the time of deprecation.
+There is no replacement for this
+parameter, references should be removed.
 
-**遷移指南**
+**Migration guide**
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 const CupertinoTextThemeData themeData = CupertinoTextThemeData(brightness: Brightness.dark);
 themeData.copyWith(brightness: Brightness.light);
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 const CupertinoTextThemeData themeData = CupertinoTextThemeData();
 themeData.copyWith();
 ```
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`CupertinoTextThemeData`][`CupertinoTextThemeData`]
+* [`CupertinoTextThemeData`][]
 
-相關議題：
+Relevant issues:
 
-* [Revise CupertinoColors and CupertinoTheme for dynamic colors][Revise CupertinoColors and CupertinoTheme for dynamic colors]
+* [Revise CupertinoColors and CupertinoTheme for dynamic colors][]
 
-相關 PR：
+Relevant PRs:
 
-* 在 [#41859][#41859] 標記為已淘汰
-* 在 [#72017][#72017] 移除
+* Deprecated in [#41859][]
+* Removed in [#72017][]
 
 [`CupertinoTextThemeData`]: {{site.api}}/flutter/cupertino/CupertinoTextThemeData-class.html
 [Revise CupertinoColors and CupertinoTheme for dynamic colors]: {{site.repo.flutter}}/issues/35541
@@ -203,46 +205,46 @@ API 文件：
 
 ---
 
-### 指標事件建構 `fromHoverEvent`
+### Pointer events constructed `fromHoverEvent`
 
-支援修正工具：是
+Supported by fix tool: Yes
 
-`fromHoverEvent` 的建構函式（constructors）在 `PointerEnterEvent`
-和 `PointerExitEvent` 已於 v1.4.3 被標記為已淘汰。
-應改為使用 `fromMouseEvent` 建構函式。
+The `fromHoverEvent` constructors for `PointerEnterEvent`
+and `PointerExitEvent` were deprecated in v1.4.3.
+The `fromMouseEvent` constructor should be used instead.
 
-**遷移指南**
+**Migration guide**
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 final PointerEnterEvent enterEvent = PointerEnterEvent.fromHoverEvent(PointerHoverEvent());
 final PointerExitEvent exitEvent = PointerExitEvent.fromHoverEvent(PointerHoverEvent());
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 final PointerEnterEvent enterEvent = PointerEnterEvent.fromMouseEvent(PointerHoverEvent());
 final PointerExitEvent exitEvent = PointerExitEvent.fromMouseEvent(PointerHoverEvent());
 ```
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`PointerEnterEvent`][`PointerEnterEvent`]
-* [`PointerExitEvent`][`PointerExitEvent`]
+* [`PointerEnterEvent`][]
+* [`PointerExitEvent`][]
 
-相關議題：
+Relevant issues:
 
-* [PointerEnterEvent 和 PointerExitEvent 只能從 hover 事件建立][PointerEnterEvent and PointerExitEvent can only
-  be created from hover events]
+* [PointerEnterEvent and PointerExitEvent can only
+  be created from hover events][]
 
-相關 PR：
+Relevant PRs:
 
-* 在 [#28602][#28602] 標記為已淘汰
-* 在 [#72395][#72395] 移除
+* Deprecated in [#28602][]
+* Removed in [#72395][]
 
 [`PointerEnterEvent`]: {{site.api}}/flutter/gestures/PointerEnterEvent-class.html
 [`PointerExitEvent`]: {{site.api}}/flutter/gestures/PointerExitEvent-class.html
@@ -252,40 +254,40 @@ API 文件：
 
 ---
 
-### `showDialog` 使用 `builder`
+### `showDialog` uses `builder`
 
-支援修正工具：是
+Supported by fix tool: Yes
 
-`showDialog` 的 `child` 參數已於 v0.2.3 標記為已淘汰。
-應改為使用 `builder` 參數。
+The `child` parameter of `showDialog` was deprecated in v0.2.3.
+The `builder` parameter should be used instead.
 
-**遷移指南**
+**Migration guide**
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 showDialog(child: myWidget);
 ```
 
-遷移後的程式碼：
+Code after migration:
 ```dart
 showDialog(builder: (context) => myWidget);
 ```
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`showDialog`][`showDialog`]
+* [`showDialog`][]
 
-相關議題：
+Relevant issues:
 
-* [showDialog should take a builder rather than a child][showDialog should take a builder rather than a child]
+* [showDialog should take a builder rather than a child][]
 
-相關 PR：
+Relevant PRs:
 
-* 在 [#15303][#15303] 標記為已淘汰
-* 在 [#72532][#72532] 移除
+* Deprecated in [#15303][]
+* Removed in [#72532][]
  
 [`showDialog`]: {{site.api}}/flutter/material/showDialog.html
 [showDialog should take a builder rather than a child]: {{site.repo.flutter}}/issues/14341
@@ -296,43 +298,43 @@ API 文件：
 
 ### `Scaffold.resizeToAvoidBottomPadding`
 
-支援修正工具：是
+Supported by fix tool: Yes
 
-`Scaffold` 的 `resizeToAvoidBottomPadding` 參數自 v1.1.9 起已被淘汰。
-應改用 `resizeToAvoidBottomInset` 參數。
+The `resizeToAvoidBottomPadding` parameter of `Scaffold` was deprecated in v1.1.9.
+The `resizeToAvoidBottomInset` parameter should be used instead.
 
-**遷移指南**
+**Migration guide**
  
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 Scaffold(resizeToAvoidBottomPadding: true);
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 Scaffold(resizeToAvoidBottomInset: true);
 ```
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`Scaffold`][`Scaffold`]
+* [`Scaffold`][]
 
-相關議題：
+Relevant issues:
 
-* [當巢狀使用 Scaffolds 時顯示警告][Show warning when nesting Scaffolds]
-* [SafeArea 與鍵盤][SafeArea with keyboard]
-* [雙層堆疊的 Material Scaffold 不應該重複執行 resizeToAvoidBottomPadding][Double stacked material scaffolds shouldn't double resizeToAvoidBottomPadding]
-* [Window 與 MediaQueryData 上的 viewInsets 和 padding 應定義其互動方式][viewInsets and padding on Window and MediaQueryData should define how they interact]
-* [在 tabbarview 內使用 textfields 時，底部溢位問題][bottom overflow issue, when using textfields inside tabbarview]
+* [Show warning when nesting Scaffolds][]
+* [SafeArea with keyboard][]
+* [Double stacked material scaffolds shouldn't double resizeToAvoidBottomPadding][]
+* [viewInsets and padding on Window and MediaQueryData should define how they interact][]
+* [bottom overflow issue, when using textfields inside tabbarview][]
 
-相關 PR：
+Relevant PRs:
 
-* 在 [#26259][#26259] 標記為已淘汰
-* 在 [#72890][#72890] 移除
+* Deprecated in [#26259][]
+* Removed in [#72890][]
 
 [`Scaffold`]: {{site.api}}/flutter/material/Scaffold-class.html
 [Show warning when nesting Scaffolds]: {{site.repo.flutter}}/issues/23106
@@ -347,20 +349,21 @@ API 文件：
 
 ### `ButtonTheme.bar`
 
-支援自動修復工具：否
+Supported by fix tool: No
 
-`ButtonTheme` 的 `bar` 建構函式已於 v1.9.1 被標記為已淘汰。
-對於 `ButtonBar`，可以改用 `ButtonBarTheme`，
-若用途不限於 `ButtonBar`，則可改用 `ButtonTheme` 的其他建構函式。
+The `bar` constructor of `ButtonTheme` was deprecated in v1.9.1.
+`ButtonBarTheme` can be used instead for `ButtonBar`s,
+or use another constructor of `ButtonTheme`
+if the use is not specific to `ButtonBar`.
 
-針對按鈕的主題化（theming），也可使用 `TextButtonTheme`、
-`ElevatedButtonTheme` 與 `OutlinedButtonTheme` 類別，
-這些類別分別對應到相應的按鈕類別，
-`TextButton`、`ElevatedButton` 以及 `OutlinedButton`。
+Button-specific theming is also available with the `TextButtonTheme`,
+`ElevatedButtonTheme`, and `OutlinedButtonTheme` classes,
+each corresponding with the appropriate button class,
+`TextButton`, `ElevatedButton` and `OutlinedButton`.
 
-**遷移指南**
+**Migration guide**
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 ButtonTheme.bar(
@@ -370,7 +373,7 @@ ButtonTheme.bar(
 );
 ```
 
-遷移後的程式碼，使用 `ButtonTheme`：
+Code after migration, using `ButtonTheme`:
 
 ```dart
 ButtonTheme(
@@ -380,7 +383,7 @@ ButtonTheme(
 );
 ```
 
-遷移後的程式碼，使用 `ButtonBarTheme`：
+Code after migration, using `ButtonBarTheme`:
 
 ```dart
 ButtonBarTheme(
@@ -392,30 +395,30 @@ ButtonBarTheme(
 );
 ```
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`ButtonTheme`][`ButtonTheme`]
-* [`ButtonBarTheme`][`ButtonBarTheme`]
-* [`ButtonBar`][`ButtonBar`]
-* [`TextButtonTheme`][`TextButtonTheme`]
-* [`TextButton`][`TextButton`]
-* [`ElevatedButtonTheme`][`ElevatedButtonTheme`]
-* [`ElevatedButton`][`ElevatedButton`]
-* [`OutlinedButtonTheme`][`OutlinedButtonTheme`]
-* [`OutlinedButton`][`OutlinedButton`]
+* [`ButtonTheme`][]
+* [`ButtonBarTheme`][]
+* [`ButtonBar`][]
+* [`TextButtonTheme`][]
+* [`TextButton`][]
+* [`ElevatedButtonTheme`][]
+* [`ElevatedButton`][]
+* [`OutlinedButtonTheme`][]
+* [`OutlinedButton`][]
 
-相關議題：
+Relevant issues:
 
-* [ButtonTheme.bar uses accent color when it should be using primary color][ButtonTheme.bar uses accent color when it should be using primary color]
-* [ThemeData.accentColor has insufficient contrast for text][ThemeData.accentColor has insufficient contrast for text]
-* [Increased height as a result of changes to materialTapTargetSize affecting AlertDialog/ButtonBar heights][Increased height as a result of changes to materialTapTargetSize affecting AlertDialog/ButtonBar heights]
+* [ButtonTheme.bar uses accent color when it should be using primary color][]
+* [ThemeData.accentColor has insufficient contrast for text][]
+* [Increased height as a result of changes to materialTapTargetSize affecting AlertDialog/ButtonBar heights][]
 
-相關 PR：
+Relevant PRs:
 
-* 在 [#37544][#37544] 標記為已淘汰（Deprecated）
-* 在 [#73746][#73746] 移除
+* Deprecated in [#37544][]
+* Removed in [#73746][]
 
 [`ButtonTheme`]: {{site.api}}/flutter/material/ButtonTheme-class.html
 [`ButtonBarTheme`]: {{site.api}}/flutter/material/ButtonBarTheme-class.html
@@ -436,15 +439,15 @@ API 文件：
 
 ### `InlineSpan`, `TextSpan`, `PlaceholderSpan`
 
-修復工具支援：否
+Supported by fix tool: No
 
-以下方法於
-`InlineSpan`、`TextSpan` 和 `PlaceholderSpan` 中被標記為已淘汰（Deprecated），
-目的是為了支援將元件（Widgets）如圖片等內嵌於段落中。
+The following methods were deprecated in the
+`InlineSpan`, `TextSpan` and `PlaceholderSpan` in order
+to enable embedding widgets inline into paragraphs, like images.
 
-**遷移指南**
+**Migration guide**
 
-遷移前程式碼 | 遷移後程式碼
+Code before migration | Code after migration
 -- | --
 `InlineSpan.text` | `TextSpan.text`
 `InlineSpan.children` | `TextSpan.children`
@@ -454,27 +457,27 @@ API 文件：
 `PlaceholderSpan.visitTextSpan` | `PlaceHolderSpan.visitChildren`
 `TextSpan.visitTextSpan` |  `TextSpan.visitChildren`
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`InlineSpan`][`InlineSpan`]
-* [`TextSpan`][`TextSpan`]
-* [`PlaceholderSpan`][`PlaceholderSpan`]
-* [`WidgetSpan`][`WidgetSpan`]
+* [`InlineSpan`][]
+* [`TextSpan`][]
+* [`PlaceholderSpan`][]
+* [`WidgetSpan`][]
 
-相關議題：
+Relevant issues:
 
-* [Text: support inline images][Text: support inline images]
+* [Text: support inline images][]
 
-相關 PR：
+Relevant PRs:
 
-* 開發歷史：
-  * [#30069][#30069]
-  * [#33946][#33946]
-  * [#33794][#33794]
-* 在 [#34051][#34051] 標記為已淘汰（Deprecated）
-* 在 [#73747][#73747] 移除
+* Development history:
+  * [#30069][]
+  * [#33946][]
+  * [#33794][]
+* Deprecated in [#34051][]
+* Removed in [#73747][]
 
 [`InlineSpan`]: {{site.api}}/flutter/painting/InlineSpan-class.html
 [`TextSpan`]: {{site.api}}/flutter/painting/TextSpan-class.html
@@ -491,43 +494,45 @@ API 文件：
 
 ### `RenderView.scheduleInitialFrame`
 
-修復工具支援：否
+Supported by fix tool: No
 
-`RenderView.scheduleInitialFrame` 方法已被標記為已淘汰並移除，
-目的是為了避免 splash 畫面過早被移除，導致出現黑畫面。
-這種情況會在呼叫 `WidgetsFlutterBinding.ensureInitialized` 時發生。
-請改為使用 `RenderView.prepareInitialFrame`，然後再呼叫 `RenderView.owner.requestVisualUpdate` 來取代此方法。
+The `RenderView.scheduleInitialFrame` method was deprecated and removed in
+order to prevent splash screens from being taken down too early,
+resulting in a black screen.
+This would happen when `WidgetsFlutterBinding.ensureInitialized` was called.
+Instead, replace calls to this method with `RenderView.prepareInitialFrame`, 
+followed by `RenderView.owner.requestVisualUpdate`.
 
-**遷移指南**
+**Migration guide**
 
-遷移前程式碼：
+Code before migration:
 
 ```dart
 scheduleInitialFrame();
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 prepareInitialFrame();
 owner.requestVisualUpdate();
 ```
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`RenderView`][`RenderView`]
-* [`WidgetsFlutterBinding`][`WidgetsFlutterBinding`]
+* [`RenderView`][]
+* [`WidgetsFlutterBinding`][]
 
-相關議題：
+Relevant issues:
 
-* [WidgetsFlutterBinding.ensureInitialized() takes down splash screen too early][WidgetsFlutterBinding.ensureInitialized() takes down splash screen too early]
+* [WidgetsFlutterBinding.ensureInitialized() takes down splash screen too early][]
 
-相關 PR：
+Relevant PRs:
 
-* 在 [#39535][#39535] 標記為已淘汰
-* 在 [#73748][#73748] 移除
+* Deprecated in [#39535][]
+* Removed in [#73748][]
 
 [`RenderView`]: {{site.api}}/flutter/rendering/RenderView-class.html
 [`TextSpan`]: {{site.api}}/flutter/widgets/WidgetsFlutterBinding-class.html
@@ -540,45 +545,48 @@ API 文件：
 
 ### `Layer.findAll`
 
-支援修正工具：否
+Supported by fix tool: No
 
-`Layer.findAll` 方法在引入 `Layer.findAnnotations` 時被標記為已淘汰，目的是統一 `find` 與 `findAll` 的實作方式。
-如需遷移受影響的程式碼，請改為呼叫 `findAllAnnotations`。
-此方法會回傳一個 `AnnotationResult`，其中包含原本 `findAll` 在 `AnnotationResult.annotations` 中的回傳值。
+The `Layer.findAll` method was deprecated with the
+introduction of `Layer.findAnnotations` in order to unify
+the implementations of `find` and `findAll`.
+To migrate affected code, call `findAllAnnotations` instead.
+This method returns an `AnnotationResult`, containing the former
+return value of `findAll` in `AnnotationResult.annotations`.
 
-**遷移指南**
+**Migration guide**
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 findAll(offset);
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 findAllAnnotations(offset).annotations;
 ```
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`Layer`][`Layer`]
-* [`MouseRegion`][`MouseRegion`]
-* [`RenderMouseRegion`][`RenderMouseRegion`]
-* [`AnnotatedRegionLayer`][`AnnotatedRegionLayer`]
-* [`AnnotationResult`][`AnnotationResult`]
+* [`Layer`][]
+* [`MouseRegion`][]
+* [`RenderMouseRegion`][]
+* [`AnnotatedRegionLayer`][]
+* [`AnnotationResult`][]
 
-相關議題：
+Relevant issues:
 
-* [重大變更提案：MouseRegion 預設為 opaque；Layers 必須實作 findAnnotations][Breaking Proposal: MouseRegion defaults to opaque; Layers are required to implement findAnnotations]
+* [Breaking Proposal: MouseRegion defaults to opaque; Layers are required to implement findAnnotations][]
 
-相關 PR：
+Relevant PRs:
 
-* 最初變更於 [#37896][#37896]
-* 棄用於 [#42953][#42953]
-* 移除於 [#73749][#73749]
+* Initially changed in [#37896][]
+* Deprecated in [#42953][]
+* Removed in [#73749][]
 
 [`Layer`]: {{site.api}}/flutter/rendering/Layer-class.html
 [`MouseRegion`]: {{site.api}}/flutter/widgets/MouseRegion-class.html
@@ -594,13 +602,17 @@ API 文件：
 
 ### `BinaryMessages`
 
-修正工具支援：否
+Supported by fix tool: No
 
-`BinaryMessages` 類別、其相關的靜態方法以及 `defaultBinaryMessenger` getter 已被棄用並移除。`defaultBinaryMessenger` 實例已移動至 `ServicesBinding`。這使得在測試環境下可以註冊不同的預設 `BinaryMessenger`，只需為測試建立一個 `ServicesBinding` 子類別。這麼做可以讓你追蹤待處理平台訊息的數量，以便同步用途。
+The `BinaryMessages` class, its associated static methods and the `defaultBinaryMessenger` getter
+were deprecated and removed. The `defaultBinaryMessenger` instance was moved to `ServicesBinding`.
+This made it possible to register a different default `BinaryMessenger` under testing environment,
+by creating a `ServicesBinding` subclass for testing. Doing so allows you to track the number of
+pending platform messages for synchronization purposes.
 
-**遷移指南**
+**Migration guide**
 
-遷移前程式碼： | 遷移後程式碼：
+Code before migration: | Code after migration:
 -- | --
 `defaultBinaryMessenger` | `ServicesBinding.instance.defaultBinaryMessenger`
 `BinaryMessages` | `BinaryMessenger`
@@ -609,22 +621,22 @@ API 文件：
 `BinaryMessages.setMessageHandler` | `ServicesBinding.instance.defaultBinaryMessenger.setMessageHandler`
 `BinaryMessages.setMockMessageHandler` | `ServicesBinding.instance.defaultBinaryMessenger.setMockMessageHandler`
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`ServicesBinding`][`ServicesBinding`]
-* [`BinaryMessenger`][`BinaryMessenger`]
+* [`ServicesBinding`][]
+* [`BinaryMessenger`][]
 
-相關議題：
+Relevant issues:
 
-* [Flutter 對 Espresso/EarlGrey 的同步支援][Flutter synchronization support for Espresso/EarlGrey]
+* [Flutter synchronization support for Espresso/EarlGrey][]
 
-相關 PR：
+Relevant PRs:
 
-* 最初變更於 [#37489][#37489]
-* 棄用於 [#38464][#38464]
-* 移除於 [#73750][#73750]
+* Initially changed in [#37489][]
+* Deprecated in [#38464][]
+* Removed in [#73750][]
 
 [`ServicesBinding`]: {{site.api}}/flutter/services/ServicesBinding-mixin.html
 [`BinaryMessenger`]: {{site.api}}/flutter/services/BinaryMessenger-class.html
@@ -635,23 +647,30 @@ API 文件：
 
 ---
 
-### `BuildContext` 的泛型方法
+### Generic methods for `BuildContext`
 
-修正工具支援：是
+Supported by fix tool: Yes
 
-`BuildContext` 中的多個方法過去使用 `Type` 來搜尋祖先。這些方法大多在呼叫端需要進行型別轉換，因為它們的回傳型別是父型別。此外，所提供的型別即使實際上有限制，也不會在分析階段檢查。將這些方法改為泛型後，提升了型別安全性，且需要撰寫的程式碼更少。
+Several methods in `BuildContext` were using `Type` to search for ancestors.
+Most of those methods implied a cast at call site because
+their return type was a parent type.
+Moreover the type provided was not checked at analysis time
+even if the type is actually constrained.
+Making these methods generics improves type safety and requires less code.
 
-這些方法的變更會影響 `BuildContext`、`Element` 和 `StatefulElement` 類別。`TypeMatcher` 類別也已被移除。
+These method changes affect
+the `BuildContext`, `Element`, and `StatefulElement` classes.
+The `TypeMatcher` class was also removed.
 
-**遷移指南**
+**Migration guide**
 
-遷移前程式碼：
+Code before migration:
 
 ```dart
 ComplexLayoutState state = context.ancestorStateOfType(const TypeMatcher<ComplexLayoutState>()) as ComplexLayoutState;
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 ComplexLayoutState state = context.ancestorStateOfType<ComplexLayoutState>();
@@ -659,7 +678,7 @@ ComplexLayoutState state = context.ancestorStateOfType<ComplexLayoutState>();
 
 `BuildContext`
 
-遷移前的程式碼： | 遷移後的程式碼：
+Code before migration: | Code after migration:
 --  | --
 `inheritFromElement` | `dependOnInheritedElement`
 `inheritFromWidgetOfExactType` | `dependOnInheritedWidgetOfExactType`
@@ -671,7 +690,7 @@ ComplexLayoutState state = context.ancestorStateOfType<ComplexLayoutState>();
 
 `Element`
 
-遷移前的程式碼： | 遷移後的程式碼：
+Code before migration: | Code after migration:
 --  | --
 `inheritFromElement` | `dependOnInheritedElement`
 `inheritFromWidgetOfExactType` | `dependOnInheritedWidgetOfExactType`
@@ -683,27 +702,27 @@ ComplexLayoutState state = context.ancestorStateOfType<ComplexLayoutState>();
 
 `StatefulElement`
 
-遷移前的程式碼： | 遷移後的程式碼：
+Code before migration: | Code after migration:
 --  | --
 `inheritFromElement` | `dependOnInheritedElement`
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`Type`][`Type`]
-* [`BuildContext`][`BuildContext`]
-* [`Element`][`Element`]
-* [`StatefulElement`][`StatefulElement`]
+* [`Type`][]
+* [`BuildContext`][]
+* [`Element`][]
+* [`StatefulElement`][]
 
-相關 PR：
+Relevant PRs:
 
-* 在 [#44189][#44189] 中標記為已淘汰
-* 移除於：
-  * [#69620][#69620]
-  * [#72903][#72903]
-  * [#72901][#72901]
-  * [#73751][#73751]
+* Deprecated in [#44189][]
+* Removed in:
+  * [#69620][]
+  * [#72903][]
+  * [#72901][]
+  * [#73751][]
 
 [`Type`]: {{site.api}}/flutter/dart-core/Type-class.html
 [`BuildContext`]: {{site.api}}/flutter/widgets/BuildContext-class.html
@@ -719,17 +738,21 @@ API 文件：
 
 ### `WidgetsBinding.deferFirstFrameReport` & `WidgetsBinding.allowFirstFrameReport`
 
-支援修正工具：是
+Supported by fix tool: Yes
 
-`WidgetsBinding` 的 `deferFirstFrameReport` 和 `allowFirstFrameReport` 方法
-已被標記為淘汰並移除，目的是提供延遲首次畫面渲染的選項。
-這對於需要非同步取得初始化資訊的元件（Widgets）特別有用，
-當這些元件尚未取得資訊時，不應渲染任何畫面，否則會導致啟動畫面（splash screen）過早消失。
-請分別改用 `deferFirstFrame` 和 `allowFirstFrame` 方法。
+The `deferFirstFrameReport` and `allowFirstFrameReport` methods
+of `WidgetsBinding` were deprecated and removed in order to
+provide the option to delay rendering the first frame.
+This is useful for widgets that need to obtain initialization
+information asynchronously and while they are waiting for
+that information no frame should render as that would take
+down the splash screen pre-maturely.
+The `deferFirstFrame` and `allowFirstFrame` methods
+should be used respectively instead.
 
-**遷移指南**
+**Migration guide**
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 final WidgetsBinding binding = WidgetsBinding.instance;
@@ -737,7 +760,7 @@ binding.deferFirstFrameReport();
 binding.allowFirstFrameReport();
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 final WidgetsBinding binding = WidgetsBinding.instance;
@@ -745,19 +768,19 @@ binding.deferFirstFrame();
 binding.allowFirstFrame();
 ```
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`WidgetsBinding`][`WidgetsBinding`]
+* [`WidgetsBinding`][]
 
-相關 PR：
+Relevant PRs:
 
-* 最初變更於
-  * [#45135][#45135]
-  * [#45588][#45588]
-* 在 [#45941][#45941] 標記為已淘汰
-* 在 [#72893][#72893] 移除
+* Initially changed in
+  * [#45135][]
+  * [#45588][]
+* Deprecated in [#45941][]
+* Removed in [#72893][]
 
 [`WidgetsBinding`]: {{site.api}}/flutter/widgets/WidgetsBinding-mixin.html
 [#45135]: {{site.repo.flutter}}/pull/45135
@@ -767,35 +790,38 @@ API 文件：
 
 ---
 
-### `WaitUntilNoTransientCallbacks`、`WaitUntilNoPendingFrame` 與 `WaitUntilFirstFrameRasterized`
+### `WaitUntilNoTransientCallbacks`, `WaitUntilNoPendingFrame`, & `WaitUntilFirstFrameRasterized`
 
-支援自動修復工具：否
+Supported by fix tool: No
 
-`flutter_driver` 套件中的 `WaitUntilNoTransientCallbacks`、`WaitUntilNoPendingFrame` 和 `WaitUntilFirstFrameRasterized` 方法已被標記為已淘汰並移除，目的是提供一個更具組合性的 `waitForCondition` API，讓用戶端能夠組合希望等待的條件。
+The `WaitUntilNoTransientCallbacks`, `WaitUntilNoPendingFrame`, and `WaitUntilFirstFrameRasterized`
+methods from the `flutter_driver` packages were deprecated and removed in order to provide a more
+composable `waitForCondition` API that can be used to compose conditions that the client would like
+to wait for.
 
-**遷移指南**
+**Migration guide**
 
-遷移前程式碼： | 遷移後程式碼：
+Code before migration: | Code after migration:
 -- | --
 `WaitUntilNoTransientCallbacks` | `WaitForCondition(NoTransientCallbacks())`
 `WaitUntilNoPendingFrame` | `WaitForCondition(NoPendingFrame())`
 `WaitUntilFirstFrameRasterized` | `WaitForCondition(FirstFrameRasterized))`
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`WaitForCondition`][`WaitForCondition`]
+* [`WaitForCondition`][]
 
-相關議題：
+Relevant issues:
 
-* [Flutter synchronization support for Espresso/EarlGrey][Flutter synchronization support for Espresso/EarlGrey]
+* [Flutter synchronization support for Espresso/EarlGrey][]
 
-相關 PR：
+Relevant PRs:
 
-* 最初變更於 [#37736][#37736]
-* 在 [#38836][#38836] 標記為已淘汰
-* 在 [#73754][#73754] 移除
+* Initially changed in [#37736][]
+* Deprecated in [#38836][]
+* Removed in [#73754][]
 
 [`WaitForCondition`]: {{site.api}}/flutter/flutter_driver/WaitForCondition-class.html
 [#37736]: {{site.repo.flutter}}/pull/37736
@@ -804,6 +830,6 @@ API 文件：
 
 ---
 
-## 時程表
+## Timeline
 
-在穩定版發行：2.0.0
+In stable release: 2.0.0

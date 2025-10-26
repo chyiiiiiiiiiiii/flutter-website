@@ -1,23 +1,23 @@
 ---
-title: "使用 dart:ffi 綁定原生 Android 程式碼"
-description: "若要在 Flutter 程式中使用 C 程式碼，請使用 dart:ffi 函式庫。"
+title: "Binding to native Android code using dart:ffi"
+description: "To use C code in your Flutter program, use the dart:ffi library."
 ---
 
 <?code-excerpt path-base="platform_integration"?>
 
-Flutter 行動與桌面應用程式可以使用
-[dart:ffi][dart:ffi] 函式庫來呼叫原生 C API。
-_FFI_ 代表 [_foreign function interface_，外部函式介面][FFI]。
-其他類似功能的術語還包括
-_native interface_（原生介面）與 _language bindings_（語言綁定）。
+Flutter mobile and desktop apps can use the
+[dart:ffi][] library to call native C APIs.
+_FFI_ stands for [_foreign function interface._][FFI]
+Other terms for similar functionality include
+_native interface_ and _language bindings._
 
 :::note
-本頁說明如何在 Android 應用程式中使用 `dart:ffi` 函式庫。
-若需 iOS 相關資訊，請參閱
-[Binding to native iOS code using dart:ffi][ios-ffi]。
-若需 macOS 相關資訊，請參閱
-[Binding to native macOS code using dart:ffi][macos-ffi]。
-目前此功能尚未支援 Web 外掛程式。
+This page describes using the `dart:ffi` library
+in Android apps. For information on iOS, see
+[Binding to native iOS code using dart:ffi][ios-ffi].
+For information in macOS, see
+[Binding to native macOS code using dart:ffi][macos-ffi].
+This feature is not yet supported for web plugins.
 :::
 
 
@@ -26,45 +26,45 @@ _native interface_（原生介面）與 _language bindings_（語言綁定）。
 [macos-ffi]: /platform-integration/macos/c-interop
 [FFI]: https://en.wikipedia.org/wiki/Foreign_function_interface
 
-在您的函式庫或程式可以使用 FFI 函式庫
-綁定原生程式碼之前，必須確保
-原生程式碼已載入且其符號對 Dart 可見。
-本頁重點說明如何在 Flutter 外掛程式或應用程式中
-編譯、封裝與載入 Android 原生程式碼。
+Before your library or program can use the FFI library
+to bind to native code, you must ensure that the
+native code is loaded and its symbols are visible to Dart.
+This page focuses on compiling, packaging,
+and loading Android native code within a Flutter plugin or app.
 
-本教學將示範如何在 Flutter 外掛程式中
-封裝 C/C++ 原始碼，並透過 Dart FFI 函式庫
-在 Android 與 iOS 上進行綁定。
-在本教學過程中，您將建立一個 C 函式，
-實作 32 位元加法，然後
-透過名為 "native_add" 的 Dart 外掛程式公開該功能。
+This tutorial demonstrates how to bundle C/C++
+sources in a Flutter plugin and bind to them using
+the Dart FFI library on both Android and iOS.
+In this walkthrough, you'll create a C function
+that implements 32-bit addition and then
+exposes it through a Dart plugin named "native_add".
 
-## 動態連結與靜態連結
+## Dynamic vs static linking
 
-原生函式庫可以以動態或靜態方式
-連結到應用程式。靜態連結的函式庫
-會嵌入到應用程式的可執行映像檔中，
-並於應用程式啟動時載入。
+A native library can be linked into an app either
+dynamically or statically. A statically linked library
+is embedded into the app's executable image,
+and is loaded when the app starts.
 
-靜態連結函式庫的符號可以透過
-[`DynamicLibrary.executable`][`DynamicLibrary.executable`] 或
-[`DynamicLibrary.process`][`DynamicLibrary.process`] 載入。
+Symbols from a statically linked library can be
+loaded using [`DynamicLibrary.executable`][] or
+[`DynamicLibrary.process`][].
 
-相較之下，動態連結函式庫則會以
-獨立檔案或資料夾的形式隨應用程式一同發佈，
-並於需要時動態載入。在 Android 上，
-動態連結函式庫會以一組 `.so`（ELF）
-檔案發佈，每個架構一個檔案。
+A dynamically linked library, by contrast, is distributed
+in a separate file or folder within the app,
+and loaded on-demand. On Android, a dynamically
+linked library is distributed as a set of `.so` (ELF)
+files, one for each architecture.
 
-動態連結函式庫可透過
-[`DynamicLibrary.open`][`DynamicLibrary.open`] 載入至 Dart。
+A dynamically linked library can be loaded into
+Dart via [`DynamicLibrary.open`][].
 
-API 文件可參考
-[Dart API reference documentation][Dart API reference documentation]。
+API documentation is available from the
+[Dart API reference documentation][].
 
-在 Android 上僅支援動態函式庫
-（因為主要可執行檔是 JVM，
-我們無法與其進行靜態連結）。
+On Android, only dynamic libraries are supported
+(because the main executable is the JVM,
+which we don't link to statically).
 
 
 [Dart API reference documentation]: {{site.dart.api}}
@@ -72,10 +72,10 @@ API 文件可參考
 [`DynamicLibrary.open`]: {{site.dart.api}}/dart-ffi/DynamicLibrary/DynamicLibrary.open.html
 [`DynamicLibrary.process`]: {{site.dart.api}}/dart-ffi/DynamicLibrary/DynamicLibrary.process.html
 
-## 建立 FFI 外掛程式
+## Create an FFI plugin
 
-若要建立名為 "native_add" 的 FFI 外掛程式，
-請依照下列步驟進行：
+To create an FFI plugin called "native_add",
+do the following:
 
 ```console
 $ flutter create --platforms=android,ios,macos,windows,linux --template=plugin_ffi native_add
@@ -83,71 +83,106 @@ $ cd native_add
 ```
 
 :::note
-你可以從 `--platforms` 中排除你不想要建置的平臺。不過，你必須包含你正在測試裝置所屬的平臺。
+You can exclude platforms from `--platforms` that you don't want
+to build to. However, you need to include the platform of 
+the device you are testing on.
 :::
 
-這會在 `native_add/src` 中建立一個包含 C/C++ 原始碼的外掛（plugin）。
-這些原始碼會由各個作業系統建置資料夾中的原生建置檔案進行建置。
+This will create a plugin with C/C++ sources in `native_add/src`.
+These sources are built by the native build files in the various
+os build folders.
 
-FFI 函式庫只能綁定到 C 符號，因此在 C++ 中這些符號會被標記為 `extern "C"`。
+The FFI library can only bind against C symbols,
+so in C++ these symbols are marked `extern "C"`.
 
-你也應該加上屬性來標示這些符號會從 Dart 被參考，以避免連結器在連結時最佳化（link-time optimization）時將這些符號移除。
-`__attribute__((visibility("default"))) __attribute__((used))`。
+You should also add attributes to indicate that the
+symbols are referenced from Dart,
+to prevent the linker from discarding the symbols
+during link-time optimization.
+`__attribute__((visibility("default"))) __attribute__((used))`.
 
-在 Android 上，`native_add/android/build.gradle` 會負責連結這些程式碼。
+On Android, the `native_add/android/build.gradle` links the code.
 
-原生程式碼會從 Dart 於 `lib/native_add_bindings_generated.dart` 中呼叫。
+The native code is invoked from dart in `lib/native_add_bindings_generated.dart`.
 
-這些綁定會透過 [package:ffigen]({{site.pub-pkg}}/ffigen) 產生。
+The bindings are generated with [package:ffigen]({{site.pub-pkg}}/ffigen).
 
-## 其他使用情境
+## Other use cases
 
-### 平臺函式庫
+### Platform library
 
-若要連結至平臺函式庫，請依照下列指示操作：
+To link against a platform library,
+use the following instructions:
 
- 1. 在 Android 文件的 [Android NDK Native APIs][Android NDK Native APIs] 清單中找到你想要的函式庫。這份清單列出了穩定的原生 API。
- 1. 使用 [`DynamicLibrary.open`][`DynamicLibrary.open`] 載入該函式庫。
-    例如，若要載入 OpenGL ES（v3）：
+ 1. Find the desired library in the [Android NDK Native APIs][]
+    list in the Android docs. This lists stable native APIs.
+ 1. Load the library using [`DynamicLibrary.open`][].
+    For example, to load OpenGL ES (v3):
 
     ```dart
     DynamicLibrary.open('libGLES_v3.so');
     ```
 
-如果文件中有說明，您可能需要更新應用程式或套件的 Android manifest 檔案。
+You might need to update the Android manifest
+file of the app or plugin if indicated by
+the documentation.
 
 
 [Android NDK Native APIs]: {{site.android-dev}}/ndk/guides/stable_apis
 
-#### 第一方函式庫
+#### First-party library
 
-將原生程式碼（無論是原始碼或二進位檔）納入應用程式或套件的流程是相同的。
+The process for including native code in source
+code or binary form is the same for an app or
+plugin.
 
-#### 開源第三方
+#### Open-source third-party
 
-請依照 Android 文件中的 [Add C and C++ code to your project][Add C and C++ code to your project] 指引，將原生程式碼及原生程式碼工具鏈（CMake 或 `ndk-build`）的支援加入專案。
+Follow the [Add C and C++ code to your project][]
+instructions in the Android docs to
+add native code and support for the native
+code toolchain (either CMake or `ndk-build`).
 
 
 [Add C and C++ code to your project]: {{site.android-dev}}/studio/projects/add-native-code
 
-#### 封閉原始碼第三方函式庫
+#### Closed-source third-party library
 
-若要建立包含 Dart 原始碼的 Flutter 套件（plugin），但以二進位形式發佈 C/C++ 函式庫，請依照下列步驟操作：
+To create a Flutter plugin that includes Dart
+source code, but distribute the C/C++ library
+in binary form, use the following instructions:
 
-1. 開啟專案的 `android/build.gradle` 檔案。
-1. 將 AAR artifact 加入為相依項目。
-   **請勿**將該 artifact 直接包含在您的 Flutter 套件中。相反地，應該從如 JCenter 等儲存庫下載。
+1. Open the `android/build.gradle` file for your
+   project.
+1. Add the AAR artifact as a dependency.
+   **Don't** include the artifact in your
+   Flutter package. Instead, it should be
+   downloaded from a repository, such as
+   JCenter.
 
 
-## Android APK 檔案大小（共享物件壓縮）
+## Android APK size (shared object compression)
 
-[Android 指南][Android guidelines] 通常建議以未壓縮方式發佈原生共享物件（shared object），因為這實際上可以節省裝置空間。共享物件可以直接從 APK 載入，而不需先在裝置上解壓縮到暫存位置再載入。
-APK 在傳輸過程中會額外被壓縮——因此您應該關注下載檔案的大小。
+[Android guidelines][] in general recommend
+distributing native shared objects uncompressed
+because that actually saves on device space.
+Shared objects can be directly loaded from the APK
+instead of unpacking them on device into a
+temporary location and then loading.
+APKs are additionally packed in transit&mdash;that's
+why you should be looking at download size.
 
-Flutter APK 預設**不**遵循這些指南，會壓縮 `libflutter.so` 和 `libapp.so`——這會讓 APK 檔案本身較小，但實際安裝到裝置上的體積較大。
+Flutter APKs by default don't follow these guidelines
+and compress `libflutter.so` and `libapp.so`&mdash;this
+leads to smaller APK size but larger on device size.
 
-第三方提供的共享物件可以透過在 `AndroidManifest.xml` 中設定 `android:extractNativeLibs="true"` 來改變這個預設行為，並停止壓縮 `libflutter.so`、`libapp.so` 以及任何使用者自訂加入的共享物件。
-若要重新啟用壓縮，請在 `your_app_name/android/app/src/main/AndroidManifest.xml` 中依下列方式覆寫設定。
+Shared objects from third parties can change this default
+setting with `android:extractNativeLibs="true"` in their
+`AndroidManifest.xml` and stop the compression of `libflutter.so`,
+`libapp.so`, and any user-added shared objects.
+To re-enable compression, override the setting in
+`your_app_name/android/app/src/main/AndroidManifest.xml`
+in the following way.
 
 ```xml diff
   <manifest xmlns:android="http://schemas.android.com/apk/res/android"
@@ -168,5 +203,7 @@ Flutter APK 預設**不**遵循這些指南，會壓縮 `libflutter.so` 和 `lib
 +         android:extractNativeLibs="true"
 +         tools:replace="android:extractNativeLibs">
 ```
+
+[Android guidelines]: {{site.android-dev}}/topic/performance/reduce-apk-size#extract-false
 
 {% render docs/resource-links/ffi-video-resources.md, site: site %}

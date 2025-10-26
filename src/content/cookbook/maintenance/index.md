@@ -1,6 +1,6 @@
 ---
-title: 維護
-description: 涵蓋 Flutter 應用程式維護的食譜目錄。
+title: Maintenance
+description: A catalog of recipes covering maintenance of Flutter apps.
 ---
 
 {% include docs/cookbook-group-index.md %}

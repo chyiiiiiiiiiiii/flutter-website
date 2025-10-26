@@ -1,39 +1,49 @@
 ---
-title: 停用 `SemanticsProperties.focusable` 和 `SemanticsConfiguration.isFocusable`
+title: Deprecate `SemanticsProperties.focusable` and `SemanticsConfiguration.isFocusable`
 description: >
-  `focusable` 參數已被 `isFocused` 取代。
+  The `focusable` parameter has been replaced by `isFocused`.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-`SemanticsProperties.focusable` 和 `SemanticsConfiguration.isFocusable` 參數已被棄用，建議改用 `SemanticsProperties.focused` 和 `SemanticsConfiguration.isFocused` 參數。
+The `SemanticsProperties.focusable` and `SemanticsConfiguration.isFocusable`
+parameters were deprecated in favor of the `SemanticsProperties.focused` and
+`SemanticsConfiguration.isFocused` parameters.
 
-`focused` 參數現在可為 nullable。將其設為 `true` 或 `false` 時，會自動將 `isFocusable` 設為 `true`；而設為 `null` 時，則會將 `isFocusable` 設為 `false`。
+The `focused` parameter is now nullable. Setting it to `true` or `false`
+automatically sets `isFocusable` to `true`, while setting it to `null`
+sets `isFocusable` to `false`.
 
-## 背景說明
+## Context
 
-`SemanticsConfiguration.isFocusable` 屬性是一個布林值，表示語意節點（semantics node）是否可以取得輸入焦點，
+The `SemanticsConfiguration.isFocusable` property is a boolean that indicates
+whether the semantics node can have input focus, and
 
-`SemanticsConfiguration.isFocused` 則是一個布林值，表示該語意節點目前是否擁有輸入焦點。
+`SemanticsConfiguration.isFocused` is a boolean that indicates if the
+semantics node has input focus.
 
-此變更同樣適用於 `SemanticsProperties.focusable` 和 `SemanticsProperties.focused`。
+This change also applies to `SemanticsProperties.focusable` and `SemanticsProperties.focused`.
 
-我們棄用了 `isFocusable`，因為其功能已由 `isFocused` 所涵蓋。
-`isFocused` 屬性現在在引擎中以三態旗標（tristate flag）儲存，此變更讓框架與引擎保持一致。
+We deprecated `isFocusable` because its functionality is covered by `isFocused`.
+The `isFocused` property is now stored as a tristate flag in the engine,
+and this change makes the framework consistent with the engine.
 
-## 變更說明
+## Description of change
 
-`SemanticsConfiguration.isFocusable` 屬性已被棄用，建議改用 `SemanticsConfiguration.isFocused`。此屬性為可為 null 的布林值；設為 `true` 或 `false` 時會自動將 `isFocusable` 設為 `true`，設為 `null` 時則會將 `isFocusable` 設為 `false`。
+The `SemanticsConfiguration.isFocusable` property is deprecated in
+favor of `SemanticsConfiguration.isFocused`. This property is a nullable
+boolean; setting it to `true` or `false` automatically sets `isFocusable` to
+`true`, and setting it to `null` sets `isFocusable` to `false`.
 
-## 遷移指南
+## Migration guide
 
-請將 `SemanticsConfiguration.isFocusable` 替換為 `SemanticsConfiguration.isFocused`。
+Replace `SemanticsConfiguration.isFocusable` with `SemanticsConfiguration.isFocused`.
 
-### 範例 1：將 `isFocused` 設為 `true` 時會自動將 `isFocusable` 設為 `true`。
+### Example 1: setting `isFocused` to `true` automatically sets `isFocusable` to `true`.
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 void describeSemanticsConfiguration(SemanticsConfiguration config) {
@@ -42,7 +52,7 @@ void describeSemanticsConfiguration(SemanticsConfiguration config) {
 }
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 void describeSemanticsConfiguration(SemanticsConfiguration config) {
@@ -50,9 +60,9 @@ void describeSemanticsConfiguration(SemanticsConfiguration config) {
 }
 ```
 
-### 範例 2：將 `isFocused` 設為 null 會自動將 `isFocusable` 設為 `false`。
+### Example 2: setting `isFocused` to null automatically sets `isFocusable` to `false`.
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 void describeSemanticsConfiguration(SemanticsConfiguration config) {
@@ -61,7 +71,7 @@ void describeSemanticsConfiguration(SemanticsConfiguration config) {
 }
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 void describeSemanticsConfiguration(SemanticsConfiguration config) {
@@ -70,27 +80,27 @@ void describeSemanticsConfiguration(SemanticsConfiguration config) {
 ```
 
 
-## 時程
+## Timeline
 
-納入版本：3.37.0-0.0.pre  
-穩定版釋出：尚未
+Landed in version: 3.37.0-0.0.pre
+In stable release: Not yet
 
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`SemanticsConfiguration`][`SemanticsConfiguration`]
-* [`SemanticsProperties`][`SemanticsProperties`]
-* [`SemanticsNode`][`SemanticsNode`]
+* [`SemanticsConfiguration`][]
+* [`SemanticsProperties`][]
+* [`SemanticsNode`][]
 
-相關議題：
+Relevant issue:
 
-* [Issue 166092][Issue 166092]
+* [Issue 166092][]
 
-相關 PR：
+Relevant PR:
 
-* [PR 170935][PR 170935]
+* [PR 170935][]
 
 [`SemanticsConfiguration`]: {{site.api}}/flutter/semantics/SemanticsConfiguration-class.html
 [`SemanticsProperties`]: {{site.api}}/flutter/semantics/SemanticsProperties-class.html

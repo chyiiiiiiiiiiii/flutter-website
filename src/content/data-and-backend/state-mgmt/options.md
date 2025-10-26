@@ -1,82 +1,83 @@
 ---
-title: 狀態管理的各種方法
+title: Approaches to state management
 short-link: State-management approaches
-breadcrumb: 方法
+breadcrumb: Approaches
 description: >-
-  介紹在 Flutter 應用程式中管理狀態的不同方法。
+  An introduction to different approaches to
+  managing state in Flutter apps.
 prev:
-  title: 簡單應用程式狀態管理
+  title: Simple app state management
   path: /data-and-backend/state-mgmt/simple
 ---
 
-狀態管理是一個複雜的主題。
-如果你覺得有些問題尚未獲得解答，
-或是這些頁面上所描述的方法
-不適合你的使用情境，你很可能是對的。
+State management is a complex topic.
+If you feel that some of your questions haven't been answered,
+or that the approach described on these pages
+is not viable for your use cases, you are probably right.
 
-你可以從以下資源進一步學習，
-其中許多內容由 Flutter 社群貢獻。
+Learn more from the following resources,
+many of which have been contributed by the Flutter community.
 
-## 概覽
+## General overview
 
-在選擇方法之前，建議先檢視以下內容。
+Things to review before selecting an approach.
 
-* [狀態管理簡介][Introduction to state management]，
-  這是本節的開頭
-  （如果你是直接來到這個 _方法選擇_ 頁面，
-  而錯過了前面的內容）
-* [Flutter 中的務實狀態管理][Pragmatic State Management in Flutter]，
-  來自 Google I/O 2019 的影片
-* [Flutter 架構範例][Flutter Architecture Samples]，作者 Brian Egan
+* [Introduction to state management][],
+  which is the beginning of this very section
+  (for those of you who arrived directly to this _Options_ page
+  and missed the previous pages)
+* [Pragmatic State Management in Flutter][],
+  a video from Google I/O 2019
+* [Flutter Architecture Samples][], by Brian Egan
 
 [Flutter Architecture Samples]: https://fluttersamples.com/
 [Introduction to state management]: /data-and-backend/state-mgmt/intro
 [Pragmatic State Management in Flutter]: {{site.yt.watch}}?v=d_m5csmrf7I
 
-## 內建方法
+## Built-in approaches
 
 ### `setState`
 
-用於元件（Widget）專屬、短暫狀態的低階方法。
+The low-level approach to use for widget-specific, ephemeral state.
 
-* [為你的 Flutter 應用程式加入互動性][Adding interactivity to your Flutter app]，Flutter 教學
-* [Google Flutter 的基礎狀態管理][Basic state management in Google Flutter]，作者 Agung Surya
+* [Adding interactivity to your Flutter app][], a Flutter tutorial
+* [Basic state management in Google Flutter][], by Agung Surya
 
 [Adding interactivity to your Flutter app]: /ui/interactivity
 [Basic state management in Google Flutter]: {{site.medium}}/@agungsurya/basic-state-management-in-google-flutter-6ee73608f96d
 
 <a id="valuenotifier-inheritednotifier" aria-hidden="true"></a>
 
-### `ValueNotifier` 和 `InheritedNotifier`
+### `ValueNotifier` and `InheritedNotifier`
 
-這種方法僅使用 Flutter 提供的 API 來
-更新狀態並通知 UI 變更。
+An approach using only Flutter provided APIs to
+update state and notify the UI of changes.
 
-* [使用 ValueNotifier 和 InheritedNotifier 進行狀態管理][State Management using ValueNotifier and InheritedNotifier]，作者 Tadas Petra
+* [State Management using ValueNotifier and InheritedNotifier][], by Tadas Petra
 
 [State Management using ValueNotifier and InheritedNotifier]: https://www.hungrimind.com/articles/flutter-state-management
 
 <a id="inheritedwidget-inheritedmodel" aria-hidden="true"></a>
 
-### `InheritedWidget` 和 `InheritedModel`
+### `InheritedWidget` and `InheritedModel`
 
-這是一種低階方法，用於
-在元件樹中的祖先與子代之間進行溝通。
-這也是 `package:provider` 以及許多其他方法在底層所使用的機制。
+The low-level approach used to
+communicate between ancestors and children in the widget tree.
+This is what `package:provider` and many other approaches use under the hood.
 
-以下由講師帶領的影片工作坊，介紹如何
-使用 `InheritedWidget`：
+The following instructor-led video workshop covers how to
+use `InheritedWidget`:
 
 {% ytEmbed 'LFcGPS6cGrY', 'How to manage application state using inherited widgets' %}
 
-其他有用的文件包括：
+Other useful docs include:
 
-* [InheritedWidget 文件][InheritedWidget docs]
-* [使用 InheritedWidgets 管理 Flutter 應用程式狀態][Managing Flutter Application State With InheritedWidgets]，
-  作者 Hans Muller
-* [繼承元件（Inheriting Widgets）][Inheriting Widgets]，作者 Mehmet Fidanboylu
-* [有效使用 Flutter Inherited Widgets][Using Flutter Inherited Widgets Effectively]，作者 Eric Windmill
-* [Widget - State - Context - InheritedWidget][Widget - State - Context - InheritedWidget]，作者 Didier Bolelens
+* [InheritedWidget docs][]
+* [Managing Flutter Application State With InheritedWidgets][],
+  by Hans Muller
+* [Inheriting Widgets][], by Mehmet Fidanboylu
+* [Using Flutter Inherited Widgets Effectively][], by Eric Windmill
+* [Widget - State - Context - InheritedWidget][], by Didier Bolelens
 
 [InheritedWidget docs]: {{site.api}}/flutter/widgets/InheritedWidget-class.html
 [Inheriting Widgets]: {{site.medium}}/@mehmetf_71205/inheriting-widgets-b7ac56dbbeb1
@@ -84,40 +85,41 @@ prev:
 [Using Flutter Inherited Widgets Effectively]: https://ericwindmill.com/articles/inherited_widget/
 [Widget - State - Context - InheritedWidget]: https://www.didierboelens.com/2018/06/widget---state---context---inheritedwidget/
 
-## 社群提供的套件
+## Community-provided packages
 
-根據你的應用程式複雜度以及團隊偏好，
-你可能會發現採用狀態管理套件很有幫助。
-狀態管理套件通常能協助減少樣板程式碼、
-提供專門的除錯工具，並有助於
-建立更清晰且一致的應用程式架構。
+Depending on the complexity of your app and preferences of your team,
+you might find adopting a state management package useful.
+State management packages often help reduce boilerplate code,
+provide specialized debugging tools, and can help
+enable a clearer and consistent application architecture.
 
-Flutter 社群提供了各式各樣的狀態管理套件。
-最適合你的應用程式的選擇，通常取決於應用程式的複雜度、
-團隊的偏好，以及你需要解決的特定問題。
+The Flutter community offers a wide variety of state management packages.
+The best choice for your app often depends on the app's complexity,
+your team's preferences, and the specific problems you need to solve.
 
-要開始探索可用的選項，
-請參考 pub.dev 網站上的 [`#state-management`][`#state-management`]{: target="_blank"} 主題，
-並進一步篩選，找到符合需求的套件。
+To begin exploring the available options,
+check out the [`#state-management`][]{: target="_blank"} topic on the pub.dev site and
+refine the search to find packages that match your needs.
 
 <div class="card-grid">
   <a class="card outlined-card" href="{{site.pub}}/packages?q=topic%3Astate-management" target="_blank">
     <div class="card-header">
       <span class="card-title">
-        <span>狀態管理套件</span>
+        <span>State management packages</span>
         <span class="material-symbols" aria-hidden="true" style="font-size: 1rem;" translate="no">open_in_new</span>
       </span>
     </div>
     <div class="card-content">
-      <p>探索由 Flutter 社群打造且為社群所用的各種狀態管理套件。</p>
+      <p>Explore the variety of state-management packages built by and for the Flutter community.</p>
     </div>
   </a>
 </div>
 
 :::tip
-如果你開發了覺得對 Flutter 社群有幫助的狀態管理套件，
-請考慮[加入 `state-management` 主題][pub-topics]，
-並[將套件發佈][pub-publish]到 pub.dev。
+If you've developed a state management package that
+you think would be useful to the Flutter community,
+consider [adding the `state-management` topic][pub-topics] and
+[publishing the package][pub-publish] to pub.dev.
 :::
 
 [`#state-management`]: {{site.pub}}/packages?q=topic%3Astate-management

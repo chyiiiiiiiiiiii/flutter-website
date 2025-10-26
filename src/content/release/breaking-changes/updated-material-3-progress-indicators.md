@@ -1,52 +1,54 @@
 ---
-title: 更新後的 Material 3 進度指示器
+title: Updated Material 3 progress indicators
 description: >-
-  `LinearProgressIndicator` 和 `CircularProgressIndicator` 元件（Widgets）
-  已更新以符合 Material 3 Design 規範。
+  The `LinearProgressIndicator` and `CircularProgressIndicator` widgets
+  have been updated to match the Material 3 Design specifications.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-`LinearProgressIndicator` 和 `CircularProgressIndicator`
-已更新以符合 Material 3 Design 規範。
+The `LinearProgressIndicator` and `CircularProgressIndicator` have
+been updated to match the Material 3 Design specifications.
 
-`LinearProgressIndicator` 的變更包含：在作用中與非作用中軌道之間增加間隙、停止指示器，以及圓角設計。
-`CircularProgressIndicator` 的變更則包含：在作用中與非作用中軌道之間增加間隙，以及圓角的描邊端點。
+The `LinearProgressIndicator`changes include a gap between
+the active and inactive tracks, a stop indicator, and rounded corners.
+The `CircularProgressIndicator` changes include a gap between
+the active and inactive tracks, and rounded stroke cap.
 
-## 背景
+## Context
 
-Material 3 Design 針對 `LinearProgressIndicator` 和
-`CircularProgressIndicator` 的規範已於 2023 年 12 月更新。
+The Material 3 Design specifications for the `LinearProgressIndicator` and
+`CircularProgressIndicator` were updated in December 2023.
 
-若要選擇使用 2024 年的設計規範，
-請將 `LinearProgressIndicator.year2023` 和
-`CircularProgressIndicator.year2023` 標誌設為 `false`。
-這麼做是為了確保現有應用程式不會受到
-新設計規範的影響。
+To opt into the 2024 design specifications,
+set the `LinearProgressIndicator.year2023` and
+`CircularProgressIndicator.year2023` flags to `false`.
+This is done to ensure that existing apps aren't affected by
+the updated design spec.
 
-## 變更說明
+## Description of change
 
-`LinearProgressIndicator` 和 `CircularProgressIndicator` 元件（Widgets）各自
-有一個 `year2023` 標誌，可設為 `false` 以
-選擇使用更新後的設計規範。
-`year2023` 標誌的預設值為 `true`，代表
-進度指示器會採用 2023 年的設計規範。
+The `LinearProgressIndicator` and `CircularProgressIndicator` widgets each
+have a `year2023` flag that can be set to `false` to
+opt in to the updated design specification.
+The default value for the `year2023` flag is `true`, which means that
+the progress indicators use the 2023 design spec.
 
-當 [`LinearProgressIndicator.year2023`][`LinearProgressIndicator.year2023`] 設為 `false` 時，
-進度指示器會在作用中與非作用中軌道之間出現間隙，
-並有停止指示器與圓角設計。
-若 `LinearProgressIndicator` 為不確定狀態（indeterminate），
-則不會顯示停止指示器。
+When [`LinearProgressIndicator.year2023`][] is set to `false`,
+the progress indicator have gaps between active and inactive tracks,
+a stop indicator, and rounded corners.
+If the `LinearProgressIndicator` is indeterminate,
+the stop indicator isn't shown.
 
-當 [`CircularProgressIndicator.year2023`][`CircularProgressIndicator.year2023`] 設為 `false` 時，
-進度指示器會有軌道間隙與圓角的描邊端點。
+When [`CircularProgressIndicator.year2023`][] is set to `false`,
+the progress indicator has a track gap and rounded stroke cap.
 
-## 遷移指南
+## Migration guide
 
-若要讓 `LinearProgressIndicator` 選用更新後的設計規範，
-請將 `year2023` 標誌設為 `false`：
+To opt into the updated design spec for the `LinearProgressIndicator`,
+set the `year2023` flag to `false`:
 
 ```dart highlightLines=2
 LinearProgressIndicator(
@@ -55,7 +57,9 @@ LinearProgressIndicator(
 ),
 ```
 
-若要將整個應用程式更新為使用新版的 `LinearProgressIndicator` 設計，請在您的 `MaterialApp` 中，將 `ProgressIndicatorThemeData.year2023` 屬性設為 `false`：
+To update your entire app to use the updated `LinearProgressIndicator` design,
+set the `ProgressIndicatorThemeData.year2023` property to `false` in your
+`MaterialApp`:
 
 ```dart highlightLines=2
 return MaterialApp(
@@ -68,7 +72,8 @@ return MaterialApp(
         // ...
 ```
 
-若要啟用`CircularProgressIndicator`的更新設計規範，請將`year2023`旗標設為`false`：
+To opt into the updated design spec for the `CircularProgressIndicator`,
+set the `year2023` flag to `false`:
 
 ```dart highlightLines=2
 CircularProgressIndicator(
@@ -77,7 +82,9 @@ CircularProgressIndicator(
 ),
 ```
 
-若要將整個應用程式更新為使用新版的 `CircularProgressIndicator` 設計，請在您的 `MaterialApp` 中，將 `ProgressIndicatorThemeData.year2023` 屬性設為 `false`：
+To update your entire app to use the updated `CircularProgressIndicator` design,
+set the `ProgressIndicatorThemeData.year2023` property to `false` in your
+`MaterialApp`:
 
 ```dart highlightLines=2
 return MaterialApp(
@@ -90,28 +97,28 @@ return MaterialApp(
         // ...
 ```
 
-## 時程
+## Timeline
 
-合併於版本：3.28.0-0.1.pre<br>  
-正式版發佈於：3.29
+Landed in version: 3.28.0-0.1.pre<br>
+In stable release: 3.29
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-- [`LinearProgressIndicator`][`LinearProgressIndicator`]
-- [`CircularProgressIndicator`][`CircularProgressIndicator`]
-- [`LinearProgressIndicator.year2023`][`LinearProgressIndicator.year2023`]
-- [`CircularProgressIndicator.year2023`][`CircularProgressIndicator.year2023`]
+- [`LinearProgressIndicator`][]
+- [`CircularProgressIndicator`][]
+- [`LinearProgressIndicator.year2023`][]
+- [`CircularProgressIndicator.year2023`][]
 
-相關議題：
+Relevant issues:
 
-- [為 Material 3 重新設計更新兩個 `ProgressIndicator`][Update both `ProgressIndicator` for Material 3 redesign]
+- [Update both `ProgressIndicator` for Material 3 redesign][]
 
-相關 PR：
+Relevant PRs:
 
-- [為新視覺風格更新 Material 3 `LinearProgressIndicator`][Update Material 3 `LinearProgressIndicator` for new visual style]
-- [為新視覺風格更新 Material 3 `CircularProgressIndicator`][Update Material 3 `CircularProgressIndicator` for new visual style]
+- [Update Material 3 `LinearProgressIndicator` for new visual style][]
+- [Update Material 3 `CircularProgressIndicator` for new visual style][]
 
 [`LinearProgressIndicator`]: {{site.main-api}}/flutter/material/LinearProgressIndicator-class.html
 [`CircularProgressIndicator`]: {{site.main-api}}/flutter/material/CircularProgressIndicator-class.html

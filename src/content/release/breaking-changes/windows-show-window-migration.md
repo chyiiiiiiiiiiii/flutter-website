@@ -1,29 +1,29 @@
 ---
-title: 將 Windows 專案遷移以確保視窗顯示
-description: 如何更新 Windows 專案以確保視窗顯示
+title: Migrate a Windows project to ensure the window is shown
+description: How to update a Windows project to ensure the window is shown
 ---
 
 {% render docs/breaking-changes.md %}
 
-Flutter 3.13 修復了一個[錯誤][bug]，該錯誤可能導致視窗無法顯示。
-使用 Flutter 3.7 或 Flutter 3.10 建立的 Windows 專案需要進行遷移，
-以修正此問題。
+Flutter 3.13 fixed a [bug][] that could result in the window not being shown.
+Windows projects created using Flutter 3.7 or Flutter 3.10 need to be migrated
+to fix this issue.
 
 [bug]: {{site.repo.flutter}}/issues/119415
 
-## 遷移步驟
+## Migration steps
 
-請使用 `flutter --version` 確認你目前使用的是 Flutter 3.13 或更新版本。
-如有需要，請使用 `flutter upgrade` 更新至最新版本的
-Flutter SDK（Flutter 軟體開發套件）。
+Verify you are on Flutter version 3.13 or newer using `flutter --version`.
+If needed, use `flutter upgrade` to update to the latest version of the
+Flutter SDK.
 
-尚未修改過 `windows/runner/flutter_window.cpp` 檔案的專案，
-將會由 `flutter run` 或 `flutter build windows` 自動完成遷移。
+Projects that have not modified their `windows/runner/flutter_window.cpp` file
+will be migrated automatically by `flutter run` or `flutter build windows`.
 
-已經修改過 `windows/runner/flutter_window.cpp` 檔案的專案，
-則可能需要手動遷移。
+Projects that have modified their `windows/runner/flutter_window.cpp` file might
+need to migrate manually.
 
-遷移前的程式碼：
+Code before migration:
 
 ```cpp
 flutter_controller_->engine()->SetNextFrameCallback([&]() {
@@ -31,7 +31,7 @@ flutter_controller_->engine()->SetNextFrameCallback([&]() {
 });
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```cpp
 flutter_controller_->engine()->SetNextFrameCallback([&]() {
@@ -44,10 +44,10 @@ flutter_controller_->engine()->SetNextFrameCallback([&]() {
 flutter_controller_->ForceRedraw();
 ```
 
-## 範例
+## Example
 
-[PR 995][PR 995] 展示了
-[Flutter Gallery][Flutter Gallery] 應用程式的遷移作業。
+[PR 995][] shows the migration work for the
+[Flutter Gallery][] app.
 
 [PR 995]: {{site.repo.gallery-archive}}/pull/995/files
 [Flutter Gallery]: {{site.gallery-archive}}

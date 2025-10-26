@@ -1,6 +1,6 @@
 ---
-title: 建立水平清單
-description: 如何實作水平清單。
+title: Create a horizontal list
+description: How to implement a horizontal list.
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,12 +8,12 @@ js:
 
 <?code-excerpt path-base="cookbook/lists/horizontal_list"?>
 
-有時你可能希望建立一個可以
-水平捲動（而不是垂直捲動）的清單。
-[`ListView`][`ListView`] 元件（Widget）支援水平清單。
+You might want to create a list that scrolls
+horizontally rather than vertically.
+The [`ListView`][] widget supports horizontal lists.
 
-請使用標準的 `ListView` 建構函式（constructor），並傳入一個水平的
-`scrollDirection`，這樣就能覆寫預設的垂直方向。
+Use the standard `ListView` constructor, passing in a horizontal
+`scrollDirection`, which overrides the default vertical direction.
 
 <?code-excerpt "lib/main.dart (ListView)" replace="/^child\: //g"?>
 ```dart
@@ -30,14 +30,16 @@ ListView(
 ),
 ```
 
-## 互動範例
+## Interactive example
 
-:::note 桌面與網頁注意事項
-此範例可在瀏覽器與桌面上運作。
-然而，因為這個清單是沿著水平軸（由左至右或由右至左）捲動，
-請在使用滑鼠滾輪捲動清單時，同時按住<kbd>Shift</kbd>鍵。
+:::note Desktop and web note
+This example works in the browser and on the desktop.
+However, as this list scrolls on the horizontal axis
+(left to right or right to left),
+hold <kbd>Shift</kbd> while using the mouse scroll wheel to scroll the list.
 
-想了解更多，請參閱[breaking change][breaking change]頁面，瞭解關於捲動裝置預設拖曳行為的說明。
+To learn more, read the [breaking change][] page on the
+default drag for scrolling devices.
 :::
 
 <?code-excerpt "lib/main.dart"?>
@@ -79,7 +81,7 @@ class MyApp extends StatelessWidget {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/horizontal-list.webp" alt="水平清單示範" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/horizontal-list.webp" alt="Horizontal List Demo" class="site-mobile-screenshot" />
 </noscript>
 
 [breaking change]: /release/breaking-changes/default-scroll-behavior-drag

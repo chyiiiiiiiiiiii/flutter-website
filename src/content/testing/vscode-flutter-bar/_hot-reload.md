@@ -1,1 +1,1 @@
-![小型黃色閃電圖示，表示在不重設任何狀態值的情況下，重新載入 Flutter 應用程式的 UI](/assets/images/docs/testing/debugging/vscode-ui/icons/hot-reload.png)
+![Small yellow lightning bolt that indicates reloading the UI of a Flutter app without resetting any state values](/assets/images/docs/testing/debugging/vscode-ui/icons/hot-reload.png)

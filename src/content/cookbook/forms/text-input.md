@@ -1,6 +1,6 @@
 ---
-title: 建立並設計文字欄位 (text field)
-description: 如何實作文字欄位 (text field)。
+title: Create and style a text field
+description: How to implement a text field.
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,22 +8,25 @@ js:
 
 <?code-excerpt path-base="cookbook/forms/text_input/"?>
 
-文字欄位 (text field) 讓使用者可以在應用程式中輸入文字。
-它們常用於建立表單、傳送訊息、打造搜尋體驗等多種情境。
-在本教學中，將介紹如何建立並設計文字欄位。
+Text fields allow users to type text into an app.
+They are used to build forms,
+send messages, create search experiences, and more.
+In this recipe, explore how to create and style text fields.
 
-Flutter 提供了兩種文字欄位：
-[`TextField`][`TextField`] 和 [`TextFormField`][`TextFormField`]。
+Flutter provides two text fields:
+[`TextField`][] and [`TextFormField`][].
 
 ## `TextField`
 
-[`TextField`][`TextField`] 是最常用的文字輸入元件 (text input widget)。
+[`TextField`][] is the most commonly used text input widget.
 
-預設情況下，`TextField` 會以底線進行裝飾 (underline)。
-你可以透過提供 [`InputDecoration`][`InputDecoration`] 作為 `TextField` 的 [`decoration`][`decoration`] 屬性，
-來新增標籤 (label)、圖示 (icon)、內嵌提示文字 (inline hint text) 以及錯誤訊息 (error text)。
-若要完全移除裝飾（包含底線與為標籤預留的空間），
-請將 `decoration` 設為 null。
+By default, a `TextField` is decorated with an underline.
+You can add a label, icon, inline hint text, and error text by supplying an
+[`InputDecoration`][] as the [`decoration`][]
+property of the `TextField`.
+To remove the decoration entirely (including the
+underline and the space reserved for the label),
+set the `decoration` to null.
 
 <?code-excerpt "lib/main.dart (TextField)" replace="/^child\: //g"?>
 ```dart
@@ -35,13 +38,16 @@ TextField(
 ),
 ```
 
-若要在值變更時取得其值，請參考 [處理文字欄位變更][Handle changes to a text field] 教學。
+To retrieve the value when it changes,
+see the [Handle changes to a text field][] recipe.
 
 ## `TextFormField`
 
-[`TextFormField`][`TextFormField`] 包裝了一個 `TextField`，並將其與外層的 [`Form`][`Form`] 整合。  
-這樣可以提供額外的功能，例如驗證，以及與其他  
-[`FormField`][`FormField`] 元件（Widgets）的整合。
+[`TextFormField`][] wraps a `TextField` and integrates it
+with the enclosing [`Form`][].
+This provides additional functionality,
+such as validation and integration with other
+[`FormField`][] widgets.
 
 <?code-excerpt "lib/main.dart (TextFormField)" replace="/^child\: //g"?>
 ```dart
@@ -53,7 +59,7 @@ TextFormField(
 ),
 ```
 
-## 互動範例
+## Interactive example
 
 <?code-excerpt "lib/main.dart" replace="/^child\: //g"?>
 ```dartpad title="Flutter text input hands-on example in DartPad" run="true"
@@ -109,8 +115,8 @@ class MyCustomForm extends StatelessWidget {
 }
 ```
 
-如需有關輸入驗證（input validation）的更多資訊，請參閱
-[Building a form with validation][Building a form with validation] 教學範例。
+For more information on input validation, see the
+[Building a form with validation][] recipe.
 
 
 [Building a form with validation]: /cookbook/forms/validation/

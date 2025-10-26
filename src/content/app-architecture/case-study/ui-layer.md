@@ -1,36 +1,47 @@
 ---
-title: UI 層案例研究
-shortTitle: UI 層
+title: UI layer case study
+shortTitle: UI layer
 description: >-
-  以一個實作 MVVM 架構的應用程式為例，逐步說明其 UI 層設計。
+  A walk-through of the UI layer of an app that implements MVVM architecture.
 prev:
-  title: 案例研究總覽
+  title: Case study overview
   path: /app-architecture/case-study
 next:
-  title: 資料層
+  title: Data Layer
   path: /app-architecture/case-study/data-layer
 ---
 
-每個 Flutter 應用程式中各個功能的 [UI 層][UI layer]，應由兩個元件組成：**[`View`][`View`]** 和 **[`ViewModel`][`ViewModel`]**。
+The [UI layer][] of each feature in your Flutter application should be
+made up of two components: a **[`View`][]** and
+a **[`ViewModel`][].**
 
-![Compass app 預約螢幕的截圖。](/assets/images/docs/app-architecture/case-study/mvvm-case-study-ui-layer-highlighted.png)
+![A screenshot of the booking screen of the compass app.](/assets/images/docs/app-architecture/case-study/mvvm-case-study-ui-layer-highlighted.png)
 
-一般來說，view model 負責管理 UI 狀態，而 view 則負責顯示 UI 狀態。
-view 和 view model 之間是一對一的關係；
-每個 view 都有一個對應的 view model 來管理該 view 的狀態。
-每一組 view 與 view model 構成單一功能的 UI。
-例如，一個應用程式可能有名為 `LogOutView` 和 `LogOutViewModel` 的類別。
+In the most general sense, view models manage UI state,
+and views display UI state.
+Views and view models have a one-to-one relationship;
+for each view, there's exactly one corresponding view model that
+manages that view's state.
+Each pair of view and view model make up the UI for a single feature.
+For example, an app might have classes called
+`LogOutView` and a `LogOutViewModel`.
 
-## 定義 view model
+## Define a view model
 
-view model 是一個負責處理 UI 邏輯的 Dart 類別。
-view model 以領域資料模型（domain data models）作為輸入，並將這些資料以 UI 狀態的形式暴露給其對應的 view。
-它們封裝了 view 可以綁定到事件處理器（例如按鈕點擊）的邏輯，並負責將這些事件傳送到應用程式的資料層，進行資料變更。
+A view model is a Dart class responsible for handling UI logic.
+View models take domain data models as input and expose that data as
+UI state to their corresponding views.
+They encapsulate logic that the view can attach to
+event handlers, like button presses, and
+manage sending these events to the data layer of the app,
+where data changes happen.
 
-以下程式碼片段為名為 `HomeViewModel` 的 view model 類別宣告。
-其輸入為提供資料的 [repositories][repositories]。
-在此情境下，
-view model 依賴於 `BookingRepository` 和 `UserRepository` 作為參數。
+The following code snippet is a class declaration for
+a view model class called the `HomeViewModel`.
+Its inputs are the [repositories][] that provide its data.
+In this case,
+the view model is dependent on the
+`BookingRepository`and `UserRepository` as arguments.
 
 ```dart title=home_viewmodel.dart
 class HomeViewModel {
@@ -48,17 +59,29 @@ class HomeViewModel {
 }
 ```
 
-View model（檢視模型）總是依賴於資料儲存庫（repository），而這些儲存庫會作為參數傳遞給 view model 的建構函式。view model 與 repository 之間是多對多的關係，大多數的 view model 會依賴多個 repository。
+View models are always dependent on data repositories,
+which are provided as arguments to the view model's constructor.
+view models and repositories have a many-to-many relationship,
+and most view models will depend on multiple repositories.
 
-如同先前 `HomeViewModel` 範例宣告所示，repository 應該作為 view model 的私有成員，否則 view 就能直接存取應用程式的資料層。
+As in the earlier `HomeViewModel` example declaration,
+repositories should be private members on the view model,
+otherwise views would have direct access to
+the data layer of the application.
 
-### UI 狀態
+### UI state
 
-view model 的輸出是 view 所需用來渲染的資料，通常稱為 **UI 狀態（UI State）**，或簡稱狀態（state）。UI 狀態是一個不可變的資料快照，包含完整渲染 view 所需的所有資料。
+The output of a view model is data that a view needs to render, generally
+referred to as **UI State**, or just state. UI state is an immutable snapshot of
+data that is required to fully render a view.
 
 ![A screenshot of the booking screen of the compass app.](/assets/images/docs/app-architecture/case-study/mvvm-case-study-ui-state-highlighted.png)
 
-view model 會將狀態作為公開成員對外暴露。在下方的程式碼範例中，view model 所暴露的資料是一個 `User` 物件，以及使用者儲存的行程，這部分則以 `List<BookingSummary>` 型別的物件對外提供。
+The view model exposes state as public members.
+On the view model in the following code example,
+the exposed data is a `User` object,
+as well as the user's saved itineraries which
+are exposed as an object of type `List<BookingSummary>`.
 
 ```dart title=home_viewmodel.dart
 class HomeViewModel {
@@ -86,10 +109,15 @@ class HomeViewModel {
 }
 ```
 
-如前所述，UI 狀態應該是不可變的。  
-這是打造無錯誤軟體的關鍵之一。
+As mentioned, the UI state should be immutable.
+This is a crucial part of bug-free software.
 
-Compass 應用程式使用 [`package:freezed`][`package:freezed`] 來強制資料類別（data classes）不可變。舉例來說，以下程式碼展示了 `User` 類別的定義。`freezed` 提供了深層不可變性，並自動產生像是 `copyWith` 和 `toJson` 等實用方法的實作。
+The compass app uses the [`package:freezed`][] to
+enforce immutability on data classes. For example,
+the following code shows the `User` class definition.
+`freezed` provides deep immutability,
+and generates the implementation for useful methods like
+`copyWith` and `toJson`.
 
 ```dart title=user.dart
 @freezed
@@ -107,22 +135,22 @@ class User with _$User {
 ```
 
 :::note
-在 view model 的範例中，
-需要兩個物件來渲染畫面（view）。
-隨著任一模型的 UI 狀態變得越來越複雜，
-一個 view model 可能會有更多來自
-更多資料儲存庫（repositories）的資料片段暴露給畫面使用。
-在某些情況下，
-你可能會想要建立專門代表 UI 狀態的物件。
-例如，你可以建立一個名為 `HomeUiState` 的類別。
+In the view model example,
+two objects are needed to render the view.
+As the UI state for any given model grows in complexity,
+a view model might have many more pieces of data from
+many more repositories exposed to the view.
+In some cases,
+you might want to create objects that specifically represent the UI state.
+For example, you could create a class named `HomeUiState`.
 :::
 
-### 更新 UI 狀態
+### Updating UI state
 
-除了儲存狀態之外，
-view model 也需要在資料層提供新狀態時，
-通知 Flutter 重新渲染畫面。
-在 Compass 應用程式中，view model 會繼承 [`ChangeNotifier`][`ChangeNotifier`] 來達成這個目的。
+In addition to storing state,
+view models need to tell Flutter to re-render views when
+the data layer provides a new state.
+In the Compass app, view models extend [`ChangeNotifier`][] to achieve this.
 
 ```dart title=home_viewmodel.dart
 class HomeViewModel [!extends ChangeNotifier!] {
@@ -144,26 +172,32 @@ class HomeViewModel [!extends ChangeNotifier!] {
 }
 ```
 
-`HomeViewModel.user` 是一個公開成員，供 view（檢視）所依賴。
-當有新資料從資料層流入，且需要發出新狀態時，會呼叫 [`notifyListeners`][`notifyListeners`]。
+`HomeViewModel.user` is a public member that the view depends on.
+When new data flows from the data layer and
+new state needs to be emitted, [`notifyListeners`][] is called.
 
 <figure>
 
 ![A screenshot of the booking screen of the compass app.](/assets/images/docs/app-architecture/case-study/mvvm-case-study-update-ui-steps.png)
 
     <figcaption>
-下圖從高層次說明了當 Repository 中有新資料時，
-這些資料如何向上傳遞到 UI 層，並觸發 Flutter 元件（Widgets）的重新建構。
+This figure shows from a high-level how new data in the repository
+propagates up to the UI layer and triggers a re-build of your Flutter widgets.
+    </figcaption>
+</figure>
 
-1. Repository 提供新的狀態給 view model。
-2. view model 更新其 UI 狀態以反映新資料。
-3. 呼叫 `ViewModel.notifyListeners`，通知 View 有新的 UI 狀態。
-4. View（元件）重新渲染。
+1. New state is provided to the view model from a Repository.
+2. The view model updates its UI state to reflect the new data.
+3. `ViewModel.notifyListeners` is called, alerting the View of new UI State.
+4. The view (widget) re-renders.
 
-舉例來說，當使用者導覽到 Home 螢幕並建立 view model 時，會呼叫 `_load` 方法。
-在此方法完成之前，UI 狀態是空的，畫面會顯示載入指示器。
-當 `_load` 方法完成後，如果成功，view model 中就會有新資料，
-此時必須通知 view 有新資料可用。
+For example, when the user navigates to the Home screen and the view model is
+created, the `_load` method is called.
+Until this method completes, the UI state is empty,
+the view displays a loading indicator.
+When the `_load` method completes, if it's successful,
+there's new data in the view model, and it must
+notify the view that new data is available.
 
 ```dart title=home_viewmodel.dart highlightLines=19
 class HomeViewModel extends ChangeNotifier {
@@ -191,28 +225,50 @@ class HomeViewModel extends ChangeNotifier {
 ```
 
 :::note
-`ChangeNotifier` 和 [`ListenableBuilder`][`ListenableBuilder`] (discussed later on this page) 都是 Flutter SDK（Flutter 軟體開發套件）的一部分，能夠在狀態變更時，為 UI 更新提供良好的解決方案。你也可以選擇使用更強大的第三方狀態管理解決方案，例如 [package:riverpod][package:riverpod]、[package:flutter_bloc][package:flutter_bloc] 或 [package:signals][package:signals]。這些函式庫提供了不同的工具來處理 UI 更新。你可以在我們的 [state-management documentation][state-management documentation] 了解更多關於使用 `ChangeNotifier` 的資訊。
+`ChangeNotifier` and [`ListenableBuilder`][] (discussed later on this page) are
+part of the Flutter SDK,
+and provide a good solution for updating the UI when state changes.
+You can also use a robust third-party state management solution,
+such as [package:riverpod][], [package:flutter_bloc][], or [package:signals][].
+These libraries offer different tools for handling UI updates.
+Read more about using `ChangeNotifier` in
+our [state-management documentation][].
 :::
 
-## 定義一個 view
+## Define a view
 
-View 是應用程式中的一個元件（Widget）。通常，一個 view 代表應用程式中的一個螢幕，擁有自己的路由，並且會在元件子樹的頂部包含一個 [`Scaffold`][`Scaffold`]，例如 `HomeScreen`，但這並非絕對。
+A view is a widget within your app.
+Often, a view represents one screen in your app that
+has its own route and includes a [`Scaffold`][] at the top of the
+widget subtree, such as the `HomeScreen`, but this isn't always the case.
 
-有時候，view 也可以是單一的 UI 元素，封裝了需要在整個應用程式中重複使用的功能。例如，Compass 應用程式有一個名為 `LogoutButton` 的 view，可以放在元件樹中的任何地方，讓使用者在期望看到登出按鈕的位置都能找到它。`LogoutButton` view 有自己的 view model，稱為 `LogoutViewModel`。而在較大的螢幕上，畫面上可能會同時出現多個 view，這些 view 在手機上會各自佔據整個螢幕。
+Sometimes a view is a single UI element that
+encapsulates functionality that needs to be re-used throughout the app.
+For example, the Compass app has a view called `LogoutButton`,
+which can be dropped anywhere in the widget tree that a user might
+expect to find a logout button.
+The `LogoutButton` view has its own view model called `LogoutViewModel`.
+And on larger screens, there might be multiple views on screen that
+would take up the full screen on mobile.
 
 :::note
-「View」是一個抽象術語，一個 view 不等於一個元件（Widget）。元件是可組合的，可以將多個元件組合成一個 view。因此，view model 並非與單一元件一對一對應，而是與一組元件（*collection* of widgets）一對一對應。
+"View" is an abstract term, and one view doesn't equal one widget.
+Widgets are composable, and several can be combined to create one view.
+Therefore, view models don't have a one-to-one relationship with widgets,
+but rather a one-to-one relation with a *collection* of widgets.
 :::
 
-一個 view 中的元件（Widgets）有三個主要責任：
+The widgets within a view have three responsibilities:
 
-* 顯示來自 view model 的資料屬性。
-* 監聽 view model 的更新，並在有新資料時重新渲染。
-* 將 view model 的回呼函式（callback）綁定到事件處理器（event handler），如果適用的話。
+* They display the data properties from the view model.
+* They listen for updates from the view model and re-render when new data is available.
+* They attach callbacks from the view model to event handlers, if applicable.
 
 ![A diagram showing a view's relationship to a view model.](/assets/images/docs/app-architecture/guide/feature-architecture-simplified-View-highlighted.png)
 
-以 Home 功能為例，以下程式碼展示了 `HomeScreen` view 的定義。
+
+Continuing the Home feature example,
+the following code shows the definition of the `HomeScreen` view.
 
 ```dart title=home_screen.dart
 class HomeScreen extends StatelessWidget {
@@ -229,15 +285,15 @@ class HomeScreen extends StatelessWidget {
 }
 ```
 
-大多數情況下，一個 view（檢視）的唯一輸入應該是 `key`，
-這是所有 Flutter 元件（Widgets）都可選擇性接收的參數，
-以及該 view 對應的 view model（檢視模型）。
+Most of the time, a view's only inputs should be a `key`,
+which all Flutter widgets take as an optional argument,
+and the view's corresponding view model.
 
-### 在 view 中顯示 UI 資料
+### Display UI data in a view
 
-一個 view 會依賴 view model 來取得其狀態。在 Compass 應用程式中，
-view model 會作為參數傳遞到 view 的建構子（constructor）中。
-以下範例程式碼片段來自 `HomeScreen` 元件（Widget）。
+A view depends on a view model for its state. In the Compass app,
+the view model is passed in as an argument in the view's constructor.
+The following example code snippet is from the `HomeScreen` widget.
 
 ```dart title=home_screen.dart
 class HomeScreen extends StatelessWidget {
@@ -252,9 +308,9 @@ class HomeScreen extends StatelessWidget {
 }
 ```
 
-在該元件（Widget）中，你可以透過`viewModel`存取傳遞進來的預訂資料（bookings）。
-在下方程式碼中，
-`booking`屬性被提供給子元件（sub-widget）。
+Within the widget, you can access the passed-in bookings from the `viewModel`.
+In the following code,
+the `booking` property is being provided to a sub-widget.
 
 ```dart title=home_screen.dart
 @override
@@ -287,12 +343,15 @@ class HomeScreen extends StatelessWidget {
       ),
 ```
 
-### 更新 UI
+### Update the UI
 
-`HomeScreen` 元件會透過 [`ListenableBuilder`][`ListenableBuilder`] 元件（Widget）來監聽來自 view model 的更新。
-在 `ListenableBuilder` 元件之下的元件子樹中，當所提供的 [`Listenable`][`Listenable`] 發生變化時，所有內容都會重新渲染。
-在這個案例中，所提供的 `Listenable` 就是 view model。
-請記得，view model 的型別是 [`ChangeNotifier`][`ChangeNotifier`]，而它是 `Listenable` 型別的子型別。
+The `HomeScreen` widget listens for updates from the view model with
+the [`ListenableBuilder`][] widget.
+Everything in the widget subtree under the `ListenableBuilder` widget
+re-renders when the provided [`Listenable`][] changes.
+In this case, the provided `Listenable` is the view model.
+Recall that the view model is of type [`ChangeNotifier`][]
+which is a subtype of the `Listenable` type.
 
 ```dart title=home_screen.dart
 @override
@@ -331,15 +390,19 @@ Widget build(BuildContext context) {
 }
 ```
 
-### 處理使用者事件
+### Handling user events
 
-最後，view（檢視）需要監聽來自使用者的*事件*，以便 view model（檢視模型）能夠處理這些事件。這通常是透過在 view model 類別上公開一個 callback（回呼）方法來實現，該方法封裝了所有相關邏輯。
+Finally, a view needs to listen for *events* from users,
+so the view model can handle those events.
+This is achieved by exposing a callback method on the view model class which
+encapsulates all the logic.
 
 ![A diagram showing a view's relationship to a view model.](/assets/images/docs/app-architecture/guide/feature-architecture-simplified-UI-highlighted.png)
 
-在`HomeScreen`中，使用者可以透過滑動 [`Dismissible`][`Dismissible`] 元件（Widget）來刪除先前預訂的事件。
+On the `HomeScreen`, users can delete previously booked events by swiping
+a [`Dismissible`][] widget.
 
-請回想前面程式碼片段中的這段程式碼：
+Recall this code from the previous snippet:
 
 {% render docs/code-and-image.md,
 image:"app-architecture/case-study/dismissible.webp",
@@ -362,9 +425,16 @@ SliverList.builder(
 ```
 " %}
 
-在`HomeScreen`上，使用者儲存的行程會由`_Booking`元件（Widget）表示。當`_Booking`被關閉（dismissed）時，會執行`viewModel.deleteBooking`方法。
+On the `HomeScreen`, a user's saved trip is represented by
+the `_Booking` widget. When a `_Booking` is dismissed,
+the `viewModel.deleteBooking` method is executed.
 
-已儲存的預訂（booking）屬於應用程式狀態（application state），這種狀態會在一個工作階段（session）或檢視（view）生命週期之外持續存在，且只有 repository（儲存庫）應該修改這類應用程式狀態。因此，`HomeViewModel.deleteBooking`方法會進一步呼叫資料層中由 repository 所公開的方法，如下方程式碼片段所示。
+A saved booking is application state that persists beyond
+a session or the lifetime of a view,
+and only repositories should modify such application state.
+So, the `HomeViewModel.deleteBooking` method turns around and
+calls a method exposed by a repository in the data layer,
+as shown in the following code snippet.
 
 ```dart title=home_viewmodel.dart highlightLines=3
 Future<Result<void>> _deleteBooking(int id) async {
@@ -388,23 +458,24 @@ Future<Result<void>> _deleteBooking(int id) async {
 }
 ```
 
-在 Compass 應用程式中，
-這些處理使用者事件的方法被稱為 **commands**（指令）。
+In the Compass app,
+these methods that handle user events are called **commands**.
 
-### Command 物件
+### Command objects
 
-Command 物件負責從 UI 層開始並回流至資料層的互動。在這個應用程式中，
-`Command` 也是一種協助安全更新 UI 的型別，
-無論回應時間或內容為何都能確保安全。
+Commands are responsible for the interaction that starts in the UI layer and
+flows back to the data layer. In this app specifically,
+a `Command` is also a type that helps update the UI safely,
+regardless of the response time or contents.
 
-`Command` 類別包裝了一個方法，
-並協助處理該方法的不同狀態，
-例如 `running`、`complete` 和 `error`。
-這些狀態讓顯示不同的 UI 變得容易，
-像是在 `Command.running` 為 true 時顯示載入指示器。
+The `Command` class wraps a method and
+helps handle the different states of that method,
+such as `running`, `complete`, and `error`.
+These states make it easy to display different UI,
+like loading indicators when `Command.running` is true.
 
-以下是 `Command` 類別的程式碼片段。
-部分程式碼為了展示目的已被省略。
+The following is code from the `Command` class.
+Some code has been omitted for demo purposes.
 
 ```dart title=command.dart
 abstract class Command<T> extends ChangeNotifier {
@@ -437,29 +508,29 @@ abstract class Command<T> extends ChangeNotifier {
 }
 ```
 
-`Command` 類別本身是繼承自 `ChangeNotifier`，
-並且在 `Command.execute` 方法中，
-會多次呼叫 `notifyListeners`。
-這讓 view（檢視）可以用非常少的邏輯來處理不同的狀態，
-稍後你會在本頁看到相關範例。
+The `Command` class itself extends `ChangeNotifier`,
+and within the method `Command.execute`,
+`notifyListeners` is called multiple times.
+This allows the view to handle different states with very little logic,
+which you'll see an example of later on this page.
 
-你可能也注意到 `Command` 是一個抽象類別（abstract class）。
-它會由具體實作的類別來實現，例如 `Command0` `Command1`。
-類別名稱中的整數代表
-底層方法所期望的參數數量。
-你可以在 Compass 應用程式的 [`utils` 目錄][`utils` directory]
-中看到這些實作類別的範例。
+You may have also noticed that `Command` is an abstract class.
+It's implemented by concrete classes such as `Command0` `Command1`.
+The integer in the class name refers to
+the number of arguments that the underlying method expects.
+You can see examples of these implementation classes in
+the Compass app's [`utils` directory][].
 
-:::tip 套件建議
-與其自行撰寫 `Command` 類別，
-建議使用 [`flutter_command`][`flutter_command`] 套件，
-這是一個健全的函式庫，已經實作了這類型的類別。
+:::tip Package recommendation
+Instead of writing your own `Command` class,
+consider using the [`flutter_command`][] package,
+which is a robust library that implements classes like these.
 :::
 
 
-### 確保 view 能在資料尚未存在時就能渲染
+### Ensuring views can render before data exists
 
-在 view model 類別中，指令（command）會在建構子（constructor）中建立。
+In view model classes, commands are created in the constructor.
 
 ```dart title=home_viewmodel.dart highlightLines=8-9,15-16,24-30
 class HomeViewModel extends ChangeNotifier {
@@ -497,7 +568,11 @@ class HomeViewModel extends ChangeNotifier {
 }
 ```
 
-`Command.execute` 方法是非同步的，因此無法保證當畫面（view）需要渲染時，資料已經可用。這正是 Compass 應用程式會使用 `Commands` 的原因所在。在 view 的 `Widget.build` 方法中，該指令會用來有條件地渲染不同的元件（Widgets）。
+The `Command.execute` method is asynchronous,
+so it can't guarantee that the data will be available when
+the view wants to render. This gets at *why* the Compass app uses `Commands`.
+In the view's `Widget.build` method,
+the command is used to conditionally render different widgets.
 
 ```dart title=home_screen.dart
 // ...
@@ -525,25 +600,29 @@ child: ListenableBuilder(
 // ...
 ```
 
-由於 `load` 指令是一個存在於 view model 上的屬性，而不是暫時性的東西，
-因此無論何時呼叫 `load` 方法或何時其被解決都沒有關係。
-例如，如果 load 指令在 `HomeScreen` 元件（Widget）尚未建立之前就已經完成，
-這也不是問題，因為 `Command` 物件仍然存在，
-並且會暴露出正確的狀態。
+Because the `load` command is a property that exists on
+the view model rather than something ephemeral,
+it doesn't matter when the `load` method is called or when it resolves.
+For example, if the load command resolves before
+the `HomeScreen` widget was even created,
+it isn't a problem because the `Command` object still exists,
+and exposes the correct state.
 
-這種模式標準化了解決應用程式中常見 UI 問題的方式，
-讓你的程式碼庫更不容易出錯且更具擴展性，
-但這並不是每個應用程式都會想要實作的模式。
-是否要採用這種模式，很大程度上取決於
-你做出的其他架構選擇。
-許多協助你管理狀態的函式庫都有
-自己的工具來解決這些問題。
-舉例來說，如果你在應用程式中使用
-[streams][streams] 和 [`StreamBuilders`][`StreamBuilders`]，
-Flutter 提供的 [`AsyncSnapshot`][`AsyncSnapshot`] 類別就內建了這項功能。
+This pattern standardizes how common UI problems are solved in the app,
+making your codebase less error-prone and more scalable,
+but it's not a pattern that every app will want to implement.
+Whether you want to use it is highly dependent on
+other architectural choices you make.
+Many libraries that help you manage state have
+their own tools to solve these problems.
+For example, if you were to use
+[streams][] and [`StreamBuilders`][] in your app,
+the [`AsyncSnapshot`][] classes provided by Flutter have
+this functionality built in.
 
-:::note 真實案例
-在開發 Compass 應用程式時，我們發現了一個透過 Command 模式解決的 bug。[在 GitHub 上閱讀相關內容][Read about it on GitHub]。
+:::note Real world example
+While building the Compass app, we found a bug that was solved by using
+the Command pattern. [Read about it on GitHub][].
 :::
 
 [UI layer]: /app-architecture/guide#ui-layer
@@ -569,9 +648,9 @@ Flutter 提供的 [`AsyncSnapshot`][`AsyncSnapshot`] 類別就內建了這項功
 [package:flutter_bloc]: {{site.pub-pkg}}/flutter_bloc
 [package:signals]: {{site.pub-pkg}}/signals
 
-## 意見回饋
+## Feedback
 
-由於本網站的這個部分仍在持續演進中，
-我們[歡迎你的意見回饋][welcome your feedback]！
+As this section of the website is evolving,
+we [welcome your feedback][]!
 
 [welcome your feedback]: https://google.qualtrics.com/jfe/form/SV_4T0XuR9Ts29acw6?page="case-study/ui-layer"

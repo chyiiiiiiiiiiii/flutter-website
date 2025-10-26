@@ -1,20 +1,24 @@
 ---
-title: Flutter 元件索引 (widget index)
-description: Flutter 元件 (Widgets) 的字母排序清單。
-shortTitle: 元件 (Widgets)
+title: Flutter widget index
+description: An alphabetical list of Flutter widgets.
+shortTitle: Widgets
 showBreadcrumbs: false
 ---
 
 {% assign sorted = catalog.widgets | sort:'name' -%}
 
-這是一份以字母順序排列的 Flutter 內建元件 (Widgets) 清單。
-你也可以[依類別瀏覽元件][catalog]。
+This is an alphabetical list of many of the widgets that
+are bundled with Flutter.
+You can also [browse widgets by category][catalog].
 
-你也可以前往 [Flutter YouTube 頻道]({{site.social.youtube}})，觀看我們的「Widget of the Week」影片系列。每集短片都會介紹不同的 Flutter 元件 (Widget)。更多影片系列，請參閱我們的[影片](/resources/videos)頁面。
+You might also want to check out our Widget of the Week video series
+on the [Flutter YouTube channel]({{site.social.youtube}}). Each short
+episode features a different Flutter widget. For more video series, see
+our [videos](/resources/videos) page.
 
 {% ytEmbed 'b_sQ9bMltGU', 'Introducing the Flutter Widget of the Week' %}
 
-[Widget of the Week 播放清單]({{site.yt.playlist}}PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG)
+[Widget of the Week playlist]({{site.yt.playlist}}PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG)
 
 <div class="card-grid">
 {% for comp in sorted -%}

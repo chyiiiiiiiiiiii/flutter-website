@@ -1,7 +1,7 @@
 ---
-title: 使用主題 (Themes) 來共用顏色與字型樣式
-shortTitle: 主題 (Themes)
-description: 如何使用主題 (Themes) 在整個應用程式中共用顏色與字型樣式。
+title: Use themes to share colors and font styles
+shortTitle: Themes
+description: How to share colors and font styles throughout an app using Themes.
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -10,39 +10,42 @@ js:
 <?code-excerpt path-base="cookbook/design/themes"?>
 
 :::note
-本教學範例使用 Flutter 對 [Material 3][Material 3] 的支援以及
-[google_fonts][google_fonts] 套件。自 Flutter 3.16 版本起，
-Material 3 已成為 Flutter 的預設主題。
+This recipe uses Flutter's support for [Material 3][] and
+the [google_fonts][] package. As of the Flutter 3.16 release,
+Material 3 is Flutter's default theme.
 :::
 
 [Material 3]: /ui/design/material
 [google_fonts]: {{site.pub-pkg}}/google_fonts
 
-若要在整個應用程式中共用顏色與字型樣式，請使用主題 (Themes)。
+To share colors and font styles throughout an app, use themes.
 
-你可以定義應用程式全域的主題。
-你也可以擴充主題，針對單一元件 (Widget) 修改主題樣式。
-每個主題都定義了適用於各種 Material 元件 (Material components) 的顏色、字體樣式及其他參數。
+You can define app-wide themes.
+You can extend a theme to change a theme style for one component.
+Each theme defines the colors, type style, and other parameters
+applicable for the type of Material component.
 
-Flutter 會依照以下順序套用樣式：
+Flutter applies styling in the following order:
 
-1. 套用於特定元件 (Widget) 的樣式。
-1. 覆蓋最近父主題的主題。
-1. 全應用程式的主要主題。
+1. Styles applied to the specific widget.
+1. Themes that override the immediate parent theme.
+1. Main theme for the entire app.
 
-定義好 `Theme` 之後，可以在你自己的元件 (Widget) 中使用它。
-Flutter 的 Material 元件 (Material widgets) 會依據你的主題，設定應用程式列、按鈕、核取方塊等的背景顏色與字型樣式。
+After you define a `Theme`, use it within your own widgets.
+Flutter's Material widgets use your theme to set the background
+colors and font styles for app bars, buttons, checkboxes, and more.
 
-## 建立應用程式主題
+## Create an app theme
 
-若要在整個應用程式中共用 `Theme`，請將 `theme` 屬性
-設為你的 `MaterialApp` 建構函式。
-這個屬性接受一個 [`ThemeData`][`ThemeData`] 實例。
+To share a `Theme` across your entire app, set the `theme` property
+to your `MaterialApp` constructor.
+This property takes a [`ThemeData`][] instance.
 
-自 Flutter 3.16 版本起，Material 3 已成為 Flutter 的預設主題。
+As of the Flutter 3.16 release, Material 3 is Flutter's
+default theme.
 
-如果你沒有在建構函式中指定主題，
-Flutter 會自動為你建立一個預設主題。
+If you don't specify a theme in the constructor,
+Flutter creates a default theme for you.
 
 <?code-excerpt "lib/main.dart (MaterialApp)" replace="/return //g"?>
 ```dart
@@ -76,29 +79,29 @@ MaterialApp(
 );
 ```
 
-大多數 `ThemeData` 的實例會設定以下兩個屬性的值。這些屬性會影響整個應用程式。
+Most instances of `ThemeData` set values for the following two properties. These properties affect the entire app.
 
-1. [`colorScheme`][`colorScheme`] 定義顏色。
-1. [`textTheme`][`textTheme`] 定義文字樣式。
+1. [`colorScheme`][] defines the colors.
+1. [`textTheme`][] defines text styling.
 
 [`colorScheme`]: {{site.api}}/flutter/material/ThemeData/colorScheme.html
 [`textTheme`]: {{site.api}}/flutter/material/ThemeData/textTheme.html
 
-若想了解可以定義哪些顏色、字型及其他屬性，
-請參閱 [`ThemeData`][`ThemeData`] 文件。
+To learn what colors, fonts, and other properties, you can define,
+check out the [`ThemeData`][] documentation.
 
-## 套用主題
+## Apply a theme
 
-要套用新的主題，請在指定元件（Widget）樣式屬性時，
-使用 `Theme.of(context)` 方法。
-這些屬性可以包含（但不限於）`style` 和 `color`。
+To apply your new theme, use the `Theme.of(context)` method
+when specifying a widget's styling properties.
+These can include, but are not limited to, `style` and `color`.
 
-`Theme.of(context)` 方法會向上查找元件樹，並取得
-樹中最近的 `Theme`。
-如果你有獨立的 `Theme`，就會套用該主題。
-否則，Flutter 會套用應用程式的主題。
+The `Theme.of(context)` method looks up the widget tree and retrieves
+the nearest `Theme` in the tree.
+If you have a standalone `Theme`, that's applied.
+If not, Flutter applies the app's theme.
 
-在以下範例中，`Container` 建構函式利用這個技巧來設定其 `color`。
+In the following example, the `Container` constructor uses this technique to set its `color`.
 
 <?code-excerpt "lib/main.dart (Container)" replace="/^child: //g"?>
 ```dart
@@ -115,18 +118,21 @@ Container(
 ),
 ```
 
-## 覆寫主題
+## Override a theme
 
-若要在應用程式的某個區域覆寫整體主題，請將該區域包裹在`Theme`元件（Widget）中。
+To override the overall theme in part of an app,
+wrap that section of the app in a `Theme` widget.
 
-你可以用兩種方式來覆寫主題：
+You can override a theme in two ways:
 
-1. 建立一個獨特的`ThemeData`實例。
-2. 延伸父層主題。
+1. Create a unique `ThemeData` instance.
+2. Extend the parent theme.
 
-### 設定獨特的`ThemeData`實例
+### Set a unique `ThemeData` instance
 
-如果你希望應用程式中的某個元件（Widget）忽略整體主題，請建立一個`ThemeData`實例，並將該實例傳遞給`Theme`元件（Widget）。
+If you want a component of your app to ignore the overall theme,
+create a `ThemeData` instance.
+Pass that instance to the `Theme` widget.
 
 <?code-excerpt "lib/main.dart (Theme)"?>
 ```dart
@@ -137,10 +143,10 @@ Theme(
 );
 ```
 
-### 擴充父主題
+### Extend the parent theme
 
-與其覆寫所有內容，不如考慮擴充父主題（parent theme）。
-要擴充主題，請使用 [`copyWith()`][`copyWith()`] 方法。
+Instead of overriding everything, consider extending the parent theme.
+To extend a theme, use the [`copyWith()`][] method.
 
 <?code-excerpt "lib/main.dart (ThemeCopyWith)"?>
 ```dart
@@ -154,13 +160,13 @@ Theme(
 );
 ```
 
-## 觀看`Theme`相關影片
+## Watch a video on `Theme`
 
-想了解更多，請觀看這段關於`Theme`元件（Widget）的短片 Widget of the Week：
+To learn more, watch this short Widget of the Week video on the `Theme` widget:
 
 {% ytEmbed 'oTvQDJOBXmM', 'Theme | Flutter widget of the week' %}
 
-## 試用互動範例
+## Try an interactive example
 
 <?code-excerpt "lib/main.dart (FullApp)"?>
 ```dartpad title="Flutter themes hands-on example in DartPad" run="true"
@@ -268,7 +274,7 @@ class MyHomePage extends StatelessWidget {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/themes.png" alt="主題示範" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/themes.png" alt="Themes Demo" class="site-mobile-screenshot" />
 </noscript>
 
 [`copyWith()`]: {{site.api}}/flutter/material/ThemeData/copyWith.html

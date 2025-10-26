@@ -1,73 +1,77 @@
 ---
-title: 進階 UI 功能
+title: Advanced UI features
 description: |
-  進階 UI 功能的溫和入門：自適應版面、sliver、滾動、導覽。
+  A gentle introduction into advanced UI features: adaptive layouts, slivers, scrolling, navigation.
 permalink: /tutorial/set-up-ui-102/
 ---
 
-在這個 Flutter 教學系列的第三部分，你將會使用
-Flutter 的 Cupertino 函式庫，打造一個 iOS
-聯絡人（Contacts）App 的部分複製版。
+In this third installment of the Flutter tutorial series, you'll use
+Flutter's Cupertino library to build a partial clone of the iOS
+Contacts app.
 
 <img src='/assets/images/docs/tutorial/rolodex_complete.png'
-width="100%" alt="完成的 Rolodex 聯絡人管理應用程式截圖，顯示按字母順序排列的聯絡人清單。">
+width="100%" alt="A screenshot of the completed Rolodex contact
+management app showing a list of contacts organized alphabetically.">
 
-完成本教學後，你將學會如何建立
-自適應版面、實作完整的主題化、建構導覽模式，以及運用進階的滾動技巧。
+By the end of this tutorial, you'll have learned how to create
+adaptive layouts, implement comprehensive theming, build navigation
+patterns, and use advanced scrolling techniques.
 
-## 你將學到什麼
+## What you'll learn
 
-本教學將探討以下主題：
+This tutorial explores the following topics:
 
-* 使用 `LayoutBuilder` 建立響應式版面。
-* 運用 sliver 與搜尋實現進階滾動效果。
-* 實作基於堆疊的導覽模式。
-* 利用 `CupertinoThemeData` 建立完整主題。
-* 支援明亮與深色主題。
-* 使用 Cupertino 元件 (Widgets) 創建 iOS 風格的 UI。
+* Building responsive layouts with `LayoutBuilder`.
+* Using advanced scrolling with slivers and search.
+* Implementing stack-based navigation patterns.
+* Creating comprehensive themes with `CupertinoThemeData`.
+* Supporting both light and dark themes.
+* Creating an iOS-style UI using Cupertino widgets.
 
-本教學假設你已完成前面的 Flutter 教學，
-並且熟悉基本的元件（Widget）組合、狀態管理，
-以及 Flutter 專案結構。
+This tutorial assumes that you've completed the previous Flutter tutorials
+and are comfortable with basic widget composition, state management,
+and the Flutter project structure.
 
-## 建立新的 Flutter 專案
+## Create a new Flutter project
 
-要建立 Flutter 應用程式，首先需要一個 Flutter 專案。你可以
-使用 [Flutter CLI tool][Flutter CLI tool]（隨 Flutter SDK 一併安裝）
-來建立新的應用程式。
+To build a Flutter app, you first need a Flutter project. You can
+create a new app with the [Flutter CLI tool][], which is installed as part of the
+Flutter SDK.
 
-請打開終端機或命令提示字元，並執行以下指令來
-建立新的 Flutter 專案：
+Open your terminal or command prompt, and run the following command to
+create a new Flutter project:
 
 ```shell
 $ flutter create rolodex --empty
 ```
 
-此指令會建立一個使用最小「空白」範本的 Flutter 專案。
+This command creates a new Flutter project that uses the minimal "empty" template.
 
-## 新增 Cupertino Icons 相依套件
+## Add the Cupertino Icons dependency
 
-此專案會使用 [`cupertino_icons` 套件][`cupertino_icons` package]，這是官方的 Flutter 套件。請執行以下指令，將其新增為相依套件：
+This project uses the [`cupertino_icons` package][], an official Flutter package.  Add it as a dependency by running the following command:
 
 ```shell
 $ flutter pub add cupertino_icons
 ```
 
-## 建立專案結構
+## Set up the project structure
 
-首先，為你的應用程式建立基本的目錄結構。在你的專案
-`lib` 目錄下，建立以下資料夾：
+First, create the basic directory structure for your app. In your project's
+`lib` directory, create the following folders:
 
 ```shell
 $ cd rolodex
 $ mkdir lib/data lib/screens lib/theme
 ```
 
-此指令會建立資料夾，將你的程式碼依照邏輯區塊進行組織：資料模型（data models）、螢幕元件（screen widgets），以及主題設定（theme configuration）。
+This command creates folders to organize your code into logical
+sections: data models, screen widgets, and theme configuration.
 
-## 取代起始程式碼
+## Replace the starter code
 
-在你的 IDE 中，開啟 `lib/main.dart` 檔案，並將其全部內容替換為以下的起始程式碼：
+In your IDE, open the `lib/main.dart` file, and replace its entire
+contents with the following starter code:
 
 ```dart
 import 'package:flutter/cupertino.dart';
@@ -99,26 +103,31 @@ class RolodexApp extends StatelessWidget {
 }
 ```
 
-與前兩個教學不同，本範例應用程式使用`CupertinoApp`，而非`MaterialApp`。Cupertino 設計系統提供了 iOS 風格的元件（Widgets）與樣式，非常適合打造在 Apple 裝置上具有原生體驗的應用程式。
+Unlike the previous two tutorials, this app uses `CupertinoApp`
+instead of `MaterialApp`. The Cupertino design system provides
+iOS-style widgets and styling, which is perfect for building apps that
+feel native on Apple devices.
 
-## 執行你的應用程式
+## Run your app
 
-在終端機中，於你的 Flutter 應用程式根目錄下，執行以下指令：
+In your terminal at the root of your Flutter app, run the following command:
 
 ```shell
 $ flutter run -d chrome
 ```
 
-應用程式會在新的 Chrome 實例中建置並啟動。畫面中央會顯示
-「Hello Rolodex!」。
+The app builds and launches in a new instance of Chrome. It displays
+"Hello Rolodex!" in the center of the screen.
 
-## 建立資料模型
+## Create the data models
 
-在開始建立 UI 之前，請先建立應用程式將會使用的資料結構與範例資料。本節僅做簡要說明，因為這不是本教學的重點。
+Before building the UI, create the data structures and sample data that
+the app will use. This section is lightly explained because it's not
+the focus of this tutorial.
 
-### `Contact` 資料
+### `Contact` data
 
-建立一個新檔案 `lib/data/contact.dart`，並新增基本的 `Contact` 類別：
+Create a new file, `lib/data/contact.dart`, and add the basic `Contact` class:
 
 ```dart
 // lib/data/contact.dart
@@ -310,12 +319,13 @@ final Set<Contact> allContacts = <Contact>{
 
 ```
 
-這份範例資料包含了有中間名和字尾、以及沒有中間名和字尾的聯絡人。這樣可以讓你在建立 UI 時，擁有多樣化的資料可供操作。
+This sample data includes contacts with and without middle names and
+suffixes. This gives you a variety of data to work with as you build the UI.
 
-### `ContactGroup` 資料
+### `ContactGroup` data
 
-現在，請建立聯絡人群組，將你的聯絡人組織成清單。  
-請建立一個新檔案 `lib/data/contact_group.dart`，並新增 `ContactGroup` 類別：
+Now, create the contact groups that organize your contacts into lists.
+Create a new file, `lib/data/contact_group.dart`, and add the `ContactGroup` class:
 
 ```dart
 // lib/data/contact_group.dart
@@ -374,9 +384,10 @@ class ContactGroup {
 }
 ```
 
-`ContactGroup` 代表一組聯絡人集合，例如「所有聯絡人」或「我的最愛」。
+A `ContactGroup` represents a collection of contacts, like "All Contacts"
+or "Favorites".
 
-請將以下輔助程式碼與範例資料加入同一個檔案中：
+Add the following helper code and sample data to the same file:
 
 ```dart
 // lib/data/contact_group.dart
@@ -431,9 +442,10 @@ List<ContactGroup> generateSeedData() {
 }
 ```
 
-這段程式碼建立了三個範例群組，以及一個用於產生應用程式初始資料的函式。
+This code creates three sample groups and a function to generate the initial
+data for the app.
 
-最後，新增一個用來管理狀態變化的類別：
+Finally, add a class that manages state changes:
 
 ```dart
 // lib/data/contact_group.dart
@@ -459,11 +471,14 @@ class ContactGroupsModel {
 }
 ```
 
-如果你尚未熟悉`ValueNotifier`，建議你在繼續之前先[完成前一個教學][complete the previous tutorial]，該教學涵蓋了狀態管理。
+If you aren't familiar with `ValueNotifier`, you should
+[complete the previous tutorial][] before continuing,
+which covers state management.
 
-## 將資料連接到你的應用程式
+## Connect the data to your app
 
-請更新你的`main.dart`，以納入全域狀態並匯入新的資料檔案：
+Update your `main.dart` to include the global state and import the new
+data file:
 
 ```dart
 // lib/main.dart
@@ -495,7 +510,8 @@ class RolodexApp extends StatelessWidget {
 }
 ```
 
-現在所有多餘的程式碼都已經清除，在下一課中，你將正式開始建立這個應用程式。
+With all of the extraneous code out of the way, in the next lesson,
+you'll start building the app in earnest.
 
 [Flutter CLI tool]: /reference/flutter-cli
 [complete the previous tutorial]: /tutorial/set-up-state-app

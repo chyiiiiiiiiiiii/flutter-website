@@ -1,34 +1,49 @@
 ---
-title: Form 元件（Widget）不再支援作為 sliver 使用
+title: The Form widget no longer supports being a sliver.
 description: >-
-  Form 元件（Widget）現在內含 semantics 元件，
-  因此無法再直接作為 sliver 使用。
+  The Form widget now includes a semantics widget,
+  which prevents it from being used directly as a sliver.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-過去，Form 元件（Widget）本質上只是直接包裹其子元件（child）。這樣的設計允許一個包含 sliver 子元件的 Form（例如：Form(child: 其他 sliver)）在 CustomScrollView 或其他類似可滾動父元件中，被當作 sliver 使用。
+Previously, the Form widget essentially acted as a direct wrapper
+around its child. This design allowed a Form containing a sliver child
+(e.g., Form(child: other sliver)) to be treated as a sliver itself
+ within a CustomScrollView or similar scrollable parent.
 
-然而，此 PR 在 Form 元件的內部結構中新增了一個 semantics 元件。這項變更改變了其渲染行為，意味著 Form 不再能直接作為 sliver 運作。
+However, This PR introduced a new semantics widget
+within the Form widget's internal structure. This change alters
+its rendering behavior, meaning Form can no longer directly
+function as a sliver.
 
-## 背景
+## Context
 
-這項變更是持續提升 Flutter 元件（Widgets）無障礙性與語意理解能力的努力之一。透過直接在 Form 內嵌 semantics 元件，框架能夠向無障礙服務提供更完善的資訊。
+This change is part of an ongoing effort to improve the
+accessibility and semantic understanding of Flutter widgets.
+By embedding a semantics widget directly within Form, the framework
+can provide better information to accessibility services.
 
-## 變更說明
+## Description of change
 
-這次的核心變動是在 Form 元件的 build 方法中整合了一個 semantics 元件。
+The core change is the integration of a semantics widget 
+into the Form widget's build method.
 
-## 遷移指南
+## Migration guide
 
-如果您的應用程式目前沒有直接將 Form 元件作為 sliver 放在可滾動清單中
-（例如：直接作為 CustomScrollView 的 slivers 屬性的子元件），則無需進行任何修改。
+If your app does not currently use the Form widget directly
+as a sliver within a scrollable list
+(e.g., as a direct child of CustomScrollView's slivers property),
+then no changes are required.
 
-如果您的應用程式有將 Form 作為 sliver 使用，您需要將 Form 元件包裹在 SliverToBoxAdapter 內。SliverToBoxAdapter 是一個可包含單一 box 元件的 sliver，能將一般元件轉換為可放入 CustomScrollView 的 sliver。
+If your app use Form as a sliver, you will need to wrap the Form
+widget within a SliverToBoxAdapter. SliverToBoxAdapter is a
+sliver that contains a single box widget, converting a regular
+widget into a sliver that can be placed in a CustomScrollView.
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 sliver: Form(
@@ -37,7 +52,7 @@ sliver: Form(
 )
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 sliver: SliverToBoxAdapter(
@@ -48,21 +63,21 @@ sliver: SliverToBoxAdapter(
 )
 ```
 
-## 時程
+## Timeline
 
-已於版本：3.35.0-pre<br>
-正式版本釋出：3.35
+Landed in version: 3.35.0-pre<br>
+In stable release: 3.35
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
 * [`Form`]({{site.api}}/flutter/widgets/Form-class.html)
 
-相關議題：
+Relevant issues:
 
 * [Issue 161628]({{site.repo.flutter}}/issues/161628)
 
-相關 PR：
+Relevant PRs:
 
 * [PR 170709: Add semantics role for form]({{site.repo.flutter}}/pull/170709)

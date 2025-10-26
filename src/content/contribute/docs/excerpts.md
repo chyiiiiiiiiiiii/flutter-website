@@ -1,17 +1,17 @@
 ---
-title: 程式碼摘錄
+title: Code excerpts
 description: >-
-  了解如何在 Dart 與 Flutter 文件網站中
-  新增與使用程式碼摘錄。
+  Learn about adding and using code excerpts
+  in the Dart and Flutter documentation sites.
 ---
 
 :::warning
-本文檔仍在撰寫中。
+This document is a work in progress.
 :::
 
-程式碼摘錄的來源位於根目錄 `/examples`。
+The source of code excerpts is in the root `/examples` directory.
 
-若要了解如何使用程式碼摘錄，
-請參閱 [excerpter tool README][excerpter tool README]。
+To learn how to use code excerpts,
+check out the [excerpter tool README][].
 
 [excerpter tool README]: https://github.com/dart-lang/site-shared/blob/main/pkgs/excerpter/README.md

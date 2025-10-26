@@ -1,35 +1,37 @@
 ---
-title: 編寫與使用片段著色器
-description: 如何撰寫並在 Flutter 應用程式中使用片段著色器，以創造自訂視覺效果。
-shortTitle: 片段著色器
+title: Writing and using fragment shaders
+description: How to author and use fragment shaders to create custom visual effects in your Flutter app.
+shortTitle: Fragment shaders
 ---
 
 :::note
-Skia 與 [Impeller][Impeller] 兩個後端皆支援撰寫
-自訂著色器。除非特別註明，否則以下說明
-皆適用於這兩者。
+Both the Skia and [Impeller][] backends support writing a
+custom shader. Except where noted, the same
+instructions apply to both.
 :::
 
 [Impeller]: /perf/impeller
 
-自訂著色器可用於提供比 Flutter SDK 更豐富的
-圖形效果。著色器是一種以類 Dart 語言（稱為 GLSL）撰寫的程式，
-並於使用者的 GPU 上執行。
+Custom shaders can be used to provide rich graphical effects
+beyond those provided by the Flutter SDK.
+A shader is a program authored in a small,
+Dart-like language, known as GLSL,
+and executed on the user's GPU.
 
-自訂著色器可透過在 `pubspec.yaml` 檔案中列出，
-並使用 [`FragmentProgram`][`FragmentProgram`] API 來取得，
-加入至 Flutter 專案中。
+Custom shaders are added to a Flutter project
+by listing them in the `pubspec.yaml` file,
+and obtained using the [`FragmentProgram`][] API.
 
 [`FragmentProgram`]: {{site.api}}/flutter/dart-ui/FragmentProgram-class.html
 
-## 將著色器加入應用程式
+## Adding shaders to an application
 
-著色器以副檔名為 `.frag` 的 GLSL 檔案形式存在，
-必須在專案的 `pubspec.yaml` 檔案中的 `shaders` 區段宣告。
-Flutter 命令列工具會將著色器編譯為
-相對應後端格式，
-並產生必要的執行期中繼資料。
-編譯後的著色器會如同資源 (Assets) 一樣被包含在應用程式中。
+Shaders, in the form of GLSL files with the `.frag` extension,
+must be declared in the `shaders` section of your project's `pubspec.yaml` file.
+The Flutter command-line tool compiles the shader
+to its appropriate backend format,
+and generates its necessary runtime metadata.
+The compiled shader is then included in the application just like an asset.
 
 ```yaml
 flutter:
@@ -37,18 +39,20 @@ flutter:
     - shaders/myshader.frag
 ```
 
-當在除錯模式（debug mode）下執行時，
-對著色器程式（shader program）的變更會觸發重新編譯，
-並在熱重載（hot reload）或熱重啟（hot restart）時更新著色器。
+When running in debug mode,
+changes to a shader program trigger recompilation
+and update the shader during hot reload or hot restart.
 
-從套件（package）引入的著色器會以`packages/$pkgname`作為著色器程式名稱的前綴，
-其中`$pkgname`是該套件的名稱。
+Shaders from packages are added to a project
+with `packages/$pkgname` prefixed to the shader program's name
+(where `$pkgname` is the name of the package).
 
-### 於執行時載入著色器
+### Loading shaders at runtime
 
-若要在執行時將著色器載入至`FragmentProgram`物件中，
-請使用 [`FragmentProgram.fromAsset`][`FragmentProgram.fromAsset`] 建構函式（constructor）。
-資源名稱與在`pubspec.yaml`檔案中指定的著色器路徑相同。
+To load a shader into a `FragmentProgram` object at runtime,
+use the [`FragmentProgram.fromAsset`][] constructor.
+The asset's name is the same as the path to the shader
+given in the `pubspec.yaml` file.
 
 [`FragmentProgram.fromAsset`]: {{site.api}}/flutter/dart-ui/FragmentProgram/fromAsset.html
 
@@ -58,9 +62,11 @@ void loadMyShader() async {
 }
 ```
 
-`FragmentProgram` 物件可用來建立一個或多個 [`FragmentShader`][`FragmentShader`] 實例。
-`FragmentShader` 物件代表一個片段程式（fragment program），以及一組特定的 _uniforms_（設定參數）。
-可用的 uniforms 取決於該著色器（shader）的定義方式。
+The `FragmentProgram` object can be used to create
+one or more [`FragmentShader`][] instances.
+A `FragmentShader` object represents a fragment program
+along with a particular set of _uniforms_ (configuration parameters).
+The available uniforms depends on how the shader was defined.
 
 [`FragmentShader`]: {{site.api}}/flutter/dart-ui/FragmentShader-class.html
 
@@ -74,13 +80,13 @@ void updateShader(Canvas canvas, Rect rect, FragmentProgram program) {
 
 ### Canvas API
 
-片段著色器（fragment shaders）可以搭配大多數 Canvas API 使用，
-只需設定 [`Paint.shader`][`Paint.shader`]。
-例如，當使用 [`Canvas.drawRect`][`Canvas.drawRect`] 時，
-著色器會對矩形內的所有片段進行運算。
-對於像 [`Canvas.drawPath`][`Canvas.drawPath`] 這類有描邊路徑（stroked path）的 API，
-著色器則會對描邊線內的所有片段進行運算。
-某些 API，例如 [`Canvas.drawImage`][`Canvas.drawImage`]，則會忽略著色器的值。
+Fragment shaders can be used with most Canvas APIs
+by setting [`Paint.shader`][].
+For example, when using [`Canvas.drawRect`][]
+the shader is evaluated for all fragments within the rectangle.
+For an API like [`Canvas.drawPath`][] with a stroked path,
+the shader is evaluated for all fragments within the stroked line.
+Some APIs, such as [`Canvas.drawImage`][], ignore the value of the shader.
 
 [`Canvas.drawImage`]:  {{site.api}}/flutter/dart-ui/Canvas/drawImage.html
 [`Canvas.drawRect`]:   {{site.api}}/flutter/dart-ui/Canvas/drawRect.html
@@ -109,13 +115,19 @@ void paint(Canvas canvas, Size size, FragmentShader shader) {
 
 ### ImageFilter API
 
-片段著色器（fragment shaders）也可以與 [`ImageFilter`][`ImageFilter`] API 一起使用。  
-這使你能夠將自訂片段著色器搭配 [`ImageFiltered`][`ImageFiltered`] 類別或 [`BackdropFilter`][`BackdropFilter`] 類別，將著色器應用於已經渲染完成的內容上。  
-[`ImageFilter`][`ImageFilter`] 提供了一個建構函式 [`ImageFilter.shader`][`ImageFilter.shader`]，可用來建立帶有自訂片段著色器的 [`ImageFilter`][`ImageFilter`]。
+Fragment shaders can also be used with the [`ImageFilter`][] API.
+This allows using custom fragment shaders with the
+[`ImageFiltered`][] class or the [`BackdropFilter`][] class
+to apply shaders to already rendered content.
+[`ImageFilter`][] provides a constructor, [`ImageFilter.shader`][],
+for creating an [`ImageFilter`][] with a custom fragment shader.
 
-使用 `ImageFilter` API 的片段著色器會自動從引擎接收一些數值。  
-索引 0 處的 `sampler2D` 值會被設為過濾器的輸入影像，而索引 0 和 1 處的 `float` 值則分別設為影像的寬度與高度。  
-你的著色器必須在建構函式中指定這些參數（例如，一個 `sampler2D` 和一個 `vec2`），但你不應該從 Dart 程式碼中自行設定這些值。
+Fragment shaders that use the `ImageFilter` API receive some
+values automatically from the engine. The `sampler2D` value at index 0
+is set to the filter input image, and the `float` values at indices 0
+and 1 are set to the image's width and height.
+Your shader must specify this constructor to accept these values (for example,
+a `sampler2D` and a `vec2`), but you should not set them from your Dart code.
 
 ```dart
 Widget build(BuildContext context, FragmentShader shader) {
@@ -134,8 +146,9 @@ Widget build(BuildContext context, FragmentShader shader) {
 }
 ```
 
-當你將 [`ImageFilter`][`ImageFilter`] 與 [`BackdropFilter`][`BackdropFilter`] 搭配使用時，可以使用 [`ClipRect`][`ClipRect`] 來限制 [`ImageFilter`][`ImageFilter`] 影響的區域。若沒有 [`ClipRect`][`ClipRect`]，則 [`BackdropFilter`][`BackdropFilter`] 會套用到整個螢幕。
-
+When using [`ImageFilter`][] with [`BackdropFilter`][], a [`ClipRect`][] can be
+used to limit the area that is affected by the [`ImageFilter`][]. Without a
+[`ClipRect`][] the [`BackdropFilter`][] will be applied to the whole screen.
 
 [`ImageFilter`]: {{site.api}}/flutter/dart-ui/ImageFilter-class.html
 [`ImageFiltered`]: {{site.api}}/flutter/widgets/ImageFiltered-class.html
@@ -143,34 +156,49 @@ Widget build(BuildContext context, FragmentShader shader) {
 [`ImageFilter.shader`]: {{site.api}}/flutter/dart-ui/ImageFilter/ImageFilter.shader.html
 [`ClipRect`]: {{site.api}}/flutter/widgets/ClipRect-class.html
 
-## 編寫著色器
+## Authoring shaders
 
-片段著色器（Fragment shaders）是以 GLSL 原始檔的形式編寫。按照慣例，這些檔案會使用 `.frag` 副檔名。（Flutter 不支援頂點著色器（vertex shaders），頂點著色器通常會使用 `.vert` 副檔名。）
+Fragment shaders are authored as GLSL source files.
+By convention, these files have the `.frag` extension.
+(Flutter doesn't support vertex shaders,
+which would have the `.vert` extension.)
 
-任何從 460 到 100 的 GLSL 版本皆受支援，但部分功能會受到限制。本文件後續範例皆採用 `460 core` 版本。
+Any GLSL version from 460 down to 100 is supported,
+though some available features are restricted.
+The rest of the examples in this document use version `460 core`.
 
-在 Flutter 中使用著色器時，會受到以下限制：
+Shaders are subject to the following limitations
+when used with Flutter:
 
-* 不支援 UBOs 和 SSBOs
-* 只支援 `sampler2D` 這一種取樣器（sampler）型別
-* 僅支援兩個參數版本的 `texture`（sampler 與 uv）
-* 不可宣告額外的 varying 輸入
-* 針對 Skia 目標時，所有 precision hints 會被忽略
-* 不支援無號整數與布林值
+* UBOs and SSBOs aren't supported
+* `sampler2D` is the only supported sampler type
+* Only the two-argument version of `texture` (sampler and uv) is supported
+* No additional varying inputs can be declared
+* All precision hints are ignored when targeting Skia
+* Unsigned integers and booleans aren't supported
 
 ### Uniforms
 
-你可以在 GLSL 著色器原始碼中定義 `uniform` 變數，並在 Dart 中為每個片段著色器實例設定這些值，藉此配置片段程式（fragment program）。
+A fragment program can be configured by defining
+`uniform` values in the GLSL shader source
+and then setting these values in Dart for
+each fragment shader instance.
 
-GLSL 浮點型 uniform 變數（型別為 `float`、`vec2`、`vec3`、`vec4`）可透過 [`FragmentShader.setFloat`][`FragmentShader.setFloat`] 方法設定。GLSL 取樣器（sampler）變數，型別為 `sampler2D`，則使用 [`FragmentShader.setImageSampler`][`FragmentShader.setImageSampler`] 方法設定。
+Floating point uniforms with the GLSL types
+`float`, `vec2`, `vec3`, and `vec4`
+are set using the [`FragmentShader.setFloat`][] method.
+GLSL sampler values, which use the `sampler2D` type,
+are set using the [`FragmentShader.setImageSampler`][] method.
 
-每個 `uniform` 變數的正確索引，取決於它們在片段程式中宣告的順序。對於由多個浮點數組成的資料型別（例如 `vec4`），你必須對每個值分別呼叫一次 [`FragmentShader.setFloat`][`FragmentShader.setFloat`]。
-
+The correct index for each `uniform` value is determined by the order
+that the uniform values are defined in the fragment program.
+For data types composed of multiple floats, such as a `vec4`,
+you must call [`FragmentShader.setFloat`][] once for each value.
 
 [`FragmentShader.setFloat`]: {{site.api}}/flutter/dart-ui/FragmentShader/setFloat.html
 [`FragmentShader.setImageSampler`]: {{site.api}}/flutter/dart-ui/FragmentShader/setImageSampler.html
 
-例如，假設在 GLSL 片段程式中有以下 uniform 宣告：
+For example, given the following uniforms declarations in a GLSL fragment program:
 
 ```glsl
 uniform float uScale;
@@ -179,7 +207,7 @@ uniform vec2 uMagnitude;
 uniform vec4 uColor;
 ```
 
-對應的 Dart 程式碼用於初始化這些 `uniform` 值如下所示：
+The corresponding Dart code to initialize these `uniform` values is as follows:
 
 ```dart
 void updateShader(FragmentShader shader, Color color, Image image) {
@@ -198,15 +226,20 @@ void updateShader(FragmentShader shader, Color color, Image image) {
  }
  ```
 
-請注意，與 [`FragmentShader.setFloat`][`FragmentShader.setFloat`] 搭配使用的索引並不包含 `sampler2D` uniform。
-這個 uniform 需要透過 [`FragmentShader.setImageSampler`][`FragmentShader.setImageSampler`] 另外設定，
-其索引會從 0 重新開始計算。
+Observe that the indices used with [`FragmentShader.setFloat`][]
+do not count the `sampler2D` uniform.
+This uniform is set separately with [`FragmentShader.setImageSampler`][],
+with the index starting over at 0.
 
-任何未初始化的 float uniform，預設值將為 `0.0`。
+Any float uniforms that are left uninitialized will default to `0.0`.
 
-#### 目前位置
+#### Current position
 
-著色器（shader）可以存取一個 `varying` 值，該值包含了當前被評估片段（fragment）的區域座標。你可以利用這個功能來計算依賴於目前位置的效果，這個位置可以透過匯入 `flutter/runtime_effect.glsl` 函式庫並呼叫 `FlutterFragCoord` 函式來取得。例如：
+The shader has access to a `varying` value that contains the local coordinates for
+the particular fragment being evaluated. Use this feature to compute
+effects that depend on the current position, which can be accessed by
+importing the `flutter/runtime_effect.glsl` library and calling the
+`FlutterFragCoord` function. For example:
 
 ```glsl
 #include <flutter/runtime_effect.glsl>
@@ -216,28 +249,32 @@ void main() {
 }
 ```
 
-從 `FlutterFragCoord` 回傳的值與 `gl_FragCoord` 是不同的。
-`gl_FragCoord` 提供螢幕空間座標，通常應避免使用，以確保著色器在不同後端之間的一致性。
-當目標為 Skia 後端時，
-對 `gl_FragCoord` 的呼叫會被重寫為存取本地座標，
-但這種重寫在 Impeller 上無法實現。
+The value returned from `FlutterFragCoord` is distinct from `gl_FragCoord`.
+`gl_FragCoord` provides the screen space coordinates and should generally be
+avoided to ensure that shaders are consistent across backends.
+When targeting a Skia backend,
+the calls to `gl_FragCoord` are rewritten to access local
+coordinates but this rewriting isn't possible with Impeller.
 
-#### 顏色（Colors）
+#### Colors
 
-沒有內建的顏色資料型別。
-通常會以 `vec4` 來表示顏色，
-每個分量分別對應 RGBA 顏色通道。
+There isn't a built-in data type for colors.
+Instead they are commonly represented as a `vec4`
+with each component corresponding to one of the RGBA
+color channels.
 
-單一輸出 `fragColor` 預期顏色值已正規化到 `0.0` 到 `1.0` 的範圍內，
-且已進行預乘 alpha（premultiplied alpha）。
-這與典型 Flutter 顏色不同，Flutter 顏色通常使用 `0-255` 值編碼，且為未預乘 alpha（unpremultiplied alpha）。
+The single output `fragColor` expects that the color value
+is normalized to be in the range of `0.0` to `1.0`
+and that it has premultiplied alpha.
+This is different than typical Flutter colors which use
+a `0-255` value encoding and have unpremultipled alpha.
 
-#### 取樣器（Samplers）
+#### Samplers
 
-取樣器（sampler）用來存取 `dart:ui` `Image` 物件。
-這個圖片可以從解碼後的圖片獲得，
-或是透過應用程式的一部分，使用
-[`Scene.toImageSync`][`Scene.toImageSync`] 或 [`Picture.toImageSync`][`Picture.toImageSync`] 取得。
+A sampler provides access to a `dart:ui` `Image` object.
+This image can be acquired either from a decoded image
+or from part of the application using
+[`Scene.toImageSync`][] or [`Picture.toImageSync`][].
 
 [`Picture.toImageSync`]: {{site.api}}/flutter/dart-ui/Picture/toImageSync.html
 [`Scene.toImageSync`]: {{site.api}}/flutter/dart-ui/Scene/toImageSync.html
@@ -256,38 +293,41 @@ void main() {
 }
 ```
 
-預設情況下，圖片會使用
-[`TileMode.clamp`][`TileMode.clamp`] 來決定超出
-`[0, 1]` 範圍的值該如何處理。
-目前不支援自訂平鋪模式（tile mode），如需自訂，需在 shader 中自行模擬實現。
+By default, the image uses
+[`TileMode.clamp`][] to determine how values outside
+of the range of `[0, 1]` behave.
+Customization of the tile mode is not
+supported and needs to be emulated in the shader.
 
 [`TileMode.clamp`]: {{site.api}}/flutter/dart-ui/TileMode.html
 
-### 效能考量
+### Performance considerations
 
-當目標後端為 Skia 時，
-載入 shader 可能會較為耗費資源，因為它
-必須在執行時編譯成對應平台的
-專屬 shader。
-如果你打算在動畫過程中使用一個或多個 shader，
-建議在動畫開始前預先快取（precaching）fragment program 物件。
+When targeting the Skia backend,
+loading the shader might be expensive since it
+must be compiled to the appropriate
+platform-specific shader at runtime.
+If you intend to use one or more shaders during an animation,
+consider precaching the fragment program objects before
+starting the animation.
 
-你可以在多個畫面間重複使用同一個 `FragmentShader` 物件；
-這比每一幀都建立新的 `FragmentShader` 更有效率。
+You can reuse a `FragmentShader` object across frames;
+this is more efficient than creating a new
+`FragmentShader` for each frame.
 
-如需撰寫高效能 shader 的詳細指南，
-請參考 GitHub 上的 [Writing efficient shaders][Writing efficient shaders]。
+For a more detailed guide on writing performant shaders,
+check out [Writing efficient shaders][] on GitHub.
 
 [Writing efficient shaders]: {{site.repo.flutter}}/blob/main/engine/src/flutter/impeller/docs/shader_optimization.md
 
-### 其他資源
+### Other resources
 
-如需更多資訊，以下是一些資源：
+For more information, here are a few resources.
 
-* [The Book of Shaders][The Book of Shaders]，作者為 Patricio Gonzalez Vivo 與 Jen Lowe
-* [Shader toy][Shader toy]，一個協作式的 shader 線上遊樂場
-* [`simple_shader`][`simple_shader`]，一個簡單的 Flutter fragment shaders 範例專案
-* [`flutter_shaders`][`flutter_shaders`]，一個簡化在 Flutter 中使用 fragment shaders 的套件
+* [The Book of Shaders][] by Patricio Gonzalez Vivo and Jen Lowe
+* [Shader toy][], a collaborative shader playground
+* [`simple_shader`][], a simple Flutter fragment shaders sample project
+* [`flutter_shaders`][], a package that simplifies using fragment shaders in Flutter
 
 [Shader toy]: https://www.shadertoy.com/
 [The Book of Shaders]: https://thebookofshaders.com/

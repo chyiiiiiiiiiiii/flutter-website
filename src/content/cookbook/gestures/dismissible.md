@@ -1,6 +1,6 @@
 ---
-title: 實作滑動以刪除
-description: 如何實作滑動以刪除或移除。
+title: Implement swipe to dismiss
+description: How to implement swiping to dismiss or delete.
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,37 +8,40 @@ js:
 
 <?code-excerpt path-base="cookbook/gestures/dismissible"?>
 
-「滑動以刪除」（swipe to dismiss）是一個在許多行動應用程式中常見的設計模式。
-例如，當你在開發一個電子郵件應用程式時，
-你可能會希望讓使用者能夠透過滑動的方式，
-將郵件訊息從清單中移除或刪除。
+The "swipe to dismiss" pattern is common in many mobile apps.
+For example, when writing an email app,
+you might want to allow a user to swipe away
+email messages to delete them from a list.
 
-Flutter 透過提供 [`Dismissible`][`Dismissible`] 元件（Widget），讓這項任務變得非常簡單。
-請依照以下步驟學習如何實作滑動以刪除：
+Flutter makes this task easy by providing the
+[`Dismissible`][] widget.
+Learn how to implement swipe to dismiss with the following steps:
 
-  1. 建立一個項目清單。
-  2. 將每個項目包裹在 `Dismissible` 元件中。
-  3. 提供「滑動後顯示」的指示元件。
+  1. Create a list of items.
+  2. Wrap each item in a `Dismissible` widget.
+  3. Provide "leave behind" indicators.
 
-## 1. 建立一個項目清單
+## 1. Create a list of items
 
-首先，建立一個項目清單。若需要更詳細的
-建立清單說明，請參考 [Working with long lists][Working with long lists] 教學。
+First, create a list of items. For detailed
+instructions on how to create a list,
+follow the [Working with long lists][] recipe.
 
-### 建立資料來源
+### Create a data source
 
-在這個範例中，
-你需要 20 個範例項目來進行操作。
-為了簡化流程，這裡會產生一個字串清單。
+In this example,
+you want 20 sample items to work with.
+To keep it simple, generate a list of strings.
 
 <?code-excerpt "lib/main.dart (Items)"?>
 ```dart
 final items = List<String>.generate(20, (i) => 'Item ${i + 1}');
 ```
 
-### 將資料來源轉換為清單
+### Convert the data source into a list
 
-在螢幕上顯示清單中的每個項目。使用者目前還無法將這些項目滑動移除。
+Display each item in the list on screen. Users won't
+be able to swipe these items away just yet.
 
 <?code-excerpt "lib/step1.dart (ListView)" replace="/^body: //g;/^\),$/)/g"?>
 ```dart
@@ -50,18 +53,18 @@ ListView.builder(
 )
 ```
 
-## 2. 將每個項目包裹在 Dismissible 元件中
+## 2. Wrap each item in a Dismissible widget
 
-在這個步驟中，
-透過使用 [`Dismissible`][`Dismissible`] 元件（Widget），
-讓使用者能夠將清單中的項目滑動移除。
+In this step,
+give users the ability to swipe an item off the list by using the
+[`Dismissible`][] widget.
 
-當使用者滑動移除項目後，
-請從清單中刪除該項目，並顯示一個 snackbar。
-在實際的應用程式中，你可能需要執行更複雜的邏輯，
-例如從網路服務或資料庫中移除該項目。
+After the user has swiped away the item,
+remove the item from the list and display a snackbar.
+In a real app, you might need to perform more complex logic,
+such as removing the item from a web service or database.
 
-請更新 `itemBuilder()` 函式，使其回傳一個 `Dismissible` 元件（Widget）：
+Update the `itemBuilder()` function to return a `Dismissible` widget:
 
 <?code-excerpt "lib/step2.dart (Dismissible)"?>
 ```dart
@@ -89,18 +92,18 @@ itemBuilder: (context, index) {
 },
 ```
 
-## 3. 提供「殘留」指示器
+## 3. Provide "leave behind" indicators
 
-目前為止，
-應用程式允許使用者將項目滑動移出清單，但並沒有
-在滑動時給予任何視覺上的提示。
-為了讓使用者知道項目已被移除，
-可以在他們將項目滑出螢幕時，顯示一個「殘留」指示器。
-在這個範例中，
-指示器是一個紅色背景。
+As it stands,
+the app allows users to swipe items off the list, but it doesn't
+give a visual indication of what happens when they do.
+To provide a cue that items are removed,
+display a "leave behind" indicator as they
+swipe the item off the screen. In this case,
+the indicator is a red background.
 
-要加入這個指示器，
-請在`Dismissible`中提供`background`參數。
+To add the indicator,
+provide a `background` parameter to the `Dismissible`.
 
 
 ```dart diff
@@ -114,7 +117,7 @@ itemBuilder: (context, index) {
   ),
 ```
 
-## 互動範例
+## Interactive example
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter Swipe to Dismiss hands-on example in DartPad" run="true"
@@ -183,7 +186,7 @@ class MyAppState extends State<MyApp> {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/dismissible.webp" alt="Dismissible 範例展示" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/dismissible.webp" alt="Dismissible Demo" class="site-mobile-screenshot" />
 </noscript>
 
 

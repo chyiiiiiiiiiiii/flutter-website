@@ -1,35 +1,35 @@
 ---
-title: v3.7 之後移除的已棄用 API
+title: Deprecated API removed after v3.7
 description: >
-  在達到生命週期結束後，以下已棄用的 API
-  已從 Flutter 中移除。
+  After reaching end of life, the following deprecated APIs
+  were removed from Flutter.
 ---
 
-## 摘要
+## Summary
 
-根據 Flutter 的 [棄用政策][Deprecation Policy]，
-在 3.7 穩定版發佈後達到生命週期結束的
-已棄用 API 已被移除。
+In accordance with Flutter's [Deprecation Policy][],
+deprecated APIs that reached end of life after the
+3.7 stable release have been removed.
 
-所有受影響的 API 已彙整於此主來源，
-以協助遷移作業。同時也提供了
-[快速參考表][quick reference sheet]。
+All affected APIs have been compiled into this
+primary source to aid in migration. A
+[quick reference sheet][] is available as well.
 
 [Deprecation Policy]: {{site.repo.flutter}}/blob/main/docs/contributing/Tree-hygiene.md#deprecations
 [quick reference sheet]: /go/deprecations-removed-after-3-7
 
-## 變更內容
+## Changes
 
-本節列出了依受影響類別分類的棄用項目。
+This section lists the deprecations, listed by the affected class.
 
-### `GestureRecognizer.kind` 及其子類別
+### `GestureRecognizer.kind` & subclasses
 
-Flutter Fix 支援：是
+Supported by Flutter Fix: yes
 
-`GestureRecognizer.kind` 於 v2.3 被棄用。
-請改用 `GestureRecognizer.supportedDevices`。
+`GestureRecognizer.kind` was deprecated in v2.3.
+Use `GestureRecognizer.supportedDevices` instead.
 
-此變更同樣影響 `GestureRecognizer` 的所有子類別：
+This same change affects all subclasses of `GestureRecognizer`:
 
 * `EagerGestureRecognizer`
 * `ForcePressGestureRecognizer`
@@ -48,12 +48,12 @@ Flutter Fix 支援：是
 * `PrimaryPointerGestureRecognizer`
 * `ScaleGestureRecognizer`
 
-此變更允許手勢可辨識多個裝置，
-而不再僅限於 `kind` 所提供的單一選項。
+This change allowed for multiple devices to be recognized for a gesture, rather
+than the single option `kind` provided.
 
-**遷移指南**
+**Migration guide**
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 var myRecognizer = GestureRecognizer(
@@ -61,7 +61,7 @@ var myRecognizer = GestureRecognizer(
 );
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 var myRecognizer = GestureRecognizer(
@@ -70,32 +70,32 @@ var myRecognizer = GestureRecognizer(
 
 ```
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`GestureRecognizer`][`GestureRecognizer`]
-* [`EagerGestureRecognizer`][`EagerGestureRecognizer`]
-* [`ForcePressGestureRecognizer`][`ForcePressGestureRecognizer`]
-* [`LongPressGestureRecognizer`][`LongPressGestureRecognizer`]
-* [`DragGestureRecognizer`][`DragGestureRecognizer`]
-* [`VerticalDragGestureRecognizer`][`VerticalDragGestureRecognizer`]
-* [`HorizontalDragGestureRecognizer`][`HorizontalDragGestureRecognizer`]
-* [`MultiDragGestureRecognizer`][`MultiDragGestureRecognizer`]
-* [`ImmediateMultiDragGestureRecognizer`][`ImmediateMultiDragGestureRecognizer`]
-* [`HorizontalMultiDragGestureRecognizer`][`HorizontalMultiDragGestureRecognizer`]
-* [`VerticalMultiDragGestureRecognizer`][`VerticalMultiDragGestureRecognizer`]
-* [`DelayedMultiDragGestureRecognizer`][`DelayedMultiDragGestureRecognizer`]
-* [`DoubleTapGestureRecognizer`][`DoubleTapGestureRecognizer`]
-* [`MultiTapGestureRecognizer`][`MultiTapGestureRecognizer`]
-* [`OneSequenceGestureRecognizer`][`OneSequenceGestureRecognizer`]
-* [`PrimaryPointerGestureRecognizer`][`PrimaryPointerGestureRecognizer`]
-* [`ScaleGestureRecognizer`][`ScaleGestureRecognizer`]
+* [`GestureRecognizer`][]
+* [`EagerGestureRecognizer`][]
+* [`ForcePressGestureRecognizer`][]
+* [`LongPressGestureRecognizer`][]
+* [`DragGestureRecognizer`][]
+* [`VerticalDragGestureRecognizer`][]
+* [`HorizontalDragGestureRecognizer`][]
+* [`MultiDragGestureRecognizer`][]
+* [`ImmediateMultiDragGestureRecognizer`][]
+* [`HorizontalMultiDragGestureRecognizer`][]
+* [`VerticalMultiDragGestureRecognizer`][]
+* [`DelayedMultiDragGestureRecognizer`][]
+* [`DoubleTapGestureRecognizer`][]
+* [`MultiTapGestureRecognizer`][]
+* [`OneSequenceGestureRecognizer`][]
+* [`PrimaryPointerGestureRecognizer`][]
+* [`ScaleGestureRecognizer`][]
 
-相關 PR：
+Relevant PRs:
 
-* 已在 [#81858][#81858] 標記為過時
-* 已在 [#119572][#119572] 移除
+* Deprecated in [#81858][]
+* Removed in [#119572][]
 
 [`GestureRecognizer`]: {{site.api}}/flutter/gestures/GestureRecognizer-class.html
 [`EagerGestureRecognizer`]: {{site.api}}/flutter/gestures/EagerGestureRecognizer-class.html
@@ -121,25 +121,28 @@ API 文件：
 
 ---
 
-### `ThemeData` `accentColor`、`accentColorBrightness`、`accentColorTextTheme`、`accentColorIconTheme` 以及 `buttonColor`
+### `ThemeData` `accentColor`, `accentColorBrightness`, `accentColorTextTheme`, `accentColorIconTheme`, and `buttonColor`
 
-Flutter Fix 支援：是
+Supported by Flutter Fix: yes
 
-`accentColor`、`accentColorBrightness`、`accentColorTextTheme`、
-`accentColorIconTheme` 以及 `buttonColor` 屬性在 v2.3 中已被標記為過時。
+The `accentColor`, `accentColorBrightness`, `accentColorTextTheme`,
+`accentColorIconTheme`, and `buttonColor` properties of `ThemeData` were
+deprecated in v2.3.
 
-此變更讓 `ThemeData` 更符合 Material Design 指引，同時也讓主題化更清晰，未來將依賴核心色彩方案或個別元件主題來達到所需的樣式。
+This change better aligned `ThemeData` with Material Design guidelines. It also
+created more clarity in theming by relying either on the core color scheme or
+individual component themes for desired styling.
 
-`accentColorBrightness`、`accentColorTextTheme`、
-`accentColorIconTheme` 以及 `buttonColor` 已不再被框架使用，
-請移除相關參考。
+The `accentColorBrightness`, `accentColorTextTheme`,
+`accentColorIconTheme`, and `buttonColor` are no longer used by the framework.
+References should be removed.
 
-`ThemeData.accentColor` 的使用應改為
-`ThemeData.colorScheme.secondary`。
+Uses of `ThemeData.accentColor` should be replaced with
+`ThemeData.colorScheme.secondary`.
 
-## 遷移指南
+## Migration guide
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 var myTheme = ThemeData(
@@ -150,7 +153,7 @@ var myTheme = ThemeData(
 var color = myTheme.accentColor;
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 var myTheme = ThemeData(
@@ -165,36 +168,36 @@ var myTheme = ThemeData(
 var color = myTheme.colorScheme.secondary;
 ```
 
-**參考資料**
+**References**
 
-* [重點色彩遷移指南][Accent color migration guide]
+* [Accent color migration guide][]
 
-API 文件：
+API documentation:
 
-* [`ThemeData`][`ThemeData`]
-* [`ColorScheme`][`ColorScheme`]
+* [`ThemeData`][]
+* [`ColorScheme`][]
 
-相關議題：
+Relevant issues:
 
-* [#56639][#56639]
-* [#84748][#84748]
-* [#56918][#56918]
-* [#91772][#91772]
+* [#56639][]
+* [#84748][]
+* [#56918][]
+* [#91772][]
 
-相關 PR：
+Relevant PRs:
 
-已棄用於：
+Deprecated in:
 
-* [#92822][#92822]
-* [#81336][#81336]
-* [#85144][#85144]
+* [#92822][]
+* [#81336][]
+* [#85144][]
 
-已移除於：
+Removed in:
 
-* [#118658][#118658]
-* [#119360][#119360]
-* [#120577][#120577]
-* [#120932][#120932]
+* [#118658][]
+* [#119360][]
+* [#120577][]
+* [#120932][]
 
 [Accent color migration guide]: /release/breaking-changes/theme-data-accent-properties
 [`ThemeData`]: {{site.api}}/flutter/widgets/Draggable-class.html
@@ -213,23 +216,26 @@ API 文件：
 
 ---
 
-### `AppBar`、`SliverAppBar` 和 `AppBarTheme` 更新
+### `AppBar`, `SliverAppBar`, and `AppBarTheme` updates
 
-Flutter Fix 支援：是
+Supported by Flutter Fix: yes
 
-在 v2.4 版本中，為了更貼近 Material Design，對 app bar 元件（Widgets）及其主題進行了多項調整。當時有多個屬性已被標記為棄用，現已移除。
+In v2.4, several changes were made ot the app bar classes and their themes to
+better align with Material Design. Several properties were deprecated at that
+time and have been removed.
 
-針對 `AppBar`、`SliverAppBar` 和 `AppBarTheme`：
+For `AppBar`, `SliverAppBar` and `AppBarTheme`:
 
-* `brightness` 已移除，請改用 `systemOverlayStyle`。
-* `textTheme` 已移除，請改用 `toolbarTextStyle` 或 `titleTextStyle`。
-* `backwardsCompatibility` 可直接移除，該屬性僅作為這些屬性的暫時遷移旗標。
+* `brightness` has been removed, and is replaced by `systemOverlayStyle`
+* `textTheme` has been removed, and is replaced by either `toolbarTextStyle` or `titleTextStyle`.
+* `backwardsCompatibility` can be removed, as it was a temporary migration flag for these properties.
 
-此外，`AppBarTheme.color` 也已移除，請改用 `AppBarTheme.backgroundColor`。
+Additionally, `AppBarTheme.color` was removed, with `AppBarTheme.backgroundColor`
+as its replacement.
 
-**遷移指南**
+**Migration guide**
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 var toolbarTextStyle = TextStyle(...);
@@ -245,7 +251,7 @@ AppBar(
 AppBarTheme(color: Colors.blue);
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 var toolbarTextStyle = TextStyle(...);
@@ -258,34 +264,34 @@ AppBar(
 AppBarTheme(backgroundColor: Colors.blue);
 ```
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`AppBar`][`AppBar`]
-* [`SliverAppBar`][`SliverAppBar`]
-* [`AppBarTheme`][`AppBarTheme`]
+* [`AppBar`][]
+* [`SliverAppBar`][]
+* [`AppBarTheme`][]
 
-相關議題：
+Relevant issues:
 
-* [#86127][#86127]
-* [#70645][#70645]
-* [#67921][#67921]
-* [#67497][#67497]
-* [#50606]⟧L23⟧
-* [#51820][#51820]
-* [#61618][#61618]
+* [#86127][]
+* [#70645][]
+* [#67921][]
+* [#67497][]
+* [#50606][]
+* [#51820][]
+* [#61618][]
 
-已棄用於：
+Deprecated in:
 
-* [#86198][#86198]
-* [#71184][#71184]
+* [#86198][]
+* [#71184][]
 
-已移除於：
+Removed in:
 
-* [#120618][#120618]
-* [#119253][#119253]
-* [#120575][#120575]
+* [#120618][]
+* [#119253][]
+* [#120575][]
 
 
 [`AppBar`]: {{site.api}}/flutter/material/AppBar-class.html
@@ -308,17 +314,22 @@ API 文件：
 
 ### `SystemChrome.setEnabledSystemUIOverlays`
 
-Flutter Fix 支援：是
+Supported by Flutter Fix: yes
 
-在 v2.3 版本中，`SystemChrome.setEnabledSystemUIOVerlays`，這個用於設定裝置系統層級覆蓋（如狀態列與導覽列）的靜態方法，已被棄用，建議改用 `SystemChrome.setEnabledSystemUIMode`。
+In v2.3, `SystemChrome.setEnabledSystemUIOVerlays`, the static method for
+setting device system level overlays like status and navigation bars, was
+deprecated in favor of `SystemChrome.setEnabledSystemUIMode`.
 
-此變更允許設定符合原生 Android 應用設計（如 edge to edge）的常見全螢幕模式。
+This change allowed for setting up common fullscreen modes that match native
+Android app designs like edge to edge.
 
-若仍需手動設定覆蓋項，而非選擇特定模式，仍可透過 `SystemUiMode.manual` 來實現，開發者可以像以往一樣傳入相同的覆蓋項清單。
+Manually setting overlays, instead of choosing a specific mode, is still
+supported through `SystemUiMode.manual`, allowing developers to pass the same
+list of overlays as before.
 
-**遷移指南**
+**Migration guide**
 
-遷移前的程式碼：
+Code before migration:
 ```dart
 SystemChrome.setEnabledSystemUIOverlays(<SystemUiOverlay>[
   SystemUiOverlay.top,
@@ -326,7 +337,7 @@ SystemChrome.setEnabledSystemUIOverlays(<SystemUiOverlay>[
 ]);
 ```
 
-遷移後的程式碼：
+Code after migration:
 ```dart
 SystemChrome.setEnabledSystemUIMode(
   SystemUiMode.manual,
@@ -337,27 +348,27 @@ SystemChrome.setEnabledSystemUIMode(
 );
 ```
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`SystemChrome`][`SystemChrome`]
+* [`SystemChrome`][]
 
-相關議題：
+Relevant issues:
 
-* [#35748][#35748]
-* [#40974][#40974]
-* [#44033][#44033]
-* [#63761][#63761]
-* [#69999][#69999]
+* [#35748][]
+* [#40974][]
+* [#44033][]
+* [#63761][]
+* [#69999][]
 
-已棄用於：
+Deprecated in:
 
-* [#81303][#81303]
+* [#81303][]
 
-已移除於：
+Removed in:
 
-* [#11957][#11957]
+* [#11957][]
 
 [`SystemChrome`]: {{site.api}}/flutter/services/SystemChrome-class.html
 [#35748]: {{site.repo.flutter}}/pull/35748
@@ -372,44 +383,46 @@ API 文件：
 
 ### `SystemNavigator.routeUpdated`
 
-Flutter Fix 支援：是
+Supported by Flutter Fix: yes
 
-在 v2.3 版本中，`SystemNavigator.routeUpdated` 已被棄用，建議改用
-`SystemNavigator.routeInformationUpdated`。
+In v2.3, `SystemNavigator.routeUpdated` was deprecated in favor of
+`SystemNavigator.routeInformationUpdated`.
 
-為了避免有兩種方式向引擎更新目前的 Route，這項變更將所有相關操作整合到單一 API。如果建立了一個會回報 Route 的 `Navigator`，則會分別選擇單一項目的歷史模式（single-entry history mode）。
+Instead of having two ways to update the engine about the current route, the
+change moved everything to one API, which separately selects the single-entry
+history mode if a `Navigator` that reports routes is created.
 
-**遷移指南**
+**Migration guide**
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 SystemNavigator.routeUpdated(routeName: 'foo', previousRouteName: 'bar');
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 SystemNavigator.routeInformationUpdated(location: 'foo');
 ```
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`SystemNavigator`][`SystemNavigator`]
+* [`SystemNavigator`][]
 
-相關議題：
+Relevant issues:
 
-* [#82574][#82574]
+* [#82574][]
 
-已棄用於：
+Deprecated in:
 
-* [#82594][#82594]
+* [#82594][]
 
-已移除於：
+Removed in:
 
-* [#119187][#119187]
+* [#119187][]
 
 
 [`SystemNavigator`]: {{site.api}}/flutter/services/SystemNavigator-class.html
@@ -421,15 +434,18 @@ API 文件：
 
 ### `AnimatedSize.vsync`
 
-Flutter Fix 支援：是
+Supported by Flutter Fix: yes
 
-在 v2.2 版本中，`AnimatedSize.vsyc` 已被棄用。自從 `AnimatedSize` 轉換為 `StatefulWidget`，且其 `State` 混入了 `SingleTickerProviderStateMixin` 之後，這個屬性就不再需要。此變更是為了解決記憶體洩漏問題。
+In v2.2, `AnimatedSize.vsyc` was deprecated. This property was no longer
+necessary after `AnimatedSize` was converted to a `StatefulWidget` whose `State`
+mixed in `SingleTickerProviderStateMixin`. The change was made to fix a memory
+leak.
 
-應移除對 `vsync` 的使用，因為現在已由 `AnimatedSize` 處理此屬性。
+Uses of `vsync` should be removed, as `AnimatedSize` now handles this property.
 
-**遷移指南**
+**Migration guide**
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 AnimatedSize(
@@ -438,7 +454,7 @@ AnimatedSize(
 );
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 AnimatedSize(
@@ -446,20 +462,20 @@ AnimatedSize(
 );
 ```
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`AnimatedSize`][`AnimatedSize`]
+* [`AnimatedSize`][]
 
-已棄用於：
+Deprecated in:
 
-* [#80554][#80554]
-* [#81067][#81067]
+* [#80554][]
+* [#81067][]
 
-已移除於：
+Removed in:
 
-* [#119186][#119186]
+* [#119186][]
 
 [`AnimatedSize`]: {{site.api}}/flutter/widgets/AnimatedSize-class.html
 [#80554]: {{site.repo.flutter}}/pull/80554
@@ -468,6 +484,6 @@ API 文件：
 
 ---
 
-## 時程
+## Timeline
 
-在穩定版發行：3.10
+In stable release: 3.10

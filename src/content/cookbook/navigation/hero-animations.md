@@ -1,6 +1,6 @@
 ---
-title: 跨螢幕動畫顯示元件
-description: 如何將元件從一個螢幕動畫到另一個螢幕
+title: Animate a widget across screens
+description: How to animate a widget from one screen to another
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,24 +8,30 @@ js:
 
 <?code-excerpt path-base="cookbook/navigation/hero_animations"?>
 
-當使用者在應用程式中從一個螢幕切換到另一個螢幕時，適當地引導他們的視覺焦點通常非常有幫助。一種常見的技巧是將某個元件（Widget）從一個螢幕動畫到下一個螢幕。這樣可以在兩個螢幕之間建立視覺上的連結。
+It's often helpful to guide users through an app as they navigate from screen
+to screen. A common technique to lead users through an app is to animate a
+widget from one screen to the next. This creates a visual anchor connecting
+the two screens.
 
-使用 [`Hero`][`Hero`] 元件（Widget），可以將元件從一個螢幕動畫到另一個螢幕。
-本教學將依照以下步驟進行：
+Use the [`Hero`][] widget
+to animate a widget from one screen to the next.
+This recipe uses the following steps:
 
-  1. 建立兩個顯示相同圖片的螢幕。
-  2. 在第一個螢幕加入 `Hero` 元件。
-  3. 在第二個螢幕加入 `Hero` 元件。
+  1. Create two screens showing the same image.
+  2. Add a `Hero` widget to the first screen.
+  3. Add a `Hero` widget to the second screen.
 
-## 1. 建立兩個顯示相同圖片的螢幕
+## 1. Create two screens showing the same image
 
-在這個範例中，會在兩個螢幕上顯示相同的圖片。
-當使用者點擊圖片時，將圖片從第一個螢幕動畫到第二個螢幕。目前先建立畫面結構，動畫的處理會在後續步驟說明。
+In this example, display the same image on both screens.
+Animate the image from the first screen to the second screen when
+the user taps the image. For now, create the visual structure;
+handle animations in the next steps.
 
 :::note
-本範例基於
-[Navigate to a new screen and back][Navigate to a new screen and back]
-以及 [Handle taps][Handle taps] 教學進行擴充。
+This example builds upon the
+[Navigate to a new screen and back][]
+and [Handle taps][] recipes.
 :::
 
 <?code-excerpt "lib/main_original.dart"?>
@@ -75,17 +81,18 @@ class DetailScreen extends StatelessWidget {
 }
 ```
 
-## 2. 在第一個螢幕加入 `Hero` 元件（Widget）
+## 2. Add a `Hero` widget to the first screen
 
-為了將兩個螢幕以動畫（Animation）連接起來，請將兩個螢幕上的 `Image` 元件（Widget）都包裹在 `Hero` 元件（Widget）中。
-`Hero` 元件需要兩個參數：
+To connect the two screens together with an animation, wrap
+the `Image` widget on both screens in a `Hero` widget.
+The `Hero` widget requires two arguments:
 
 `tag`
-: 一個用來識別 `Hero` 的物件。
-  在兩個螢幕上必須相同。
+: An object that identifies the `Hero`.
+  It must be the same on both screens.
 
 `child`
-: 要在螢幕間進行動畫的元件（Widget）。
+: The widget to animate across screens.
 
 {% comment %}
 RegEx removes the first "child" property name and removed the trailing comma at the end
@@ -98,14 +105,14 @@ Hero(
 )
 ```
 
-## 3. 在第二個螢幕加入 `Hero` 元件（Widget）
+## 3. Add a `Hero` widget to the second screen
 
-為了完成與第一個螢幕的連結，
-請將第二個螢幕上的 `Image` 包裹在一個 `Hero`
-元件（Widget）中，並確保該元件的 `tag` 與第一個螢幕中的 `Hero` 相同。
+To complete the connection with the first screen,
+wrap the `Image` on the second screen with a `Hero`
+widget that has the same `tag` as the `Hero` in the first screen.
 
-在第二個螢幕套用 `Hero` 元件（Widget）後，
-螢幕之間的動畫（Animation）就會自動運作。
+After applying the `Hero` widget to the second screen,
+the animation between screens just works.
 
 {% comment %}
 RegEx removes the first "child" property name and removed the trailing comma at the end
@@ -120,13 +127,13 @@ Hero(
 
 
 :::note
-這段程式碼與你在第一個螢幕上的內容相同。
-作為最佳實踐，建議建立可重複使用的元件（Widget），
-而不是重複撰寫程式碼。為了簡化說明，本範例在兩個
-元件中都使用了相同的程式碼。
+This code is identical to what you have on the first screen.
+As a best practice, create a reusable widget instead of
+repeating code. This example uses identical code for both
+widgets, for simplicity.
 :::
 
-## 互動式範例
+## Interactive example
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter Hero animation hands-on example in DartPad" run="true"
@@ -192,4 +199,11 @@ class DetailScreen extends StatelessWidget {
 }
 ```
 
-<img src="/assets/images/docs/cookbook/hero.webp" alt="Hero demo" class="site-mobile-screenshot" />
+<noscript>
+  <img src="/assets/images/docs/cookbook/hero.webp" alt="Hero demo" class="site-mobile-screenshot" />
+</noscript>
+
+
+[Handle taps]: /cookbook/gestures/handling-taps
+[`Hero`]: {{site.api}}/flutter/widgets/Hero-class.html
+[Navigate to a new screen and back]: /cookbook/navigation/navigation-basics

@@ -1,30 +1,40 @@
 ---
 title: >-
-  停用 'DropdownButtonFormField' 建構函式的 'value' 參數
+  Deprecated the 'value' parameter of
+  the 'DropdownButtonFormField' constructor
 description: >-
-  `DropdownButtonFormField` 建構函式參數 `value` 已被參數 `initialValue` 取代。
+  The `DropdownButtonFormField` constructor parameter `value` has been
+  replaced by the parameter `initialValue`.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-[`DropdownButtonFormField`][`DropdownButtonFormField`] 建構函式的 `value` 參數已被棄用，建議改用 `initialValue` 參數。
+The `value` parameter of the [`DropdownButtonFormField`][] constructor was
+deprecated in favor of the `initialValue` parameter.
 
-## 背景說明
+## Context
 
-[`DropdownButtonFormField`][`DropdownButtonFormField`] 建構函式的 `value` 參數過去用於初始化 [`DropdownButtonFormField.initialValue`][`DropdownButtonFormField.initialValue`]。
-由於名稱不一致，容易造成混淆。例如，開發者可能誤以為設定 `value` 可以改變目前選取的值，但實際上並非如此——它只會設定初始值，或在欄位重設時生效。
+The `value` parameter of the [`DropdownButtonFormField`][] constructor was used
+to initialize [`DropdownButtonFormField.initialValue`][].
+Not using the same name was confusing. For example,
+developers falsely assumed that setting `value` would change
+the current selected value. This was not the case—it
+only set the initial value or when the field is reset.
 
-## 變更說明
+## Description of change
 
-[`DropdownButtonFormField`][`DropdownButtonFormField`] 建構函式的 `value` 參數已被棄用，請改用名為 `initialValue` 的參數。
+The `value` parameter of the [`DropdownButtonFormField`][] constructor is
+deprecated in favor of the parameter named `initialValue`.
 
-## 遷移指南
+## Migration guide
 
-請將 [`DropdownButtonFormField`][`DropdownButtonFormField`] 建構函式中的 `value` 參數，替換為 `initialValue` 參數，以初始化 [`DropdownButtonFormField.initialValue`][`DropdownButtonFormField.initialValue`]。
+Replace the `value` parameter of the [`DropdownButtonFormField`][] constructor
+with the `initialValue` parameter to initialize
+[`DropdownButtonFormField.initialValue`][].
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart highlightLines=2
 DropdownButtonFormField(
@@ -32,7 +42,7 @@ DropdownButtonFormField(
 ),
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart highlightLines=2
 DropdownButtonFormField(
@@ -40,25 +50,25 @@ DropdownButtonFormField(
 ),
 ```
 
-## 時程
+## Timeline
 
-合併於版本：3.35.0-0.0.pre<br>  
-正式版釋出：3.35
+Landed in version: 3.35.0-0.0.pre<br>
+In stable release: 3.35
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-- [`DropdownButtonFormField`][`DropdownButtonFormField`]
-- [`DropdownButtonFormField.initialValue`][`DropdownButtonFormField.initialValue`]
+- [`DropdownButtonFormField`][]
+- [`DropdownButtonFormField.initialValue`][]
 
-相關議題：
+Relevant issues:
 
-- [Issue #169983][Issue #169983]
+- [Issue #169983][]
 
-相關 PR：
+Relevant PRs:
 
-- [Deprecate `DropdownButtonFormField` `value` 參數，改用 `initialValue`][Deprecate `DropdownButtonFormField` `value` parameter in favor of `initialValue`]
+- [Deprecate `DropdownButtonFormField` `value` parameter in favor of `initialValue`][]
 
 [`DropdownButtonFormField`]: {{site.api}}/flutter/material/DropdownButtonFormField/DropdownButtonFormField.html
 [`DropdownButtonFormField.initialValue`]: {{site.main-api}}/flutter/widgets/FormField/initialValue.html

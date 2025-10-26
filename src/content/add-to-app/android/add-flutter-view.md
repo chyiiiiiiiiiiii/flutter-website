@@ -1,72 +1,93 @@
 ---
-title: 將 Flutter View 加入 Android 應用程式
-shortTitle: 透過 FlutterView 整合
-description: 了解如何透過 Flutter View 進行進階整合。
+title: Add a Flutter View to an Android app
+shortTitle: Integrate via FlutterView
+description: Learn how to perform advanced integrations via Flutter Views.
 ---
 
 :::warning
-透過 [FlutterView]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterView.html) 進行整合
-屬於進階用法，需要手動建立自訂、專屬於應用程式的綁定。
+Integrating via a [FlutterView]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterView.html)
+is advanced usage and requires manually creating custom, application specific
+bindings.
 :::
 
-透過 [FlutterView]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterView.html) 進行整合
-比起前面介紹的 FlutterActivity 和 FlutterFragment，需要多做一些額外的工作。
+Integrating via a [FlutterView]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterView.html)
+requires a bit more work than via FlutterActivity and FlutterFragment previously
+described.
 
-從根本上來說，Dart 端的 Flutter 框架需要存取各種與 Activity 相關的事件與生命週期，才能正常運作。由於 FlutterView（即 [android.view.View]({{site.android-dev}}/reference/android/view/View.html)）
-可以被加入到任何由開發者應用程式所擁有的 Activity 中，而 FlutterView 本身無法取得 Activity 層級的事件，因此開發者必須手動將這些連結橋接到 [FlutterEngine]({{site.api}}/javadoc/io/flutter/embedding/engine/FlutterEngine.html)。
+Fundamentally, the Flutter framework on the Dart side requires access to various
+activity-level events and lifecycles to function. Since the FlutterView (which
+is an [android.view.View]({{site.android-dev}}/reference/android/view/View.html))
+can be added to any activity which is owned by the developer's application
+and since the FlutterView doesn't have access to activity level events, the
+developer must bridge those connections manually to the [FlutterEngine]({{site.api}}/javadoc/io/flutter/embedding/engine/FlutterEngine.html).
 
-你選擇如何將應用程式 Activity 的事件傳遞給 FlutterView，將會依你的應用程式而有所不同。
+How you choose to feed your application's activities' events to the FlutterView
+will be specific to your application.
 
-## 範例
+## A sample
 
 <img src='/assets/images/docs/development/add-to-app/android/add-flutter-view/add-view-sample.webp' alt="Add Flutter View sample video">
 
-與 FlutterActivity 和 FlutterFragment 的教學不同，FlutterView 的整合更適合透過範例專案來展示。
+Unlike the guides for FlutterActivity and FlutterFragment, the FlutterView
+integration could be better demonstrated with a sample project.
 
-有一個範例專案位於 [https://github.com/flutter/samples/tree/main/add_to_app/android_view]({{site.repo.samples}}/tree/main/add_to_app/android_view)，
-說明如何簡單地整合 FlutterView，如上方 gif 所示，FlutterView 被用於 RecycleView 卡片清單中的部分 cell。
+A sample project is at [https://github.com/flutter/samples/tree/main/add_to_app/android_view]({{site.repo.samples}}/tree/main/add_to_app/android_view)
+to document a simple FlutterView integration where FlutterViews are used
+for some of the cells in a RecycleView list of cards as seen in the gif above.
 
-## 一般做法
+## General approach
 
-FlutterView 層級整合的一般要點在於，你必須在自己的應用程式程式碼中，
-重新建立 Activity、[`FlutterView`]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterView.html)
-以及
+The general gist of the FlutterView-level integration is that you
+must recreate the various interactions between your Activity, the
+[`FlutterView`]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterView.html)
+and the
 [`FlutterEngine`]({{site.api}}/javadoc/io/flutter/embedding/engine/FlutterEngine.html)
-與 [`FlutterActivityAndFragmentDelegate`](https://cs.opensource.google/flutter/engine/+/main:shell/platform/android/io/flutter/embedding/android/FlutterActivityAndFragmentDelegate.java) 之間的各種互動。
-在
+present in the [`FlutterActivityAndFragmentDelegate`](https://cs.opensource.google/flutter/engine/+/main:shell/platform/android/io/flutter/embedding/android/FlutterActivityAndFragmentDelegate.java)
+in your own application's code.
+The connections made in the
 [`FlutterActivityAndFragmentDelegate`](https://cs.opensource.google/flutter/engine/+/main:shell/platform/android/io/flutter/embedding/android/FlutterActivityAndFragmentDelegate.java)
-中建立的連結，在使用
+are done automatically when using a
 [`FlutterActivity`]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterActivity.html)
-或
-[`FlutterFragment`]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterFragment.html)
-時會自動完成，
-但由於這裡的 [`FlutterView`]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterView.html)
-是被加入到你應用程式的 `Activity` 或 `Fragment` 中，
-因此你必須手動建立這些連結。
-否則，[`FlutterView`]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterView.html)
-將無法渲染任何內容，或會缺少其他功能。
+or a
+[`FlutterFragment`]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterFragment.html),
+but since the [`FlutterView`]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterView.html)
+in this case is being added to an `Activity` or `Fragment` in your application,
+you must recreate the connections manually.
+Otherwise, the [`FlutterView`]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterView.html)
+won't render anything or have other missing functionalities.
 
-一個範例
+A sample
 [`FlutterViewEngine`]({{site.repo.samples}}/blob/main/add_to_app/android_view/android_view/app/src/main/java/dev/flutter/example/androidView/FlutterViewEngine.kt)
-類別展示了如何在 `Activity`、[`FlutterView`]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterView.html)
-與 [FlutterEngine]({{site.api}}/javadoc/io/flutter/embedding/engine/FlutterEngine.html) 之間建立應用程式專屬的連結。
+class shows one such possible implementation of an application-specific
+connection between an `Activity`, a
+[`FlutterView`]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterView.html)
+and a [FlutterEngine]({{site.api}}/javadoc/io/flutter/embedding/engine/FlutterEngine.html).
 
-### 需實作的 API
+### APIs to implement
 
-讓 Flutter 至少能夠繪製任何內容的最低限度實作如下：
+The absolute minimum implementation needed for Flutter
+to draw anything at all is to:
 
-* 當 [`FlutterView`]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterView.html)
-  被加入到已恢復（resumed）的 `Activity` 的 view 階層且可見時，呼叫 [`attachToFlutterEngine`]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterView.html#attachToFlutterEngine-io.flutter.embedding.engine.FlutterEngine-)；
-* 當承載 [`FlutterView`]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterView.html) 的 `Activity` 可見時，呼叫 [`appIsResumed`]({{site.api}}/javadoc/io/flutter/embedding/engine/systemchannels/LifecycleChannel.html#appIsResumed--)
-  於 [`FlutterEngine`]({{site.api}}/javadoc/io/flutter/embedding/engine/FlutterEngine.html) 的 `lifecycleChannel` 欄位。
+* Call [`attachToFlutterEngine`]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterView.html#attachToFlutterEngine-io.flutter.embedding.engine.FlutterEngine-)
+  when the
+  [`FlutterView`]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterView.html)
+  is added to a resumed `Activity`'s view hierarchy and is visible; and
+* Call [`appIsResumed`]({{site.api}}/javadoc/io/flutter/embedding/engine/systemchannels/LifecycleChannel.html#appIsResumed--)
+  on the [`FlutterEngine`]({{site.api}}/javadoc/io/flutter/embedding/engine/FlutterEngine.html)'s
+  `lifecycleChannel` field when the `Activity` hosting the
+  [`FlutterView`]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterView.html)
+  is visible.
 
-相反地，
+The reverse
 [`detachFromFlutterEngine`]({{site.api}}/javadoc/io/flutter/embedding/android/FlutterView.html#detachFromFlutterEngine--)
-以及 [`LifecycleChannel`]({{site.api}}/javadoc/io/flutter/embedding/engine/systemchannels/LifecycleChannel.html)
-類別中的其他生命週期方法，也必須在 `FlutterView` 或 `Activity` 不再可見時呼叫，以避免資源洩漏。
+and other lifecycle methods on the
+[`LifecycleChannel`]({{site.api}}/javadoc/io/flutter/embedding/engine/systemchannels/LifecycleChannel.html)
+class must also be called to not leak resources when the
+`FlutterView` or `Activity` is no longer visible.
 
-此外，請參考
+In addition, see the remaining implementation in the
 [`FlutterViewEngine`]({{site.repo.samples}}/blob/main/add_to_app/android_view/android_view/app/src/main/java/dev/flutter/example/androidView/FlutterViewEngine.kt)
-範例類別或
+demo class or in the
 [`FlutterActivityAndFragmentDelegate`](https://cs.opensource.google/flutter/engine/+/main:shell/platform/android/io/flutter/embedding/android/FlutterActivityAndFragmentDelegate.java)
-中的其餘實作，以確保剪貼簿、系統 UI 覆蓋層、插件等其他功能能正常運作。
+to ensure a correct functioning of other features such as clipboards,
+system UI overlay, plugins, and so on.

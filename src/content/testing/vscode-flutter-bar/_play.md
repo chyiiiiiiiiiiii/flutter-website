@@ -1,1 +1,1 @@
-![帶有藍色三角形的小型藍色垂直線，表示執行或繼續運行 Flutter 應用程式](/assets/images/docs/testing/debugging/vscode-ui/icons/play-or-resume.png)
+![Small blue vertical line with a blue triangle that indicates playing or resuming the Flutter app](/assets/images/docs/testing/debugging/vscode-ui/icons/play-or-resume.png)

@@ -1,39 +1,51 @@
 ---
-title: 混淆 Dart 程式碼
-description: 如何從 Dart 二進位檔中移除函式與類別名稱。
+title: Obfuscate Dart code
+description: How to remove function and class names from your Dart binary.
 ---
 
 <?code-excerpt path-base="deployment/obfuscate"?>
 
-## 什麼是程式碼混淆？
+## What is code obfuscation?
 
-[程式碼混淆][Code obfuscation] 是一種修改應用程式二進位檔，使其更難被人類理解的過程。
-混淆會隱藏你已編譯 Dart 程式碼中的函式與類別名稱，將每個符號替換成其他符號，讓攻擊者更難對你的專有應用程式進行逆向工程。
+[Code obfuscation][] is the process of modifying an
+app's binary to make it harder for humans to understand.
+Obfuscation hides function and class names in your
+compiled Dart code, replacing each symbol with
+another symbol, making it difficult for an attacker
+to reverse engineer your proprietary app.
 
 [Code obfuscation]: https://en.wikipedia.org/wiki/Obfuscation_(software)
 
-## 限制與警告 {: #limitations}
+## Limitations and warnings {: #limitations}
 
-**Flutter 的程式碼混淆僅適用於 [release build][release build]。**
+**Flutter's code obfuscation works
+only on a [release build][].**
 
 :::warning
-將機密資訊儲存在應用程式中是**非常不安全的做法**。
+It is a **poor security practice** to
+store secrets in an app.
 :::
 
-混淆你的程式碼並不會加密資源，也無法防止逆向工程。
-它僅僅是將符號重新命名為較難辨識的名稱。
+Obfuscating your code does _not_
+encrypt resources nor does it protect against
+reverse engineering.
+It only renames symbols with more obscure names.
 
-Web 應用程式不支援混淆。
-Web 應用程式可以進行 [壓縮（minify）][minified]，效果類似。
-當你建置 Flutter Web 應用程式的 release 版本時，Web 編譯器會自動壓縮應用程式。如需進一步了解，請參閱 [建置與發布 Web 應用程式][Build and release a web app]。
+Web apps don't support obfuscation.
+A web app can be [minified][], which provides a similar result.
+When you build a release version of a Flutter web app,
+the web compiler minifies the app. To learn more,
+see [Build and release a web app][].
 
 [release build]: /testing/build-modes#release
 [Build and release a web app]: /deployment/web
 [minified]: https://en.wikipedia.org/wiki/Minification_(programming)
 
-## 支援的目標平台
+## Supported targets
 
-下列建置目標支援本頁所述的混淆流程：
+The following build targets
+support the obfuscation process
+described on this page:
 
 * `aar`
 * `apk`
@@ -46,21 +58,28 @@ Web 應用程式可以進行 [壓縮（minify）][minified]，效果類似。
 * `macos-framework`
 * `windows`
 
-如需某個建置目標可用的命令列選項詳細資訊，請執行下列指令。`--obfuscate` 與 `--split-debug-info` 選項應該會出現在輸出結果中。若沒有，請安裝新版 Flutter 以啟用程式碼混淆功能。
+For detailed information about the command line options
+available for a build target, run the following
+command. The `--obfuscate` and  `--split-debug-info` options should
+be listed in the output. If they aren't, you'll need to
+install a newer version of Flutter to obfuscate your code.
 
 ```console
 $ flutter build <build-target> -h
 ```
-   *  `<build-target>`：建置目標。例如，
-      `apk`。
+   *  `<build-target>`: The build target. For example,
+      `apk`.
 
-## 混淆你的應用程式
+## Obfuscate your app
 
-若要對你的應用程式進行混淆（obfuscate）並建立符號對應表（symbol map），請在 release 模式下，使用
-`flutter build` 指令，並搭配 `--obfuscate` 與 `--split-debug-info` 選項。
-如果你未來需要對混淆後的應用程式進行除錯，則必須保留符號對應表。
+To obfuscate your app and create a symbol map, use the
+`flutter build` command in release mode
+with the `--obfuscate` and `--split-debug-info` options.
+If you want to debug your obfuscated
+app in the future, you will need the symbol map.
 
-1. 執行以下指令以混淆你的應用程式並產生 SYMBOLS 檔案：
+1. Run the following command to obfuscate your app and
+   generate a SYMBOLS file:
 
    ```console
    $ flutter build <build-target> \ 
@@ -68,21 +87,28 @@ $ flutter build <build-target> -h
       --split-debug-info=/<symbols-directory>
    ```
 
-   *  `<build-target>`：建置目標。例如，
-      `apk`。
-   *  `<symbols-directory>`：SYMBOLS 檔案應該放置的目錄。例如，
-      `out/android`。
+   *  `<build-target>`: The build target. For example,
+      `apk`.
+   *  `<symbols-directory>`: The directory where the SYMBOLS
+      file should be placed. For example,
+      `out/android`.
 
-1. 當你已經混淆（obfuscate）你的二進位檔後，**請備份 SYMBOLS 檔案**。如果你遺失了原始的 SYMBOLS 檔案，並且想要還原（de-obfuscate）堆疊追蹤（stack trace），你可能會需要這個檔案。
+1. Once you've obfuscated your binary, **backup
+   the SYMBOLS file**. You might need this if you lose
+   your original SYMBOLs file and you
+   want to de-obfuscate a stack trace.
 
-## 讀取混淆後的堆疊追蹤
+## Read an obfuscated stack trace
 
-若要除錯由混淆後的應用程式產生的堆疊追蹤，請依照以下步驟將其轉換為人類可讀的格式：
+To debug a stack trace created by an obfuscated app,
+use the following steps to make it human readable:
 
-1. 找到對應的 SYMBOLS 檔案。
-   例如，來自 Android arm64 裝置的崩潰紀錄會需要 `app.android-arm64.symbols`。
+1. Find the matching SYMBOLS file.
+   For example, a crash from an Android arm64
+   device would need `app.android-arm64.symbols`.
 
-1. 將堆疊追蹤（儲存在檔案中）以及 SYMBOLS 檔案，一併提供給 `flutter symbolize` 指令。
+1. Provide both the stack trace (stored in a file)
+   and the SYMBOLS file to the `flutter symbolize` command.
 
    ```console
    $ flutter symbolize \
@@ -90,16 +116,24 @@ $ flutter build <build-target> -h
       -d <obfuscated-symbols-file>
    ```
 
-   *  `<stack-trace-file>`：stacktrace 的檔案路徑。例如，`???`。
-*  `<obfuscated-symbols-file>`：包含混淆符號的 symbols 檔案路徑。例如，`out/android/app.android-arm64.symbols`。
+   *  `<stack-trace-file>`: The file path for the
+      stacktrace. For example, `???`.
+   *  `<obfuscated-symbols-file>`: The file path for the
+      symbols file that contains the obfuscated symbols.
+      For example, `out/android/app.android-arm64.symbols`.
 
-如需有關 `symbolize` 指令的更多資訊，請執行 `flutter symbolize -h`。
+   For more information about the `symbolize` command,
+   run `flutter symbolize -h`.
 
-## 讀取混淆後的名稱
+## Read an obfuscated name
 
-你可以產生一個包含混淆對應表（obfuscation map）的 JSON 檔案。混淆對應表是一個 JSON 陣列，包含原始名稱與混淆後名稱的配對。例如，`["MaterialApp", "ex", "Scaffold", "ey"]`，其中 `ex` 是 `MaterialApp` 的混淆後名稱。
+You can generate a JSON file that contains
+an obfuscation map. An obfuscation map is a JSON array with
+pairs of original names and obfuscated names. For example,
+`["MaterialApp", "ex", "Scaffold", "ey"]`, where
+`ex` is the obfuscated name of `MaterialApp`.
 
-若要產生混淆對應表，請使用以下指令：
+To generate an obfuscation map, use the following command:
 
 ```console
 $ flutter build <build-target> \
@@ -108,22 +142,27 @@ $ flutter build <build-target> \
    --extra-gen-snapshot-options=--save-obfuscation-map=/<obfuscation-map-file>
 ```
 
-*  `<build-target>`：建置目標。例如，
-   `apk`。
-*  `<symbols-directory>`：應放置符號的目錄。例如，`out/android`
-*  `<obfuscation-map-file>`：應放置 JSON 混淆對應檔的檔案路徑。例如，
+*  `<build-target>`: The build target. For example,
+   `apk`.
+*  `<symbols-directory>`: The directory where the symbols
+   should be placed. For example, `out/android`
+*  `<obfuscation-map-file>`: The file path where the
+   JSON obfuscation map should be placed. For example,
    `out/android/map.json`
 
-## 注意事項
+## Caveat
 
-當你撰寫最終將會被混淆成二進位檔的應用程式時，請注意以下事項：
+Be aware of the following when coding an app that will
+eventually be an obfuscated binary.
 
-* 依賴特定類別、函式或函式庫名稱比對的程式碼將會失效。
-  例如，以下對 `expect()` 的呼叫在混淆後的二進位檔中將無法運作：
+* Code that relies on matching specific class, function,
+  or library names will fail.
+  For example, the following call to `expect()` won't
+  work in an obfuscated binary:
 
    <?code-excerpt "lib/main.dart (Expect)"?>
    ```dart
    expect(foo.runtimeType.toString(), equals('Foo'));
    ```
 
-* Enum 名稱目前不會進行混淆處理。
+* Enum names are not obfuscated currently.

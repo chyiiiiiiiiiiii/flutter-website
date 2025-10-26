@@ -1,57 +1,67 @@
 ---
-title: 使用相機拍照
-description: 如何在行動裝置上使用相機套件。
+title: Take a picture using the camera
+description: How to use a camera plugin on mobile.
 ---
 
 <?code-excerpt path-base="cookbook/plugins/picture_using_camera/"?>
 
-許多應用程式都需要使用裝置的相機來拍攝照片與錄製影片。Flutter 提供了 [`camera`][`camera`] 套件來達成這個目的。`camera` 套件提供了取得可用相機清單、顯示特定相機預覽，以及拍攝照片或錄影的相關工具。
+Many apps require working with the device's cameras to
+take photos and videos.  Flutter provides the [`camera`][] plugin
+for this purpose. The `camera` plugin provides tools to get a list of the
+available cameras, display a preview coming from a specific camera,
+and take photos or videos.
 
 :::note
-[`camera_android_camerax`][`camera_android_camerax`] 套件是基於 [CameraX][CameraX] Android 函式庫所打造，
-可根據裝置能力自動選擇解析度，提升影像品質。
-此套件也有助於處理 _裝置相機特殊狀況_，
-也就是指某些相機硬體可能無法如預期運作的情形。
+The [`camera_android_camerax`][] plugin,
+built on top of the [CameraX][] Android library,
+improves image resolution with automatic selection
+of the resolution based on the device's capability.
+This plugin also helps deal with _device quirks_,
+defined as camera hardware that might
+not work as expected.
 
-如需更多資訊，請參考 Google I/O 2024 的演講：
-[Building picture perfect camera experiences in Flutter with CameraX][camerax-video]。
+For more information,
+check out the Google I/O 2024 talk,
+[Building picture perfect camera experiences in Flutter with CameraX][camerax-video].
 :::
 
 [`camera_android_camerax`]: {{site.pub-pkg}}/camera_android_camerax
 [CameraX]: https://developer.android.com/training/camerax
 [camerax-video]: {{site.youtube-site}}/watch?v=d1sRCa5k2Sg&t=1s
 
-本教學將示範如何使用 `camera` 套件來顯示預覽、拍照並顯示照片，步驟如下：
+This recipe demonstrates how to use the `camera` plugin to display a preview,
+take a photo, and display it using the following steps:
 
-  1. 新增所需的相依套件。
-  2. 取得可用相機的清單。
-  3. 建立並初始化 `CameraController`。
-  4. 使用 `CameraPreview` 來顯示相機畫面。
-  5. 使用 `CameraController` 拍攝照片。
-  6. 使用 `Image` 元件顯示照片。
+  1. Add the required dependencies.
+  2. Get a list of the available cameras.
+  3. Create and initialize the `CameraController`.
+  4. Use a `CameraPreview` to display the camera's feed.
+  5. Take a picture with the `CameraController`.
+  6. Display the picture with an `Image` widget.
 
-## 1. 新增所需的相依套件
+## 1. Add the required dependencies
 
-要完成本教學，請在你的應用程式中加入以下三個相依套件：
+To complete this recipe, you need to add three dependencies to your app:
 
-[`camera`][`camera`]
-: 提供操作裝置相機的工具。
+[`camera`][]
+: Provides tools to work with the cameras on the device.
 
-[`path_provider`][`path_provider`]
-: 用於尋找儲存圖片的正確路徑。
+[`path_provider`][]
+: Finds the correct paths to store images.
 
-[`path`][`path`]
-: 建立可在任何平台運作的路徑。
+[`path`][]
+: Creates paths that work on any platform.
 
-要將這些套件加入相依套件，請執行 `flutter pub add`：
+To add the packages as dependencies, run `flutter pub add`:
 
 ```console
 $ flutter pub add camera path_provider path
 ```
 
 :::tip
-- 對於 Android，您必須將 `minSdkVersion` 更新為 21（或更高）。
-- 在 iOS 上，必須將以下幾行新增到 `ios/Runner/Info.plist` 內，以存取相機與麥克風。
+- For android, You must update `minSdkVersion` to 21 (or higher).
+- On iOS, the following lines must be added inside
+  `ios/Runner/Info.plist` to the access the camera and microphone.
 
   ```xml
   <key>NSCameraUsageDescription</key>
@@ -61,9 +71,9 @@ $ flutter pub add camera path_provider path
   ```
 :::
 
-## 2. 取得可用相機的清單
+## 2. Get a list of the available cameras
 
-接下來，使用 `camera` 套件來取得可用相機的清單。
+Next, get a list of available cameras using the `camera` plugin.
 
 <?code-excerpt "lib/main.dart (init)"?>
 ```dart
@@ -78,18 +88,20 @@ final cameras = await availableCameras();
 final firstCamera = cameras.first;
 ```
 
-## 3. 建立並初始化 `CameraController`
+## 3. Create and initialize the `CameraController`
 
-取得相機後，請依照以下步驟建立並初始化 `CameraController`。
-此流程會建立與裝置相機的連線，讓你能夠控制相機，
-並顯示相機畫面的預覽。
+Once you have a camera, use the following steps to
+create and initialize a `CameraController`.
+This process establishes a connection to
+the device's camera that allows you to control the camera
+and display a preview of the camera's feed.
 
-  1. 建立一個 `StatefulWidget`，並搭配一個 `State` 類別。
-  2. 在 `State` 類別中新增一個變數，用來儲存 `CameraController`。
-  3. 在 `State` 類別中新增一個變數，用來儲存從 `CameraController.initialize()`
-     回傳的 `Future`。
-  4. 在 `initState()` 方法中建立並初始化控制器。
-  5. 在 `dispose()` 方法中釋放控制器資源。
+  1. Create a `StatefulWidget` with a companion `State` class.
+  2. Add a variable to the `State` class to store the `CameraController`.
+  3. Add a variable to the `State` class to store the `Future`
+     returned from `CameraController.initialize()`.
+  4. Create and initialize the controller in the `initState()` method.
+  5. Dispose of the controller in the `dispose()` method.
 
 <?code-excerpt "lib/main_step3.dart (controller)" remove="ignore:"?>
 ```dart
@@ -139,22 +151,23 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 ```
 
 :::warning
-如果你沒有初始化 `CameraController`，
-你將*無法*使用相機來顯示預覽或拍照。
+If you don't initialize the `CameraController`,
+you *cannot* use the camera to display a preview and take pictures.
 :::
 
-## 4. 使用 `CameraPreview` 來顯示相機畫面
+## 4. Use a `CameraPreview` to display the camera's feed
 
-接下來，使用 `camera` 套件中的 `CameraPreview` 元件（Widget），
-來顯示相機畫面的預覽。
+Next, use the `CameraPreview` widget from the `camera` package to
+display a preview of the camera's feed.
 
-:::note 注意
-在操作相機之前，必須等控制器初始化完成。
-因此，你必須等前一步建立的 `_initializeControllerFuture()` 完成後，
-才能顯示 `CameraPreview`。
+:::note Remember
+You must wait until the controller has finished
+initializing before working with the camera. Therefore,
+you must wait for the `_initializeControllerFuture()`, created
+in the previous step, to complete before showing a `CameraPreview`.
 :::
 
-這正是 [`FutureBuilder`][`FutureBuilder`] 的用途。
+Use a [`FutureBuilder`][] for exactly this purpose.
 
 <?code-excerpt "lib/main.dart (FutureBuilder)" replace="/body: //g;/^\),$/)/g"?>
 ```dart
@@ -175,24 +188,26 @@ FutureBuilder<void>(
 )
 ```
 
-## 5. 使用 `CameraController` 拍攝照片
+## 5. Take a picture with the `CameraController`
 
-你可以使用 `CameraController` 來拍攝照片，
-透過 [`takePicture()`][`takePicture()`] 方法，該方法會回傳一個 [`XFile`][`XFile`]，
-這是一個跨平台、簡化的 `File` 抽象層。
-在 Android 和 iOS 系統上，新拍攝的圖片會儲存在各自的快取目錄中，
-而指向該位置的 `path` 會回傳於 `XFile`。
+You can use the `CameraController` to take pictures using the
+[`takePicture()`][] method, which returns an [`XFile`][],
+a cross-platform, simplified `File` abstraction.
+On both Android and IOS, the new image is stored in their
+respective cache directories,
+and the `path` to that location is returned in the `XFile`.
 
-在此範例中，建立一個 `FloatingActionButton`，
-當使用者點擊按鈕時，會使用 `CameraController` 拍攝照片。
+In this example, create a `FloatingActionButton` that takes a picture
+using the `CameraController` when a user taps on the button.
 
-拍照需要兩個步驟：
+Taking a picture requires 2 steps:
 
-  1. 確保相機已初始化。
-  2. 使用控制器拍攝照片，並確保它回傳一個 `Future<XFile>`。
+  1. Ensure that the camera is initialized.
+  2. Use the controller to take a picture and ensure
+     that it returns a `Future<XFile>`.
 
-建議將這些操作包裹在 `try / catch` 區塊中，
-以處理可能發生的錯誤。
+It is good practice to wrap these operations in a `try / catch` block in order
+to handle any errors that might occur.
 
 <?code-excerpt "lib/main_step5.dart (FAB)" replace="/^floatingActionButton: //g;/^\),$/)/g"?>
 ```dart
@@ -216,18 +231,22 @@ FloatingActionButton(
   child: const Icon(Icons.camera_alt),
 )
 ```
-## 6. 使用`Image`元件（Widget）顯示圖片
+## 6. Display the picture with an `Image` widget
 
-如果你已成功拍攝圖片，接下來可以使用`Image`元件（Widget）來顯示儲存的圖片。在這個案例中，圖片是以檔案的形式儲存在裝置上。
+If you take the picture successfully, you can then display the saved picture
+using an `Image` widget. In this case, the picture is stored as a file on
+the device.
 
-因此，你必須將`File`提供給`Image.file`建構函式。你可以將前一步所建立的路徑傳遞給`File`類別，來建立一個實例。
+Therefore, you must provide a `File` to the `Image.file` constructor.
+You can create an instance of the `File` class by passing the path created in
+the previous step.
 
 <?code-excerpt "lib/image_file.dart (ImageFile)" replace="/^return\ //g"?>
 ```dart
 Image.file(File('path/to/my/picture.png'));
 ```
 
-## 完整範例
+## Complete example
 
 <?code-excerpt "lib/main.dart"?>
 ```dart

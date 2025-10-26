@@ -1,79 +1,82 @@
 ---
-title: 設定 macOS 開發環境
+title: Set up macOS development
 description: >-
-  設定您的開發環境，以便在 macOS 裝置上
-  執行、建置與部署 Flutter 應用程式。
+  Configure your development environment to
+  run, build, and deploy Flutter apps for macOS devices.
 ---
 
-瞭解如何設定您的開發環境，
-以便在 macOS 桌面平台上執行、建置與部署 Flutter 應用程式。
+Learn how to set up your development environment
+to run, build, and deploy Flutter apps for the macOS desktop platform.
 
 :::note
-如果您尚未設定 Flutter，
-請先參閱並依照 [Get started with Flutter][Get started with Flutter] 指南操作。
+If you haven't set up Flutter already,
+visit and follow the [Get started with Flutter][] guide first.
 
-如果您已經安裝了 Flutter，
-請確保其為[最新版本][up to date]。
+If you've already installed Flutter,
+ensure that it's [up to date][].
 :::
 
 [Get started with Flutter]: /get-started
 [up to date]: /install/upgrade
 
-## 設定開發工具 {: #set-up-tooling}
+## Set up tooling {: #set-up-tooling}
 
-透過 Xcode，您可以在 macOS 上執行 Flutter 應用程式，
-同時編譯與偵錯原生 Swift 及 Objective-C 程式碼。
+With Xcode, you can run Flutter apps on macOS as well as
+compile and debug native Swift and Objective-C code.
 
- 1. <h3>安裝 Xcode</h3>
+ 1. <h3>Install Xcode</h3>
 
-    如果您尚未安裝，
-    請[安裝並設定最新版的 Xcode][xcode]。
+    If you haven't done so already,
+    [install and set up the latest version of Xcode][xcode].
 
-    如果您已經安裝過 Xcode，
-    請使用您原本的安裝方式，將其更新至最新版本。
+    If you've already installed Xcode,
+    update it to the latest version using the
+    same installation method you used originally.
 
- 1. <h3>設定 Xcode 命令列工具</h3>
+ 1. <h3>Set up Xcode command-line tools</h3>
 
-    若要將 Xcode 命令列工具設定為您所安裝的 Xcode 版本，
-    請在您偏好的終端機中執行下列指令：
+    To configure the Xcode command-line tools to use
+    the version of Xcode you installed,
+    run the following command in your preferred terminal:
 
     ```console
     $ sudo sh -c 'xcode-select -s /Applications/Xcode.app/Contents/Developer && xcodebuild -runFirstLaunch'
     ```
 
-    如果你是從其他地方下載 Xcode，或需要使用不同版本，請將 `/Applications/Xcode.app` 替換為該路徑。
+    If you downloaded Xcode elsewhere or need to use a different version,
+    replace `/Applications/Xcode.app` with the path to there instead.
 
- 1. <h3>同意 Xcode 授權條款</h3>
+ 1. <h3>Agree to the Xcode licenses</h3>
 
-    在你完成 Xcode 安裝並設定其命令列工具（Command Line Tools）後，請同意 Xcode 的授權條款。
+    After you've set up Xcode and configured its command-line tools,
+    agree to the Xcode licenses.
 
-    1. 開啟你偏好的終端機（terminal）。
+    1. Open your preferred terminal.
 
-    1. 執行以下指令，以檢閱並簽署 Xcode 授權條款。
+    1. Run the following command to review and sign the Xcode licenses.
 
        ```console
        $ sudo xcodebuild -license
        ```
 
-    1. 閱讀並同意所有必要的授權條款。
+    1. Read and agree to all necessary licenses.
 
-       在同意每個授權條款之前，
-       請仔細閱讀每一份條款。
+       Before agreeing to the terms of each license,
+       read each with care.
 
-       當你已成功接受所有必要的授權條款後，
-       指令應該會輸出如何檢視這些授權條款的方式。
+       Once you've accepted all the necessary licenses successfully,
+       the command should output how to review the licenses.
 
- 1. <h3>安裝 CocoaPods</h3>
+ 1. <h3>Install CocoaPods</h3>
 
-    若要支援使用原生 macOS 程式碼的 [Flutter 套件][Flutter plugins]，
-    請安裝最新版的 [CocoaPods][CocoaPods]。
+    To support [Flutter plugins][] that use native macOS code,
+    install the latest version of [CocoaPods][].
 
-    請依照
-    [CocoaPods 安裝指南][CocoaPods installation guide]
-    來安裝 CocoaPods。
+    Install CocoaPods following the
+    [CocoaPods installation guide][].
 
-    如果你已經安裝過 CocoaPods，
-    請依照 [CocoaPods 更新指南][CocoaPods update guide] 進行更新。
+    If you've already installed CocoaPods,
+    update it following the [CocoaPods update guide][].
 
 {: .steps}
 
@@ -83,101 +86,105 @@ description: >-
 [CocoaPods installation guide]: https://guides.cocoapods.org/using/getting-started.html#installation
 [CocoaPods update guide]: https://guides.cocoapods.org/using/getting-started.html#updating-cocoapods
 
-## 驗證你的設定 {: #validate-setup}
+## Validate your setup {: #validate-setup}
 
- 1. <h3>檢查工具鏈問題</h3>
+ 1. <h3>Check for toolchain issues</h3>
 
-    若要檢查你的 macOS 開發環境是否有任何問題，
-    請在你偏好的終端機中執行 `flutter doctor` 指令：
+    To check for any issues with your macOS development setup,
+    run the `flutter doctor` command in your preferred terminal:
 
     ```console
     $ flutter doctor -v
     ```
 
-    如果你在 **Xcode** 區塊下看到任何錯誤或待完成的任務，請先完成並解決這些問題，然後再次執行 `flutter doctor -v` 以驗證變更是否生效。
+    If you see any errors or tasks to complete
+    under the **Xcode** section,
+    complete and resolve them, then
+    run `flutter doctor -v` again to verify any changes.
 
- 1. <h3>檢查 macOS 裝置</h3>
+ 1. <h3>Check for macOS devices</h3>
 
-    為了確保 Flutter 能正確找到並連接你的 macOS 裝置，請在你偏好的終端機中執行 `flutter devices`：
+    To ensure Flutter can find and connect to your macOS device correctly,
+    run `flutter devices` in your preferred terminal:
 
     ```console
     $ flutter devices
     ```
 
-    如果你一切都正確設定，
-    應該至少會有一個項目，其平台標記為 **macos**。
+    If you set everything up correctly,
+    there should be at least one entry with the platform marked as **macos**.
 
- 1. <h3>疑難排解設定問題</h3>
+ 1. <h3>Troubleshoot setup issues</h3>
 
-    如果你需要協助解決任何設定問題，
-    請參考 [安裝與設定疑難排解][Install and setup troubleshooting]。
+    If you need help resolving any setup issues,
+    check out [Install and setup troubleshooting][].
 
-    如果你仍有問題或疑問，
-    歡迎在 Flutter [社群][community] 頻道上聯繫我們。
+    If you still have issues or questions,
+    reach out on one of the Flutter [community][] channels.
 
 {: .steps}
 
 [Install and setup troubleshooting]: /install/troubleshoot
 [community]: {{site.main-url}}/community
 
-## 開始為 macOS 開發 {: #start-developing}
+## Start developing for macOS {: #start-developing}
 
-恭喜你！
-現在你已經完成 Flutter 的 macOS 桌面開發環境設定，
-可以在 macOS 上測試同時繼續你的 Flutter 學習之旅，
-或開始擴展與 macOS 的整合。
+Congratulations!
+Now that you've set up macOS desktop development for Flutter,
+you can continue your Flutter learning journey while testing on macOS
+or begin expanding integration with macOS.
 
 <div class="card-grid link-cards">
   <div class="card filled-card list-card">
     <div class="card-leading">
-      <img src="/assets/images/decorative/pointing-the-way.png" height="160" aria-hidden="true" alt="Dash 幫助你探索 Flutter 學習資源。">
+      <img src="/assets/images/decorative/pointing-the-way.png" height="160" aria-hidden="true" alt="Dash helping you explore Flutter learning resources.">
     </div>
     <div class="card-header">
-      <span class="card-title">持續學習 Flutter</span>
+      <span class="card-title">Continue learning Flutter</span>
     </div>
     <div class="card-content">
       <ul>
         <li>
-          <a class="text-button" href="/get-started/codelab">撰寫你的第一個應用程式</a>
+          <a class="text-button" href="/get-started/codelab">Write your first app</a>
         </li>
         <li>
-          <a class="text-button" href="/get-started/fundamentals">學習基礎知識</a>
+          <a class="text-button" href="/get-started/fundamentals">Learn the fundamentals</a>
         </li>
         <li>
-          <a class="text-button" href="https://www.youtube.com/watch?v=b_sQ9bMltGU&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG">探索 Flutter 元件 (Widgets)</a>
+          <a class="text-button" href="https://www.youtube.com/watch?v=b_sQ9bMltGU&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG">Explore Flutter widgets</a>
         </li>
         <li>
-          <a class="text-button" href="/reference/learning-resources">瀏覽範例</a>
+          <a class="text-button" href="/reference/learning-resources">Check out samples</a>
         </li>
         <li>
-          <a class="text-button" href="/resources/bootstrap-into-dart">了解 Dart</a>
+          <a class="text-button" href="/resources/bootstrap-into-dart">Learn about Dart</a>
         </li>
       </ul>
     </div>
   </div>
   <div class="card filled-card list-card">
     <div class="card-leading">
-      <img src="/assets/images/decorative/flutter-on-desktop.svg" height="160" aria-hidden="true" alt="Flutter 桌面支援的輪廓圖。">
+      <img src="/assets/images/decorative/flutter-on-desktop.svg" height="160" aria-hidden="true" alt="An outline of Flutter desktop support.">
     </div>
     <div class="card-header">
-      <span class="card-title">為 macOS 建置</span>
+      <span class="card-title">Build for macOS</span>
     </div>
     <div class="card-content">
       <ul>
         <li>
-          <a class="text-button" href="/deployment/macos">建置並部署至 macOS</a>
+          <a class="text-button" href="/deployment/macos">Build and deploy to macOS</a>
         </li>
         <li>
-          <a class="text-button" href="/platform-integration/macos/c-interop">綁定原生 macOS 程式碼</a>
+          <a class="text-button" href="/platform-integration/macos/c-interop">Bind to native macOS code</a>
         </li>
         <li>
-          <a class="text-button" href="/platform-integration/macos/platform-views">嵌入原生 macOS 視圖</a>
+          <a class="text-button" href="/platform-integration/macos/platform-views">Embed native macOS views</a>
         </li>
         <li>
-          <a class="text-button" href="/deployment/flavors-ios">設定 App Flavors</a>
+          <a class="text-button" href="/deployment/flavors-ios">Set up app flavors</a>
         </li>
         <li>
-          <a class="text-button" href="/packages-and-plugins/swift-package-manager/for-app-developers">使用 Swift Package Manager</a>
+          <a class="text-button" href="/packages-and-plugins/swift-package-manager/for-app-developers">Use Swift Package Manager</a>
         </li>
       </ul>
     </div>

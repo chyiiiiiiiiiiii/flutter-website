@@ -1,14 +1,14 @@
 ---
-title: Flutter 與 Dart 團隊職缺
-shortTitle: 開放職缺
-description: Flutter 與 Dart 團隊的開放職缺列表。
+title: Flutter and Dart team job openings
+shortTitle: Open jobs
+description: Open job listings for the Flutter and Dart teams.
 ---
 
-## 目前開放職缺
+## Current openings
 
-#### 美國加州 Sunnyvale
+#### Sunnyvale, CA, USA
 
-* [技術寫手 II](/jobs/tech_writer_ii)
+* [Tech Writer II](/jobs/tech_writer_ii)
 
-Flutter 與 Dart SWE（軟體工程）團隊目前暫無招募計畫。
-感謝您的關注！
+The Flutter and Dart SWE teams aren't currently hiring.
+Thanks for your interest!

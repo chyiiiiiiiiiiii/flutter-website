@@ -1,23 +1,26 @@
 ---
-title: TestWidgetsFlutterBinding.clock 變更
-description: 現在的 Clock 實作來自 package:clock。
+title: TestWidgetsFlutterBinding.clock change
+description: The Clock implementation now comes from package:clock.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-`TestWidgetsFlutterBinding.clock` 現在來自
-`package:clock`，而不是 `package:quiver`。
+The `TestWidgetsFlutterBinding.clock` now comes from
+`package:clock` and not `package:quiver`.
 
-## 背景說明
+## Context
 
-`flutter_test` 套件正在移除對較重的 `quiver` 套件的相依性，改為依賴兩個更有針對性且輕量的套件，
-也就是 `clock` 和 `fake_async`。
+The `flutter_test` package is removing its dependency on
+the heavier weight `quiver` package in favor of a dependency
+on two more targeted and lighter weight packages,
+`clock` and `fake_async`.
 
-這可能會影響到使用者程式碼，例如從
-`TestWidgetsFlutterBinding` 取得 clock 並傳遞給預期來自 `package:quiver` 的 `Clock` 的 API，
-像是以下這類程式碼：
+This can affect user code which grabs the clock from a
+`TestWidgetsFlutterBinding` and passes that to an API
+that expects a `Clock` from `package:quiver`,
+for example some code like this:
 
 ```dart
 testWidgets('some test', (WidgetTester tester) {
@@ -25,9 +28,9 @@ testWidgets('some test', (WidgetTester tester) {
 });
 ```
 
-## 遷移指南
+## Migration guide
 
-此變更後你可能會看到的錯誤訊息如下所示：
+The error you might see after this change looks something like this:
 
 ```plaintext
 Error: The argument type 'Clock/*1*/' can't be assigned to the parameter type 'Clock/*2*/'.
@@ -35,11 +38,13 @@ Error: The argument type 'Clock/*1*/' can't be assigned to the parameter type 'C
  - 'Clock/*2*/' is from 'package:quiver/time.dart' ('<pub-cache>/quiver/lib/time.dart').
 ```
 
-### 選項 #1：從 package:clock 的 Clock 建立 package:quiver 的 Clock
+### Option #1: Create a package:quiver Clock from a package:clock Clock
 
-最簡單的遷移方式是從 `package:clock` clock 建立 `package:quiver` clock，只需將 `.now` 函式 tearoff 傳遞給 `Clock` 建構函式即可：
+The easiest migration is to create a `package:quiver` clock from the
+`package:clock` clock, which can be done by passing the `.now` function
+tearoff to the `Clock` constructor:
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 testWidgets('some test', (WidgetTester tester) {
@@ -47,7 +52,7 @@ testWidgets('some test', (WidgetTester tester) {
 });
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 testWidgets('some test', (WidgetTester tester) {
@@ -55,25 +60,28 @@ testWidgets('some test', (WidgetTester tester) {
 });
 ```
 
-### 選項 #2：將 API 修改為接受 package:clock 的 Clock
+### Option #2: Change the api to accept a package:clock Clock
 
-如果你擁有你所呼叫的 API，
-你可以考慮將其修改為接受來自`package:clock`的`Clock`。
-這需要根據有多少地方
-以非從`TestWidgetsFlutterBinding`取得的 clock 呼叫此 API 來判斷。
+If you own the api you are calling,
+you may want to change it to accept a `Clock`
+from `package:clock`.
+This is a judgement call based on how many places are
+calling this API with something other than a clock
+retrieved from a `TestWidgetsFlutterBinding`.
 
-如果你選擇這個做法，傳遞`tester.binding.clock`的呼叫端不需要修改，
-但其他呼叫端則需要調整。
+If you go this route, your call sites that are passing
+`tester.binding.clock` won't need to be modified,
+but other call sites will.
 
-### 選項 #3：將 API 修改為接受`DateTime function()`
+### Option #3: Change the API to accept a `DateTime function()`
 
-如果你只使用`Clock`的`now`函式，
-且你能控制該 API，那麼你也可以將其
-直接改為接受該函式，而不是`Clock`。
-這樣可以讓你用任一類型的`Clock`輕鬆呼叫，
-只需傳入任一類型 clock 的`now`方法 tearoff 即可：
+If you only use the `Clock` for its `now` function,
+and you control the API, then you can also change it
+to accept that function directly instead of a `Clock`.
+This makes it easily callable with either type of `Clock`,
+by passing a tearoff of the `now` method from either type of clock:
 
-遷移前的呼叫程式碼：
+Calling code before migration:
 
 ```dart
 testWidgets('some test', (WidgetTester tester) {
@@ -81,7 +89,7 @@ testWidgets('some test', (WidgetTester tester) {
 });
 ```
 
-遷移後的呼叫程式碼：
+Calling code after migration:
 
 ```dart
 testWidgets('some test', (WidgetTester tester) {
@@ -89,21 +97,21 @@ testWidgets('some test', (WidgetTester tester) {
 });
 ```
 
-## 時間軸
+## Timeline
 
-合併於版本：1.18.0<br>  
-於穩定版發佈：1.20
+Landed in version: 1.18.0<br>
+In stable release: 1.20
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`TestWidgetsFlutterBinding`][`TestWidgetsFlutterBinding`]
+* [`TestWidgetsFlutterBinding`][]
 
-相關 PR：
+Relevant PRs:
 
-* [PR 54125][PR 54125]：移除 flutter_test 對 quiver 的依賴，
-  改為使用 fake_async 與 clock
+* [PR 54125][]: remove flutter_test quiver dep,
+  use fake_async and clock instead
 
 [`TestWidgetsFlutterBinding`]: {{site.api}}/flutter/flutter_test/TestWidgetsFlutterBinding-class.html
 [PR 54125]: {{site.repo.flutter}}/pull/54125

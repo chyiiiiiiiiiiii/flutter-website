@@ -1,7 +1,6 @@
-```markdown
 ---
-title: "離線優先支援"
-description: 為應用程式中的某個功能實作離線優先支援。
+title: "Offline-first support"
+description: Implement offline-first support for one feature in an application.
 contentTags:
   - data
   - user experience
@@ -15,24 +14,49 @@ js:
 
 <?code-excerpt path-base="app-architecture/offline_first"?>
 
-離線優先（Offline-first）應用程式是一種即使在沒有網路連線時，仍能提供大部分或全部功能的應用程式。離線優先應用程式通常會依賴儲存的資料，讓使用者能暫時存取原本僅能在線上取得的資料。
+An offline-first application is an app capable of offering most 
+or all of its functionality while being disconnected from the internet. 
+Offline-first applications usually rely on stored data 
+to offer users temporary access to data 
+that would otherwise only be available online.
 
-有些離線優先應用程式能無縫整合本地與遠端資料，而有些應用程式則會在使用快取資料時通知使用者。同樣地，有些應用程式會在背景自動同步資料，而有些則需要使用者明確執行同步。這一切都取決於應用程式的需求與所提供的功能，開發者可以根據自身需求決定最合適的實作方式。
+Some offline-first applications combine local and remote data seamlessly, 
+while other applications inform the user 
+when the application is using cached data. 
+In the same way, 
+some applications synchronize data in the background 
+while others require the user to explicitly synchronize it. 
+It all depends on the application requirements and the functionality it offers, 
+and it’s up to the developer to decide which implementation fits their needs.
 
-在本指南中，你將學習如何在 Flutter 中，依循[Flutter 架構指引][Flutter Architecture guidelines]，實作不同的離線優先應用程式設計方式。
+In this guide, 
+you will learn how to implement different approaches 
+to offline-first applications in Flutter, 
+following the [Flutter Architecture guidelines][].
 
-## 離線優先架構
+## Offline-first architecture
 
-如同常見架構概念指南所說，repository（儲存庫）扮演單一真實來源（single source of truth）的角色。它們負責提供本地或遠端資料，並且應該是唯一可以修改資料的地方。在離線優先應用程式中，repository 會結合不同的本地與遠端資料來源，無論裝置的連線狀態如何，都能在單一存取點提供資料。
+As explained in the common architecture concepts guide, 
+repositories act as the single source of truth. 
+They are responsible for presenting local or remote data, 
+and should be the only place where data can be modified. 
+In offline-first applications, 
+repositories combine different local and remote data sources 
+to present data in a single access point, 
+independently of the connectivity state of the device.
 
-本範例使用 `UserProfileRepository`，這是一個支援離線優先的 repository，讓你能夠取得與儲存 `UserProfile` 物件。
+This example uses the `UserProfileRepository`, 
+a repository that allows you to obtain and store `UserProfile` objects 
+with offline-first support.
 
-`UserProfileRepository` 使用了兩種不同的資料服務：一種處理遠端資料，另一種則處理本地資料庫。
+The `UserProfileRepository` uses two different data services: 
+one works with remote data, 
+and the other works with a local database. 
 
-API client `ApiClientService` 則透過 HTTP REST 呼叫連接到遠端服務。
+The API client,`ApiClientService`,
+connects to a remote service using HTTP REST calls.
 
 <?code-excerpt "lib/data/services/api_client_service.dart (ApiClientService)"?>
-```
 ```dart
 class ApiClientService {
   /// performs GET network request to obtain a UserProfile
@@ -47,8 +71,8 @@ class ApiClientService {
 }
 ```
 
-資料庫服務 `DatabaseService` 使用 SQL 來儲存資料，  
-其方式類似於 [Persistent Storage Architecture: SQL][Persistent Storage Architecture: SQL] 教學中的實作。
+The database service, `DatabaseService`, stores data using SQL, 
+similar to the one found in the [Persistent Storage Architecture: SQL][] recipe.
 
 <?code-excerpt "lib/data/services/database_service.dart (DatabaseService)"?>
 ```dart
@@ -66,8 +90,8 @@ class DatabaseService {
 }
 ```
 
-本範例同樣使用了 `UserProfile` 資料類別（data class），
-該類別是透過 [`freezed`][`freezed`] 套件建立的。
+This example also uses the `UserProfile` data class 
+that has been created using the [`freezed`][] package.
 
 <?code-excerpt "lib/domain/model/user_profile.dart (UserProfile)" remove="@Default(false) bool synchronized,"?>
 ```dart
@@ -80,20 +104,20 @@ abstract class UserProfile with _$UserProfile {
 }
 ```
 
-在具有複雜資料的應用程式中，
-例如當遠端資料包含的欄位比 UI 需要的還要多時，
-你可能會希望為 API 和資料庫服務使用一個資料類別，
-而為 UI 使用另一個資料類別。
-舉例來說，
-可以為資料庫實體使用 `UserProfileLocal`，
-為 API 回應物件使用 `UserProfileRemote`，
-然後為 UI 資料模型類別使用 `UserProfile`。
-`UserProfileRepository` 則負責在需要時
-將不同類型之間進行轉換。
+In apps that have complex data, 
+such as when the remote data contains more fields than the needed by the UI,
+you might want to have one data class for the API and database services,
+and another for the UI. 
+For example, 
+`UserProfileLocal` for the database entity, 
+`UserProfileRemote` for the API response object, 
+and then `UserProfile` for the UI data model class. 
+The `UserProfileRepository` would take care
+of converting from one to the other when necessary.
 
-這個範例同時也包含了 `UserProfileViewModel`，
-這是一個 view model（檢視模型），會使用 `UserProfileRepository`
-在元件（Widget）上顯示 `UserProfile`。
+This example also includes the `UserProfileViewModel`, 
+a view model that uses the `UserProfileRepository` 
+to display the `UserProfile` on a widget.
 
 <?code-excerpt "lib/ui/user_profile/user_profile_viewmodel.dart (UserProfileViewModel)"?>
 ```dart
@@ -116,30 +140,32 @@ class UserProfileViewModel extends ChangeNotifier {
 }
 ```
 
-## 讀取資料
+## Reading data
 
-讀取資料是任何依賴遠端 API 服務的應用程式中，最基本的部分之一。
+Reading data is a fundamental part of any application 
+that relies on remote API services.
 
-在 Offline-first（離線優先）應用程式中，
-你需要確保存取這些資料的速度盡可能快，
-並且不會因為裝置是否連線而影響使用者取得資料。
-這與 [Optimistic State 設計模式][Optimistic State design pattern] 類似。
+In offline-first applications, 
+you want to ensure that the access to this data is as fast as possible, 
+and that it doesn’t depend on the device being online 
+to provide data to the user. 
+This is similar to the [Optimistic State design pattern][].
 
-在本節中，
-你將學習兩種不同的方法：
-一種是將資料庫作為備援機制，
-另一種則是使用 `Stream` 結合本地與遠端資料。
+In this section, 
+you will learn two different approaches, 
+one that uses the database as a fallback, 
+and one that combines local and remote data using a `Stream`.
 
-### 使用本地資料作為備援
+### Using local data as a fallback
 
-作為第一種做法，
-你可以透過備援機制來實作離線支援，
-以因應使用者離線或網路請求失敗的情境。
+As a first approach, 
+you can implement offline support by having a fallback mechanism 
+for when the user is offline or a network call fails.
 
-在這種情況下，`UserProfileRepository` 會嘗試透過 `ApiClientService`
-從遠端 API 伺服器取得 `UserProfile`。
-如果這個請求失敗，
-則會從 `DatabaseService` 返回本地儲存的 `UserProfile`。
+In this case, the `UserProfileRepository` attempts to obtain the `UserProfile` 
+from the remote API server using the `ApiClientService`.
+If this request fails, 
+then returns the locally stored `UserProfile` from the `DatabaseService`.
 
 <?code-excerpt "lib/data/repositories/user_profile_repository.dart (getUserProfileFallback)" replace="/Fallback//g"?>
 ```dart
@@ -168,27 +194,27 @@ Future<UserProfile> getUserProfile() async {
 }
 ```
 
-### 使用 Stream
+### Using a Stream
 
-一個更好的替代方案是使用 `Stream` 來呈現資料。
-在最佳情境下，
-`Stream` 會發出兩個值，
-分別是本地儲存的資料，以及來自伺服器的資料。
+A better alternative presents the data using a `Stream`. 
+In the best case scenario, 
+the `Stream` emits two values,
+the locally stored data, and the data from the server.
 
-首先，stream 會透過 `DatabaseService` 發出本地儲存的資料。
-這個呼叫通常比網路請求更快且較不容易出錯，
-而且先取得本地資料可以讓 view model 立即顯示資料給使用者。
+First, the stream emits the locally stored data using the `DatabaseService`. 
+This call is generally faster and less error prone than a network call, 
+and by doing it first the view model can already display data to the user.
 
-如果資料庫沒有任何快取的資料，
-那麼 `Stream` 就會完全依賴網路請求，
-只會發出一個值。
+If the database does not contain any cached data, 
+then the `Stream` relies completely on the network call, 
+emitting only one value.
 
-接著，該方法會使用 `ApiClientService` 進行網路請求，
-以取得最新的資料。
-如果請求成功，
-就會用新取得的資料更新資料庫，
-然後再將這個值傳遞給 view model，
-讓它可以顯示給使用者。
+Then, the method performs the network call using the `ApiClientService`
+to obtain up-to-date data. 
+If the request was successful, 
+it updates the database with the newly obtained data, 
+and then yields the value to the view model, 
+so it can be displayed to the user.
 
 <?code-excerpt "lib/data/repositories/user_profile_repository.dart (getUserProfile)"?>
 ```dart
@@ -213,12 +239,13 @@ Stream<UserProfile> getUserProfile() async* {
 }
 ```
 
-view model 必須訂閱此 `Stream`，並等待其完成。
-為此，請使用 `asFuture()` 搭配 `Subscription` 物件進行呼叫，並等待結果。
+The view model must subscribe 
+to this `Stream` and wait until it has completed. 
+For that, call `asFuture()` with the `Subscription` object and await the result.
 
-每取得一個值時，
-請更新 view model 的資料，並呼叫 `notifyListeners()`，
-讓 UI 顯示最新資料。
+For each obtained value, 
+update the view model data and call `notifyListeners()`
+so the UI shows the latest data.
 
 <?code-excerpt "lib/ui/user_profile/user_profile_viewmodel.dart (load)"?>
 ```dart
@@ -237,11 +264,13 @@ Future<void> load() async {
       .asFuture<void>();
 }
 ```
-### 僅使用本機資料
+### Using only local data
 
-另一種可行的方法是針對讀取操作僅使用本機儲存的資料。  
-這種做法要求資料必須在某個時間點預先載入到資料庫中，  
-並且需要一個同步機制來確保資料能夠保持最新狀態。
+Another possible approach uses locally stored data for read operations. 
+This approach requires that the data has been preloaded 
+at some point into the database, 
+and requires a synchronization mechanism that can keep the data up to date.
+
 
 <?code-excerpt "lib/data/repositories/user_profile_repository.dart (getUserProfileLocal)" replace="/Local//g;/Read//g"?>
 ```dart
@@ -270,23 +299,42 @@ Future<void> sync() async {
 }
 ```
 
-這種方法適用於不需要隨時與伺服器同步資料的應用程式。例如，一個天氣應用程式，其天氣資料每天只更新一次。
+This approach can be useful for applications 
+that don’t require data to be in sync with the server at all times.
+For example, a weather application 
+where the weather data is only updated once a day.
 
-同步可以由使用者手動執行，例如下拉重新整理（pull-to-refresh）動作，然後呼叫 `sync()` 方法，或是由 `Timer` 或背景程序定期執行。你可以在「同步狀態」章節中學習如何實作同步任務。
+Synchronization could be done manually by the user, 
+for example, a pull-to-refresh action that then calls the `sync()` method, 
+or done periodically by a `Timer` or a background process. 
+You can learn how to implement a synchronization task 
+in the section about synchronizing state.
 
-## 寫入資料
+## Writing data
 
-在 Offline-first（離線優先）應用程式中，寫入資料的方式根本上取決於應用程式的使用情境。
+Writing data in offline-first applications depends fundamentally 
+on the application use case.
 
-有些應用程式可能需要使用者輸入的資料能立即在伺服器端取得，而其他應用程式則可能較為彈性，允許資料暫時不同步。
+Some applications might require the user input data 
+to be immediately available on the server side, 
+while other applications might be more flexible
+and allow data to be out-of-sync temporarily.
 
-本節將說明兩種在 Offline-first 應用程式中實作資料寫入的不同方法。
+This section explains two different approaches 
+for implementing writing data in offline-first applications.
 
-### 僅限線上寫入（Online-only writing）
+### Online-only writing
 
-在 Offline-first 應用程式中，一種寫入資料的方法是強制必須在線上狀態下才能寫入資料。雖然這聽起來有些違反直覺，但這可以確保使用者所修改的資料能完全與伺服器同步，應用程式的狀態不會與伺服器不同步。
+One approach for writing data in offline-first applications 
+is to enforce being online to write data. 
+While this might sound counterintuitive, 
+this ensures that the data the user has modified 
+is fully synchronized with the server, 
+and the application doesn’t have a different state than the server.
 
-在這種情況下，你會先嘗試將資料傳送到 API 服務，如果請求成功，再將資料儲存到資料庫中。
+In this case, you first attempt to send the data to the API service, 
+and if the request succeeds, 
+then store the data in the database.
 
 <?code-excerpt "lib/data/repositories/user_profile_repository.dart (updateUserProfileOnline)" replace="/Online//g"?>
 ```dart
@@ -304,15 +352,16 @@ Future<void> updateUserProfile(UserProfile userProfile) async {
 }
 ```
 
-在這種情境下的缺點是，離線優先（offline-first）功能僅適用於讀取操作，
-但不適用於寫入操作，因為寫入操作需要使用者處於線上狀態。
+The disadvantage in this case is that the offline-first functionality 
+is only available for read operations, 
+but not for write operations, as those require the user being online.
 
-### 離線優先寫入（Offline-first writing）
+### Offline-first writing
 
-第二種方法則是反向操作。
-應用程式不是先執行網路請求，
-而是先將新資料儲存到資料庫中，
-然後在本地儲存完成後，再嘗試將資料傳送至 API 服務。
+The second approach works the other way around. 
+Instead of performing the network call first, 
+the application first stores the new data in the database, 
+and then attempts to send it to the API service once it has been stored locally.
 
 <?code-excerpt "lib/data/repositories/user_profile_repository.dart (updateUserProfileOffline)" replace="/Offline//g"?>
 ```dart
@@ -329,25 +378,40 @@ Future<void> updateUserProfile(UserProfile userProfile) async {
 }
 ```
 
-這種做法允許使用者即使在應用程式離線時，也能將資料儲存在本地端。然而，若網路請求失敗，本地資料庫與 API 服務就會失去同步。在下一節中，你將學習如何處理本地與遠端資料同步的不同方法。
+This approach allows users to store data locally 
+even when the application is offline, 
+however, if the network call fails, 
+the local database and the API service are no longer in sync. 
+In the next section, 
+you will learn different approaches to handle synchronization 
+between local and remote data.
 
-## 狀態同步
+## Synchronizing state
 
-保持本地與遠端資料同步是離線優先（offline-first）應用程式的重要部分，因為本地所做的變更需要複製到遠端服務。應用程式也必須確保當使用者回到應用程式時，本地儲存的資料與遠端服務中的資料一致。
+Keeping the local and remote data in sync 
+is an important part of offline-first applications, 
+as the changes that have been done locally 
+need to be copied to the remote service.
+The app must also ensure that, when the user goes back to the application, 
+the locally stored data is the same as in the remote service.
 
-### 撰寫同步任務
 
-有多種方法可以在背景任務中實作資料同步。
+### Writing a synchronization task
 
-一個簡單的解決方案是，在`UserProfileRepository`中建立一個`Timer`，讓它定期執行，例如每五分鐘執行一次。
+There are different approaches for implementing 
+synchronization in a background task.
+
+A simple solution is to create a `Timer` 
+in the `UserProfileRepository` that runs periodically, 
+for example every five minutes.
 
 <?code-excerpt "lib/data/repositories/user_profile_repository.dart (Timer)"?>
 ```dart
 Timer.periodic(const Duration(minutes: 5), (timer) => sync());
 ```
 
-`sync()` 方法接著會從資料庫擷取 `UserProfile`，  
-如果需要同步，則會將其傳送至 API 服務。
+The `sync()` method then fetches the `UserProfile` from the database, 
+and if it requires synchronization, it is then sent to the API service.
 
 <?code-excerpt "lib/data/repositories/user_profile_repository.dart (sync)"?>
 ```dart
@@ -374,21 +438,38 @@ Future<void> sync() async {
 }
 ```
 
-一個更複雜的解決方案是使用背景處理程序，例如 [`workmanager`][`workmanager`] 套件。這讓你的應用程式即使在未執行時，也能在背景中執行同步處理流程。
+A more complex solution uses background processes 
+like the [`workmanager`][] plugin. 
+This allows your application to run the synchronization process 
+in the background even when the application is not running.
 
 :::note
-持續執行背景作業會大幅消耗裝置電池電量，且有些裝置會限制背景處理的能力，因此這種做法需要根據應用程式需求進行調整，單一解決方案未必適用所有情境。
+Running background operations continuously 
+can drain the device battery dramatically, 
+and some devices limit the background processing capabilities, 
+so this approach needs to be tuned 
+to the application requirements and one solution might not fit all cases.
 :::
 
-同時建議僅在網路可用時執行同步任務。例如，你可以使用 [`connectivity_plus`][`connectivity_plus`] 套件來檢查裝置是否已連接 WiFi。你也可以利用 [`battery_plus`][`battery_plus`] 來確認裝置電量是否充足。
+It’s also recommended to only perform the synchronization task 
+when the network is available.
+For example, you can use the [`connectivity_plus`][] plugin 
+to check if the device is connected to WiFi. 
+You can also use [`battery_plus`][] to verify 
+that the device is not running low on battery.
 
-在前述範例中，同步任務每 5 分鐘執行一次。在某些情況下，這可能過於頻繁，而在其他情境則可能不夠頻繁。實際的同步週期時間需依你的應用程式需求決定，這部分需要你自行評估。
+In the previous example, the synchronization task runs every 5 minutes. 
+In some cases, that might be excessive, 
+while in others it might not be frequent enough. 
+The actual synchronization period time for your application 
+depends on your application needs and it’s something you will have to decide.
 
-### 儲存同步旗標
+### Storing a synchronization flag
 
-為了判斷資料是否需要同步，可以在資料類別中新增一個旗標，表示該變更是否需要同步。
+To know if the data requires synchronization, 
+add a flag to the data class indicating if the changes need to be synchronized.
 
-例如，`bool synchronized`：
+For example, `bool synchronized`:
 
 <?code-excerpt "lib/domain/model/user_profile.dart (UserProfile)"?>
 ```dart
@@ -402,44 +483,47 @@ abstract class UserProfile with _$UserProfile {
 }
 ```
 
-你的同步邏輯應該僅在 `synchronized` 標記為 `false` 時，才嘗試將資料傳送至 API 服務。
-如果請求成功，則將其狀態改為 `true`。
+Your synchronization logic should attempt
+to send it to the API service 
+only when the `synchronized` flag is `false`.
+If the request is successful, then change it to `true`.
 
-### 從伺服器推送資料
+### Pushing data from server
 
-另一種同步的方式是使用推播服務（push service），
-將最新資料主動提供給應用程式。
-在這種情境下，當資料有變動時，是由伺服器主動通知應用程式，
-而不是由應用程式主動向伺服器查詢更新。
+A different approach for synchronization 
+is to use a push service to provide up-to-date data to the application. 
+In this case, the server notifies the application when data has changed, 
+instead of being the application asking for updates.
 
-例如，你可以使用 [Firebase messaging][Firebase messaging]，
-將小型資料負載推送到裝置，
-同時也能透過背景訊息（background messages）遠端觸發同步任務。
+For example, you can use [Firebase messaging][], 
+to push small payloads of data to the device, 
+as well as trigger synchronization tasks remotely using background messages.
 
-與其讓同步任務持續在背景執行，
-不如讓伺服器在儲存的資料需要更新時，
-透過推播通知（push notification）主動通知應用程式。
+Instead of having a synchronization task running in the background, 
+the server notifies the application 
+when the stored data needs to be updated with a push notification.
 
-你也可以將這兩種方式結合使用，
-同時有背景同步任務與背景推播訊息，
-以確保應用程式資料庫與伺服器保持同步。
+You can combine both approaches together, 
+having a background synchronization task and using background push messages, 
+to keep the application database synchronized with the server.
 
-## 綜合應用
+## Putting it all together
 
-撰寫一個「離線優先」（offline-first）的應用程式，
-需要針對資料的讀取、寫入與同步操作方式做出決策，
-這些決策會依你所開發應用程式的需求而有所不同。
+Writing an offline-first application 
+requires making decisions regarding 
+the way read, write and sync operations are implemented, 
+which depend on the requirements from the application you are developing.
 
-重點整理如下：
+The key takeaways are:
 
-- 讀取資料時，
-  你可以使用 `Stream`，將本地儲存資料與遠端資料結合。
-- 寫入資料時，
-  請決定是否需要在線或離線，
-  以及是否需要稍後再同步資料。
-- 實作背景同步任務時，
-  請考量裝置狀態與你的應用程式需求，
-  因為不同應用程式可能有不同的需求。
+- When reading data, 
+you can use a `Stream` to combine locally stored data with remote data.
+- When writing data, 
+decide if you need to be online or offline, 
+and if you need synchronizing data later or not.
+- When implementing a background sync task, 
+take into account the device status and your application needs, 
+as different applications may have different requirements.
 
 [Flutter Architecture guidelines]:/app-architecture
 [Persistent Storage Architecture: SQL]:/app-architecture/design-patterns/sql

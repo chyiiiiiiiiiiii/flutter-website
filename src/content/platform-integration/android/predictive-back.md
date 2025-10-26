@@ -1,34 +1,36 @@
 ---
-title: 新增預測式返回手勢
-shortTitle: 預測式返回
+title: Add the predictive-back gesture
+shortTitle: Predictive-back
 description: >-
-  學習如何在你的 Android 應用程式中新增預測式返回（predictive back）手勢。
+  Learn how to add the predictive back gesture to your Android app.
 ---
 
-此功能已在 Flutter 中推出，
-但目前在 Android 系統本身尚未預設啟用。
-你可以依照以下說明進行嘗試。
+This feature has landed in Flutter,
+but it's not enabled by default in Android itself yet.
+You can try it out using the following instructions.
 
-## 設定你的應用程式
+## Configure your app
 
-請確認你的應用程式支援 Android API 33 或更高版本，
-因為預測式返回無法在較舊版本的 Android 上運作。
-接著，在`android/app/src/main/AndroidManifest.xml`中設定旗標`android:enableOnBackInvokedCallback="true"`。
+Make sure your app supports Android API 33 or higher,
+as predictive back won't work on older versions of Android.
+Then, set the flag `android:enableOnBackInvokedCallback="true"`
+in `android/app/src/main/AndroidManifest.xml`.
 
-## 設定你的裝置
+## Configure your device
 
-你需要在裝置上啟用開發人員模式，並設定相關旗標，
-因此目前還無法預期大多數使用者的 Android 裝置會支援預測式返回。
-如果你想在自己的裝置上試用，
-請確保裝置運行的是 API 33 或更高版本，然後在
-**設定 => 系統 => 開發人員選項**
-中，啟用 **預測式返回動畫（Predictive back animations）** 的開關。
+You need to enable Developer Mode and set a flag on your device,
+so you can't yet expect predictive back to work on most users'
+Android devices. If you want to try it out on your own device though,
+make sure it's running API 33 or higher, and then in
+**Settings => System => Developer** options,
+make sure the switch is enabled next to **Predictive back animations**.
 
-## 設定你的應用程式
+## Set up your app
 
-預測式返回的 Route（路由）轉場目前
-預設尚未啟用，因此你需要在應用程式中手動啟用。
-通常，你可以透過在主題（theme）中設定來達成：
+The predictive back route transitions are currently
+not enabled by default, so for now you'll need to enable them
+manually in your app.
+Typically, you do this by setting them in your theme:
 
 ```dart
 MaterialApp(
@@ -44,15 +46,17 @@ MaterialApp(
 ),
 ```
 
-## 執行你的應用程式
+## Run your app
 
-最後，請確保你使用的 Flutter 版本至少為 3.22.2，這是在撰寫本文時的最新穩定版本，來執行你的應用程式。
+Lastly, just make sure you're using at least
+Flutter version 3.22.2 to run your app,
+which is the latest stable release at the time of this writing.
 
-## 進一步資訊
+## For more information
 
-你可以在以下連結找到更多資訊：
+You can find more information at the following link:
 
-* [Android predictive back][Android predictive back] 重大變更
+* [Android predictive back][] breaking change
 
 [Android predictive back]: /release/breaking-changes/android-predictive-back
 

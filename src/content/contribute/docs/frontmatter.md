@@ -1,17 +1,19 @@
 ---
-title: 前置資料（Frontmatter）
+title: Frontmatter
 description: >-
-  了解 Dart 與 Flutter 文件網站上每份文件開頭所使用的 YAML 前置資料（frontmatter）。
+  Learn about the YAML frontmatter each document on
+  the Dart and Flutter documentation sites starts with.
 ---
 
 :::warning
-本文件仍在撰寫中。
+This document is a work in progress.
 :::
 
-本網站上的每個 Markdown 文件都以 [YAML][YAML] 前置資料（frontmatter）開始。
-你可以編輯前置資料，以自訂產生的頁面及其中繼資料（metadata）。
+Each Markdown document on the site starts with [YAML][] frontmatter.
+You can edit the frontmatter to customize
+the generated page and its metadata.
 
-每個頁面至少需要 `title` 和 `description`。
+As a minimum, a `title` and `description` are required for each page.
 
 ```yaml
 ---
@@ -23,11 +25,12 @@ description: >-
 
 [YAML]: https://yaml.org/
 
-## 在模板中存取 frontmatter 資料
+## Access frontmatter data in templates
 
-版面配置（Layouts）、模板（templates）以及原始檔案（source files）都可以透過樣板語法（templating）以頂層資料的方式存取 frontmatter 中的值。
+Layouts, templates, and source files can access values from the frontmatter
+as top-level data with templating.
 
-例如，下列 frontmatter 設定了一個 `showData` 變數為 `value`：
+For example, the following frontmatter sets a `showData` variable to `value`:
 
 ```yaml
 ---
@@ -36,7 +39,7 @@ showDate: false
 ---
 ```
 
-可以在模板中存取`showDate`的設定值：
+The configured value of `showDate` can be accessed in templates:
 
 ```md
 Should show date: {{showDate}}
@@ -45,14 +48,14 @@ Should show date: {{showDate}}
 {% endif %}
 ```
 
-如果你要在 frontmatter 中新增一個值，
-建議使用 `lowerCamelCase` 作為名稱。
+If you add a new value to the frontmatter,
+prefer using `lowerCamelCase` for the name.
 
-## Frontmatter 欄位
+## Frontmatter fields
 
-除了 `title` 和 `description` 之外，
-網站還支援多種其他可選欄位，
-可用來自訂頁面產生方式。
+Besides `title` and `description`,
+the sites support a variety of other optional fields
+to customize page generation.
 
 ### `title`
 

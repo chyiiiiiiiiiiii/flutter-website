@@ -1,36 +1,38 @@
 ---
-title: Flutter 測試中的插件
-shortTitle: 插件測試
-description: 在 Flutter 測試中加入插件。
+title: Plugins in Flutter tests
+shortTitle: Plugin tests
+description: Adding plugin as part of your Flutter tests.
 ---
 
 :::note
-若想了解如何在測試 Flutter 應用程式時避免插件造成崩潰，請繼續閱讀。
-如果你想學習如何測試自己的插件程式碼，請參考
-[Testing plugins][Testing plugins]。
+To learn how to avoid crashes from a plugin when
+testing your Flutter app, read on.
+To learn how to test your plugin code, check out
+[Testing plugins][].
 :::
 
 [Testing plugins]: /testing/testing-plugins
 
-幾乎所有 [Flutter 插件][Flutter plugins] 都包含兩個部分：
+Almost all [Flutter plugins][] have two parts:
 
-* Dart 程式碼，提供你的程式所呼叫的 API。
-* 使用平台專屬（或稱「主機」）語言撰寫的程式碼，
-  例如 Kotlin 或 Swift，負責實作這些 API。
+* Dart code, which provides the API your code calls.
+* Code written in a platform-specific (or "host") language,
+  such as Kotlin or Swift, which implements those APIs.
 
-事實上，原生（或主機）語言程式碼是
-插件套件與標準套件的主要區別。
+In fact, the native (or host) language code distinguishes
+a plugin package from a standard package.
 
 [Flutter plugins]: /packages-and-plugins/using-packages
 
-建置並註冊插件的主機端程式碼是 Flutter 應用程式建置流程的一部分，
-因此插件僅在你的程式碼於應用程式中執行時才有效，
-例如使用 `flutter run`
-或執行 [整合測試][integration tests] 時。
-當執行 [Dart 單元測試][Dart unit tests] 或
-[元件測試][widget tests] 時，主機端程式碼並不可用。
-如果你測試的程式碼有呼叫任何插件，
-通常會導致如下錯誤：
+Building and registering the host portion of a plugin
+is part of the Flutter application build process,
+so plugins only work when your code is running
+in your application, such as with `flutter run`
+or when running [integration tests][].
+When running [Dart unit tests][] or
+[widget tests][], the host code isn't available.
+If the code you are testing calls any plugins,
+this often results in errors like the following:
 
 ```console
 MissingPluginException(No implementation found for method someMethodName on channel some_channel_name)
@@ -41,91 +43,110 @@ MissingPluginException(No implementation found for method someMethodName on chan
 [widget tests]: {{site.api}}/flutter/flutter_test/flutter_test-library.html
 
 :::note
-僅使用 Dart 的 [Plugin 實作][only use Dart]
-在單元測試中是可運作的。這是 plugin 的實作細節，
-因此測試不應依賴此行為。
+Plugin implementations that [only use Dart][]
+will work in unit tests. This is an implementation
+detail of the plugin, however,
+so tests shouldn't rely on it.
 :::
 
 [only use Dart]: /packages-and-plugins/developing-packages#dart-only-platform-implementations
 
-當單元測試使用到 plugin 的程式碼時，
-有幾種方式可以避免這類例外。
-以下解決方案依推薦順序排列。
+When unit testing code that uses plugins,
+there are several options to avoid this exception.
+The following solutions are listed in order of preference.
 
-## 包裝 plugin
+## Wrap the plugin
 
-在大多數情況下，最佳做法是將 plugin
-的呼叫包裝在你自己的 API 中，
-並提供一種方式在測試中[模擬 (mock)][mocking]你自己的 API。
+In most cases, the best approach is to wrap plugin
+calls in your own API,
+and provide a way of [mocking][] your own API in tests.
 
-這麼做有幾個優點：
+This has several advantages:
 
-* 如果 plugin 的 API 有變動，
-  你不需要更新測試。
-* 你只測試自己的程式碼，
-  測試不會因為你使用的 plugin 行為而失敗。
-* 不論 plugin 的實作方式如何，
-  或甚至是非 plugin 的套件依賴，
-  都能用相同方法處理。
+* If the plugin API changes,
+  you won't need to update your tests.
+* You are only testing your own code,
+  so your tests can't fail due to behavior of
+  a plugin you're using.
+* You can use the same approach regardless of
+  how the plugin is implemented,
+  or even for non-plugin package dependencies.
 
 [mocking]: /cookbook/testing/unit/mocking
 
-## 模擬 plugin 的公開 API
+## Mock the plugin's public API
 
-如果 plugin 的 API 已經是基於類別實例，
-你可以直接模擬它，但需注意以下事項：
+If the plugin's API is already based on class instances,
+you can mock it directly, with the following caveats:
 
-* 若 plugin 使用非類別函式或靜態方法，這方法將無法運作。
-* 當 plugin API 變更時，測試也需要更新。
+* This won't work if the plugin uses
+  non-class functions or static methods.
+* Tests will need to be updated when
+  the plugin API changes.
 
-## 模擬 plugin 的平台介面
+## Mock the plugin's platform interface
 
-如果 plugin 是[聯邦式 plugin (federated plugin)][federated plugin]，
-它會包含一個平台介面，允許註冊其內部邏輯的實作。
-你可以註冊該平台介面的模擬實作，而非公開 API，
-但需注意以下事項：
+If the plugin is a [federated plugin][],
+it will include a platform interface that allows
+registering implementations of its internal logic.
+You can register a mock of that platform interface
+implementation instead of the public API with the
+following caveats:
 
-* 若 plugin 不是聯邦式，這方法將無法運作。
-* 你的測試會包含部分 plugin 的程式碼，
-  因此 plugin 的行為可能會影響你的測試。
-  例如，若 plugin 會在內部快取時寫入檔案，
-  測試行為可能會因先前是否執行過而改變。
-* 當平台介面變更時，測試可能需要更新。
+* This won't work if the plugin isn't federated.
+* Your tests will include part of the plugin's code,
+  so plugin behavior could cause problems for your tests.
+  For instance, if a plugin writes files as part of an
+  internal cache, your test behavior might change
+  based on whether you had run the test previously.
+* Tests might need to be updated when the platform interface changes.
 
-這種方式的典型需求是
-模擬你依賴的套件所使用的 plugin 實作，
-而不是你自己的程式碼，
-因此你無法改變呼叫方式。
-但如果可能，建議改為模擬該依賴套件本身。
+An example of when this might be necessary is
+mocking the implementation of a plugin used by
+a package that you rely on,
+rather than your own code,
+so you can't change how it's called.
+However, if possible,
+you should mock the dependency that uses the plugin instead.
 
 [federated plugin]: /packages-and-plugins/developing-packages#federated-plugins
 
-## 模擬平台通道 (platform channel)
+## Mock the platform channel
 
-如果 plugin 使用[平台通道 (platform channels)][platform channels]，
-你可以利用 [`TestDefaultBinaryMessenger`][`TestDefaultBinaryMessenger`] 來模擬平台通道。
-這種方式僅在上述方法皆不可行時使用，
-因為它有以下幾個缺點：
+If the plugin uses [platform channels][],
+you can mock the platform channels using
+[`TestDefaultBinaryMessenger`][].
+This should only be used if, for some reason,
+none of the methods above are available,
+as it has several drawbacks:
 
-* 只有使用平台通道的實作才能被模擬。
-  這代表若某些實作未使用平台通道，
-  在某些平台上執行測試時會意外地使用真實實作。
-* 平台通道通常是 plugin 的內部實作細節。
-  即使是 plugin 的小幅修正更新，也可能大幅改變，
-  導致測試意外失敗。
-* 聯邦式 plugin 的各個實作可能有不同的平台通道。
-  例如，你可能設置了模擬平台通道讓測試在 Windows 通過，
-  但在 macOS 或 Linux 上執行時卻失敗。
-* 平台通道型別通常不嚴謹。
-  例如，method channel 常用 dictionary，
-  你必須閱讀 plugin 的實作才能知道 key 字串與 value 型別。
+* Only implementations that use platform channels
+  can be mocked. This means that if some implementations
+  don't use platform channels,
+  your tests will unexpectedly use
+  real implementations when run on some platforms.
+* Platform channels are usually internal implementation
+  details of plugins.
+  They might change substantially even
+  in a bugfix update to a plugin,
+  breaking your tests unexpectedly.
+* Platform channels might differ in each implementation
+  of a federated plugin. For instance,
+  you might set up mock platform channels to
+  make tests pass on a Windows machine,
+  then find that they fail if run on macOS or Linux.
+* Platform channels aren't strongly typed.
+  For example, method channels often use dictionaries
+  and you have to read the plugin's implementation
+  to know what the key strings and value types are.
 
-基於這些限制，`TestDefaultBinaryMessenger`
-主要適用於 plugin 實作的內部測試，
-而非使用 plugin 的程式碼測試。
+Because of these limitations, `TestDefaultBinaryMessenger`
+is mainly useful in the internal tests
+of plugin implementations,
+rather than tests of code using plugins.
 
-你也可以參考
-[Testing plugins][Testing plugins]。
+You might also want to check out
+[Testing plugins][].
 
 [platform channels]: /platform-integration/platform-channels
 [`TestDefaultBinaryMessenger`]: {{site.api}}/flutter/flutter_test/TestDefaultBinaryMessenger-class.html

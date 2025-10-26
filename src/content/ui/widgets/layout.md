@@ -1,7 +1,7 @@
 ---
-title: 版面配置元件 (Layout widgets)
-shortTitle: 版面配置 (Layout)
-description: Flutter 用於構建版面配置的元件 (Widgets) 目錄。
+title: Layout widgets
+shortTitle: Layout
+description: A catalog of Flutter's widgets for building layouts.
 ---
 
 {% render docs/catalog-page.md, categoryName:"Layout", catalog:catalog %}

@@ -1,26 +1,31 @@
 ---
-title: 必要的 Kotlin 版本
+title: Required Kotlin version 
 description: >
-    針對 Android 平台建置的 Flutter 應用程式
-    現在需要 Kotlin 1.5.31 或更高版本。
+    Flutter apps built for the Android platform
+    now require Kotlin 1.5.31 or greater.
 ---
 
 {% render docs/breaking-changes.md %}
 
 :::important
-自 Flutter 3.16 起，預設的 Gradle 建置腳本會隨 Flutter 版本而有所不同。例如，Kotlin 版本現在是在 `android/settings.gradle` 檔案中設定。
-如果你的專案是使用較舊版本的 Flutter 產生，建議你將建置腳本升級至最新格式。欲了解更多資訊，請參閱 [Issue 10380][Issue 10380] 及 [Issue 135392]。
+As of Flutter 3.16, the default Gradle build scripts differ across
+Flutter versions. For example, the Kotlin version is now
+configured in the `android/settings.gradle` file.
+If you have generated your project with
+an older version of Flutter, it's advisable to upgrade
+your build scripts to the newest form. For more information,
+see [Issue 10380][] and [Issue 135392].
 :::
 
 [Issue 10380]:  {{site.github}}/flutter/website/issues/10380
 [Issue 135392]: {{site.github}}/flutter/flutter/issues/135392
 
-## 摘要
+## Summary
 
-要為 Android 建置 Flutter 應用程式，必須使用 Kotlin 1.5.31 或更高版本。
+To build a Flutter app for Android, Kotlin 1.5.31 or greater is required.
 
-如果你的應用程式使用較舊的版本，
-你將會收到以下錯誤訊息：
+If your app uses a lower version,
+you will receive the following error message:
 
 ```plaintext noHighlight
 ┌─ Flutter Fix ────────────────────────────────────────────────────────────┐
@@ -34,20 +39,20 @@ description: >
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
-## 背景說明
+## Context
 
-Flutter 已在 Android 上新增對 [可摺疊裝置][1] 的支援。
-這項更新需要在 Flutter embedding 中加入 AndroidX 相依套件，
-而該套件要求應用程式必須使用 Kotlin 1.5.31 或更高版本。
+Flutter added support for [foldable devices][1] on Android.
+This required adding an AndroidX dependency to the Flutter embedding that
+requires apps to use Kotlin 1.5.31 or greater.
 
-## 變更說明
+## Description of change
 
-現在，針對 Android 編譯的 Flutter 應用程式會包含 Gradle 相依套件
-`androidx.window:window-java`。
+A Flutter app compiled for Android now includes the Gradle dependency
+`androidx.window:window-java`.
 
-## 遷移指南
+## Migration guide
 
-請打開 `<app-src>/android/build.gradle`，並修改 `ext.kotlin_version`：
+Open `<app-src>/android/build.gradle`, and change `ext.kotlin_version`:
 
 ```groovy diff
   buildscript {
@@ -55,16 +60,16 @@ Flutter 已在 Android 上新增對 [可摺疊裝置][1] 的支援。
 +     ext.kotlin_version = '1.5.31'
 ```
 
-## 時程
+## Timeline
 
-導入版本：v2.9.0 beta<br>  
-正式版本：2.10
+Landed in version: v2.9.0 beta<br>
+In stable release: 2.10
 
-## 參考資料
+## References
 
-相關 PR：
+Relevant PR:
 
-* [PR 29585: Display Features support][PR 29585: Display Features support]
+* [PR 29585: Display Features support][]
 
 
 [PR 29585: Display Features support]: {{site.repo.engine}}/pull/29585

@@ -1,38 +1,39 @@
 ---
-title: 移除 Flutter
-shortTitle: 移除
+title: Uninstall Flutter
+shortTitle: Uninstall
 description: >-
-    如何從您的開發機器上移除 Flutter SDK（Flutter 軟體開發套件）並清理其設定檔。
+    How to remove the Flutter SDK and clean up its configuration files.
 showToc: false
 ---
 
-若要從您的開發機器上移除 Flutter SDK（Flutter 軟體開發套件），
-請刪除儲存 Flutter 及其設定檔的目錄。
+To remove the Flutter SDK from your development machine,
+delete the directories that store Flutter and its configuration files.
 
-## 選擇您的開發平台 {: #dev-platform }
+## Choose your development platform {: #dev-platform }
 
-本頁說明的操作步驟以
-**Windows**{:.selected-os-text} 裝置為主。
+The instructions on this page are configured to cover
+uninstall Flutter on a **Windows**{:.selected-os-text} device.
 
-如果您想查看其他作業系統的操作說明，
-請選擇下列其中一項。
+If you'd like to follow the instructions for a different OS,
+please select one of the following.
 
 {% osSelector %}
 
-## 移除 Flutter SDK（Flutter 軟體開發套件） {: #uninstall }
+## Uninstall the Flutter SDK {: #uninstall }
 
- 1. <h3>確認您的 Flutter SDK 安裝位置</h3>
+ 1. <h3>Determine your Flutter SDK installation location</h3>
 
-    複製您下載並解壓 Flutter SDK 所在目錄的絕對路徑。
+    Copy the absolute path to the directory that you
+    downloaded and extracted the Flutter SDK into.
 
- 1. <h3>移除安裝目錄</h3>
+ 1. <h3>Remove the installation directory</h3>
 
-    若要移除 Flutter SDK，
-    請刪除您安裝 Flutter 的 `flutter` 目錄。
+    To uninstall the Flutter SDK,
+    delete the `flutter` directory you installed Flutter to.
 
-    例如，如果您將 Flutter 下載到
-    使用者目錄下的 `develop\flutter` 資料夾中，
-    可以執行以下指令來刪除 SDK：
+    For example, if you downloaded Flutter into a
+    `develop\flutter` folder inside your user directory,
+    run the following command to delete the SDK:
 
     ```ps
     $ Remove-Item -Recurse -Force -Path (Join-Path $env:USERPROFILE "develop\flutter")
@@ -40,18 +41,19 @@ showToc: false
 
 {: .steps .windows-only}
 
- 1. <h3>確認你的 Flutter SDK 安裝位置</h3>
+ 1. <h3>Determine your Flutter SDK installation location</h3>
 
-    複製你下載並解壓 Flutter SDK 的目錄絕對路徑。
+    Copy the absolute path to the directory that you
+    downloaded and extracted the Flutter SDK into.
 
- 1. <h3>移除安裝目錄</h3>
+ 1. <h3>Remove the installation directory</h3>
 
-    若要解除安裝 Flutter SDK，
-    請刪除你安裝 Flutter 的 `flutter` 目錄。
+    To uninstall the Flutter SDK,
+    delete the `flutter` directory you installed Flutter to.
 
-    例如，如果你將 Flutter 下載到使用者目錄下的
-    `develop/flutter` 資料夾中，
-    請執行以下指令來刪除 SDK：
+    For example, if you downloaded Flutter into a
+    `develop/flutter` folder inside your user directory,
+    run the following command to delete the SDK:
 
     ```console
     $ rm -rf ~/develop/flutter
@@ -59,22 +61,22 @@ showToc: false
 
 {: .steps .macos-only .linux-only .chromeos-only }
 
-## 清除安裝與設定檔案 {: #cleanup }
+## Clean up installation and configuration files {: #cleanup }
 
-Flutter 和 Dart 會在你的家目錄中新增其他目錄。  
-這些目錄包含設定檔案與套件下載。  
-以下清除步驟為選擇性操作。
+Flutter and Dart add to additional directories in your home directory.
+These contain configuration files and package downloads.
+The following cleanup is optional.
 
- 1. <h3>移除 Flutter 設定目錄</h3>
+ 1. <h3>Remove Flutter configuration directories</h3>
 
-    如果你不需要保留 Flutter 工具設定，  
-    請從你的裝置中移除下列目錄。
+    If you don't want to preserve your Flutter tooling configuration,
+    remove the following directories from your device.
 
     <div class="windows-only">
 
     - `%APPDATA%\.flutter-devtools`
 
-    若要移除這些目錄，請執行以下指令：
+    To remove these directories, run the following command:
 
     ```ps
     $ Remove-Item -Recurse -Force -Path (Join-Path $env:APPDATA ".flutter-devtools")
@@ -96,9 +98,10 @@ Flutter 和 Dart 會在你的家目錄中新增其他目錄。
 
     </div>
 
- 1. <h3>移除 Dart 設定目錄</h3>
+ 1. <h3>Remove Dart configuration directories</h3>
 
-    如果你不需要保留 Dart 工具設定，請從你的裝置中移除以下目錄。
+    If you don't want to preserve your Dart tooling configuration,
+    remove the following directories from your device.
 
     <div class="windows-only">
 
@@ -106,7 +109,7 @@ Flutter 和 Dart 會在你的家目錄中新增其他目錄。
     - `%APPDATA%\.dart-tool`
     - `%LOCALAPPDATA%\.dartServer`
 
-    若要移除這些目錄，請執行以下指令：
+    To remove these directories, run the following command:
 
     ```console
     $ Remove-Item -Recurse -Force -Path (Join-Path $env:APPDATA ".dart"), (Join-Path $env:APPDATA ".dart-tool"), (Join-Path $env:LOCALAPPDATA ".dartServer")
@@ -128,16 +131,16 @@ Flutter 和 Dart 會在你的家目錄中新增其他目錄。
 
     </div>
 
- 1. <h3>移除 pub 套件目錄</h3>
+ 1. <h3>Remove pub package directories</h3>
 
-    如果你不需要保留本機安裝的 pub 套件，
-    請從你的裝置中移除 [pub system cache][pub system cache] 目錄。
+    If you don't want to preserve your locally installed pub packages,
+    remove the [pub system cache][] directory from your device.
 
     <div class="windows-only">
 
-    如果你沒有變更 pub system cache 的位置，
-    請執行以下指令以
-    刪除 `%LOCALAPPDATA%\Pub\Cache` 目錄：
+    If you didn't change the location of the pub system cache,
+    run the following command to
+    delete the `%LOCALAPPDATA%\Pub\Cache` directory:
 
     ```ps
     $ Remove-Item -Recurse -Force -Path (Join-Path $env:LOCALAPPDATA "Pub\Cache")
@@ -147,8 +150,8 @@ Flutter 和 Dart 會在你的家目錄中新增其他目錄。
 
     <div class="macos-only linux-only chromeos-only">
 
-    如果你沒有變更 pub 系統快取（system cache）的儲存位置，
-    請執行以下指令來刪除 `~/.pub-cache` 目錄：
+    If you didn't change the location of the pub system cache,
+    run the following command to delete the `~/.pub-cache` directory:
 
     ```console
     $ rm -rf ~/.pub-cache
@@ -160,12 +163,12 @@ Flutter 和 Dart 會在你的家目錄中新增其他目錄。
 
 [pub system cache]: {{site.dart-site}}/tools/pub/glossary#system-cache
 
-## 重新安裝 Flutter {: #reinstall }
+## Reinstall Flutter {: #reinstall }
 
-您可以隨時[重新安裝 Flutter][flutter-install]或
-[僅重新安裝 Dart][dart-install]。
-如果您曾移除任何設定目錄，
-重新安裝 Flutter 會將它們恢復為預設設定。
+You can [reinstall Flutter][flutter-install] or
+[just Dart][dart-install] at any time.
+If you removed any configuration directories,
+reinstalling Flutter restores them to default settings.
 
 [flutter-install]: /install
 [dart-install]: {{site.dart-site}}/get-dart

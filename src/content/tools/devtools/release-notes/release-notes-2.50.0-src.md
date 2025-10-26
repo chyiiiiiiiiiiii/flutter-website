@@ -1,17 +1,17 @@
-# DevTools 2.50.0 發行說明
+# DevTools 2.50.0 release notes
 
-Dart 和 Flutter DevTools 2.50.0 版本
-包含以下變更及其他一般性改進。
-如需進一步了解 DevTools，請參閱
-[DevTools overview](/tools/devtools/overview)。
+The 2.50.0 release of the Dart and Flutter DevTools
+includes the following changes among other general improvements.
+To learn more about DevTools, check out the
+[DevTools overview](/tools/devtools/overview).
 
-## CPU 分析器（profiler）更新
+## CPU profiler updates
 
-- 移除了「Profile app start up」按鈕，改為支援新的 Dart/Flutter
-  `--profile-startup` 命令列旗標（CLI flags）。
+- Deleted the "Profile app start up" button in favor of the new Dart/Flutter
+  `--profile-startup` CLI flags. -
   [#9358](https://github.com/flutter/devtools/pull/9358)
 
-## 完整提交紀錄
+## Full commit history
 
-如需本次發行版本的完整變更清單，請參閱
-[DevTools git log](https://github.com/flutter/devtools/tree/v2.50.0)。
+To find a complete list of changes in this release, check out the
+[DevTools git log](https://github.com/flutter/devtools/tree/v2.50.0).

@@ -1,5 +1,5 @@
 ---
 layout: toc
-title: 資料與後端
-description: 涵蓋 Flutter 應用程式中資料與後端開發的內容。
+title: Data & backend
+description: Content covering data and backend development in Flutter apps.
 ---

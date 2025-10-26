@@ -1,37 +1,39 @@
 ---
 title: Bottom Navigation Title To Label
 description: >
-  已棄用 BottomNavigationBarItem 的 title（Widget），
-  改為 label（String）。
+  Deprecated BottomNavigationBarItem's title (a Widget) in
+  favor of label (a String). 
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-`BottomNavigationBarItem.title` 會顯示棄用警告，
-或在程式碼中被引用時已不存在。
+`BottomNavigationBarItem.title` gives a deprecation warning,
+or no longer exists when referenced in code.
 
-## 背景
+## Context
 
-`BottomNavigationBarItem` 的 `title` 參數已被棄用，
-改為使用 `label`。此變更是為了在文字縮放比例增加時，
-提升 `BottomNavigationBar` 的使用者體驗。現在，在 `BottomNavigationBar` 中的項目
-長按時會顯示提示工具（tooltip）。要實現這個功能，
-需要在 `BottomNavigationBarItem` 上新增 `String` 參數。
+`BottomNavigationBarItem`s `title` parameter was deprecated
+in favor of `label`. This change was necessary to improve
+the user experience of `BottomNavigationBar`s when the text
+scale factor is increased. Items in a `BottomNavigationBar`
+now show tooltips on long press. Accomplishing this 
+requires a `String` parameter on `BottomNavigationBarItem`s.
 
-## 變更說明
+## Description of change
 
-`BottomNavigationBarItem` 類別新增了 `title` 參數，
-其型別為 `Widget`。這使得
-`BottomNavigationBar` 無法顯示 `Tooltip` 元件（Widgets），
-這項變更是為了提升無障礙體驗所必須進行的。
-現在，BottomNavigationBar 不再建立 `BottomNavigationBarItem.title`
-元件，而是將 `BottomNavigationBarItem.label` 包裝在 Text 元件（Text Widget）中並建立它。
+The `BottomNavigationBarItem` class has a `title` parameter,
+which is a `Widget`. This made it impossible for the
+`BottomNavigationBar` to show `Tooltip` widgets,
+a change that was necessary to improve the accessibility experience. 
+Now, instead of building the `BottomNavigationBarItem.title` 
+widget, the BottomNavigationBar wraps the
+`BottomNavigationBarItem.label` in a Text widget and builds that.
 
-## 遷移指南
+## Migration guide
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 BottomNavigationBarItem(
@@ -40,7 +42,7 @@ BottomNavigationBarItem(
 )
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 BottomNavigationBarItem(
@@ -49,25 +51,25 @@ BottomNavigationBarItem(
 )
 ```
 
-## 時程
+## Timeline
 
-合併於版本：1.22.0<br>  
-進入穩定版：2.0.0
+Landed in version: 1.22.0<br>
+In stable release: 2.0.0
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`BottomNavigationBarItem`][`BottomNavigationBarItem`]
+* [`BottomNavigationBarItem`][]
 
-相關 PR：
+Relevant PRs:
 
-* [PR 60655][PR 60655]：清理 hero controller 範圍
-* [PR 59127][PR 59127]：更新 BottomNavigationBar，於長按時顯示工具提示。
+* [PR 60655][]: Clean up hero controller scope
+* [PR 59127][]: Update BottomNavigationBar to show tooltips on long press.
 
-重大變更提案：
+Breaking change proposal:
 
-* [Breaking Change: Bottom Navigation Item Title][Breaking Change: Bottom Navigation Item Title]
+* [Breaking Change: Bottom Navigation Item Title][]
 
 
 [`BottomNavigationBarItem`]: {{site.api}}/flutter/widgets/BottomNavigationBarItem-class.html

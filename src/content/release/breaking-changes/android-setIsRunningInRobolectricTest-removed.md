@@ -1,17 +1,18 @@
 ---
-title: 移除 Android 上的 FlutterMain.setIsRunningInRobolectricTest
+title: FlutterMain.setIsRunningInRobolectricTest on Android removed
 description: >
-    僅供測試用途的 FlutterMain.setIsRunningInRobolectricTest API
-    已在 Android 引擎中整合至 FlutterInjector。
+    The test-only FlutterMain.setIsRunningInRobolectricTest API on the 
+    Android engine is consolidated into the FlutterInjector.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-如果你針對 Flutter 引擎的 Java 嵌入層（Java embedding）撰寫 Java JUnit 測試（例如 Robolectric 測試），並且使用了
-`FlutterMain.setIsRunningInRobolectricTest(true)` API，
-請改用以下方式：
+If you write Java JUnit tests (such as Robolectric tests)
+against the Flutter engine's Java embedding and used the
+`FlutterMain.setIsRunningInRobolectricTest(true)` API,
+replace it with the following:
 
 ```java
 FlutterJNI mockFlutterJNI = mock(FlutterJNI.class);
@@ -21,38 +22,55 @@ FlutterInjector.setInstance(
             .build());
 ```
 
-這種情況應該非常罕見。
+This should be very uncommon.
 
-## 背景
+## Context
 
-`FlutterMain` 類別本身已被棄用，並由 `FlutterInjector` 類別取代。`FlutterMain` 類別使用了許多靜態變數和函式，這使得測試變得困難。`FlutterMain.setIsRunningInRobolectricTest()` 是一種臨時的靜態機制，用於讓測試可以在主機上的 JVM 執行，而不需要載入無法在主機上載入的 `libflutter.so` 原生函式庫。
+The `FlutterMain` class itself is being deprecated and replaced with the
+`FlutterInjector` class. The `FlutterMain` class uses a number of
+static variables and functions than make it difficult to test.
+`FlutterMain.setIsRunningInRobolectricTest()` is one ad-hoc static
+mechanism to allow tests to run on the host machine on JVM without
+loading the `libflutter.so` native library
+(which can't be done on the host machine).
 
-為了避免這類一次性的解決方案，Flutter 的 Android/Java 引擎嵌入層中，所有測試所需的相依性注入，現在都已移至 [`FlutterInjector`] 類別。
+Rather than one-off solutions, all dependency injections needed for tests
+in Flutter's Android/Java engine embedding are now moved to the
+[`FlutterInjector`] class.
 
 [`FlutterInjector`]: https://cs.opensource.google/flutter/engine/+/master:shell/platform/android/io/flutter/FlutterInjector.java
 
-在 `FlutterInjector` 類別中，`setFlutterLoader()` Builder 函式允許控制 [`FlutterLoader`][`FlutterLoader`] 類別如何定位並載入 `libflutter.so` 函式庫。
+Within the `FlutterInjector` class,
+the `setFlutterLoader()` Builder
+function allows for control of how the
+[`FlutterLoader`][] class locates and loads
+the `libflutter.so` library.
 
 [`FlutterLoader`]: https://cs.opensource.google/flutter/engine/+/master:shell/platform/android/io/flutter/embedding/engine/loader/FlutterLoader.java
 
-## 變更說明
+## Description of change
 
-這個 [engine commit][engine commit] 移除了 `FlutterMain.setIsRunningInRobolectricTest()` 測試函式；而接下來的 [commit][commit] 則新增了一個 `FlutterInjector` 類別來協助測試。[PR 20473][PR 20473] 進一步重構了 `FlutterLoader` 和 `FlutterJNI`，以便支援更多的 mock 和測試。
+This [engine commit][] removed the
+`FlutterMain.setIsRunningInRobolectricTest()` testing function;
+and the following [commit][] added a 
+`FlutterInjector` class to assist testing.
+[PR 20473][] further refactored `FlutterLoader`
+and `FlutterJNI` to allow for additional mocking and testing.
 
 [commit]: {{site.repo.engine}}/commit/15f5696c4139a21e1fc54014ce17d01f6ad1737c#diff-f928557f2d60773a8435366400fa42ed
 [engine commit]: {{site.repo.engine}}/commit/15f5696c4139a21e1fc54014ce17d01f6ad1737c#diff-599e1d64442183ead768757cca6805c3L154
 [PR 20473]: {{site.repo.engine}}/pull/20473
-以便支援更多的 mock/測試。
+to allow for additional mocking/testing.
 
-## 遷移指南
+## Migration guide
 
-遷移前的程式碼：
+Code before migration:
 
 ```java
 FlutterMain.setIsRunningInRobolectricTest(true);
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```java
 FlutterJNI mockFlutterJNI = mock(FlutterJNI.class);
@@ -62,7 +80,7 @@ FlutterInjector.setInstance(
             .build());
 ```
 
-## 時程
+## Timeline
 
-合併於版本：1.22.0-2.0.pre.133<br>  
-正式版釋出：2.0.0
+Landed in version: 1.22.0-2.0.pre.133<br>
+In stable release: 2.0.0

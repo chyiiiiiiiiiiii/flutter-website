@@ -1,6 +1,6 @@
 ---
-title: 效果 (Effects)
-description: 為您的 Flutter 應用程式添加效果的食譜目錄。
+title: Effects
+description: A catalog of recipes for adding effects to your Flutter app.
 ---
 
 {% include docs/cookbook-group-index.md %}

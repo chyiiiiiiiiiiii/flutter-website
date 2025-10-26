@@ -1,47 +1,47 @@
 ---
-title: Flutter 中的 Material 3 標記（tokens）更新
+title: Material 3 tokens update in Flutter
 description: >-
-  最新的 Material Design 3 標記（v6.1）已套用至
-  Flutter 的 Material 函式庫。
+  The latest Material Design 3 tokens (v6.1) have been applied to
+  the Flutter Material library.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-Material Design 標記（tokens）更新了在亮色模式下
-4 個顏色角色的對應關係，使其在保有可及性對比的同時，
-視覺上更具吸引力。
-測試結果顯示這項變更在 Flutter 中屬於[非破壞性][non-breaking]，
-但部分使用者可能會注意到這項細微的變化。
-這次更新影響了以下顏色屬性：
+The Material Design tokens updated the mapping of
+4 color roles in light mode to be more
+visually appealing while retaining accessible contrast.
+Testing identified this change as [non-breaking][] in Flutter, but
+some customers might notice this small change.
+The update affected the following color properties:
 
-* `onPrimaryContainer`（Primary10 變更為 Primary30）
-* `onSecondaryContainer`（Secondary10 變更為 Secondary30）
-* `onTertiaryContainer`（Tertiary10 變更為 Tertiary30）
-* `onErrorContainer`（Error10 變更為 Error30）
+* `onPrimaryContainer` (Primary10 to Primary30)
+* `onSecondaryContainer` (Secondary10 to Secondary30)
+* `onTertiaryContainer` (Tertiary10 to Tertiary30)
+* `onErrorContainer` (Error10 to Error30)
 
-那些以這些角色作為預設值的元件（Widgets），
-外觀可能會有所不同。
+Widgets that have been using these roles as their
+default values might look different.
 
-此外，Material 3 標記也將 chip 元件的邊框顏色
-從 `ColorScheme.outline` 更新為 `ColorScheme.outlineVariant`，
-以提升 chip 與按鈕之間的視覺階層。
-使用 chip 邊框標記的 chips（`Chip`、`ActionChip`、`ChoiceChip`、`FilterChip` 和 `InputChip`）
-外觀也可能有所不同。
+Additionally, the Material 3 tokens updated the border color of
+chip widgets from `ColorScheme.outline` to `ColorScheme.outlineVariant` to
+improve visual hierarchy between chips and buttons.
+Chips (`Chip`, `ActionChip`, `ChoiceChip`, `FilterChip`, and `InputChip`) that
+have been using the chip border tokens may look different.
 
-## 遷移指南
+## Migration guide
 
-這些顏色角色對應的差異很小。
-若需回復至原本的預設顏色，請使用 `ColorScheme.copyWith`：
+The differences in the mappings of the color roles are small.
+Use `ColorScheme.copyWith` to revert to the original default colors:
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 final ColorScheme colors = ThemeData().colorScheme;
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 final ColorScheme colors = ThemeData().colorScheme.copyWith(
@@ -52,11 +52,11 @@ final ColorScheme colors = ThemeData().colorScheme.copyWith(
 );
 ```
 
-在套用 token 更新後，
-M3 chips（Material 3 晶片）的預設邊框顏色看起來會變得較淺。
-以 `ActionChip` 為例：
+After applying the token update,
+the default border color of M3 chips looks lighter.
+Take `ActionChip` as an example:
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 final chip = ActionChip(
@@ -65,7 +65,7 @@ final chip = ActionChip(
 );
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 final chip = ChipTheme(
@@ -81,23 +81,23 @@ final chip = ChipTheme(
 );
 ```
 
-## 時程
+## Timeline
 
-已於版本：3.26.0-0.0.pre<br>
-正式版釋出：3.27
+Landed in version: 3.26.0-0.0.pre<br>
+In stable release: 3.27
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`ColorScheme`][`ColorScheme`]
-* [`ThemeData`][`ThemeData`]
-* [`Chip`][`Chip`]
+* [`ColorScheme`][]
+* [`ThemeData`][]
+* [`Chip`][]
 
-相關 PR：
+Relevant PRs:
 
-* [Update tokens to v5.0.0][Update tokens to v5.0.0]
-* [Update tokens to v6.1.0][Update tokens to v6.1.0]
+* [Update tokens to v5.0.0][]
+* [Update tokens to v6.1.0][]
 
 [`ColorScheme`]: {{site.api}}/flutter/material/ColorScheme-class.html
 [`ThemeData`]: {{site.api}}/flutter/material/ThemeData-class.html

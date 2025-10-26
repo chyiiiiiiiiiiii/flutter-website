@@ -1,30 +1,31 @@
 ---
-title: DevTools 發行說明
-description: 了解 Dart 與 Flutter DevTools 的最新變更。
+title: DevTools release notes
+description: Learn about the latest changes in Dart and Flutter DevTools.
 showToc: false
 ---
 
-本頁摘要說明 DevTools 官方穩定版發行的變更內容。
-若要查看完整的變更清單，請參考
-[DevTools git log]({{site.repo.organization}}/devtools/commits/master)。
+This page summarizes the changes in official stable releases of DevTools.
+To view a complete list of changes, check out the
+[DevTools git log]({{site.repo.organization}}/devtools/commits/master).
 
-Dart 與 Flutter SDK（軟體開發套件）皆包含 DevTools。
-若要檢查您目前的 DevTools 版本，
-請在命令列執行以下指令：
+The Dart and Flutter SDKs include DevTools.
+To check your current version of DevTools,
+run the following on your command line:
 
 ```console
 $ dart devtools --version
 ```
 
-### 發行說明
+### Release notes
 
 {% comment %}
-在新增新版 DevTools 發行說明時，
-請務必將版本號加入`/src/_data/devtools_releases.yml`中的清單。
+When adding the release notes for a new DevTools release,
+make sure to add the version number as an entry to the list
+found at `/src/_data/devtools_releases.yml`.
 {% endcomment -%}
 
 {% assign releases = devtools_releases.releases %}
 
 {% for release in releases -%}
-* [{{release}} 發行說明](/tools/devtools/release-notes/release-notes-{{release}})
+* [{{release}} release notes](/tools/devtools/release-notes/release-notes-{{release}})
 {% endfor -%}

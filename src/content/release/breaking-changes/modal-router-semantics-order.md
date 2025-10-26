@@ -1,86 +1,43 @@
 ---
-title: Modal 路由中 Overlay 項目的語意順序
+title: Semantics Order of the Overlay Entries in Modal Routes
 description: >
-  Modal 路由的範圍（scope）在語意遍歷順序上
-  高於其 modal barrier。
+  The scope of the modal route has a higher semantics
+  traverse order than its modal barrier.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-我們調整了 Modal 路由中 overlay 項目的語意遍歷順序。
-現在，無障礙輔助功能（如 TalkBack 或 VoiceOver）會優先聚焦於 Modal 路由的範圍（scope），而非其 modal barrier。
+We changed the semantics traverse order of the overlay entries in modal routes.
+Accessibility talk back or voice over now focuses the scope of a modal route
+first instead of its modal barrier.
 
-## 背景
+## Context
 
-Modal 路由包含兩個 overlay 項目：範圍（scope）與 modal barrier。  
-範圍是 Modal 路由實際的內容，而 modal barrier 則是在範圍未覆蓋整個螢幕時，作為路由背景的部分。  
-如果 Modal 路由對於 `barrierDismissible` 回傳 true，modal barrier 會變為可被無障礙聚焦，因為使用者可以點擊 modal barrier 來彈出（pop）Modal 路由。  
-本次變更特別讓無障礙聚焦於範圍（scope）之後，才聚焦於 modal barrier。
+The modal route has two overlay entries, the scope and the modal barrier. The
+scope is the actual content of the modal route, and the modal barrier is the
+background of the route if its scope does not cover the entire screen. If the
+modal route returns true for `barrierDismissible`, the modal barrier becomes
+accessibility focusable because users can tap the modal barrier to pop the
+modal route. This change specifically made the accessibility to focus the scope
+first before the modal barrier.
 
-## 變更說明
+## Description of change
 
-我們在 Modal 路由的兩個 overlay 項目之上新增了額外的語意節點（semantics node）。
-這些語意節點標示了這兩個 overlay 項目的語意遍歷順序。
-這同時也改變了語意樹（semantics tree）的結構。
+We added additional semantics node above both
+the overlay entries of modal routes.
+Those semantics nodes denote the semantics
+traverse order of these two overlay entries.
+This also changed the structure of semantics tree.
 
-## 移轉指南
+## Migration guide
 
-如果在更新後，您的測試因語意樹結構變更而失敗，
-您可以透過預期 Modal 路由 overlay 項目上方會有一個新的節點，來調整您的程式碼。
+If your tests start failing due to semantics tree changes after the update,
+you can migrate your code by expecting a new node on above of the modal route
+overlay entries.
 
-移轉前的程式碼：
-
-```dart
-import 'dart:ui';
-
-import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/material.dart';
-
-void main() {
-  testWidgets('example test', (WidgetTester tester) async {
-    final SemanticsHandle handle =
-        tester.binding.pipelineOwner.ensureSemantics();
-
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MaterialApp(home: Scaffold(body: Text('test'))));
-
-    final SemanticsNode root =
-        tester.binding.pipelineOwner.semanticsOwner.rootSemanticsNode;
-
-    final SemanticsNode firstNode = getChild(root);
-    expect(firstNode.rect, Rect.fromLTRB(0.0, 0.0, 800.0, 600.0));
-
-    // Fixes the test by expecting an additional node above the scope route.
-    final SemanticsNode secondNode = getChild(firstNode);
-    expect(secondNode.rect, Rect.fromLTRB(0.0, 0.0, 800.0, 600.0));
-
-    final SemanticsNode thirdNode = getChild(secondNode);
-    expect(thirdNode.rect, Rect.fromLTRB(0.0, 0.0, 800.0, 600.0));
-    expect(thirdNode.hasFlag(SemanticsFlag.scopesRoute), true);
-
-    final SemanticsNode forthNode = getChild(thirdNode);
-    expect(forthNode.rect, Rect.fromLTRB(0.0, 0.0, 56.0, 14.0));
-    expect(forthNode.label, 'test');
-    handle.dispose();
-  });
-}
-
-SemanticsNode getChild(SemanticsNode node) {
-  SemanticsNode child;
-  bool visiter(SemanticsNode target) {
-    child = target;
-    return false;
-  }
-
-  node.visitChildren(visiter);
-  return child;
-}
-```
-
-遷移後的程式碼：
+Code before migration:
 
 ```dart
 import 'dart:ui';
@@ -130,25 +87,75 @@ SemanticsNode getChild(SemanticsNode node) {
 }
 ```
 
-## 時程
+Code after migration:
 
-合併於版本：1.19.0<br>  
-正式版發佈於：1.20
+```dart
+import 'dart:ui';
 
-## 參考資料
+import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/material.dart';
 
-API 文件：
+void main() {
+  testWidgets('example test', (WidgetTester tester) async {
+    final SemanticsHandle handle =
+        tester.binding.pipelineOwner.ensureSemantics();
 
-* [`ModalRoute`][`ModalRoute`]
-* [`OverlayEntry`][`OverlayEntry`]
+    // Build our app and trigger a frame.
+    await tester.pumpWidget(MaterialApp(home: Scaffold(body: Text('test'))));
 
-相關議題：
+    final SemanticsNode root =
+        tester.binding.pipelineOwner.semanticsOwner.rootSemanticsNode;
 
-* [Issue 46625][Issue 46625]
+    final SemanticsNode firstNode = getChild(root);
+    expect(firstNode.rect, Rect.fromLTRB(0.0, 0.0, 800.0, 600.0));
 
-相關 PR：
+    // Fixes the test by expecting an additional node above the scope route.
+    final SemanticsNode secondNode = getChild(firstNode);
+    expect(secondNode.rect, Rect.fromLTRB(0.0, 0.0, 800.0, 600.0));
 
-* [PR 59290][PR 59290]
+    final SemanticsNode thirdNode = getChild(secondNode);
+    expect(thirdNode.rect, Rect.fromLTRB(0.0, 0.0, 800.0, 600.0));
+    expect(thirdNode.hasFlag(SemanticsFlag.scopesRoute), true);
+
+    final SemanticsNode forthNode = getChild(thirdNode);
+    expect(forthNode.rect, Rect.fromLTRB(0.0, 0.0, 56.0, 14.0));
+    expect(forthNode.label, 'test');
+    handle.dispose();
+  });
+}
+
+SemanticsNode getChild(SemanticsNode node) {
+  SemanticsNode child;
+  bool visiter(SemanticsNode target) {
+    child = target;
+    return false;
+  }
+
+  node.visitChildren(visiter);
+  return child;
+}
+```
+
+## Timeline
+
+Landed in version: 1.19.0<br>
+In stable release: 1.20
+
+## References
+
+API documentation:
+
+* [`ModalRoute`][]
+* [`OverlayEntry`][]
+
+Relevant issue:
+
+* [Issue 46625][]
+
+Relevant PR:
+
+* [PR 59290][]
 
 [`ModalRoute`]: {{site.api}}/flutter/widgets/ModalRoute-class.html
 [`OverlayEntry`]: {{site.api}}/flutter/widgets/OverlayEntry-class.html

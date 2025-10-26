@@ -1,32 +1,32 @@
 ---
-title: 移除 semantics elevation 與 thickness
+title: Removed semantics elevation and thickness
 description: >-
-  已從 semantics 屬性中移除 elevation 與 thickness。
+  Removed elevation and thickness from semantics properties.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-已移除 semantics 的 elevation 與 thickness 屬性及其相關 API。
+Both elevation and thickness semantics properties and their related APIs were removed.
 
-## 背景說明
+## Context
 
-semantics 的 elevation 與 thickness 屬性原本是為 Fuchsia 的 3D 繪製（rendering）所設計。
-這些屬性從未被實作，因此一直未被使用。此外，也沒有其他已知用途。
-這些屬性只會增加不必要的程式碼複雜度，因此已被移除。
+Both elevation and thickness semantics properties were created for Fuchsia's 3D rendering.
+They were never implemented and thus remained unused. There was also no other known usage
+for these properties. These properties added unnecessary code complexity and have been removed.
 
-## 變更說明
+## Description of change
 
-以下屬性已被移除：`SemanticsConfiguration.elevation`、
-`SemanticsConfiguration.thickness`、
-`SemanticsNode.thickness`、`SemanticsNode.elevation`、以及 `SemanticsNode.elevationAdjustment`。
+The following properties are removed `SemanticsConfiguration.elevation`,
+`SemanticsConfiguration.thickness`,
+`SemanticsNode.thickness`, `SemanticsNode.elevation`, and `SemanticsNode.elevationAdjustment`.
 
-## 遷移指南
+## Migration guide
 
-如果你先前有設定這些屬性，請將相關設定移除。
+If you previously assigned these properties, remove the assignments.
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 void describeSemanticsConfiguration(SemanticsConfiguration config) {
@@ -36,7 +36,7 @@ void describeSemanticsConfiguration(SemanticsConfiguration config) {
 }
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 void describeSemanticsConfiguration(SemanticsConfiguration config) {
@@ -44,25 +44,25 @@ void describeSemanticsConfiguration(SemanticsConfiguration config) {
 }
 ```
 
-## 時程
+## Timeline
 
-合併於版本：3.34.0-0.0.pre<br>  
-進入穩定版：3.35
+Landed in version: 3.34.0-0.0.pre<br>
+In stable release: 3.35
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`SemanticsConfiguration`][`SemanticsConfiguration`]
-* [`SemanticsNode`][`SemanticsNode`]
+* [`SemanticsConfiguration`][]
+* [`SemanticsNode`][]
 
-相關議題：
+Relevant issue:
 
-* [Issue 166092][Issue 166092]
+* [Issue 166092][]
 
-相關 PR：
+Relevant PR:
 
-* [PR 169382][PR 169382]
+* [PR 169382][]
 
 [`SemanticsConfiguration`]: {{site.api}}/flutter/semantics/SemanticsConfiguration-class.html
 [`SemanticsNode`]: {{site.api}}/flutter/semantics/SemanticsNode-class.html

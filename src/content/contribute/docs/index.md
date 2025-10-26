@@ -1,87 +1,90 @@
 ---
-title: 貢獻文件
-shortTitle: 文件
+title: Contribute to the docs
+shortTitle: Docs
 description: >-
-  了解如何為 Dart 與 Flutter 文件網站做出貢獻。
+  Learn about contributing to the Dart and Flutter documentation sites.
 ---
 
 :::warning
-本文檔仍在持續編輯中。
+This document is a work in progress.
 :::
 
-## 貢獻指南
+## Contribution guides
 
-- [寫作](/contribute/docs/writing)
+- [Writing](/contribute/docs/writing)
 - [Markdown](/contribute/docs/markdown)
 - [Frontmatter](/contribute/docs/frontmatter)
-- [程式碼區塊](/contribute/docs/code-blocks)
-- [程式碼摘錄](/contribute/docs/excerpts)
-- [元件](/contribute/docs/components)
-- [側邊導覽](/contribute/docs/sidenav)
-- [發行版本](/contribute/docs/releases)
-- [命令列工具](/contribute/docs/cli)
+- [Code blocks](/contribute/docs/code-blocks)
+- [Code excerpts](/contribute/docs/excerpts)
+- [Components](/contribute/docs/components)
+- [Sidenav](/contribute/docs/sidenav)
+- [Releases](/contribute/docs/releases)
+- [Command-line tool](/contribute/docs/cli)
 
-## 儲存庫結構
+## Repository layout
 
 - `.github/`
 
-  GitHub [actions][gh-actions]、議題與 PR [範本][gh-templates]，以及 [dependabot][dependabot] 的設定。
+  Configuration for GitHub [actions][gh-actions],
+  issue and PR [templates][gh-templates], and [dependabot][].
 - `cloud_build/`
 
-  用於網站預備與部署的 Google [Cloud Build][Cloud Build] 設定。
+  Configuration for Google [Cloud Build][] that is used for staging
+  and deploying the site.
 - `diagrams/`
 
-  網站上所使用圖表的原始檔案。
+  Source files for diagrams used on the site.
 - `examples/`
 
-  文件程式碼區塊中所用的 [程式碼摘錄][code excerpts] 原始檔案。
+  The source files for [code excerpts][] used in doc code blocks.
 - `src/`
   - `_11ty/`
 
-    [11ty][11ty]、[Liquid][Liquid] 與 Markdown 的自訂擴充功能。
+    Custom extensions for [11ty][], [Liquid][], and Markdown.
     - `plugins/`
     - `syntax/`
 
-      用於語法高亮的 [Shiki][Shiki] 主題。
+      [Shiki][] themes for syntax highlighting.
     - `filters.ts`
     - `shortcodes.ts`
   - `_data/`
 
-    用於全站模板資料的 YAML 與 JSON 檔案。
+    YAML and JSON files used to add data used across site templates.
   - `_includes/`
 
-    由 liquid [render 與 include][render and include] 指令所使用的片段檔案。
+    Partial files used by liquid [render and include][] statements.
   - `_layouts/`
 
-    網站頁面所使用的版型模板。
+    Layout templates used by the pages on the site.
   - `_sass/`
 
-    以 [sass][sass] 撰寫的產生文件樣式。
+    Styles for the generated documentation, written with [sass][].
   - `content/`
 
-    網站內容的根目錄。
+    The root directory for the content of the site.
     - `assets/`
 
-      網站所用資源（包含圖片）的目錄。
+      The directory for assets, including images, used by the site.
     - `...`
 
-      其他存放網站內容的目錄。
+      The other directories hosting the site content.
 - `tool/`
-  - `flutter_site/` 和 `dash_site/`
+  - `flutter_site/` and `dash_site/`
 
-    `dash_site` 工具的實作目錄。
+    The implementation directories for the `dash_site` tooling.
 - `dash_site`
 
-  網站命令列工具的進入點腳本。
+  The entrypoint script for the site's CLI tool.
 - `eleventy.config.ts`
 
-  網站 [11ty][11ty] 靜態網站產生設定的進入點。
+  The entrypoint for the site's [11ty][] static-site generation setup.
 - `firebase.json`
 
-  用於預備與部署網站的 [Firebase Hosting][Firebase Hosting] 設定。
+  Configuration for [Firebase Hosting][] that is used for
+  the staged and deployed sites.
 - `package.json`
 
-  所用 [npm][npm] 相依套件的設定。
+  Configuration of used [npm][] dependencies.
 
 [gh-actions]: https://docs.github.com/actions
 [gh-templates]: https://docs.github.com/communities/using-templates-to-encourage-useful-issues-and-pull-requests

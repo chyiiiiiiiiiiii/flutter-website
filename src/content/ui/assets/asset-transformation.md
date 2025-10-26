@@ -1,14 +1,16 @@
 ---
-title: 建置時轉換資源
-description: 如何在你的 Flutter 應用程式中設定圖片（以及其他資源）的自動轉換。
-shortTitle: 資源轉換
+title: Transforming assets at build time
+description: How to set up automatic transformation of images (and other assets) in your Flutter app.
+shortTitle: Asset transformation
 ---
 
-你可以透過相容的 Dart 套件，將專案設定為在建置時自動轉換資源。
+You can configure your project to automatically transform assets
+at build time using compatible Dart packages.
 
-## 指定資源轉換
+## Specifying asset transformations
 
-在 `pubspec.yaml` 檔案中，列出要進行轉換的資源以及對應的轉換器套件。
+In the `pubspec.yaml` file, list the assets to be transformed and the associated
+transformer package.
 
 ```yaml
 flutter:
@@ -18,7 +20,10 @@ flutter:
         - package: vector_graphics_compiler
 ```
 
-透過這個設定，`assets/logo.svg` 會在複製到建置輸出時，經由 [`vector_graphics_compiler`][`vector_graphics_compiler`] 套件進行轉換。這個套件會將 SVG 檔案預先編譯成最佳化的二進位檔案，這些檔案可以透過 [`vector_graphics`][`vector_graphics`] 套件顯示，如下所示：
+With this configuration, `assets/logo.svg` is transformed by the
+[`vector_graphics_compiler`][] package as it is copied to the build output. This
+package precompiles SVG files into an optimized binary files that can be
+displayed using the [`vector_graphics`][] package, like so:
 
 <?code-excerpt "ui/assets_and_images/lib/logo.dart (TransformedAsset)"?>
 ```dart
@@ -27,10 +32,10 @@ import 'package:vector_graphics/vector_graphics.dart';
 const Widget logo = VectorGraphic(loader: AssetBytesLoader('assets/logo.svg'));
 ```
 
-### 傳遞參數給資源轉換器
+### Passing arguments to asset transformers
 
-若要將一串參數傳遞給資源轉換器（asset transformer），
-也需要在 pubspec 中進行指定：
+To pass a string of arguments to an asset transformer,
+also specify that in the pubspec:
 
 ```yaml
 flutter:
@@ -41,10 +46,11 @@ flutter:
           args: ['--tessellate', '--font-size=14']
 ```
 
-### 串接資源轉換器
+### Chaining asset transformers
 
-資源轉換器（asset transformers）可以串接使用，並且會依照宣告的順序依次套用。
-請參考以下使用虛構套件的範例：
+Asset transformers can be chained and are applied in
+the order they are declared.
+Consider the following example using imaginary packages:
 
 ```yaml
 flutter:
@@ -55,30 +61,32 @@ flutter:
         - package: png_optimizer
 ```
 
-在這裡，`bird.png` 會由 `grayscale_filter` 套件進行轉換。
-其輸出結果接著會由 `png_optimizer` 套件再次轉換，然後才會被
-打包進建置後的應用程式中。
+Here, `bird.png` is transformed by the `grayscale_filter` package.
+The output is then transformed by the `png_optimizer` package before being
+bundled into the built app.
 
-## 撰寫資源轉換器套件
+## Writing asset transformer packages
 
-資源轉換器（asset transformer）是一個 Dart [命令列應用程式][command-line app]，會以
-`dart run` 執行，並至少帶有兩個參數：`--input`，其內容為
-要轉換的檔案路徑，以及 `--output`，即轉換器程式必須將輸出結果寫入的位置。
+An asset transformer is a Dart [command-line app][] that is invoked with
+`dart run` with at least two arguments: `--input`, which contains the path to
+the file to transform and `--output`, which is the location where the
+transformer code must write its output to.
 
-如果轉換器以非零的結束碼（exit code）結束，應用程式建置
-將會失敗，並顯示錯誤訊息，說明資源轉換失敗的原因。
-轉換器在處理過程中寫入 [`stderr`] 資料流的任何內容，
-都會被包含在錯誤訊息中。
+If the transformer finishes with a non-zero exit code, the application build
+fails with error message explaining that transformation of the asset failed.
+Anything written to the [`stderr`] stream of the process by the transformer is
+included in the error message.
 
-在執行轉換器時，`FLUTTER_BUILD_MODE`
-環境變數會被設為所使用建置模式的命令列名稱。
-例如，如果你以 `flutter run -d macos --release` 執行應用程式，
-則 `FLUTTER_BUILD_MODE` 會被設為 `release`。
+During the invocation of the transformer, the `FLUTTER_BUILD_MODE`
+environment variable will be set to the CLI name of the build mode being used.
+For example, if you run your app with `flutter run -d macos --release`, then
+`FLUTTER_BUILD_MODE` will be set to `release`.
 
-## 範例
+## Sample
 
-若要參考一個使用資源轉換並包含自訂 Dart 套件作為轉換器的 Flutter 專案，請參閱
-[Flutter samples repo 中的 asset_transformers 專案][asset_transformers project in the Flutter samples repo]。
+For a sample Flutter project that uses asset transformation and includes a custom
+Dart package that is used as a transformer, check out the
+[asset_transformers project in the Flutter samples repo][].
 
 [command-line app]: {{site.dart-site}}/tutorials/server/cmdline
 [asset_transformers project in the Flutter samples repo]: {{site.repo.samples}}/tree/main/asset_transformation

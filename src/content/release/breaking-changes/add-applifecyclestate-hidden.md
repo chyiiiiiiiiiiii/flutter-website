@@ -1,29 +1,39 @@
 ---
-title: 新增 AppLifecycleState.hidden 的遷移指南
-description: AppLifecycleState 新增了一個 hidden 狀態。
+title: Migration guide for adding AppLifecycleState.hidden
+description: AppLifecycleState had an additional hidden state added.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-[`AppLifecycleState`][`AppLifecycleState`] 列舉新增了一個新的 `hidden` 狀態，用來表示應用程式目前處於不可見的狀態。
+A new `hidden` state was added to the [`AppLifecycleState`][] enum to denote
+when the application is not visible.
 
-## 背景說明
+## Context
 
-`AppLifecycleState` 列舉用於標示應用程式在呼叫 [`WidgetsBindingObserver.didChangeAppLifecycleState`][`WidgetsBindingObserver.didChangeAppLifecycleState`] 時所處的生命週期狀態。
+The `AppLifecycleState` enum is used to indicate which lifecycle state the
+application is in when [`WidgetsBindingObserver.didChangeAppLifecycleState`][]
+is called.
 
-## 變更說明
+## Description of change
 
-`AppLifecycleState.hidden` 這個新狀態已經加入 `AppLifecycleState` 列舉，並屬於 `dart:ui` 套件。
+The new state `AppLifecycleState.hidden` was added to the `AppLifecycleState`
+enum in the `dart:ui` package.
 
-當所有應用程式視圖都不再對使用者可見時，便會進入 `hidden` 狀態。在 Android 和 iOS 上，當狀態機從 inactive 轉為 paused，或從 paused 轉為 inactive 時，會短暫進入此狀態。進入 paused 或 inactive 狀態時不會改變為此狀態。在其他平台上，只要應用程式處於不可見狀態，便會維持在此狀態。
+The `hidden` state is entered when all of the application views are no longer
+visible to the user. On Android and iOS, this state is entered briefly whenever
+the state machine traverses from inactive to paused, or from paused to inactive.
+It doesn't change when paused or inactive are entered. On other platforms, it
+will be in this state while the application is not visible.
 
-## 遷移指南
+## Migration guide
 
-如果程式碼中有針對 `AppLifecycleState` 列舉進行所有情境處理的 switch 陳述式，則需要新增一個 case 來處理 `AppLifecycleState.hidden` 狀態。
+If code has switch statements that handle all cases of the `AppLifecycleState`
+enum, a new case will need to be added to handle the `AppLifecycleState.hidden`
+state.
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -40,7 +50,7 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
 }
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -58,18 +68,21 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
 }
 ```
 
-如果在 switch 陳述式中已經有 `default:` 的 case，或是程式碼改用條件判斷來處理，那麼程式碼將可在不修改的情況下編譯通過，但仍需檢查 default case 或條件判斷，以決定是否也需要處理 `hidden` 狀態。
+If there is already a `default:` case in the switch statement, or the code uses
+conditionals instead, then the code will compile without changes, but the
+default case or conditional will still need to be evaluated to decide if the
+`hidden` state should also be handled.
 
-## 時程
+## Timeline
 
-合併至版本：3.11.0-16.0.pre<br>  
-正式版發行：3.13.0
+Landed in version: 3.11.0-16.0.pre<br>
+In stable release: 3.13.0
 
-## 參考資料
+## References
 
-相關 PR：
+Relevant PRs:
 
-* [PR 42418][PR 42418]：新增 `AppLifecycleState.hidden` enum 值
+* [PR 42418][]: Adds `AppLifecycleState.hidden` enum value
 
 [PR 42418]: {{site.repo.engine}}/pull/42418
 [`WidgetsBindingObserver.didChangeAppLifecycleState`]: {{site.api}}/flutter/widgets/WidgetsBindingObserver/didChangeAppLifecycleState.html

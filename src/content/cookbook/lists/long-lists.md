@@ -1,6 +1,6 @@
 ---
-title: 處理長清單
-description: 使用 ListView.builder 來實作長或無限清單。
+title: Work with long lists
+description: Use ListView.builder to implement a long or infinite list.
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,29 +8,34 @@ js:
 
 <?code-excerpt path-base="cookbook/lists/long_lists/"?>
 
-標準的 [`ListView`][`ListView`] 建構函式適用於小型清單。
-若要處理包含大量項目的清單，建議使用
-[`ListView.builder`][`ListView.builder`] 建構函式。
+The standard [`ListView`][] constructor works well
+for small lists. To work with lists that contain
+a large number of items, it's best to use the
+[`ListView.builder`][] constructor.
 
-與預設的 `ListView` 建構函式（需要一次建立所有項目）不同，
-`ListView.builder()` 建構函式會在項目捲動到螢幕上時才建立它們。
+In contrast to the default `ListView` constructor, which requires
+creating all items at once, the `ListView.builder()` constructor
+creates items as they're scrolled onto the screen.
 
-## 1. 建立資料來源
+## 1. Create a data source
 
-首先，你需要一個資料來源。例如，資料來源可能是一組訊息清單、搜尋結果，或商店中的產品列表。
-大多數情況下，這些資料來自網路或資料庫。
+First, you need a data source. For example, your data source
+might be a list of messages, search results, or products in a store.
+Most of the time, this data comes from the internet or a database.
 
-在這個範例中，使用 [`List.generate`][`List.generate`] 建構函式產生一個包含 10,000 個字串的清單。
+For this example, generate a list of 10,000 Strings using the
+[`List.generate`][] constructor.
 
 <?code-excerpt "lib/main.dart (Items)" replace="/^items: //g"?>
 ```dart
 List<String>.generate(10000, (i) => 'Item $i'),
 ```
 
-## 2. 將資料來源轉換為元件（Widgets）
+## 2. Convert the data source into widgets
 
-要顯示字串清單，可以使用`ListView.builder()`，將每個 String 渲染為一個元件（Widget）。
-在這個範例中，每個 String 都顯示在自己的獨立一行。
+To display the list of strings, render each String as a widget
+using `ListView.builder()`.
+In this example, display each String on its own line.
 
 <?code-excerpt "lib/main.dart (ListView)" replace="/^body: //g;/^\),$/)/g"?>
 ```dart
@@ -43,7 +48,7 @@ ListView.builder(
 )
 ```
 
-## 互動範例
+## Interactive example
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter create long list hands-on example in DartPad" run="true"
@@ -83,15 +88,18 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-## 子項目範圍（Children's extent）
+## Children's extent
 
-要指定每個項目的範圍（extent），你可以使用 [`prototypeItem`][`prototypeItem`]、[`itemExtent`][`itemExtent`] 或 [`itemExtentBuilder`][`itemExtentBuilder`]。
+To specify each item's extent, you can use either [`prototypeItem`][], [`itemExtent`][],
+or [`itemExtentBuilder`][].
 
-明確指定項目範圍會比讓子項目自行決定範圍來得更有效率，因為滾動機制可以預先知道子項目的範圍，從而節省運算資源，例如當滾動位置大幅變動時。
+Specifying either is more efficient than letting the children determine their own extent
+because the scrolling machinery can make use of the foreknowledge of the children's
+extent to save work, for example when the scroll position changes drastically.
 
-如果你的清單（list）中每個項目的大小都是固定的，請使用 [`prototypeItem`][`prototypeItem`] 或 [`itemExtent`][`itemExtent`]。
+Use [`prototypeItem`][] or [`itemExtent`][] if your list has items of fixed size.
 
-如果你的清單中每個項目的大小不一，請使用 [`itemExtentBuilder`][`itemExtentBuilder`]。
+Use [`itemExtentBuilder`][] if your list has items of different sizes.
 
 <noscript>
   <img src="/assets/images/docs/cookbook/long-lists.webp" alt="Long Lists Demo" class="site-mobile-screenshot" />

@@ -1,45 +1,53 @@
 ---
-title: 頁面轉場由 ZoomPageTransitionsBuilder 取代
-description: 使用最新的頁面轉場效果取代舊有版本。
+title: Page transitions replaced by ZoomPageTransitionsBuilder
+description: Using the latest page transition instead of the old one.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-為了確保函式庫遵循最新的 OEM 行為，
-預設的頁面轉場建構器現在在所有平台（不包括 iOS 和 macOS）
-都改為使用 `ZoomPageTransitionsBuilder`，而不再使用 `FadeUpwardsPageTransitionsBuilder`。
+In order to ensure that libraries follow the latest OEM behavior,
+the default page transition builders now use
+`ZoomPageTransitionsBuilder` on all platforms (excluding iOS and macOS)
+instead of `FadeUpwardsPageTransitionsBuilder`.
 
-## 背景說明
+## Context
 
-`FadeUpwardsPageTransitionsBuilder`（隨第一個 Flutter 版本提供）定義了一個與 Android O 類似的頁面轉場效果。根據 Flutter 的
-[棄用政策](/release/compatibility-policy#deprecation-policy)，這個頁面轉場建構器最終將在 Android 上被棄用。
+The `FadeUpwardsPageTransitionsBuilder` (provided with the first
+Flutter release), defined a page transition that's
+similar to the one provided by Android O. This page transitions builder
+will eventually be deprecated on Android, as per Flutter's
+[deprecation policy](/release/compatibility-policy#deprecation-policy).
 
-`ZoomPageTransitionsBuilder` 是 Android、Linux 和 Windows 上的新頁面轉場建構器，定義了一個與 Android Q 和 R 類似的頁面轉場效果。
+`ZoomPageTransitionsBuilder`, the new page transition builder for
+Android, Linux, and Windows, defines a page transition that's similar to
+the one provided by Android Q and R.
 
-根據 [Flutter repo 的樣式指南][Style guide for Flutter repo]，
-框架將遵循最新的 OEM 行為。
-所有使用 `FadeUpwardsPageTransitionsBuilder` 的頁面轉場建構器
-都已切換為 `ZoomPageTransitionsBuilder`。
-當目前的 `TargetPlatform` 在 `ThemeData.pageTransitionsTheme` 中
-沒有定義 `PageTransitionsBuilder` 時，
-會預設使用 `ZoomPageTransitionsBuilder`。
+According to the [Style guide for Flutter repo][],
+the framework will follow the latest OEM behavior.
+Page transition builders using `FadeUpwardsPageTransitionsBuilder`
+are all switched to the `ZoomPageTransitionsBuilder`.
+When the current `TargetPlatform` doesn't have
+`PageTransitionsBuilder` defined in the `ThemeData.pageTransitionsTheme`,
+`ZoomPageTransitionsBuilder` is used as the default.
 
 [Style guide for Flutter repo]: {{site.repo.flutter}}/blob/main/docs/contributing/Style-guide-for-Flutter-repo.md
-## 變更說明
+## Description of change
 
-`PageTransitionsTheme._defaultBuilders` 中定義的 `PageTransitionsBuilder`
-已從 `FadeUpwardsPageTransitionsBuilder`
-變更為 `ZoomPageTransitionsBuilder`，適用於 `TargetPlatform.android`、
-`TargetPlatform.linux` 和 `TargetPlatform.windows`。
+`PageTransitionsBuilder`s defined in
+`PageTransitionsTheme._defaultBuilders` have changed from
+`FadeUpwardsPageTransitionsBuilder` to
+`ZoomPageTransitionsBuilder` for `TargetPlatform.android`,
+`TargetPlatform.linux` and `TargetPlatform.windows`.
 
-## 遷移指南
+## Migration guide
 
-如果你想要切換回先前的頁面轉場建構器
-（`FadeUpwardsPageTransitionsBuilder`），請明確為目標平台定義建構器。
+If you want to switch back to the previous page transition builder
+(`FadeUpwardsPageTransitionsBuilder`), you should define builders
+explicitly for the target platforms.
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 MaterialApp(
@@ -47,7 +55,7 @@ MaterialApp(
 )
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 MaterialApp(
@@ -61,7 +69,7 @@ MaterialApp(
 )
 ```
 
-如果你想要將相同的 page transition builder 套用到所有平台上：
+If you want to apply the same page transition builder to all platforms:
 
 ```dart
 MaterialApp(
@@ -77,9 +85,10 @@ MaterialApp(
 
 ```
 
-### 測試遷移
+### Tests migration
 
-如果你在使用新的轉場效果時，嘗試尋找元件（Widgets）但遇到 *Too many elements* 的錯誤，並看到類似以下的錯誤訊息：
+If you used to try to find widgets but failed with *Too many elements*
+using the new transition, and saw errors similar to the following:
 
 ```plaintext
 ══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
@@ -92,16 +101,17 @@ When the exception was thrown, this was the stack:
 #2      main.<anonymous closure> (file:///path/to/your/test.dart:1:2)
 ```
 
-你應該使用`descendant`範圍來遷移你的測試，針對具有特定元件（Widget）型別的`Finder`。
-以下是`DataTable`的測試範例：
+You should migrate your tests by using the
+`descendant` scope for `Finder`s with the specific widget type.
+Below is the example of `DataTable`'s test:
 
-遷移前的測試：
+Test before migration:
 
 ```dart
 final Finder finder = find.widgetWithIcon(Transform, Icons.arrow_upward);
 ```
 
-遷移後測試：
+Test after migration:
 
 ```dart
 final Finder finder = find.descendant(
@@ -110,29 +120,29 @@ final Finder finder = find.descendant(
 );
 ```
 
-通常需要遷移 finder 範圍的元件 (Widgets) 包含：
-`Transform`、`FadeTransition`、`ScaleTransition` 和 `ColoredBox`。
+Widgets that typically need to migrate the finder scope are:
+`Transform`, `FadeTransition`, `ScaleTransition`, and `ColoredBox`.
 
-## 時程
+## Timeline
 
-合併於版本：2.13.0-1.0.pre<br>  
-穩定版釋出：3.0.0
+Landed in version: 2.13.0-1.0.pre<br>
+In stable release: 3.0.0
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`ZoomPageTransitionsBuilder`][`ZoomPageTransitionsBuilder`]
-* [`FadeUpwardsPageTransitionsBuilder`][`FadeUpwardsPageTransitionsBuilder`]
-* [`PageTransitionsTheme`][`PageTransitionsTheme`]
+* [`ZoomPageTransitionsBuilder`][]
+* [`FadeUpwardsPageTransitionsBuilder`][]
+* [`PageTransitionsTheme`][]
 
-相關議題：
+Relevant issues:
 
-* [Issue 43277][Issue 43277]
+* [Issue 43277][]
 
-相關 PR：
+Relevant PR:
 
-* [PR 100812][PR 100812]
+* [PR 100812][]
 
 [`ZoomPageTransitionsBuilder`]: {{site.api}}/flutter/material/ZoomPageTransitionsBuilder-class.html
 [`FadeUpwardsPageTransitionsBuilder`]: {{site.api}}/flutter/material/FadeUpwardsPageTransitionsBuilder-class.html

@@ -1,6 +1,6 @@
 ---
-title: 使用分頁（Tabs）
-description: 如何在版面配置中實作分頁（Tabs）。
+title: Work with tabs
+description: How to implement tabs in a layout.
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,25 +8,28 @@ js:
 
 <?code-excerpt path-base="cookbook/design/tabs/"?>
 
-在遵循 Material Design 指南的應用程式中，使用分頁（tabs）是一種常見的設計模式。
-Flutter 在其 [material library][material library] 中，提供了方便建立分頁版面配置的方法。
+Working with tabs is a common pattern in apps that follow the
+Material Design guidelines.
+Flutter includes a convenient way to create tab layouts as part of
+the [material library][].
 
-本教學將透過以下步驟建立一個分頁範例：
+This recipe creates a tabbed example using the following steps;
 
-  1. 建立 `TabController`。
-  2. 建立分頁（tabs）。
-  3. 為每個分頁建立內容。
+  1. Create a `TabController`.
+  2. Create the tabs.
+  3. Create content for each tab.
 
-## 1. 建立 `TabController`
+## 1. Create a `TabController`
 
-為了讓分頁運作，你需要讓所選分頁與內容區塊保持同步。
-這正是 [`TabController`][`TabController`] 的工作。
+For tabs to work, you need to keep the selected tab and content
+sections in sync.
+This is the job of the [`TabController`][].
 
-你可以手動建立 `TabController`，
-或是透過 [`DefaultTabController`][`DefaultTabController`] 元件（Widget）自動建立。
+Either create a `TabController` manually,
+or automatically by using a [`DefaultTabController`][] widget.
 
-使用 `DefaultTabController` 是最簡單的選擇，因為它
-會建立一個 `TabController`，並讓所有子元件（descendant widgets）都能存取。
+Using `DefaultTabController` is the simplest option, since it
+creates a `TabController` and makes it available to all descendant widgets.
 
 <?code-excerpt "lib/partials.dart (TabController)"?>
 ```dart
@@ -35,12 +38,12 @@ return MaterialApp(
 );
 ```
 
-## 2. 建立分頁（Tabs）
+## 2. Create the tabs
 
-當某個分頁被選取時，需要顯示對應的內容。
-你可以使用 [`TabBar`][`TabBar`] 元件（Widget）來建立分頁。
-在本範例中，建立一個 `TabBar`，其中包含三個
-[`Tab`][`Tab`] 元件（Widgets），並將其放置在 [`AppBar`][`AppBar`] 內。
+When a tab is selected, it needs to display content.
+You can create tabs using the [`TabBar`][] widget.
+In this example, create a `TabBar` with three
+[`Tab`][] widgets and place it within an [`AppBar`][].
 
 <?code-excerpt "lib/partials.dart (Tabs)"?>
 ```dart
@@ -62,14 +65,18 @@ return MaterialApp(
 );
 ```
 
-預設情況下，`TabBar` 會在元件樹（widget tree）中向上查找最近的 `DefaultTabController`。如果你是手動建立 `TabController`，請將其傳遞給 `TabBar`。
+By default, the `TabBar` looks up the widget tree for the nearest
+`DefaultTabController`. If you're manually creating a `TabController`,
+pass it to the `TabBar`.
 
-## 3. 為每個分頁建立內容
+## 3. Create content for each tab
 
-現在你已經有了分頁，當選取某個分頁時就要顯示對應的內容。為此，請使用 [`TabBarView`][`TabBarView`] 元件（Widget）。
+Now that you have tabs, display content when a tab is selected.
+For this purpose, use the [`TabBarView`][] widget.
 
 :::note
-順序很重要，必須與 `TabBar` 中分頁的順序相對應。
+Order is important and must correspond to the
+order of the tabs in the `TabBar`.
 :::
 
 <?code-excerpt "lib/main.dart (TabBarView)"?>
@@ -83,7 +90,7 @@ body: const TabBarView(
 ),
 ```
 
-## 互動範例
+## Interactive example
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter TabBar DartPad hands-on example" run="true"
@@ -126,4 +133,15 @@ class TabBarDemo extends StatelessWidget {
 }
 ```
 
-<img src="/assets/images/docs/cookbook/tabs.webp" alt="分頁範例" class="site-mobile-screenshot" />
+<noscript>
+  <img src="/assets/images/docs/cookbook/tabs.webp" alt="Tabs Demo" class="site-mobile-screenshot" />
+</noscript>
+
+
+[`AppBar`]: {{site.api}}/flutter/material/AppBar-class.html
+[`DefaultTabController`]: {{site.api}}/flutter/material/DefaultTabController-class.html
+[material library]: {{site.api}}/flutter/material/material-library.html
+[`Tab`]: {{site.api}}/flutter/material/Tab-class.html
+[`TabBar`]: {{site.api}}/flutter/material/TabBar-class.html
+[`TabBarView`]: {{site.api}}/flutter/material/TabBarView-class.html
+[`TabController`]: {{site.api}}/flutter/material/TabController-class.html

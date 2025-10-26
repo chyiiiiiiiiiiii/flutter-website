@@ -1,6 +1,6 @@
 ---
-title: 表單
-description: Flutter 表單食譜目錄。
+title: Forms
+description: A catalog of Flutter form recipes.
 ---
 
 {% include docs/cookbook-group-index.md %}

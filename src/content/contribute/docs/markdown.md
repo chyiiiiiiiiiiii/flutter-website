@@ -1,35 +1,36 @@
 ---
-title: 撰寫 Markdown
+title: Authoring Markdown
 shortTitle: Markdown
 description: >-
-  了解 Dart 與 Flutter 文件網站支援的 Markdown 語法，以及相關撰寫指引。
+  Learn about the Markdown syntaxes the Dart and Flutter documentation sites
+  support and their guidelines for using them.
 ---
 
 :::warning
-本文件仍在持續編輯中。
+This document is a work in progress.
 :::
 
-我們的網站支援以 [Markdown][Markdown] 撰寫內容，
-並加入部分 [GitHub Flavored Markdown][GitHub Flavored Markdown] 的擴充語法，
-以及其他自訂語法。
+Our sites support writing content in [Markdown][],
+with some additions from [GitHub Flavored Markdown][]
+as well as other custom syntaxes.
 
-本頁將說明我們支援的 Markdown 語法，
-以及撰寫 Markdown 的風格指引。
+This page outlines the Markdown syntax we support
+as well as our style guidelines for authoring Markdown.
 
 [Markdown]: https://commonmark.org/
 [GitHub Flavored Markdown]: https://github.github.com/gfm/
 
-## 一般指引
+## General guidelines
 
-請優先使用 Markdown 語法，而非自訂 HTML 或元件。
-原生 Markdown 更容易維護、工具也更容易解析，
-未來若需移轉也較為方便。
+Prefer using Markdown syntax over custom HTML and components.
+Raw Markdown is easier to maintain, easier for tools to understand,
+and easier to migrate in the future if necessary.
 
-## 程式碼區塊
+## Code blocks
 
-請勿使用 Markdown 的縮排式程式碼區塊，
-僅使用反引號的圍欄式程式碼區塊（fenced code block），
-並且務必指定語言。例如：
+Don't use Markdown's indented code blocks,
+only use fenced code blocks using backticks
+and always specify a language. For example:
 
 ````markdown
 ```dart
@@ -39,6 +40,7 @@ void main() {
 ```
 ````
 
-若想進一步了解如何自訂程式碼區塊，請參閱專門的[Code blocks][Code blocks]文件。
+To learn more about customizing code blocks,
+check out the dedicated documentation on [Code blocks][].
 
 [Code blocks]: /contribute/docs/code-blocks

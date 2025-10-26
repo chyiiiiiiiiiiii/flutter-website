@@ -1,180 +1,206 @@
 ---
-title: 移除 nullOk 參數
+title: Eliminating nullOk Parameters
 description: >
-    為了在 null safety（空安全）下提升 API 的合理性，移除 nullOk 參數。
+    To eliminate nullOk parameters to help with
+    API sanity in the face of null safety.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-本遷移指南說明如何將使用多個 `of` 靜態存取器及相關存取器上的 `nullOk` 參數的程式碼，轉換為使用回傳可為 null 的替代 API。
+This migration guide describes conversion of code that uses the `nullOk`
+parameter on multiple `of` static accessors and related accessors to use
+alternate APIs with nullable return values.
 
-## 背景
+## Context
 
-Flutter 常見的一種模式是允許透過靜態成員函式查找某些類型的元件（[`InheritedWidget`][`InheritedWidget`]s），這些函式通常命名為 `of`，並接收一個 `BuildContext`。
+Flutter has a common pattern of allowing lookup of some types of widgets
+([`InheritedWidget`][]s) using static member functions that are typically called
+`of`, and take a `BuildContext`.
 
-在非空預設尚未啟用前，這些 API 上有一個切換選項，可以在元件樹中找不到該元件時，選擇拋出例外或回傳 null。這在當時很實用，也不會造成混淆，因為每個變數都可以是 null。
+Before non-nullability was the default, it was useful to have a toggle on these
+APIs that swapped between throwing an exception if the widget was not present in
+the widget tree and returning null if it was not found. It was useful, and
+wasn't confusing, since every variable was nullable.
 
-當非空成為預設行為後，最常用的 API 回傳非 null 值會更理想。這是因為如果已經宣告為 `MediaQuery.of(context, nullOk: false)`，但呼叫後仍需加上 `!` 運算子，或是 `?` 並加上預設值，會顯得不自然。
+When non-nullability was made the default, it was then desirable to have the
+most commonly used APIs return a non-nullable value. This is because saying
+`MediaQuery.of(context, nullOk: false)` and then still requiring an `!` operator
+or `?` and a fallback value after that call felt awkward.
 
-`nullOk` 參數原本是一種簡易的 null safety 切換方式，但在語言本身已支援非空型別後，這個參數就變得多餘，甚至可能給開發者帶來矛盾的訊息。
+The `nullOk` parameter was a cheap form of providing a null safety toggle, which
+in the face of true language support for non-nullability, was then supplying
+redundant, and perhaps contradictory signals to the developer.
 
-為了解決這個問題，`of` 存取器（以及其他也使用 `nullOk` 的相關存取器）被拆分為兩種呼叫方式：一種回傳非 null 值，當找不到目標元件時會拋出例外；另一種則回傳可為 null 的值，不會拋出例外，找不到元件時回傳 null。
+To solve this, the `of` accessors (and some related accessors that also used
+`nullOk`) were split into two calls: one that returned a non-nullable value and
+threw an exception when the sought-after widget was not present, and one that
+returned a nullable value that didn't throw an exception, and returned null if
+the widget was not present.
 
-此變更的設計文件請參考 [Eliminating nullOk parameters][Eliminating nullOk parameters]。
+The design document for this change is [Eliminating nullOk parameters][].
 
 [Eliminating nullOk parameters]: /go/eliminating-nullok-parameters
 
-## 變更說明
+## Description of change
 
-實際的變更是將這些 API 移除 `nullOk` 參數，並改為回傳非 null 值：
+The actual change modified these APIs to not have a `nullOk` parameter, and to
+return a non-nullable value:
 
-* [`MediaQuery.of`][`MediaQuery.of`]
-* [`Navigator.of`][`Navigator.of`]
-* [`ScaffoldMessenger.of`][`ScaffoldMessenger.of`]
-* [`Scaffold.of`][`Scaffold.of`]
-* [`Router.of`][`Router.of`]
-* [`Localizations.localeOf`][`Localizations.localeOf`]
-* [`FocusTraversalOrder.of`][`FocusTraversalOrder.of`]
-* [`FocusTraversalGroup.of`][`FocusTraversalGroup.of`]
-* [`Focus.of`][`Focus.of`]
+* [`MediaQuery.of`][]
+* [`Navigator.of`][]
+* [`ScaffoldMessenger.of`][]
+* [`Scaffold.of`][]
+* [`Router.of`][]
+* [`Localizations.localeOf`][]
+* [`FocusTraversalOrder.of`][]
+* [`FocusTraversalGroup.of`][]
+* [`Focus.of`][]
 * `Shortcuts.of`
-* [`Actions.handler`][`Actions.handler`]
-* [`Actions.find`][`Actions.find`]
-* [`Actions.invoke`][`Actions.invoke`]
-* [`AnimatedList.of`][`AnimatedList.of`]
-* [`SliverAnimatedList.of`][`SliverAnimatedList.of`]
-* [`CupertinoDynamicColor.resolve`][`CupertinoDynamicColor.resolve`]
-* [`CupertinoDynamicColor.resolveFrom`][`CupertinoDynamicColor.resolveFrom`]
-* [`CupertinoUserInterfaceLevel.of`][`CupertinoUserInterfaceLevel.of`]
-* [`CupertinoTheme.brightnessOf`][`CupertinoTheme.brightnessOf`]
-* [`CupertinoThemeData.resolveFrom`][`CupertinoThemeData.resolveFrom`]
-* [`NoDefaultCupertinoThemeData.resolveFrom`][`NoDefaultCupertinoThemeData.resolveFrom`]
-* [`CupertinoTextThemeData.resolveFrom`][`CupertinoTextThemeData.resolveFrom`]
-* [`MaterialBasedCupertinoThemeData.resolveFrom`][`MaterialBasedCupertinoThemeData.resolveFrom`]
+* [`Actions.handler`][]
+* [`Actions.find`][]
+* [`Actions.invoke`][]
+* [`AnimatedList.of`][]
+* [`SliverAnimatedList.of`][]
+* [`CupertinoDynamicColor.resolve`][]
+* [`CupertinoDynamicColor.resolveFrom`][]
+* [`CupertinoUserInterfaceLevel.of`][]
+* [`CupertinoTheme.brightnessOf`][]
+* [`CupertinoThemeData.resolveFrom`][]
+* [`NoDefaultCupertinoThemeData.resolveFrom`][]
+* [`CupertinoTextThemeData.resolveFrom`][]
+* [`MaterialBasedCupertinoThemeData.resolveFrom`][]
 
-並同時新增以下這些 API，以回傳可為 null 的值：
+And introduced these new APIs alongside those, to
+return a nullable value:
 
-* [`MediaQuery.maybeOf`][`MediaQuery.maybeOf`]
-* [`Navigator.maybeOf`][`Navigator.maybeOf`]
-* [`ScaffoldMessenger.maybeOf`][`ScaffoldMessenger.maybeOf`]
-* [`Scaffold.maybeOf`][`Scaffold.maybeOf`]
-* [`Router.maybeOf`][`Router.maybeOf`]
-* [`Localizations.maybeLocaleOf`][`Localizations.maybeLocaleOf`]
-* [`FocusTraversalOrder.maybeOf`][`FocusTraversalOrder.maybeOf`]
-* [`FocusTraversalGroup.maybeOf`][`FocusTraversalGroup.maybeOf`]
-* [`Focus.maybeOf`][`Focus.maybeOf`]
+* [`MediaQuery.maybeOf`][]
+* [`Navigator.maybeOf`][]
+* [`ScaffoldMessenger.maybeOf`][]
+* [`Scaffold.maybeOf`][]
+* [`Router.maybeOf`][]
+* [`Localizations.maybeLocaleOf`][]
+* [`FocusTraversalOrder.maybeOf`][]
+* [`FocusTraversalGroup.maybeOf`][]
+* [`Focus.maybeOf`][]
 * `Shortcuts.maybeOf`
-* [`Actions.maybeFind`][`Actions.maybeFind`]
-* [`Actions.maybeInvoke`][`Actions.maybeInvoke`]
-* [`AnimatedList.maybeOf`][`AnimatedList.maybeOf`]
-* [`SliverAnimatedList.maybeOf`][`SliverAnimatedList.maybeOf`]
-* [`CupertinoDynamicColor.maybeResolve`][`CupertinoDynamicColor.maybeResolve`]
-* [`CupertinoUserInterfaceLevel.maybeOf`][`CupertinoUserInterfaceLevel.maybeOf`]
-* [`CupertinoTheme.maybeBrightnessOf`][`CupertinoTheme.maybeBrightnessOf`]
+* [`Actions.maybeFind`][]
+* [`Actions.maybeInvoke`][]
+* [`AnimatedList.maybeOf`][]
+* [`SliverAnimatedList.maybeOf`][]
+* [`CupertinoDynamicColor.maybeResolve`][]
+* [`CupertinoUserInterfaceLevel.maybeOf`][]
+* [`CupertinoTheme.maybeBrightnessOf`][]
 
-## 遷移指南
+## Migration guide
 
-為了讓你的程式碼使用新版 API，請將所有包含 `nullOk = true` 參數的呼叫，改為使用 `maybe` 形式的 API。
+In order to modify your code to use the new form of the APIs, convert all
+instances of calls that include `nullOk = true` as a parameter to use the
+`maybe` form of the API instead.
 
-所以，像這樣：
+So this:
 
 ```dart
 MediaQueryData? data = MediaQuery.of(context, nullOk: true);
 ```
 
-變更為：
+becomes:
 
 ```dart
 MediaQueryData? data = MediaQuery.maybeOf(context);
 ```
 
-你也需要修改所有以 `nullOk =
-false`（通常為預設值）呼叫 API 的地方，使其能夠接受不可為 null 的回傳值，或移除任何 `!` 運算子：
+You also need to modify all instances of calling the API with `nullOk =
+false` (often the default), to accept non-nullable return values, or remove any
+`!` operators:
 
-因此可以選擇以下其中一種方式：
+So either of:
 
 ```dart
 MediaQueryData data = MediaQuery.of(context)!; // nullOk false by default.
 MediaQueryData? data = MediaQuery.of(context); // nullOk false by default.
 ```
 
-兩者都變為：
+both become:
 
 ```dart
 MediaQueryData data = MediaQuery.of(context); // No ! or ? operator here now.
 ```
 
-`unnecessary_non_null_assertion` 分析選項在尋找應移除 `!` 運算子的地方時非常有幫助，而 `unnecessary_nullable_for_final_variable_declarations` 分析選項則有助於找出在 `final` 和 `const` 變數上不必要的問號運算子。
+The `unnecessary_non_null_assertion` analysis option can be quite helpful in
+finding the places where the `!` operator should be removed, and the
+`unnecessary_nullable_for_final_variable_declarations` analysis option can be
+helpful in finding unnecessary question mark operators on `final` and `const`
+variables.
 
-## 時程表
+## Timeline
 
-合併於版本：1.24.0<br>  
-穩定版釋出：2.0.0
+Landed in version: 1.24.0<br>
+In stable release: 2.0.0
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`MediaQuery.of`][`MediaQuery.of`]
-* [`Navigator.of`][`Navigator.of`]
-* [`ScaffoldMessenger.of`][`ScaffoldMessenger.of`]
-* [`Scaffold.of`][`Scaffold.of`]
-* [`Router.of`][`Router.of`]
-* [`Localizations.localeOf`][`Localizations.localeOf`]
-* [`FocusTraversalOrder.of`][`FocusTraversalOrder.of`]
-* [`FocusTraversalGroup.of`][`FocusTraversalGroup.of`]
-* [`Focus.of`][`Focus.of`]
+* [`MediaQuery.of`][]
+* [`Navigator.of`][]
+* [`ScaffoldMessenger.of`][]
+* [`Scaffold.of`][]
+* [`Router.of`][]
+* [`Localizations.localeOf`][]
+* [`FocusTraversalOrder.of`][]
+* [`FocusTraversalGroup.of`][]
+* [`Focus.of`][]
 * `Shortcuts.of`
-* [`Actions.handler`][`Actions.handler`]
-* [`Actions.find`][`Actions.find`]
-* [`Actions.invoke`][`Actions.invoke`]
-* [`AnimatedList.of`][`AnimatedList.of`]
-* [`SliverAnimatedList.of`][`SliverAnimatedList.of`]
-* [`CupertinoDynamicColor.resolve`][`CupertinoDynamicColor.resolve`]
-* [`CupertinoDynamicColor.resolveFrom`][`CupertinoDynamicColor.resolveFrom`]
-* [`CupertinoUserInterfaceLevel.of`][`CupertinoUserInterfaceLevel.of`]
-* [`CupertinoTheme.brightnessOf`][`CupertinoTheme.brightnessOf`]
-* [`CupertinoThemeData.resolveFrom`][`CupertinoThemeData.resolveFrom`]
-* [`NoDefaultCupertinoThemeData.resolveFrom`][`NoDefaultCupertinoThemeData.resolveFrom`]
-* [`CupertinoTextThemeData.resolveFrom`][`CupertinoTextThemeData.resolveFrom`]
-* [`MaterialBasedCupertinoThemeData.resolveFrom`][`MaterialBasedCupertinoThemeData.resolveFrom`]
-* [`MediaQuery.maybeOf`][`MediaQuery.maybeOf`]
-* [`Navigator.maybeOf`][`Navigator.maybeOf`]
-* [`ScaffoldMessenger.maybeOf`][`ScaffoldMessenger.maybeOf`]
-* [`Scaffold.maybeOf`][`Scaffold.maybeOf`]
-* [`Router.maybeOf`][`Router.maybeOf`]
-* [`Localizations.maybeLocaleOf`][`Localizations.maybeLocaleOf`]
-* [`FocusTraversalOrder.maybeOf`][`FocusTraversalOrder.maybeOf`]
-* [`FocusTraversalGroup.maybeOf`][`FocusTraversalGroup.maybeOf`]
-* [`Focus.maybeOf`][`Focus.maybeOf`]
+* [`Actions.handler`][]
+* [`Actions.find`][]
+* [`Actions.invoke`][]
+* [`AnimatedList.of`][]
+* [`SliverAnimatedList.of`][]
+* [`CupertinoDynamicColor.resolve`][]
+* [`CupertinoDynamicColor.resolveFrom`][]
+* [`CupertinoUserInterfaceLevel.of`][]
+* [`CupertinoTheme.brightnessOf`][]
+* [`CupertinoThemeData.resolveFrom`][]
+* [`NoDefaultCupertinoThemeData.resolveFrom`][]
+* [`CupertinoTextThemeData.resolveFrom`][]
+* [`MaterialBasedCupertinoThemeData.resolveFrom`][]
+* [`MediaQuery.maybeOf`][]
+* [`Navigator.maybeOf`][]
+* [`ScaffoldMessenger.maybeOf`][]
+* [`Scaffold.maybeOf`][]
+* [`Router.maybeOf`][]
+* [`Localizations.maybeLocaleOf`][]
+* [`FocusTraversalOrder.maybeOf`][]
+* [`FocusTraversalGroup.maybeOf`][]
+* [`Focus.maybeOf`][]
 * `Shortcuts.maybeOf`
-* [`Actions.maybeFind`][`Actions.maybeFind`]
-* [`Actions.maybeInvoke`][`Actions.maybeInvoke`]
-* [`AnimatedList.maybeOf`][`AnimatedList.maybeOf`]
-* [`SliverAnimatedList.maybeOf`][`SliverAnimatedList.maybeOf`]
-* [`CupertinoDynamicColor.maybeResolve`][`CupertinoDynamicColor.maybeResolve`]
-* [`CupertinoUserInterfaceLevel.maybeOf`][`CupertinoUserInterfaceLevel.maybeOf`]
-* [`CupertinoTheme.maybeBrightnessOf`][`CupertinoTheme.maybeBrightnessOf`]
+* [`Actions.maybeFind`][]
+* [`Actions.maybeInvoke`][]
+* [`AnimatedList.maybeOf`][]
+* [`SliverAnimatedList.maybeOf`][]
+* [`CupertinoDynamicColor.maybeResolve`][]
+* [`CupertinoUserInterfaceLevel.maybeOf`][]
+* [`CupertinoTheme.maybeBrightnessOf`][]
 
-相關議題：
+Relevant issue:
 
-* [Issue 68637][Issue 68637]
+* [Issue 68637][]
 
-相關 PR：
+Relevant PRs:
 
-* [Remove `nullOk` in `MediaQuery.of`][Remove `nullOk` in `MediaQuery.of`]
-* [Remove `nullOk` in `Navigator.of`][Remove `nullOk` in `Navigator.of`]
-* [Remove `nullOk` parameter from `AnimatedList.of` and `SliverAnimatedList.of`][Remove `nullOk` parameter from `AnimatedList.of` and `SliverAnimatedList.of`]
-* [Remove `nullOk` parameter from `Shortcuts.of`, `Actions.find`, and `Actions.handler`][Remove `nullOk` parameter from `Shortcuts.of`, `Actions.find`, and `Actions.handler`]
-* [Remove `nullOk` parameter from `Focus.of`, `FocusTraversalOrder.of`, and `FocusTraversalGroup.of`][Remove `nullOk` parameter from `Focus.of`, `FocusTraversalOrder.of`, and `FocusTraversalGroup.of`]
-* [Remove `nullOk` parameter from `Localizations.localeOf`][Remove `nullOk` parameter from `Localizations.localeOf`]
-* [Remove `nullOk` parameter from `Router.of`][Remove `nullOk` parameter from `Router.of`]
-* [Remove `nullOk` from `Scaffold.of` and `ScaffoldMessenger.of`][Remove `nullOk` from `Scaffold.of` and `ScaffoldMessenger.of`]
-* [Remove `nullOk` parameter from Cupertino color resolution APIs][Remove `nullOk` parameter from Cupertino color resolution APIs]
-* [Remove vestigial `nullOk` parameter from `Localizations.localeOf`][Remove vestigial `nullOk` parameter from `Localizations.localeOf`]
-* [Remove `nullOk` from `Actions.invoke`, add `Actions.maybeInvoke`][Remove `nullOk` from `Actions.invoke`, add `Actions.maybeInvoke`]
+* [Remove `nullOk` in `MediaQuery.of`][]
+* [Remove `nullOk` in `Navigator.of`][]
+* [Remove `nullOk` parameter from `AnimatedList.of` and `SliverAnimatedList.of`][]
+* [Remove `nullOk` parameter from `Shortcuts.of`, `Actions.find`, and `Actions.handler`][]
+* [Remove `nullOk` parameter from `Focus.of`, `FocusTraversalOrder.of`, and `FocusTraversalGroup.of`][]
+* [Remove `nullOk` parameter from `Localizations.localeOf`][]
+* [Remove `nullOk` parameter from `Router.of`][]
+* [Remove `nullOk` from `Scaffold.of` and `ScaffoldMessenger.of`][]
+* [Remove `nullOk` parameter from Cupertino color resolution APIs][]
+* [Remove vestigial `nullOk` parameter from `Localizations.localeOf`][]
+* [Remove `nullOk` from `Actions.invoke`, add `Actions.maybeInvoke`][]
 
 [`MediaQuery.of`]: {{site.api}}/flutter/widgets/MediaQuery/of.html
 [`Navigator.of`]: {{site.api}}/flutter/widgets/Navigator/of.html

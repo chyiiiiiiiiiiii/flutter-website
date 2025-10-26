@@ -1,6 +1,6 @@
 ---
-title: 永續性（Persistence）
-description: 為你的 Flutter 應用程式加入資料永續性的食譜目錄。
+title: Persistence
+description: A catalog of recipes for adding persistence to your Flutter app.
 ---
 
 {% include docs/cookbook-group-index.md %}

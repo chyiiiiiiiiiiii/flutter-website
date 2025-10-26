@@ -1,30 +1,39 @@
 ---
-title: 棄用 `ThemeData.indicatorColor`，改用 `TabBarThemeData.indicatorColor`
+title: Deprecate `ThemeData.indicatorColor` in favor of
+  `TabBarThemeData.indicatorColor`
 description: >-
-  `ThemeData.indicatorColor` 參數已被 `TabBarThemeData.indicatorColor` 取代。
+  The `ThemeData.indicatorColor` parameter has been replaced by
+  `TabBarThemeData.indicatorColor`.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-[`ThemeData.indicatorColor`][`ThemeData.indicatorColor`] 參數已被棄用，建議改用 [`TabBarThemeData.indicatorColor`][`TabBarThemeData.indicatorColor`] 參數。
+The [`ThemeData.indicatorColor`][] parameter was deprecated in favor of
+the [`TabBarThemeData.indicatorColor`][] parameter.
 
-## 背景
+## Context
 
-[`TabBar`][`TabBar`] 元件（Widget）的預設值可以透過像 [`TabBarThemeData`][`TabBarThemeData`] 這樣的元件專屬主題（component-specific theme）來覆寫。
-過去，`ThemeData.indicatorColor` 參數用於覆寫 Material Design 2 中預設的分頁列（tab bar）指示器顏色，但這個用途已被 [`TabBarThemeData`][`TabBarThemeData`] 取代，因此變得多餘。
+The defaults for the [`TabBar`][] widget can be overridden with a
+component-specific theme like [`TabBarThemeData`][].
+Previously, the `ThemeData.indicatorColor` parameter was used to
+override the default tab bar indicator color in Material Design 2,
+which was made redundant by [`TabBarThemeData`][].
 
-## 變更說明
+## Description of change
 
-[`ThemeData.indicatorColor`][`ThemeData.indicatorColor`] 已被棄用，建議改用元件專屬主題。
-請使用 [`TabBarThemeData`][`TabBarThemeData`] 來覆寫預設的指示器顏色。
+The [`ThemeData.indicatorColor`][] is deprecated in
+favor of a component-specific theme.
+Use [`TabBarThemeData`][] to override the default indicator color.
 
-## 遷移指南
+## Migration guide
 
-請將 [`ThemeData.indicatorColor`][`ThemeData.indicatorColor`] 替換為 [`TabBarThemeData.indicatorColor`][`TabBarThemeData.indicatorColor`]，以便在 [`ThemeData.useMaterial3`][`ThemeData.useMaterial3`] 標誌設為 `false` 時，覆寫預設的分頁列指示器顏色。
+Replace [`ThemeData.indicatorColor`][] with
+[`TabBarThemeData.indicatorColor`][] to override the default tab bar
+indicator color when [`ThemeData.useMaterial3`][] flag is set to `false`.
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 theme: ThemeData(
@@ -33,7 +42,7 @@ theme: ThemeData(
 ),
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 theme: ThemeData(
@@ -42,28 +51,28 @@ theme: ThemeData(
 ),
 ```
 
-## 時程
+## Timeline
 
-功能加入版本：3.30.0-0.0.pre<br>  
-正式版本：3.32
+Landed in version: 3.30.0-0.0.pre<br>
+In stable release: 3.32
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-- [`ThemeData.indicatorColor`][`ThemeData.indicatorColor`]
-- [`ThemeData.useMaterial3`][`ThemeData.useMaterial3`]
-- [`TabBarThemeData.indicatorColor`][`TabBarThemeData.indicatorColor`]
-- [`TabBarThemeData`][`TabBarThemeData`]
-- [`TabBar`][`TabBar`]
+- [`ThemeData.indicatorColor`][]
+- [`ThemeData.useMaterial3`][]
+- [`TabBarThemeData.indicatorColor`][]
+- [`TabBarThemeData`][]
+- [`TabBar`][]
 
-相關議題：
+Relevant issues:
 
-- [Issue #91772][Issue #91772]
+- [Issue #91772][]
 
-相關 PR：
+Relevant PRs:
 
-- [Deprecate `ThemeData.indicatorColor` in favor of `TabBarThemeData.indicatorColor`][Deprecate `ThemeData.indicatorColor` in favor of `TabBarThemeData.indicatorColor`]
+- [Deprecate `ThemeData.indicatorColor` in favor of `TabBarThemeData.indicatorColor`][]
 
 [`ThemeData.indicatorColor`]: {{site.api}}/flutter/material/ThemeData/indicatorColor.html
 [`ThemeData.useMaterial3`]: {{site.api}}/flutter/material/ThemeData/useMaterial3.html

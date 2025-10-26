@@ -1,6 +1,6 @@
 ---
 layout: toc
-title: 清單與網格
-description: 介紹如何在 Flutter 應用程式中新增項目的清單與網格。
+title: Lists & grids
+description: Content covering adding lists and grids of items to Flutter apps.
 sitemap: false
 ---

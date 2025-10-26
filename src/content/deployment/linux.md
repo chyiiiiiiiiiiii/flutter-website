@@ -1,51 +1,52 @@
 ---
-title: 將 Linux 應用程式建置並發佈到 Snap Store
-description: 如何準備並將 Linux 應用程式發佈到 Snap Store。
+title: Build and release a Linux app to the Snap Store
+description: How to prepare for and release a Linux app to the Snap store.
 shortTitle: Linux
 ---
 
-在一般的開發週期中，
-你可以在命令列介面 (Command Line Interface) 使用 `flutter run` 指令來測試應用程式，
-或是在你的 IDE 中使用 **Run** 和 **Debug**
-選項來執行。預設情況下，
-Flutter 會建置應用程式的 _debug_ 版本。
+During a typical development cycle,
+you test an app using `flutter run` at the command line,
+or by using the **Run** and **Debug**
+options in your IDE. By default,
+Flutter builds a _debug_ version of your app.
 
-當你準備好要建立應用程式的 _release_ 版本時，
-例如要[發佈到 Snap Store][snap] 或
-[其他通道](#其他部署資源)，
-本頁將提供協助。
+When you're ready to prepare a _release_ version of your app,
+for example to [publish to the Snap Store][snap] or an
+[alternative channel](#additional-deployment-resources),
+this page can help.
 
-## 先決條件
+## Prerequisites
 
-要建置並發佈到 Snap Store，你需要以下元件：
+To build and publish to the Snap Store, you need the
+following components:
 
-* [Ubuntu][Ubuntu] 作業系統，18.04 LTS（或更高版本）
-* [Snapcraft][Snapcraft] 命令列工具
-* [LXD 容器管理器][LXD container manager]
+* [Ubuntu][] OS, 18.04 LTS (or higher)
+* [Snapcraft][] command line tool
+* [LXD container manager][]
 
-## 設定建置環境
+## Set up the build environment
 
-請依照下列指示來設定你的建置環境。
+Use the following instructions to set up your build environment.
 
-### 安裝 snapcraft
+### Install snapcraft
 
-在命令列介面 (Command Line Interface) 輸入以下指令：
+At the command line, run the following:
 
 ```console
 $ sudo snap install snapcraft --classic
 ```
 
-### 安裝 LXD
+### Install LXD
 
-要安裝 LXD，請使用以下指令：
+To install LXD, use the following command:
 
 ```console
 $ sudo snap install lxd
 ```
 
-在 snap 建置過程中需要安裝 LXD。
-安裝完成後，還需要對 LXD 進行設定以供使用。
-大多數情境下，預設選項已經適用。
+LXD is required during the snap build process.
+Once installed, LXD needs to be configured for use.
+The default answers are suitable for most use cases.
 
 ```console
 $ sudo lxd init
@@ -66,7 +67,7 @@ Would you like stale cached images to be updated automatically? (yes/no) [defaul
 Would you like a YAML "lxd init" preseed to be printed? (yes/no) [default=no]:
 ```
 
-在第一次執行時，LXD 可能無法連接到其 socket：
+On the first run, LXD might not be able to connect to its socket:
 
 ```console
 An error occurred when trying to communicate with the 'LXD'
@@ -74,23 +75,29 @@ provider: cannot connect to the LXD socket
 ('/var/snap/lxd/common/lxd/unix.socket').
 ```
 
-這表示你需要將你的使用者名稱加入 LXD（lxd）群組，因此請先登出你的工作階段，然後再重新登入：
+This means you need to add your username to the LXD
+(lxd) group, so log out of your session and then log back in:
 
 ```console
 $ sudo usermod -a -G lxd <your username>
 ```
 
-## snapcraft 概覽
+## Overview of snapcraft
 
-`snapcraft` 工具會根據 `snapcraft.yaml` 檔案中所列的指令來建構 snap 套件。
-若您想要對 snapcraft 及其核心概念有基本認識，請參閱 [Snap 文件][Snap documentation] 以及 [snapcraft 入門][Introduction to snapcraft]。
-本頁底部也列出了更多相關連結與資訊。
+The `snapcraft` tool builds snaps based on the instructions
+listed in a `snapcraft.yaml` file.
+To get a basic understanding of snapcraft and its
+core concepts, take a look at the [Snap documentation][]
+and the [Introduction to snapcraft][].
+Additional links and information are listed at the
+bottom of this page.
 
-## Flutter snapcraft.yaml 範例
+## Flutter snapcraft.yaml example
 
-請將 YAML 檔案放在您的 Flutter 專案中的 `<project root>/snap/snapcraft.yaml` 目錄下。
-（請注意，YAML 檔案對於空白字元非常敏感！）
-例如：
+Place the YAML file in your Flutter
+project under `<project root>/snap/snapcraft.yaml`.
+(And remember that YAML files are sensitive to white space!)
+For example:
 
 ```yaml
 name: super-cool-app
@@ -123,11 +130,13 @@ parts:
     flutter-target: lib/main.dart # The main entry-point file of the application
 ```
 
-以下章節將說明 YAML 檔案的各個部分。
+The following sections explain the various pieces of the YAML file.
 
 ### Metadata
 
-`snapcraft.yaml` 檔案中的這個區段用來定義並描述應用程式。snap 版本會從 build 區段中取得（採用）。
+This section of the `snapcraft.yaml` file defines and
+describes the application. The snap version is
+derived (adopted) from the build section.
 
 ```yaml
 name: super-cool-app
@@ -136,9 +145,9 @@ summary: Super Cool App
 description: Super Cool App that does everything!
 ```
 
-### 等級（Grade）、限制（confinement）與基底（base）
+### Grade, confinement, and base
 
-本節說明如何建構 snap。
+This section defines how the snap is built.
 
 ```yaml
 confinement: strict
@@ -146,18 +155,28 @@ base: core22
 grade: stable
 ```
 
-**Grade（等級）**
-：指定 snap 的品質，這一設定會在後續的發佈步驟中發揮作用。
+**Grade**
+: Specifies the quality of the snap; this is relevant for
+  the publication step later.
 
-**Confinement（限制）**
-：指定 snap 安裝到最終用戶系統後可存取的系統資源範圍。嚴格限制（strict confinement）會將應用程式的存取權限限制在特定資源（由 `app` 區段中的 plugs 定義）。
+**Confinement**
+: Specifies what level of system resource access the snap
+  will have once installed on the end-user system.
+  Strict confinement limits the application access to
+  specific resources (defined by plugs in the `app` section).
 
-**Base（基礎）**
-：Snap 設計為自包含的應用程式，因此需要專屬的核心根檔案系統，稱為 `base`。`base` 關鍵字用於指定所採用的版本，該版本提供最小集的通用函式庫，並在執行時作為應用程式的根檔案系統掛載。
+**Base**
+: Snaps are designed to be self-contained applications,
+  and therefore, they require their own private core root
+  filesystem known as `base`. The `base` keyword specifies
+  the version used to provide the minimal set of common libraries,
+  and mounted as the root filesystem for the application at runtime.
 
-### Apps（應用程式）
+### Apps
 
-本區段定義 snap 內包含的應用程式。一個 snap 可以包含一個或多個應用程式。本範例僅包含一個應用程式——super_cool_app。 
+This section defines the application(s) that exist inside the snap.
+There can be one or more applications per snap. This example
+has a single application&mdash;super_cool_app. 
 
 ```yaml
 apps:
@@ -167,18 +186,48 @@ apps:
 ```
 
 **Command**
-: 指向可執行檔（binary），其路徑是相對於 snap 根目錄的，並會在 snap 被呼叫時執行。
+: Points to the binary, relative to the snap's root,
+  and runs when the snap is invoked.
 
 **Extensions**
-: 一個或多個 extension（擴充套件）的清單。Snapcraft extensions 是可重複使用的元件，能在建置與執行期間，將一組函式庫與工具提供給 snap，開發者無需具體了解所包含的 framework。`gnome` extension 會將 GTK 3 函式庫暴露給 Flutter snap。這可確保更小的體積並與系統更好整合。
+: A list of one or more extensions. Snapcraft extensions
+  are reusable components that can expose sets of libraries
+  and tools to a snap at build and runtime,
+  without the developer needing to have specific knowledge
+  of included frameworks. The `gnome` extension exposes
+  the GTK 3 libraries to the Flutter snap. This ensures a
+  smaller footprint and better integration with the system.
+
 
 **Plugs**
-: 一個或多個系統介面 plug 的清單。當 snaps 處於嚴格隔離（strictly confined）時，這些 plug 是提供必要功能所需。本 Flutter snap 需要存取網路。
+: A list of one or more plugs for system interfaces.
+  These are required to provide necessary functionality
+  when snaps are strictly confined. This Flutter snap needs
+  access to the network.
 
 **DBus interface**
-: [DBus interface][DBus interface] 提供 snaps 透過 DBus 進行溝通的方式。提供 DBus 服務的 snap 需要宣告一個 slot，指定知名的 DBus 名稱以及所使用的 bus。想要與該服務溝通的 snaps 則需為該提供服務的 snap 宣告 plug。請注意，若要讓你的 snap 能夠透過 snap store 發佈並取得這個知名的 DBus 名稱，需要進行 snap 宣告（只需將 snap 上傳至 store，並申請人工審查，審查員會協助處理）。
+: The [DBus interface][] provides a way for snaps to 
+  communicate over DBus. The snap providing the DBus 
+  service declares a slot with the well-known DBus name 
+  and which bus it uses. Snaps wanting to communicate 
+  with the providing snap's service declare a plug for 
+  the providing snap. Note that a snap declaration is 
+  needed for your snap to be delivered via the snap store 
+  and claim this well-known DBus name (simply upload the 
+  snap to the store and request a manual review and 
+  a reviewer will take a look).
 
-當提供服務的 snap 被安裝時，snapd 會產生安全性政策，允許其在指定的 bus 上監聽該知名的 DBus 名稱。如果指定的是 system bus，snapd 也會產生 DBus bus 政策，允許 'root' 擁有該名稱，且任何使用者都能與該服務溝通。非 snap 的程序可依傳統權限檢查與該提供服務的 snap 溝通。其他（消費端）snaps 只能透過連接 snaps 的介面，與該提供服務的 snap 進行溝通。
+  When a providing snap is installed, snapd will 
+  generate security policy that will allow it to 
+  listen on the well-known DBus name on the specified 
+  bus. If the system bus is specified, snapd will also 
+  generate DBus bus policy that allows 'root' to own 
+  the name and any user to communicate with the 
+  service. Non-snap processes are allowed to 
+  communicate with the providing snap following 
+  traditional permissions checks. Other (consuming) 
+  snaps might only communicate with the providing 
+  snap by connecting the snaps' interface.
   
 ```plaintext
 dbus-super-cool-app: # adjust accordingly to your app name
@@ -189,15 +238,22 @@ dbus-super-cool-app: # adjust accordingly to your app name
 
 ### Parts
 
-本節說明組裝 snap 所需的來源（parts）。
+This section defines the sources required to
+assemble the snap.
 
-Parts 可以透過外掛（plugins）自動下載與建置。類似於 extensions，snapcraft 可以使用各種外掛（如 Python、C、Java 和 Ruby）來協助建置流程。Snapcraft 也提供了一些特殊的外掛。
+Parts can be downloaded and built automatically using plugins.
+Similar to extensions, snapcraft can use various plugins
+(such as Python, C, Java, and Ruby) to assist in the
+building process. Snapcraft also has some special plugins.
 
-**nil** 外掛  
-: 不執行任何動作，實際的建置流程需透過手動覆寫來處理。
+**nil** plugin
+: Performs no action and the actual build process is
+  handled using a manual override.
 
-**flutter** 外掛  
-: 提供必要的 Flutter SDK 工具，讓你無需手動下載與設定建置工具即可使用。
+**flutter** plugin
+: Provides the necessary Flutter SDK tools so you can
+  use it without having to manually download and set up
+  the build tools.
 
 ```yaml
 parts:
@@ -208,17 +264,25 @@ parts:
 ```
 
 
-## Desktop 檔案與圖示
+## Desktop file and icon
 
-Desktop entry 檔案用於將應用程式新增到桌面選單。這些檔案會指定您的應用程式名稱與圖示、所屬分類、相關搜尋關鍵字等資訊。這些檔案的副檔名為 `.desktop`，並遵循 XDG Desktop Entry Specification 1.1 版規範。
 
-### Flutter super-cool-app.desktop 範例
+Desktop entry files are used to add an application 
+to the desktop menu. These files specify the name and 
+icon of your application, the categories it belongs to,
+related search keywords and more. These files have the 
+extension .desktop and follow the XDG Desktop Entry 
+Specification version 1.1.
+  
+### Flutter super-cool-app.desktop example
 
-請將 `.desktop` 檔案放置於您的 Flutter 專案中的 `<project root>/snap/gui/super-cool-app.desktop` 目錄下。
+Place the .desktop file in your Flutter project 
+under `<project root>/snap/gui/super-cool-app.desktop`.
 
-**注意**：icon 與 `.desktop` 檔案名稱必須與您在 yaml 檔案中的 app 名稱相同！
+**Notice**: icon and .desktop file name must be the same as your app name in
+yaml file!
 
-例如：
+For example:
 
 ```yaml
 [Desktop Entry]
@@ -231,92 +295,114 @@ Type=Application
 Categories=Education; # Adjust accordingly your snap category.
 ```
 
-請將您的圖示（副檔名為 .png）放置於 Flutter 專案的`<project root>/snap/gui/super-cool-app.png`目錄下。
+Place your icon with .png extension in your Flutter 
+project under `<project root>/snap/gui/super-cool-app.png`.
 
-## 建立 snap
 
-完成`snapcraft.yaml`檔案後，請在專案根目錄下執行`snapcraft`。
+## Build the snap
 
-若要使用 Multipass VM 後端：
+Once the `snapcraft.yaml` file is complete,
+run `snapcraft` as follows from the root directory
+of the project.
+
+To use the Multipass VM backend:
 
 ```console
 $ snapcraft
 ``` 
 
-要使用 LXD container backend（LXD 容器後端）：
+To use the LXD container backend:
 
 ```console
 $ snapcraft --use-lxd
 ```
 
-## 測試 snap
+## Test the snap
 
-當 snap 建置完成後，你會在專案根目錄下看到一個 `<name>.snap` 檔案。
+Once the snap is built, you'll have a `<name>.snap` file
+in your root project directory.
 
-```bash
 $ sudo snap install ./super-cool-app_0.1.0_amd64.snap --dangerous
-```
 
-## 發佈
+## Publish
 
-你現在可以發佈這個 snap 了。
-發佈流程包含以下步驟：
+You can now publish the snap.
+The process consists of the following:
 
-1. 前往 [snapcraft.io][snapcraft.io] 建立開發者帳號（如果你還沒有的話）。
-2. 註冊應用程式名稱。你可以透過 Snap Store 的 Web UI 入口網站註冊，或是在命令列執行以下指令來註冊：
+1. Create a developer account at [snapcraft.io][], if you
+   haven't already done so.
+1. Register the app's name. Registration can be done
+   either using the Snap Store Web UI portal, or from the
+   command line, as follows:
    ```console
    $ snapcraft login
    $ snapcraft register
    ```
-1. 發佈應用程式。請先閱讀下一節，了解如何選擇 Snap Store 頻道，然後將 snap 推送到商店：
+1. Release the app. After reading the next section
+   to learn about selecting a Snap Store channel,
+   push the snap to the store:
    ```console
    $ snapcraft upload --release=<channel> <file>.snap
    ```
 
-### Snap Store 通道
+### Snap Store channels
 
-Snap Store 使用通道（channels）來區分不同版本的 snap 套件。
+The Snap Store uses channels to differentiate among
+different versions of snaps.
 
-`snapcraft upload` 指令會將 snap 檔案上傳到商店。不過，在執行這個指令之前，你需要先了解不同的發佈通道。每個通道包含三個組成部分：
+The `snapcraft upload` command uploads the snap file to
+the store. However, before you run this command,
+you need to learn about the different release channels.
+Each channel consists of three components:
 
 **Track**
-: 所有 snap 都必須有一個預設的 track，稱為 latest。除非另有指定，否則預設使用此 track。
+: All snaps must have a default track called latest.
+  This is the implied track unless specified otherwise.
 
 **Risk**
-: 定義應用程式的穩定性與成熟度。Snap Store 中的風險等級包括：`stable`、`candidate`、`beta` 和 `edge`。
+: Defines the readiness of the application.
+  The risk levels used in the snap store are:
+  `stable`, `candidate`, `beta`, and `edge`.
 
 **Branch**
-: 允許建立短期存在的 snap 分支，用於測試錯誤修正。
+: Allows creation of short-lived snap
+  sequences to test bug-fixes.
 
-### Snap Store 自動審查
+### Snap Store automatic review
 
-Snap Store 會對你的 snap 套件執行多項自動化檢查。根據 snap 的建置方式，以及是否有特定的安全性疑慮，也有可能進行人工審查。如果所有檢查皆通過且無錯誤，該 snap 就會在商店中上架。
+The Snap Store runs several automated checks against
+your snap. There might also be a manual review,
+depending on how the snap was built, and if there are
+any specific security concerns. If the checks pass
+without errors, the snap becomes available in the store.
 
-## 其他 snapcraft 資源
+## Additional snapcraft resources
 
-你可以從 [snapcraft.io][snapcraft.io] 網站上的以下連結進一步了解：
+You can learn more from the following links on the
+[snapcraft.io][] site:
 
-* [通道（Channels）][Channels]
-* [環境變數（Environment variables）][Environment variables]
-* [介面管理（Interface management）][Interface management]
-* [Parts 環境變數][Parts environment variables]
-* [發佈至 Snap Store][Releasing to the Snap Store]
-* [Snapcraft 擴充功能（extensions）][Snapcraft extensions]
-* [支援的外掛（Supported plugins）][Supported plugins]
+* [Channels][]
+* [Environment variables][]
+* [Interface management][]
+* [Parts environment variables][]
+* [Releasing to the Snap Store][]
+* [Snapcraft extensions][]
+* [Supported plugins][]
 
-## 其他部署資源
+## Additional deployment resources
 
-### [fastforge][fastforge]
+### [fastforge][]
 
-> 一款全方位的 Flutter 應用程式打包與發佈工具，為你提供一站式解決方案，滿足多元發佈需求。
+> An all-in-one Flutter application packaging and distribution tool,
+providing you with a one-stop solution to meet various distribution needs.
 
-支援多種主流打包格式，例如 appimage、deb、pacman、rpm 等。
+Supports popular packaging formats like, appimage, deb, pacman, rpm, and more.
 
-### [flatpak-flutter][flatpak-flutter]
+### [flatpak-flutter][]
 
-> 用於離線建構 Flutter 應用程式的 Flatpak manifest 工具。
+> Flatpak manifest tooling for the offline build of Flutter apps.
 
-支援 Flatpak 準備作業，可發佈至 [Flathub][Flathub]。
+Supports Flatpak preparation for publishing on [Flathub][].
 
 
 [Environment variables]: https://snapcraft.io/docs/environment-variables

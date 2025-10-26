@@ -1,61 +1,67 @@
 ---
-title: 使用全新 TabBar.tabAlignment 屬性自訂分頁對齊方式
-description: 介紹 TabBar.tabAlignment 屬性。
+title: Customizing tabs alignment using the new TabBar.tabAlignment property
+description: Introducing the TabBar.tabAlignment property.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-使用 `TabBar.tabAlignment` 來自訂 `TabBar` 中分頁（tabs）的對齊方式。
+Using `TabBar.tabAlignment` to customize the alignment of tabs in a `TabBar`.
 
-## 背景說明
+## Context
 
-`TabBar.tabAlignment` 屬性用於設定 Material 3 `TabBar` 中分頁的擺放位置。
-`TabAlignment` 列舉（enum）包含以下幾個值：
+The `TabBar.tabAlignment` property sets where a Material 3 `TabBar` places tabs.
+The `TabAlignment` enum has the following values:
 
-* `TabAlignment.start`：將分頁對齊至可捲動 `TabBar` 的起始位置。
-* `TabAlignment.startOffset`：將分頁對齊至可捲動 `TabBar` 的起始位置，並有 `52.0` 像素的偏移。
-* `TabAlignment.center`：將分頁對齊至 `TabBar` 的中央。
-* `TabAlignment.fill`：將分頁對齊至起始位置，並將分頁拉伸以填滿固定寬度的 `TabBar`。
+* `TabAlignment.start`: Aligns the tabs to the start of the scrollable `TabBar`.
+* `TabAlignment.startOffset`: Aligns the tabs to the start of the
+   scrollable `TabBar` with an offset of `52.0` pixels.
+* `TabAlignment.center`: Aligns the tabs to the center of the `TabBar`.
+* `TabAlignment.fill`: Aligns the tabs to the start and stretches the tabs
+   to fill the fixed `TabBar`.
 
-可捲動的 `TabBar` 支援以下對齊方式：
+The scrollable `TabBar` supports the following alignments:
 
 * `TabAlignment.start`
 * `TabAlignment.startOffset`
 * `TabAlignment.center`
 
-固定寬度的 `TabBar` 支援以下對齊方式：
+The fixed `TabBar` supports the following alignments:
 
 * `TabAlignment.fill`
 * `TabAlignment.center`
 
-當你將 `ThemeData.useMaterial3` 設為 `true` 時，
-可捲動的 `TabBar` 預設會以 `TabAlignment.startOffset` 方式對齊分頁。
-若要變更此對齊方式，請設定
-`TabBar.tabAlignment` 屬性以進行元件層級的自訂。
-或者，設定 `TabBarThemeData.tabAlignment` 屬性以進行應用程式層級的自訂。
+When you set `ThemeData.useMaterial3` to `true`,
+a scrollable `TabBar` aligns tabs as `TabAlignment.startOffset` by default.
+To change this alignment, set the
+`TabBar.tabAlignment` property for widget level customization.
+Or, set the `TabBarThemeData.tabAlignment` property for app level customization.
 
-## 變更說明
+## Description of change
 
-當你將 `TabBar.isScrollable` 和 `ThemeData.useMaterial3` 設為 `true` 時，
-可捲動的 `TabBar` 中的分頁預設會以 `TabAlignment.startOffset` 方式對齊。
-這會將分頁對齊至可捲動 `TabBar` 的起始位置，並有 `52.0` 像素的偏移。
-這項行為與先前不同。
-過去當分頁數量超過可顯示寬度時，分頁會對齊至可捲動 `TabBar` 的起始位置。
+When you set `TabBar.isScrollable` and `ThemeData.useMaterial3` to `true`,
+the tabs in a scrollable `TabBar` defaults to `TabAlignment.startOffset`.
+This aligns the tabs to the start of the
+scrollable `TabBar` with an offset of `52.0` pixels.
+This changes the previous behavior.
+The tabs were aligned to the start of the scrollable `TabBar`
+when more tabs needed to display than the width allowed.
 
-## 遷移指南
+## Migration guide
 
-Material 3 可捲動 `TabBar` 會以 `TabAlignment.startOffset` 作為
-預設的分頁對齊方式。
-這會將分頁對齊至可捲動 `TabBar` 的起始位置，並有 `52.0` 像素的偏移。
+A Material 3 scrollable `TabBar` uses `TabAlignment.startOffset` as
+the default tab alignment.
+This aligns the tabs to the start of the
+scrollable `TabBar` with an offset of `52.0` pixels.
 
-若要將分頁對齊至可捲動 `TabBar` 的起始位置，請將 `TabBar.tabAlignment` 設為 `TabAlignment.start`。
-這項變更同時也會移除 `52.0` 像素的偏移。
-以下程式碼片段展示如何使用 `TabBar.tabAlignment`
-將分頁對齊至可捲動 `TabBar` 的起始位置：
+To align the tabs to the start of the
+scrollable `TabBar`, set `TabBar.tabAlignment` to `TabAlignment.start`.
+This change also removed the `52.0` pixel offset.
+The following code snippets show how to use `TabBar.tabAlignment` to
+align tabs to the start of the scrollable `TabBar`:
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 TabBar(
@@ -67,7 +73,7 @@ TabBar(
 );
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 TabBar(
@@ -80,23 +86,23 @@ TabBar(
 );
 ```
 
-## 時程
+## Timeline
 
-合併於版本：3.13.0-17.0.pre<br>  
-正式版釋出：3.16
+Landed in version: 3.13.0-17.0.pre<br>
+In stable release: 3.16
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`TabBar`][`TabBar`]
-* [`TabBar.tabAlignment`][`TabBar.tabAlignment`]
-* [`TabAlignment`][`TabAlignment`]
+* [`TabBar`][]
+* [`TabBar.tabAlignment`][]
+* [`TabAlignment`][]
 
-相關 PR：
+Relevant PRs:
 
-* [Introduce `TabBar.tabAlignment`][Introduce `TabBar.tabAlignment`]
-* [Fix Material 3 Scrollable `TabBar`][Fix Material 3 Scrollable `TabBar`]
+* [Introduce `TabBar.tabAlignment`][]
+* [Fix Material 3 Scrollable `TabBar`][]
 
 [`TabBar`]: {{site.api}}/flutter/material/TabBar-class.html
 [`TabBar.tabAlignment`]: {{site.api}}/flutter/material/TabBar/tabAlignment.html

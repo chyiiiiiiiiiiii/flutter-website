@@ -1,17 +1,17 @@
-# DevTools 2.16.0 發行說明
+# DevTools 2.16.0 release notes
 
-Dart 與 Flutter DevTools 2.16.0 版本
-包含以下變更，以及其他一般性改進。
-想進一步了解 DevTools，請參閱
-[DevTools overview](https://docs.flutter.dev/tools/devtools)。
+The 2.16.0 release of the Dart and Flutter DevTools
+includes the following changes among other general improvements.
+To learn more about DevTools, check out the
+[DevTools overview](https://docs.flutter.dev/tools/devtools).
 
-## 一般更新
+## General updates
 
-本次發行包含多項錯誤修正與改進，
-同時也為即將推出的新功能進行了相關準備！
+This release includes several bug fixes and improvements, as well as
+work towards some new features that are coming soon!
 
-## 完整提交紀錄
+## Full commit history
 
-若要查詢自上個版本以來的完整變更清單，
-請參閱
-[the diff on GitHub](https://github.com/flutter/devtools/compare/v2.15.0...v2.16.0)。
+To find a complete list of changes since the previous release,
+check out
+[the diff on GitHub](https://github.com/flutter/devtools/compare/v2.15.0...v2.16.0).

@@ -1,13 +1,14 @@
 ---
-title: 自訂元件 (Custom components)
+title: Custom components
 description: >-
-  了解 Dart 與 Flutter 文件網站支援用於顯示內容的自訂元件 (Custom components)。
+  Learn about custom components that the
+  Dart and Flutter documentation sites support for displaying content.
 ---
 
 :::warning
-本文檔仍在撰寫中。
+This document is a work in progress.
 :::
 
-## 分頁標籤 (Tabs)
+## Tabs
 
-## YouTube 嵌入 (YouTube embed)
+## YouTube embed

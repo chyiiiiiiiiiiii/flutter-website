@@ -1,21 +1,24 @@
 ---
-title: Android Java Gradle 遷移指南
+title: Android Java Gradle migration guide
 description: >
-  如果你在執行或建置 Android 應用程式時遇到 Gradle 的錯誤，
-  本文將說明如何進行遷移。
+  How to migrate your Android app if you experience
+  a run or build error from Gradle.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-如果你最近將 Android Studio 升級到 Flamingo 版本，並且在執行或建置現有的 Android 應用程式時，可能會遇到類似以下的錯誤：
+If you've recently upgraded Android Studio to the Flamingo
+release and have either run or built an existing Android app,
+you might have run into an error similar to the following:
 
 ```sh
 Caused by: org.codehaus.groovy.control.MultipleCompilationErrorsException: startup failed:
 ```
 
-此錯誤在終端機輸出的訊息類似如下所示：
+The terminal output for this error is
+similar to the following:
 
 
 ```sh
@@ -39,92 +42,105 @@ Could not compile build file '…/example/android/build.gradle'.
   	at java.base/java.lang.Thread.run(Thread.java:833)
 ```
 
-此錯誤發生的原因是 Android Studio Flamingo
-將其內建的 Java SDK 從 11 升級至 17。
-Flutter 會使用 Android Studio 內建的 Java 版本
-來建置 Android 應用程式。
-[7.3 之前的 Gradle 版本][prior to 7.3]
-在使用 Java 17 時無法執行。
+This error occurs because Android Studio Flamingo
+updates its bundled Java SDK from 11 to 17.
+Flutter uses the version of Java bundled with
+Android Studio to build Android apps.
+Gradle versions [prior to 7.3][] can't run
+when using Java 17.
 
-**你可以透過升級 Gradle 專案至相容版本（7.3 至 7.6.1，包含兩端）
-來修正此錯誤，方法如下：**
+**You can fix this error by upgrading your Gradle project
+to a compatible version (7.3 through 7.6.1, inclusive)
+using one of the following approaches.**
 
 [prior to 7.3]: https://docs.gradle.org/current/userguide/compatibility.html#java
 
-## 解法一：使用 Android Studio 的引導式修復
+## Solution #1: Guided fix using Android Studio
 
-請依下列步驟，在 Android Studio Flamingo 中升級 Gradle 版本：
+Upgrade the Gradle version in Android Studio Flamingo
+as follows:
 
-1. 在 Android Studio 中，開啟 `android` 資料夾。
-   這會顯示以下對話框：
+1. In Android Studio, open the `android` folder.
+   This should bring up the following dialog: 
 
    ![Dialog prompting you to upgrade Gradle](/assets/images/docs/releaseguide/android-studio-flamingo-upgrade-alert.png){:width="50%"}
 
-   請將 Gradle 更新至 7.3 至 7.6.1 之間的版本（包含兩端）。
+   Update to a Gradle release between 7.3 through 7.6.1, inclusive.
 
-1. 依照引導式流程完成 Gradle 更新。
+1. Follow the guided workflow to update Gradle.
 
    ![Workflow to upgrade Gradle](/assets/images/docs/releaseguide/android-studio-flamingo-gradle-upgrade.png){:width="85%"}
 
-## 解法二：在命令列手動修復
+## Solution #2: Manual fix at the command line
 
-請於 Flutter 專案根目錄執行下列步驟。
+Do the following from the top of your Flutter project.
 
-1. 進入專案的 Android 目錄。
+1. Go to the Android directory for your project.
 
    ```console
    $ cd android
    ```
 
-1. 將 Gradle 更新至建議版本。請選擇 7.3 至 7.6.1（含）之間的版本。
+1. Update Gradle to the preferred version. Choose between 7.3 through 7.6.1, inclusive.
 
    ```console
    $ ./gradlew wrapper --gradle-version=7.6.1
    ```
 
-## 你尚未更新 Android Studio，仍然遇到 Java 錯誤
-該錯誤看起來類似於 `Unsupported class file major version 65`。  
-這表示你目前使用的 Java 版本比你正在執行的 Gradle 所支援的版本還要新。AGP、Java 與 Gradle 之間有一組不明顯的相依關係。
+## You didn't update Android Studio and still have a Java error
+The error appears similar to `Unsupported class file major version 65`. 
+This is an indication that your Java version is newer than the version of
+gradle you are running can handle. There is a non obvious set of dependencies
+surrounding AGP, Java, and Gradle. 
 
-### 解決方案 1：Android Studio
-最簡單的解決方式是使用 Android Studio 的 AGP 升級助手（AGP upgrade assistant）。  
-在 Android Studio 中，選擇你的頂層 `build.gradle` 檔案，然後選擇  
-「工具（Tools）」->「AGP 升級助手（AGP Upgrade Assistant）」。
+### Solution 1: Android Studio 
+The easiest way to resolve this issue is to use Android Studio AGP upgrade assistant. 
+To use select your top-level `build.gradle` file in Android Studio then select 
+Tools -> AGP Upgrade Assistant. 
 
-### 解決方案 2：命令列
-執行 `flutter analyze --suggestions`，檢查你的 AGP、Java 與 Gradle 版本是否相容。  
-如果需要升級 Gradle，可以使用 `./gradlew wrapper --gradle-version=SOMEGRADLEVERSION` 進行升級，  
-其中 SOMEGRADLEVERSION 為版本號（你可以使用 `flutter analyze` 建議的較新版本）。
+### Solution 2: Command line
+Run `flutter analyze --suggestions` to see if your AGP, Java, and Gradle versions are compatible. 
+If Gradle needs to be updated you can update it with `./gradlew wrapper --gradle-version=SOMEGRADLEVERSION`
+where SOMEGRADLEVERSION is the version (you can use a newer version)
+suggested by `flutter analyze`. 
 
-要查詢目前使用的 Java 版本，請執行 `flutter doctor`。  
-在 macOS 上，你可以使用 `/usr/libexec/java_home -V` 查詢作業系統已知的 Java 版本。  
-若要設定所有 Flutter 專案使用的 Java 版本，請執行 `flutter config --jdk-dir=SOMEJAVAPATH`，  
-其中 SOMEJAVAPATH 是指向某個 Java 版本的路徑，例如 `/opt/homebrew/Cellar/openjdk@17/17.0.13/libexec/openjdk.jdk/Contents/Home`。
+To find the Java version being used run `flutter doctor`.
+On a mac, you can find the Java versions that the OS knows about with `/usr/libexec/java_home -V`.
+To set the version of Java that all flutter projects use run `flutter config --jdk-dir=SOMEJAVAPATH`
+where SOMEJAVAPATH is a path to a Java version like `/opt/homebrew/Cellar/openjdk@17/17.0.13/libexec/openjdk.jdk/Contents/Home`
 
-## 注意事項
+## Notes
 
-請注意以下幾點：
+A few notes to be aware of:
 
-* 每個受影響的 Android 應用程式都需要重複這些步驟。
-* 這個問題可能會發生在那些
-  _沒有_ 通過 Android Studio 下載 Java 和 Android SDK 的使用者身上。
-  如果你手動將 Java SDK 升級到 17 版，但尚未升級 Gradle，
-  也會遇到這個問題。解決方式相同：
-  將 Gradle 升級到 7.3 到 7.6.1 之間的版本。
-* 你的開發機 _可能_ 會有多個 Java SDK 副本：
-  * Android Studio 應用程式內含一個 Java 版本，
-    Flutter 預設會使用這個版本。
-  * 如果你未安裝 Android Studio，
-    Flutter 會依賴你的 shell 腳本中 `JAVA_HOME` 環境變數所定義的版本。
-  * 如果未定義 `JAVA_HOME`，Flutter 會在你的路徑中
-    尋找任何 `java` 執行檔。
-    `flutter doctor -v` 指令會顯示目前使用的 Java 版本。
-* 如果你將 Gradle 升級到 7.6.1 之後的版本，
-  你 _有可能_（雖然機率不高）遇到因 Gradle 變更而導致的問題，例如
-  [已棄用的 Gradle 類別][deprecated Gradle classes]，或是 Android 檔案結構的變動，例如
-  [將 ApplicationId 從 PackageName 拆分][splitting out ApplicationId from PackageName]。
-  若發生此情況，請將 Gradle 降級到 7.3 到 7.6.1 之間的版本。
-* 升級到 Flutter 3.10 並不會解決這個問題。
+* Repeat this step for each affected Android app.
+* This issue can be experienced by those who
+  _don't_ download Java and the Android SDK through
+  Android studio.
+  If you've manually upgraded your Java SDK to
+  version 17 but haven't upgraded Gradle, you can
+  also encounter this issue. The fix is the same:
+  upgrade Gradle to a release between 7.3 and 7.6.1.
+* Your development machine _might_ contain more
+  than one copy of the Java SDK:
+  * The Android Studio app includes a version of Java,
+    which Flutter uses by default.
+  * If you don't have Android Studio installed,
+    Flutter relies on the version defined by your
+    shell script's `JAVA_HOME` environment variable.
+  * If `JAVA_HOME` isn't defined, Flutter looks
+    for any `java` executable in your path.
+    The `flutter doctor -v` command reports which version
+    of Java is used.
+* If you upgrade Gradle to a release _newer_ than 7.6.1,
+  you might (though it's unlikely) encounter issues
+  that result from changes to Gradle, such as
+  [deprecated Gradle classes][], or changes to the
+  Android file structure, such as
+  [splitting out ApplicationId from PackageName][].
+  If this occurs, downgrade to a release of Gradle
+  between 7.3 and 7.6.1, inclusive.
+* Upgrading to Flutter 3.10 won't fix this issue.
 
 [deprecated Gradle classes]: https://docs.gradle.org/7.6/javadoc/deprecated-list.html
 [issue 122609]: {{site.repo.flutter}}/issues/122609

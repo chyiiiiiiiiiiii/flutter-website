@@ -1,36 +1,48 @@
 ---
-title: 全新 Form、FormField 自動驗證 API
-description: 提供更靈活的控制方式，決定如何自動驗證 Form 和 FormField。
+title: The new Form, FormField auto-validation API
+description: Gives more control in how to auto validate a Form and a FormField.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-先前針對 `Form` 和 `FormField` 元件（Widgets）的自動驗證 API，無法控制自動驗證發生的時機。因此，這些元件的自動驗證總是在第一次建構（build）時，也就是元件首次對使用者可見時就會執行，且無法由開發者自行控制自動驗證的觸發時機。
+The previous auto validation API for the `Form` and
+`FormField` widgets didn't control when auto validation
+should occur. So the auto validation for these widgets
+always happened on first build when the widget was first
+visible to the user, and you weren't able to control
+when the auto validation should happen.
 
-## 背景說明
+## Context
 
-由於原本的 API 無法讓開發者調整自動驗證的行為，例如僅在使用者與表單欄位互動時才進行驗證，因此我們新增了新的 API，讓開發者可以自行設定 `Form` 和 `FormField` 元件（Widgets）自動驗證的行為。
+Due to the original API not allowing developers to change
+the auto validation behavior for validating only when
+the user interacts with the form field, we added new API
+that allows developers to configure how they want
+auto validation to behave for the `Form` and `FormField`
+widgets.
 
-## 變更內容說明
+## Description of change
 
-此次變更包含以下內容：
+The following changes were made:
 
-* `autovalidate` 參數已被棄用。
-* 新增了一個名為 `autovalidateMode` 的參數，
-  這是一個列舉型別（Enum），可接受 `AutovalidateMode`
-  列舉類別（Enum class）中的值。
+* The `autovalidate` parameter is deprecated.
+* A new parameter called `autovalidateMode`,
+  an Enum that accepts values from the `AutovalidateMode`
+  Enum class, is added.
 
-## 遷移指南
+## Migration guide
 
-若要遷移至新的自動驗證 API，您需要將已棄用的 `autovalidate`
-參數替換為新的 `autovalidateMode` 參數。
-如果您希望維持原有的行為，可以使用：
-`autovalidateMode = AutovalidateMode.always`。
-這樣您的 `Form` 和 `FormField` 元件（Widgets）將會在第一次建構時及每次變更時自動驗證。
+To migrate to the new auto validation API you need to
+replace the usage of the deprecated `autovalidate`
+parameter to the new `autovalidateMode` parameter.
+If you want the same behavior as before you can use:
+`autovalidateMode = AutovalidateMode.always`.
+This makes your `Form` and `FormField` widgets auto
+validate on first build and every time it changes.
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 class MyWidget extends StatelessWidget {
@@ -46,7 +58,7 @@ class MyWidget extends StatelessWidget {
 }
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 class MyWidget extends StatelessWidget {
@@ -62,18 +74,18 @@ class MyWidget extends StatelessWidget {
 }
 ```
 
-## 時程
+## Timeline
 
-已於版本：1.21.0-5.0.pre<br>
-正式版釋出：1.22
+Landed in version: 1.21.0-5.0.pre<br>
+In stable release: 1.22
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
 * [`AutovalidateMode`]({{site.api}}/flutter/widgets/AutovalidateMode.html)
 
-相關議題：
+Relevant issues:
 
 * [Issue 56363]({{site.repo.flutter}}/issues/56363)
 * [Issue 18885]({{site.repo.flutter}}/issues/18885)
@@ -81,8 +93,10 @@ API 文件：
 * [Issue 36154]({{site.repo.flutter}}/issues/36154)
 * [Issue 48876]({{site.repo.flutter}}/issues/48876)
 
-相關 PR：
+Relevant PRs:
 
-* [PR 56365: FormField 應僅在內容變更時自動驗證]({{site.github}}/flutter/pull/56365)
-* [PR 59766: FormField 應僅在內容變更時自動驗證
-  （修正版）]({{site.repo.flutter}}/pull/59766)
+* [PR 56365: FormField should autovalidate only if its
+  content was changed]({{site.github}}/flutter/pull/56365)
+* [PR 59766: FormField should autovalidate only if its
+  content was changed
+  (fixed)]({{site.repo.flutter}}/pull/59766)

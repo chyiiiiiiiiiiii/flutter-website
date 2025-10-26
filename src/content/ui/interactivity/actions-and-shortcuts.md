@@ -1,38 +1,83 @@
 ---
-title: 使用 Actions 和 Shortcuts
-description: 如何在你的 Flutter 應用中使用 Actions 和 Shortcuts。
+title: Using Actions and Shortcuts
+description: How to use Actions and Shortcuts in your Flutter app.
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
 ---
 
-本頁說明如何將實體鍵盤事件綁定到使用者介面中的 actions。舉例來說，如果你想在應用程式中定義鍵盤快捷鍵，這篇文章將會對你有所幫助。
+This page describes how to bind physical keyboard events to actions in the user
+interface. For instance, to define keyboard shortcuts in your application, this
+page is for you.
 
-## 概述
+## Overview
 
-對於一個 GUI 應用程式來說，若要執行任何操作，都必須有 actions：使用者希望告訴應用程式去「做」某件事。Actions 通常是直接執行動作的簡單函式（例如設定某個值或儲存檔案）。然而，在較大型的應用程式中，情況會更為複雜：觸發 action 的程式碼與 action 本身的實作，可能需要分開在不同的位置。Shortcuts（鍵盤綁定）也可能需要在完全不了解其所觸發 action 的層級進行定義。
+For a GUI application to do anything, it has to have actions: users want to tell
+the application to _do_ something. Actions are often simple functions that
+directly perform the action (such as set a value or save a file). In a larger
+application, however, things are more complex: the code for invoking the action,
+and the code for the action itself might need to be in different places.
+Shortcuts (key bindings) might need definition at a level that knows nothing
+about the actions they invoke.
 
-這正是 Flutter 的 actions 和 shortcuts 系統發揮作用的地方。它允許開發者定義 actions 來實現與其綁定的 intents。在這個脈絡下，intent 是指使用者希望執行的通用動作，而 [`Intent`][`Intent`] 類別實例則在 Flutter 中代表這些使用者意圖。`Intent` 可以是通用的，在不同情境下由不同的 actions 來實現。而 [`Action`][`Action`] 可以是簡單的回呼（如 [`CallbackAction`][`CallbackAction`] 的情境），也可以是更複雜的邏輯，像是整合完整的復原/重做架構，或其他邏輯。
+That's where Flutter's actions and shortcuts system comes in. It allows
+developers to define actions that fulfill intents bound to them. In this
+context, an intent is a generic action that the user wishes to perform, and an
+[`Intent`][] class instance represents these user intents in Flutter. An
+`Intent` can be general purpose, fulfilled by different actions in different
+contexts. An [`Action`][] can be a simple callback (as in the case of
+the [`CallbackAction`][]) or something more complex that integrates with entire
+undo/redo architectures (for example) or other logic.
 
-![Using Shortcuts Diagram][Using Shortcuts Diagram]{:width="100%" .diagram-wrap}
+![Using Shortcuts Diagram][]{:width="100%" .diagram-wrap}
 
-[`Shortcuts`][`Shortcuts`] 是透過按下一個或多個組合鍵來觸發的鍵盤綁定。這些組合鍵會與其綁定的 intent 一起存放在一個表格中。當 `Shortcuts` 元件觸發它們時，會將對應的 intent 傳送給 actions 子系統來執行。
+[`Shortcuts`][] are key bindings that activate by pressing a key or combination
+of keys. The key combinations reside in a table with their bound intent. When
+the `Shortcuts` widget invokes them, it sends their matching intent to the
+actions subsystem for fulfillment.
 
-為了說明 actions 和 shortcuts 的概念，本文將建立一個簡單的應用程式，讓使用者可以透過按鈕和快捷鍵，在文字欄位中選取並複製文字。
+To illustrate the concepts in actions and shortcuts, this article creates a
+simple app that allows a user to select and copy text in a text field using both
+buttons and shortcuts.
 
-### 為什麼要將 Actions 與 Intents 分離？
+### Why separate Actions from Intents?
 
-你可能會想：為什麼不直接將某個按鍵組合對應到一個 action？為什麼還需要 intents？這是因為將鍵盤綁定的定義（通常在較高層級）與 action 的定義（通常在較低層級）分離，能夠讓職責更清楚。此外，讓單一鍵盤組合對應到應用程式中的某個預期操作，並且能根據目前聚焦的情境自動適應由哪個 action 來實現該操作，也是非常重要的。
+You might wonder: why not just map a key combination directly to an action?  Why
+have intents at all? This is because it is useful to have a separation of
+concerns between where the key mapping definitions are (often at a high level),
+and where the action definitions are (often at a low level), and because it is
+important to be able to have a single key combination map to an intended
+operation in an app, and have it adapt automatically to whichever action
+fulfills that intended operation for the focused context.
 
-舉例來說，Flutter 有一個 `ActivateIntent` 元件，會將每種控制項對應到其專屬版本的 `ActivateAction`（並執行啟動該控制項的程式碼）。這段程式碼通常需要較高的私有存取權限來完成其工作。如果沒有 `Intent` 所提供的這層額外間接層，則必須將 actions 的定義提升到 `Shortcuts` 元件的實例能夠存取的地方，這會導致 shortcuts 必須知道過多關於要觸發哪個 action 的細節，甚至需要存取或提供原本不需要的狀態。這樣的設計能讓你的程式碼將這兩個職責分離，彼此更加獨立。
+For instance, Flutter has an `ActivateIntent` widget that maps each type of
+control to its corresponding version of an `ActivateAction` (and that executes
+the code that activates the control). This code often needs fairly private
+access to do its work. If the extra layer of indirection that `Intent`s provide
+didn't exist, it would be necessary to elevate the definition of the actions to
+where the defining instance of the `Shortcuts` widget could see them, causing
+the shortcuts to have more knowledge than necessary about which action to
+invoke, and to have access to or provide state that it wouldn't necessarily have
+or need otherwise. This allows your code to separate the two concerns to be more
+independent.
 
-Intents 可以配置 action，使得同一個 action 能夠服務於多種用途。例如 `DirectionalFocusIntent`，它會帶入一個移動焦點的方向，讓 `DirectionalFocusAction` 知道該往哪個方向移動焦點。但要注意：不要在 `Intent` 中傳遞適用於所有 `Action` 呼叫的狀態；這類狀態應該傳遞給 `Action` 的建構函式本身，以避免讓 `Intent` 需要知道過多細節。
+Intents configure an action so that the same action can serve multiple uses. An
+example of this is `DirectionalFocusIntent`, which takes a direction to move
+the focus in, allowing the `DirectionalFocusAction` to know which direction to
+move the focus. Just be careful: don't pass state in the `Intent` that applies
+to all  invocations of an `Action`: that kind of state should be passed to the
+constructor of the `Action` itself, to keep the `Intent` from needing to know
+too much.
 
-### 為什麼不用 callbacks？
+### Why not use callbacks?
 
-你可能還會想：為什麼不用 callback 來取代 `Action` 物件？主要原因是，actions 可以透過實作 `isEnabled` 來決定自己是否啟用。此外，將鍵盤綁定與其實作分開放置，通常也很有幫助。
+You also might wonder: why not just use a callback instead of an `Action`
+object? The main reason is that it's useful for actions to decide whether they
+are enabled by implementing `isEnabled`. Also, it is often helpful if the key
+bindings, and the implementation of those bindings, are in different places.
 
-如果你只需要 callbacks，而不需要 `Actions` 和 `Shortcuts` 所帶來的彈性，可以使用 [`CallbackShortcuts`][`CallbackShortcuts`] 元件：
+If all you need are callbacks without the flexibility of `Actions` and
+`Shortcuts`, you can use the [`CallbackShortcuts`][] widget:
 
 <?code-excerpt "ui/actions_and_shortcuts/lib/samples.dart (callback-shortcuts)"?>
 ```dart
@@ -61,11 +106,20 @@ Widget build(BuildContext context) {
 }
 ```
 
-## 快捷鍵
+## Shortcuts
 
-如下面所示，actions（操作）本身就很有用，但最常見的用法是將它們綁定到鍵盤快捷鍵。這正是 `Shortcuts` 元件（Widget）所設計的用途。
+As you'll see below, actions are useful on their own, but the most common use
+case involves binding them to a keyboard shortcut. This is what the `Shortcuts`
+widget is for.
 
-它被插入到元件（Widget）階層中，用來定義代表使用者意圖的按鍵組合，當該按鍵組合被按下時觸發。為了將這些按鍵組合的預期用途轉換為具體的操作，會使用 `Actions` 元件來將 `Intent` 映射到 `Action`。舉例來說，你可以定義一個 `SelectAllIntent`，並將它綁定到你自己的 `SelectAllAction` 或 `CanvasSelectAllAction`，系統會根據應用程式中目前聚焦的部分，從同一個按鍵綁定觸發其中之一。讓我們看看按鍵綁定的運作方式：
+It is inserted into the widget hierarchy to define key combinations that
+represent the user's intent when that key combination is pressed. To convert
+that intended purpose for the key combination into a concrete action, the
+`Actions` widget used to map the `Intent` to an `Action`. For instance, you can
+define a `SelectAllIntent`, and bind it to your own `SelectAllAction` or to your
+`CanvasSelectAllAction`, and from that one key binding, the system invokes
+either one, depending on which part of your application has focus. Let's see how
+the key binding part works:
 
 <?code-excerpt "ui/actions_and_shortcuts/lib/samples.dart (shortcuts)"?>
 ```dart
@@ -95,23 +149,37 @@ Widget build(BuildContext context) {
 }
 ```
 
-傳遞給 `Shortcuts` 元件 (Widget) 的對應表會將 `LogicalKeySet`（或 `ShortcutActivator`，請參見下方註解）對應到一個 `Intent` 實例。邏輯鍵集合 (logical key set) 定義了一組一個或多個按鍵，而 intent 則表示按鍵操作的預期用途。`Shortcuts` 元件會在對應表中查找按鍵輸入，以找到一個 `Intent` 實例，並將其傳遞給 action 的 `invoke()` 方法。
+The map given to a `Shortcuts` widget maps a `LogicalKeySet` (or a
+`ShortcutActivator`, see note below) to an `Intent` instance. The logical key
+set defines a set of one or more keys, and the intent indicates the intended
+purpose of the keypress. The `Shortcuts` widget looks up key presses in the map,
+to find an `Intent` instance, which it gives to the action's `invoke()` method.
 
 :::note
-`ShortcutActivator` 是 `LogicalKeySet` 的替代品。
-它允許更靈活且正確地觸發快捷鍵。
-`LogicalKeySet` 當然是一個 `ShortcutActivator`，但同時也有 `SingleActivator`，它接受單一按鍵以及可選的前置修飾鍵。
-此外還有 `CharacterActivator`，它根據按鍵序列產生的字元來觸發快捷鍵，而不是根據邏輯鍵本身。
-`ShortcutActivator` 也設計為可被繼承，以便自訂從按鍵事件觸發快捷鍵的方式。
+`ShortcutActivator` is a replacement for `LogicalKeySet`.
+It allows for more flexible and correct activation of shortcuts.
+`LogicalKeySet` is a `ShortcutActivator`, of course, but
+there is also `SingleActivator`, which takes a single key and the
+optional modifiers to be pressed before the key.
+Then there is `CharacterActivator`, which activates a shortcut based on the
+character produced by a key sequence, instead of the logical keys themselves.
+`ShortcutActivator` is also meant to be subclassed to allow for
+custom ways of activating shortcuts from key events.
 :::
 
-### ShortcutManager
+### The ShortcutManager
 
-Shortcut manager（快捷鍵管理器）是一個比 `Shortcuts` 元件生命週期更長的物件，當它接收到按鍵事件時會將其傳遞處理。它包含了決定如何處理按鍵的邏輯、沿著元件樹向上查找其他快捷鍵對應表的邏輯，並維護一個將按鍵組合對應到 intent 的對應表。
+The shortcut manager, a longer-lived object than the `Shortcuts` widget, passes
+on key events when it receives them. It contains the logic for deciding how to
+handle the keys, the logic for walking up the tree to find other shortcut
+mappings, and maintains a map of key combinations to intents.
 
-雖然 `ShortcutManager` 的預設行為通常是理想的，但 `Shortcuts` 元件會接收一個 `ShortcutManager`，你可以透過繼承它來自訂其功能。
+While the default behavior of the `ShortcutManager` is usually desirable, the
+`Shortcuts` widget takes a `ShortcutManager` that you can subclass to customize
+its functionality.
 
-舉例來說，如果你想記錄每一個被 `Shortcuts` 元件處理的按鍵，你可以建立一個 `LoggingShortcutManager`：
+For example, if you wanted to log each key that a `Shortcuts` widget handled,
+you could make a `LoggingShortcutManager`:
 
 <?code-excerpt "ui/actions_and_shortcuts/lib/samples.dart (logging-shortcut-manager)"?>
 ```dart
@@ -127,15 +195,21 @@ class LoggingShortcutManager extends ShortcutManager {
 }
 ```
 
-現在，每當 `Shortcuts` 元件 (Widget) 處理快捷鍵時，都會印出鍵盤事件以及相關的上下文資訊。
+Now, every time the `Shortcuts` widget handles a shortcut, it prints out the key
+event and relevant context.
 
-## 動作 (Actions)
+## Actions
 
-`Actions` 允許定義應用程式可以執行的操作，並透過 `Intent` 來呼叫這些操作。動作 (Actions) 可以啟用或停用，並且會接收觸發該動作的 intent 實例作為參數，以便根據 intent 進行設定。
+`Actions` allow for the definition of operations that the application can
+perform by invoking them with an `Intent`. Actions can be enabled or disabled,
+and receive the intent instance that invoked them as an argument to allow
+configuration by the intent.
 
-### 定義動作
+### Defining actions
 
-動作 (Actions) 最簡單的形式，就是繼承 `Action<Intent>` 並實作一個 `invoke()` 方法。以下是一個簡單的動作範例，會在提供的 model 上執行一個函式：
+Actions, in their simplest form, are just subclasses of `Action<Intent>` with an
+`invoke()` method. Here's a simple action that simply invokes a function on the
+provided model:
 
 <?code-excerpt "ui/actions_and_shortcuts/lib/samples.dart (select-all-action)"?>
 ```dart
@@ -149,14 +223,15 @@ class SelectAllAction extends Action<SelectAllIntent> {
 }
 ```
 
-或者，如果建立新類別太麻煩，可以使用`CallbackAction`：
+Or, if it's too much of a bother to create a new class, use a `CallbackAction`:
 
 <?code-excerpt "ui/actions_and_shortcuts/lib/samples.dart (callback-action)"?>
 ```dart
 CallbackAction(onInvoke: (intent) => model.selectAll());
 ```
 
-當你擁有一個 action（操作）後，可以使用 [`Actions`][`Actions`] 元件（Widget）將其加入你的應用程式。這個元件會接收一個由 `Intent` 型別對應到 `Action` 的對應表（map）作為參數：
+Once you have an action, you add it to your application using the [`Actions`][]
+widget, which takes a map of `Intent` types to `Action`s:
 
 <?code-excerpt "ui/actions_and_shortcuts/lib/samples.dart (select-all-usage)"?>
 ```dart
@@ -169,13 +244,20 @@ Widget build(BuildContext context) {
 }
 ```
 
-`Shortcuts` 元件會使用 `Focus` 元件的 context 以及 `Actions.invoke`，來尋找應該觸發哪一個 action。如果 `Shortcuts` 元件在遇到的第一個 `Actions` 元件中找不到符合的 intent 類型，則會繼續往上考慮下一個父層的 `Actions` 元件，如此類推，直到到達元件樹（widget tree）的根節點，或找到符合的 intent 類型並執行對應的 action 為止。
+The `Shortcuts` widget uses the `Focus` widget's context and `Actions.invoke` to
+find which action to invoke. If the `Shortcuts` widget doesn't find a matching
+intent type in the first `Actions` widget encountered, it considers the next
+ancestor `Actions` widget, and so on, until it reaches the root of the widget
+tree, or finds a matching intent type and invokes the corresponding action.
 
-### 觸發 Actions
+### Invoking Actions
 
-Actions 系統有多種方式可以觸發 actions。最常見的方式是透過前一節介紹的 `Shortcuts` 元件，但也有其他方法可以查詢 actions 子系統並觸發 action。你也可以觸發沒有綁定按鍵的 actions。
+The actions system has several ways to invoke actions.  By far the most common
+way is through the use of a `Shortcuts` widget covered in the previous section,
+but there are other ways to interrogate the actions subsystem and invoke an
+action. It's possible to invoke actions that are not bound to keys.
 
-例如，若要根據 intent 尋找對應的 action，可以使用：
+For instance, to find an action associated with an intent, you can use:
 
 <?code-excerpt "ui/actions_and_shortcuts/lib/samples.dart (maybe-find)"?>
 ```dart
@@ -184,9 +266,13 @@ Action<SelectAllIntent>? selectAll = Actions.maybeFind<SelectAllIntent>(
 );
 ```
 
-這會回傳一個與`SelectAllIntent`型別相關聯的`Action`（如果在指定的`context`中有可用的話）。如果沒有可用的話，則會回傳 null。如果一定要有相關聯的`Action`可用，請改用`find`而不是`maybeFind`，當找不到符合的`Intent`型別時，`find`會拋出例外。
+This returns an `Action` associated with the `SelectAllIntent` type if one is
+available in the given `context`.  If one isn't available, it returns null. If
+an associated `Action` should always be available, then use `find` instead of
+`maybeFind`, which throws an exception when it doesn't find a matching `Intent`
+type.
 
-若要呼叫該 action（如果存在的話），請執行：
+To invoke the action (if it exists), call:
 
 <?code-excerpt "ui/actions_and_shortcuts/lib/samples.dart (invoke-action)"?>
 ```dart
@@ -198,7 +284,7 @@ if (selectAll != null) {
 }
 ```
 
-將其合併為一次呼叫，如下所示：
+Combine that into one call with the following:
 
 <?code-excerpt "ui/actions_and_shortcuts/lib/samples.dart (maybe-invoke)"?>
 ```dart
@@ -208,14 +294,14 @@ Object? result = Actions.maybeInvoke<SelectAllIntent>(
 );
 ```
 
-有時候，你會希望在按下按鈕或其他控制元件時觸發一個動作。  
-你可以使用 `Actions.handler` 函式來實現這個需求。
-
-如果該 intent 有對應到一個已啟用的動作，`Actions.handler` 函式會建立一個處理程序閉包（handler closure）。
-
-然而，如果沒有對應的動作，則會回傳 `null`。
-
-這樣一來，如果在目前的 context 中沒有啟用的動作可供對應，按鈕就會被設為無法使用（disabled）的狀態。
+Sometimes you want to invoke an action as a
+result of pressing a button or another control.
+You can do this with the `Actions.handler` function.
+If the intent has a mapping to an enabled action,
+the `Actions.handler` function creates a handler closure.
+However, if it doesn't have a mapping, it returns `null`.
+This allows the button to be disabled if
+there is no enabled action that matches in the context.
 
 <?code-excerpt "ui/actions_and_shortcuts/lib/samples.dart (handler)"?>
 ```dart
@@ -236,23 +322,47 @@ Widget build(BuildContext context) {
 }
 ```
 
-`Actions` 元件只有在 `isEnabled(Intent intent)` 回傳 true 時才會觸發動作，這讓該動作可以自行決定 dispatcher 是否應該考慮執行它。如果該動作未啟用，`Actions` 元件會讓元件階層中較高層（如果存在）的其他已啟用動作有機會被執行。
+The `Actions` widget only invokes actions when `isEnabled(Intent intent)`
+returns true, allowing the action to decide if the dispatcher should consider it
+for invocation.  If the action isn't enabled, then the `Actions` widget gives
+another enabled action higher in the widget hierarchy (if it exists) a chance to
+execute.
 
-前面的範例使用了 `Builder`，因為 `Actions.handler` 和 `Actions.invoke`（例如）只會在所提供的 `context` 中尋找動作。如果範例將傳遞給 `build` 的 `context` 作為參數，框架會開始在目前元件之上的階層尋找動作。使用 `Builder` 可以讓框架找到在同一個 `build` 函式中定義的動作。
+The previous example uses a `Builder` because `Actions.handler` and
+`Actions.invoke` (for example) only finds actions in the provided `context`, and
+if the example passes the `context` given to the `build` function, the framework
+starts looking _above_ the current widget.  Using a `Builder` allows the
+framework to find the actions defined in the same `build` function.
 
-你可以在不需要 `BuildContext` 的情況下觸發動作，但由於 `Actions` 元件需要一個 context 來尋找可執行的動作，你必須提供一個 context，可以自行建立 `Action` 實例，或是在適當的 context 中使用 `Actions.find` 來尋找。
+You can invoke an action without needing a `BuildContext`, but since the
+`Actions` widget requires a context to find an enabled action to invoke, you
+need to provide one, either by creating your own `Action` instance, or by
+finding one in an appropriate context with `Actions.find`.
 
-要觸發動作，請將該動作傳遞給 `invoke` 的 `ActionDispatcher` 方法，不論是你自己建立的，或是從現有的 `Actions` 元件透過 `Actions.of(context)` 方法取得的。在呼叫 `invoke` 之前，請先檢查該動作是否已啟用。當然，你也可以直接在動作本身呼叫 `invoke`，並傳入 `Intent`，但這樣會略過 action dispatcher 可能提供的服務（例如日誌記錄、復原/重做等）。
+To invoke the action, pass the action to the `invoke` method on an
+`ActionDispatcher`, either one you created yourself, or one retrieved from an
+existing `Actions` widget using the `Actions.of(context)` method. Check whether
+the action is enabled before calling `invoke`. Of course, you can also just call
+`invoke` on the action itself, passing an `Intent`, but then you opt out of any
+services that an action dispatcher might provide (like logging, undo/redo, and
+so on).
 
 ### Action dispatchers
 
-大多數時候，你只需要觸發一個動作，讓它執行完畢即可，不需再理會。但有時候，你可能會想記錄所有被執行的動作。
+Most of the time, you just want to invoke an action, have it do its thing, and
+forget about it. Sometimes, however, you might want to log the executed actions.
 
-這時就可以用自訂的 dispatcher 來取代預設的 `ActionDispatcher`。你可以將自己的 `ActionDispatcher` 傳給 `Actions` 元件，這樣它就會為該元件下方所有未自行設定 dispatcher 的 `Actions` 元件觸發動作。
+This is where replacing the default `ActionDispatcher` with a custom dispatcher
+comes in.  You pass your `ActionDispatcher` to the `Actions` widget, and it
+invokes actions from any `Actions` widgets below that one that doesn't set a
+dispatcher of its own.
 
-`Actions` 在觸發動作時，首先會查找 `ActionDispatcher`，並將動作交給它執行。如果沒有找到，則會建立一個預設的 `ActionDispatcher`，僅單純執行該動作。
+The first thing `Actions` does when invoking an action is look up the
+`ActionDispatcher` and pass the action to it for invocation. If there is none,
+it creates a default `ActionDispatcher` that simply invokes the action.
 
-如果你想記錄所有被觸發的動作，可以自訂一個 `LoggingActionDispatcher` 來達成：
+If you want a log of all the actions invoked, however, you can create your own
+`LoggingActionDispatcher` to do the job:
 
 <?code-excerpt "ui/actions_and_shortcuts/lib/samples.dart (logging-action-dispatcher)"?>
 ```dart
@@ -281,7 +391,7 @@ class LoggingActionDispatcher extends ActionDispatcher {
 }
 ```
 
-然後你將它傳遞給最上層的 `Actions` 元件 (Widget)：
+Then you pass that to your top-level `Actions` widget:
 
 <?code-excerpt "ui/actions_and_shortcuts/lib/samples.dart (logging-action-dispatcher-usage)"?>
 ```dart
@@ -303,15 +413,20 @@ Widget build(BuildContext context) {
 }
 ```
 
-這會在每次執行動作時記錄下來，如下所示：
+This logs every action as it executes, like so:
 
 ```console
 flutter: Action invoked: SelectAllAction#906fc(SelectAllIntent#a98e3) from Builder(dependencies: _[ActionsMarker])
 ```
 
-## 綜合應用
+## Putting it together
 
-`Actions` 和 `Shortcuts` 的結合非常強大：你可以在元件 (Widgets) 層級定義通用的意圖（intent），並將其對應到特定的動作（action）。以下是一個簡單的應用程式，說明上述概念。這個應用程式建立了一個文字欄位（text field），旁邊有「全選」和「複製到剪貼簿」兩個按鈕。這些按鈕會呼叫相應的動作來完成任務。所有被觸發的動作和快捷鍵都會被記錄下來。
+The combination of `Actions` and `Shortcuts` is powerful: you can define generic
+intents that map to specific actions at the widget level. Here's a simple app
+that illustrates the concepts described above. The app creates a text field that
+also has "select all" and "copy to clipboard" buttons next to it. The buttons
+invoke actions to accomplish their work. All the invoked actions and
+shortcuts are logged.
 
 <?code-excerpt "ui/actions_and_shortcuts/lib/copyable_text.dart"?>
 ```dartpad title="Copyable text DartPad hands-on example" run="true"
@@ -522,10 +637,10 @@ void main() => runApp(const MyApp());
 ```
 
 
-[`Action`]: {{site.api}}/flutter/widgets/Action-class.html  
-[`Actions`]: {{site.api}}/flutter/widgets/Actions-class.html  
-[`CallbackAction`]: {{site.api}}/flutter/widgets/CallbackAction-class.html  
-[`CallbackShortcuts`]: {{site.api}}/flutter/widgets/CallbackShortcuts-class.html  
-[`Intent`]: {{site.api}}/flutter/widgets/Intent-class.html  
-[`Shortcuts`]: {{site.api}}/flutter/widgets/Shortcuts-class.html  
+[`Action`]: {{site.api}}/flutter/widgets/Action-class.html
+[`Actions`]: {{site.api}}/flutter/widgets/Actions-class.html
+[`CallbackAction`]: {{site.api}}/flutter/widgets/CallbackAction-class.html
+[`CallbackShortcuts`]: {{site.api}}/flutter/widgets/CallbackShortcuts-class.html
+[`Intent`]: {{site.api}}/flutter/widgets/Intent-class.html
+[`Shortcuts`]: {{site.api}}/flutter/widgets/Shortcuts-class.html
 [Using Shortcuts Diagram]: /assets/images/docs/using_shortcuts.png

@@ -1,7 +1,7 @@
 ---
-title: 輸入元件 (Input Widgets)
-shortTitle: 輸入 (Input)
-description: Flutter 輸入元件的目錄。
+title: Input widgets
+shortTitle: Input
+description: A catalog of Flutter's input widgets.
 ---
 
 {% render docs/catalog-page.md, categoryName:"Input", catalog:catalog %}

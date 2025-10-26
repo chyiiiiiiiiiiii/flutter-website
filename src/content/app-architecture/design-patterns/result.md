@@ -1,9 +1,9 @@
 ---
-title: 使用 Result 物件進行錯誤處理
-description: "透過 Result 物件提升跨類別的錯誤處理能力。"
+title: Error handling with Result objects
+description: "Improve error handling across classes with Result objects."
 contentTags:
-  - 錯誤處理
-  - 服務
+  - error handling
+  - services
 iconPath: /assets/images/docs/app-architecture/design-patterns/result-icon.svg
 order: 5
 js:
@@ -13,56 +13,58 @@ js:
 
 <?code-excerpt path-base="app-architecture/result"?>
 
-Dart 提供了內建的錯誤處理機制，
-可以拋出（throw）與捕捉（catch）例外（exception）。
+Dart provides a built-in error handling mechanism 
+with the ability to throw and catch exceptions.
 
-如同 [錯誤處理文件][Error handling documentation] 中所提到，
-Dart 的例外屬於未處理例外（unhandled exceptions）。
-這代表拋出例外的方法不需要宣告它們，
-而呼叫這些方法的地方也不強制要求捕捉這些例外。
+As mentioned in the [Error handling documentation][], 
+Dart's exceptions are unhandled exceptions.
+This means that methods that throw exceptions don’t need to declare them, 
+and calling methods aren't required to catch them either.
 
-這可能導致例外未被妥善處理的情況發生。
-在大型專案中，
-開發者可能會忘記捕捉例外，
-而不同的應用程式層與元件
-也有可能拋出未被記錄的例外。
-這將導致錯誤與應用程式崩潰。
+This can lead to situations where exceptions are not handled properly. 
+In large projects, 
+developers might forget to catch exceptions, 
+and the different application layers and components 
+could throw exceptions that aren’t documented. 
+This can lead to errors and crashes.
 
-在本指南中，
-你將了解這項限制，
-以及如何透過 _result_（結果）設計模式來改善。
+In this guide, 
+you will learn about this limitation 
+and how to mitigate it using the _result_ pattern.
 
-## Flutter 應用程式中的錯誤流程
+## Error flow in Flutter applications
 
-遵循 [Flutter 架構指引][Flutter architecture guidelines] 的應用程式
-通常由 view model、repository 與 service 等元件組成。
-當這些元件中的某個函式發生失敗時，
-應該將錯誤訊息傳遞給呼叫方元件。
+Applications following the [Flutter architecture guidelines][]
+are usually composed of view models, 
+repositories, and services, among other parts. 
+When a function in one of these components fails, 
+it should communicate the error to the calling component.
 
-一般來說，這通常是透過例外來完成。
-舉例來說，
-當 API client service 無法與遠端伺服器通訊時，
-可能會拋出 HTTP Error Exception。
-呼叫端元件，
-例如 Repository，
-必須選擇要捕捉這個例外，
-或忽略它並讓呼叫的 view model 處理。
+Typically, that's done with exceptions. 
+For example, 
+an API client service failing to communicate with the remote server
+might throw an HTTP Error Exception. 
+The calling component, 
+for example a Repository, 
+would have to either capture this exception 
+or ignore it and let the calling view model handle it.
 
-你可以在下方範例中看到這種情境。請參考以下類別：
+This can be observed in the following example. Consider these classes:
 
-- 一個 service，`ApiClientService`，負責對遠端服務進行 API 呼叫。
-- 一個 repository，`UserProfileRepository`，
-  提供 `UserProfile`，這個 `UserProfile` 由 `ApiClientService` 提供。
-- 一個 view model，`UserProfileViewModel`，使用 `UserProfileRepository`。
+- A service, `ApiClientService`, performs API calls to a remote service.
+- A repository, `UserProfileRepository`,
+  provides the `UserProfile` provided by the `ApiClientService`.
+- A view model, `UserProfileViewModel`, uses the `UserProfileRepository`.
 
-`ApiClientService` 包含一個方法 `getUserProfile`，
-在特定情況下會拋出例外：
+The `ApiClientService` contains a method, `getUserProfile`,
+that throws exceptions in certain situations:
 
-- 當回應碼不是 200 時，該方法會拋出 `HttpException`。
-- 當回應的 JSON 格式不正確時，JSON 解析方法會拋出例外。
-- HTTP client 也可能因網路問題而拋出例外。
+- The method throws an `HttpException` if the response code isn’t 200.
+- The JSON parsing method throws an exception 
+  if the response isn't formatted correctly.
+- The HTTP client might throw an exception due to networking issues.
 
-以下程式碼測試了多種可能發生的例外情境：
+The following code tests for a variety of possible exceptions:
 
 <?code-excerpt "lib/no_result.dart (ApiClientService)"?>
 ```dart
@@ -86,8 +88,9 @@ class ApiClientService {
 }
 ```
 
-`UserProfileRepository` 不需要處理來自 `ApiClientService` 的例外狀況。  
-在這個範例中，它只會回傳來自 API Client 的值。
+The `UserProfileRepository` doesn’t need to handle 
+the exceptions from the `ApiClientService`. 
+In this example, it just returns the value from the API Client.
 
 <?code-excerpt "lib/no_result.dart (UserProfileRepository)"?>
 ```dart
@@ -100,10 +103,11 @@ class UserProfileRepository {
 }
 ```
 
-最後，`UserProfileViewModel`
-應該捕捉所有例外並處理錯誤。
+Finally, the `UserProfileViewModel` 
+should capture all exceptions and handle the errors.
 
-這可以透過將對 `UserProfileRepository` 的呼叫包在 try-catch 中來完成：
+This can be done by wrapping 
+the call to the `UserProfileRepository` with a try-catch:
 
 <?code-excerpt "lib/no_result.dart (UserProfileViewModel)"?>
 ```dart
@@ -121,8 +125,10 @@ class UserProfileViewModel extends ChangeNotifier {
 }
 ```
 
-實際上，開發者有時可能會忘記正確捕捉例外（exception），導致出現如下的程式碼。
-這段程式碼可以編譯並執行，但如果發生前面提到的其中一種例外，應用程式就會當機：
+In reality, a developer might forget to properly capture exceptions and
+end up with the following code.
+It compiles and runs, but crashes if
+one of the exceptions mentioned previously occurs:
 
 <?code-excerpt "lib/no_result.dart (UserProfileViewModelNoTryCatch)" replace="/NoTryCatch//g"?>
 ```dart
@@ -136,17 +142,29 @@ class UserProfileViewModel extends ChangeNotifier {
 }
 ```
 
-你可以嘗試透過撰寫`ApiClientService`的文件，來提醒可能會拋出的例外（exception）。然而，由於 view model 並未直接使用該 service，其他在這個程式碼庫中工作的開發者可能會忽略這些資訊。
+You can attempt to solve this by documenting the `ApiClientService`, 
+warning about the possible exceptions it might throw. 
+However, since the view model doesn’t use the service directly, 
+other developers working in the codebase might miss this information.
 
-## 使用 result pattern
+## Using the result pattern
 
-另一種替代拋出例外（exception）的方法，是將函式的輸出包裝在`Result`物件中。
+An alternative to throwing exceptions 
+is to wrap the function output in a `Result` object.
 
-當函式執行成功時，`Result`會包含回傳的值；但如果函式未能成功完成，則`Result`物件會包含錯誤資訊。
+When the function runs successfully, 
+the `Result` contains the returned value. 
+However, if the function does not complete successfully,
+the `Result` object contains the error.
 
-`Result`是一個[`sealed`][`sealed`]類別，可以繼承自`Ok`或`Error`類別。若要回傳成功的值，請使用`Ok`子類別；若要回傳捕捉到的錯誤，則使用`Error`子類別。
+A `Result` is a [`sealed`][] class 
+that can either subclass `Ok` or the `Error` class.
+Return the successful value with the subclass `Ok`,
+and the captured error with the subclass `Error`.
 
-以下程式碼展示了一個簡化版的`Result`類別，僅供示範用途。完整實作請參考本頁底部。
+The following code shows a sample `Result` class that
+has been simplified for demo purposes.
+A full implementation is at the end of this page.
 
 <?code-excerpt "lib/simple_result.dart"?>
 ```dart
@@ -186,18 +204,18 @@ final class Error<T> extends Result<T> {
 }
 ```
 
-在這個範例中，
-`Result` 類別使用泛型型別 `T` 來表示任何回傳值，
-這個值可以是像 `String` 這樣的 Dart 原始型別，或是 `int`，也可以是像 `UserProfile` 這樣的自訂類別。
+In this example,
+the `Result` class uses a generic type `T` to represent any return value, 
+which can be a primitive Dart type like `String` or an `int` or a custom class like `UserProfile`.
 
-### 建立 `Result` 物件
+### Creating a `Result` object
 
-對於使用 `Result` 類別來回傳值的函式，
-函式不直接回傳值，
-而是回傳一個包含該值的 `Result` 物件。
+For functions using the `Result` class to return values, 
+instead of a value, 
+the function returns a `Result` object containing the value.
 
-例如，在 `ApiClientService` 中，
-`getUserProfile` 被修改為回傳 `Result`：
+For example, in the `ApiClientService`, 
+`getUserProfile` is changed to return a `Result`:
 
 <?code-excerpt "lib/main.dart (ApiClientService1)"?>
 ```dart
@@ -210,17 +228,17 @@ class ApiClientService {
 }
 ```
 
-這裡不是直接回傳 `UserProfile`，  
-而是回傳一個包含 `UserProfile` 的 `Result` 物件。
+Instead of returning the `UserProfile` directly, 
+it returns a `Result` object containing a `UserProfile`.
 
-為了方便使用 `Result` 類別，  
-它包含了兩個具名建構函式：`Result.ok` 和 `Result.error`。  
-可依照所需的輸出，使用這兩個建構函式來建立 `Result`。  
-同時，請捕捉程式碼中所拋出的任何例外，  
-並將它們包裝進 `Result` 物件中。
+To facilitate using the `Result` class, 
+it contains two named constructors, `Result.ok` and `Result.error`. 
+Use them to construct the `Result` depending on desired output. 
+As well, capture any exceptions thrown by the code 
+and wrap them into the `Result` object.
 
-例如，這裡的 `getUserProfile()` 方法  
-已經修改為使用 `Result` 類別：
+For example, here the `getUserProfile()` method 
+has been changed to use the `Result` class:
 
 <?code-excerpt "lib/main.dart (ApiClientService2)"?>
 ```dart
@@ -246,11 +264,18 @@ class ApiClientService {
 }
 ```
 
-原本的 return 陳述式已被替換為使用 `Result.ok` 回傳值的陳述式。
-`throw HttpException()` 也被替換為回傳 `Result.error(HttpException())` 的陳述式，並將錯誤包裝進 `Result` 中。
-此外，該方法也用 `try-catch` 區塊包裹，以捕捉由 Http client 或 JSON 解析器所拋出的任何例外，並將其轉換為 `Result.error`。
+The original return statement was replaced 
+with a statement that returns the value using `Result.ok`. 
+The `throw HttpException()` 
+was replaced with a statement that returns `Result.error(HttpException())`,
+wrapping the error into a `Result`. 
+As well, the method is wrapped with a `try-catch` block
+to capture any exceptions thrown by the Http client 
+or the JSON parser into a `Result.error`.
 
-repository 類別同樣需要修改，現在不再直接回傳 `UserProfile`，而是回傳 `Result<UserProfile>`。
+The repository class also needs to be modified, 
+and instead of returning a `UserProfile` directly, 
+now it returns a `Result<UserProfile>`.
 
 <?code-excerpt "lib/main.dart (getUserProfile1)" replace="/1//g"?>
 ```dart
@@ -259,14 +284,14 @@ Future<Result<UserProfile>> getUserProfile() async {
 }
 ```
 
-### 解包 Result 物件
+### Unwrapping the Result object
 
-現在，view model 不再直接接收 `UserProfile`，  
-而是接收一個包含 `UserProfile` 的 `Result`。
+Now the view model doesn't receive the `UserProfile` directly, 
+but instead it receives a `Result` containing a `UserProfile`.
 
-這會強制實作 view model 的開發者  
-必須先解包 `Result` 才能取得 `UserProfile`，  
-並避免未捕捉的例外發生。
+This forces the developer implementing the view model 
+to unwrap the `Result` to obtain the `UserProfile`, 
+and avoids having uncaught exceptions.
 
 <?code-excerpt "lib/main.dart (UserProfileViewModel)"?>
 ```dart
@@ -290,22 +315,23 @@ class UserProfileViewModel extends ChangeNotifier {
 }
 ```
 
-`Result` 類別是透過 `sealed` 類別來實作的，
-這表示它只能是 `Ok` 或 `Error` 其中一種類型。
-這讓程式碼可以使用 [switch result or expression][switch result or expression] 來判斷結果。
+The `Result` class is implemented using a `sealed` class, 
+meaning it can only be of type `Ok` or `Error`. 
+This allows the code to evaluate the result with a  
+[switch result or expression][]. 
 
-在 `Ok<UserProfile>` 的情況下，
-可以透過 `value` 屬性取得值。
+In the `Ok<UserProfile>` case, 
+obtain the value using the `value` property. 
 
-在 `Error<UserProfile>` 的情況下，
-可以透過 `error` 屬性取得錯誤物件。
+In the `Error<UserProfile>` case,
+obtain the error object using the `error` property.
 
-## 改善控制流程
+## Improving control flow
 
-將程式碼包裹在 `try-catch` 區塊中，可以確保
-拋出的例外被捕捉，而不會傳遞到程式碼的其他部分。
+Wrapping code in a `try-catch` block ensures that
+thrown exceptions are caught and not propagated to other parts of the code.
 
-請參考以下程式碼。
+Consider the following code.
 
 <?code-excerpt "lib/no_result.dart (UserProfileRepository2)" replace="/2//g"?>
 ```dart
@@ -326,13 +352,15 @@ class UserProfileRepository {
 }
 ```
 
-在此方法中，`UserProfileRepository` 會嘗試使用 `ApiClientService` 來取得 `UserProfile`。  
-如果失敗，則會嘗試在 `DatabaseService` 中建立一個暫時使用者。
+In this method, the `UserProfileRepository` 
+attempts to obtain the `UserProfile` 
+using the `ApiClientService`.
+If it fails, it tries to create a temporary user in a `DatabaseService`.
 
-由於這兩個服務方法都可能失敗，  
-因此程式碼必須在這兩種情況下都捕捉例外（exceptions）。
+Because either service method can fail, 
+the code must catch the exceptions in both cases.
 
-這可以透過 `Result` 模式來改進：
+This can be improved using the `Result` pattern:
 
 
 <?code-excerpt "lib/main.dart (getUserProfile)"?>
@@ -352,31 +380,31 @@ Future<Result<UserProfile>> getUserProfile() async {
 }
 ```
 
-在這段程式碼中，如果 `Result` 物件是 `Ok` 實例，  
-則該函式會回傳該物件；  
-否則，則回傳 `Result.Error`。
+In this code, if the `Result` object is an `Ok` instance, 
+then the function returns that object; 
+otherwise, it returns `Result.Error`.
 
-## 整合總結
+## Putting it all together
 
-在本指南中，你已經學會  
-如何使用 `Result` 類別來回傳結果值。
+In this guide, you have learned 
+how to use a `Result` class to return result values.
 
-重點整理如下：
+The key takeaways are:
 
-- `Result` 類別會強制呼叫方法進行錯誤檢查，  
-  減少因未捕捉例外所造成的錯誤數量。
-- `Result` 類別相較於 try-catch 區塊，能幫助改善控制流程。
-- `Result` 類別是 `sealed`，且只能回傳 `Ok` 或 `Error` 實例，  
-  讓程式碼可以透過 switch 陳述式來解包它們。
+- `Result` classes force the calling method to check for errors, 
+  reducing the amount of bugs caused by uncaught exceptions.
+- `Result` classes help improve control flow compared to try-catch blocks.
+- `Result` classes are `sealed` and can only return `Ok` or `Error` instances, 
+  allowing the code to unwrap them with a switch statement.
 
-下方你可以看到完整的 `Result` 類別實作，  
-此實作來自 [Compass App example][Compass App example]，  
-並用於 [Flutter architecture guidelines][Flutter architecture guidelines]。
+Below you can find the full `Result` class 
+as implemented in the [Compass App example][] 
+for the [Flutter architecture guidelines][].
 
 :::note
-你可以在 [pub.dev][pub.dev] 上找到多種可直接使用的  
-`Result` 類別實作，  
-例如 [`result_dart`][`result_dart`]、[`result_type`][`result_type`] 和 [`multiple_result`][`multiple_result`] 套件。
+Check [pub.dev][] for different ready-to-use 
+implementations of the `Result` class,
+such as the [`result_dart`][], [`result_type`][], and [`multiple_result`][] packages.
 :::
 
 <?code-excerpt "lib/result.dart (Result)"?>
@@ -435,12 +463,12 @@ final class Error<T> extends Result<T> {
 }
 ```
 
-[Error handling documentation]: {{site.dart-site}}/language/error-handling  
-[Flutter architecture guidelines]: /app-architecture  
-[Compass App example]: {{site.repo.samples}}/tree/main/compass_app  
-[pub.dev]: {{site.pub}}  
-[`result_dart`]: {{site.pub-pkg}}/result_dart  
-[`result_type`]: {{site.pub-pkg}}/result_type  
-[`multiple_result`]: {{site.pub-pkg}}/multiple_result  
-[`sealed`]: {{site.dart-site}}/language/class-modifiers#sealed  
+[Error handling documentation]: {{site.dart-site}}/language/error-handling
+[Flutter architecture guidelines]: /app-architecture
+[Compass App example]: {{site.repo.samples}}/tree/main/compass_app
+[pub.dev]: {{site.pub}}
+[`result_dart`]: {{site.pub-pkg}}/result_dart
+[`result_type`]: {{site.pub-pkg}}/result_type
+[`multiple_result`]: {{site.pub-pkg}}/multiple_result
+[`sealed`]: {{site.dart-site}}/language/class-modifiers#sealed
 [switch result or expression]: {{site.dart-site}}/language/branches#switch-statements

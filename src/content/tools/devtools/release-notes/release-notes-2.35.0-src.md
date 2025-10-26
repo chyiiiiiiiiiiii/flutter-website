@@ -1,59 +1,64 @@
-# DevTools 2.35.0 發行說明
+# DevTools 2.35.0 release notes
 
-Dart 與 Flutter DevTools 2.35.0 版本
-包含以下變更及其他一般性改進。
-如需進一步瞭解 DevTools，請參閱
-[DevTools overview](/tools/devtools)。
+The 2.35.0 release of the Dart and Flutter DevTools
+includes the following changes among other general improvements.
+To learn more about DevTools, check out the
+[DevTools overview](/tools/devtools).
 
-## 一般更新
+## General updates
 
-* Network 螢幕與 CPU profiler 螢幕的錄製功能，改為單一按鈕控制開始與停止錄製。 - [#7573](https://github.com/flutter/devtools/pull/7573)
+* Changed to a single button for starting and stopping
+  recording on the Network screen and CPU profiler screen. - [#7573](https://github.com/flutter/devtools/pull/7573)
   
-  ![CPU profiler 分頁的新錄製按鈕畫面截圖。](/assets/images/docs/tools/devtools/release-notes/images-2.35.0/profiler_recording.png)
-  ![Network 分頁的新錄製按鈕畫面截圖。](/assets/images/docs/tools/devtools/release-notes/images-2.35.0/network_recording.png)
+  ![A screen shot of the CPU profiler tab, with the new recording button.](/assets/images/docs/tools/devtools/release-notes/images-2.35.0/profiler_recording.png)
+  ![A screen shot of the network tab, with the new recording button.](/assets/images/docs/tools/devtools/release-notes/images-2.35.0/network_recording.png)
 
-## Inspector 更新
+## Inspector updates
 
-* 新增預設 Inspector 檢視的偏好設定。 - [#6949](https://github.com/flutter/devtools/pull/6949)
+* Add a preference for the default inspector view - [#6949](https://github.com/flutter/devtools/pull/6949)
 
-## 記憶體 (Memory) 更新
+## Memory updates
 
-* 快照清單中的總大小已被可達大小 (reachable size) 取代。 - [#7493](https://github.com/flutter/devtools/pull/7493)
+* Replaced total size with reachable size in snapshot list. - [#7493](https://github.com/flutter/devtools/pull/7493)
 
-## 除錯器 (Debugger) 更新
+## Debugger updates
 
-* 在 hot-restart 過程中，`pause_isolates_on_start`，且僅在
-  `resume` 設定完中斷點後才啟動應用程式。 - [#7234](https://github.com/flutter/devtools/pull/7234)
+* During a hot-restart, `pause_isolates_on_start` and only
+  `resume` the app once breakpoints are set. - [#7234](https://github.com/flutter/devtools/pull/7234)
 
-## Network profiler 更新
+## Network profiler updates
 
-* 在請求與回應的文字檢視器中，新增文字選取功能。 - [#7596](https://github.com/flutter/devtools/pull/7596)
-* 在 JSON 檢視器中新增 JSON 複製體驗。 - [#7596](https://github.com/flutter/devtools/pull/7596)
+* Added text selection in text viewer for requests and responses. - [#7596](https://github.com/flutter/devtools/pull/7596)
+* Added a JSON copy experience to the JSON viewer. - [#7596](https://github.com/flutter/devtools/pull/7596)
   
-  ![JSON 檢視器中的全新 JSON 複製體驗](/assets/images/docs/tools/devtools/release-notes/images-2.35.0/json_viewer_copy.png)
+  ![The new JSON copy experience in the JSON viewer](/assets/images/docs/tools/devtools/release-notes/images-2.35.0/json_viewer_copy.png)
   
-* 修正停止及重新開始 Network 錄製時，會列出未錄製期間發生的請求的問題。 - [#7626](https://github.com/flutter/devtools/pull/7626)
+* Fixed a bug where stopping and starting network recording listed requests that
+  happened while not recording. - [#7626](https://github.com/flutter/devtools/pull/7626)
 
-## 深層連結 (deep links) 工具更新
+## Deep links tool updates
 
-* 改善在窄螢幕下的版面配置。 - [#7524](https://github.com/flutter/devtools/pull/7524)
-* 新增對缺少 scheme 與 domain 的錯誤處理。 - [#7559](https://github.com/flutter/devtools/pull/7559)
+* Improve layout for narrow screens. - [#7524](https://github.com/flutter/devtools/pull/7524)
+* Add error handling for missing schemes and domains - [#7559](https://github.com/flutter/devtools/pull/7559)
 
-## VS Code 側邊欄 (Sidebar) 更新
+## VS Code Sidebar updates
 
-* 新增 DevTools 區塊，列出可在無偵錯階段下使用的工具與擴充功能。 -
+* Added a DevTools section with a list of tools and extensions that
+  are available without a debug session. -
   [#7598](https://github.com/flutter/devtools/pull/7598), [#7604](https://github.com/flutter/devtools/pull/7604)
 
-## DevTools 擴充功能 (Extension) 更新
+## DevTools Extension updates
 
-* 支援不需執行中應用程式即可使用的 DevTools 擴充功能，並可自動從使用者的 IDE 工作區偵測這些擴充功能。 - [#7612](https://github.com/flutter/devtools/pull/7612)
-* 棄用 `DevToolsExtension.requiresRunningApplication` 欄位，
-  改為使用新的可選 `requiresConnection` 欄位，可加入至擴充功能的 `config.yaml` 檔案中。 -
+* Support DevTools extensions that do not require a running app, and
+  detect them from the user's IDE workspace. - [#7612](https://github.com/flutter/devtools/pull/7612)
+* Deprecate the `DevToolsExtension.requiresRunningApplication` field in
+  favor of the new optional `requiresConnection` field that
+  can be added to an extension's `config.yaml` file. -
   [#7611](https://github.com/flutter/devtools/pull/7611), [#7602](https://github.com/flutter/devtools/pull/7602)
-* 可偵測套件中所有類型執行目標的擴充功能。 -
+* Detect extensions for all types of run targets in a package. -
   [#7533](https://github.com/flutter/devtools/pull/7533), [#7535](https://github.com/flutter/devtools/pull/7535)
 
-## 完整提交紀錄
+## Full commit history
 
-如需本次發行的完整變更清單，請參閱
-[DevTools git log](https://github.com/flutter/devtools/tree/v2.35.0)。
+To find a complete list of changes in this release, check out the
+[DevTools git log](https://github.com/flutter/devtools/tree/v2.35.0).

@@ -1,44 +1,52 @@
 ---
-title: Android 與 Web 的延遲元件 (Deferred components)
-description: 如何建立延遲元件以提升下載效能。
+title: Deferred components for Android and web
+description: How to create deferred components for improved download performance.
 ---
 
 <?code-excerpt path-base="perf/deferred_components"?>
 
-## 簡介
+## Introduction
 
-使用 Flutter 時，Android 與 Web 應用程式都具備在應用程式執行期間下載延遲元件（額外的程式碼與資源）的能力。這對於大型應用程式特別有用，因為你可以只在使用者需要時才安裝相關元件。
+With Flutter, Android and web apps have the capability to download deferred
+components (additional code and assets) while the app is already running. This
+is helpful if you have a large app and only want to install components if and
+when they are needed by the user.
 
-雖然 Flutter 支援 Android 與 Web 的延遲載入（deferred loading），但兩者的實作方式有所不同。兩者都需要 [Dart 的延遲匯入（deferred imports）][dart-def-import]。
+While Flutter supports deferred loading on Android and the web, the
+implementations differ. Both require [Dart's deferred imports][dart-def-import].
 
-*   Android 的 [動態功能模組（dynamic feature modules）][dynamic feature modules]
-    會將延遲元件包裝成 Android 模組進行發佈。
+*   Android's [dynamic feature modules][] deliver the
+    deferred components packaged as Android modules.
 
-    在為 Android 建置時，雖然你可以延遲載入模組，
-    但必須將整個應用程式建置並以上傳為單一
-    [Android App Bundle][android-app-bundle] (AAB)。
-    Flutter 不支援只發佈部分更新，必須重新上傳整個應用程式的 Android App Bundle。
+    When building for Android, though you can defer loading modules,
+    you must build the entire app and upload that app as a single
+    [Android App Bundle][android-app-bundle] (AAB).
+    Flutter doesn't support dispatching partial updates without re-uploading
+    new Android App Bundles for the entire application.
 
-    Flutter 僅在你以 [release 或 profile 模式][release or profile mode] 編譯 Android 應用程式時執行延遲載入，
-    在 debug 模式下，所有延遲元件都會被視為一般匯入。
+    Flutter performs deferred loading when you compile your Android app
+    in [release or profile mode][], but debug mode treats all
+    deferred components as regular imports.
 
-*   Web 會將延遲元件建立為獨立的 `*.js` 檔案。
+*   The web creates deferred components as separate `*.js` files.
 
-若想深入了解此功能的技術細節，請參閱 [Deferred Components][Deferred Components]
-於 [Flutter wiki][Flutter wiki] 上的說明。
+For a deeper dive into the technical details of
+how this feature works, see [Deferred Components][]
+on the [Flutter wiki][].
 
-## 如何為 Android 專案設定延遲元件
+## How to set your Android project up for deferred components
 
-以下說明如何為你的 Android 應用程式設定延遲載入。
+The following instructions explain how to set up your
+Android app for deferred loading.
 
-### 步驟 1：相依套件與初始專案設定
+### Step 1: Dependencies and initial project setup
 
 <ol>
 <li>
 
-將 Play Core 加入 Android 應用程式的
-build.gradle 相依套件中。
-在 `android/app/build.gradle` 中加入以下內容：
+Add Play Core to the Android app's
+build.gradle dependencies.
+In `android/app/build.gradle` add the following:
 
 ```groovy
 ...
@@ -52,7 +60,14 @@ dependencies {
 
 <li>
 
-如果使用 Google Play Store 作為動態功能（dynamic features）的發佈模式，則應用程式必須支援 `SplitCompat`，並提供 `PlayStoreDeferredComponentManager` 的實例。這兩項任務都可以透過在 `android/app/src/main/AndroidManifest.xml` 中將應用程式的 `android:name` 屬性設為 `io.flutter.embedding.android.FlutterPlayStoreSplitApplication` 來完成：
+If using the Google Play Store as the
+distribution model for dynamic features,
+the app must support `SplitCompat` and provide an instance
+of a `PlayStoreDeferredComponentManager`.
+Both of these tasks can be accomplished by setting
+the `android:name` property on the application in
+`android/app/src/main/AndroidManifest.xml` to
+`io.flutter.embedding.android.FlutterPlayStoreSplitApplication`:
 
 ```xml
 <manifest ...
@@ -63,22 +78,23 @@ dependencies {
 </manifest>
 ```
 
-`io.flutter.app.FlutterPlayStoreSplitApplication` 會為你處理這兩項任務。如果你使用
-`FlutterPlayStoreSplitApplication`，
-可以直接跳到步驟 1.3。
+`io.flutter.app.FlutterPlayStoreSplitApplication` handles
+both of these tasks for you. If you use
+`FlutterPlayStoreSplitApplication`,
+you can skip to step 1.3.
 
-如果你的 Android 應用程式
-較大或較複雜，你可能會希望分別支援
-`SplitCompat`，並手動提供
-`PlayStoreDynamicFeatureManager`。
+If your Android application
+is large or complex, you might want to separately support
+`SplitCompat` and provide the
+`PlayStoreDynamicFeatureManager` manually.
 
-為了支援 `SplitCompat`，有三種方法
-（詳見 [Android docs][Android docs]），任一方法皆可：
+To support `SplitCompat`, there are three methods
+(as detailed in the [Android docs][]), any of which are valid:
 
 <ul>
 <li>
 
-讓你的 application class 繼承 `SplitCompatApplication`：
+Make your application class extend `SplitCompatApplication`:
 
 ```java
 public class MyApplication extends SplitCompatApplication {
@@ -90,7 +106,8 @@ public class MyApplication extends SplitCompatApplication {
 
 <li>
 
-在 `attachBaseContext()` 方法中呼叫 `SplitCompat.install(this);`：
+Call `SplitCompat.install(this);`
+in the `attachBaseContext()` method:
 
 ```java
 @Override
@@ -105,7 +122,9 @@ protected void attachBaseContext(Context base) {
 
 <li>
 
-將 `SplitCompatApplication` 宣告為應用程式的子類別，並將來自 `FlutterApplication` 的 Flutter 相容性程式碼新增到你的應用程式類別中：
+Declare `SplitCompatApplication` as the application
+subclass and add the Flutter compatibility code from
+`FlutterApplication` to your application class:
 
 ```xml
 <application
@@ -117,11 +136,12 @@ protected void attachBaseContext(Context base) {
 </li>
 </ul>
 
-Embedder 會依賴注入的
-`DeferredComponentManager` 實例來處理
-延遲元件（deferred components）的安裝請求。
-請在您的 Flutter embedder 中提供 `PlayStoreDeferredComponentManager`，
-只需將以下程式碼加入至應用程式初始化階段：
+The embedder relies on an injected
+`DeferredComponentManager` instance to handle
+install requests for deferred components.
+Provide a `PlayStoreDeferredComponentManager` into
+the Flutter embedder by adding the following code
+to your app initialization:
 
 ```java
 import io.flutter.embedding.engine.dynamicfeatures.PlayStoreDeferredComponentManager;
@@ -137,7 +157,9 @@ FlutterInjector.setInstance(new FlutterInjector.Builder()
     
 <li>
 
-要啟用 deferred components，只需在應用程式的 `pubspec.yaml` 檔案中，於 `flutter` 項目下新增 `deferred-components` 項目即可：
+Opt into deferred components by adding
+the `deferred-components` entry to the app's `pubspec.yaml`
+under the `flutter` entry:
 
 ```yaml
 ...
@@ -147,19 +169,39 @@ flutter:
   ...
 ```
 
-`flutter` 工具會在 `pubspec.yaml` 中尋找 `deferred-components` 項目，以判斷應用程式是否應該以延遲（deferred）方式建構。除非你已經知道所需的元件（components）以及每個元件所對應的 Dart 延遲（deferred）函式庫，否則目前可以先將這個欄位留空。在 [步驟 3.3][step 3.3]，當 `gen_snapshot` 產生 loading units 後，你會再回來填寫這個區段。
+The `flutter` tool looks for the `deferred-components`
+entry in the `pubspec.yaml` to determine whether the
+app should be built as deferred or not.
+This can be left empty for now unless you already
+know the components desired and the Dart deferred libraries
+that go into each. You will fill in this section later
+in [step 3.3][] once `gen_snapshot` produces the loading units.
 
 </li>
 </ol>
 
-### 步驟 2：實作 Dart 延遲（deferred）函式庫
+### Step 2: Implementing deferred Dart libraries
 
-接下來，請在你的應用程式 Dart 程式碼中實作延遲載入（deferred loaded）的 Dart 函式庫。這個實作目前不需要完全具備所有功能。此頁後續的範例會新增一個簡單的延遲元件（deferred widget）作為佔位用。你也可以將現有的程式碼轉換為延遲載入，只需修改 import 並將延遲程式碼的使用包裹在 `loadLibrary()` `Futures` 之後。
+Next, implement deferred loaded Dart libraries in your
+app's Dart code. The implementation doesn't need
+to be feature complete yet. The example in the
+rest of this page adds a new simple deferred widget
+as a placeholder. You can also convert existing code
+to be deferred by modifying the imports and
+guarding usages of deferred code behind `loadLibrary()`
+`Futures`.
 
 <ol>
 <li>
 
-建立一個新的 Dart 函式庫。例如，建立一個新的 `DeferredBox` 元件（widget），可於執行時下載。這個元件可以有任何複雜度，但本指南建議先建立一個簡單的方塊作為範例。要建立一個簡單的藍色方塊元件，請建立 `box.dart`，內容如下：
+Create a new Dart library.
+For example, create a new `DeferredBox` widget that
+can be downloaded at runtime.
+This widget can be of any complexity but,
+for the purposes of this guide,
+create a simple box as a stand-in.
+To create a simple blue box widget,
+create `box.dart` with the following contents:
 
 <?code-excerpt "lib/box.dart"?>
 ```dart title="box.dart"
@@ -180,16 +222,17 @@ class DeferredBox extends StatelessWidget {
 
 <li>
 
-在你的應用程式中，使用 `deferred` 關鍵字匯入新的 Dart 函式庫，  
-並呼叫 `loadLibrary()`（請參閱 [lazily loading a library][lazily loading a library]）。
-
-以下範例使用 `FutureBuilder` 來等待 `loadLibrary` `Future`（在 `initState` 中建立）完成，  
-並顯示 `CircularProgressIndicator` 作為暫時的佔位元件。
-
-當 `Future` 完成時，會回傳 `DeferredBox` 元件。
-
-之後就可以像平常一樣在應用程式中使用 `SomeWidget`，  
-而且在成功載入之前，永遠不會嘗試存取延遲載入的 Dart 程式碼。
+Import the new Dart library
+with the `deferred` keyword in your app and
+call `loadLibrary()` (see [lazily loading a library][]).
+The following example uses `FutureBuilder`
+to wait for the `loadLibrary` `Future` (created in
+`initState`) to complete and display a
+`CircularProgressIndicator` as a placeholder.
+When the `Future` completes, it returns the `DeferredBox` widget.
+`SomeWidget` can then be used in the app as normal and
+won't ever attempt to access the deferred Dart code until
+it has successfully loaded.
 
 <?code-excerpt "lib/use_deferred_box.dart"?>
 ```dart
@@ -230,57 +273,97 @@ class _SomeWidgetState extends State<SomeWidget> {
 }
 ```
 
-`loadLibrary()` 函式會回傳一個 `Future<void>`，
-當函式庫中的程式碼可供使用時，該物件會順利完成；否則會以錯誤結束。
-所有來自延遲載入（deferred）函式庫的符號使用，都應該在 `loadLibrary()` 呼叫完成後再進行保護。
-所有對該函式庫的匯入都必須標記為 `deferred`，
-這樣才能正確編譯以供延遲元件（deferred component）使用。
-如果某個元件已經被載入，額外呼叫 `loadLibrary()` 會很快完成（但不是同步完成）。
-你也可以提前呼叫 `loadLibrary()` 函式，
-以觸發預先載入，幫助隱藏載入時間。
+The `loadLibrary()` function returns a `Future<void>`
+that completes successfully when the code in the library
+is available for use and completes with an error otherwise.
+All usage of symbols from the deferred library should be
+guarded behind a completed `loadLibrary()` call. All imports
+of the library must be marked as `deferred` for it to be
+compiled appropriately to be used in a deferred component.
+If a component has already been loaded, additional calls
+to `loadLibrary()` complete quickly (but not synchronously).
+The `loadLibrary()` function can also be called early to
+trigger a pre-load to help mask the loading time.
 
-你可以在
-[Flutter Gallery 的 `lib/deferred_widget.dart`][Flutter Gallery's `lib/deferred_widget.dart`]
-找到另一個延遲匯入載入的範例。
+You can find another example of deferred import loading in
+[Flutter Gallery's `lib/deferred_widget.dart`][].
 
 </li>
 </ol>
 
-### 步驟 3：建置應用程式
+### Step 3: Building the app
 
-請使用以下的 `flutter` 指令來建置
-延遲元件（deferred components）應用程式：
+Use the following `flutter` command to build a
+deferred components app:
 
 ```console
 $ flutter build appbundle
 ```
 
-此指令可協助你驗證專案是否正確設定，以建置支援延遲元件（deferred components）的應用程式。預設情況下，若驗證器偵測到任何問題，建置將會失敗，並引導你進行建議的修改來修正這些問題。
+This command assists you by validating that your project
+is properly set up to build deferred components apps.
+By default, the build fails if the validator detects
+any issues and guides you through suggested changes to fix them.
 
 :::note
-你可以使用 `--no-deferred-components` 旗標選擇不建置延遲元件。啟用此旗標時，所有在延遲元件下定義的資源（assets）都會被視為是在 `pubspec.yaml` 的 assets 區段下定義。所有 Dart 程式碼將會被編譯成單一共用函式庫，且 `loadLibrary()` 的呼叫會在下一個事件迴圈邊界完成（即盡快且以非同步方式執行）。這個旗標的效果等同於在 `pubspec.yaml` 中省略 `deferred-components:` 項目。
+You can opt out of building deferred components
+with the `--no-deferred-components` flag.
+This flag causes all assets defined under
+deferred components to be treated as if they were
+defined under the assets section of `pubspec.yaml`.
+All Dart code is compiled into a single shared library
+and `loadLibrary()` calls complete in the next event
+loop boundary (as soon as possible while being asynchronous).
+This flag is also equivalent to omitting the `deferred-components:`
+entry in `pubspec.yaml`.
 :::
 
 <ol>
 <li><a id="step-3.1"></a>
 
-`flutter build appbundle` 指令會執行驗證器，並嘗試建置應用程式，並指示 `gen_snapshot` 產生分割的 AOT 共用函式庫（shared libraries）作為獨立的 SO 檔案。首次執行時，驗證器很可能會因偵測到問題而失敗；工具會提供如何設定專案及修正這些問題的建議。
+The `flutter build appbundle` command
+runs the validator and attempts to build the app with
+`gen_snapshot` instructed to produce split AOT shared libraries
+as separate SO files. On the first run, the validator will
+likely fail as it detects issues; the tool makes
+recommendations for how to set up the project and fix these issues.
 
-驗證器分為兩個階段：建置前（prebuild）與 gen_snapshot 執行後（post-gen_snapshot）驗證。這是因為任何涉及 loading units 的驗證，都必須等到 `gen_snapshot` 完成並產生最終的 loading units 集合後才能進行。
+The validator is split into two sections: prebuild
+and post-gen_snapshot validation. This is because any
+validation referencing loading units can't be performed
+until `gen_snapshot` completes and produces a final set
+of loading units.
 
 :::note
-你可以透過加入 `--no-validate-deferred-components` 旗標，選擇讓工具在未經驗證器檢查的情況下嘗試建置應用程式。這可能會導致出現意外且令人困惑的解決失敗指示。此旗標主要用於不依賴驗證器所檢查的預設 Play 商店實作的自訂實作情境。
+You can opt to have the tool attempt to build your
+app without the validator by passing the
+`--no-validate-deferred-components` flag.
+This can result in unexpected and confusing
+instructions to resolve failures.
+This flag is meant to be used in
+custom implementations that don't rely on the default
+Play-store-based implementation that the validator checks for.
 :::
 
-驗證器會偵測由 `gen_snapshot` 產生的任何新增、變更或移除的 loading units。當前產生的 loading units 會記錄在你的 `<projectDirectory>/deferred_components_loading_units.yaml` 檔案中。建議將此檔案納入版本控制，以確保其他開發者對 loading units 的變更能被發現。
+The validator detects any new, changed, or removed
+loading units generated by `gen_snapshot`.
+The current generated loading units are tracked in your
+`<projectDirectory>/deferred_components_loading_units.yaml` file.
+This file should be checked into source control to ensure that
+changes to the loading units by other developers can be caught.
 
-驗證器也會檢查 `android` 目錄下的下列項目：
+The validator also checks for the following in the
+`android` directory:
 
 <ul>
 <li>
 
 **`<projectDir>/android/app/src/main/res/values/strings.xml`**<br>
-每個延遲元件都需有一個條目，將索引鍵 `${componentName}Name` 對應至 `${componentName}`。此字串資源會被每個功能模組（feature module）的 `AndroidManifest.xml` 用來定義 `dist:title property`。例如：
+An entry for every deferred component mapping the key
+`${componentName}Name` to `${componentName}`.
+This string resource is used by the `AndroidManifest.xml`
+of each feature module to define the `dist:title property`.
+For example:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -295,18 +378,23 @@ $ flutter build appbundle
 <li>
 
 **`<projectDir>/android/<componentName>`**<br>
-每個延遲元件（deferred component）都對應一個 Android 動態功能模組（dynamic feature module），且該模組內包含一個 `build.gradle` 和 `src/main/AndroidManifest.xml` 檔案。
-這只會檢查這些檔案是否存在，並不會驗證其內容。
-如果檔案不存在，系統會自動產生一個建議的預設檔案。
+An Android dynamic feature module for
+each deferred component exists and contains a `build.gradle`
+and `src/main/AndroidManifest.xml` file.
+This only checks for existence and doesn't validate
+the contents of these files. If a file doesn't exist,
+it generates a default recommended one.
 
 </li>
 
 <li>
 
 **`<projectDir>/android/app/src/main/res/values/AndroidManifest.xml`**<br>
-包含一個 meta-data 條目，用於編碼載入單元（loading unit）與其所屬元件名稱之間的對應關係。
-這個對應關係會被嵌入器（embedder）用來將 Dart 內部的 loading unit ID 轉換為要安裝的延遲元件名稱。
-例如：
+Contains a meta-data entry that encodes
+the mapping between loading units and component name the
+loading unit is associated with. This mapping is used by the
+embedder to convert Dart's internal loading unit id
+to the name of a deferred component to install. For example:
 
 ```xml
 ...
@@ -323,34 +411,37 @@ $ flutter build appbundle
 </li>
 </ul>
 
-`gen_snapshot` 驗證器只有在 prebuild
-驗證器通過後才會執行。
+The `gen_snapshot` validator won't run until the prebuild
+validator passes.
 </li>
 
 <li>
 
-針對這些檢查中的每一項，
-工具都會產生經過修改或新增的檔案，
-以通過該檢查。
-這些檔案會被放在
-`<projectDir>/build/android_deferred_components_setup_files` 目錄中。
-建議將這些變更套用到專案的
-`android` 目錄中，方法是複製並覆蓋相同的檔案。在覆蓋之前，
-應先將目前的專案狀態提交到
-版本控制，並審查建議的變更是否合適。這個工具不會自動對你的 `android/` 目錄做任何修改。
+or each of these checks,
+the tool produces the modified or new files
+needed to pass the check.
+These files are placed in the
+`<projectDir>/build/android_deferred_components_setup_files` directory.
+It is recommended that the changes be applied by
+copying and overwriting the same files in the
+project's `android` directory. Before overwriting,
+the current project state should be committed to
+source control and the recommended changes should be
+reviewed to be appropriate. The tool won't make any
+changes to your `android/` directory automatically.
 
 </li>
 
 <li><a id="step-3.3"></a>
 
-當可用的
-loading units 產生並記錄在
-`<projectDirectory>/deferred_components_loading_units.yaml` 之後，
-就可以完整設定 pubspec 的
-`deferred-components` 區段，讓 loading units
-依需求分配給 deferred components。
-以 box 範例來說，產生的
-`deferred_components_loading_units.yaml` 檔案內容會如下：
+Once the available
+loading units are generated and logged in
+`<projectDirectory>/deferred_components_loading_units.yaml`,
+it is possible to fully configure the pubspec's
+`deferred-components` section so that the loading units
+are assigned to deferred components as desired.
+To continue with the box example, the generated
+`deferred_components_loading_units.yaml` file would contain:
 
 ```yaml
 loading-units:
@@ -359,9 +450,13 @@ loading-units:
       - package:MyAppName/box.Dart
 ```
 
-這裡的 loading unit id（此例為 '2'）是 Dart 內部使用的，可忽略不計。基礎 loading unit（id 為 '1'）不會被列出，且包含所有未明確歸屬於其他 loading unit 的內容。
+The loading unit id ('2' in this case) is used
+internally by Dart, and can be ignored.
+The base loading unit (id '1') is not listed
+and contains everything not explicitly contained
+in another loading unit.
 
-你現在可以將以下內容新增到 `pubspec.yaml`：
+You can now add the following to `pubspec.yaml`:
 
 ```yaml
 ...
@@ -374,32 +469,43 @@ flutter:
   ...
 ```
 
-要將 loading unit（載入單元）分配給 deferred component（延遲元件），請將該 loading unit 中的任一 Dart 函式庫加入 feature module（功能模組）的 libraries 區段。請注意以下指引：
+To assign a loading unit to a deferred component,
+add any Dart library in the loading unit into the
+libraries section of the feature module.
+Keep the following guidelines in mind:
 
 <ul>
 <li>
 
-同一個 loading unit 不應被包含在多個元件中。
+Loading units shouldn't be included
+in more than one component.
 
 </li>
 <li>
 
-只要在 loading unit 中包含一個 Dart 函式庫，即表示整個 loading unit 都會被分配給該 deferred component。
+Including one Dart library from a
+loading unit indicates that the entire loading
+unit is assigned to the deferred component.
 
 </li>
 <li>
 
-所有未分配給 deferred component 的 loading unit，會自動包含在 base component（基礎元件）中，而 base component 一定會隱式存在。
+All loading units not assigned to
+a deferred component are included in the base component,
+which always exists implicitly.
 
 </li>
 <li>
 
-分配給同一個 deferred component 的所有 loading unit，會一起下載、安裝並發佈。
+Loading units assigned to the same
+deferred component are downloaded, installed,
+and shipped together.
 
 </li>
 <li>
 
-base component（基礎元件）是隱式存在的，無需在 pubspec 中定義。
+The base component is implicit and
+need not be defined in the pubspec.
 
 </li>
 </ul>
@@ -407,7 +513,8 @@ base component（基礎元件）是隱式存在的，無需在 pubspec 中定義
 
 <li>
 
-也可以透過在 deferred component 設定中新增 assets（資源）區段，來包含資源：
+Assets can also be included by adding
+an assets section in the deferred component configuration:
 
 ```yaml
   deferred-components:
@@ -421,32 +528,35 @@ base component（基礎元件）是隱式存在的，無需在 pubspec 中定義
         - assets/gallery/
 ```
 
-一個資源（asset）可以被包含在多個延遲元件（deferred components）中，
-但若安裝了這些元件，則該資源會被重複打包。
-你也可以只定義資源型元件（assets-only components），
-只要省略 `libraries` 區段即可。
-這些僅包含資源的元件必須透過服務中的 [`DeferredComponent`][`DeferredComponent`] 工具類別來安裝，
-而不是使用 `loadLibrary()`。
-由於 Dart 程式庫會與資源一起打包，
-如果使用 `loadLibrary()` 載入 Dart 程式庫時，
-該元件中的所有資源也會一併載入。
-然而，若是透過元件名稱及服務工具安裝時，
-則不會載入該元件中的任何 Dart 程式庫。
+An asset can be included in multiple deferred components,
+but installing both components results in a replicated asset.
+Assets-only components can also be defined by omitting the
+libraries section. These assets-only components must be
+installed with the [`DeferredComponent`][] utility class in
+services rather than `loadLibrary()`.
+Since Dart libraries are packaged together with assets,
+if a Dart library is loaded with `loadLibrary()`,
+any assets in the component are loaded as well.
+However, installing by component name and the services utility
+won't load any Dart libraries in the component.
 
-你可以自由地將資源包含在任何元件中，
-只要在第一次被參照時能正確安裝與載入即可。
-不過，通常建議將資源與使用這些資源的 Dart 程式碼
-一起打包在同一個元件中。
+You are free to include assets in any component,
+as long as they are installed and loaded when they
+are first referenced, though typically,
+assets and the Dart code that uses those assets
+are best packed in the same component.
 
 </li>
 
 <li>
 
-請手動將你在 `pubspec.yaml` 中定義的所有延遲元件（deferred components），
-加入到 `android/settings.gradle` 檔案的 includes 區段中。
-例如，若在 pubspec.yaml（設定檔）中定義了三個延遲元件，
-分別為 `boxComponent`、`circleComponent` 和 `assetComponent`，
-請確保 `android/settings.gradle` 包含以下內容：
+Manually add all deferred components
+that you defined in `pubspec.yaml` into the
+`android/settings.gradle` file as includes.
+For example, if there are three deferred components
+defined in the pubspec named, `boxComponent`, `circleComponent`,
+and `assetComponent`, ensure that `android/settings.gradle`
+contains the following:
 
 ```groovy
 include ':app', ':boxComponent', ':circleComponent', ':assetComponent'
@@ -457,39 +567,43 @@ include ':app', ':boxComponent', ':circleComponent', ':assetComponent'
 
 <li>
 
-重複步驟 [3.1][3.1] 到 3.6（本步驟），
-直到所有驗證器建議都已處理完畢，且工具
-執行時不再有其他建議為止。
+Repeat steps [3.1][] through 3.6 (this step)
+until all validator recommendations are handled and the tool
+runs without further recommendations.
 
-當成功時，此指令會在 `build/app/outputs/bundle/release`
-輸出一個 `app-release.aab` 檔案。
+When successful, this command outputs an `app-release.aab`
+file in `build/app/outputs/bundle/release`.
 
-建置成功並不代表應用程式
-一定是依照預期方式建置完成。你需要自行確認所有載入單元（loading units）與 Dart 函式庫
-都已依照你的預期方式被包含。
-舉例來說，一個常見的錯誤是
-不小心在匯入 Dart 函式庫時忘記加上 `deferred` 關鍵字，
-導致延遲載入（deferred）的函式庫被編譯進
-基礎載入單元（base loading unit）。在這種情況下，該 Dart 函式庫會正常載入，因為它總是存在於基礎單元中，
-而該函式庫就不會被分離出來。你可以透過檢查 `deferred_components_loading_units.yaml`
-檔案，來確認產生的載入單元是否如你所預期地被描述。
+A successful build doesn't always mean the app was
+built as intended. It is up to you to ensure that all loading
+units and Dart libraries are included in the way you intended.
+For example, a common mistake is accidentally importing a
+Dart library without the `deferred` keyword,
+resulting in a deferred library being compiled as part of
+the base loading unit. In this case, the Dart library would
+load properly because it is always present in the base,
+and the library wouldn't be split off. This can be checked
+by examining the `deferred_components_loading_units.yaml`
+file to verify that the generated loading units are described
+as intended.
 
-當你調整延遲元件（deferred components）設定，
-或對 Dart 進行新增、修改或移除載入單元的變更時，
-應預期驗證器會失敗。
-請依照步驟 [3.1][3.1] 到 3.6（本步驟）來套用任何
-建議的變更，以繼續進行建置。
+When adjusting the deferred components configurations,
+or making Dart changes that add, modify, or remove loading units,
+you should expect the validator to fail.
+Follow steps [3.1][] through 3.6 (this step) to apply any
+recommended changes to continue the build.
 </li>
 </ol>
 
-### 在本地執行應用程式
+### Running the app locally
 
-當你的應用程式成功建置出 AAB 檔案後，
-請使用 Android 的 [`bundletool`][`bundletool`]
-並加上 `--local-testing` 旗標進行本地測試。
+Once your app has successfully built an AAB file,
+use Android's [`bundletool`][] to perform
+local testing with the `--local-testing` flag.
 
-若要在測試裝置上執行 AAB 檔案，
-請從 [github.com/google/bundletool/releases][github.com/google/bundletool/releases] 下載 bundletool jar 執行檔，然後執行：
+To run the AAB file on a test device,
+download the bundletool jar executable from
+[github.com/google/bundletool/releases][] and run:
 
 ```console
 $ java -jar bundletool.jar build-apks --bundle=<your_app_project_dir>/build/app/outputs/bundle/release/app-release.aab --output=<your_temp_dir>/app.apks --local-testing
@@ -497,20 +611,33 @@ $ java -jar bundletool.jar build-apks --bundle=<your_app_project_dir>/build/app/
 $ java -jar bundletool.jar install-apks --apks=<your_temp_dir>/app.apks
 ```
 
-其中 `<your_app_project_dir>` 是你的應用程式專案目錄的路徑，`<your_temp_dir>` 則是用來儲存 bundletool 輸出結果的任意暫存目錄。這個步驟會將你的 AAB 檔案解壓縮為 APK 檔案，並安裝到裝置上。所有可用的 Android 動態功能（dynamic features）都會被本地載入到裝置，並且會模擬延遲元件（deferred components）的安裝過程。
+Where `<your_app_project_dir>` is the path to your app's
+project directory and `<your_temp_dir>` is any temporary
+directory used to store the outputs of bundletool.
+This unpacks your AAB file into an APK file and
+installs it on the device. All available Android dynamic
+features are loaded onto the device locally and
+installation of deferred components is emulated.
 
-在再次執行 `build-apks` 之前，
-請先移除現有的應用程式 APK 檔案：
+Before running `build-apks` again,
+remove the existing app APK file:
 
 ```console
 $ rm <your_temp_dir>/app.apks
 ```
 
-對 Dart 程式碼庫的變更，需要遞增 Android 的 build ID，或是先解除安裝再重新安裝應用程式，因為 Android 除非偵測到新版本號，否則不會更新功能模組。
+Changes to the Dart codebase require either incrementing
+the Android build ID or uninstalling and reinstalling
+the app, as Android won't update the feature modules
+unless it detects a new version number.
 
-### 發佈到 Google Play 商店
+### Releasing to the Google Play Store
 
-建置完成的 AAB 檔案可以像往常一樣直接上傳到 Play 商店。當呼叫 `loadLibrary()` 時，Flutter 引擎會透過 Play 商店的遞送功能，下載包含 Dart AOT 函式庫及資源的所需 Android 模組。
+The built AAB file can be uploaded directly to
+the Play store as normal. When `loadLibrary()` is called,
+the needed Android module containing the Dart AOT library and
+assets is downloaded by the Flutter engine using the
+Play store's delivery feature.
 
 
 [3.1]: #step-3.1

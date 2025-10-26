@@ -1,55 +1,71 @@
 ---
-title: UI 設計與樣式
-description: 關於 Flutter 無障礙支援的相關資訊。
+title: UI design & styling
+description: Information on Flutter's accessibility support.
 ---
 
-為了打造無障礙的應用程式，請在設計 UI 時納入無障礙考量。
-本頁將介紹無障礙 UI 設計與樣式的重點。
+To create an accessible app, design your UI with accessibility in mind.
+This page covers key aspects of accessible UI design and styling.
 
-## 大字體
+## Large fonts
 
-Android 與 iOS 均提供系統設定，讓使用者可調整應用程式所使用的字體大小。Flutter 的文字元件 (Text Widgets) 會根據作業系統的設定來決定字體大小。
+Both Android and iOS contain system settings to configure the desired font
+sizes used by apps. Flutter text widgets respect this OS setting when
+determining font sizes.
 
-Flutter 會依據作業系統設定自動計算字體大小。然而，身為開發者，您應確保版面配置在字體放大時仍有足夠空間顯示所有內容。例如，您可以在設定為最大字體的螢幕較小裝置上測試應用程式的所有部分。
+Font sizes are calculated automatically by Flutter based on the OS setting.
+However, as a developer you should make sure your layout has enough room to
+render all its contents when the font sizes are increased.
+For example, you can test all parts of your app on a small-screen
+device configured to use the largest font setting.
 
-調整字體大小的方法：在 iOS，前往「設定 > 輔助使用 > 顯示與文字大小」；在 Android，前往「設定 > 字體大小」。
+To adjust font sizes: on iOS, go to
+Settings > Accessibility > Display & Text Size;
+on Android, go to Settings > Font size.
 
-### 範例
+### Example
 
-下列兩張螢幕截圖分別顯示標準 Flutter 應用程式範本在 iOS 預設字體設定，以及在 iOS 輔助使用設定中選擇最大字體時的呈現效果。
+The following two screenshots show the standard Flutter app
+template rendered with the default iOS font setting,
+and with the largest font setting selected in iOS accessibility settings.
 
 <div class="wrapping-row">
-  {% render docs/app-figure.md, image:"a11y/app-regular-fonts.png", caption:"預設字體設定", img-class:"simple-border", img-style:"max-height: 480px;" %}
-  {% render docs/app-figure.md, image:"a11y/app-large-fonts.png", caption:"最大無障礙字體設定", img-class:"simple-border", img-style:"max-height: 480px;" %}
+  {% render docs/app-figure.md, image:"a11y/app-regular-fonts.png", caption:"Default font setting", img-class:"simple-border", img-style:"max-height: 480px;" %}
+  {% render docs/app-figure.md, image:"a11y/app-large-fonts.png", caption:"Largest accessibility font setting", img-class:"simple-border", img-style:"max-height: 480px;" %}
 </div>
 
 
-## 足夠的對比度
+## Sufficient contrast
 
-足夠的色彩對比能讓文字與圖片更容易閱讀。
-除了有助於視覺障礙的使用者外，充足的色彩對比也能幫助所有使用者在極端光照條件下（例如在強烈陽光下或螢幕亮度較低時）閱讀介面內容。
+Sufficient color contrast makes text and images easier to read.
+Along with benefitting users with various visual impairments,
+sufficient color contrast helps all users when viewing an interface
+on devices in extreme lighting conditions,
+such as when exposed to direct sunlight or on a display with low
+brightness.
 
-[W3C 建議][W3C recommends]：
+The [W3C recommends][]:
 
-* 小字體（18 點以下一般字體或 14 點以下粗體）對比度至少為 4.5:1
-* 大字體（18 點及以上一般字體或 14 點及以上粗體）對比度至少為 3.0:1
+* At least 4.5:1 for small text (below 18 point regular or 14 point bold)
+* At least 3.0:1 for large text (18 point and above regular or 14 point and
+  above bold)
 
-您可以使用 Flutter 的 [Accessibility Guideline API][Accessibility Guideline API] 來測試對比度。
-更多測試細節，請參閱[無障礙測試頁面](/ui/accessibility/accessibility-testing/)。
+You can test contrast using Flutter's [Accessibility Guideline API][].
+For more details on testing, check out the [accessibility testing page](/ui/accessibility/accessibility-testing/).
 
 [W3C recommends]: https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html
 
-## 點擊目標大小
+## Tap target size
 
-控制項過小會讓許多人難以互動與選取。
-請確保互動式元素有足夠大的點擊目標，方便使用者輕鬆點擊。
+Controls that are too small are hard for many people to interact with and select.
+Ensure that interactive elements have a large enough tap target to be easily
+pressed by users.  
 
-[Android][Android] 與 [iOS][iOS] 分別建議最小點擊目標尺寸為 48x48 dp 及 44x44 pts。
+Both [Android][] and [iOS][] recommend a minimum tap target size of 48x48 dp and 44x44 pts respectively.
 
-[W3C] 則建議最小目標尺寸為 44 x 44 CSS 像素。
+The [W3C] recommends a minimum target size of 44 by 44 CSS pixels.
 
-您可以使用 Flutter 的 [Accessibility Guideline API][Accessibility Guideline API] 來測試點擊目標大小。
-更多測試細節，請參閱[無障礙測試頁面](/ui/accessibility/accessibility-testing/)。
+You can test tap target size using Flutter's [Accessibility Guideline API][].
+For more details on testing, check out the [accessibility testing page](/ui/accessibility/accessibility-testing/).
 
 [Android]: https://developer.android.com/guide/topics/ui/accessibility/apps#large-controls
 [iOS]: https://developer.apple.com/design/human-interface-guidelines/accessibility#Mobility
@@ -57,8 +73,10 @@ Flutter 會依據作業系統設定自動計算字體大小。然而，身為開
 
 [Accessibility Guideline API]: {{site.api}}/flutter/flutter_test/AccessibilityGuideline-class.html
 
-## 其他無障礙功能
+## Other accessibility features
 
-您可以參考 [AccessibilityFeatures] 類別，瞭解平台可能啟用的其他無障礙功能，例如粗體文字、高對比、反轉顏色等。
+You can check the [AccessibilityFeatures] class for additional
+accessibility features that may be enabled by the platform,
+such as bold text, high contrast, and inverted colors.
 
 [AccessibilityFeatures]: https://api.flutter.dev/flutter/dart-ui/AccessibilityFeatures-class.html

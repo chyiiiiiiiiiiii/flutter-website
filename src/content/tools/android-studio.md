@@ -1,12 +1,13 @@
 ---
-title: Android Studio 與 IntelliJ
+title: Android Studio and IntelliJ
 description: >-
-  學習如何在 Android Studio 與其他 IntelliJ 產品中開發 Flutter 應用程式。
+  Learn how to develop Flutter apps in
+  Android Studio and other IntelliJ products.
 ---
 
 <ul class="nav nav-tabs" id="ide" role="tablist">
   <li class="nav-item">
-    <a class="nav-link active" role="tab" aria-selected="true">Android Studio 與 IntelliJ</a>
+    <a class="nav-link active" role="tab" aria-selected="true">Android Studio and IntelliJ</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="/tools/vs-code" role="tab" aria-selected="false">Visual Studio Code</a>
@@ -15,290 +16,509 @@ description: >-
 
 <a id="installation-and-setup" aria-hidden="true"></a>
 
-## 安裝與設定 {: #setup}
+## Installation and setup {: #setup}
 
-Android Studio 與 IntelliJ IDEA 在安裝 Flutter 外掛後，能提供完整的 IDE 開發體驗。
+Android Studio and IntelliJ IDEA offer a complete,
+IDE experience once you install the Flutter plugin.
 
-請依照下列 IDE 的官方說明安裝最新版本：
+To install the latest version of the following IDEs, follow their instructions:
 
-- [Android Studio][Android Studio]
-- [IntelliJ IDEA Community][IntelliJ IDEA Community]
-- [IntelliJ IDEA Ultimate][IntelliJ IDEA Ultimate]
+- [Android Studio][]
+- [IntelliJ IDEA Community][]
+- [IntelliJ IDEA Ultimate][]
 
 [Android Studio]: {{site.android-dev}}/studio/install
 [IntelliJ IDEA Community]: https://www.jetbrains.com/idea/download/
 [IntelliJ IDEA Ultimate]: https://www.jetbrains.com/idea/download/
 
-### 安裝 Flutter 外掛 {: #install-plugin}
+### Install the Flutter plugin {: #install-plugin}
 
 {% tabs "dev-os" %}
 
 {% tab "Windows" %}
 
-1. 前往 **File** <span aria-label="and then">></span>
-   **Settings**。
+1. Go to **File** <span aria-label="and then">></span>
+   **Settings**.
 
-   你也可以按下 <kbd>Ctrl</kbd> + <kbd>Alt</kbd> +
-   <kbd>S</kbd>。
+   You can also press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> +
+   <kbd>S</kbd>.
 
-   **Preferences** 對話框會開啟。
+   The **Preferences** dialog opens.
 
-1. 從左側清單選擇 **Plugins**。
+1. From the list at the left, select **Plugins**.
 
-1. 在此面板頂部選擇 **Marketplace**。
+1. From the top of this panel, select **Marketplace**.
 
-1. 在外掛搜尋欄輸入 `flutter`。
+1. Type `flutter` in the plugin search field.
 
-1. 選擇 **Flutter** 外掛。
+1. Select the **Flutter** plugin.
 
-1. 點擊 **Install**。
+1. Click **Install**.
 
-1. 當系統提示時，點擊 **Yes** 以安裝外掛。
+1. Click **Yes** when prompted to install the plugin.
 
-1. 當系統提示時，點擊 **Restart** 重新啟動。
+1. Click **Restart** when prompted.
 
 {% endtab %}
 {% tab "macOS" %}
 
-1. 啟動 Android Studio 或 IntelliJ。
+1. Start Android Studio or IntelliJ.
 
-1. 從 macOS 選單列，前往 **Android Studio**（或 **IntelliJ**）
-   <span aria-label="and then">></span> **Settings...**。
+1. From the macOS menu bar, go to **Android Studio** (or **IntelliJ**)
+   <span aria-label="and then">></span> **Settings...**.
 
-   你也可以按下 <kbd>Cmd</kbd> + <kbd>,</kbd>。
+   You can also press <kbd>Cmd</kbd> + <kbd>,</kbd>.
 
-   **Preferences** 對話框會開啟。
+   The **Preferences** dialog opens.
 
-1. 從左側清單選擇 **Plugins**。
+1. From the list at the left, select **Plugins**.
 
-1. 在此面板頂部選擇 **Marketplace**。
+1. From the top of this panel, select **Marketplace**.
 
-1. 在外掛搜尋欄輸入 `flutter`。
+1. Type `flutter` in the plugin search field.
 
-1. 選擇 **Flutter** 外掛。
+1. Select the **Flutter** plugin.
 
-1. 點擊 **Install**。
+1. Click **Install**.
 
-1. 當系統提示時，點擊 **Yes** 以安裝外掛。
+1. Click **Yes** when prompted to install the plugin.
 
-1. 當系統提示時，點擊 **Restart** 重新啟動。
+1. Click **Restart** when prompted.
 
 {% endtab %}
 {% tab "Linux" %}
 
-1. 前往 **File** <span aria-label="and then">></span>
-   **Settings**。
+1. Go to **File** <span aria-label="and then">></span>
+   **Settings**.
 
-   你也可以按下 <kbd>Ctrl</kbd> + <kbd>Alt</kbd> +
-   <kbd>S</kbd>。
+   You can also press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> +
+   <kbd>S</kbd>.
 
-   **Preferences** 對話框會開啟。
+   The **Preferences** dialog opens.
 
-1. 從左側清單選擇 **Plugins**。
+1. From the list at the left, select **Plugins**.
 
-1. 在此面板頂部選擇 **Marketplace**。
+1. From the top of this panel, select **Marketplace**.
 
-1. 在外掛搜尋欄輸入 `flutter`。
+1. Type `flutter` in the plugin search field.
 
-1. 選擇 **Flutter** 外掛。
+1. Select the **Flutter** plugin.
 
-1. 點擊 **Install**。
+1. Click **Install**.
 
-1. 當系統提示時，點擊 **Yes** 以安裝外掛。
+1. Click **Yes** when prompted to install the plugin.
 
-1. 當系統提示時，點擊 **Restart** 重新啟動。
+1. Click **Restart** when prompted.
 
 {% endtab %}
 
 {% endtabs %}
 
-### 更新外掛 {:#updating}
+### Updating the plugins {:#updating}
 
-外掛會定期推出更新版本。當有更新可用時，IDE 會主動提示你。
+Updates to the plugins are shipped on a regular basis.
+You should be prompted in the IDE when an update is available.
 
-若要手動檢查更新：
+To check for updates manually:
 
- 1. 開啟偏好設定（macOS 上為 **Android Studio > Check for Updates**，
-    Linux 上為 **Help > Check for Updates**）。
- 1. 若有 `dart` 或 `flutter`，請進行更新。
+ 1. Open preferences (**Android Studio > Check for Updates** on macOS,
+    **Help > Check for Updates** on Linux).
+ 1. If `dart` or `flutter` are listed, update them.
 
-## 建立專案
+## Creating projects
 
-你可以透過多種方式建立新專案。
+You can create a new project in one of several ways.
 
-### 建立新專案
+### Creating a new project
 
-從 Flutter 起始應用程式範本建立新 Flutter 專案，在 Android Studio 與 IntelliJ 的操作方式略有不同。
+Creating a new Flutter project from the Flutter starter app template
+differs between Android Studio and IntelliJ.
 
-**在 Android Studio：**
+**In Android Studio:**
 
- 1. 在 IDE 中，於 **Welcome** 視窗點擊 **New Flutter Project**，或於主 IDE 視窗選擇 **File > New > New Flutter Project**。
- 1. 指定 **Flutter SDK path**，然後點擊 **Next**。
- 1. 輸入你想要的 **Project name**、**Description** 與 **Project location**。
- 1. 若你有發佈此應用的打算，請[設定公司網域](#設定公司網域)。
- 1. 點擊 **Finish**。
+ 1. In the IDE, click **New Flutter Project** from the **Welcome** window or
+    **File > New > New Flutter Project** from the main IDE window.
+ 1. Specify the **Flutter SDK path** and click **Next**.
+ 1. Enter your desired **Project name**, 
+    **Description**, and **Project location**.
+ 1. If you might publish this app,
+    [set the company domain](#set-the-company-domain).
+ 1. Click **Finish**.
 
-**在 IntelliJ：**
+**In IntelliJ:**
 
- 1. 在 IDE 中，於 **Welcome** 視窗點擊 **New Project**，或於主 IDE 視窗選擇 **File > New > Project**。
- 1. 在左側面板的 **Generators** 清單中選擇 **Flutter**。
- 1. 指定 **Flutter SDK path**，然後點擊 **Next**。
- 1. 輸入你想要的 **Project name**、**Description** 與 **Project location**。
- 1. 若你有發佈此應用的打算，請[設定公司網域](#設定公司網域)。
- 1. 點擊 **Finish**。
+ 1. In the IDE, click **New Project** from the **Welcome** window or
+    **File > New > Project** from the main IDE window.
+ 1. Select **Flutter** from the **Generators** list in the left panel
+ 1. Specify the **Flutter SDK path** and click **Next**.
+ 1. Enter your desired **Project name**,
+    **Description**, and **Project location**.
+ 1. If you might publish this app,
+    [set the company domain](#set-the-company-domain).
+ 1. Click **Finish**.
 
-#### 設定公司網域
+#### Set the company domain
 
-建立新應用時，部分 Flutter IDE 外掛會要求你輸入以反向網域格式（reverse domain order）表示的組織名稱，例如 `com.example`。這個名稱會與應用名稱一起作為 Android 的套件名稱，以及 iOS 發佈時的 Bundle ID。如果你有發佈應用的可能，建議現在就指定這些資訊。應用發佈後這些資訊將無法更改。你的組織名稱應該是唯一的。
+When creating a new app, some Flutter IDE plugins ask for an
+organization name in reverse domain order,
+something like `com.example`. Along with the name of the app,
+this is used as the package name for Android, and the Bundle ID for iOS
+when the app is released. If you think you might ever release this app,
+it is better to specify these now. They cannot be changed once the app
+is released. Your organization name should be unique.
 
-### 從現有原始碼開啟專案
+### Opening a project from existing source code
 
-若要開啟現有的 Flutter 專案：
+To open an existing Flutter project:
 
- 1. 在 IDE 中，於 **Welcome** 視窗點擊 **Open**，或於主 IDE 視窗選擇 **File > Open**。
- 1. 瀏覽至存放你現有 Flutter 原始碼檔案的目錄。
- 1. 點擊 **Open**。
+ 1. In the IDE, click **Open** from the **Welcome** window, or
+    **File > Open** from the main IDE window. 
+ 1. Browse to the directory holding your existing
+    Flutter source code files.
+ 1. Click **Open**.
 
     :::important
-    請*不要*使用 **New > Project from existing sources** 選項來開啟 Flutter 專案。
+    Do *not* use the **New > Project from existing sources**
+    option for Flutter projects.
     :::
 
 
-## 編輯程式碼與檢視問題
+## Editing code and viewing issues
 
-Flutter 外掛會執行程式碼分析，提供以下功能：
+The Flutter plugin performs code analysis that enables the following:
 
-* 語法高亮顯示
-* 基於型別分析的程式碼自動完成
-* 跳至型別宣告（**Navigate > Declaration**），以及尋找型別用法（**Edit > Find > Find Usages**）
-* 檢視目前所有原始碼問題（**View > Tool Windows > Dart Analysis**）
-  任何分析問題都會顯示於 Dart Analysis 面板：<br>
+* Syntax highlighting.
+* Code completions based on rich type analysis.
+* Navigating to type declarations (**Navigate > Declaration**),
+  and finding type usages (**Edit > Find > Find Usages**).
+* Viewing all current source code problems
+  (**View > Tool Windows > Dart Analysis**).
+  Any analysis issues are shown in the Dart Analysis pane:<br>
   ![Dart Analysis pane](/assets/images/docs/tools/android-studio/dart-analysis.png){:width="90%"}
 
-## 執行與除錯
+## Running and debugging
 
 :::note
-你可以用幾種方式除錯你的應用程式：
+You can debug your app in a few ways.
 
-* 使用 [DevTools][DevTools]，這是一套在瀏覽器中執行的除錯與效能分析工具，_並包含 Flutter inspector_。
-* 使用 Android Studio（或 IntelliJ）內建的除錯功能，例如設定中斷點。
-* 使用 Flutter inspector，直接在 Android Studio 與 IntelliJ 中可用。
+* Using [DevTools][], a suite of debugging and profiling
+  tools that run in a browser
+  _and include the Flutter inspector_.
+* Using Android Studio's (or IntelliJ's) built-in debugging
+  features, such as the ability to set breakpoints.
+* Using the Flutter inspector, directly available in
+  Android Studio and IntelliJ.
 
-下方說明 Android Studio 與 IntelliJ 提供的功能。關於如何啟動 DevTools，請參考 [從 Android Studio 執行 DevTools][Running DevTools from Android Studio] 及 [DevTools][DevTools] 文件。
+The instructions below describe features available in Android
+Studio and IntelliJ. For information on launching DevTools,
+see [Running DevTools from Android Studio][] in the
+[DevTools][] docs.
 :::
 
-執行與除錯可透過主工具列控制：
+Running and debugging are controlled from the main toolbar:
 
 ![Main IntelliJ toolbar](/assets/images/docs/tools/android-studio/main-toolbar.png){:width="90%"}
 
-### 選擇目標裝置
+### Selecting a target
 
-當 Flutter 專案在 IDE 中開啟時，你應該會在工具列右側看到一組 Flutter 專用按鈕。
-
-:::note
-如果執行與除錯按鈕為停用狀態，且沒有列出任何目標裝置，代表 Flutter 尚未偵測到任何已連接的 iOS 或 Android 裝置或模擬器。
-你需要連接裝置或啟動模擬器才能繼續。
-:::
-
- 1. 找到 **Flutter Target Selector** 下拉按鈕，這裡會顯示可用的目標裝置清單。
- 2. 選擇你想要啟動應用的目標裝置。當你連接裝置或啟動模擬器時，會出現更多選項。
-
-### 不設中斷點執行應用
-
- 1. 點擊工具列上的 **Play icon**，或執行 **Run > Run**。
-    下方的 **Run** 面板會顯示日誌輸出。
-
-### 設中斷點執行應用
-
- 1. 若需要，可在原始碼中設置中斷點。
- 1. 點擊工具列上的 **Debug icon**，或執行 **Run > Debug**。
-    * 下方的 **Debugger** 面板會顯示 Stack Frames 與變數。
-    * 下方的 **Console** 面板會顯示詳細日誌輸出。
-    * 除錯會根據預設啟動組態進行。若要自訂，請點擊裝置選擇器右側的下拉按鈕，並選擇 **Edit configuration**。
-
-## 快速編輯與即時刷新開發循環
-
-Flutter 提供業界領先的開發循環，透過 _Stateful Hot Reload_ 功能，讓你幾乎能即時看到修改的效果。
-想了解更多，請參考 [Hot reload][Hot reload]。
-
-### 顯示效能資料
+When a Flutter project is open in the IDE, you should see a set of
+Flutter-specific buttons on the right-hand side of the toolbar.
 
 :::note
-若要檢查 Flutter 的效能問題，請參考 [Timeline view][Timeline view]。
+If the Run and Debug buttons are disabled, and no targets are listed,
+Flutter has not been able to discover any connected iOS or
+Android devices or simulators.
+You need to connect a device, or start a simulator, to proceed.
 :::
 
-若要檢視效能資料（包含元件重建資訊），請以 **Debug** 模式啟動應用，然後透過 **View > Tool Windows > Flutter Performance** 開啟效能工具視窗。
+ 1. Locate the **Flutter Target Selector** drop-down button.
+    This shows a list of available targets.
+ 2. Select the target you want your app to be started on.
+    When you connect devices, or start simulators,
+    additional entries appear.
+
+### Run app without breakpoints
+
+ 1. Click the **Play icon** in the toolbar, or invoke **Run > Run**.
+    The bottom **Run** pane shows logs output.
+
+### Run app with breakpoints
+
+ 1. If desired, set breakpoints in your source code.
+ 1. Click the **Debug icon** in the toolbar, or invoke **Run > Debug**.
+    * The bottom **Debugger** pane shows Stack Frames and Variables.
+    * The bottom **Console** pane shows detailed logs output.
+    * Debugging is based on a default launch configuration.
+      To customize this, click the drop-down button to the right
+      of the device selector, and select **Edit configuration**.
+
+## Fast edit and refresh development cycle
+
+Flutter offers a best-in-class developer cycle enabling you to see the effect
+of your changes almost instantly with the _Stateful Hot Reload_ feature.
+To learn more, check out [Hot reload][].
+
+### Show performance data
+
+:::note
+To examine performance issues in Flutter, see the
+[Timeline view][].
+:::
+
+To view the performance data, including the widget rebuild
+information, start the app in **Debug** mode, and then open
+the Performance tool window using
+**View > Tool Windows > Flutter Performance**.
 
 ![Flutter performance window](/assets/images/docs/tools/android-studio/widget-rebuild-info.png){:width="90%"}
 
-若要檢視哪些元件（Widgets）被重建以及重建次數，請在 **Performance** 面板中點擊 **Show widget rebuild information**。
-本幀的重建次數會顯示在倒數第二欄。若重建次數較高，會顯示黃色旋轉圈。最右側欄位顯示自進入當前畫面以來元件被重建的次數。
-未被重建的元件會顯示實心灰色圓圈；否則會顯示灰色旋轉圈。
+To see the stats about which widgets are being rebuilt, and how often,
+click **Show widget rebuild information** in the **Performance** pane.
+The exact count of the rebuilds for this frame displays in the second
+column from the right. For a high number of rebuilds, a yellow spinning
+circle displays. The column to the far right shows how many times a
+widget was rebuilt since entering the current screen.
+For widgets that aren't rebuilt, a solid grey circle displays.
+Otherwise, a grey spinning circle displays.
 
 :::secondary
-螢幕截圖中的應用是刻意設計成效能不佳，重建分析器能幫助你找出哪些畫面可能造成效能問題。元件重建分析器本身並不是效能診斷工具。
+The app shown in this screenshot has been designed to deliver
+poor performance, and the rebuild profiler gives you a clue
+about what is happening in the frame that might cause poor
+performance. The widget rebuild profiler is not a diagnostic
+tool, by itself, about poor performance.
 :::
 
-這個功能的目的是讓你意識到哪些元件正在重建——僅從程式碼可能無法察覺。如果有元件被重建而你沒預期到，這通常表示你應該將大型 build 方法拆分成多個元件。
+The purpose of this feature is to make you aware when widgets are
+rebuilding&mdash;you might not realize that this is happening when just
+looking at the code. If widgets are rebuilding that you didn't expect,
+it's probably a sign that you should refactor your code by splitting
+up large build methods into multiple widgets.
 
-此工具可協助你除錯至少四種常見效能問題：
+This tool can help you debug at least four common performance issues:
 
-1. 整個螢幕（或大部分）由單一 StatefulWidget 建構，導致不必要的 UI 重建。請將 UI 拆分為多個較小的元件與較小的 `build()` 函式。
+1. The whole screen (or large pieces of it) are built by a single
+   StatefulWidget, causing unnecessary UI building. Split up the
+   UI into smaller widgets with smaller `build()` functions.
 
-1. 螢幕外的元件被重建。例如，當 ListView 被嵌套在一個很高的 Column 內且超出螢幕時，或未為延伸至螢幕外的清單設置 RepaintBoundary，導致整個清單被重繪。
+1. Offscreen widgets are being rebuilt. This can happen, for example,
+   when a ListView is nested in a tall Column that extends offscreen.
+   Or when the RepaintBoundary is not set for a list that extends
+   offscreen, causing the whole list to be redrawn.
 
-1. AnimatedBuilder 的 `build()` 函式繪製了不需要動畫的子樹，導致靜態物件不必要地重建。
+1. The `build()` function for an AnimatedBuilder draws a subtree that
+   does not need to be animated, causing unnecessary rebuilds of static
+   objects.
 
-1. Opacity 元件被放在元件樹過高的位置，或直接操作 Opacity 元件的 opacity 屬性來製作動畫，導致元件本身及其子樹被重建。
+1. An Opacity widget is placed unnecessarily high in the widget tree.
+   Or, an Opacity animation is created by directly manipulating the
+   opacity property of the Opacity widget, causing the widget itself
+   and its subtree to rebuild.
 
-你可以點擊表格中的一行，直接跳至該元件在原始碼中的建立位置。程式執行時，旋轉圖示也會顯示在程式碼面板，幫助你視覺化哪些重建正在發生。
+You can click on a line in the table to navigate to the line
+in the source where the widget is created. As the code runs,
+the spinning icons also display in the code pane to help you
+visualize which rebuilds are happening.
 
-請注意，重建次數多不一定代表有問題。通常只有在你已經用 profile 模式執行過應用，並確認效能不如預期時，才需要擔心重建過多。
+Note that numerous rebuilds doesn't necessarily indicate a problem.
+Typically you should only worry about excessive rebuilds if you have
+already run the app in profile mode and verified that the performance
+is not what you want.
 
-請記住，_元件重建資訊僅在 debug build 可用_。請在真實裝置的 profile build 測試效能，但要在 debug build 下除錯效能問題。
+And remember, _the widget rebuild information is only available in
+a debug build_. Test the app's performance on a real device in a profile
+build, but debug performance issues in a debug build.
 
-## Flutter 程式碼編輯小技巧
+## Editing tips for Flutter code
 
-如果你有其他值得分享的小技巧，歡迎[告訴我們][let us know]！
+If you have additional tips we should share, [let us know][]!
 
-### 協助與快速修正（Assists & Quick Fixes）
+### Assists & quick fixes
 
-協助（Assists）是針對特定程式碼識別符號的程式碼變更。當游標停在 Flutter 元件識別符號上時，會出現黃色燈泡圖示，表示可用的協助。你可以點擊燈泡或使用快捷鍵（Linux 與 Windows 為 `Alt`+`Enter`，macOS 為 `Option`+`Return`）來啟動協助，如下圖所示：
+Assists are code changes related to a certain code identifier.
+A number of these are available when the cursor is placed on a
+Flutter widget identifier, as indicated by the yellow lightbulb icon.
+The assist can be invoked by clicking the lightbulb, or by using the
+keyboard shortcut (`Alt`+`Enter` on Linux and Windows,
+`Option`+`Return` on macOS), as illustrated here:
 
 ![IntelliJ editing assists](/assets/images/docs/tools/android-studio/assists.webp){:width="100%"}
 
-快速修正（Quick Fixes）類似，但僅在程式碼有錯誤時出現，並協助你修正。會以紅色燈泡顯示。
+Quick Fixes are similar, only they are shown with a piece of code has an error
+and they can assist in correcting it. They are indicated with a red lightbulb.
 
-#### Wrap with new widget 協助
+#### Wrap with new widget assist
 
-當你想將某個元件包裹在其他元件外層時（例如包在 `Row` 或 `Column` 中），可以使用這個協助。
+This can be used when you have a widget that you want to wrap in a surrounding
+widget, for example if you want to wrap a widget in a `Row` or `Column`.
 
-#### Wrap widget list with new widget 協助
+#### Wrap widget list with new widget assist
 
-與上述協助類似，但適用於包裹現有的元件清單，而非單一元件。
+Similar to the assist above, but for wrapping an existing list of
+widgets rather than an individual widget.
 
-#### Convert child to children 協助
+#### Convert child to children assist
 
-將 child 參數轉換為 children 參數，並將參數值包裝成清單。
+Changes a child argument to a children argument,
+and wraps the argument value in a list.
 
 ### Live templates
 
-Live templates 可加速輸入常見的程式碼結構。輸入前綴字後，於程式碼自動完成視窗中選擇即可：
+Live templates can be used to speed up entering typical code structures.
+They are invoked by typing their prefix, and then selecting it in the code
+completion window:
 
 ![IntelliJ live templates](/assets/images/docs/tools/android-studio/templates.webp){:width="100%"}
 
-Flutter 外掛內建以下範本：
+The Flutter plugin includes the following templates:
 
-* 前綴 `stless`：建立 `StatelessWidget` 的新子類別。
-* 前綴 `stful`：建立 `StatefulWidget` 及其對應 State 子類別的新子類別。
-* 前綴 `stanim`：建立 `StatefulWidget` 及其對應 State 子類別的新子類別，並包含一個初始化為 `AnimationController` 的欄位。
+* Prefix `stless`: Create a new subclass of `StatelessWidget`.
+* Prefix `stful`: Create a new subclass of `StatefulWidget` and
+  its associated State subclass.
+* Prefix `stanim`: Create a new subclass of `StatefulWidget` and its
+  associated State subclass, including a field initialized with an
+  `AnimationController`.
 
-你也可以在 **Settings > Editor > Live Templates** 中自訂範本。
+You can also define custom templates in **Settings > Editor > Live Templates**.
 
-### 鍵盤快捷鍵
+### Keyboard shortcuts
 
 **Hot reload**
 
-在 Linux（keymap _Default for XWin_）與 Windows 上，快捷鍵為 `Control`+`Alt`+`;` 及 `Control`+`Backslash`。
+On Linux (keymap _Default for XWin_) and Windows the keyboard shortcuts
+are `Control`+`Alt`+`;` and `Control`+`Backslash`.
 
-在 macOS（keymap _Mac OS X 10.5
+On macOS (keymap _Mac OS X 10.5+ copy_) the keyboard shortcuts are
+`Command`+`Option` and `Command`+`Backslash`.
+
+Keyboard mappings can be changed in the IDE Preferences/Settings: Select
+*Keymap*, then enter _flutter_ into the search box in the upper right corner.
+Right click the binding you want to change and _Add Keyboard Shortcut_.
+
+![IntelliJ settings keymap](/assets/images/docs/tools/android-studio/keymap-settings-flutter-plugin.png){:width="100%"}
+
+### Hot reload vs. hot restart
+
+Hot reload works by injecting updated source code files into the running
+Dart VM (Virtual Machine). This includes not only adding new classes,
+but also adding methods and fields to existing classes,
+and changing existing functions.
+A few types of code changes cannot be hot reloaded though:
+
+* Global variable initializers
+* Static field initializers
+* The `main()` method of the app
+
+For these changes you can fully restart your application,
+without having to end your debugging session. To perform a hot restart,
+don't click the Stop button, simply re-click the Run button (if in a run
+session) or Debug button (if in a debug session), or shift-click the 'hot
+reload' button.
+
+## Editing Android code in Android Studio with full IDE support {:#android-ide}
+
+Opening the root directory of a Flutter project doesn't expose all the Android
+files to the IDE. Flutter apps contain a subdirectory named `android`. If you
+open this subdirectory as its own separate project in Android Studio, the IDE
+will be able to fully support editing and refactoring all Android files (like
+Gradle scripts).
+
+If you already have the entire project opened as a Flutter app in Android
+Studio, there are two equivalent ways to open the Android files on their own
+for editing in the IDE. Before trying this, make sure that you're on the latest
+version of Android Studio and the Flutter plugins.
+
+* In the ["project view"][], you should see a subdirectory immediately under
+  the root of your flutter app named `android`. Right click on it,
+  then select **Flutter > Open Android module in Android Studio**.
+* OR, you can open any of the files under the `android` subdirectory for
+  editing. You should then see a "Flutter commands" banner at the top of the
+  editor with a link  labeled **Open for Editing in Android Studio**.
+  Click that link.
+
+For both options, Android Studio gives you the option to use separate windows or
+to replace the existing window with the new project when opening a second
+project. Either option is fine.
+
+If you don't already have the Flutter project opened in Android studio,
+you can open the Android files as their own project from the start:
+
+1. Click **Open an existing Android Studio Project** on the Welcome
+   splash screen, or **File > Open** if Android Studio is already open.
+2. Open the `android` subdirectory immediately under the flutter app root.
+   For example if the project is called `flutter_app`,
+   open `flutter_app/android`.
+
+If you haven't run your Flutter app yet, you might see Android Studio report a
+build error when you open the `android` project. Run `flutter pub get` in
+the app's root directory and rebuild the project by selecting **Build > Make**
+to fix it.
+
+## Editing Android code in IntelliJ IDEA {:#edit-android-code}
+
+To enable editing of Android code in IntelliJ IDEA, you need to configure the
+location of the Android SDK:
+
+ 1. In **Preferences > Plugins**, enable **Android Support** if you
+    haven't already.
+ 1. Right-click the **android** folder in the Project view, and select **Open
+    Module Settings**.
+ 1. In the **Sources** tab, locate the **Language level** field, and
+    select level 8 or later.
+ 1. In the **Dependencies** tab, locate the **Module SDK** field,
+    and select an Android SDK. If no SDK is listed, click **New**
+    and specify the location of the Android SDK.
+    Make sure to select an Android SDK matching the one used by
+    Flutter (as reported by `flutter doctor`).
+ 1. Click **OK**.
+
+## Flutter Property Editor {: #property-editor}
+
+The Flutter Property Editor is a powerful tool provided by the [Flutter
+plugin][] that lets you view and modify widget properties directly from its
+visual interface.
+
+### How to open the Flutter Property Editor in Android Studio and IntelliJ
+
+1. Click on the Flutter Property Editor **icon** ![Flutter Property Editor Android Studio/IntelliJ icon](/assets/images/docs/tools/devtools/property-editor-icon-android-studio.png){:width="20px"} in the Android Studio or IntelliJ sidebar.
+2. The Flutter Property Editor will load in the side panel.
+3. Please refer to the Flutter Property Editor [documentation][] for a detailed usage guide.
+
+![Flutter Property Editor side panel in Android Studio/IntelliJ](/assets/images/docs/tools/devtools/property-editor-android-studio.png){:width="600px"}
+
+[Flutter plugin]: https://plugins.jetbrains.com/plugin/9212-flutter
+[documentation]: /tools/property-editor
+
+## Troubleshooting
+
+### Known issues and feedback
+
+Important known issues that might impact your experience are documented
+in the [Flutter plugin README][] file.
+
+All known bugs are tracked in the issue trackers:
+
+* Flutter plugin: [GitHub issue tracker][]
+* Dart plugin: [JetBrains YouTrack][]
+
+We welcome feedback, both on bugs/issues and feature requests.
+Prior to filing new issues:
+
+* Do a quick search in the issue trackers to see if the issue is already
+  tracked.
+* Make sure you have [updated](#updating) to the most recent version of the
+  plugin.
+
+When filing new issues, include the output of [`flutter doctor`][].
+
+[DevTools]: /tools/devtools
+[GitHub issue tracker]: {{site.repo.flutter}}-intellij/issues
+[JetBrains YouTrack]: https://youtrack.jetbrains.com/issues?q=%23dart%20%23Unresolved
+[`flutter doctor`]: /resources/bug-reports#provide-some-flutter-diagnostics
+[Debugging Flutter apps]: /testing/debugging
+[Flutter plugin README]: {{site.repo.flutter}}-intellij/blob/master/README.md
+["project view"]: {{site.android-dev}}/studio/projects/#ProjectView
+[let us know]: {{site.repo.this}}/issues/new
+[Running DevTools from Android Studio]: /tools/devtools/android-studio
+[Hot reload]: /tools/hot-reload
+[Timeline view]: /tools/devtools/performance

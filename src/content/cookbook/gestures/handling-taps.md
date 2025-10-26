@@ -1,6 +1,6 @@
 ---
-title: 處理點擊事件
-description: 如何處理點擊與拖曳。
+title: Handle taps
+description: How to handle tapping and dragging.
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,19 +8,23 @@ js:
 
 <?code-excerpt path-base="cookbook/gestures/handling_taps/"?>
 
-你不僅希望向使用者顯示資訊，也希望使用者能與你的應用程式互動。  
-使用 [`GestureDetector`][`GestureDetector`] 元件（Widget）來回應基本的操作，例如點擊（tap）與拖曳（drag）。
+You not only want to display information to users,
+you want users to interact with your app.
+Use the [`GestureDetector`][] widget to respond
+to fundamental actions, such as tapping and dragging.
 
 :::note
-想了解更多，請觀看這段關於 `GestureDetector` 元件（Widget）的 Widget of the Week 短片：
+To learn more, watch this short Widget of the Week video on
+the `GestureDetector` widget:
 
 {% ytEmbed 'WhVXkCFPmK4', 'GestureDetector | Flutter widget of the week' %}
 :::
 
-本教學將示範如何建立一個自訂按鈕，並在點擊時顯示 snackbar，步驟如下：
+This recipe shows how to make a custom button that shows
+a snackbar when tapped with the following steps:
 
-  1. 建立按鈕。
-  2. 將其包裹在 `GestureDetector` 中，並提供 `onTap()` callback。
+  1. Create the button.
+  2. Wrap it in a `GestureDetector` and provide an `onTap()` callback.
 
 <?code-excerpt "lib/main.dart (GestureDetector)" replace="/return //g;/^\);$/)/g"?>
 ```dart
@@ -44,14 +48,16 @@ GestureDetector(
 )
 ```
 
-## 注意事項
+## Notes
 
-  1. 關於如何為你的按鈕加入 Material 漣漪（ripple）效果，請參考 [Add Material touch ripples][Add Material touch ripples] 教學。
-  2. 雖然本範例建立了一個自訂按鈕，Flutter 其實已經內建了多種按鈕實作，例如：
-     [`ElevatedButton`][`ElevatedButton`]、[`TextButton`][`TextButton`]，以及
-     [`CupertinoButton`][`CupertinoButton`]。
+  1. For information on adding the Material ripple effect to your
+     button, see the [Add Material touch ripples][] recipe.
+  2. Although this example creates a custom button,
+     Flutter includes a handful of button implementations, such as:
+     [`ElevatedButton`][], [`TextButton`][], and
+     [`CupertinoButton`][].
 
-## 互動範例
+## Interactive example
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter tap handling hands-on example in DartPad" run="true"
@@ -115,7 +121,7 @@ class MyButton extends StatelessWidget {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/handling-taps.webp" alt="點擊事件處理示範" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/handling-taps.webp" alt="Handle taps demo" class="site-mobile-screenshot" />
 </noscript>
 
 [Add Material touch ripples]: /cookbook/gestures/ripples

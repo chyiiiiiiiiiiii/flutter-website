@@ -1,50 +1,50 @@
-# DevTools 2.28.1 版本發行說明
+# DevTools 2.28.1 release notes
 
-Dart 與 Flutter DevTools 2.28.1 版本
-包含以下變更及其他一般性改進。
-如需進一步了解 DevTools，請參閱
-[DevTools overview](https://docs.flutter.dev/tools/devtools)。
+The 2.28.1 release of the Dart and Flutter DevTools
+includes the following changes among other general improvements.
+To learn more about DevTools, check out the
+[DevTools overview](https://docs.flutter.dev/tools/devtools).
 
-## 一般更新
+## General updates
 
-* 新增對 DevTools 擴充功能的支援。
-  這表示如果你正在偵錯一個依賴於 `package:foo` 的應用程式，
-  且 `package:foo` 提供了 DevTools 擴充功能，
-  你將會在 DevTools 中看到一個「Foo」分頁，
-  可用來協助你偵錯應用程式。
-  若要為你的 pub 套件提供 DevTools 擴充功能，
-  請參考
-  [package:devtools_extensions](https://pub.dev/packages/devtools_extensions) 的入門指南！
+* Added support for DevTools extensions.
+  This means if you are debugging an app that depends on `package:foo`,
+  and `package:foo` provides a DevTools extension,
+  you will see a "Foo" tab display in DevTools
+  that you can use to debug your app.
+  To provide a DevTools extension for your pub package,
+  check out the getting started guide for
+  [package:devtools_extensions](https://pub.dev/packages/devtools_extensions)!
 
-![DevTools 擴充功能範例](/assets/images/docs/tools/devtools/release-notes/images-2.28.1/example_devtools_extension.png "Example DevTools extension for package:foo_package")
+![Example DevTools extension](/assets/images/docs/tools/devtools/release-notes/images-2.28.1/example_devtools_extension.png "Example DevTools extension for package:foo_package")
 
-* 修正 isolate 選擇器的主題化（theming）錯誤 -
+* Fixed theming bug in isolate selector -
   [#6403](https://github.com/flutter/devtools/pull/6403)
-* 修正 isolate 錯誤，解決主 isolate 在 hot restart 時未重新選取的問題 -
+* Fixed isolate bug where main isolate was not reselecting on hot restart -
   [#6436](https://github.com/flutter/devtools/pull/6436)
-* 為支援 hot reload 的 Dart server 應用程式顯示 hot reload 按鈕 -
+* Show the hot reload button for Dart server apps that support hot reload -
   [#6341](https://github.com/flutter/devtools/pull/6341)
-* 修正 hot restart 時發生的例外狀況 -
-  [#6451](https://github.com/flutter/devtools/pull/6451)、
+* Fixed exceptions on hot restart -
+  [#6451](https://github.com/flutter/devtools/pull/6451),
   [#6450](https://github.com/flutter/devtools/pull/6450)
 
-## Inspector 更新
+## Inspector updates
 
-* 修正 inspector 服務呼叫發生於已選 isolate，
-  而非主 isolate 的錯誤 -
+* Fixed bug where inspector service calls were done on the selected isolate,
+  instead of the main isolate -
   [#6434](https://github.com/flutter/devtools/pull/6434)
 
-## Logging 更新
+## Logging updates
 
-* 改善 Logging 檢視畫面上方工具列的響應式（responsiveness）表現 -
+* Improved responsiveness of the top bar on the Logging view -
   [#6281](https://github.com/flutter/devtools/pull/6281)
 
-* 新增複製已篩選日誌的功能 -
+* Added the ability to copy filtered logs -
   [#6260](https://github.com/flutter/devtools/pull/6260)
 
-  ![Logging 檢視畫面中篩選工具右側的複製按鈕](/assets/images/docs/tools/devtools/release-notes/images-2.28.1/logger_copy.png "The Logging view copy button")
+  ![The copy button on the Logging view to the right of the filter tool](/assets/images/docs/tools/devtools/release-notes/images-2.28.1/logger_copy.png "The Logging view copy button")
 
-## 完整提交紀錄
+## Full commit history
 
-如需本次發行的完整變更清單，請參閱
-[DevTools git log](https://github.com/flutter/devtools/tree/v2.28.1)。
+To find a complete list of changes in this release, check out the
+[DevTools git log](https://github.com/flutter/devtools/tree/v2.28.1).

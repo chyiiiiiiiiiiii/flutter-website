@@ -1,46 +1,51 @@
 ---
-title: ParentDataWidget 的泛型類型變更為 ParentData
-description: ParentDataWidget 現在綁定於 ParentData 類型。
+title: The generic type of ParentDataWidget changed to ParentData
+description: The ParentDataWidget is now bound to the ParentData type.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-`ParentDataWidget` 的泛型類型已從
-`RenderObjectWidget` 變更為 `ParentData`。
+The generic type of `ParentDataWidget` has changed from
+`RenderObjectWidget` to `ParentData`.
 
-## 背景說明
+## Context
 
-在此變更之前，`ParentDataWidget` 會綁定到特定的 `RenderObjectWidget` 類型作為其父層。
-例如，`Positioned` 元件（Widget）只能用於
-`Stack` 元件（Widget）之內。有了這項變更，
-`ParentDataWidget` 可以搭配任何
-`RenderObjectWidget` 類型作為父層，只要該 `RenderObjectWidget` 的 `RenderObject`
-設定了正確的 `ParentData` 類型。在這個新架構下，
-`Positioned` 元件（Widget）可以重複利用於假設性的
-新 `SuperStack` 元件（Widget）。
+Prior to this change, a `ParentDataWidget` was bound
+to a specific `RenderObjectWidget` type as ancestor.
+For example, a `Positioned` widget could only be used
+within a `Stack` widget. With this change,
+a `ParentDataWidget` can be used with any
+`RenderObjectWidget` type as ancestor as long as
+the `RenderObject` of said `RenderObjectWidget`
+sets up the correct `ParentData` type. In this new world,
+the `Positioned` widget can be reused with a hypothetical
+new `SuperStack` widget.
 
-## 變更說明
+## Description of change
 
-`ParentDataWidget` 的泛型型別參數
-已從 `RenderObjectWidget` 變更為 `ParentData`，
-並且在 `ParentDataWidget` 中新增了一個新的除錯屬性 `debugTypicalAncestorWidgetClass`。
-後者會用於錯誤訊息，讓使用者能更清楚了解特定 `ParentDataWidget`
-應該用於的上下文情境。
+The generic type argument of `ParentDataWidget`
+has changed from `RenderObjectWidget` to `ParentData`,
+and a new debug property, `debugTypicalAncestorWidgetClass`,
+is added to `ParentDataWidget`.
+The latter is used for error messages to give users a
+better idea of the context a given `ParentDataWidget`
+is supposed to be used in.
 
-## 移轉指南
+## Migration guide
 
-如果你有繼承或實作 `ParentDataWidget`，
-則必須依照本節說明進行程式碼移轉。
-當你升級至包含此變更的 Flutter 版本時，分析器會顯示以下警告：
+You must migrate your code as described in this section
+if you're subclassing or implementing `ParentDataWidget`.
+If you do, the analyzer shows the following warnings when you
+upgrade to the Flutter version that includes this change:
 
 ```plaintext
   error • Missing concrete implementation of 'getter ParentDataWidget.debugTypicalAncestorWidgetClass' • lib/main.dart:114:7 • non_abstract_class_inherits_abstract_member
   error • 'FrogJar' doesn't extend 'ParentData' • lib/main.dart:114:41 • type_argument_not_matching_bounds
 ```
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 class FrogSize extends ParentDataWidget<FrogJar> {
@@ -74,7 +79,7 @@ class FrogJar extends RenderObjectWidget {
 }
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 class FrogSize extends ParentDataWidget<FrogJarParentData> { // FrogJar changed to FrogJarParentData
@@ -103,31 +108,31 @@ class FrogSize extends ParentDataWidget<FrogJarParentData> { // FrogJar changed 
 }
 ```
 
-`ParentDataWidget` 超類別的泛型型別
-從 `FrogJar`（`RenderObjectWidget`）變更為
-`FrogJarParentData`（`ParentData` 型別，即
-`FrogSize.applyParentData` 希望操作的型別）。
-此外，這個 `ParentDataWidget` 子類別
-也實作了新的 `debugTypicalAncestorWidgetClass`。
-它會回傳此 `ParentDataWidget` 的典型祖先 `RenderObjectWidget`
-的型別。大多數情況下，
-你只需要在這裡回傳舊的泛型型別
-（本例中為 `FrogJar`）。
+The generic type of the `ParentDataWidget` superclass
+changes from `FrogJar` (a `RenderObjectWidget`) to
+`FrogJarParentData` (the `ParentData` type that
+`FrogSize.applyParentData` wants to operate on).
+Additionally, the new `debugTypicalAncestorWidgetClass`
+is implemented for this `ParentDataWidget` subclass.
+It returns the type of a typical ancestor `RenderObjectWidget`
+for this `ParentDataWidget`. Most of the time,
+you just want to return the old generic type here
+(`FrogJar` in this example).
 
-## 時程
+## Timeline
 
-合併於版本：1.16.3<br>
-正式版釋出：1.17
+Landed in version: 1.16.3<br>
+In stable release: 1.17
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`ParentDataWidget`][`ParentDataWidget`]
+* [`ParentDataWidget`][]
 
-相關 PR：
+Relevant PR:
 
-* [讓 ParentDataWidget 可用於不同祖先 RenderObjectWidget 型別][Make ParentDataWidget usable with different ancestor RenderObjectWidget types]
+* [Make ParentDataWidget usable with different ancestor RenderObjectWidget types][]
 
 
 [Make ParentDataWidget usable with different ancestor RenderObjectWidget types]: {{site.repo.flutter}}/pull/48541

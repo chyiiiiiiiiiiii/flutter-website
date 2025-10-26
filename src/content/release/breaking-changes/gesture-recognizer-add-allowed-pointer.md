@@ -1,30 +1,30 @@
 ---
-title: GestureRecognizer 清理
+title: GestureRecognizer cleanup
 description: >
-  OneSequenceGestureRecognizer 子類別應該
-  覆寫 `addAllowedPointer` 以接收 `PointerDownEvent`
+  OneSequenceGestureRecognizer subclasses should
+  override `addAllowedPointer` to take a `PointerDownEvent`
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-`OneSequenceGestureRecognizer.addAllowedPointer()` 已更改為接收
-`PointerDownEvent`，與其父類別一致。先前，它接受較為
-通用的 `PointerEvent` 類型，這是不正確的。
+`OneSequenceGestureRecognizer.addAllowedPointer()` was changed to take a
+`PointerDownEvent`, like its superclass. Previously, it accepted the more
+general `PointerEvent` type, which was incorrect.
 
-## 背景
+## Context
 
-框架實際上只會傳遞 `PointerDownEvent` 物件給
-`addAllowedPointer()`。將
-`OneSequenceGestureRecognizer.addAllowedPointer()` 宣告為接收更通用的
-類型會造成混淆，並導致 `OneSequenceGestureRecognizer` 子類別
-必須將其參數轉型為正確的類別。
+The framework only ever passes `PointerDownEvent` objects to
+`addAllowedPointer()`. Declaring
+`OneSequenceGestureRecognizer.addAllowedPointer()` to take the more general
+type was confusing, and caused `OneSequenceGestureRecognizer` subclasses to
+have to cast their argument to the right class.
 
-## 變更說明
+## Description of change
 
-先前的宣告會強制 `OneSequenceGestureRecognizer` 的子類別
-像這樣覆寫 `addAllowedPointer()`：
+The previous declaration forced `OneSequenceGestureRecognizer` descendants to
+override `addAllowedPointer()` like so:
 
 ```dart
 class CustomGestureRecognizer extends ScaleGestureRecognizer {
@@ -36,7 +36,8 @@ class CustomGestureRecognizer extends ScaleGestureRecognizer {
 }
 ```
 
-新的方法宣告會導致此程式碼失敗，並出現以下錯誤訊息：
+The new method declaration will cause this code to fail with the following
+error message:
 
 ```plaintext
 super.addAllowedPointer(event); The argument type 'PointerEvent' can't be assigned to the parameter type 'PointerDownEvent'.
@@ -44,9 +45,9 @@ super.addAllowedPointer(event); The argument type 'PointerEvent' can't be assign
 
 ```
 
-## 遷移指南
+## Migration guide
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 class CustomGestureRecognizer extends ScaleGestureRecognizer {
@@ -58,7 +59,7 @@ class CustomGestureRecognizer extends ScaleGestureRecognizer {
 }
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 class CustomGestureRecognizer extends ScaleGestureRecognizer {
@@ -70,20 +71,20 @@ class CustomGestureRecognizer extends ScaleGestureRecognizer {
 }
 ```
 
-## 時程
+## Timeline
 
-合併於版本：2.3.0-13.0.pre<br>  
-穩定版釋出：2.5
+Landed in version: 2.3.0-13.0.pre<br>
+In stable release: 2.5
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`OneSequenceGestureRecognizer`][`OneSequenceGestureRecognizer`]
+* [`OneSequenceGestureRecognizer`][]
 
-相關 PR：
+Relevant PR:
 
-* [Fix addAllowedPointer() overrides][Fix addAllowedPointer() overrides]
+* [Fix addAllowedPointer() overrides][]
 
 [`OneSequenceGestureRecognizer`]: {{site.api}}/flutter/gestures/OneSequenceGestureRecognizer-class.html
 [Fix addAllowedPointer() overrides]: {{site.repo.flutter}}/pull/82834

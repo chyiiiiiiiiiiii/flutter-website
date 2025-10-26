@@ -1,25 +1,36 @@
 ---
-title: 設定 Web 開發組態檔
-short-title: Web 開發組態
+title: Set up a web development configuration file
+short-title: Web development configuration
 description: >-
-  集中管理 Web 開發設定，包括開發 Proxy
+  Centralize web development settings including a development proxy
 ---
 
-# 設定 Web 開發組態檔
-**作者：Sydney Bao**
+# Set up a web development configuration file
+**By Sydney Bao**
 
-Flutter Web 提供了一個開發伺服器，預設會在 `localhost` 網域上，使用 HTTP 並隨機分配埠號來服務你的應用程式。雖然你可以透過命令列參數（Command Line Interface）快速修改伺服器行為，但本文件將著重於更有結構的方法：透過集中式的 `web_dev_config.yaml` 檔案來定義伺服器行為。這個組態檔讓你可以自訂伺服器設定——主機（host）、埠號（port）、HTTPS 設定，以及 Proxy 規則——確保開發環境的一致性。
+Flutter web includes a development server that defaults to
+serving your application in the `localhost` domain using HTTP
+on a randomly assigned port. While command-line arguments offer
+a quick way to modify the server's behavior,
+this document focuses on a more structured approach:
+defining your server's behavior through a centralized `web_dev_config.yaml` file.
+This configuration file allows you to
+customize server settings&emdash;host, port, HTTPS settings, and
+proxy rules&emdash;ensuring a consistent development environment.
 
-## 建立組態檔
+## Create a configuration file
 
-在你的 Flutter 專案根目錄新增一個 `web_dev_config.yaml` 檔案。如果你尚未建立 Flutter 專案，請參考 [Building a web application with Flutter][Building a web application with Flutter] 開始操作。
+Add a `web_dev_config.yaml` file to the root directory of your Flutter project.
+If you haven't set up a Flutter project,
+visit [Building a web application with Flutter][] to get started.
+
 [Building a web application with Flutter]: /platform-integration/web/building
 
-## 新增組態設定
+## Add configuration settings
 
-### 基本伺服器設定
+### Basic server configuration
 
-你可以為開發伺服器定義主機（host）、埠號（port）以及 HTTPS 設定。
+You can define the host, port, and HTTPS settings for your development server.
 
 ```yaml title="web_dev_config.yaml"
 server:
@@ -30,9 +41,9 @@ server:
     cert-key-path: "/path/to/key.pem" # Path <string> to TLS certificate key
 ```
 
-### 自訂標頭（Custom headers）
+### Custom headers
 
-你也可以將自訂 HTTP 標頭（headers）注入到開發伺服器的回應中。
+You can also inject custom HTTP headers into the development server's responses.
 
 ```yaml title="web_dev_config.yaml"
 server:
@@ -43,13 +54,13 @@ server:
       value: "no-cache, no-store, must-revalidate"
 ```
 
-### Proxy 設定
+### Proxy configuration
 
-請求會依照 `web_dev_config.yaml` 檔案中的順序進行比對。
+Requests are matched in order from the `web_dev_config.yaml` file.
 
-#### 基本字串 Proxy
+#### Basic string proxy
 
-使用 `prefix` 欄位來進行簡單的路徑前綴比對。
+Use the `prefix` field for simple path prefix matching.
 
 ```yaml title="web_dev_config.yaml"
 server:
@@ -64,15 +75,20 @@ server:
       replace: ""
 ```
 
-**說明：**
+**Explanation:**
 
-*   對 `/users/names` 的請求會被轉發到 `http://localhost:5000/users/names`。
-*   對 `/data/2023/` 的請求會被轉發到 `http://localhost:3000/report/2023`，因為 `replace: “/report/”` 會取代 `/data/` 前綴。
-*   對 `/products/item/123` 的請求會被轉發到 `http://localhost:4000/item/123`，因為 `replace: ""` 會將 `/products/` 前綴移除，並以空字串取代。
+*   A request to `/users/names` is
+    forwarded to `http://localhost:5000/users/names`.
+*   A request to `/data/2023/` is
+    forwarded to `http://localhost:3000/report/2023`
+    because `replace: “/report/”` replaces the `/data/` prefix.
+*   A request to `/products/item/123` is
+    forwarded to `http://localhost:4000/item/123` because `replace: ""`
+    removes the `/products/` prefix by replacing it with an empty string.
 
-#### 進階正則表達式代理（Advanced regex proxy）
+#### Advanced regex proxy
 
-你也可以使用 `regex` 欄位，進行更彈性且複雜的匹配。
+You can also use the `regex` field for more flexible and complex matching.
 
 ```yaml title="web_dev_config.yaml"
 server:
@@ -84,15 +100,17 @@ server:
       replace: "/$2?apiVersion=$1" # Allows capture groups (optional)
 ```
 
-**說明：**
+**Explanation:**
 
-*   對 `/users/123/` 的請求會完全符合第一條規則，因此會被轉發到 `http://localhost:5000/users/123/`。
-*   對 `/api/v1/users/profile/` 的請求以第二條規則的路徑開頭，因此會被轉發到 `http://localhost:4000/users/profile/?apiVersion=v1`。
+*   A request to `/users/123/` matches the first rule exactly,
+    so it is forwarded to `http://localhost:5000/users/123/`.
+*   A request to `/api/v1/users/profile/` starts with the second rule path
+    so it is forwarded to `http://localhost:4000/users/profile/?apiVersion=v1`.
 
-## 設定優先順序
+## Configuration precedence
 
-請記得設定的優先順序如下：
+Remember the order of precedence for settings:
 
-1. **命令列參數**（例如 `--web-hostname`、`--web-port`）
-2. **`web_dev_config.yaml` 設定**
-3. **內建預設值**
+1. **Command-line arguments** (such as `--web-hostname`, `--web-port`)
+2. **`web_dev_config.yaml` settings**
+3. **Built-in default values**

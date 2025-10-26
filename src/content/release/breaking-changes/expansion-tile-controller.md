@@ -1,26 +1,29 @@
 ---
-title: 已淘汰的 ExpansionTileController
+title: Deprecated ExpansionTileController
 description: >
-  `ExpansionTileController` 已被淘汰，並由 `ExpansibleController` 取代。
+  `ExpansionTileController` is deprecated and replaced by
+  `ExpansibleController`.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-`ExpansionTileController` 已被淘汰。相同的功能現在可以透過 `ExpansibleController` 來實現。
+`ExpansionTileController` is deprecated. The same functionality can be
+achieved by using `ExpansibleController` instead.
 
-## 背景
+## Background
 
-`ExpansionTileController` 可用於以程式方式展開與收合 `ExpansionTile`。Widgets 函式庫中新增了一個全新的 `Expansible` 元件（Widget），其包含展開與收合的邏輯，且不再綁定於 Material 函式庫。`ExpansibleController` 可搭配 `Expansible` 使用，並且具備與 `ExpansionTileController` 相同的功能。此外，`ExpansibleController` 也支援在展開狀態變更時新增與通知監聽器。
+`ExpansionTileController` programmatically expands and collapses an `ExpansionTile`. A new `Expansible` widget has been added to the widgets library, which contains logic for expanding and collapsing behavior without being tied to the Material library. `ExpansibleController` complements `Expansible` and has the same functionality as `ExpansionTileController`. Additionally, `ExpansibleController` also supports adding and notifying listeners when its expansion state changes.
 
-當應用程式在 debug 模式下使用 `ExpansionTileController` 時，會顯示以下錯誤：「請改用 `ExpansibleController`。」。具體來說，這表示使用者應將 `ExpansionTileController` 的用法替換為 `ExpansibleController`。
+Apps that use `ExpansionTileController` display the following error when run
+in debug mode: "Use `ExpansibleController` instead.". Specifically, this means that users should replace usage of `ExpansionTileController` with `ExpansibleController`.
 
-## 遷移指南
+## Migration guide
 
-要進行遷移，請將 `ExpansionTile` 的 `controller` 參數，從 `ExpansionTileController` 替換為 `ExpansibleController`。與 `ExpansionTileController` 不同，`ExpansibleController` 是一個 `ChangeNotifier`，因此請記得釋放（dispose）新的 `ExpansibleController`。
+To migrate, replace the `controller` parameter of an `ExpansionTile` from an `ExpansionTileController` to an `ExpansibleController`. Unlike `ExpansionTileController`, `ExpansibleController` is a `ChangeNotifier`, so remember to dispose the new `ExpansibleController`.
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 class _MyWidgetState extends State<MyWidget> {
@@ -35,7 +38,7 @@ class _MyWidgetState extends State<MyWidget> {
 }
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 class _MyWidgetState extends State<MyWidget> {
@@ -56,29 +59,29 @@ class _MyWidgetState extends State<MyWidget> {
 }
 ```
 
-## 時程
+## Timeline
 
-合併於版本：3.31.0-0.1.pre<br>  
-穩定版釋出：3.32
+Landed in version: 3.31.0-0.1.pre<br>
+In stable release: 3.32
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`ExpansionTileController`][`ExpansionTileController`]
-* [`ExpansibleController`][`ExpansibleController`]
-* [`ExpansionTile.controller`][`ExpansionTile.controller`]
-* [`Expansible.controller`][`Expansible.controller`]
+* [`ExpansionTileController`][]
+* [`ExpansibleController`][]
+* [`ExpansionTile.controller`][]
+* [`Expansible.controller`][]
 
-相關議題：
+Relevant issues:
 
-* [ExpansionTile 與其 Cupertino 變體的程式碼共用][Codeshare between ExpansionTile and its Cupertino variant]
-* [棄用 ExpansionTileController，改用 ExpansibleController][Deprecate ExpansionTileController in favor of ExpansibleController]
+* [Codeshare between ExpansionTile and its Cupertino variant][]
+* [Deprecate ExpansionTileController in favor of ExpansibleController][]
 
-相關 PR：
+Relevant PRs:
 
-* [引入 Expansible，作為 ExpansionTile 的基礎元件 (Widget)][Introduce Expansible, a base widget for ExpansionTile]
-* [棄用 ExpansionTileController][Deprecate ExpansionTileController]
+* [Introduce Expansible, a base widget for ExpansionTile][]
+* [Deprecate ExpansionTileController][]
 
 [`ExpansionTileController`]: {{site.api}}/flutter/material/ExpansionTileController-class.html
 [`ExpansibleController`]: {{site.api}}/flutter/widgets/ExpansibleController-class.html

@@ -1,58 +1,73 @@
 ---
-title: 無障礙技術
+title: Accessibility technologies
 description: >-
-  提供 Flutter 開發者關於無障礙技術的相關資訊。
+  Information about accessibility technologies for Flutter developers.
 ---
 
-## 摘要
+## Summary
 
-輔助技術（Assistive technologies）對於讓身心障礙者能夠無障礙地使用數位內容至關重要。本文件概述了兩大類與 Flutter 開發相關的主要輔助技術：針對視覺障礙者的螢幕閱讀器（screen readers），以及協助運動障礙者的行動輔助工具。透過瞭解並使用這些技術進行測試，您可以確保您的 Flutter 應用程式為所有人提供更包容且友善的使用體驗。
+Assistive technologies are essential for making digital content accessible to
+individuals with disabilities. This document provides an overview of two key
+categories of assistive technologies relevant to Flutter development: screen
+readers for users with visual impairments and mobility support tools for
+those with motor limitations. By understanding and testing with these
+technologies, you can ensure your Flutter application provides a more inclusive
+and user-friendly experience for everyone.
 
-## 螢幕閱讀器（Screen readers）
+## Screen readers
 
-在行動裝置上，螢幕閱讀器（如 [TalkBack][TalkBack]、[VoiceOver][VoiceOver]）可讓視障使用者透過語音回饋瞭解螢幕上的內容，並能以手勢（行動裝置）或鍵盤快捷鍵（桌面裝置）與 UI 互動。請在您的行動裝置上啟用 VoiceOver 或 TalkBack，並在您的應用程式中進行瀏覽。
+For mobile, screen readers ([TalkBack][], [VoiceOver][])
+enable visually impaired users to get spoken feedback about
+the contents of the screen and interact with the UI by using
+gestures on mobile and keyboard shortcuts on desktop.
+Turn on VoiceOver or TalkBack on your mobile device and
+navigate around your app.
 
-**若要在您的裝置上啟用螢幕閱讀器，請依照下列步驟操作：**
+**To turn on the screen reader on your device, complete the following steps:**
 
 {% tabs %}
-{% tab "Android 上的 TalkBack" %}
+{% tab "TalkBack on Android" %}
 
-1. 在您的裝置上開啟 **設定**。
-2. 選擇 **無障礙設定**，然後點選 **TalkBack**。
-3. 開啟或關閉「使用 TalkBack」。
-4. 選擇確定。
+1. On your device, open **Settings**.
+2. Select **Accessibility** and then **TalkBack**.
+3. Turn 'Use TalkBack' on or off.
+4. Select Ok.
 
-如需瞭解如何尋找及自訂 Android 的無障礙功能，請觀看以下影片。
+To learn how to find and customize Android's
+accessibility features, view the following video.
 
-{% ytEmbed 'FQyj_XTl01w', '自訂 Pixel 與 Android 無障礙功能' %}
-
-{% endtab %}
-{% tab "iPhone 上的 VoiceOver" %}
-
-1. 在您的裝置上開啟 **設定 > 輔助使用 > VoiceOver**
-2. 開啟或關閉 VoiceOver 設定
-
-如需瞭解如何尋找及自訂 iOS 的無障礙功能，請觀看以下影片。
-
-{% ytEmbed 'ROIe49kXOc8', '如何使用 VoiceOver 操作您的 iPhone 或 iPad' %}
+{% ytEmbed 'FQyj_XTl01w', 'Customize Pixel and Android accessibility features' %}
 
 {% endtab %}
-{% tab "瀏覽器" %}
+{% tab "VoiceOver on iPhone" %}
 
-在網頁端，目前支援下列螢幕閱讀器：
+1. On your device, open **Settings > Accessibility > VoiceOver**
+2. Turn the VoiceOver setting on or off
 
-行動瀏覽器：
+To learn how to find and customize iOS
+accessibility features, view the following video.
+
+{% ytEmbed 'ROIe49kXOc8', 'How to navigate your iPhone or iPad with VoiceOver' %}
+
+{% endtab %}
+{% tab "Browsers" %}
+
+For web, the following screen readers are currently supported:
+
+Mobile browsers:
 
 * iOS - VoiceOver
 * Android - TalkBack
 
-桌面瀏覽器：
+Desktop browsers:
 
 * macOS - VoiceOver
-* Windows - JAWs 與 NVDA
+* Windows - JAWs & NVDA
 
-網頁上的螢幕閱讀器使用者必須切換「啟用無障礙功能」按鈕，以建立語意樹（semantics tree）。
-如果您透過 API 程式化自動啟用應用程式的無障礙功能，則使用者可以略過這個步驟：
+Screen readers users on web must toggle the
+"Enable accessibility" button to build the semantics tree.
+Users can skip this step if you programmatically auto-enable
+accessibility for your app using this API:
 
 ```dart
 import 'package:flutter/material.dart';
@@ -67,15 +82,24 @@ void main() {
 {% endtab %}
 {% tab "Desktop" %}
 
-Windows 內建有螢幕閱讀器 Narrator，但有些開發者建議使用更受歡迎的 NVDA 螢幕閱讀器。若想了解如何使用 NVDA 測試 Windows 應用程式，請參考 [Screen Readers 101 For Front-End Developers (Windows)][nvda]。
+Windows comes with a screen reader called Narrator
+but some developers recommend using the more popular
+NVDA screen reader. To learn about using NVDA to test
+Windows apps, check out
+[Screen Readers 101 For Front-End Developers (Windows)][nvda].
 
 [nvda]: https://get-evinced.com/blog/screen-readers-101-for-front-end-developers-windows
 
-在 Mac 上，你可以使用 macOS 內建的 VoiceOver 桌面版。
+On a Mac, you can use the desktop version of VoiceOver,
+which is included in macOS.
 
 {% ytEmbed '5R-6WvAihms', 'Screen reader basics: VoiceOver' %}
 
-在 Linux 上，常見的螢幕閱讀器為 Orca。部分發行版預先安裝了 Orca，也可以透過如 `apt` 等套件庫取得。若想了解如何使用 Orca，請參考 [Getting started with Orca screen reader on Gnome desktop][orca]。
+On Linux, a popular screen reader is called Orca.
+It comes pre-installed with some distributions
+and is available on package repositories such as `apt`.
+To learn about using Orca, check out
+[Getting started with Orca screen reader on Gnome desktop][orca].
 
 [orca]: https://www.a11yproject.com/posts/getting-started-with-orca
 
@@ -84,11 +108,20 @@ Windows 內建有螢幕閱讀器 Narrator，但有些開發者建議使用更受
 
 <br/>
 
-你可以參考以下的 [影片示範][video demo]，了解如何在已歸檔的 [Flutter Gallery][Flutter Gallery] 網頁應用程式中搭配 VoiceOver 使用。
+Check out the following [video demo][] to see how to
+use VoiceOver with the now-archived [Flutter Gallery][] web app.
 
-Flutter 的標準元件 (Widgets) 會自動產生無障礙樹。不過，如果你的應用程式有特殊需求，也可以透過 [`Semantics` 元件 (widget)][`Semantics` widget] 進行自訂。
+Flutter's standard widgets generate an accessibility tree automatically.
+However, if your app needs something different,
+it can be customized using the [`Semantics` widget][].
 
-當你的應用程式中有需要以特定語音朗讀的文字時，可以呼叫 [`TextSpan.locale`][`TextSpan.locale`] 告知螢幕閱讀器應使用哪一種語音。`MaterialApp.locale` 和 `Localizations.override` 將從 Flutter 3.38 版本開始影響螢幕閱讀器的語音。通常，螢幕閱讀器會使用系統語音，除非你明確透過 `TextSpan.locale` 設定。
+When there is text in your app that should be voiced
+with a specific voice, inform the screen reader
+which voice to use by calling [`TextSpan.locale`][].
+`MaterialApp.locale` and `Localizations.override`
+will affect screen reader voices starting from flutter 3.38 release.
+Usually, the screen reader uses the system voice
+except where you explicitly set it with `TextSpan.locale`.
 
 [Flutter Gallery]: {{site.gallery-archive}}
 [`TextSpan.locale`]: {{site.api}}/flutter/painting/TextSpan/locale.html
@@ -97,50 +130,57 @@ Flutter 的標準元件 (Widgets) 會自動產生無障礙樹。不過，如果�
 [VoiceOver]: https://www.apple.com/lae/accessibility/iphone/vision/
 [video demo]: {{site.yt.watch}}?v=A6Sx0lBP8PI
 
-## 行動力支援
+## Mobility support
 
-對於手部靈活度或力量有限的使用者，行動力支援功能能帶來幫助。Android 與 iOS 都提供一系列設計來協助更容易操作與控制裝置的工具。這些功能讓使用者能透過外部開關、語音指令或簡化的螢幕選單來操作裝置。
+For users with limited dexterity or hand strength, mobility support features
+can be helpful. Both Android and iOS offer a range of tools designed to make
+navigation and control easier.
+These features allow users to operate their devices through external switches,
+voice commands, or simplified on-screen menus.
 
-Android 提供 Switch Access、Voice Access 及 Accessibility Menu，而 iOS 則有 Switch Control、Voice Control 及 AssistiveTouch。了解這些工具有助於打造適合各種身體能力使用者的應用程式。
+Android provides Switch Access, Voice Access and Accessibility Menu,
+while iOS offers Switch Control, Voice Control, and AssistiveTouch.
+Understanding these tools helps in creating
+apps that are usable by people with diverse physical abilities.
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>作業系統（OS）</th>
-      <th>功能（Features）</th>
-      <th>功能說明（Functions）</th>
+      <th>OS</th>
+      <th>Features </th>
+      <th>Functions</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>Android</td>
       <td><strong>Switch Access</strong> </td>
-      <td>可作為替代輸入方式，支援 Switch Access 與 Camera Switches</td>
+      <td>As an alternate input method, you can use Switch Access and Camera Switches</td>
     </tr>
     <tr>
       <td>Android</td>
       <td><strong>Voice Access</strong> </td>
-      <td>以語音控制裝置</td>
+      <td>Control your device with your voice</td>
     </tr>
     <tr>
       <td>Android</td>
       <td><strong>Accessibility Menu</strong> </td>
-      <td>提供簡化按鈕的浮動螢幕選單，可控制主要手機功能。</td>
+      <td>A floating, on-screen menu that provides simplified buttons to control essential phone functions.</td>
     </tr>
     <tr>
       <td>iOS</td>
       <td><strong>Switch Control</strong> </td>
-      <td>以開關作為替代輸入方式</td>
+      <td>Use switches as an alternate input methods</td>
     </tr>
     <tr>
       <td>iOS</td>
       <td><strong>Voice Control</strong> </td>
-      <td>以語音控制裝置</td>
+      <td>Control your device with your voice</td>
     </tr>
     <tr>
       <td>iOS</td>
       <td><strong>AssistiveTouch</strong> </td>
-      <td>使用 AssistiveTouch 取代多指手勢或硬體按鈕操作</td>
+      <td>Use AssistiveTouch to replace multi-finger gestures or hardware button actions</td>
     </tr>
   </tbody>
 </table>

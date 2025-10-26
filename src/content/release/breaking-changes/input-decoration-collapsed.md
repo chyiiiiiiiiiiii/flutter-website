@@ -1,34 +1,34 @@
 ---
-title: 移除 `InputDecoration.collapsed` 的無效參數
+title: Remove invalid parameters for `InputDecoration.collapsed`
 description: >
-  'InputDecoration.collapsed' 建構函式中的
-  'floatingLabelBehavior' 與 'floatingLabelAlignment' 參數已被棄用且無替代方案，
-  因為這些參數沒有任何作用。
+  'InputDecoration.collapsed' constructor parameters
+  'floatingLabelBehavior' and 'floatingLabelAlignment' are deprecated without
+  replacement because they have no effect.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-`InputDecoration.collapsed` 的無效參數 `floatingLabelBehavior` 和
-`floatingLabelAlignment` 已被棄用。
+`InputDecoration.collapsed` invalid parameters `floatingLabelBehavior` and
+`floatingLabelAlignment` are deprecated.
 
-## 背景
+## Background
 
-`InputDecoration.collapsed` 建構函式用於
-建立沒有標籤的極簡裝飾（decoration）。
+`InputDecoration.collapsed` constructor is used to
+create a minimal decoration without a label.
 
-參數 `floatingLabelAlignment` 和 `floatingLabelBehavior`
-沒有任何作用，因為使用
-`InputDecoration.collapsed` 建立的輸入裝飾（input decoration）不包含標籤。
+The parameters `floatingLabelAlignment` and `floatingLabelBehavior` have
+no effect because an input decoration created using
+`InputDecoration.collapsed` has no label.
 
-## 遷移指南
+## Migration guide
 
-若要進行遷移，請在呼叫 `InputDecoration.collapsed` 建構函式時移除 `floatingLabelBehavior` 和 `floatingLabelAlignment`
-這兩個參數的使用。
-這些參數原本就沒有任何作用。
+To migrate, remove usage of `floatingLabelBehavior` and `floatingLabelAlignment`
+parameters when calling the `InputDecoration.collapsed` constructor.
+Those parameters had no effect.
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 InputDecoration.collapsed(
@@ -38,7 +38,7 @@ InputDecoration.collapsed(
 ),
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 InputDecoration.collapsed(
@@ -46,27 +46,27 @@ InputDecoration.collapsed(
 ),
 ```
 
-## 時程
+## Timeline
 
-合併於版本：3.24.0-0.1.pre<br>  
-進入穩定版：3.27.0
+Landed in version: 3.24.0-0.1.pre<br>
+In stable release: 3.27.0
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`InputDecoration.collapsed`][`InputDecoration.collapsed`]
-* [`InputDecoration.floatingLabelAlignment`][`InputDecoration.floatingLabelAlignment`]
-* [`InputDecoration.floatingLabelBehavior`][`InputDecoration.floatingLabelBehavior`]
+* [`InputDecoration.collapsed`][]
+* [`InputDecoration.floatingLabelAlignment`][]
+* [`InputDecoration.floatingLabelBehavior`][]
 
-相關議題：
+Relevant issues:
 
-* [為 InputDecoration.collapsed 新增 prefixIcon 與 suffixIcon 參數][Add prefixIcon and suffixIcon parameters to InputDecoration.collapsed]
+* [Add prefixIcon and suffixIcon parameters to InputDecoration.collapsed][]
 
-相關 PR：
+Relevant PRs:
 
-* [棄用 InputDecoration.collapsed 中無效的參數][Deprecate invalid InputDecoration.collapsed parameters]
-* [清理 InputDecoration.collapsed 建構函式][Cleanup InputDecoration.collapsed constructor]
+* [Deprecate invalid InputDecoration.collapsed parameters][]
+* [Cleanup InputDecoration.collapsed constructor][]
 
 [`InputDecoration.collapsed`]: {{site.api}}/flutter/material/InputDecoration/InputDecoration.collapsed.html
 [`InputDecoration.floatingLabelAlignment`]: {{site.api}}/flutter/material/InputDecoration/floatingLabelAlignment.html

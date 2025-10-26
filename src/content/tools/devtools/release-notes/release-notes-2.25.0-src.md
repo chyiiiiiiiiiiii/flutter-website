@@ -1,28 +1,28 @@
-# DevTools 2.25.0 版本更新說明
+# DevTools 2.25.0 release notes
 
-Dart 與 Flutter DevTools 2.25.0 版本
-除了其他一般性改進外，還包含以下變更。
-想進一步了解 DevTools，請參閱
-[DevTools overview](https://docs.flutter.dev/tools/devtools)。
+The 2.25.0 release of the Dart and Flutter DevTools
+includes the following changes among other general improvements.
+To learn more about DevTools, check out the
+[DevTools overview](https://docs.flutter.dev/tools/devtools).
 
-## 一般更新
+## General updates
 
-- 改善 DevTools 標籤列（tab bar）在標籤數量較多時的導覽體驗 -
+- Improve DevTools tab bar navigation when the list of tabs is long -
   [#5875](https://github.com/flutter/devtools/pull/5875)
-- 在應用程式連線之間清除已註冊的服務方法 -
+- Clear registered service methods between app connections -
   [#5960](https://github.com/flutter/devtools/pull/5960)
 
-## 記憶體相關更新
+## Memory updates
 
-- 新增類別型別（class types）圖例（legend） -
+- Add legend for class types -
   [#5937](https://github.com/flutter/devtools/pull/5937)
-- 在 Memory > Profile 中啟用取樣（sampling）功能 -
+- Enable sampling for Memory > Profile -
   [#5947](https://github.com/flutter/devtools/pull/5947)
 
   ![memory sampling](/assets/images/docs/tools/devtools/release-notes/images-2.25.0/memory.png "memory_sampling")
 
-## 完整提交紀錄
+## Full commit history
 
-如需查閱自上一個版本以來的完整變更清單，
-請參閱
-[the diff on GitHub](https://github.com/flutter/devtools/compare/v2.24.0...v2.25.0)。
+To find a complete list of changes since the previous release,
+check out
+[the diff on GitHub](https://github.com/flutter/devtools/compare/v2.24.0...v2.25.0).

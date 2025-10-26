@@ -1,6 +1,6 @@
 ---
-title: 在螢幕上新增抽屜 (Drawer)
-description: 如何實作 Material Drawer。
+title: Add a drawer to a screen
+description: How to implement a Material Drawer.
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,29 +8,29 @@ js:
 
 <?code-excerpt path-base="cookbook/design/drawer"?>
 
-在採用 Material Design 的應用程式中，
-主要有兩種導覽方式：分頁（Tabs）與抽屜（Drawers）。
-當空間不足以支援分頁時，
-抽屜就成為一個方便的替代方案。
+In apps that use Material Design,
+there are two primary options for navigation: tabs and drawers.
+When there is insufficient space to support tabs,
+drawers provide a handy alternative.
 
-在 Flutter 中，可以結合 [`Drawer`][`Drawer`] 元件（Widget）與
-[`Scaffold`][`Scaffold`]，建立帶有 Material Design 抽屜的版面配置（Layout）。
-本教學將分為以下幾個步驟：
+In Flutter, use the [`Drawer`][] widget in combination with a
+[`Scaffold`][] to create a layout with a Material Design drawer.
+This recipe uses the following steps:
 
-  1. 建立 `Scaffold`。
-  2. 加入抽屜（drawer）。
-  3. 在抽屜中加入項目。
-  4. 以程式方式關閉抽屜。
+  1. Create a `Scaffold`.
+  2. Add a drawer.
+  3. Populate the drawer with items.
+  4. Close the drawer programmatically.
 
-## 1. 建立 `Scaffold`
+## 1. Create a `Scaffold`
 
-要在應用程式中新增抽屜，可以將其包裹在 [`Scaffold`][`Scaffold`] 元件（Widget）中。
-`Scaffold` 元件為遵循 Material Design 指南的應用程式
-提供一致的視覺結構。
-它同時支援特殊的 Material Design
-元件（Material components），例如 Drawer、AppBar 與 SnackBar。
+To add a drawer to the app, wrap it in a [`Scaffold`][] widget.
+The `Scaffold` widget provides a consistent visual structure to apps that
+follow the Material Design Guidelines.
+It also supports special Material Design
+components, such as Drawers, AppBars, and SnackBars.
 
-在這個範例中，會建立一個帶有 `drawer` 的 `Scaffold`：
+In this example, create a `Scaffold` with a `drawer`:
 
 <?code-excerpt "lib/drawer.dart (DrawerStart)" replace="/null, //g"?>
 ```dart
@@ -40,9 +40,12 @@ Scaffold(
 );
 ```
 
-## 2. 新增抽屜（Drawer）
+## 2. Add a drawer
 
-現在，請在`Scaffold`中新增一個抽屜（Drawer）。抽屜可以是任何元件（Widget），但通常建議使用來自 [material library][material library] 的 `Drawer` 元件（Widget），因為它遵循 Material Design 規範。
+Now add a drawer to the `Scaffold`. A drawer can be any widget,
+but it's often best to use the `Drawer` widget from the
+[material library][],
+which adheres to the Material Design spec.
 
 <?code-excerpt "lib/drawer.dart (DrawerEmpty)" replace="/null, //g"?>
 ```dart
@@ -54,18 +57,19 @@ Scaffold(
 );
 ```
 
-## 3. 在抽屜中加入項目
+## 3. Populate the drawer with items
 
-現在你已經建立好`Drawer`，接下來可以為其加入內容。
-在這個範例中，請使用 [`ListView`][`ListView`]。
-雖然你可以使用`Column`元件（Widget），
-但`ListView`非常方便，因為當抽屜內容超過螢幕可顯示範圍時，
-它允許使用者進行捲動瀏覽。
+Now that you have a `Drawer` in place, add content to it.
+For this example, use a [`ListView`][].
+While you could use a `Column` widget,
+`ListView` is handy because it allows users to scroll
+through the drawer if the
+content takes more space than the screen supports.
 
-請在`ListView`中加入一個 [`DrawerHeader`][`DrawerHeader`]
-以及兩個 [`ListTile`][`ListTile`] 元件（Widgets）。
-如需更多有關 List 的操作資訊，
-請參閱 [list recipes][list recipes]。
+Populate the `ListView` with a [`DrawerHeader`][]
+and two [`ListTile`][] widgets.
+For more information on working with Lists,
+see the [list recipes][].
 
 <?code-excerpt "lib/drawer.dart (DrawerListView)"?>
 ```dart
@@ -100,13 +104,13 @@ Drawer(
 );
 ```
 
-## 4. 以程式方式開啟抽屜（drawer）
+## 4. Open the drawer programmatically
 
-通常，你不需要撰寫任何程式碼來開啟 `drawer`，
-因為當 `leading` 元件（Widget）為 null 時，`AppBar` 中的預設實作就是 `DrawerButton`。
+Typically, you don't need to write any code to open a `drawer`,
+Because when the `leading` widget is null, the default implementation in `AppBar` is `DrawerButton`.
 
-但如果你想要完全控制 `drawer`，
-可以透過使用 `Builder` 呼叫 `Scaffold.of(context).openDrawer()` 來達成。
+But if you want to have free control of the `drawer`.
+You can do this by using the `Builder` call `Scaffold.of(context).openDrawer()`.
 
 <?code-excerpt "lib/drawer.dart (DrawerOpen)" replace="/null, //g"?>
 ```dart
@@ -130,13 +134,13 @@ Scaffold(
 );
 ```
 
-## 5. 以程式方式關閉抽屜（drawer）
+## 5. Close the drawer programmatically
 
-當使用者點擊某個項目後，你可能會希望關閉抽屜。
-你可以透過使用 [`Navigator`][`Navigator`] 來達成。
+After a user taps an item, you might want to close the drawer.
+You can do this by using the [`Navigator`][].
 
-當使用者開啟抽屜時，Flutter 會將該抽屜加入導覽堆疊（navigation stack）。
-因此，若要關閉抽屜，只需要呼叫 `Navigator.pop(context)`。
+When a user opens the drawer, Flutter adds the drawer to the navigation
+stack. Therefore, to close the drawer, call `Navigator.pop(context)`.
 
 <?code-excerpt "lib/drawer.dart (CloseDrawer)"?>
 ```dart
@@ -151,15 +155,16 @@ ListTile(
 ),
 ```
 
-## 互動範例
+## Interactive example
 
-此範例展示了一個 [`Drawer`][`Drawer`]，如同它在 [`Scaffold`][`Scaffold`] 元件（Widget）中被使用的方式。
-[`Drawer`][`Drawer`] 內有三個 [`ListTile`][`ListTile`] 項目。
-`_onItemTapped` 函式會變更所選項目的索引，並在 `Scaffold` 的中央顯示對應的文字。
+This example shows a [`Drawer`][] as it is used within a [`Scaffold`][] widget.
+The [`Drawer`][] has three [`ListTile`][] items.
+The `_onItemTapped` function changes the selected item's index
+and displays the corresponding text in the center of the `Scaffold`.
 
 :::note
-如需更多有關導覽（navigation）實作的資訊，
-請參考 cookbook 的 [Navigation][Navigation] 章節。
+For more information on implementing navigation,
+check out the [Navigation][] section of the cookbook.
 :::
 
 <?code-excerpt "lib/main.dart"?>
@@ -276,4 +281,17 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 ```
 
-<img src="/assets/images/docs/cookbook/drawer.png" alt="Drawer Demo" class="site-mobile-screenshot" />
+<noscript>
+  <img src="/assets/images/docs/cookbook/drawer.png" alt="Drawer Demo" class="site-mobile-screenshot" />
+</noscript>
+
+
+[`Drawer`]: {{site.api}}/flutter/material/Drawer-class.html
+[`DrawerHeader`]: {{site.api}}/flutter/material/DrawerHeader-class.html
+[list recipes]: /cookbook/lists
+[`ListTile`]: {{site.api}}/flutter/material/ListTile-class.html
+[`ListView`]: {{site.api}}/flutter/widgets/ListView-class.html
+[material library]: {{site.api}}/flutter/material/material-library.html
+[`Navigator`]: {{site.api}}/flutter/widgets/Navigator-class.html
+[`Scaffold`]: {{site.api}}/flutter/material/Scaffold-class.html
+[Navigation]: /cookbook/navigation

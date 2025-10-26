@@ -1,30 +1,44 @@
 ---
-title: 已更新的 Material 3 `Slider`
+title: Updated Material 3 `Slider`
 description: >-
-  `Slider` 元件（Widget）已更新，以符合 Material 3 Design 規範。
+  The `Slider` widget has been updated to match the
+  Material 3 Design specifications.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-`Slider` 已更新，以符合 Material 3 Design 規範。
+The `Slider` has been updated to match the Material 3 Design specifications.
 
-`Slider` 的變更包括調整後的高度、主動軌道與非主動軌道之間的間隙，以及一個停止指示器，用於顯示非主動軌道的結束值。按下滑塊時，滑塊的寬度會調整，軌道的形狀也會隨之改變。新的值指示器形狀為圓角矩形。部分 `Slider` 形狀也引入了新的顏色對應。
+The `Slider` changes include an updated height,
+a gap between the active and inactive track, and
+a stop indicator to show the end value of the inactive track.
+Pressing the thumb adjusts its width, and the track adjusts its shape.
+The new value indicator shape is a rounded rectangle.
+New color mappings have also been introduced for some of the `Slider` shapes.
 
-## 背景說明
+## Context
 
-Material 3 Design 規範針對 `Slider` 於 2023 年 12 月進行了更新。若要選用 2024 年的設計規範，請將 `Slider.year2023` 旗標設為 `false`。這麼做是為了確保現有應用程式不會受到設計規範更新的影響。
+The Material 3 Design specs for the `Slider` were updated in December 2023.
+To opt into the 2024 design spec, set the `Slider.year2023` flag to `false`.
+This is done to ensure that existing apps aren't affected by
+the updated design specifications.
 
-## 變更說明
+## Description of change
 
-`Slider` 元件（Widget）新增了一個 `year2023` 旗標，可設為 `false`，以選用更新後的設計規範。`year2023` 旗標的預設值為 `true`，這表示 `Slider` 仍採用 2023 年的設計規範。
+The `Slider` widget has a `year2023` flag that can be set to `false` to
+opt in to the updated design spec.
+The default value for the `year2023` flag is `true`,
+which means that the `Slider` uses the previous 2023 design specifications.
 
-當 [`Slider.year2023`][`Slider.year2023`] 設為 `false` 時，滑桿將會使用更新後的設計規範。
+When [`Slider.year2023`][] is set to `false`,
+the slider uses the updated design specifications.
 
-## 遷移指南
+## Migration guide
 
-若要讓 `Slider` 採用更新後的設計規範，請將 `year2023` 旗標設為 `false`：
+To opt into the updated design spec for the `Slider`,
+set the `year2023` flag to `false`:
 
 ```dart highlightLines=2
 Slider(
@@ -38,7 +52,8 @@ Slider(
 ),
 ```
 
-若要將整個應用程式更新為使用新版的 `Slider` 設計，請在 `MaterialApp` 中將 `SliderThemeData.year2023` 屬性設為 `false`：
+To update your entire app to use the updated `Slider` design, set the
+`SliderThemeData.year2023` property to `false` in your `MaterialApp`:
 
 ```dart highlightLines=2
 return MaterialApp(
@@ -55,25 +70,25 @@ return MaterialApp(
         // ...
 ```
 
-## 時程
+## Timeline
 
-合併於版本：3.28.0-0.1.pre<br>  
-進入穩定版：3.29
+Landed in version: 3.28.0-0.1.pre<br>
+In stable release: 3.29
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`Slider`][`Slider`]
-* [`Slider.year2023`][`Slider.year2023`]
+* [`Slider`][]
+* [`Slider.year2023`][]
 
-相關議題（issues）：
+Relevant issues:
 
-* [Update `Slider` for Material 3 redesign][Update `Slider` for Material 3 redesign]
+* [Update `Slider` for Material 3 redesign][]
 
-相關 PR：
+Relevant PRs:
 
-* [Introduce new Material 3 `Slider` shapes][Introduce new Material 3 `Slider` shapes]
+* [Introduce new Material 3 `Slider` shapes][]
 
 [`Slider`]: {{site.main-api}}/flutter/material/Slider-class.html
 [`Slider.year2023`]: {{site.main-api}}/flutter/material/Slider/year2023.html

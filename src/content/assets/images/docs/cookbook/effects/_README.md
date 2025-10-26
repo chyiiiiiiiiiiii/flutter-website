@@ -1,2 +1,4 @@
-此目錄的子目錄中的圖片檔案（images）用於效果食譜（effects cookbook）中的範例。  
-在未更新相關食譜並確認其仍可正常運作前，請勿更改這些檔案的名稱或副檔名。
+The image files in this directory's subdirectories are
+used in the effects cookbook recipes.
+Their names and extensions shouldn't be changed without
+updating the recipes and ensuring they still work as well.

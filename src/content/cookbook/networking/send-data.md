@@ -1,31 +1,31 @@
 ---
-title: 傳送資料到網際網路
-description: 如何使用 http 套件將資料傳送到網際網路。
+title: Send data to the internet
+description: How to use the http package to send data over the internet.
 ---
 
 <?code-excerpt path-base="cookbook/networking/send_data/"?>
 
-對大多數應用程式來說，將資料傳送到網際網路是必要的。
-`http` 套件也能滿足這項需求。
+Sending data to the internet is necessary for most apps.
+The `http` package has got that covered, too.
 
-本教學將會使用以下步驟：
+This recipe uses the following steps:
 
-  1. 新增 `http` 套件。
-  2. 使用 `http` 套件將資料傳送到伺服器。
-  3. 將回應轉換為自訂的 Dart 物件。
-  4. 從使用者輸入取得 `title`。
-  5. 在螢幕上顯示回應。
+  1. Add the `http` package.
+  2. Send data to a server using the `http` package.
+  3. Convert the response into a custom Dart object.
+  4. Get a `title` from user input.
+  5. Display the response on screen.
 
-## 1. 新增 `http` 套件
+## 1. Add the `http` package
 
-要將 `http` 套件加入為相依套件，
-請執行 `flutter pub add`：
+To add the `http` package as a dependency,
+run `flutter pub add`:
 
 ```console
 $ flutter pub add http
 ```
 
-匯入 `http` 套件。
+Import the `http` package.
 
 <?code-excerpt "lib/main.dart (Http)"?>
 ```dart
@@ -34,21 +34,21 @@ import 'package:http/http.dart' as http;
 
 {% render docs/cookbook/networking/internet-permission.md %}
 
-## 2. 傳送資料到伺服器
+## 2. Sending data to server
 
-本教學將說明如何建立`Album`，
-並將專輯標題傳送到
-[JSONPlaceholder][JSONPlaceholder]，
-使用 [`http.post()`][`http.post()`] 方法。
+This recipe covers how to create an `Album`
+by sending an album title to the
+[JSONPlaceholder][] using the
+[`http.post()`][] method.
 
-請匯入 `dart:convert`，以存取 `jsonEncode` 來編碼資料：
+Import `dart:convert` for access to `jsonEncode` to encode the data:
 
 <?code-excerpt "lib/create_album.dart (convert-import)"?>
 ```dart
 import 'dart:convert';
 ```
 
-使用 `http.post()` 方法來傳送已編碼的資料：
+Use the `http.post()` method to send the encoded data:
 
 <?code-excerpt "lib/create_album.dart (CreateAlbum)"?>
 ```dart
@@ -63,28 +63,33 @@ Future<http.Response> createAlbum(String title) {
 }
 ```
 
-`http.post()` 方法會回傳一個包含 `Response` 的 `Future`。
+The `http.post()` method returns a `Future` that contains a `Response`.
 
-* [`Future`][`Future`] 是 Dart 的核心類別，用於處理非同步操作。Future 物件代表一個未來某個時間點可能會取得的值或錯誤。
-* `http.Response` 類別包含從成功的 HTTP 呼叫所接收到的資料。
-* `createAlbum()` 方法會接收一個參數 `title`，該參數會傳送到伺服器以建立一個 `Album`。
+* [`Future`][] is a core Dart class for working with
+  asynchronous operations. A Future object represents a potential
+  value or error that will be available at some time in the future.
+* The `http.Response` class contains the data received from a successful
+  http call.
+* The `createAlbum()` method takes an argument `title`
+  that is sent to the server to create an `Album`.
 
-## 3. 將 `http.Response` 轉換為自訂 Dart 物件
+## 3. Convert the `http.Response` to a custom Dart object
 
-雖然發送網路請求很簡單，
-但直接操作原始的 `Future<http.Response>` 並不方便。為了讓開發更輕鬆，
-可以將 `http.Response` 轉換為 Dart 物件。
+While it's easy to make a network request,
+working with a raw `Future<http.Response>`
+isn't very convenient.  To make your life easier,
+convert the `http.Response` into a Dart object.
 
-### 建立 Album 類別
+### Create an Album class
 
-首先，建立一個 `Album` 類別來儲存
-從網路請求取得的資料。
-這個類別包含一個 factory 建構函式，
-可以從 JSON 建立 `Album`。
+First, create an `Album` class that contains
+the data from the network request.
+It includes a factory constructor that
+creates an `Album` from JSON.
 
-使用 [pattern matching][pattern matching] 轉換 JSON 只是其中一種選擇。
-如需更多資訊，請參閱完整文章
-[JSON and serialization][JSON and serialization]。
+Converting JSON with [pattern matching][] is only one option.
+For more information, see the full article on
+[JSON and serialization][].
 
 <?code-excerpt "lib/main.dart (Album)"?>
 ```dart
@@ -103,15 +108,22 @@ class Album {
 }
 ```
 
-### 將 `http.Response` 轉換為 `Album`
+### Convert the `http.Response` to an `Album`
 
-請依照以下步驟，將 `createAlbum()` 函式更新為回傳 `Future<Album>`：
+Use the following steps to update the `createAlbum()`
+function to return a `Future<Album>`:
 
-  1. 使用 `dart:convert` 套件，將回應主體（response body）轉換為 JSON `Map`。
-  2. 如果伺服器回傳狀態碼為 201 的 `CREATED` 回應，則使用 `fromJson()` 工廠方法，將 JSON `Map` 轉換為 `Album`。
-  3. 如果伺服器未回傳狀態碼為 201 的 `CREATED` 回應，則拋出例外（exception）。
-     （即使伺服器回應為 "404 Not Found"，也要拋出例外，不要回傳 `null`。
-     這在檢查 `snapshot` 中的資料時非常重要，如下所示。）
+  1. Convert the response body into a JSON `Map` with the
+     `dart:convert` package.
+  2. If the server returns a `CREATED` response with a status
+     code of 201, then convert the JSON `Map` into an `Album`
+     using the `fromJson()` factory method.
+  3. If the server doesn't return a `CREATED` response with a
+     status code of 201, then throw an exception.
+     (Even in the case of a "404 Not Found" server response,
+     throw an exception. Do not return `null`.
+     This is important when examining
+     the data in `snapshot`, as shown below.)
 
 <?code-excerpt "lib/main.dart (createAlbum)"?>
 ```dart
@@ -136,14 +148,18 @@ Future<Album> createAlbum(String title) async {
 }
 ```
 
-太好了！你現在已經有一個可以將標題傳送到伺服器以建立相簿的函式了。
+Hooray! Now you've got a function that sends the title to a
+server to create an album.
 
-## 4. 從使用者輸入取得標題
+## 4. Get a title from user input
 
-接下來，建立一個`TextField`來輸入標題，以及一個`ElevatedButton`來將資料傳送到伺服器。
-同時定義一個`TextEditingController`，用來從`TextField`讀取使用者輸入。
+Next, create a `TextField` to enter a title and
+a `ElevatedButton` to send data to server.
+Also define a `TextEditingController` to read the
+user input from a `TextField`.
 
-當按下`ElevatedButton`時，`_futureAlbum`會被設定為`createAlbum()`方法所回傳的值。
+When the `ElevatedButton` is pressed, the `_futureAlbum`
+is set to the value returned by `createAlbum()` method.
 
 <?code-excerpt "lib/main.dart (Column)" replace="/^return //g;/^\);$/)/g"?>
 ```dart
@@ -166,16 +182,31 @@ Column(
 )
 ```
 
-當按下 **Create Data** 按鈕時，會發送網路請求，將 `TextField` 中的資料以 `POST` 請求的方式傳送到伺服器。這裡產生的 Future，也就是 `_futureAlbum`，會在下一步中使用。
+On pressing the **Create Data** button, make the network request,
+which sends the data in the `TextField` to the server
+as a `POST` request.
+The Future, `_futureAlbum`, is used in the next step.
 
-## 5. 在螢幕上顯示回應
+## 5. Display the response on screen
 
-若要在螢幕上顯示資料，請使用 [`FutureBuilder`][`FutureBuilder`] 元件（Widget）。`FutureBuilder` 元件是 Flutter 內建的，能讓你更方便地處理非同步資料來源。你必須提供兩個參數：
+To display the data on screen, use the
+[`FutureBuilder`][] widget.
+The `FutureBuilder` widget comes with Flutter and
+makes it easy to work with asynchronous data sources.
+You must provide two parameters:
 
-  1. 你想要處理的 `Future`。在本例中，就是從 `createAlbum()` 函式回傳的 future。
-  2. 一個 `builder` 函式，根據 `Future` 的狀態（載入中、成功或錯誤），告訴 Flutter 要渲染什麼內容。
+  1. The `Future` you want to work with. In this case,
+     the future returned from the `createAlbum()` function.
+  2. A `builder` function that tells Flutter what to render,
+     depending on the state of the `Future`: loading,
+     success, or error.
 
-請注意，`snapshot.hasData` 只有在 snapshot 包含非 null 的資料值時才會回傳 `true`。這也是為什麼 `createAlbum()` 函式即使遇到伺服器回傳 "404 Not Found" 時，也應該拋出例外。如果 `createAlbum()` 回傳 `null`，那麼 `CircularProgressIndicator` 會無限顯示下去。
+Note that `snapshot.hasData` only returns `true` when
+the snapshot contains a non-null data value.
+This is why the `createAlbum()` function should throw an exception
+even in the case of a "404 Not Found" server response.
+If `createAlbum()` returns `null`, then
+`CircularProgressIndicator` displays indefinitely.
 
 <?code-excerpt "lib/main.dart (FutureBuilder)" replace="/^return //g;/^\);$/)/g"?>
 ```dart
@@ -193,7 +224,7 @@ FutureBuilder<Album>(
 )
 ```
 
-## 完整範例
+## Complete example
 
 <?code-excerpt "lib/main.dart"?>
 ```dart
@@ -309,19 +340,19 @@ class _MyAppState extends State<MyApp> {
 }
 ```
 
-[ConnectionState]: {{site.api}}/flutter/widgets/ConnectionState-class.html  
-[`didChangeDependencies()`]: {{site.api}}/flutter/widgets/State/didChangeDependencies.html  
-[Fetch Data]: /cookbook/networking/fetch-data  
-[`Future`]: {{site.api}}/flutter/dart-async/Future-class.html  
-[`FutureBuilder`]: {{site.api}}/flutter/widgets/FutureBuilder-class.html  
-[`http`]: {{site.pub-pkg}}/http  
-[`http.post()`]: {{site.pub-api}}/http/latest/http/post.html  
-[`http` package]: {{site.pub-pkg}}/http/install  
-[`InheritedWidget`]: {{site.api}}/flutter/widgets/InheritedWidget-class.html  
-[Introduction to unit testing]: /cookbook/testing/unit/introduction  
-[`initState()`]: {{site.api}}/flutter/widgets/State/initState.html  
-[JSONPlaceholder]: https://jsonplaceholder.typicode.com/  
-[JSON and serialization]: /data-and-backend/serialization/json  
-[Mock dependencies using Mockito]: /cookbook/testing/unit/mocking  
-[pattern matching]: {{site.dart-site}}/language/patterns  
+[ConnectionState]: {{site.api}}/flutter/widgets/ConnectionState-class.html
+[`didChangeDependencies()`]: {{site.api}}/flutter/widgets/State/didChangeDependencies.html
+[Fetch Data]: /cookbook/networking/fetch-data
+[`Future`]: {{site.api}}/flutter/dart-async/Future-class.html
+[`FutureBuilder`]: {{site.api}}/flutter/widgets/FutureBuilder-class.html
+[`http`]: {{site.pub-pkg}}/http
+[`http.post()`]: {{site.pub-api}}/http/latest/http/post.html
+[`http` package]: {{site.pub-pkg}}/http/install
+[`InheritedWidget`]: {{site.api}}/flutter/widgets/InheritedWidget-class.html
+[Introduction to unit testing]: /cookbook/testing/unit/introduction
+[`initState()`]: {{site.api}}/flutter/widgets/State/initState.html
+[JSONPlaceholder]: https://jsonplaceholder.typicode.com/
+[JSON and serialization]: /data-and-backend/serialization/json
+[Mock dependencies using Mockito]: /cookbook/testing/unit/mocking
+[pattern matching]: {{site.dart-site}}/language/patterns
 [`State`]: {{site.api}}/flutter/widgets/State-class.html

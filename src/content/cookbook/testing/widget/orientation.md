@@ -1,43 +1,50 @@
 ---
-title: 測試螢幕方向
-description: 如何測試應用程式是否處於直向或橫向模式。
+title: Test orientation
+description: How to test if an app is in portrait or landscape mode.
 ---
 
 {% assign api = site.api | append: '/flutter' -%}
 
-在 Flutter 中，你可以根據當前的[螢幕方向（orientation）][orientation]建立不同的版面配置。例如，當應用程式處於直向模式時，你可以顯示兩欄資料；而在橫向模式時，則顯示三欄資料。
-此外，你也可以撰寫測試，檢查每種螢幕方向下是否顯示了正確數量的欄位。
+In Flutter, you can build different layouts depending on a given
+[orientation][]. For example, you could present data in two columns if the app
+is in portrait mode, and three columns if in landscape mode.
+Additionally, you can create tests that check if the correct number of columns
+are being shown for each orientation.
 
-在本教學中，你將學會如何檢查應用程式的螢幕方向是`portrait`還是`landscape`，以及每種方向下顯示了多少欄位。
+In this recipe, you can learn how check if the orientation of an app is
+`portrait` or `landscape`, and also how many columns are displayed for each
+orientation.
 
-本教學包含以下步驟：
+This recipe uses the following steps:
 
-  1. 建立一個會根據螢幕方向更新內容版面配置的應用程式。
-  1. 建立一個螢幕方向測試群組。
-  1. 建立直向模式測試。
-  1. 建立橫向模式測試。
-  1. 執行測試。
+  1.  Create an app that updates the layout of the content,
+      based on the orientation.
+  1.  Create an orientation test group.
+  1.  Create a portrait orientation test.
+  1.  Create a landscape orientation test.
+  1.  Run the tests.
 
-## 1. 建立一個會根據螢幕方向更新的應用程式
+## 1. Create an app that updates based on orientation
 
-建立一個 Flutter 應用程式，讓其在直向或橫向模式時，顯示不同數量的欄位：
+Create a Flutter app that changes how many columns are shown when an
+app is in portrait or landscape mode:
 
-1. 建立一個名為`orientation_tests`的新 Flutter 專案。
+1.  Create a new Flutter project called `orientation_tests`.
 
     ```console
     flutter create orientation_tests
     ```
 
-2.  請依照[根據螢幕方向更新 UI][Update the UI based on orientation]中的步驟來
-    設定專案。
+2.  Follow the steps in [Update the UI based on orientation][] to
+    set up the project.
 
-## 2. 建立螢幕方向測試群組
+## 2. Create an orientation test group
 
-在你完成 `orientation_tests` 專案的設定後，請依照以下步驟
-來將未來的螢幕方向測試進行分組：
+After you've set up your `orientation_tests` project, complete these steps to
+group your future orientation tests:
 
-1.  在你的 Flutter 專案中，開啟 `test/widget_test.dart`。
-1.  將現有內容替換為以下內容：
+1.  In your Flutter project, open `test/widget_test.dart`.
+1.  Replace the existing contents with the following:
 
     <?code-excerpt "cookbook/testing/widget/orientation_tests/test/widget_test.dart (scaffolding)"?>
     ```dart title="widget_test.dart"
@@ -52,14 +59,14 @@ description: 如何測試應用程式是否處於直向或橫向模式。
     }
     ```
 
-## 3. 建立直向（portrait）螢幕方向測試
+## 3. Create a portrait orientation test
 
-將直向螢幕方向測試加入`Orientation`群組中。
-此測試會確保螢幕方向為`portrait`，並且
-應用程式中只會出現`2`欄資料：
+Add the portrait orientation test to the `Orientation` group.
+This test makes sure that the orientation is `portrait` and that
+only `2` columns of data appear in the app:
 
-1.  在`test/widget_test.dart`中，將`Orientation`群組內的`...`
-    替換為以下測試內容：
+1.  In `test/widget_test.dart`, replace `...` inside of the `Orientation` group
+    with the following test:
 
     <?code-excerpt "cookbook/testing/widget/orientation_tests/test/widget_test.dart (portrait-mode-test)"?>
     ```dart title="widget_test.dart"
@@ -91,16 +98,16 @@ description: 如何測試應用程式是否處於直向或橫向模式。
     });
     ```
 
-## 4. 建立橫向（landscape）螢幕方向測試
+## 4. Create a landscape orientation test
 
-將橫向螢幕方向測試加入`Orientation`群組中。
-此測試會確保螢幕方向為`landscape`，並且
-應用程式中只會出現`3`欄資料：
+Add the landscape orientation test to the `Orientation` group.
+This test makes sure that the orientation is `landscape` and that
+only `3` columns of data appear in the app:
 
-1. 在`test/widget_test.dart`中，於`Orientation`群組內，
-   在 landscape 測試之後加入以下測試：
+1.  In `test/widget_test.dart`, inside of the `Orientation` group,
+    add the following test after the landscape test:
 
-   <?code-excerpt "cookbook/testing/widget/orientation_tests/test/widget_test.dart (landscape-mode-test)"?>
+    <?code-excerpt "cookbook/testing/widget/orientation_tests/test/widget_test.dart (landscape-mode-test)"?>
     ```dart title="widget_test.dart"
     // Check if landscape mode displays correctly.
     testWidgets('Displays 3 columns in landscape mode', (tester) async {
@@ -130,15 +137,15 @@ description: 如何測試應用程式是否處於直向或橫向模式。
     });
     ```
 
-## 5. 執行測試
+## 5. Run the tests
 
-請在專案根目錄下，使用以下指令來執行測試：
+Run the tests using the following command from the root of the project:
 
 ```console
 flutter test test/widget_test.dart
 ```
 
-## 完整範例
+## Complete example
 
 <?code-excerpt "cookbook/testing/widget/orientation_tests/test/widget_test.dart"?>
 ```dart title="widget_test.dart"

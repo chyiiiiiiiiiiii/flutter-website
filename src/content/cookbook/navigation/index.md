@@ -1,6 +1,6 @@
 ---
-title: 導覽
-description: 處理 Flutter 應用程式中導覽的食譜目錄。
+title: Navigation
+description: A catalog of recipes for handling navigation in your Flutter app.
 ---
 
 {% include docs/cookbook-group-index.md %}

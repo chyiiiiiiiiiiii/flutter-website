@@ -1,10 +1,11 @@
 ---
-title: 處理版本發佈
-shortTitle: 版本發佈
+title: Handling releases
+shortTitle: Releases
 description: >-
-  了解如何在文件網站上為 Dart 和 Flutter 的新版本做準備與處理。
+  Learn how to prepare for and handle new releases of
+  Dart and Flutter on the documentation sites.
 ---
 
 :::warning
-本文件仍在撰寫中。
+This document is a work in progress.
 :::

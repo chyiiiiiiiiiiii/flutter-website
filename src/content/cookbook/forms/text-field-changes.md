@@ -1,6 +1,6 @@
 ---
-title: 處理文字欄位 (text field) 的變更
-description: 如何偵測文字欄位 (text field) 的變更。
+title: Handle changes to a text field
+description: How to detect changes to a text field.
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,24 +8,30 @@ js:
 
 <?code-excerpt path-base="cookbook/forms/text_field_changes/"?>
 
-在某些情境下，每當文字欄位 (text field) 的內容變更時執行 callback 函式會很有幫助。例如，你可能想要建立一個具備自動完成（autocomplete）功能的搜尋螢幕，讓使用者輸入時即時更新搜尋結果。
+In some cases, it's useful to run a callback function every time the text
+in a text field changes. For example, you might want to build a search
+screen with autocomplete functionality where you want to update the
+results as the user types.
 
-要如何在每次文字變更時執行 callback 函式呢？
-在 Flutter 中，你有兩種選擇：
+How do you run a callback function every time the text changes?
+With Flutter, you have two options:
 
-  1. 為 `TextField` 或 `TextFormField` 提供 `onChanged()` callback。
-  2. 使用 `TextEditingController`。
+  1. Supply an `onChanged()` callback to a `TextField` or a `TextFormField`.
+  2. Use a `TextEditingController`.
 
-## 1. 為 `TextField` 或 `TextFormField` 提供 `onChanged()` callback
+## 1. Supply an `onChanged()` callback to a `TextField` or a `TextFormField`
 
-最簡單的方法是為 [`TextField`][`TextField`] 或 [`TextFormField`][`TextFormField`] 提供 [`onChanged()`][`onChanged()`] callback。
-每當文字變更時，該 callback 就會被呼叫。
+The simplest approach is to supply an [`onChanged()`][] callback to a
+[`TextField`][] or a [`TextFormField`][].
+Whenever the text changes, the callback is invoked.
 
-在這個範例中，每次文字變更時，會將目前的值與文字欄位 (text field) 的長度輸出到主控台。
+In this example, print the current value and length of the text field 
+to the console every time the text changes.
 
-處理使用者輸入時，建議使用 [characters][characters]，
-因為文字可能包含複雜字元。
-這樣可以確保每個字元都能正確地按照使用者所見被計算。
+It's important to use [characters][] when dealing with user input,
+as text may contain complex characters.
+This ensures that every character is counted correctly
+as they appear to the user.
 
 <?code-excerpt "lib/main.dart (TextField1)"?>
 ```dart
@@ -36,20 +42,23 @@ TextField(
 ),
 ```
 
-## 2. 使用 `TextEditingController`
+## 2. Use a `TextEditingController`
 
-一種更強大但也更繁瑣的方法，是將 [`TextEditingController`][`TextEditingController`] 作為 `TextField` 或 `TextFormField` 的 [`controller`][`controller`] 屬性提供。
+A more powerful, but more elaborate approach, is to supply a
+[`TextEditingController`][] as the [`controller`][]
+property of the `TextField` or a `TextFormField`.
 
-若要在文字變更時收到通知，可以透過 [`addListener()`][`addListener()`] 方法監聽 controller，步驟如下：
+To be notified when the text changes, listen to the controller
+using the [`addListener()`][] method using the following steps:
 
-  1. 建立 `TextEditingController`。
-  2. 將 `TextEditingController` 連接到文字欄位 (text field)。
-  3. 建立一個函式來列印最新值。
-  4. 監聽 controller 的變更。
+  1. Create a `TextEditingController`.
+  2. Connect the `TextEditingController` to a text field.
+  3. Create a function to print the latest value.
+  4. Listen to the controller for changes.
 
-### 建立 `TextEditingController`
+### Create a `TextEditingController`
 
-建立 `TextEditingController`：
+Create a `TextEditingController`:
 
 <?code-excerpt "lib/main_step1.dart (Step1)" remove="return Container();"?>
 ```dart
@@ -84,23 +93,27 @@ class _MyCustomFormState extends State<MyCustomForm> {
 ```
 
 :::note
-請記得在不再需要 `TextEditingController` 時進行釋放（dispose）。這樣可以確保釋放該物件所佔用的資源。
+Remember to dispose of the `TextEditingController` when it's no
+longer needed. This ensures that you discard any resources used
+by the object.
 :::
 
-### 將 `TextEditingController` 連接到文字欄位 (text field)
+### Connect the `TextEditingController` to a text field
 
-將 `TextEditingController` 提供給 `TextField` 或 `TextFormField`。當你將這兩個類別連接起來後，就可以開始監聽文字欄位 (text field) 的變化。
+Supply the `TextEditingController` to either a `TextField`
+or a `TextFormField`. Once you wire these two classes together,
+you can begin listening for changes to the text field.
 
 <?code-excerpt "lib/main.dart (TextField2)"?>
 ```dart
 TextField(controller: myController),
 ```
 
-### 建立一個函式以列印最新的值
+### Create a function to print the latest value
 
-你需要在每次文字變更時執行一個函式。
-請在`_MyCustomFormState`類別中建立一個方法，用來列印
-目前文字欄位（text field）的值。
+You need a function to run every time the text changes.
+Create a method in the `_MyCustomFormState` class that prints
+out the current value of the text field.
 
 <?code-excerpt "lib/main.dart (printLatestValue)"?>
 ```dart
@@ -110,14 +123,15 @@ void _printLatestValue() {
 }
 ```
 
-### 監聽 controller 的變化
+### Listen to the controller for changes
 
-最後，監聽 `TextEditingController`，並在文字變化時呼叫
-`_printLatestValue()` 方法。為此，請使用
-[`addListener()`][`addListener()`] 方法。
+Finally, listen to the `TextEditingController` and call the
+`_printLatestValue()` method when the text changes. Use the
+[`addListener()`][] method for this purpose.
 
-當 `_MyCustomFormState` 類別初始化時開始監聽變化，
-並在 `_MyCustomFormState` 被釋放（disposed）時停止監聽。
+Begin listening for changes when the
+`_MyCustomFormState` class is initialized,
+and stop listening when the `_MyCustomFormState` is disposed.
 
 <?code-excerpt "lib/main.dart (init-state)"?>
 ```dart
@@ -141,7 +155,7 @@ void dispose() {
 }
 ```
 
-## 互動範例
+## Interactive example
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter text field change hands-on example in DartPad" run="true"
@@ -219,10 +233,10 @@ class _MyCustomFormState extends State<MyCustomForm> {
 }
 ```
 
-[`addListener()`]: {{site.api}}/flutter/foundation/ChangeNotifier/addListener.html  
-[`controller`]: {{site.api}}/flutter/material/TextField/controller.html  
-[`onChanged()`]: {{site.api}}/flutter/material/TextField/onChanged.html  
-[`TextField`]: {{site.api}}/flutter/material/TextField-class.html  
-[`TextEditingController`]: {{site.api}}/flutter/widgets/TextEditingController-class.html  
-[`TextFormField`]: {{site.api}}/flutter/material/TextFormField-class.html  
+[`addListener()`]: {{site.api}}/flutter/foundation/ChangeNotifier/addListener.html
+[`controller`]: {{site.api}}/flutter/material/TextField/controller.html
+[`onChanged()`]: {{site.api}}/flutter/material/TextField/onChanged.html
+[`TextField`]: {{site.api}}/flutter/material/TextField-class.html
+[`TextEditingController`]: {{site.api}}/flutter/widgets/TextEditingController-class.html
+[`TextFormField`]: {{site.api}}/flutter/material/TextFormField-class.html
 [characters]: {{site.pub}}/packages/characters

@@ -1,5 +1,5 @@
 ---
 layout: toc
 title: macOS
-description: 介紹如何在 Flutter 應用程式中整合 macOS 的相關內容。
+description: Content covering integration with macOS in Flutter apps.
 ---

@@ -1,6 +1,6 @@
 ---
-title: 根據螢幕方向更新 UI
-description: 回應螢幕方向變化時的處理方式。
+title: Update the UI based on orientation
+description: Respond to a change in the screen's orientation.
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,16 +8,30 @@ js:
 
 <?code-excerpt path-base="cookbook/design/orientation"?>
 
-在某些情境下，當可用空間的形狀發生變化（例如使用者將螢幕從直向模式旋轉為橫向模式時），你可能希望即時更新應用程式的顯示內容。例如，應用程式在直向模式下可能會依序顯示各個項目，而在橫向模式下則將這些項目並排顯示。更多關於這類響應式設計的詳細說明，請參閱 [adaptive ui documenation][adaptive ui documenation]。
+In some situations,
+you want to update the display of an app when the shape of the
+available space changes like when a user rotates
+the screen from portrait mode to landscape mode. For example,
+the app might show one item after the next in portrait mode,
+yet put those same items side-by-side in landscape mode.
+Expanded docs covering this and more can be found
+in the [adaptive ui documenation][].
 
-在 Flutter 中，你可以根據特定的 [`Orientation`][`Orientation`] 來建立不同的版面配置（layout）。本範例將示範如何建立一個清單，在直向模式下顯示兩欄，在橫向模式下顯示三欄，步驟如下：
+In Flutter, you can build different layouts depending
+on a given [`Orientation`][].
+In this example, build a list that displays two columns in
+portrait mode and three columns in landscape mode using the
+following steps:
 
-  1. 建立一個具有兩欄的 `GridView`。
-  2. 使用 `OrientationBuilder` 來變更欄數。
+  1. Build a `GridView` with two columns.
+  2. Use an `OrientationBuilder` to change the number of columns.
 
-## 1. 建立一個具有兩欄的 `GridView`
+## 1. Build a `GridView` with two columns
 
-首先，建立一個項目清單作為範例資料。與其使用一般的清單，不如建立一個以網格方式顯示項目的清單。這裡先建立一個具有兩欄的網格。
+First, create a list of items to work with.
+Rather than using a normal list,
+create a list that displays items in a grid.
+For now, create a grid with two columns.
 
 <?code-excerpt "lib/partials.dart (GridViewCount)"?>
 ```dart
@@ -28,14 +42,19 @@ return GridView.count(
 );
 ```
 
-想進一步了解如何使用 `GridViews`，請參閱 [Creating a grid list][Creating a grid list] 教學。
+To learn more about working with `GridViews`,
+see the [Creating a grid list][] recipe.
 
-## 2. 使用 `OrientationBuilder` 來變更欄數
+## 2. Use an `OrientationBuilder` to change the number of columns
 
-若要判斷應用程式目前的 `Orientation`，可以使用 [`OrientationBuilder`][`OrientationBuilder`] 元件（Widget）。
-`OrientationBuilder` 會透過比較父元件可用的寬度與高度來計算目前的 `Orientation`，並在父元件尺寸變化時自動重新建構。
+To determine the app's current `Orientation`, use the
+[`OrientationBuilder`][] widget.
+The `OrientationBuilder` calculates the current `Orientation` by
+comparing the width and height available to the parent widget,
+and rebuilds when the size of the parent changes.
 
-利用 `Orientation`，建立一個清單，讓其在直向（portrait）模式時顯示兩欄，在橫向（landscape）模式時顯示三欄。
+Using the `Orientation`, build a list that displays two columns in portrait
+mode, or three columns in landscape mode.
 
 <?code-excerpt "lib/partials.dart (OrientationBuilder)"?>
 ```dart
@@ -51,15 +70,15 @@ body: OrientationBuilder(
 ```
 
 :::note
-如果你關心的是螢幕的方向（orientation），
-而不是父元件（parent）可用的空間大小，
-請使用 `MediaQuery.orientationOf(context)`，而非
-`OrientationBuilder` 元件（Widget）。
-使用 `MediaQuery.orientationOf` 來組織 UI
-是[不建議的做法][discouraged]。建議改用 `MediaQuery.sizeOf(context)`。
+If you're interested in the orientation of the screen,
+rather than the amount of space available to the parent,
+use `MediaQuery.orientationOf(context)` instead of an
+`OrientationBuilder` widget.
+Using `MediaQuery.orientationOf` as a way to organize UI
+is [discouraged][]. Instead use `MediaQuery.sizeOf(context)`
 :::
 
-## 互動範例
+## Interactive example
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter app orientation hands-on example in DartPad" run="true"
@@ -119,23 +138,25 @@ class OrientationList extends StatelessWidget {
   <img src="/assets/images/docs/cookbook/orientation.webp" alt="Orientation Demo" class="site-mobile-screenshot" />
 </noscript>
 
-## 鎖定裝置方向
+## Locking device orientation
 
-在前一節中，你已經學會了如何讓應用程式 UI 隨著裝置方向變化而調整。
+In the previous section, you learned 
+how to adapt the app UI to device orientation changes.
 
-Flutter 也允許你透過 [`DeviceOrientation`] 的值，指定應用程式所支援的螢幕方向。你可以：
+Flutter also allows you to specify the orientations your app supports 
+using the values of [`DeviceOrientation`]. You can either:
 
-- 將應用程式鎖定於單一方向，例如僅允許 `portraitUp` 位置，或是…
-- 允許多種方向，例如同時支援 `portraitUp` 和 `portraitDown`，但不允許橫向（landscape）。
+- Lock the app to a single orientation, like only the `portraitUp` position, or...
+- Allow multiple orientations, like both `portraitUp` and `portraitDown`, but not landscape.
 
-在應用程式的 `main()` 方法中，
-呼叫 [`SystemChrome.setPreferredOrientations()`]，
-並傳入你的應用程式所支援的偏好方向清單。
+In the application `main()` method,
+call [`SystemChrome.setPreferredOrientations()`]
+with the list of preferred orientations that your app supports.
 
-若要將裝置鎖定於單一方向，
-你可以傳入只包含一個項目的清單。
+To lock the device to a single orientation, 
+you can pass a list with a single item.
 
-所有可用值的完整列表，請參考 [`DeviceOrientation`]。
+For a list of all the possible values, check out [`DeviceOrientation`].
 
 <?code-excerpt "lib/orientation.dart (PreferredOrientations)"?>
 ```dart
@@ -147,10 +168,10 @@ void main() {
 ```
 
 
-[Creating a grid list]: /cookbook/lists/grid-lists  
-[`DeviceOrientation`]: {{site.api}}/flutter/services/DeviceOrientation.html  
-[`OrientationBuilder`]: {{site.api}}/flutter/widgets/OrientationBuilder-class.html  
-[`Orientation`]: {{site.api}}/flutter/widgets/Orientation.html  
-[`SystemChrome.setPreferredOrientations()`]: {{site.api}}/flutter/services/SystemChrome/setPreferredOrientations.html  
-[adaptive ui documenation]: {{site.api}}/ui/adaptive-responsive  
+[Creating a grid list]: /cookbook/lists/grid-lists
+[`DeviceOrientation`]: {{site.api}}/flutter/services/DeviceOrientation.html
+[`OrientationBuilder`]: {{site.api}}/flutter/widgets/OrientationBuilder-class.html
+[`Orientation`]: {{site.api}}/flutter/widgets/Orientation.html
+[`SystemChrome.setPreferredOrientations()`]: {{site.api}}/flutter/services/SystemChrome/setPreferredOrientations.html
+[adaptive ui documenation]: {{site.api}}/ui/adaptive-responsive
 [discouraged]: {{site.api}}/ui/adaptive-responsive/best-practices

@@ -1,6 +1,6 @@
 ---
-title: 傳遞參數至命名路由
-description: 如何將參數傳遞給命名路由。
+title: Pass arguments to a named route
+description: How to pass arguments to a named route.
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,33 +8,44 @@ js:
 
 <?code-excerpt path-base="cookbook/navigation/navigate_with_arguments"?>
 
-[`Navigator`][`Navigator`] 提供了從應用程式的任何部分，透過共用識別符號導向命名路由（named route）的能力。
-在某些情境下，你可能還需要將參數傳遞給命名路由。例如，你可能希望導向 `/user` 路由，並將使用者相關資訊傳遞給該路由。
+The [`Navigator`][] provides the ability to navigate
+to a named route from any part of an app using
+a common identifier.
+In some cases, you might also need to pass arguments to a
+named route. For example, you might wish to navigate to the `/user` route and
+pass information about the user to that route.
 
 :::note
-對於大多數應用程式來說，命名路由（named routes）已不再建議使用。更多資訊請參考
-[navigation overview][navigation overview] 頁面的 [Limitations][Limitations]。
+Named routes are no longer recommended for most
+applications. For more information, see
+[Limitations][] in the [navigation overview][] page.
 :::
 
 [Limitations]: /ui/navigation#limitations
 [navigation overview]: /ui/navigation
 
-你可以透過 [`Navigator.pushNamed()`][`Navigator.pushNamed()`] 方法的 `arguments` 參數來完成這個任務。你可以使用 [`ModalRoute.of()`][`ModalRoute.of()`] 方法，或是在傳遞給 [`MaterialApp`][`MaterialApp`] 或 [`CupertinoApp`][`CupertinoApp`] 建構子的 [`onGenerateRoute()`][`onGenerateRoute()`] 函式內部擷取參數。
+You can accomplish this task using the `arguments` parameter of the
+[`Navigator.pushNamed()`][] method. Extract the arguments using the
+[`ModalRoute.of()`][] method or inside an [`onGenerateRoute()`][]
+function provided to the [`MaterialApp`][] or [`CupertinoApp`][]
+constructor.
 
-本教學將示範如何傳遞參數至命名路由，並透過 `ModalRoute.of()` 和 `onGenerateRoute()` 讀取參數，步驟如下：
+This recipe demonstrates how to pass arguments to a named
+route and read the arguments using `ModalRoute.of()`
+and `onGenerateRoute()` using the following steps:
 
-  1. 定義你需要傳遞的參數。
-  2. 建立一個擷取參數的元件（Widget）。
-  3. 在 `routes` 表中註冊該元件。
-  4. 導向該元件。
+  1. Define the arguments you need to pass.
+  2. Create a widget that extracts the arguments.
+  3. Register the widget in the `routes` table.
+  4. Navigate to the widget.
 
-## 1. 定義你需要傳遞的參數
+## 1. Define the arguments you need to pass
 
-首先，定義你要傳遞給新路由的參數。
-在這個範例中，會傳遞兩個資料：
-螢幕（screen）的 `title` 和一個 `message`。
+First, define the arguments you need to pass to the new route.
+In this example, pass two pieces of data:
+The `title` of the screen and a `message`.
 
-為了同時傳遞這兩個資料，請建立一個用來儲存這些資訊的類別。
+To pass both pieces of data, create a class that stores this information.
 
 <?code-excerpt "lib/main.dart (ScreenArguments)"?>
 ```dart
@@ -49,12 +60,13 @@ class ScreenArguments {
 }
 ```
 
-## 2. 建立一個擷取參數的元件（Widget）
+## 2. Create a widget that extracts the arguments
 
-接下來，建立一個元件（Widget），用來從 `ScreenArguments` 擷取並顯示 `title` 和 `message`。
-若要存取 `ScreenArguments`，
-請使用 [`ModalRoute.of()`][`ModalRoute.of()`] 方法。
-此方法會回傳帶有參數的當前路由（Route）。
+Next, create a widget that extracts and displays the
+`title` and `message` from the `ScreenArguments`.
+To access the `ScreenArguments`,
+use the [`ModalRoute.of()`][] method.
+This method returns the current route with the arguments.
 
 <?code-excerpt "lib/main.dart (ExtractArgumentsScreen)"?>
 ```dart
@@ -79,10 +91,10 @@ class ExtractArgumentsScreen extends StatelessWidget {
 }
 ```
 
-## 3. 在 `routes` 表中註冊元件（Widget）
+## 3. Register the widget in the `routes` table
 
-接下來，請在提供給 `MaterialApp` 元件（Widget）的 `routes` 中新增一個項目。  
-`routes` 決定了根據路由名稱應該建立哪一個元件（Widget）。
+Next, add an entry to the `routes` provided to the `MaterialApp` widget. The
+`routes` define which widget should be created based on the name of the route.
 
 {% comment %}
 RegEx removes the return statement and adds the closing parenthesis at the end
@@ -98,11 +110,13 @@ MaterialApp(
 ```
 
 
-## 4. 導航至元件（Widget）
+## 4. Navigate to the widget
 
-最後，當使用者點擊按鈕時，使用 [`Navigator.pushNamed()`][`Navigator.pushNamed()`] 導航至 `ExtractArgumentsScreen`。
-透過 `arguments` 屬性將參數傳遞給路由（Route）。
-`ExtractArgumentsScreen` 會從這些參數中擷取 `title` 和 `message`。
+Finally, navigate to the `ExtractArgumentsScreen`
+when a user taps a button using [`Navigator.pushNamed()`][].
+Provide the arguments to the route via the `arguments` property. The
+`ExtractArgumentsScreen` extracts the `title` and `message` from these
+arguments.
 
 <?code-excerpt "lib/main.dart (PushNamed)"?>
 ```dart
@@ -128,12 +142,14 @@ ElevatedButton(
 ),
 ```
 
-## 或者，使用 `onGenerateRoute` 來提取參數
+## Alternatively, extract the arguments using `onGenerateRoute`
 
-除了可以直接在元件（Widget）內提取參數之外，你也可以在 [`onGenerateRoute()`][`onGenerateRoute()`]
-函式中提取參數，然後將它們傳遞給元件（Widget）。
+Instead of extracting the arguments directly inside the widget, you can also
+extract the arguments inside an [`onGenerateRoute()`][]
+function and pass them to a widget.
 
-`onGenerateRoute()` 函式會根據給定的 [`RouteSettings`][`RouteSettings`] 建立正確的 Route。
+The `onGenerateRoute()` function creates the correct route based on the given
+[`RouteSettings`][].
 
 {% comment %}
 RegEx removes the return statement, removed "routes" property and adds the closing parenthesis at the end
@@ -177,7 +193,7 @@ MaterialApp(
 )
 ```
 
-## 互動範例
+## Interactive example
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter complete navigation hands-on example in DartPad" run="true"
@@ -354,7 +370,7 @@ class ScreenArguments {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/navigate-with-arguments.webp" alt="示範如何帶參數導向不同路由" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/navigate-with-arguments.webp" alt="Demonstrates navigating to different routes with arguments" class="site-mobile-screenshot" />
 </noscript>
 
 

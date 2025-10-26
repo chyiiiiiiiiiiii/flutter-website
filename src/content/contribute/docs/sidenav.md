@@ -1,25 +1,28 @@
 ---
 title: Sidenav
 description: >-
-  了解如何新增與設定 Dart 和 Flutter 文件網站的側邊導覽列（Sidenav）。
+  Learn about adding to and configuring the sidenav of the
+  Dart and Flutter documentation site.
 ---
 
 :::warning
-本文件仍在撰寫中。
+This document is a work in progress.
 :::
 
-側邊導覽列（sidenav）呈現了整個網站的資訊架構，並讓開發者能夠依主題存取相關文件。
+The sidenav presents the overall information architecture for the site
+and provides developers access to documentation by topic.
 
-側邊導覽列的內容設定於 `/src/_data/sidenav.yml` 檔案中，格式為 [YAML][YAML]。
+The contents of the sidenav are configured in
+the `/src/_data/sidenav.yml` file in [YAML][] format.
 
 [YAML]: https://yaml.org/
 
-## 新增頁面
+## Add a page
 
-## 移除頁面
+## Remove a page
 
-## 隱藏頁面（僅於展開時顯示）
+## Hide pages unless open
 
-## 基礎架構
+## Infrastructure
 
 

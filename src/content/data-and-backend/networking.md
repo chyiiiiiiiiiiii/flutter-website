@@ -1,19 +1,21 @@
 ---
-title: 網路通訊
-description: Flutter 中的網路（Internet）呼叫。
+title: Networking
+description: Internet network calls in Flutter.
 ---
 
-## 跨平台 HTTP 網路通訊
+## Cross-platform http networking
 
-[`http`][`http`] 套件提供最簡單的方式來發送 HTTP 請求。此套件支援 Android、iOS、macOS、Windows、Linux 以及網頁（web）平台。
+The [`http`][] package provides the simplest way to issue http requests. This
+package is supported on Android, iOS, macOS, Windows, Linux and the web.
 
-## 各平台注意事項
+## Platform notes
 
-部分平台需要額外設定，詳情如下。
+Some platforms require additional steps, as detailed below.
 
 ### Android
 
-Android 應用程式必須在 Android manifest（`AndroidManifest.xml`）中[宣告其網路使用權限][declare]：
+Android apps must [declare their use of the internet][declare] in the Android
+manifest (`AndroidManifest.xml`):
 
 ```xml
 <manifest xmlns:android...>
@@ -25,21 +27,22 @@ Android 應用程式必須在 Android manifest（`AndroidManifest.xml`）中[宣
 
 ### macOS
 
-macOS 應用程式必須在相關的 `*.entitlements` 檔案中允許網路存取。 
+macOS apps must allow network access in the relevant `*.entitlements` files. 
 
 ```xml
 <key>com.apple.security.network.client</key>
 <true/>
 ```
 
-進一步了解[設定權限][setting up entitlements]。
+Learn more about [setting up entitlements][].
 
 [setting up entitlements]: /platform-integration/macos/building#setting-up-entitlements
 
-## 範例
+## Samples
 
-如需各種網路任務（包含資料擷取、WebSockets，以及在背景解析資料）的實用範例，請參考
-[networking cookbook recipes](/cookbook/networking)。
+For a practical sample of various networking tasks (incl. fetching data,
+WebSockets, and parsing data in the background) see the 
+[networking cookbook recipes](/cookbook/networking).
 
 [declare]: {{site.android-dev}}/training/basics/network-ops/connecting
 [`http`]: {{site.pub-pkg}}/http

@@ -1,36 +1,44 @@
 ---
-title: 常見 Flutter 錯誤
-description: 如何辨識並解決常見的 Flutter 框架錯誤。
+title: Common Flutter errors
+description: How to recognize and resolve common Flutter framework errors.
 ---
 
 <?code-excerpt path-base="testing/common_errors"?>
 
-## 簡介
+## Introduction
 
-本頁說明了多個經常遇到的 Flutter 框架錯誤（包含版面配置錯誤），並提供解決建議。
-這是一份持續更新的文件，未來會加入更多錯誤內容，歡迎您的貢獻。
-如果您有建議，歡迎[提出 issue][open an issue] 或[提交 pull request][submit a pull request]，
-讓這個頁面對您及 Flutter 社群更有幫助。
+This page explains several frequently-encountered Flutter
+framework errors (including layout errors) and gives suggestions
+on how to resolve them.
+This is a living document with more errors to be added in
+future revisions, and your contributions are welcomed.
+Feel free to [open an issue][] or [submit a pull request][] to
+make this page more useful to you and the Flutter community.
 
 [open an issue]: {{site.repo.this}}/issues/new/choose
 [submit a pull request]: {{site.repo.this}}/pulls
 
-## 執行應用程式時出現純紅色或灰色螢幕
+## A solid red or grey screen when running your app
 
-這通常被稱為「死亡紅（或灰）螢幕」（red/grey screen of death），
-這是 Flutter 用來告知您發生錯誤的一種方式。
+Typically called a "red (or grey) screen of death",
+this is sometimes how Flutter lets
+you know that there's an error.
 
-當應用程式在 debug 或 profile 模式下執行時，會出現紅色螢幕；
-而在 release 模式下執行時，則可能出現灰色螢幕。
+The red screen can appear when the app runs in
+debug or profile mode. The grey screen can appear
+when the app runs in release mode.
 
-一般來說，這些錯誤發生的原因是有未捕捉的例外（您可能需要額外的 try-catch 區塊），
-或者是發生了繪製（Rendering）錯誤，例如溢位（overflow）錯誤。
+Generally, these errors occur when there's an
+uncaught exception (and you might need another
+try-catch block), or when there is some rendering error,
+such as an overflow error.
 
-以下文章提供了針對這類錯誤除錯的實用見解：
+The following articles provide some useful insights
+on debugging this sort of error:
 
-* [Flutter errors demystified][Flutter errors demystified]，作者 Abishek
-* [Understanding and addressing the grey screen in Flutter][Understanding and addressing the grey screen in Flutter]，作者 Christopher Nwosu-Madueke
-* [Flutter stuck on white screen][Flutter stuck on white screen]，作者 Kesar Bhimani
+* [Flutter errors demystified][] by Abishek
+* [Understanding and addressing the grey screen in Flutter][] by Christopher Nwosu-Madueke
+* [Flutter stuck on white screen][] by Kesar Bhimani
 
 [Flutter errors demystified]: {{site.medium}}/@hpatilabhi10/flutter-errors-demystified-red-screen-errors-vs-debug-console-errors-acb3b8ed2625
 [Flutter stuck on white screen]: https://www.dhiwise.com/post/flutter-stuck-on-white-screen-understanding-and-fixing
@@ -38,13 +46,15 @@ description: 如何辨識並解決常見的 Flutter 框架錯誤。
 
 ## 'A RenderFlex overflowed…'
 
-RenderFlex 溢位（overflow）是 Flutter 框架中最常見的錯誤之一，
-您很可能已經遇過。
+RenderFlex overflow is one of the most frequently
+encountered Flutter framework errors,
+and you've probably run into it already.
 
-**這個錯誤長什麼樣子？**
+**What does the error look like?**
 
-發生時，應用程式 UI 會出現黃黑相間的條紋，標示出溢位的區域。
-此外，debug 主控台也會顯示錯誤訊息：
+When it happens, yellow and black stripes appear,
+indicating the area of overflow in the app UI.
+In addition, an error message displays in the debug console:
 
 ```plaintext
 The following assertion was thrown during layout:
@@ -61,10 +71,12 @@ being too big for the RenderFlex.
 (Additional lines of this message omitted)
 ```
 
-**你可能會在什麼情況下遇到這個錯誤？**
+**How might you run into this error?**
 
-這個錯誤通常發生在`Column`或`Row`中，其子元件（Widget）沒有受到尺寸上的限制。
-舉例來說，以下的程式碼片段就展示了一個常見的情境：
+The error often occurs when a `Column` or `Row` has a
+child widget that isn't constrained in its size.
+For example,
+the code snippet below demonstrates a common scenario:
 
 <?code-excerpt "lib/renderflex_overflow.dart (problem)"?>
 ```dart
@@ -91,32 +103,35 @@ Widget build(BuildContext context) {
 }
 ```
 
-在上述範例中，
-`Column` 嘗試比其父元件（Widget）`Row`
-所能分配給它的空間還要寬，導致溢位（overflow）錯誤。
-為什麼 `Column` 會這麼做呢？
-要理解這個版面配置（layout）行為，你需要了解
-Flutter 框架是如何進行版面配置的：
+In the above example,
+the `Column` tries to be wider than the space the `Row`
+(its parent) can allocate to it, causing an overflow error.
+Why does the `Column` try to do that?
+To understand this layout behavior, you need to know
+how Flutter framework performs layout:
 
-「_為了進行版面配置，Flutter 會以深度優先遍歷的方式走訪 render tree，
-並**自父元件向下傳遞尺寸限制（size constraints）**……子元件會
-**在父元件設定的限制內，回傳一個尺寸**給其父元件。_」– [Flutter architectural overview][Flutter architectural overview]
+"_To perform layout, Flutter walks the render tree in a depth-first traversal
+and **passes down size constraints** from parent to child… Children respond by
+**passing up a size** to their parent object within the constraints the parent
+established._" – [Flutter architectural overview][]
 
-在這個案例中，`Row` 元件（Widget）並沒有對其子元件
-進行尺寸限制，`Column` 元件也沒有。
-由於缺乏來自父元件的限制，第二個
-`Text` 元件會嘗試變得足夠寬，以容納它需要顯示的所有字元。
-`Text` 元件自訂的寬度接著會被 `Column` 採用，
-而這個寬度又與其父元件 `Row`
-所能提供的最大水平空間產生衝突。
+In this case, the `Row` widget doesn't constrain the
+size of its children, nor does the `Column` widget.
+Lacking constraints from its parent widget, the second
+`Text` widget tries to be as wide as all the characters
+it needs to display. The self-determined width of the
+`Text` widget then gets adopted by the `Column`, which
+clashes with the maximum amount of horizontal space its parent,
+the `Row` widget, can provide.
 
 [Flutter architectural overview]: /resources/architectural-overview#layout-and-rendering
 
-**該如何修正？**
+**How to fix it?**
 
-你需要確保 `Column` 不會嘗試變得比它所能擁有的空間還寬。
-為了達到這個目的，你需要對它的寬度加以限制。
-其中一種做法是將 `Column` 包裹在 `Expanded` 元件中：
+Well, you need to make sure the `Column` won't attempt
+to be wider than it can be. To achieve this,
+you need to constrain its width. One way to do it is to
+wrap the `Column` in an `Expanded` widget:
 
 <?code-excerpt "lib/renderflex_overflow.dart (solution)"?>
 ```dart
@@ -132,15 +147,21 @@ return const Row(
 );
 ```
 
-另一種方式是將`Column`包裹在`Flexible`元件（Widget）中，並指定`flex`係數（factor）。事實上，`Expanded`元件等同於`Flexible`元件，且`flex`係數為 1.0，正如[其原始碼][its source code]所示。若想進一步了解如何在 Flutter 版面配置中使用`Flex`元件，請參考這支 90 秒的 Widget of the Week 影片：[this 90-second Widget of the Week video][flexible-video]，主題為`Flexible`元件。
+Another way is to wrap the `Column` in a `Flexible` widget
+and specify a `flex` factor. In fact,
+the `Expanded` widget is equivalent to the `Flexible` widget
+with a `flex` factor of 1.0, as [its source code][] shows.
+To further understand how to use the `Flex` widget in Flutter layouts,
+check out [this 90-second Widget of the Week video][flexible-video]
+on the `Flexible` widget.
 
-**進一步資訊：**
+**Further information:**
 
-以下連結資源提供了更多關於此錯誤的資訊。
+The resources linked below provide further information about this error.
 
 * [Flexible (Flutter Widget of the Week)][flexible-video]
 * [How to debug layout issues with the Flutter Inspector][medium-article]
-* [Understanding constraints][Understanding constraints]
+* [Understanding constraints][]
 
 [its source code]: {{site.repo.flutter}}/blob/c8e42b47f5ea8b5ff7bf2f2b0a2a8e765f1aa51d/packages/flutter/lib/src/widgets/basic.dart#L5166-L5174
 [flexible-video]: {{site.yt.watch}}?v=CI7x0mAZiY0
@@ -149,26 +170,29 @@ return const Row(
 
 ## 'RenderBox was not laid out'
 
-雖然這個錯誤相當常見，但它通常是渲染流程中較早發生的主要錯誤所導致的副作用。
+While this error is pretty common,
+it's often a side effect of a primary error
+occurring earlier in the rendering pipeline.
 
-**這個錯誤訊息長什麼樣子？**
+**What does the error look like?**
 
-此錯誤所顯示的訊息如下所示：
+The message shown by the error looks like this:
 
 ```plaintext
 RenderBox was not laid out: 
 RenderViewport#5a477 NEEDS-LAYOUT NEEDS-PAINT NEEDS-COMPOSITING-BITS-UPDATE
 ```
 
-**你可能會在什麼情況下遇到這個錯誤？**
+**How might you run into this error?**
 
-通常，這個問題與違反 box constraints（盒子約束）有關，
-需要透過提供更多資訊給 Flutter，
-讓其知道你希望如何約束相關的元件（Widgets）來解決。
-你可以在 [Understanding constraints][Understanding constraints] 頁面深入了解
-Flutter 中 constraints（約束）的運作方式。
+Usually, the issue is related to violation of box constraints,
+and it needs to be solved by providing more information
+to Flutter about how you'd like to constrain the widgets in question.
+You can learn more about how constraints work
+in Flutter on the [Understanding constraints][] page.
 
-`RenderBox was not laid out` 錯誤通常是由以下兩種其他錯誤之一所引起：
+The `RenderBox was not laid out` error is often
+caused by one of two other errors:
 
 * 'Vertical viewport was given unbounded height'
 * 'An InputDecorator...cannot have an unbounded width'
@@ -177,12 +201,12 @@ Flutter 中 constraints（約束）的運作方式。
 
 ## 'Vertical viewport was given unbounded height'
 
-這是你在建立 Flutter 應用程式 UI 時
-可能會遇到的另一個常見版面配置錯誤。
+This is another common layout error you could run into
+while creating a UI in your Flutter app.
 
-**這個錯誤訊息長什麼樣子？**
+**What does the error look like?**
 
-錯誤訊息顯示如下：
+The message shown by the error looks like this:
 
 ```plaintext
 The following assertion was thrown during performResize():
@@ -195,16 +219,17 @@ scrollable widget is nested inside another scrollable widget.
 (Additional lines of this message omitted)
 ```
 
-**你可能會在什麼情況下遇到這個錯誤？**
+**How might you run into this error?**
 
-這個錯誤通常發生在將 `ListView`
-（或其他類型的滾動元件 (Scrolling Widgets)，例如 `GridView`）
-放在 `Column` 內時。`ListView` 會佔據
-所有可用的垂直空間，
-除非其父元件對其加以限制。
-然而，`Column` 預設並不會對其子元件的高度施加任何限制。
-這兩種行為結合起來，導致無法確定
-`ListView` 的尺寸。
+The error is often caused when a `ListView`
+(or other kinds of scrollable widgets such as `GridView`)
+is placed inside a `Column`. A `ListView` takes all
+the vertical space available to it,
+unless it's constrained by its parent widget.
+However, a `Column` doesn't impose any constraint
+on its children's height by default.
+The combination of the two behaviors leads to the failure of
+determining the size of the `ListView`.
 
 <?code-excerpt "lib/unbounded_height.dart (problem)"?>
 ```dart
@@ -225,13 +250,13 @@ Widget build(BuildContext context) {
 }
 ```
 
-**如何修正？**
+**How to fix it?**
 
-要修正此錯誤，請指定 `ListView` 的高度。
-若要讓它填滿 `Column` 中剩餘的空間，
-請使用 `Expanded` 元件（Widget）將其包裹（如下範例所示）。
-否則，請使用 `SizedBox` 元件（Widget）來指定絕對高度，
-或使用 `Flexible` 元件（Widget）來指定相對高度。
+To fix this error, specify how tall the `ListView` should be.
+To make it as tall as the remaining space in the `Column`,
+wrap it using an `Expanded` widget (as shown in the following example).
+Otherwise, specify an absolute height using a `SizedBox`
+widget or a relative height using a `Flexible` widget.
 
 <?code-excerpt "lib/unbounded_height.dart (solution)"?>
 ```dart
@@ -254,20 +279,23 @@ Widget build(BuildContext context) {
 }
 ```
 
-**進一步資訊：**
+**Further information:**
 
-以下連結資源提供了關於此錯誤的更多資訊。
+The resources linked below provide
+further information about this error.
 
-* [如何使用 Flutter Inspector 偵錯版面配置問題][medium-article]
-* [理解約束（constraints）][Understanding constraints]
+* [How to debug layout issues with the Flutter Inspector][medium-article]
+* [Understanding constraints][]
 
-## 「An InputDecorator...cannot have an unbounded width」
+## 'An InputDecorator...cannot have an unbounded width'
 
-此錯誤訊息表示它同樣與方塊約束（box constraints）有關，而理解這些約束對於避免許多常見的 Flutter 框架錯誤至關重要。
+The error message suggests that it's also related
+to box constraints, which are important to understand
+to avoid many of the most common Flutter framework errors.
 
-**這個錯誤長什麼樣子？**
+**What does the error look like?**
 
-該錯誤顯示的訊息如下所示：
+The message shown by the error looks like this:
 
 ```plaintext
 The following assertion was thrown during performLayout():
@@ -280,9 +308,11 @@ width of the InputDecorator or the TextField that contains it.
 (Additional lines of this message omitted)
 ```
 
-**你可能會在什麼情況下遇到此錯誤？**
+**How might you run into the error?**
 
-例如，當`Row`中包含`TextFormField`或`TextField`，但後者沒有寬度限制時，就會發生此錯誤。
+This error occurs, for example, when a `Row` contains a
+`TextFormField` or a `TextField` but the latter has
+no width constraint.
 
 <?code-excerpt "lib/unbounded_width.dart (problem)"?>
 ```dart
@@ -296,12 +326,12 @@ Widget build(BuildContext context) {
 }
 ```
 
-**如何修正？**
+**How to fix it?**
 
-如錯誤訊息所建議，
-請透過使用 `Expanded` 或 `SizedBox` 元件（Widget）來限制該文字欄位（text field），
-即可修正此錯誤。
-以下範例展示了如何使用 `Expanded` 元件：
+As suggested by the error message,
+fix this error by constraining the text field
+using either an `Expanded` or `SizedBox` widget.
+The following example demonstrates using an `Expanded` widget:
 
 <?code-excerpt "lib/unbounded_width.dart (solution)"?>
 ```dart
@@ -315,13 +345,13 @@ Widget build(BuildContext context) {
 }
 ```
 
-## 「ParentData widget 使用錯誤」
+## 'Incorrect use of ParentData widget'
 
-此錯誤是因為缺少預期的父層元件（Widget）所導致。
+This error is about missing an expected parent widget.
 
-**這個錯誤訊息長什麼樣子？**
+**What does the error look like?**
 
-錯誤所顯示的訊息如下所示：
+The message shown by the error looks like this:
 
 ```plaintext
 The following assertion was thrown while looking for parent data:
@@ -331,36 +361,41 @@ Usually, this indicates that at least one of the offending ParentDataWidgets
 listed above is not placed directly inside a compatible ancestor widget.
 ```
 
-**你可能會如何遇到這個錯誤？**
+**How might you run into the error?**
 
-雖然 Flutter 的元件（Widgets）在 UI 組合上通常非常靈活，
-但其中有一小部分元件會預期有特定的父元件。
-當你的元件樹無法滿足這個預期時，
-你很可能就會遇到這個錯誤。
+While Flutter's widgets are generally flexible
+in how they can be composed together in a UI,
+a small subset of those widgets expect specific parent widgets.
+When this expectation can't be satisfied in your widget tree,
+you're likely to encounter this error.
 
-以下是 Flutter 框架中，預期有特定父元件的元件（不完整清單）。
-如果你想擴充這份清單，歡迎提交 PR（可點擊頁面右上角的文件圖示）。
+Here is an _incomplete_ list of widgets that expect
+specific parent widgets within the Flutter framework.
+Feel free to submit a PR (using the doc icon in
+the top right corner of the page) to expand this list.
 
-| 元件（Widget）                        |  預期的父元件（Expected parent widget(s)） |
+| Widget                                |  Expected parent widget(s) |
 |:--------------------------------------|---------------------------:|
-| `Flexible`                            | `Row`、`Column` 或 `Flex` |
-| `Expanded`（`Flexible` 的特殊化）      | `Row`、`Column` 或 `Flex` |
+| `Flexible`                            | `Row`, `Column`, or `Flex` |
+| `Expanded` (a specialized `Flexible`) | `Row`, `Column`, or `Flex` |
 | `Positioned`                          |                    `Stack` |
 | `TableCell`                           |                    `Table` |
 
-**如何修正？**
+**How to fix it?**
 
-當你知道缺少哪個父元件時，修正方法應該就很明顯了。
+The fix should be obvious once you know
+which parent widget is missing.
 
 ## 'setState called during build'
 
-在你的 Flutter 程式碼中，`build` 方法並不是
-直接或間接呼叫 `setState` 的好地方。
+The `build` method in your Flutter code isn't
+a good place to call `setState`,
+either directly or indirectly.
 
-**這個錯誤會長什麼樣子？**
+**What does the error look like?**
 
-當發生此錯誤時，
-主控台會顯示以下訊息：
+When the error occurs,
+the following message is displayed in the console:
 
 ```plaintext
 The following assertion was thrown building DialogPage(dirty, dependencies: 
@@ -373,14 +408,18 @@ is already in the process of building widgets.
 (Additional lines of this message omitted)
 ```
 
-**你可能會在什麼情況下遇到這個錯誤？**
+**How might you run into the error?**
 
-一般來說，當在 `build` 方法內呼叫 `setState` 方法時，就會發生這個錯誤。
+In general, this error occurs when the `setState`
+method is called within the `build` method.
 
-這個錯誤常見的情境之一，是嘗試在 `build` 方法中觸發 `Dialog`。這麼做通常是希望能立即向使用者顯示資訊，
-但 `setState` 絕對不應該從 `build` 方法中呼叫。
+A common scenario where this error occurs is when
+attempting to trigger a `Dialog` from within the
+`build` method. This is often motivated by the need to
+immediately show information to the user,
+but `setState` should never be called from a `build` method.
 
-以下程式碼片段是此錯誤常見的肇因：
+The following snippet seems to be a common culprit of this error:
 
 <?code-excerpt "lib/set_state_build.dart (problem)"?>
 ```dart
@@ -399,19 +438,22 @@ Widget build(BuildContext context) {
 }
 ```
 
-這段程式碼並未直接呼叫 `setState`，
-但它會被 `showDialog` 呼叫。
-`build` 方法並不是呼叫 `showDialog` 的正確位置，因為 `build` 可能會在每一個畫面更新（frame）時由框架（framework）呼叫，例如在動畫（Animation）期間。
+This code doesn't make an explicit call to `setState`,
+but it's called by `showDialog`.
+The `build` method isn't the right place to call
+`showDialog` because `build` can be called by the
+framework for every frame, for example, during an animation.
 
-**該如何修正？**
+**How to fix it?**
 
-避免此錯誤的一種方式是使用 `Navigator` API，
-將對話框（dialog）作為路由（Route）觸發。在以下範例中，
-有兩個頁面。第二個頁面在進入時會顯示一個
-對話框（dialog）。
-當使用者在第一個頁面點擊按鈕請求進入第二個頁面時，
-`Navigator` 會推入兩個路由（Route）——
-一個是第二個頁面，另一個則是對話框（dialog）。
+One way to avoid this error is to use the `Navigator` API
+to trigger the dialog as a route. In the following example,
+there are two pages. The second page has a
+dialog to be displayed upon entry.
+When the user requests the second page by
+clicking a button on the first page,
+the `Navigator` pushes two routes–one
+for the second page and another for the dialog.
 
 <?code-excerpt "lib/set_state_build.dart (solution)"?>
 ```dart
@@ -447,20 +489,29 @@ class FirstScreen extends StatelessWidget {
 
 ## `The ScrollController is attached to multiple scroll views`
 
-當多個滾動元件 (Scrolling Widgets)（例如 `ListView`）同時出現在螢幕上時，可能會發生此錯誤。在 Web 或桌面應用程式上，比在行動應用程式上更容易遇到這個錯誤，因為在行動裝置上出現這種情境的機率較低。
+This error can occur when multiple scrolling
+widgets (such as `ListView`) appear on the
+screen at the same time. It's more likely for
+this error to occur on a web or desktop app,
+than a mobile app since it's rare to encounter
+this scenario on mobile.
 
-如需更多資訊及修正方法，請參考以下關於 [`PrimaryScrollController`][controller-video] 的影片：
+For more information and to learn how to fix,
+check out the following video on
+[`PrimaryScrollController`][controller-video]:
 
 {% ytEmbed '33_0ABjFJUU', 'PrimaryScrollController | Decoding Flutter' %}
 
 [controller-video]: {{site.api}}/flutter/widgets/PrimaryScrollController-class.html
 
-## 參考資料
+## References
 
-若想進一步瞭解如何除錯錯誤，特別是在 Flutter 中的版面配置錯誤，請參考以下資源：
+To learn more about how to debug errors,
+especially layout errors in Flutter,
+check out the following resources:
 
-* [如何使用 Flutter Inspector 除錯版面配置問題][medium-article]
-* [理解 constraints（約束）][Understanding constraints]
-* [Flutter 架構總覽][Flutter architectural overview]
+* [How to debug layout issues with the Flutter Inspector][medium-article]
+* [Understanding constraints][]
+* [Flutter architectural overview][]
 
 [Flutter architectural overview]: /resources/architectural-overview#layout-and-rendering

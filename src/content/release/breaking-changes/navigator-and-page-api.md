@@ -1,41 +1,42 @@
 ---
-title: Navigator 的 page API 重大變更
+title: Navigator's page APIs breaking change
 description: >-
-  將 Navigator 的 `onPopPage` 屬性替換為 `onDidRemovePage` 屬性。
+  Replace Navigator's 'onPopPage' property with the 'onDidRemovePage' property.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-[`Navigator`][`Navigator`] 的 page API 已經重構，
-以便能與 Flutter 其他的 pop 機制整合。
+The [`Navigator`][] page APIs are refactored so that
+they can integrate with Flutter's other pop mechanisms.
 
-## 背景
+## Context
 
-新增 `onPopPage` 屬性是為了在頁面即將被 pop 時進行清理。
-若要否決 pop，可以在回呼中回傳 `false`。
-但這種做法無法很好地與框架中的其他 pop 機制協作，
-例如 [`PopScope`][`PopScope`] 以及 iOS 返回手勢。
+The `onPopPage` property was added for cleaning up pages after
+a page is about to be popped.
+To veto pop, you'd return `false` in the callback.
+This did not work well with other popping mechanisms in the framework,
+such as [`PopScope`][] and iOS back gestures.
 
-為了整合框架的 pop 機制，
-必須對 page API 進行重構。
+To integrate the framework's pop mechanisms together,
+the page APIs needed to be refactored.
 
-## 變更說明
+## Description of change
 
-`onDidRemovePage` 屬性取代了 `onPopPage` 屬性。
-你無法再於 `onDidRemovePage` 屬性中否決 pop。
-現在，你只需負責更新 [`pages`][`pages`]。
+The `onDidRemovePage` property replaces the `onPopPage` property.
+You can no longer veto a pop in the `onDidRemovePage` property.
+Instead, you are only responsible for updating the [`pages`][].
 
-否決 pop 的機制現在由
-`Page.canPop` 和 `Page.onPopInvoked` 屬性管理。
-這些屬性的運作方式類似於你使用 `PopScope` 元件時的做法。
+The veto mechanism is now managed with the
+`Page.canPop` and `Page.onPopInvoked` properties.
+These function similar to how you use the `PopScope` widget.
 
 [`pages`]: {{site.api}}/flutter/widgets/Navigator/pages.html
 
-## 遷移指南
+## Migration guide
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 import 'package:flutter/material.dart';
@@ -66,7 +67,7 @@ void main() {
 }
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 import 'package:flutter/material.dart';
@@ -90,25 +91,25 @@ void main() {
 }
 ```
 
-## 時程
+## Timeline
 
-合併於版本：3.22.0-32.0.pre<br>  
-正式版釋出：3.24.0
+Landed in version: 3.22.0-32.0.pre<br>
+In stable release: 3.24.0
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`Navigator`][`Navigator`]
-* [`PopScope`][`PopScope`]
+* [`Navigator`][]
+* [`PopScope`][]
 
-相關議題：
+Relevant issue:
 
-* [Issue 137458][Issue 137458]
+* [Issue 137458][]
 
-相關 PR：
+Relevant PR:
 
-* [Refactors page API][Refactors page API]
+* [Refactors page API][]
 
 [Refactors page API]: {{site.repo.flutter}}/pull/137792
 [`Navigator`]: {{site.api}}/flutter/widgets/Navigator-class.html

@@ -1,41 +1,45 @@
 ---
-title: 將 useDeleteButtonTooltip 遷移至 Chips 的 deleteButtonTooltipMessage
+title: Migrate useDeleteButtonTooltip to deleteButtonTooltipMessage of Chips
 description: >
-  已淘汰帶有刪除按鈕的 chips 的 useDeleteButtonTooltip，
-  請改用 deleteButtonTooltipMessage。
+  Deprecated useDeleteButtonTooltip of chips that have
+  a delete button in favor of deleteButtonTooltipMessage.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-在任何帶有刪除按鈕的 chip 上使用 `useDeleteButtonTooltip`
-會出現淘汰（deprecation）警告，或在引用時已不存在。這包括
-`Chip`、`InputChip` 和 `RawChip` 元件 (Widgets)。
+Using `useDeleteButtonTooltip` of any chip that has a delete button gives a
+deprecation warning, or no longer exists when referenced. This includes the
+`Chip`, `InputChip`, and `RawChip` widgets.
 
-## 背景
+## Context
 
-`Chip`、`InputChip` 和 `RawChip` 元件 (Widgets) 的 `useDeleteButtonTooltip`
-已被淘汰，建議改用 `deleteButtonTooltipMessage`，因為後者可以用來停用 chip 刪除按鈕的提示訊息（tooltip）。
+The `useDeleteButtonTooltip` of `Chip`, `InputChip`, and `RawChip` widgets is
+deprecated in favor of `deleteButtonTooltipMessage`, as the latter can be used
+to disable the tooltip of the chip's delete button.
 
-## 變更說明
+## Description of change
 
-`deleteButtonTooltipMessage` 屬性可為 chip 元件 (Widgets) 的刪除按鈕提示訊息（tooltip）提供內容。
-隨後，進行了變更：若為此屬性提供空字串，則會停用該提示訊息。
+The `deleteButtonTooltipMessage` property provides a message to the
+tooltip on the delete button of the chip widgets.
+Subsequently, a change was made such that providing an empty string to this
+property disables the tooltip.
 
-為了避免 API 冗餘，此次變更淘汰了為此功能而設計的 `useDeleteButtonTooltip`。
-若你曾明確停用提示訊息，[Flutter 修正工具][Flutter fix]
-可協助你將現有程式碼從 `useDeleteButtonTooltip` 遷移至
-`deleteButtonTooltipMessage`。
+To avoid redundancy of the API, this change deprecated `useDeleteButtonTooltip`,
+which was introduced for this exact functionality. A [Flutter fix][] is
+available to help you migrate existing code from `useDeleteButtonTooltip` to
+`deleteButtonTooltipMessage`, if you explicitly disabled the tooltip.
 
-## 遷移指南
+## Migration guide
 
-預設情況下，刪除按鈕的提示訊息（tooltip）始終啟用。
-若要明確停用提示訊息，請為 `deleteButtonTooltipMessage` 屬性提供空字串。
-以下程式碼片段展示了遷移前後的差異，適用於
-`Chip`、`InputChip` 和 `RawChip` 元件 (Widgets)：
+By default, the tooltip of the delete button is always enabled.
+To explicitly disable the tooltip, provide an empty string to the
+`deleteButtonTooltipMessage` property.
+The following code snippets show the migration changes, which are applicable for
+`Chip`, `InputChip`, and `RawChip` widgets:
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 Chip(
@@ -51,7 +55,7 @@ RawChip(
 );
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 Chip(
@@ -66,22 +70,22 @@ RawChip(
 );
 ```
 
-## 時程
+## Timeline
 
-合併於版本：2.11.0-0.1.pre<br>  
-進入穩定版：3.0.0
+Landed in version: 2.11.0-0.1.pre<br>
+In stable release: 3.0.0
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`Chip`][`Chip`]
-* [`InputChip`][`InputChip`]
-* [`RawChip`][`RawChip`]
+* [`Chip`][]
+* [`InputChip`][]
+* [`RawChip`][]
 
-相關 PR：
+Relevant PR:
 
-* [Deprecate `useDeleteButtonTooltip` for Chips][Deprecate `useDeleteButtonTooltip` for Chips]
+* [Deprecate `useDeleteButtonTooltip` for Chips][]
 
 [`Chip`]: {{site.api}}/flutter/material/Chip-class.html
 [`InputChip`]: {{site.api}}/flutter/material/InputChip-class.html

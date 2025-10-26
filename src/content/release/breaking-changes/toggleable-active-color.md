@@ -1,40 +1,41 @@
 ---
-title: ThemeData 的 toggleableActiveColor 屬性已被棄用
+title: ThemeData's toggleableActiveColor property has been deprecated
 description: >
-  使用 toggleableActiveColor 屬性的 Material 元件 (Widgets)
-  已遷移至使用 Material ColorScheme。
+  Material Widgets that use toggleableActiveColor property
+  are migrated to use Material ColorScheme.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-Material 元件 (Widgets) `Switch`、`SwitchListTile`、`Checkbox`、
-`CheckboxListTile`、`Radio`、`RadioListTile` 現在會為其可切換元件
-使用 `ColorScheme.secondary` 顏色。
-`ThemeData.toggleableActiveColor` 已被棄用，未來將會移除。
+The Material widgets `Switch`, `SwitchListTile`, `Checkbox`,
+`CheckboxListTile`, `Radio`, `RadioListTile` now use
+`ColorScheme.secondary` color for their toggleable widget.
+`ThemeData.toggleableActiveColor` is deprecated and will eventually be removed.
 
-## 背景說明
+## Context
 
-依賴 `ThemeData.toggleableActiveColor` 的元件遷移至 `ColorScheme.secondary`
-後，使得 `toggleableActiveColor` 屬性變得不再需要。根據 Flutter 的
-[棄用政策](/release/compatibility-policy#deprecation-policy)，此屬性未來將會被移除。
+The migration of widgets that depend on `ThemeData.toggleableActiveColor`
+to `ColorScheme.secondary` caused  the `toggleableActiveColor` property
+to be unnecessary. This property will eventually be removed, as per Flutter's
+[deprecation policy](/release/compatibility-policy#deprecation-policy).
 
-## 變更說明
+## Description of change
 
-原本使用 `ThemeData.toggleableActiveColor` 顏色作為
-啟用／選取狀態的元件，現在改為使用 `ColorScheme.secondary`。
+The widgets using `ThemeData.toggleableActiveColor` color for the
+active/selected state now use `ColorScheme.secondary`.
 
-## 遷移指南
+## Migration guide
 
-可切換元件的啟用／選取顏色，通常有三種自訂方式：
+Toggleable widgets' active/selected color can generally be customized in 3 ways:
 
-1. 使用 ThemeData 的 `ColorScheme.secondary`。
-2. 使用元件主題 `SwitchThemeData`、`ListTileThemeData`、
-   `CheckboxThemeData` 和 `RadioThemeData`。
-3. 直接自訂元件的顏色屬性。
+1. Using ThemeData's `ColorScheme.secondary`.
+2. Using components themes `SwitchThemeData`, `ListTileThemeData`,
+   `CheckboxThemeData`, and `RadioThemeData`.
+3. By customizing the widget's color properties.
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 MaterialApp(
@@ -43,7 +44,7 @@ MaterialApp(
 );
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 final ThemeData theme = ThemeData();
@@ -100,24 +101,24 @@ MaterialApp(
 )
 ```
 
-## 時程
+## Timeline
 
-穩定版本推出：3.7
+In stable release: 3.7
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`ThemeData.toggleableActiveColor`][`ThemeData.toggleableActiveColor`]
-* [`ColorScheme.secondary`][`ColorScheme.secondary`]
+* [`ThemeData.toggleableActiveColor`][]
+* [`ColorScheme.secondary`][]
 
-相關議題：
+Relevant issues:
 
-* [`Switch` widget color doesn't use `ColorScheme`][`Switch` widget color doesn't use `ColorScheme`]
+* [`Switch` widget color doesn't use `ColorScheme`][]
 
-相關 PR：
+Relevant PRs:
 
-* [Deprecate `toggleableActiveColor`][Deprecate `toggleableActiveColor`]。
+* [Deprecate `toggleableActiveColor`][].
 
 [`ThemeData.toggleableActiveColor`]: {{site.api}}/flutter/material/ThemeData/toggleableActiveColor.html
 [`ColorScheme.secondary`]: {{site.api}}/flutter/material/ColorScheme/secondary.html

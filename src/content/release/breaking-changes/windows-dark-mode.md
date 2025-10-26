@@ -1,42 +1,46 @@
 ---
-title: 將 Windows 專案遷移以支援深色標題列
-description: 如何更新 Windows 專案以支援深色標題列
+title: Migrate a Windows project to support dark title bars
+description: How to update a Windows project to support dark title bars
 ---
 
 {% render docs/breaking-changes.md %}
 
-在 Flutter 3.7 之前建立的專案，即使 Windows 主題為深色模式，標題列仍然是淺色。這些在 Flutter 3.7 之前建立的專案需要進行遷移，以支援深色標題列。
+Projects created before Flutter 3.7 have light title bars even
+when the Windows theme is dark mode. Projects created before
+Flutter 3.7 need to be migrated to support dark title bars.
 
-## 遷移步驟
+## Migration steps
 
-您可以依照以下步驟更新您的專案：
+Your project can be updated using these steps:
 
-1. 使用 `flutter --version` 確認您使用的是 Flutter 3.7 或更新版本
-2. 如有需要，使用 `flutter upgrade` 更新至最新版本的 Flutter SDK（Flutter 軟體開發套件）
-3. 備份您的專案，可以使用 git 或其他版本控制系統
-4. 刪除以下檔案：
+1. Verify you are on Flutter version 3.7 or newer using `flutter --version`
+2. If needed, use `flutter upgrade` to update to the latest version of the
+Flutter SDK
+3. Backup your project, possibly using git or some other version control system
+4. Delete the following files:
     1. `windows/runner/CMakeLists.txt`
     2. `windows/runner/win32_window.cpp`
     3. `windows/runner/win32_window.h`
-5. 執行 `flutter create --platforms=windows .`
-6. 檢查以下檔案的變更：
+5. Run `flutter create --platforms=windows .`
+6. Review the changes to the following files:
     1. `windows/runner/CMakeLists.txt`
     2. `windows/runner/win32_window.cpp`
     3. `windows/runner/win32_window.h`
-7. 使用 `flutter build windows` 驗證您的應用程式是否能成功建置
+7. Verify your app builds using `flutter build windows`
 
 :::note
-如果建置失敗並出現以下錯誤訊息，請參考 [run loop migration guide][run loop migration guide] 進行遷移。
+Follow the [run loop migration guide][] if the build fails
+with the following error message:
 
 ```console
 flutter_window.obj : error LNK2019: unresolved external symbol "public: void __cdecl RunLoop::RegisterFlutterInstance(class flutter::FlutterEngine *)" (?RegisterFlutterInstance@RunLoop@@QEAAXPEAVFlutterEngine@flutter@@@Z) referenced in function "protected: virtual bool __cdecl FlutterWindow::OnCreate(void)" (?OnCreate@FlutterWindow@@MEAA_NXZ)
 ```
 :::
 
-## 範例
+## Example
 
-[PR 862][PR 862] 展示了
-[Flutter Gallery][Flutter Gallery] 應用程式的遷移作業。
+[PR 862][] shows the migration work for the
+[Flutter Gallery][] app.
 
 [run loop migration guide]: /release/breaking-changes/windows-run-loop
 [PR 862]: {{site.repo.gallery-archive}}/pull/862/files

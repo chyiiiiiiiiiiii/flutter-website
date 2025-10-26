@@ -1,6 +1,6 @@
 ---
-shortTitle: 2.8.0 版本發佈說明
-description: Dart 和 Flutter DevTools 2.8.0 版本的發佈說明。
+shortTitle: 2.8.0 release notes
+description: Release notes for Dart and Flutter DevTools version 2.8.0.
 showToc: false
 ---
 

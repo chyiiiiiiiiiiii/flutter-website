@@ -1,46 +1,60 @@
 ---
-title: 單元測試簡介
-description: 如何撰寫單元測試。
-shortTitle: 簡介
+title: An introduction to unit testing
+description: How to write unit tests.
+shortTitle: Introduction
 ---
 
 <?code-excerpt path-base="cookbook/testing/unit/counter_app"?>
 
-當你在為應用程式新增更多功能或變更現有功能時，如何確保你的應用程式依然能夠正常運作？
-答案是撰寫測試。
+How can you ensure that your app continues to work as you
+add more features or change existing functionality?
+By writing tests.
 
-單元測試（Unit test）非常適合用來驗證單一函式、方法或類別的行為。[`test`][`test`] 套件提供了撰寫單元測試的核心框架，而 [`flutter_test`][`flutter_test`] 套件則額外提供了測試元件 (Widgets) 的工具。
+Unit tests are handy for verifying the behavior of a single function,
+method, or class. The [`test`][] package provides the
+core framework for writing unit tests, and the [`flutter_test`][]
+package provides additional utilities for testing widgets.
 
-本教學將透過以下步驟，示範 `test` 套件所提供的核心功能：
+This recipe demonstrates the core features provided by the `test` package
+using the following steps:
 
-  1. 新增 `test` 或 `flutter_test` 相依套件。
-  2. 建立測試檔案。
-  3. 建立要測試的類別。
-  4. 為我們的類別撰寫 `test`。
-  5. 將多個測試結合在 `group` 中。
-  6. 執行測試。
+  1. Add the `test` or `flutter_test` dependency.
+  2. Create a test file.
+  3. Create a class to test.
+  4. Write a `test` for our class.
+  5. Combine multiple tests in a `group`.
+  6. Run the tests.
 
-如需有關 test 套件的更多資訊，請參閱 [test package documentation][test package documentation]。
+For more information about the test package,
+see the [test package documentation][].
 
-## 1. 新增 test 相依套件
+## 1. Add the test dependency
 
-`test` 套件提供了在 Dart 中撰寫測試的核心功能。當你要撰寫可供 Web、伺服器與 Flutter 應用程式使用的套件時，這是最佳的做法。
+The `test` package provides the core functionality for 
+writing tests in Dart. This is the best approach when
+writing packages consumed by web, server, and Flutter apps.
 
-要將 `test` 套件新增為開發相依套件（dev dependency），請執行 `flutter pub add`：
+To add the `test` package as a dev dependency,
+run `flutter pub add`:
 
 ```console
 $ flutter pub add dev:test
 ```
 
-## 2. 建立測試檔案
+## 2. Create a test file
 
-在這個範例中，請建立兩個檔案：`counter.dart` 和 `counter_test.dart`。
+In this example, create two files: `counter.dart` and `counter_test.dart`.
 
-`counter.dart` 檔案包含你想要測試的類別，並且位於 `lib` 資料夾中。`counter_test.dart` 檔案則包含實際的測試內容，並放在 `test` 資料夾內。
+The `counter.dart` file contains a class that you want to test and
+resides in the `lib` folder. The `counter_test.dart` file contains
+the tests themselves and lives inside the `test` folder.
 
-一般來說，測試檔案應該放在你的 Flutter 應用程式或套件根目錄下的 `test` 資料夾中。測試檔案的檔名應該以 `_test.dart` 結尾，這是測試執行器（test runner）在搜尋測試時所採用的慣例。
+In general, test files should reside inside a `test` folder
+located at the root of your Flutter application or package.
+Test files should always end with `_test.dart`,
+this is the convention used by the test runner when searching for tests.
 
-當你完成後，資料夾結構應該會如下所示：
+When you're finished, the folder structure should look like this:
 
 ```plaintext
 counter_app/
@@ -50,9 +64,12 @@ counter_app/
     counter_test.dart
 ```
 
-## 3. 建立要測試的類別
+## 3. Create a class to test
 
-接下來，你需要一個「單元」來進行測試。請記住：「單元」（unit）是指函式、方法或類別的另一種說法。在這個範例中，請在`lib/counter.dart`檔案中建立`Counter`類別。這個類別負責將`value`從`0`開始進行遞增與遞減。
+Next, you need a "unit" to test. Remember: "unit" is another name for a
+function, method, or class. For this example, create a `Counter` class
+inside the `lib/counter.dart` file. It is responsible for incrementing
+and decrementing a `value` starting at `0`.
 
 <?code-excerpt "lib/counter.dart"?>
 ```dart
@@ -65,12 +82,16 @@ class Counter {
 }
 ```
 
-**注意：** 為了簡化說明，本教學並未採用「測試驅動開發（Test Driven Development）」的方法。如果你對這種開發風格較為熟悉，也可以選擇採用那種方式。
+**Note:** For simplicity, this tutorial does not follow the "Test Driven
+Development" approach. If you're more comfortable with that style of
+development, you can always go that route.
 
-## 4. 為我們的類別撰寫測試
+## 4. Write a test for our class
 
-在 `counter_test.dart` 檔案中，撰寫第一個單元測試。測試是透過頂層的 `test` 函式來定義的，你可以使用頂層的 `expect` 函式來檢查結果是否正確。
-這兩個函式都來自 `test` 套件。
+Inside the `counter_test.dart` file, write the first unit test. Tests are
+defined using the top-level `test` function, and you can check if the results
+are correct by using the top-level `expect` function.
+Both of these functions come from the `test` package.
 
 <?code-excerpt "test/counter_test.dart"?>
 ```dart
@@ -89,9 +110,12 @@ void main() {
 }
 ```
 
-## 5. 在`group`中結合多個測試
+## 5. Combine multiple tests in a `group`
 
-如果你想要執行一系列相關的測試，可以使用`flutter_test`套件的[`group`][`group`]函式來分類這些測試。將測試歸入同一個群組後，你可以只用一個指令就對該群組內的所有測試呼叫`flutter test`。
+If you want to run a series of related tests,
+use the `flutter_test` package [`group`][] function to categorize the tests.
+Once put into a group, you can call `flutter test` on all tests in
+that group with one command.
 
 <?code-excerpt "test/group.dart"?>
 ```dart
@@ -123,47 +147,48 @@ void main() {
 }
 ```
 
-## 6. 執行測試
+## 6. Run the tests
 
-現在你已經有了一個`Counter`類別以及對應的測試，
-可以開始執行這些測試了。
+Now that you have a `Counter` class with tests in place,
+you can run the tests.
 
-### 使用 IntelliJ 或 VSCode 執行測試
+### Run tests using IntelliJ or VSCode
 
-Flutter 的 IntelliJ 與 VSCode 外掛都支援執行測試。
-這通常是在撰寫測試時最好的選擇，因為它能提供最快速的回饋循環，
-同時也能設定中斷點進行除錯。
+The Flutter plugins for IntelliJ and VSCode support running tests.
+This is often the best option while writing tests because it provides the
+fastest feedback loop as well as the ability to set breakpoints.
 
 - **IntelliJ**
 
-  1. 開啟`counter_test.dart`檔案
-  1. 前往 **Run** > **Run 'tests in counter_test.dart'**。
-     你也可以按下對應平台的快捷鍵。
+  1. Open the `counter_test.dart` file
+  1. Go to **Run** > **Run 'tests in counter_test.dart'**.
+     You can also press the appropriate keyboard shortcut for your platform.
 
 - **VSCode**
 
-  1. 開啟`counter_test.dart`檔案
-  1. 前往 **Run** > **Start Debugging**。
-     你也可以按下對應平台的快捷鍵。
+  1. Open the `counter_test.dart` file
+  1. Go to **Run** > **Start Debugging**.
+     You can also press the appropriate keyboard shortcut for your platform.
 
-### 在終端機中執行測試
+### Run tests in a terminal
 
-若要從終端機執行所有測試，
-請在專案根目錄下執行以下指令：
+To run the all tests from the terminal,
+run the following command from the root of the project:
 
 ```console
 flutter test test/counter_test.dart
 ```
 
-若要執行你放在同一個 `group` 中的所有測試，請在專案根目錄下執行以下指令：
+To run all tests you put into one `group`,
+run the following command from the root of the project:
 
 ```console
 flutter test --plain-name "Test start, increment, decrement"
 ```
 
-本範例使用了在**第 5 節**中建立的 `group`。
+This example uses the `group` created in **section 5**.
 
-若想進一步了解單元測試（unit tests），你可以執行以下指令：
+To learn more about unit tests, you can execute this command:
 
 ```console
 flutter test --help

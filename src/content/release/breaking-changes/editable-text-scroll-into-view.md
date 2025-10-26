@@ -1,41 +1,43 @@
 ---
-title: 更新 EditableText 捲動至可見行為
+title: Updated EditableText scroll into view behavior
 description: >
-  改善 EditableText 選取範圍捲動至可見的行為，始終
-  使用當前的選取範圍終點。
+  Improve EditableText selection scroll into view behavior to always
+  use the current selection extent.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-`Editable.onCaretChanged` 回呼已被移除。隨著此變更，
-`EditableText` 用於將選取範圍捲動至可見的行為
-也有所調整。
+The `Editable.onCaretChanged` callback is removed. With this change,
+`EditableText` behavior for scrolling the selection into view
+changes.
 
-## 背景
+## Context
 
-先前，在因使用者更新而捲動至可見時，`EditableText`
-會使用多種機制來判斷選取範圍的終點或游標位置。
+Previously, upon scrolling into view to show user updates, `EditableText`
+used multiple mechanisms to determine the extent of the selection or the
+caret location.
 
-## 變更說明
+## Description of change
 
-透過移除 `Editable.onCaretChanged` 回呼，`EditableText` 現在在捲動以顯示選取範圍時，
-將始終使用最新的選取範圍終點位置。
-特別是在使用 `userUpdateTextEditingValue()` 將選取範圍從收合狀態變更為非收合狀態後，
-此行為能進一步改善捲動至可見的體驗。
+By removing the `Editable.onCaretChanged` callback, `EditableText` will always
+use the most up-to-date selection extent location when scrolling to show it.
+Specifically, this improves scroll into view behavior after
+changing selection from collapsed to non-collapsed using
+`userUpdateTextEditingValue()`.
 
-## 時程
+## Timeline
 
-合併於版本：3.12.0-4.0.pre<br>
-穩定版釋出：3.13.0
+Landed in version: 3.12.0-4.0.pre<br>
+In stable release: 3.13.0
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
 * [`EditableText`]({{site.api}}/flutter/widgets/EditableText-class.html)
 
-相關 PR：
+Relevant PRs:
 
 * [109114: Remove Editable.onCaretChanged callback]({{site.repo.flutter}}/pull/109114)

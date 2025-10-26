@@ -1,121 +1,130 @@
 ---
-title: 熱重載（Hot reload）
-description: 使用 Flutter 的熱重載功能加速開發流程。
+title: Hot reload
+description: Speed up development using Flutter's hot reload feature.
 ---
 
 <?code-excerpt path-base="tools"?>
 
-Flutter 的熱重載（hot reload）功能可協助你快速且輕鬆地進行實驗、構建 UI、加入新功能以及修復錯誤。  
-熱重載的運作方式是將已更新的原始碼檔案注入到 [Dart 執行階段][Dart runtime] 中。  
-當 Dart 執行階段以新版本的欄位與函式更新類別後，Flutter 框架會自動重建元件樹（widget tree），  
-讓你能立即看到變更所帶來的效果。
+Flutter's hot reload feature helps you quickly and
+easily experiment, build UIs, add features, and fix bugs.
+Hot reload works by injecting updated source code files
+into the [Dart runtime][].
+After the Dart runtime updates classes with the new versions of fields and functions,
+the Flutter framework automatically rebuilds the widget tree,
+allowing you to quickly view the effects of your changes.
 
-![Hot reload GIF](/assets/images/docs/tools/hot-reload.gif){:width="100%"}<br>  
-DartPad 中熱重載的示範
+![Hot reload GIF](/assets/images/docs/tools/hot-reload.gif){:width="100%"}<br>
+A demo of hot reload in DartPad
 
-## 如何執行熱重載
+## How to perform a hot reload
 
-要對 Flutter 應用程式進行熱重載，請依下列步驟操作：
+To hot reload a Flutter app:
 
- 1. 從支援的 [Flutter 編輯器][Flutter editor] 或終端機視窗執行應用程式。  
-    目標可以是實體裝置或虛擬裝置。  
-    **只有處於偵錯模式（debug mode）的 Flutter 應用程式才能進行熱重載或熱重啟。**
- 1. 修改專案中的其中一個 Dart 檔案。  
-    大多數類型的程式碼變更都可以透過熱重載套用；  
-    若需查看哪些變更需要熱重啟，請參閱 [特殊情境](#特殊情境)。
- 1. 如果你使用支援 Flutter IDE 工具的 IDE/編輯器，且已啟用儲存時熱重載（hot reload on save），  
-    請選擇 **全部儲存**（`cmd-s`/`ctrl-s`），  
-    或點擊工具列上的熱重載按鈕。
+ 1. Run the app from a supported [Flutter editor][] or a terminal window.
+    Either a physical or virtual device can be the target.
+    **Only Flutter apps in debug mode can be hot reloaded or hot restarted.**
+ 1. Modify one of the Dart files in your project.
+    Most types of code changes can be hot reloaded;
+    for a list of changes that require a hot restart,
+    see [Special cases](#special-cases).
+ 1. If you're working in an IDE/editor that supports Flutter's IDE tools
+    and hot reload on save is enabled,
+    select **Save All** (`cmd-s`/`ctrl-s`),
+    or click the hot reload button on the toolbar.
 
     <a id="hot-reload-on-save" aria-hidden="true"></a>
 
-    :::tip 如何啟用儲存時熱重載
-    請在你偏好的 IDE 中啟用自動儲存與儲存時熱重載功能。
+    :::tip To enable hot reload on save
+    From your preferred IDE,
+    enable autosave and hot reloads on save.
 
     **VS Code**
 
-    請在你的 `.vscode/settings.json` 檔案中加入以下內容：
+    Add the following to your `.vscode/settings.json` file:
 
     ```json
     "files.autoSave": "afterDelay",
     "dart.flutterHotReloadOnSave": "all",
     ```
 
-    **Android Studio 和 IntelliJ**
+    **Android Studio and IntelliJ**
 
-    * 開啟 `Settings > Tools > Actions on Save` 並選擇
-      `Configure autosave options`。
-        - 勾選 `Save files if the IDE is idle for X seconds` 選項。
-        - **建議：** 設定較短的延遲時間，例如 2 秒。
+    * Open `Settings > Tools > Actions on Save` and select
+      `Configure autosave options`.
+        - Check the option to `Save files if the IDE is idle for X seconds`.
+        - **Recommended:** Set a small delay duration. For example, 2 seconds.
 
-    * 開啟 `Settings > Languages & Frameworks > Flutter`。
-        - 勾選 `Perform hot reload on save` 選項。
+    * Open `Settings > Languages & Frameworks > Flutter`.
+        - Check the option to `Perform hot reload on save`.
     :::
 
     If you're running the app at the command line using `flutter run`,
     enter `r` in the terminal window.
 
-在成功執行 hot reload（熱重載）操作後，
-你會在主控台（console）看到類似以下的訊息：
+After a successful hot reload operation,
+you'll see a message in the console similar to:
 
 ```console
 Performing hot reload...
 Reloaded 1 of 448 libraries in 978ms.
 ```
 
-應用程式會即時反映你的變更，
-且目前的應用程式狀態會被保留。
-你的應用程式會從執行 hot reload 指令前的狀態繼續執行。
-程式碼會被更新，執行也會繼續。
+The app updates to reflect your change,
+and the current state of the app is preserved.
+Your app continues to execute from where it was prior
+to run the hot reload command.
+The code updates and execution continues.
 
 :::secondary
-**Hot reload、hot restart 與 full restart 有什麼不同？**
+**What is the difference between hot reload, hot restart,
+and full restart?**
 
-* **Hot reload（熱重載）** 會將程式碼變更載入至 VM 或瀏覽器，
-  並重新建構元件樹（widget tree），同時保留應用程式狀態；
-  它不會重新執行 `main()` 或 `initState()`。
-  （IntelliJ 與 Android Studio 中為 `⌘\`，VSCode 中為 `⌃F5`）
-* **Hot restart（熱重啟）** 會將程式碼變更載入至 VM 或瀏覽器，
-  並重新啟動 Flutter 應用程式，應用程式狀態會遺失。
-  在網頁端，這可以在不重新整理整個頁面的情況下重啟應用程式。
-  （IntelliJ 與 Android Studio 中為 `⇧⌘\`，VSCode 中為 `⇧⌘F5`）
-* **Full restart（完全重啟）** 會重新啟動 iOS、Android 或網頁應用程式。
-  這個動作較耗時，因為同時會重新編譯
-  Java / Kotlin / Objective-C / Swift / JavaScript 程式碼。
-  在網頁端，也會重新啟動 Dart Development Compiler。
-  沒有特定的鍵盤快捷鍵可執行這個動作；
-  你需要手動停止並重新啟動執行組態。
+* **Hot reload** loads code changes into the VM or the browser,
+  and re-builds the widget tree, preserving the app state;
+  it doesn't rerun `main()` or `initState()`.
+  (`⌘\` in Intellij and Android Studio, `⌃F5` in VSCode)
+* **Hot restart** loads code changes into the VM or the browser,
+  and restarts the Flutter app, losing the app state.
+  On the web, this can restart the app without a full page refresh.
+  (`⇧⌘\` in IntelliJ and Android Studio, `⇧⌘F5` in VSCode)
+* **Full restart** restarts the iOS, Android, or web app.
+  This takes longer because it also recompiles the
+  Java / Kotlin / Objective-C / Swift / JavaScript code.
+  On the web, it also restarts the Dart Development Compiler.
+  There is no specific keyboard shortcut for this;
+  you need to stop and start the run configuration.
 
-Flutter web 現已支援 hot restart 及 [hot reload][hot reload]。
+Flutter web now supports hot restart and [hot reload][].
 :::
 
 [hot reload]: /platform-integration/web/building#hot-reload-web
 
 ![Android Studio UI](/assets/images/docs/development/tools/android-studio-run-controls.png){:width="100%"}<br>
-Android Studio 中的執行、除錯執行、hot reload 與 hot restart 控制項
+Controls for run, run debug, hot reload, and hot restart in Android Studio
 
-只有當被修改的 Dart 程式碼在變更後再次執行時，程式碼變更才會產生可見的效果。具體來說，
-hot reload 會讓所有現有的元件（Widgets）重新建構。
-只有參與這些元件重建過程的程式碼
-會被自動重新執行。例如，`main()` 和 `initState()`
-函式就不會再次執行。
+A code change has a visible effect only if the modified
+Dart code is run again after the change. Specifically,
+a hot reload causes all the existing widgets to rebuild.
+Only code involved in the rebuilding of the widgets
+is automatically re-executed. The `main()` and `initState()`
+functions, for example, are not run again.
 
-## 特殊情境
+## Special cases
 
-以下章節將說明與 hot reload 相關的特定情境。
-在某些情況下，對 Dart 程式碼進行小幅修改
-即可讓你繼續使用 hot reload。
-但在其他情況下，則需要 hot restart 或完全重啟（full restart）。
+The next sections describe specific scenarios that involve
+hot reload. In some cases, small changes to the Dart code
+enable you to continue using hot reload for your app.
+In other cases, a hot restart, or a full restart is needed.
 
-### 應用程式被終止
+### An app is killed
 
-當應用程式被終止時，hot reload 可能會失效。
-例如，如果應用程式在背景執行過久。
+Hot reload can break when the app is killed.
+For example, if the app was in the background for too long.
 
-### 編譯錯誤
+### Compilation errors
 
-當程式碼變更導致編譯錯誤時，
-hot reload 會產生類似以下的錯誤訊息：
+When a code change introduces a compilation error,
+hot reload generates an error message similar to:
 
 ```plaintext
 Hot reload was rejected:
@@ -127,26 +136,30 @@ Hot reload was rejected:
     ^
 ```
 
-在這種情況下，只需修正 Dart 程式碼中指定行的錯誤，即可繼續使用 hot reload（熱重載）。
+In this situation, simply correct the errors on the
+specified lines of Dart code to keep using hot reload.
 
-### CupertinoTabView 的 builder
+### CupertinoTabView's builder
 
-對 `CupertinoTabView` 的 `builder` 所做的變更，hot reload（熱重載）不會套用。
-如需更多資訊，請參閱 [Issue 43574][Issue 43574]。
+Hot reload won't apply changes made to
+a `builder` of a `CupertinoTabView`.
+For more information, see [Issue 43574][].
 
-### 列舉型別（Enumerated types）
+### Enumerated types
 
-當列舉型別（enum）變更為一般類別，或一般類別變更為列舉型別時，hot reload（熱重載）將無法運作。
+Hot reload doesn't work when enumerated types are
+changed to regular classes or regular classes are
+changed to enumerated types.
 
-例如：
+For example:
 
-變更前：
+Before the change:
 <?code-excerpt "lib/hot-reload/before.dart (enum)"?>
 ```dart
 enum Color { red, green, blue }
 ```
 
-變更後：
+After the change:
 <?code-excerpt "lib/hot-reload/after.dart (enum)"?>
 ```dart
 class Color {
@@ -156,11 +169,12 @@ class Color {
 }
 ```
 
-### 泛型類型
+### Generic types
 
-當泛型類型（generic type）宣告被修改時，熱重載（hot reload）將無法運作。例如，下列情況將無法使用：
+Hot reload won't work when generic type declarations
+are modified. For example, the following won't work:
 
-修改前：
+Before the change:
 <?code-excerpt "lib/hot-reload/before.dart (class)"?>
 ```dart
 class A<T> {
@@ -168,7 +182,7 @@ class A<T> {
 }
 ```
 
-變更後：
+After the change:
 <?code-excerpt "lib/hot-reload/after.dart (class)"?>
 ```dart
 class A<T, V> {
@@ -177,21 +191,41 @@ class A<T, V> {
 }
 ```
 
-### 原生程式碼
+### Native code
 
-如果你變更了原生程式碼（例如 Kotlin、Java、Swift 或 Objective-C），你必須執行完整重啟（停止並重新啟動應用程式），才能讓變更生效。
+If you've changed native code (such as Kotlin, Java, Swift,
+or Objective-C), you must perform a full restart (stop and
+restart the app) to see the changes take effect.
 
-### 先前狀態與新程式碼結合
+### Previous state is combined with new code
 
-Flutter 的 stateful hot reload（有狀態熱重載）會保留應用程式的狀態。這種方式讓你只需查看最近一次變更的效果，而不會丟失目前的狀態。例如，如果你的應用程式需要使用者登入，你可以在導覽階層的多層頁面中修改並熱重載頁面，而無需重新輸入登入憑證。狀態會被保留，這通常是預期的行為。
+Flutter's stateful hot reload preserves the state of your app.
+This approach enables you to view the effect of the most
+recent change only, without throwing away the current state.
+For example, if your app requires a user to log in,
+you can modify and hot reload a page several levels down in
+the navigation hierarchy, without re-entering your login credentials.
+State is kept, which is usually the desired behavior.
 
-如果程式碼變更影響到應用程式的狀態（或其相依項），應用程式可用的資料可能就不會與從頭執行時完全一致。因此，熱重載後的行為可能會與熱重啟後不同。
+If code changes affect the state of your app (or its dependencies),
+the data your app has to work with might not be fully consistent
+with the data it would have if it executed from scratch.
+The result might be different behavior after a hot reload
+versus a hot restart.
 
-### 僅包含最近的程式碼變更，但不包含應用狀態
+### Recent code change is included but app state is excluded
 
-在 Dart 中，[靜態欄位會延遲初始化][static-variables]。這代表當你第一次執行 Flutter 應用程式並讀取靜態欄位時，它會被設定為其初始化運算後的值。全域變數與靜態欄位會被視為狀態，因此在 hot reload（熱重載）時不會重新初始化。
+In Dart, [static fields are lazily initialized][static-variables].
+This means that the first time you run a Flutter app and a
+static field is read, it's set to whatever value its
+initializer was evaluated to.
+Global variables and static fields are treated as state,
+and are therefore not reinitialized during hot reload.
 
-如果你變更了全域變數或靜態欄位的初始化內容，則必須進行 hot restart（熱重啟）或重新啟動，才能看到這些變更生效。例如，請參考以下程式碼：
+If you change initializers of global variables and static fields,
+a hot restart or restart the state where the initializers are hold
+is necessary to see the changes.
+For example, consider the following code:
 
 <?code-excerpt "lib/hot-reload/before.dart (sample-table)"?>
 ```dart
@@ -219,7 +253,7 @@ final sampleTable = [
 ];
 ```
 
-在執行應用程式後，您進行了以下變更：
+After running the app, you make the following change:
 
 <?code-excerpt "lib/hot-reload/after.dart (sample-table)"?>
 ```dart
@@ -249,9 +283,9 @@ final sampleTable = [
 ];
 ```
 
-你進行了 hot reload（熱重載），但變更沒有反映出來。
+You hot reload, but the change is not reflected.
 
-相反地，在以下範例中：
+Conversely, in the following example:
 
 <?code-excerpt "lib/hot-reload/before.dart (const)"?>
 ```dart
@@ -263,8 +297,8 @@ void onClick() {
 }
 ```
 
-第一次執行應用程式時，會印出 `1` 和 `1`。
-接著，你進行以下修改：
+Running the app for the first time prints `1` and `1`.
+Then, you make the following change:
 
 <?code-excerpt "lib/hot-reload/after.dart (const)"?>
 ```dart
@@ -276,20 +310,25 @@ void onClick() {
 }
 ```
 
-當`const`欄位的值發生變化時，這些變更會自動熱重載（hot reload），
-但靜態欄位初始化器（static field initializer）並不會重新執行。概念上來說，
-`const`欄位被視為別名（alias），而非狀態（state）。
+While changes to `const` field values are always hot reloaded,
+the static field initializer is not rerun. Conceptually,
+`const` fields are treated like aliases instead of state.
 
-Dart VM 會偵測初始化器的變更，並在某些變更需要進行熱重啟（hot restart）才能生效時進行標記。
-在上述範例中，大部分的初始化工作都會觸發這個標記機制，
-但像以下這種情況則不會：
+The Dart VM detects initializer changes and flags when a set
+of changes needs a hot restart to take effect.
+The flagging mechanism is triggered for
+most of the initialization work in the above example,
+but not for cases like the following:
 
 <?code-excerpt "lib/hot-reload/after.dart (final-foo)"?>
 ```dart
 final bar = foo;
 ```
 
-若要在熱重載（hot reload）後更新 `foo` 並查看變更，請考慮將該欄位重新定義為 `const`，或使用 getter 來回傳其值，而非使用 `final`。例如，下列任一解決方案皆可行：
+To update `foo` and view the change after hot reload,
+consider redefining the field as `const` or using a getter to
+return the value, rather than using `final`.
+For example, either of the following solutions work:
 
 <?code-excerpt "lib/hot-reload/foo_const.dart (const)"?>
 ```dart
@@ -311,15 +350,23 @@ void onClick() {
 }
 ```
 
-如需更多資訊，請參閱 Dart 中[`const` 與 `final` 關鍵字的差異][const-new]。
+For more information, read about the [differences
+between the `const` and `final` keywords][const-new] in Dart.
 
-### 最近的 UI 變更未被套用
+### Recent UI change is excluded
 
-即使熱重載（hot reload）操作顯示成功且未產生任何例外，有些程式碼變更仍可能不會在重新整理後的 UI 中顯示出來。這種情況在變更應用程式的 `main()` 或 `initState()` 方法後很常見。
+Even when a hot reload operation appears successful and generates no
+exceptions, some code changes might not be visible in the refreshed UI.
+This behavior is common after changes to the app's `main()` or
+`initState()` methods.
 
-一般來說，如果修改的程式碼位於根元件（root widget）的 `build()` 方法之下，熱重載會如預期運作。然而，如果修改的程式碼在重建元件樹（widget tree）時不會被重新執行，那麼在熱重載後你將看不到其效果。
+As a general rule, if the modified code is downstream of the root
+widget's `build()` method, then hot reload behaves as expected.
+However, if the modified code won't be re-executed as a result
+of rebuilding the widget tree, then you won't
+see its effects after hot reload.
 
-例如，請參考以下程式碼：
+For example, consider the following code:
 
 <?code-excerpt "lib/hot-reload/before.dart (build)"?>
 ```dart
@@ -339,7 +386,7 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-執行此應用程式後，請將程式碼修改如下：
+After running this app, change the code as follows:
 
 <?code-excerpt "lib/hot-reload/after.dart (main)"?>
 ```dart
@@ -350,32 +397,36 @@ void main() {
 }
 ```
 
-在進行 hot restart（熱重啟）時，程式會從頭開始執行，
-執行新的 `main()` 版本，
-並建立一個元件樹（widget tree），顯示文字 `Hello`。
+With a hot restart, the program starts from the beginning,
+executes the new version of `main()`,
+and builds a widget tree that displays the text `Hello`.
 
-然而，如果你在這個變更後執行 hot reload（熱重載），
-`main()` 和 `initState()` 不會被重新執行，
-元件樹會以未變更的 `MyApp` 實例作為根元件（root widget）重新建立。
-這會導致 hot reload 後畫面沒有任何可見變化。
+However, if you hot reload the app after this change,
+`main()` and `initState()` are not re-executed,
+and the widget tree is rebuilt with the unchanged instance
+of `MyApp` as the root widget.
+This results in no visible change after hot reload.
 
-## 運作原理
+## How it works
 
-當 hot reload 被觸發時，主機會檢查自上次編譯以來被編輯過的程式碼。
-下列函式庫會被重新編譯：
+When hot reload is invoked, the host machine looks
+at the edited code since the last compilation.
+The following libraries are recompiled:
 
-* 任何有程式碼變更的函式庫
-* 應用程式的主函式庫
-* 從主函式庫到受影響函式庫之間的相關函式庫
+* Any libraries with changed code
+* The application's main library
+* The libraries from the main library leading
+  to affected libraries
 
-這些函式庫的原始碼會被編譯成
-[kernel files][kernel files]，並傳送到行動裝置上的 Dart VM。
+The source code from those libraries is compiled into
+[kernel files][] and sent to the mobile device's Dart VM.
 
-Dart VM 會從新的 kernel file 重新載入所有函式庫。
-到這裡為止，尚未有任何程式碼被重新執行。
+The Dart VM re-loads all libraries from the new kernel file.
+So far no code is re-executed.
 
-接著，hot reload 機制會讓 Flutter 框架觸發
-所有現有元件（widgets）與渲染物件（render objects）的重建／重新排版／重新繪製。
+The hot reload mechanism then causes the Flutter framework
+to trigger a rebuild/re-layout/repaint of all existing
+widgets and render objects.
 
 [static-variables]: {{site.dart-site}}/language/classes#static-variables
 [const-new]: {{site.dart-site}}/language/variables#final-and-const

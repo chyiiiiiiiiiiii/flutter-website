@@ -1,44 +1,49 @@
 ---
-title: 使用整合測試檢查應用程式功能
-description: 學習如何撰寫整合測試
+title: Check app functionality with an integration test
+description: Learn how to write integration tests
 ---
 
 <?code-excerpt path-base="testing/integration_tests/how_to"?>
 
-## 介紹
+## Introduction
 
-本指南說明如何在你的 Flutter 應用程式中執行整合測試。透過本指南，你將學會以下內容：
+This guide describes how to run integration tests with your Flutter app. With
+it, you'll learn how to do the following:
 
-* 設定整合測試。
-* 驗證應用程式是否顯示特定文字。
-* 點擊特定元件（Widgets）。
-* 執行整合測試。
+* Set up integration tests.
+* Verify if an app displays specific text.
+* Tap specific widgets.
+* Run integration tests.
 
-本指南會參考 Flutter 內建的 `counter_app` 專案，以及 Flutter 的 [`integration_test`][`integration_test`] 套件。`integration_test` 套件讓你可以：
+The guide references the `counter_app` project that comes with
+Flutter and the Flutter [`integration_test`][] package. The
+`integration_test` package lets you:
 
-* 使用 `flutter drive` 指令，在實體裝置或模擬器上執行測試。
-* 在 [Firebase Test Lab][Firebase Test Lab] 上執行，實現多種裝置的自動化測試。
-* 使用 [flutter_test][flutter_test] API，以類似 [元件測試（widget tests）][widget tests] 的風格撰寫測試。
+* Use the `flutter drive` command to run tests on a physical device or emulator.
+* Run on [Firebase Test Lab][], to automate testing on a variety of devices.
+* Use [flutter_test][] APIs to write tests in a style similar to
+  [widget tests][].
 
-## 建立一個要測試的新應用程式
+## Create a new app to test
 
-整合測試需要一個可供測試的應用程式。
-本範例使用 Flutter 在執行 `flutter create` 指令時所產生的內建 **Counter App** 範例。
-Counter App 允許使用者點擊按鈕來增加計數器。
+Integration testing requires an app to test.
+This example uses the built-in **Counter App** example
+that Flutter produces when you run the `flutter create` command.
+The counter app allows a user to tap on a button to increase a counter.
 
-1. 若要建立一個 Flutter 內建應用程式的實例，
-   請在終端機中執行下列指令：
+1. To create an instance of the built-in Flutter app,
+   run the following command in your terminal:
 
    ```console
    $ flutter create counter_app
    ```
 
-1. 切換到 `counter_app` 目錄。
+1. Change into the `counter_app` directory.
 
-1. 在你偏好的 IDE 中開啟 `lib/main.dart`。
+1. Open `lib/main.dart` in your preferred IDE.
 
-1. 在 `floatingActionButton()` 元件（Widget）中新增一個 `key` 參數，
-   並傳入一個 `Key` 類別的實例，其字串值為 `increment`。
+1. Add a `key` parameter to the `floatingActionButton()` widget
+   with an instance of a `Key` class with a string value of `increment`.
 
    ```dart
     floatingActionButton: FloatingActionButton(
@@ -49,10 +54,10 @@ Counter App 允許使用者點擊按鈕來增加計數器。
     ),
    ```
 
-1. 儲存你的`lib/main.dart`檔案。
+1. Save your `lib/main.dart` file.
 
-完成這些變更後，
-`lib/main.dart`檔案應該會類似以下程式碼。
+After these changes,
+the `lib/main.dart` file should resemble the following code.
 
 <?code-excerpt "lib/main.dart"?>
 ```dart title="lib/main.dart"
@@ -119,12 +124,12 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 ```
 
-## 新增 `integration_test` 相依套件
+## Add the `integration_test` dependency
 
-你需要將測試套件加入你的新應用程式中。
+You need to add the testing packages to your new app.
 
-要使用 `sdk: flutter` 將 `integration_test` 和 `flutter_test` 套件
-作為 `dev_dependencies` 新增，請執行以下指令。
+To add `integration_test` and `flutter_test` packages as
+`dev_dependencies` using `sdk: flutter`, run following command.
 
 ```console
 $ flutter pub add 'dev:integration_test:{"sdk":"flutter"}'
@@ -150,7 +155,7 @@ Changed 8 dependencies!
 Try `flutter pub outdated` for more information.
 ```
 
-已更新 `pubspec.yaml` 檔案：
+Updated `pubspec.yaml` file:
 
 ```yaml title="pubspec.yaml"
 # ...
@@ -164,14 +169,15 @@ dev_dependencies:
 # ...
 ```
 
-## 建立整合測試檔案
+## Create the integration test files
 
-整合測試（Integration tests）會放在 Flutter 專案中的一個獨立目錄下。
+Integration tests reside in a separate directory inside 
+your Flutter project.
 
-1. 建立一個名為 `integration_test` 的新目錄。
-2. 在該目錄中新增一個名為 `app_test.dart` 的空檔案。
+1. Create a new directory named `integration_test`.
+1. Add empty file named `app_test.dart` in that directory.
 
-最後的目錄結構應該會類似以下所示：
+The resulting directory tree should resemble the following:
 
 ```plaintext
 counter_app/
@@ -181,20 +187,21 @@ counter_app/
     app_test.dart
 ```
 
-## 撰寫整合測試（integration test）
+## Write the integration test
 
-整合測試檔案是一個 Dart 程式碼檔案，
-其依賴於 `integration_test`、`flutter_test`，
-以及你應用程式的 Dart 檔案。
+The integration test file consists of a Dart code file
+with dependencies on `integration_test`, `flutter_test`,
+and your app's Dart file.
 
-1. 在你偏好的 IDE 中開啟 `integration_test/app_test.dart` 檔案。
+1. Open your `integration_test/app_test.dart` file in your preferred IDE.
 
-1. 複製下列程式碼，並貼到你的
-   `integration_test/app_test.dart` 檔案中。
-   最後一個 import 應該指向你`counter_app`的 `main.dart` 檔案。
-   （這裡的 `import` 指向名為 `introduction` 的範例應用程式。）
+1. Copy the following code and paste it into your
+   `integration_test/app_test.dart` file.
+   The last import should point to the `main.dart` file
+   of your `counter_app`.
+   (This `import` points to the example app called `introduction`.)
 
-    <?code-excerpt "integration_test/counter_test.dart (initial)" replace="/introduction/counter_app/g?>
+    <?code-excerpt "integration_test/counter_test.dart (initial)" replace="/introduction/counter_app/g"?>
     ```dart title="integration_test/counter_test.dart"
     import 'package:flutter/material.dart';
     import 'package:flutter_test/flutter_test.dart';
@@ -230,36 +237,40 @@ counter_app/
     }
     ```
 
-本範例分為三個步驟：
+This example goes through three steps:
 
-1. 初始化 `IntegrationTestWidgetsFlutterBinding`。  
-   這個單例服務會在實體裝置上執行測試。
+1. Initialize `IntegrationTestWidgetsFlutterBinding`.
+   This singleton service executes tests on a physical device.
 
-2. 使用 `WidgetTester` 類別與元件（Widgets）互動並進行測試。
+2. Interact and test widgets using the `WidgetTester` class.
 
-3. 測試重要情境。
+3. Test the important scenarios.
 
-## 執行整合測試
+## Run integration tests
 
-執行的整合測試會依據你測試的平台而有所不同。
+The integration tests that run vary depending on the
+platform on which you test.
 
-* 若要測試桌面平台，請使用命令列或 CI 系統。
-* 若要測試行動平台，請使用命令列或 Firebase Test Lab。
-* 若要在網頁瀏覽器中測試，請使用命令列。
+* To test a desktop platform, use the command line or a CI system.
+* To test a mobile platform, use the command line or Firebase Test Lab.
+* To test in a web browser, use the command line.
 
 ---
 
-### 在桌面平台上測試
+### Test on a desktop platform
 
 <details markdown="1">
-<summary>如果你使用 CI 系統測試 Linux 應用程式，請展開</summary>
+<summary>Expand if you test Linux apps using a CI system</summary>
 
-要測試 Linux 應用程式，你的 CI 系統必須先啟動 X server。  
-在 GitHub Action、GitLab Runner 或類似的設定檔中，請設定整合測試與 `xvfb-run` 工具一起運作。
+To test a Linux app, your CI system must invoke an X server first.
+In the GitHub Action, GitLab Runner, or similar configuration file,
+set the integration test to work _with_ the `xvfb-run` tool.
 
-這麼做會啟動一個 X Window 系統，讓 Flutter 能夠啟動並測試你的 Linux 應用程式。
+Doing this invokes an X Window system into which Flutter can
+launch and test your Linux app.
 
-以下以 GitHub Actions 為例，你的 `jobs.setup.steps` 應包含類似下列的步驟：
+As an example using GitHub Actions, your `jobs.setup.steps` should
+include a step resembling the following:
 
 ```yaml
       - name: Run Integration Tests
@@ -268,10 +279,10 @@ counter_app/
           run: flutter test integration_test -d linux -r github
 ```
 
-這會在 X Window 中啟動整合測試（integration test）。
+This starts the integration test within an X Window.
 
-如果你沒有以這種方式設定整合測試，  
-Flutter 會回傳錯誤。
+If you don't configure your integration in this way,
+Flutter returns an error.
 
 ```console
 Building Linux application...
@@ -280,20 +291,20 @@ Error waiting for a debug connection: The log reader stopped unexpectedly, or ne
 
 </details>
 
-若要在 macOS、Windows 或 Linux 平台上進行測試，
-請完成以下步驟。
+To test on a macOS, Windows, or Linux platform,
+complete the following tasks.
 
-1. 在專案根目錄下執行以下指令。
+1. Run the following command from the root of the project.
 
    ```console
    $ flutter test integration_test/app_test.dart
    ```
 
-1. 如果有提供選擇測試平台的選項，
-   請選擇桌面平台。
-   輸入 `1` 以選擇桌面平台。
+1. If offered a choice of platform to test,
+   choose the desktop platform.
+   Type `1` to choose the desktop platform.
 
-根據所選平台，指令結果應類似以下輸出。
+Based on platform, the command result should resemble the following output.
 
 {% tabs %}
 {% tab "Windows" %}
@@ -315,20 +326,20 @@ Error waiting for a debug connection: The log reader stopped unexpectedly, or ne
 
 ---
 
-### 在 Android 裝置上測試
+### Test on an Android device
 
-若要在實體 Android 裝置上進行測試，
-請完成以下步驟。
+To test on a real Android device,
+complete the following tasks.
 
-1.  連接 Android 裝置。
+1.  Connect the Android device.
 
-1.  從專案根目錄執行以下指令。
+1.  Run the following command from the root of the project.
 
     ```console
     $ flutter test integration_test/app_test.dart
     ```
 
-    結果應該會類似以下的輸出。
+    The result should resemble the following output.
 
     ```console
     $ flutter test integration_test/app_test.dart
@@ -339,23 +350,25 @@ Error waiting for a debug connection: The log reader stopped unexpectedly, or ne
     00:21 +1: All tests passed!
     ```
 
-1.  確認測試結束後已移除 Counter App。如果沒有移除，後續測試將會失敗。如有需要，請長按該應用程式，並從選單中選擇 **Remove App**（移除應用程式）。
+1.  Verify that the test removed the Counter App when it finished.
+    If not, subsequent tests fail. If needed, press on the app and choose
+    **Remove App** from the context menu.
 
 ---
 
-### 在 iOS 裝置上進行測試
+### Test on an iOS device
 
-若要在實體 iOS 裝置上進行測試，請完成以下步驟。
+To test on a real iOS device, complete the following tasks.
 
-1. 連接 iOS 裝置。
+1. Connect the iOS device.
 
-1. 在專案根目錄執行以下指令。
+1. Run the following command from the root of the project.
 
    ```console
    $ flutter test integration_test/app_test.dart
    ```
 
-   結果應該會類似以下的輸出。
+   The result should resemble the following output.
 
    ```console
    $ flutter test integration_test/app_test.dart
@@ -366,60 +379,61 @@ Error waiting for a debug connection: The log reader stopped unexpectedly, or ne
    00:21 +1: All tests passed!
    ```
 
-1. 確認測試結束時是否已移除 Counter App。
-   如果沒有，後續的測試將會失敗。如有需要，請長按該應用程式，然後從選單中選擇
-   **Remove App** 來移除。
+1. Verify that the test removed the Counter App when it finished.
+   If not, subsequent tests fail. If needed, press on the app and choose
+   **Remove App** from the context menu.
 
 ---
 
-### 在網頁瀏覽器中進行測試
+### Test in a web browser
 
 {% comment %}
-TODO(ryjohn): 支援其他 WebDriver 版本後再補充：
+TODO(ryjohn): Add back after other WebDriver versions are supported:
 https://github.com/flutter/flutter/issues/90158
 
-若要在網頁上進行測試，
-請先決定要測試哪一種瀏覽器，
-並下載對應的 WebDriver：
+To test for web,
+determine which browser you want to test against
+and download the corresponding web driver:
 
-* Chrome：下載 [ChromeDriver][ChromeDriver]
-* Firefox：[下載 GeckoDriver][Download GeckoDriver]
-* Safari：Safari 僅能在 Mac 上測試；
-  Mac 裝置已預先安裝 SafariDriver。
-* Edge：[下載 EdgeDriver][Download EdgeDriver]
+* Chrome: Download [ChromeDriver][]
+* Firefox: [Download GeckoDriver][]
+* Safari: Safari can only be tested on a Mac;
+  the SafariDriver is already installed on Mac machines.
+* Edge [Download EdgeDriver][]
 {% endcomment -%}
 
-若要在網頁瀏覽器中進行測試，請依照下列步驟操作。
+To test in a web browser, perform the following steps.
 
-1. 將 [ChromeDriver][ChromeDriver] 安裝到你選擇的目錄中。
+1. Install [ChromeDriver][] into the directory of your choice.
 
    ```console
    $ npx @puppeteer/browsers install chromedriver@stable
    ```
 
-   為了簡化安裝，此指令會使用 [`@puppeteer/browsers`][puppeteer] Node 函式庫。
+   To simplify the install, this command uses the
+   [`@puppeteer/browsers`][puppeteer] Node library.
 
    [puppeteer]: https://www.npmjs.com/package/@puppeteer/browsers
 
-1. 將 ChromeDriver 的路徑加入到你的 `$PATH` 環境變數中。
+1. Add the path to ChromeDriver to your `$PATH` environment variable.
 
-1. 驗證 ChromeDriver 是否安裝成功。
+1. Verify the ChromeDriver install succeeded.
 
    ```console
    $ chromedriver --version
    ChromeDriver 124.0.6367.60 (8771130bd84f76d855ae42fbe02752b03e352f17-refs/branch-heads/6367@{#798})
    ```
 
-1. 在你的 `counter_app` 專案目錄中，  
-   建立一個名為 `test_driver` 的新目錄。
+1. In your `counter_app` project directory,
+   create a new directory named `test_driver`.
 
    ```console
    $ mkdir test_driver
    ```
 
-1. 在此目錄中，建立一個名為 `integration_test.dart` 的新檔案。
+1. In this directory, create a new file named `integration_test.dart`.
 
-1. 複製以下程式碼，並貼到你的 `integration_test.dart` 檔案中。
+1. Copy the following code and paste it into your `integration_test.dart` file.
 
    <?code-excerpt "test_driver/integration_test.dart"?>
    ```dart title="test_driver/integration_test.dart"
@@ -428,13 +442,13 @@ https://github.com/flutter/flutter/issues/90158
    Future<void> main() => integrationDriver();
    ```
 
-1. 請依下列方式啟動 `chromedriver`：
+1. Launch `chromedriver` as follows:
 
    ```console
    $ chromedriver --port=4444
    ```
 
-1. 從專案的根目錄執行以下指令：
+1. From the root of the project, run the following command:
 
    ```console
    $ flutter drive \
@@ -443,7 +457,7 @@ https://github.com/flutter/flutter/issues/90158
      -d chrome
    ```
 
-   回應結果應類似以下輸出：
+   The response should resemble the following output:
 
    ```console
    Resolving dependencies...
@@ -468,7 +482,8 @@ https://github.com/flutter/flutter/issues/90158
    Application finished.
    ```
 
-   若要以無頭（headless）模式執行此測試，請使用 `-d web-server` 選項執行 `flutter drive`：
+   To run this as a headless test, run `flutter drive`
+   with `-d web-server` option:
 
    ```console
    $ flutter drive \
@@ -477,35 +492,35 @@ https://github.com/flutter/flutter/issues/90158
      -d web-server
    ```
 
-欲了解更多資訊，請參閱
-[Running Flutter driver tests with web][Running Flutter driver tests with web] 維基頁面。
+To learn more, see the
+[Running Flutter driver tests with web][] wiki page.
 
 ---
 
-### 在 Firebase Test Lab（Android）中進行測試
+### Test in Firebase Test Lab (Android)
 
-你可以使用 Firebase Test Lab 來測試 Android 目標。
+You can use Firebase Test Lab to test Android targets.
 
-#### Android 設定
+#### Android setup
 
-請依照 [Android Device Testing][Android Device Testing]
-的 README 章節說明進行設定。
+Follow the instructions in the [Android Device Testing][]
+section of the README.
 
-#### Test Lab 專案設定
+#### Test Lab project setup
 
-1. 開啟你的 [Firebase Console][Firebase Console]。
+1. Launch your [Firebase Console][].
 
-1. 如有需要，請建立新的 Firebase 專案。
+1. Create a new Firebase project if necessary.
 
-1. 導航至 **Quality > Test Lab**。
+1. Navigate to **Quality > Test Lab**.
 
    <img src='/assets/images/docs/integration-test/test-lab-1.png' alt="Firebase Test Lab Console">
 
-#### 上傳 Android APK
+#### Upload an Android APK
 
-請依照下列步驟上傳 Android APK。
+Complete the following steps to upload an Android APK.
 
-1. 使用 Gradle 建立 APK。
+1.  Create an APK using Gradle.
 
     ```console
     // Go to the Android directory which contains the gradlew script
@@ -522,80 +537,84 @@ https://github.com/flutter/flutter/issues/90158
     $ ./gradlew app:assembleDebug -Ptarget=integration_test/<name>_test.dart
     ```
 
-    *  `<name>_test.dart`：在 **Project Setup**（專案設定）章節中建立的檔案。
+    *  `<name>_test.dart`: The file created in the **Project Setup** section.
 
-  1.  如有需要，請以逗號分隔的清單方式傳遞參數給整合測試。所有參數都需以 `base64` 編碼。
+  1.  If needed, pass parameters into the integration test as a comma-separated
+      list. Encode all parameters as `base64`.
 
       ```console
       $ ./gradlew project:task -Pdart-defines="{base64 (key=value)}[, ...]"
       ```
 
-      * `(key=value)}[, ...]`: 請以逗號分隔的鍵值對列表取代此處。
+      * `(key=value)}[, ...]`: Replace this with a comma-separated list of
+        key value pairs.
 
-  1.  返回到你先前的目錄。
+  1.  Return to your previous directory.
 
       ```console
       $ popd
       ```
 
-如需更多說明，請參閱
-[README 的 Firebase Test Lab 章節][Firebase Test Lab section of the README]。
+For additional instructions, see the
+[Firebase Test Lab section of the README][].
 
-#### 啟動 Robo 測試
+#### Start Robo test
 
-若要使用 Robo test 執行整合測試，請完成以下步驟。
+To use Robo test to run integration tests, complete the following steps.
 
-1.  將 debug APK 從
+1.  Drag the debug APK from
     `<flutter_project_directory>/build/app/outputs/apk/debug`
-    拖曳到網頁上的 **Android Robo Test** 目標區。例如：
+    into the **Android Robo Test** target on the web page. For example:
 
     <img src='/assets/images/docs/integration-test/test-lab-2.png' alt="Firebase Test Lab upload">
 
-1.  點擊 **Run a test**。
+1.  Click **Run a test**.
 
-1.  選擇 **Instrumentation** 測試類型。
+1.  Select the **Instrumentation** test type.
 
-1.  將 App APK 加入 **App APK or AAB** 欄位。
+1.  Add the App APK to the **App APK or AAB** box.
 
     `<flutter_project_directory>/build/app/outputs/apk/debug/<file>.apk`
 
-1.  將 Test APK 加入 **Test APK** 欄位。
+1.  Add the Test APK to the **Test APK** box.
 
     `<flutter_project_directory>/build/app/outputs/apk/androidTest/debug/<file>.apk`
 
     <img src='/assets/images/docs/integration-test/test-lab-3.png' alt="Firebase Test Lab upload two APKs">
 
-1.  若測試失敗，請點擊紅色圖示以檢視輸出結果：
+1.  If a failure occurs, click the red icon to view the output:
 
     <img src='/assets/images/docs/integration-test/test-lab-4.png' alt="Firebase Test Lab test results">
 
 ---
 
-### 在 Firebase Test Lab 測試（iOS）
+### Test in Firebase Test Lab (iOS)
 
-你可以使用 Firebase Test Lab 測試 iOS 目標。
+You can use Firebase Test Lab to test iOS targets.
 
-#### iOS 設定
+#### iOS setup
 
-請依照 [iOS Device Testing 指南][iOS Device Testing instructions] 進行操作。
+Follow the [iOS Device Testing instructions][].
 
-#### Test Lab 專案設定
+#### Test Lab project setup
 
-1. 開啟你的 [Firebase Console][Firebase Console]。
+1. Launch your [Firebase Console][].
 
-1. 如有需要，請建立新的 Firebase 專案。
+1. Create a new Firebase project if necessary.
 
-1. 導覽至 **Quality > Test Lab**。
+1. Navigate to **Quality > Test Lab**.
 
    <img src='/assets/images/docs/integration-test/test-lab-1.png' alt="Firebase Test Lab Console">
 
-#### 透過 Firebase Console 上傳 Xcode 測試
+#### Upload Xcode tests through the Firebase Console
 
-如需瞭解如何從 ZIP 檔案上傳測試至 Firebase Test Lab Console，請參閱 [Firebase Test Lab iOS 指南][Firebase Test Lab iOS instructions]。
+To learn how to upload tests from a ZIP file, using the
+Firebase Test Lab Console, consult the [Firebase Test Lab iOS instructions][].
 
-#### 使用命令列將 Xcode 測試上傳至 Firebase Console
+#### Upload Xcode tests to Firebase Console with the command line
 
-如需瞭解如何透過命令列從 ZIP 檔案上傳測試至 Firebase Test Lab Console，請參閱 [iOS Device Testing 指南][iOS Device Testing instructions]。
+To learn how to upload tests from a ZIP file from the command line to the
+Firebase Test Lab Console, consult the [iOS Device Testing instructions][].
 
 [`integration_test`]: {{site.repo.flutter}}/tree/main/packages/integration_test#integration_test
 [Android Device Testing]: {{site.repo.flutter}}/tree/main/packages/integration_test#android-device-testing

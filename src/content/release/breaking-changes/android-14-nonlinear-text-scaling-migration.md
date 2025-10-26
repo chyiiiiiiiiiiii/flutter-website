@@ -1,41 +1,42 @@
 ---
-title: 啟用 Android 14 非線性字體縮放
+title: Android 14 nonlinear font scaling enabled
 description: >-
-  Flutter 在 v3.14 之後已啟用 Android 14 的全新非線性字體縮放功能。
+  Android 14's new nonlinear font scaling feature is
+  enabled in Flutter after v3.14.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-Android 14 引入了最高可達 200% 的非線性字體縮放功能。
-當使用者在系統偏好設定中調整無障礙文字縮放時，
-這可能會改變您的應用程式外觀。
+Android 14 introduced nonlinear font scaling up to 200%.
+It may change how your app looks when the user changes
+the accessibility text scaling in system preferences.
 
-## 背景
+## Background
 
-[Android 14 非線性字體縮放][Android 14 nonlinear font scaling] 功能可防止
-無障礙字體縮放過度，當使用者在系統偏好設定中提高文字縮放值時，
-較大的文字會以較低的比例縮放。
+The [Android 14 nonlinear font scaling][] feature prevents
+excessive accessibility font scaling by scaling larger text at a lesser rate
+when the user increases the text scaling value in system preferences.
 
-## 遷移指南
+## Migration guide
 
-如同
-[Android 14 功能總覽][Android 14 nonlinear font scaling] 所建議，
-請在啟用最大字體大小（`200%`）的情況下測試您的 UI。
-這應該可以驗證您的應用程式是否能正確套用字體大小，
-並且在字體變大時不會影響可用性。
+As the
+[Android 14 feature overview][Android 14 nonlinear font scaling] suggests,
+test your UI with the maximum font size enabled (`200%`).
+This should verify that your app can apply the font sizes correctly
+and can accommodate larger font sizes without impacting usability.
 
-若要在您的應用程式與自訂元件（Widgets）中採用非線性字體縮放，
-請考慮從 `textScaleFactor` 遷移至 `TextScaler`。
-若想了解如何遷移至 `TextScaler`，
-請參考
-[棄用 `textScaleFactor`，改用 `TextScaler`][Deprecate `textScaleFactor` in favor of `TextScaler`] 遷移指南。
+To adopt nonlinear font scaling in your app and custom widgets,
+consider migrating from `textScaleFactor` to `TextScaler`.
+To learn how to migrate to `TextScaler`,
+check out the
+[Deprecate `textScaleFactor` in favor of `TextScaler`][] migration guide.
 
-**暫時選擇退出**
+**Temporarily Opting Out**
 
-若您希望在遷移應用程式之前，暫時在 Android 14 上停用非線性文字縮放，
-請在應用程式元件樹的頂層加入修改過的 `MediaQuery`：
+To opt-out of nonlinear text scaling on Android 14 until you migrate your app,
+add a modified `MediaQuery` at the top of your app's widget tree:
 
 ```dart 
 runApp(
@@ -48,31 +49,31 @@ runApp(
 );
 ```
 
-這個功能使用了已被棄用的 `textScaleFactor` API。
-一旦該 API 從 Flutter API 中移除，這項功能將無法繼續運作。
+This uses the deprecated `textScaleFactor` API.
+It will stop working once that API is removed from the Flutter API.
 
-## 時程
+## Timeline
 
-合併進版本：3.14.0-11.0.pre<br>
-穩定版釋出：3.16
+Landed in version: 3.14.0-11.0.pre<br>
+In stable release: 3.16
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`TextScaler`][`TextScaler`]
+* [`TextScaler`][]
 
-相關議題：
+Relevant issues:
 
-* [New font scaling system (Issue 116231)][New font scaling system (Issue 116231)]
+* [New font scaling system (Issue 116231)][]
 
-相關 PR：
+Relevant PRs:
 
-* [Implementing TextScaler for nonlinear text scaling][Implementing TextScaler for nonlinear text scaling]
+* [Implementing TextScaler for nonlinear text scaling][]
 
-另請參閱：
+See also: 
 
-* [Deprecate `textScaleFactor` in favor of `TextScaler`][Deprecate `textScaleFactor` in favor of `TextScaler`]
+* [Deprecate `textScaleFactor` in favor of `TextScaler`][]
 
 [Android 14 nonlinear font scaling]: {{site.android-dev}}/about/versions/14/features#non-linear-font-scaling
 [Deprecate `textScaleFactor` in favor of `TextScaler`]: /release/breaking-changes/deprecate-textscalefactor

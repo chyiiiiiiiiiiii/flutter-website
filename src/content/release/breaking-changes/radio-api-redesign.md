@@ -1,37 +1,42 @@
 ---
-title: Radio 元件 (Widget) API 重新設計
+title: Redesigned the Radio widget
 description: >-
-  了解 Flutter 3.35 中 radio 元件 (Widget) 的變更。
+  Learn about changes to the radio widget in Flutter 3.35.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-引入了 `RadioGroup` 元件 (Widget)，用於集中管理 `groupValue`，以及一組 `Radio` 元件 (Widgets) 的 `onChanged` 回呼 (callback)。因此，個別的 `Radio.groupValue` 和 `Radio.onChanged` 屬性已被棄用。
+Introduced the `RadioGroup` widget to centralize `groupValue` management and the `onChanged`
+callback for a set of `Radio` widgets. As a result, the individual `Radio.groupValue` and
+`Radio.onChanged` properties have been deprecated.
 
-## 背景
+## Context
 
-為了符合 APG（ARIA Practices Guide，ARIA 實踐指南）對於鍵盤導覽及 radio button 群組語意屬性的要求，Flutter 需要一個專用的 radio group 概念。透過引入包裝元件 (Widget) `RadioGroup`，即可原生支援這些需求。這項變更也同時簡化了個別 `Radio` 元件 (Widget) 的 API。
+To meet APG (ARIA Practices Guide) requirements for keyboard navigation and
+semantic properties in radio button groups, Flutter needed a dedicated radio group concept.
+Introducing a wrapper widget, `RadioGroup`, provides this out-of-the-box support.
+This change also presented an opportunity to simplify the API for individual `Radio` widgets.
 
-## 變更說明
+## Description of change
 
-以下 API 已被棄用：
+The following API is deprecated:
 
 * `Radio.onChanged`
 * `Radio.groupValue`
 * `CupertinoRadio.onChanged`
 * `CupertinoRadio.groupValue`
 * `RadioListTile.groupValue`
-* `RadioListTile.onChanged`
+* `RadioListTile.onChanged`.
 
-## 遷移指南
+## Migration guide
 
-如果你正在使用這些屬性，請改用 `RadioGroup` 來重構你的程式碼。
+If you are using these properties, you can refactor them with `RadioGroup`.
 
-### 情境 1：簡單案例
+### Case 1: trivial case
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 Widget build(BuildContext context) {
@@ -60,7 +65,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 Widget build(BuildContext context) {
@@ -81,9 +86,9 @@ Widget build(BuildContext context) {
 }
 ```
 
-### 案例 2：disabled radio
+### Case 2: disabled radio
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 Widget build(BuildContext context) {
@@ -108,7 +113,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 Widget build(BuildContext context) {
@@ -129,9 +134,9 @@ Widget build(BuildContext context) {
 }
 ```
 
-### 案例 3：混合群組或多重選擇
+### Case 3: mixed group or multi-selection
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 Widget build(BuildContext context) {
@@ -178,7 +183,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 Widget build(BuildContext context) {
@@ -207,29 +212,29 @@ Widget build(BuildContext context) {
 }
 ```
 
-## 時程
+## Timeline
 
-合併於版本：3.34.0-0.0.pre<br>  
-在穩定版釋出：3.35
+Landed in version: 3.34.0-0.0.pre<br>
+In stable release: 3.35
 
-## 參考資料
+## References
 
-* [`APG`][`APG`]
+* [`APG`][]
 
-API 文件：
+API documentation:
 
-* [`Radio`][`Radio`]
-* [`CupertinoRadio`][`CupertinoRadio`]
-* [`RadioListTile`][`RadioListTile`]
-* [`RadioGroup`][`RadioGroup`]
+* [`Radio`][]
+* [`CupertinoRadio`][]
+* [`RadioListTile`][]
+* [`RadioGroup`][]
 
-相關議題：
+Relevant issue:
 
-* [Issue 113562][Issue 113562]
+* [Issue 113562][]
 
-相關 PR：
+Relevant PR:
 
-* [PR 168161][PR 168161]
+* [PR 168161][]
 
 [`APG`]: https://www.w3.org/WAI/ARIA/apg/patterns/radio
 [`Radio`]: {{site.api}}/flutter/material/Radio-class.html

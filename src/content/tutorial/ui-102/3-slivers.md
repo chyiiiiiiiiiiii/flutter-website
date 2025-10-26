@@ -1,42 +1,50 @@
 ---
-title: 進階滾動與 sliver
-description: 學習如何使用 sliver 實現高效能滾動效果。
+title: Advanced scrolling and slivers
+description: Learn how to implement performant scrolling with slivers.
 permalink: /tutorial/slivers/
 ---
 
-在本課程中，你將學習 sliver，它是一種特殊的元件（Widget），
-能夠充分利用 Flutter 強大且可組合的滾動系統。
-sliver 讓你可以打造各種進階的滾動效果，
-包括可收合的標頭、搜尋整合，以及自訂滾動行為。
-在本節結束時，你將了解如何使用 `CustomScrollView`，
-建立可收合的導覽列（Navigation Bar），
-並將內容組織在可滾動的區段中。
+In this lesson, you'll learn about slivers, which are special widgets
+that can take advantage of Flutter's powerful and composable scrolling
+system. Slivers enable you to create sophisticated scroll effects,
+including collapsible headers, search integration, and custom scroll
+behaviors. By the end of this section, you'll understand how to use
+`CustomScrollView`, create navigation bars that collapse, and organize
+content in scrollable sections.
 
-## Sliver 與元件（Widget）
+## Slivers and widgets 
 
-sliver 是可以組合在 `CustomScrollView` 或其他滾動檢視（scroll view）中的可滾動區域。
-你可以將 sliver 想像成構成整體可滾動內容的積木。
+Slivers are scrollable areas that can be composed together in a
+`CustomScrollView` or other scroll views. Think of slivers as
+building blocks that each contribute a portion of the overall
+scrollable content.
 
-雖然 sliver 與元件（Widget）都是 Flutter 的基本概念，
-但它們用途不同，且不可互換。
+While slivers and widgets are both fundamental Flutter concepts, they
+serve different purposes and aren't interchangeable.
 
-- **元件（Widget）** 是一般的 UI 建構區塊，可以在元件樹中的任何地方使用。
-- **sliver** 則是專為可滾動版面設計的特殊元件，有以下限制：
+- **Widgets** are general UI building blocks that can be used anywhere
+  in your widget tree.
+- **Slivers** are specialized widgets designed specifically for
+  scrollable layouts and have some constraints:
 
-- sliver **只能** 作為滾動檢視（scroll view）的直接子元件，例如 `CustomScrollView` 和 `NestedScrollView`。
-- 有些滾動檢視 **只** 接受 sliver 作為子元件。你不能將一般元件傳給 `CustomScrollView.slivers`。
-- 若要在 sliver 環境中使用一般元件，請將它們包裝在 `SliverToBoxAdapter` 或 `SliverFillRemaining` 中。
+- Slivers can **only** be direct children of scroll views, like
+  `CustomScrollView` and `NestedScrollView`.
+- Some scroll views **only** accept slivers as children. You can't
+  pass regular widgets to `CustomScrollView.slivers`.
+- To use regular widgets within a sliver context, wrap them in
+  `SliverToBoxAdapter` or `SliverFillRemaining`.
 
-這種架構上的區隔，讓 Flutter 能夠優化滾動效能，
-同時維持不同 UI 元件類型之間的明確界線。
+This architectural separation allows Flutter to optimize scrolling
+performance while it maintains clear boundaries between different
+types of UI components.
 
-## 為聯絡人群組加入基本 sliver 結構
+## Add a basic sliver structure to contact groups
 
-首先，請將聯絡人群組頁面中的預設內容替換掉。
-為了避免在手機版面與平板側邊欄之間重複程式碼，
-你可以建立一個私有且可重複使用的元件。
+First, replace the placeholder content in your contact groups
+page. To avoid duplicating code between the phone layout and the tablet
+sidebar, you can create a private, reusable widget.
 
-請更新 `lib/screens/contact_groups.dart`，在檔案底部加入 `_ContactGroupsView`。
+Update `lib/screens/contact_groups.dart` by adding `_ContactGroupsView` to the bottom of the file.
 
 ```dart
 // lib/screens/contact_groups.dart
@@ -90,16 +98,23 @@ class _ContactGroupsView extends StatelessWidget {
 }
 ```
 
-這個私有元件（Widget）包含了用於顯示聯絡人群組清單的共用 UI。在小螢幕上，它會作為一個頁面使用；在大螢幕上，則會用來填滿 leftColumn（左側欄位）。
+This private widget contains the shared UI for displaying the list of
+contact groups. On small screens, it will be used as a page, and on
+large screens it will be used to fill the left column.
 
-這個元件引入了數個 sliver：
-- `CupertinoSliverNavigationBar`：一個具備意見導向的導覽列（NavigationBar），會隨著頁面捲動而收合。
-- `SliverList`：一個可捲動的項目清單。
-- `SliverFillRemaining`：一個會佔據捲動區域剩餘空間的 sliver，其子元件是一個非 sliver 元件（Widget）。
+This widget introduces several slivers:
+- `CupertinoSliverNavigationBar`: An opinionated navigation bar that
+  collapses as the page scrolls.
+- `SliverList`: A scrollable list of items.
+- `SliverFillRemaining`: A sliver that takes up the remaining space in
+  the scroll area, and who's child is a non-sliver widget.
 
-它接收一個回呼函式（callback function）`onListSelected`來處理點擊事件，使其能夠同時適用於導覽與側邊欄選取。
 
-現在，請更新 `ContactGroupsPage` 以使用這個新的私有元件（Widget）：
+
+It takes a callback function, `onListSelected`, to handle
+taps, which makes it adaptable for both navigation and sidebar selection.
+
+Now, update `ContactGroupsPage` to use this new private widget:
 
 ```dart
 // lib/screens/contact_groups.dart
@@ -120,11 +135,14 @@ class ContactGroupsPage extends StatelessWidget {
 // ... _ContactGroupsView from above
 ```
 
-這樣的結構讓 `ContactGroupsPage` 保持簡潔，並專注於其主要職責：導覽（navigation），你將在本教學的下一節學習相關內容。
+This structure keeps the `ContactGroupsPage` clean and focused on its
+primary responsibility: navigation, which you'll learn about in the
+next section of this tutorial.
 
-## 以圖示與視覺元素強化清單
+## Enhance the list with icons and visual elements
 
-現在，加入圖示與聯絡人數量，讓清單資訊更豐富。請將以下輔助方法新增至你的 `_ContactGroupsView` 類別中：
+Now, add icons and contact counts to make the list more
+informative. Add this helper method to your `_ContactGroupsView` class:
 
 ```dart
 // In lib/screens/contact_groups.dart, inside _ContactGroupsView
@@ -148,9 +166,12 @@ Widget _buildTrailing(List<Contact> contacts, BuildContext context) {
 }
 ```
 
-這個輔助函式會建立每個清單項目的尾端內容。它會顯示聯絡人數量以及一個前進箭頭。
+This helper creates the trailing content for each list item. It shows
+the contact count and a forward arrow.
 
-現在，請在`_ContactGroupsView`中的`CupertinoListSection`進行更新，改用圖示以及這個尾端輔助函式。在`build`方法中的`ListenableBuilder.builder`回呼內更新程式碼。
+Now, update the `CupertinoListSection` in `_ContactGroupsView` to use
+icons and the trailing helper. Update the code within the
+`ListenableBuilder.builder` callback in the `build` method.
 
 ```dart
 import 'package:flutter/cupertino.dart';
@@ -236,13 +257,18 @@ class _ContactGroupsView extends StatelessWidget {
 }
 ```
 
-現在，更新後的程式碼會顯示不同的圖示，以區分主要的「All iPhone」群組與使用者自訂群組，並同時顯示聯絡人數量與導覽指示器。
+The updated code now shows icons that differentiate between the main
+"All iPhone" group and user-created groups, along with contact counts
+and navigation indicators.
 
-## 為聯絡人頁面建立進階捲動效果
+## Create advanced scrolling for contacts
 
-接下來，來處理聯絡人頁面。就像之前一樣，你將建立一個私有且可重複使用的 view，以避免程式碼重複。
+Now, work on the contacts page. Just like before, you'll create a
+private, reusable view to avoid code duplication. 
 
-在下一課，你會實作小螢幕的導覽功能。在此之前，若想先查看聯絡人清單頁面的進度，請將`AdaptiveLayout`更新為顯示聯絡人清單頁面。
+In the next lesson, you'll implement navigation for small screens. To
+see your progress on the contacts list page in the meantime, update
+`AdaptiveLayout` to display the contacts list page.
 
 
 ```dart
@@ -275,7 +301,8 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
 ```
 
 
-在 `lib/screens/contacts.dart` 的檔案底部加入 `_ContactListView` 來進行更新：
+Update `lib/screens/contacts.dart` by adding `_ContactListView` to the
+bottom of the file:
 
 ```dart
 // lib/screens/contacts.dart
@@ -318,7 +345,7 @@ class _ContactListView extends StatelessWidget {
 }
 ```
 
-現在，將 `ContactListsPage` 更新為使用這個 view：
+Now, update `ContactListsPage` to use this view:
 
 ```dart
 // lib/screens/contacts.dart
@@ -340,13 +367,17 @@ class ContactListsPage extends StatelessWidget {
 // ... _ContactListView from above.
 ```
 
-這個基本實作展示了如何在可重複使用的元件中，將 sliver 與動態資料結合使用。
+This basic implementation demonstrates how to use slivers with dynamic
+data in a reusable component.
 
-## 使用 sliver 加入搜尋整合
+## Add search integration with slivers
 
-`CupertinoSliverNavigationBar.search` 建構函式提供了整合式搜尋功能。當你向下捲動時，搜尋欄位會順暢地轉換成收合的導覽列（navigation bar）。
+The `CupertinoSliverNavigationBar.search` constructor provides
+integrated search functionality. As you scroll down, the search field
+smoothly transitions into the collapsed navigation bar.
 
-現在，請為聯絡人頁面（contacts page）加入整合式搜尋功能的 UI。請在 `_ContactListView` 中更新 `CustomScrollView`：
+Now, enhance the contacts page with integrated search
+functionality UI. Update the `CustomScrollView` in `_ContactListView`:
 
 ```dart
 class _ContactListView extends StatelessWidget {
@@ -393,11 +424,16 @@ class _ContactListView extends StatelessWidget {
 
 ```
 
-`CupertinoSliverNavigationBar.search` 建構函式提供了整合式搜尋功能。當你向下捲動時，搜尋欄位會順暢地過渡到收合的導覽列中。
+The `CupertinoSliverNavigationBar.search` constructor provides
+integrated search functionality. As you scroll down, the search field
+smoothly transitions into the collapsed navigation bar.
 
-## 建立依字母排序的聯絡人區段
+## Create alphabetized contact sections
 
-在實際應用中，聯絡人 App 會依字母順序整理聯絡人。為了達成這個目的，請為每個字母建立一個區段。將以下元件（Widget）新增到你的 `contacts.dart` 檔案底部。這個元件不包含任何 sliver。  
+Real-world contact apps organize contacts alphabetically. To do this,
+create sections for each letter. Add the following widget to the
+bottom of your `contacts.dart` file. This widget doesn't contain any
+slivers.  
 
 ```dart
 // lib/screens/contacts.dart
@@ -452,11 +488,13 @@ class ContactListSection extends StatelessWidget {
 }
 ```
 
-這個元件（Widget）會建立你在 iOS 通訊錄中常見的字母排序區塊。
+This widget creates the familiar alphabetized sections that you see in iOS
+Contacts.
 
-## 使用 `SliverList` 來建立字母排序區塊
+## Use `SliverList` for the alphabetized sections
 
-現在，請將 `_ContactListView` 中的佔位內容替換為字母排序區塊：
+Now, replace the placeholder content in `_ContactListView` with the
+alphabetized sections:
 
 ```dart
 // In lib/screens/contacts.dart, inside _ContactListView's builder
@@ -488,6 +526,10 @@ return CustomScrollView(
 );
 ```
 
-`SliverList.list` 允許你提供一個元件（Widget）清單，這些元件會成為可滾動內容的一部分。這是將一般元件清單加入可滾動 sliver 區域中最簡單的方法。
+`SliverList.list` allows you to provide a list of widgets that become
+part of the scrollable content. This is the simplest way to add a list
+of normal widgets to scrollable sliver area.
 
-在下一課中，你將學習基於堆疊（stack-based）的導覽方式，並在小螢幕上更新 UI，以便在聯絡人清單檢視與聯絡人檢視之間進行導覽。
+In the next lesson, you'll learn about stack-based navigation and
+update the UI on small screens to navigate between the contacts list
+view and the contacts view.

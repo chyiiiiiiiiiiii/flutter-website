@@ -1,39 +1,39 @@
 ---
-title: 棄用 `ThemeData.dialogBackgroundColor`，改用
+title: Deprecate `ThemeData.dialogBackgroundColor` in favor of
   `DialogThemeData.backgroundColor`
 description: >-
-  `ThemeData.dialogBackgroundColor` 參數已被
-  `DialogThemeData.backgroundColor` 取代。
+  The `ThemeData.dialogBackgroundColor` parameter has been replaced by
+  `DialogThemeData.backgroundColor`.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-[`ThemeData.dialogBackgroundColor`][`ThemeData.dialogBackgroundColor`] 參數已被棄用，建議改用
-[`DialogThemeData.backgroundColor`][`DialogThemeData.backgroundColor`] 參數。
+The [`ThemeData.dialogBackgroundColor`][] parameter was deprecated in favor of
+the [`DialogThemeData.backgroundColor`][] parameter.
 
-## 背景說明
+## Context
 
-[`Dialog`][`Dialog`] 與 [`AlertDialog`][`AlertDialog`] 元件（Widgets）的預設值
-可以透過像 [`DialogThemeData`][`DialogThemeData`] 這樣的元件專屬主題（component-specific theme）來覆寫。
-過去會使用 `ThemeData.dialogBackgroundColor` 參數來
-覆寫對話框預設背景顏色，
-但這個用途已被 [`DialogThemeData`][`DialogThemeData`] 取代，因此變得多餘。
+The defaults for the [`Dialog`][] and [`AlertDialog`][] widgets can be
+overridden with a component-specific theme like [`DialogThemeData`][].
+Previously, the `ThemeData.dialogBackgroundColor` parameter was used to
+override the default dialog background color,
+which was made redundant by [`DialogThemeData`][].
 
-## 變更說明
+## Description of change
 
-[`ThemeData.dialogBackgroundColor`][`ThemeData.dialogBackgroundColor`] 已被棄用，
-建議改用元件專屬主題。
-請使用 [`DialogThemeData`][`DialogThemeData`] 來覆寫預設背景顏色。
+The [`ThemeData.dialogBackgroundColor`][] is deprecated in
+favor of a component-specific theme.
+Use [`DialogThemeData`][] to override the default background color.
 
-## 遷移指南
+## Migration guide
 
-請將 [`ThemeData.dialogBackgroundColor`][`ThemeData.dialogBackgroundColor`]
-替換為 [`DialogThemeData.backgroundColor`][`DialogThemeData.backgroundColor`]，
-以覆寫對話框的預設背景顏色。
+Replace [`ThemeData.dialogBackgroundColor`][] with
+[`DialogThemeData.backgroundColor`][] to override the
+default dialog background color.
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 theme: ThemeData(
@@ -41,7 +41,7 @@ theme: ThemeData(
 ),
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 theme: ThemeData(
@@ -49,28 +49,28 @@ theme: ThemeData(
 ),
 ```
 
-## 時程
+## Timeline
 
-已於版本：3.28.0-0.1.pre<br>
-正式版釋出：3.29
+Landed in version: 3.28.0-0.1.pre<br>
+In stable release: 3.29
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-- [`ThemeData.dialogBackgroundColor`][`ThemeData.dialogBackgroundColor`]
-- [`DialogThemeData.backgroundColor`][`DialogThemeData.backgroundColor`]
-- [`DialogThemeData`][`DialogThemeData`]
-- [`Dialog`][`Dialog`]
-- [`AlertDialog`][`AlertDialog`]
+- [`ThemeData.dialogBackgroundColor`][]
+- [`DialogThemeData.backgroundColor`][]
+- [`DialogThemeData`][]
+- [`Dialog`][]
+- [`AlertDialog`][]
 
-相關議題：
+Relevant issues:
 
-- [Issue #91772][Issue #91772]
+- [Issue #91772][]
 
-相關 PR：
+Relevant PRs:
 
-- [Deprecate `ThemeData.dialogBackgroundColor` in favor of `DialogTheme.backgroundColor`][Deprecate `ThemeData.dialogBackgroundColor` in favor of `DialogTheme.backgroundColor`]
+- [Deprecate `ThemeData.dialogBackgroundColor` in favor of `DialogTheme.backgroundColor`][]
 
 [`ThemeData.dialogBackgroundColor`]: {{site.api}}/flutter/material/ThemeData/dialogBackgroundColor.html
 [`DialogThemeData.backgroundColor`]: {{site.api}}/flutter/material/DialogThemeData/backgroundColor.html

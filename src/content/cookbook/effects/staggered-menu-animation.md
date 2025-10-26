@@ -1,6 +1,6 @@
 ---
-title: 建立階梯式選單動畫
-description: 如何實作階梯式選單動畫。
+title: Create a staggered menu animation
+description: How to implement a staggered menu animation.
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,19 +8,29 @@ js:
 
 <?code-excerpt path-base="cookbook/effects/staggered_menu_animation"?>
 
-一個單一的應用程式螢幕（screen）可能包含多個動畫（Animation）。
-如果同時播放所有動畫，可能會讓人感到眼花撩亂；但如果一個接一個播放，則可能花費太多時間。更好的做法是讓動畫以階梯式（staggered）的方式呈現：每個動畫在不同的時間點開始，但它們會重疊進行，從而縮短總持續時間。
-在本教學中，你將建立一個帶有階梯式動畫內容的抽屜選單（drawer menu），並在底部加入一個彈出（pop in）按鈕。
+A single app screen might contain multiple animations.
+Playing all of the animations at the same time can be
+overwhelming. Playing the animations one after the other
+can take too long. A better option is to stagger the animations. 
+Each animation begins at a different time,
+but the animations overlap to create a shorter duration.
+In this recipe, you build a drawer menu with animated 
+content that is staggered and has a button that pops
+in at the bottom.
 
-以下動畫展示了應用程式的行為：
+The following animation shows the app's behavior:
 
 ![Staggered Menu Animation Example](/assets/images/docs/cookbook/effects/StaggeredMenuAnimation.webp){:.site-mobile-screenshot}
 
-## 建立未含動畫的選單
+## Create the menu without animations
 
-抽屜選單會顯示一個標題清單，並在選單底部顯示一個「Get started」按鈕。
+The drawer menu displays a list of titles,
+followed by a Get started button at 
+the bottom of the menu.
 
-請定義一個名為 `Menu` 的 stateful widget（有狀態元件），用來在靜態位置顯示這個清單和按鈕。
+Define a stateful widget called `Menu`
+that displays the list and button 
+in static locations.
 
 <?code-excerpt "lib/step1.dart (step1)"?>
 ```dart
@@ -108,11 +118,14 @@ class _MenuState extends State<Menu> {
 }
 ```
 
-## 準備動畫 (Prepare for animations)
+## Prepare for animations
 
-要控制動畫 (Animation) 的時序，需要一個`AnimationController`。
+Control of the animation timing requires an
+`AnimationController`.
 
-將`SingleTickerProviderStateMixin`加入`MenuState`類別中。接著，宣告並實例化一個`AnimationController`。
+Add the `SingleTickerProviderStateMixin`
+to the `MenuState` class. Then, declare and
+instantiate an `AnimationController`.
 
 <?code-excerpt "lib/step2.dart (animation-controller)" plaster="none"?>
 ```dart
@@ -134,7 +147,10 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
 }
 ```
 
-每個動畫開始前的延遲時間長短由你決定。你可以自訂動畫的延遲時間、各自的動畫持續時間，以及整體動畫的總時長。
+The length of the delay before every animation is
+up to you. Define the animation delays,
+individual animation durations, and the total 
+animation duration.
 
 <?code-excerpt "lib/animation_delays.dart (delays)" plaster="none"?>
 ```dart
@@ -152,33 +168,35 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
 }
 ```
 
-在這個範例中，所有動畫都會延遲 50 毫秒開始。
-之後，清單項目（list items）開始出現。
-每個清單項目的出現，會在前一個清單項目開始滑入後再延遲 50 毫秒。
-每個清單項目從右側滑入到左側的動畫會持續 250 毫秒。
-當最後一個清單項目開始滑入後，
-底部的按鈕區塊（button section）會再等待 150 毫秒才彈出顯示。
-按鈕的動畫則會持續 500 毫秒。
+In this case, all the animations are delayed by 50 ms.
+After that, list items begin to appear.
+Each list item's appearance is delayed by 50 ms after the 
+previous list item begins to slide in.
+Each list item takes 250 ms to slide from right to left.
+After the last list item begins to slide in,
+the button at the bottom waits another 150 ms to pop in.
+The button animation takes 500 ms.
 
-由於每個延遲與動畫持續時間都已定義，
-因此可以計算出總動畫時長，進而用來
-計算每個個別動畫的時間區間。
+With each delay and animation duration defined,
+the total duration is calculated so that it can be
+used to calculate the individual animation times.
 
-下圖顯示了預期的動畫時序：
+The desired animation times are shown in the following diagram:
 
 ![Animation Timing Diagram](/assets/images/docs/cookbook/effects/TimingDiagram.png){:.site-mobile-screenshot}
 
-若要在較長動畫的某個子區段內進行值的動畫，
-Flutter 提供了 `Interval` 類別。
-`Interval` 需要傳入一個開始時間百分比與結束時間百分比。
-該 `Interval` 之後可以用來
-在這些開始與結束時間之間對值進行動畫，
-而不是使用整個動畫的起始與結束時間。例如，假設一個動畫總長 1 秒，
-若設定區間為 0.2 到 0.5，則動畫會從 200 毫秒（20%）開始，
-在 500 毫秒（50%）結束。
+To animate a value during a subsection of a larger animation,
+Flutter provides the `Interval` class.
+An `Interval` takes a start time percentage and an end 
+time percentage. That `Interval` can then be used to
+animate a value between those start and end times,
+instead of using the entire animation's start and 
+end times. For example, given an animation that takes 1 second, 
+an interval from 0.2 to 0.5 would start at 200 ms
+(20%) and end at 500 ms (50%). 
 
-宣告並計算每個清單項目的 `Interval` 以及
-底部按鈕區塊的 `Interval`。
+Declare and calculate each list item's `Interval` and the 
+bottom button `Interval`.
 
 <?code-excerpt "lib/step3.dart (step3)" plaster="none"?>
 ```dart
@@ -221,11 +239,11 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
 }
 ```
 
-## 動畫 (Animation) 列表項目與按鈕
+## Animate the list items and button
 
-當選單變為可見時，會立即播放階梯式動畫 (staggered animation)。
+The staggered animation plays as soon as the menu becomes visible.
 
-在 `initState()` 中啟動動畫 (Animation)。
+Start the animation in `initState()`.
 
 <?code-excerpt "lib/step4.dart (init-state)"?>
 ```dart
@@ -242,9 +260,12 @@ void initState() {
 }
 ```
 
-每個清單項目會從右側滑入至左側，並同時淡入顯示。
+Each list item slides from right to left and
+fades in at the same time.
 
-使用清單項目的 `Interval` 和 `easeOut` 曲線，為每個清單項目的透明度與平移值進行動畫 (Animation) 效果。
+Use the list item's `Interval` and an `easeOut`
+curve to animate the opacity and translation
+values for each list item.
 
 <?code-excerpt "lib/step4.dart (build-list-items)"?>
 ```dart
@@ -284,7 +305,9 @@ List<Widget> _buildListItems() {
 }
 ```
 
-使用相同的方法來為底部按鈕的透明度（opacity）和縮放（scale）製作動畫。這次，請使用`elasticOut`曲線，讓按鈕呈現彈跳（springy）的效果。
+Use the same approach to animate the opacity and
+scale of the bottom button. This time, use an
+`elasticOut` curve to give the button a springy effect.
 
 <?code-excerpt "lib/step4.dart (build-get-started)"?>
 ```dart
@@ -325,12 +348,12 @@ Widget _buildGetStartedButton() {
 }
 ```
 
-恭喜你！
-你已經擁有一個帶有動畫效果的選單，每個
-清單項目的出現會以階梯式（staggered）的方式呈現，接著底部的按鈕
-會以彈出動畫顯示到位。
+Congratulations!
+You have an animated menu where the appearance of each 
+list item is staggered, followed by a bottom button that
+pops into place.
 
-## 互動範例
+## Interactive example
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter staggered menu animation hands-on example in DartPad" run="true"

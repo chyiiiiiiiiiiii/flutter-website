@@ -1,33 +1,34 @@
 ---
-title: ImageCache 和 ImageProvider 的變更
+title: ImageCache and ImageProvider changes
 description: >
-  ImageCache 現在要求實作時必須覆寫 containsKey，
-  而 ImageProvider 已將 resolve 標記為 @nonVirtual。
+  ImageCache requires implementers to override containsKey, and
+  ImageProvider has marked resolve as @nonVirtual.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-`ImageCache` 現在新增了一個名為 `containsKey` 的方法。
-`ImageProvider` 的子類別不應再覆寫 `resolve`，
-而是應該在 `ImageProvider` 上實作新的方法。
-這些變更已以單一提交合併到 framework 中。
+`ImageCache` now has a method called `containsKey`.
+`ImageProvider` subclasses should not override `resolve`,
+but instead should implement new methods on `ImageProvider`.
+These changes were submitted as a single commit to the framework.
 
-## 變更說明
+## Description of change
 
-以下章節將說明對 `containsKey`
-以及 `ImageProvider` 的變更。
+The sections below describe the changes to `containsKey`
+and `ImageProvider`.
 
-### containsKey 變更
+### containsKey change
 
-`ImageCache` 的使用者，例如自訂的 `ImageProvider`，
-可能會希望知道快取是否已經追蹤某張圖片。
-新增 `containsKey` 方法讓呼叫端可以查詢這個狀態，
-而不需要呼叫像 `putIfAbsent` 這樣的方法，
-以避免觸發不希望發生的 `ImageProvider.load` 呼叫。
+Clients of the `ImageCache`, such as a custom `ImageProvider`,
+may want to know if the cache is already tracking an image.
+Adding the `containsKey` method allows callers to discover
+this without calling a method like `putIfAbsent`,
+which can trigger an undesired call to `ImageProvider.load`.
 
-預設實作會同時檢查待處理與已快取的圖片儲存區。
+The default implementation checks both pending and cached
+image buckets.
 
 ```dart
   bool containsKey(Object key) {
@@ -35,19 +36,33 @@ description: >
   }
 ```
 
-### ImageProvider 變更
+### ImageProvider changes
 
-`ImageProvider.resolve` 方法會進行一些複雜的錯誤處理，通常不應該被覆寫。先前它也會透過 `ImageProvider.obtainKey` 和 `ImageProvider.load` 來將圖片載入圖片快取（image cache）。子類別如果想要覆寫這個行為，必須覆寫 `resolve`，而如果有多個 `ImageProvider` 需要覆寫 `resolve`，則組合 `ImageProvider` 的能力會受到限制。
+The `ImageProvider.resolve` method does some complicated
+error handling work that should not normally be overridden.
+It also previously did work to load the image into the
+image cache, by way of `ImageProvider.obtainKey` and
+`ImageProvider.load`. Subclasses had no opportunity to
+override this behavior without overriding `resolve`,
+and the ability to compose `ImageProvider`s is limited
+if multiple `ImageProvider`s expect to override `resolve`.
 
-為了解決這個問題，`resolve` 現在被標記為不可覆寫（non-virtual），並新增了兩個受保護的方法：`createStream()` 和 `resolveStreamForKey()`。這些方法讓子類別能夠控制 `resolve` 的大部分行為，而不需要重複所有錯誤處理的邏輯。這也讓組合多個 `ImageProvider` 的子類別可以更有信心，確保只有一個公開的進入點來處理多層串接的 provider。
+To solve this issue, `resolve` is now marked as non-virtual,
+and two new protected methods have been added: `createStream()`
+and `resolveStreamForKey()`.
+These methods allow subclasses to control most of the behavior
+of `resolve`, without having to duplicate all the error handling work.
+It also allows subclasses that compose `ImageProvider`s
+to be more confident that there is only one public entrypoint
+to the various chained providers.
 
-## 遷移指南
+## Migration guide
 
-### ImageCache 變更
+### ImageCache change
 
-遷移前，程式碼不會覆寫 `containsKey`。
+Before migration, the code would not have an override of `containsKey`.
 
-遷移後的程式碼如下：
+Code after migration:
 
 ```dart
 class MyImageCache implements ImageCache {
@@ -60,9 +75,9 @@ class MyImageCache implements ImageCache {
 }
 ```
 
-### ImageProvider 變更
+### ImageProvider change
 
-遷移前的程式碼：
+Code before the migration:
 
 ```dart
 class MyImageProvider extends ImageProvider<Object> {
@@ -77,7 +92,7 @@ class MyImageProvider extends ImageProvider<Object> {
 }
 ```
 
-遷移後的程式碼：
+Code after the migration:
 
 ```dart
 class MyImageProvider extends ImageProvider<Object> {
@@ -102,29 +117,29 @@ class MyImageProvider extends ImageProvider<Object> {
 
 ```
 
-## 時程
+## Timeline
 
-合併於版本：1.16.3<br>  
-進入穩定版：1.17
+Landed in version: 1.16.3<br>
+In stable release: 1.17
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`ImageCache`][`ImageCache`]
-* [`ImageProvider`][`ImageProvider`]
-* [`ScrollAwareImageProvider`][`ScrollAwareImageProvider`]
+* [`ImageCache`][]
+* [`ImageProvider`][]
+* [`ScrollAwareImageProvider`][]
 
-相關議題：
+Relevant issues:
 
-* [Issue #32143][Issue #32143]
-* [Issue #44510][Issue #44510]
-* [Issue #48305][Issue #48305]
-* [Issue #48775][Issue #48775]
+* [Issue #32143][]
+* [Issue #44510][]
+* [Issue #48305][]
+* [Issue #48775][]
 
-相關 PR：
+Relevant PRs:
 
-* [Defer image decoding when scrolling fast #49389][Defer image decoding when scrolling fast #49389]
+* [Defer image decoding when scrolling fast #49389][]
 
 [`ImageCache`]: {{site.api}}/flutter/painting/ImageCache-class.html
 [`ImageProvider`]: {{site.api}}/flutter/painting/ImageProvider-class.html

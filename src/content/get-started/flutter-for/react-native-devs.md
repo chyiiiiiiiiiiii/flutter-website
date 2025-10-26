@@ -1,30 +1,41 @@
 ---
-title: 給 React Native 開發者的 Flutter 指南
-description: 學習如何將 React Native 開發經驗應用於 Flutter 應用程式開發。
+title: Flutter for React Native developers
+description: Learn how to apply React Native developer knowledge when building Flutter apps.
 ---
 
 <?code-excerpt path-base="get-started/flutter-for/react_native_devs"?>
 
-本文件適用於希望將現有 React Native（RN）知識應用於 Flutter 行動應用程式開發的開發者。如果你已經了解 RN 框架的基本原理，可以將本文件作為入門學習 Flutter 開發的參考。
+This document is for React Native (RN) developers looking to apply their
+existing RN knowledge to build mobile apps with Flutter. If you understand
+the fundamentals of the RN framework then you can use this document as a
+way to get started learning Flutter development.
 
-你可以將本文件當作食譜（cookbook）使用，根據需求跳著閱讀最相關的問題。
+This document can be used as a cookbook by jumping around and finding
+questions that are most relevant to your needs.
 
-## 給 JavaScript（ES6）開發者的 Dart 語言簡介
+## Introduction to Dart for JavaScript Developers (ES6)
 
-與 React Native 類似，Flutter 採用反應式（reactive-style）視圖。不過，RN 會轉譯（transpile）為原生元件（Widgets），而 Flutter 則會直接編譯為原生程式碼。Flutter 能夠控制螢幕上的每一個像素，這樣就能避免因 JavaScript 橋接（bridge）帶來的效能問題。
+Like React Native, Flutter uses reactive-style views. However, while RN
+transpiles to native widgets, Flutter compiles all the way to native code.
+Flutter controls each pixel on the screen, which avoids performance problems
+caused by the need for a JavaScript bridge.
 
-Dart 是一門容易學習的語言，具備以下特點：
+Dart is an easy language to learn and offers the following features:
 
-* 提供一個開源、可擴展的程式語言，用於構建 Web、伺服器及行動應用程式。
-* 提供物件導向、單一繼承的語言，採用類似 C 語法，並可進行 AOT（Ahead-of-Time）編譯成原生程式碼。
-* 可選擇性地轉譯（transcompile）為 JavaScript。
-* 支援介面（interfaces）與抽象類別（abstract classes）。
+* Provides an open-source, scalable programming language for building web,
+  server, and mobile apps.
+* Provides an object-oriented, single inheritance language that uses a C-style
+  syntax that is AOT-compiled into native.
+* Transcompiles optionally into JavaScript.
+* Supports interfaces and abstract classes.
 
-以下將簡單說明 JavaScript 與 Dart 之間的一些差異。
+A few examples of the differences between JavaScript and Dart are described
+below.
 
-### 進入點（Entry point）
+### Entry point
 
-JavaScript 沒有預先定義的進入函式（entry function）——你可以自行定義進入點。
+JavaScript doesn't have a pre-defined entry
+function&mdash;you define the entry point.
 
 ```js
 // JavaScript
@@ -33,7 +44,8 @@ function startHere() {
 }
 ```
 
-在 Dart 中，每個應用程式都必須有一個頂層的 `main()` 函式，作為應用程式的進入點。
+In Dart, every app must have a top-level `main()` function that serves as the
+entry point to the app.
 
 <?code-excerpt "lib/main.dart (main)"?>
 ```dart
@@ -41,11 +53,11 @@ function startHere() {
 void main() {}
 ```
 
-在 [DartPad][DartPadA] 試試看。
+Try it out in [DartPad][DartPadA].
 
-### 輸出到主控台
+### Printing to the console
 
-要在 Dart 中輸出到主控台，請使用 `print()`。
+To print to the console in Dart, use `print()`.
 
 ```js
 // JavaScript
@@ -58,17 +70,22 @@ console.log('Hello world!');
 print('Hello world!');
 ```
 
-在 [DartPad][DartPadB] 試用看看。
+Try it out in [DartPad][DartPadB].
 
-### 變數
+### Variables
 
-Dart 是型別安全的語言——它結合了靜態型別檢查與執行時檢查，以確保變數的值始終符合該變數的靜態型別。雖然型別是強制性的，但某些型別註解是可選的，因為 Dart 會進行型別推斷。
+Dart is type safe&mdash;it uses a combination of static type checking
+and runtime checks to ensure that a variable's value always matches
+the variable's static type. Although types are mandatory,
+some type annotations are optional because
+Dart performs type inference.
 
-#### 建立與賦值變數
+#### Creating and assigning variables
 
-在 JavaScript 中，變數無法指定型別。
+In JavaScript, variables cannot be typed.
 
-在 [Dart][Dart] 中，變數必須明確指定型別，或讓型別系統自動推斷正確的型別。
+In [Dart][], variables must either be explicitly
+typed or the type system must infer the proper type automatically.
 
 ```js
 // JavaScript
@@ -83,21 +100,22 @@ String name = 'dart'; // Explicitly typed as a [String].
 var otherName = 'Dart'; // Inferred [String] type.
 ```
 
-在 [DartPad][DartPadC] 試用看看。
+Try it out in [DartPad][DartPadC].
 
-欲了解更多資訊，請參閱 [Dart 的型別系統][Dart's Type System]。
+For more information, see [Dart's Type System][].
 
-#### 預設值
+#### Default value
 
-在 JavaScript 中，未初始化的變數為 `undefined`。
+In JavaScript, uninitialized variables are `undefined`.
 
-在 Dart 中，未初始化的變數初始值為 `null`。
-由於數字在 Dart 中也是物件，因此即使是數值型別的未初始化變數，其值也會是 `null`。
+In Dart, uninitialized variables have an initial value of `null`.
+Because numbers are objects in Dart, even uninitialized variables with
+numeric types have the value `null`.
 
 :::note
-自 2.12 版起，Dart 支援 [Sound Null Safety][Sound Null Safety]，
-所有基礎型別預設為不可為 null（non-nullable），
-因此必須初始化為非 null 的值。
+As of 2.12, Dart supports [Sound Null Safety][],
+all underlying types are non-nullable by default,
+which must be initialized as a non-nullable value.
 :::
 
 ```js
@@ -112,14 +130,15 @@ var name; // == null; raises a linter warning
 int? x; // == null
 ```
 
-在 [DartPad][DartPadD] 試用看看。
+Try it out in [DartPad][DartPadD].
 
-如需更多資訊，請參閱
-[變數][variables] 的文件。
+For more information, see the documentation on
+[variables][].
 
-### 檢查 null 或零值
+### Checking for null or zero
 
-在 JavaScript 中，數值 1 或任何非 null 的物件，在使用 `==` 比較運算子時都會被視為 `true`。
+In JavaScript, values of 1 or any non-null objects
+are treated as `true` when using the `==` comparison operator.
 
 ```js
 // JavaScript
@@ -133,7 +152,7 @@ if (!zero) {
 }
 ```
 
-在 Dart 中，只有布林值 `true` 會被視為 true。
+In Dart, only the boolean value `true` is treated as true.
 
 <?code-excerpt "lib/main.dart (true)"?>
 ```dart
@@ -148,12 +167,12 @@ if (zero == 0) {
 }
 ```
 
-在 [DartPad][DartPadE] 試用看看。
+Try it out in [DartPad][DartPadE].
 
-### 函式
+### Functions
 
-Dart 和 JavaScript 的函式基本上是相似的。
-主要的差異在於宣告方式。
+Dart and JavaScript functions are generally similar.
+The primary difference is the declaration.
 
 ```js
 // JavaScript
@@ -171,19 +190,20 @@ bool fn() {
 }
 ```
 
-在 [DartPad][DartPadF] 試用看看。
+Try it out in [DartPad][DartPadF].
 
-如需更多資訊，請參閱
-[functions][functions] 的文件。
+For more information, see the documentation on
+[functions][].
 
-### 非同步程式設計
+### Asynchronous programming
 
 #### Futures
 
-與 JavaScript 類似，Dart 支援單執行緒（single-threaded）執行。在 JavaScript 中，
-`Promise` 物件代表非同步操作最終完成（或失敗）以及其結果值。
+Like JavaScript, Dart supports single-threaded execution. In JavaScript,
+the Promise object represents the eventual completion (or failure)
+of an asynchronous operation and its resulting value.
 
-Dart 則使用 [`Future`][`Future`] 物件來處理這類情境。
+Dart uses [`Future`][] objects to handle this.
 
 ```js
 // JavaScript
@@ -236,14 +256,15 @@ void main() {
 }
 ```
 
-如需更多資訊，請參閱[`Future`][`Future`] 物件的文件。
+For more information, see the documentation on
+[`Future`][] objects.
 
-#### `async` 與 `await`
+#### `async` and `await`
 
-`async` 函式宣告會定義一個非同步函式。
+The `async` function declaration defines an asynchronous function.
 
-在 JavaScript 中，`async` 函式會回傳一個 `Promise`。
-`await` 運算子則用來等待一個 `Promise`。
+In JavaScript, the `async` function returns a `Promise`.
+The `await` operator is used to wait for a `Promise`.
 
 ```js
 // JavaScript
@@ -270,8 +291,9 @@ async function main() {
 main();
 ```
 
-在 Dart 中，`async` 函式會回傳 `Future`，而該函式的主體會被排程於稍後執行。
-`await` 運算子則用來等待 `Future`。
+In Dart, an `async` function returns a `Future`,
+and the body of the function is scheduled for execution later.
+The `await` operator is used to wait for a `Future`.
 
 <?code-excerpt "lib/async.dart"?>
 ```dart
@@ -304,46 +326,53 @@ void main() async {
 }
 ```
 
-如需更多資訊，請參閱 [async 和 await][async and await] 的文件。
+For more information, see the documentation for [async and await][].
 
-## 基礎知識
+## The basics
 
-### 如何建立一個 Flutter 應用程式？
+### How do I create a Flutter app?
 
-若要使用 React Native 建立應用程式，
-你會在命令列執行 `create-react-native-app`。
+To create an app using React Native,
+you would run `create-react-native-app` from the command line.
 
 ```console
 $ create-react-native-app <projectname>
 ```
 
-要在 Flutter 中建立應用程式，可以採用以下其中一種方式：
+To create an app in Flutter, do one of the following:
 
-* 使用已安裝 Flutter 與 Dart 外掛程式的 IDE。
-* 在命令列使用 `flutter create` 指令。請確保 Flutter SDK 已加入您的 PATH。
+* Use an IDE with the Flutter and Dart plugins installed.
+* Use the `flutter create` command from the command line. Make sure that the
+  Flutter SDK is in your PATH.
 
 ```console
 $ flutter create <projectname>
 ```
 
-如需更多資訊，請參閱 [Getting started][Getting started]，該文件將帶您一步步建立一個按鈕點擊計數器應用程式。建立 Flutter 專案時，會自動產生所有您在 Android 和 iOS 裝置上執行範例應用程式所需的檔案。
+For more information, see [Getting started][], which
+walks you through creating a button-click counter app.
+Creating a Flutter project builds all the files that you
+need to run a sample app on both Android and iOS devices.
 
-### 我要如何執行我的應用程式？
+### How do I run my app?
 
-在 React Native 中，您會在專案目錄下執行 `npm run` 或 `yarn run`。
+In React Native, you would run `npm run` or `yarn run` from the project
+directory.
 
-您可以透過以下幾種方式執行 Flutter 應用程式：
+You can run Flutter apps in a couple of ways:
 
-* 在安裝有 Flutter 與 Dart 外掛程式的 IDE 中使用「執行」選項。
-* 在專案根目錄下執行 `flutter run`。
+* Use the "run" option in an IDE with the Flutter and Dart plugins.
+* Use `flutter run` from the project's root directory.
 
-您的應用程式可以在已連接的裝置、iOS 模擬器或 Android 模擬器上執行。
+Your app runs on a connected device, the iOS simulator,
+or the Android emulator.
 
-如需更多資訊，請參閱 Flutter [Getting started][Getting started] 文件。
+For more information, see the Flutter [Getting started][]
+documentation.
 
-### 我要如何匯入元件 (Widgets)？
+### How do I import widgets?
 
-在 React Native 中，您需要分別匯入每個所需的元件。
+In React Native, you need to import each required component.
 
 ```js
 // React Native
@@ -351,8 +380,11 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 ```
 
-在 Flutter 中，若要使用來自 Material Design 函式庫的元件（Widgets），請匯入 `material.dart` 套件。若要使用 iOS 風格的元件，請匯入 Cupertino 函式庫。若想使用更基礎的元件組合，請匯入 Widgets 函式庫。  
-或者，你也可以自行撰寫元件函式庫並加以匯入。
+In Flutter, to use widgets from the Material Design library,
+import the `material.dart` package. To use iOS style widgets,
+import the Cupertino library. To use a more basic widget set,
+import the Widgets library.
+Or, you can write your own widget library and import that.
 
 <?code-excerpt "lib/imports.dart (imports)"?>
 ```dart
@@ -362,15 +394,15 @@ import 'package:flutter/widgets.dart';
 import 'package:my_widgets/my_widgets.dart';
 ```
 
-無論你匯入哪個元件（Widget）套件，  
-Dart 只會載入你在應用程式中實際使用到的元件。
+Whichever widget package you import,
+Dart pulls in only the widgets that are used in your app.
 
-如需更多資訊，請參閱 [Flutter Widget Catalog][Flutter Widget Catalog]。
+For more information, see the [Flutter Widget Catalog][].
 
-### Flutter 中對應 React Native「Hello world!」應用程式的範例是什麼？
+### What is the equivalent of the React Native "Hello world!" app in Flutter?
 
-在 React Native 中，`HelloWorldApp` 類別會繼承 `React.Component`，  
-並透過實作 render 方法來回傳一個 view 元件。
+In React Native, the `HelloWorldApp` class extends `React.Component` and
+implements the render method by returning a view component.
 
 ```js
 // React Native
@@ -397,8 +429,10 @@ const styles = StyleSheet.create({
 export default App;
 ```
 
-在 Flutter 中，你可以使用核心元件 (Widgets) 函式庫中的 `Center` 和 `Text` 元件，建立一個完全相同的 "Hello world!" 應用程式。
-`Center` 元件會成為元件樹 (widget tree) 的根節點，並且只有一個子元件，就是 `Text` 元件。
+In Flutter, you can create an identical "Hello world!" app using the
+`Center` and `Text` widgets from the core widget library.
+The `Center` widget becomes the root of the widget tree and has one child,
+the `Text` widget.
 
 <?code-excerpt "lib/hello_world.dart"?>
 ```dart
@@ -414,30 +448,36 @@ void main() {
 }
 ```
 
-下列圖片展示了基本 Flutter「Hello world!」應用程式在 Android 和 iOS 上的 UI。
+The following images show the Android and iOS UI for the basic Flutter
+"Hello world!" app.
 
 {% render docs/android-ios-figure-pair.md, image: "react-native/hello-world-basic.png", alt: "Hello world app", class: "border" %}
 
-現在你已經看過最基本的 Flutter 應用程式，接下來的章節將說明如何善用 Flutter 豐富的元件 (Widgets) 函式庫，打造現代且精緻的應用程式。
+Now that you've seen the most basic Flutter app, the next section shows how to
+take advantage of Flutter's rich widget libraries to create a modern, polished
+app.
 
-### 我該如何使用元件 (Widgets) 並巢狀組合成元件樹 (widget tree)？
+### How do I use widgets and nest them to form a widget tree?
 
-在 Flutter 中，幾乎所有東西都是元件 (Widget)。
+In Flutter, almost everything is a widget.
 
-元件 (Widgets) 是應用程式使用者介面的基本構建單元。
-你可以將元件組合成一個階層結構，稱為元件樹 (widget tree)。
-每個元件都巢狀於其父元件之內，並繼承父元件的屬性。
-甚至連應用程式物件本身也是一個元件。
-這裡沒有獨立的「application」物件，
-而是由根元件 (root widget) 扮演這個角色。
+Widgets are the basic building blocks of an app's user interface.
+You compose widgets into a hierarchy, called a widget tree.
+Each widget nests inside a parent widget
+and inherits properties from its parent.
+Even the application object itself is a widget.
+There is no separate "application" object.
+Instead, the root widget serves this role.
 
-一個元件可以定義：
+A widget can define:
 
-* 結構元素——例如按鈕或選單
-* 樣式元素——例如字型或配色方案
-* 版面配置的某個面向——例如內距（padding）或對齊（alignment）
+* A structural element—like a button or menu
+* A stylistic element—like a font or color scheme
+* An aspect of layout—like padding or alignment
 
-下列範例展示了使用 Material 函式庫元件 (Widgets) 實作的「Hello world!」應用程式。在這個範例中，元件樹 (widget tree) 被巢狀於 `MaterialApp` 根元件之中。
+The following example shows the "Hello world!" app using widgets from the
+Material library. In this example, the widget tree is nested inside the
+`MaterialApp` root widget.
 
 <?code-excerpt "lib/widget_tree.dart"?>
 ```dart
@@ -462,30 +502,38 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-以下圖片展示了以 Material Design 元件 (Widgets) 建構的 "Hello world!" 範例。
-你可以獲得比基本 "Hello world!" 應用程式更多的內建功能。
+The following images show "Hello world!" built from Material Design widgets.
+You get more functionality for free than in the basic "Hello world!" app.
 
 {% render docs/android-ios-figure-pair.md, image: "react-native/hello-world.png", alt: "Hello world app" %}
 
-在撰寫應用程式時，你會使用兩種類型的元件 (Widgets)：
-[`StatelessWidget`][`StatelessWidget`] 或 [`StatefulWidget`][`StatefulWidget`]。
-`StatelessWidget` 顧名思義，就是沒有狀態的元件。
-`StatelessWidget` 只會被建立一次，且外觀永遠不會改變。
-`StatefulWidget` 則會根據收到的資料或使用者輸入動態改變其狀態。
+When writing an app, you'll use two types of widgets:
+[`StatelessWidget`][] or [`StatefulWidget`][].
+A `StatelessWidget` is just what it sounds like&mdash;a
+widget with no state. A `StatelessWidget` is created once,
+and never changes its appearance.
+A `StatefulWidget` dynamically changes state based on data
+received, or user input.
 
-無狀態元件 (stateless widgets) 和有狀態元件 (stateful widgets) 之間最重要的差異在於，
-`StatefulWidget` 會有一個 `State` 物件來儲存狀態資料，並在元件樹重建時保留這些資料，因此狀態不會遺失。
+The important difference between stateless and stateful
+widgets is that `StatefulWidget`s have a `State` object
+that stores state data and carries it over
+across tree rebuilds, so it's not lost.
 
-在簡單或基礎的應用程式中，巢狀元件很容易管理，
-但隨著程式碼基礎擴大、應用程式變得複雜時，
-你應該將深層巢狀的元件拆分成回傳元件的函式或更小的類別。
-建立獨立的函式和元件可以讓你在應用程式內重複使用這些元件。
+In simple or basic apps it's easy to nest widgets,
+but as the code base gets larger and the app becomes complex,
+you should break deeply nested widgets into
+functions that return the widget or smaller classes.
+Creating separate functions
+and widgets allows you to reuse the components within the app.
 
-### 如何建立可重複使用的元件？
+### How do I create reusable components?
 
-在 React Native 中，你會定義一個函式（或類別）來建立可重複使用的元件，
-然後使用 `props` 方法來設定或回傳所選元素的屬性和值。
-在下方範例中，定義了 `CustomCard` 函式，並在父元件中使用它。
+In React Native, you would define a function (or a class) to create a
+reusable component and then use `props` methods to set
+or return properties and values of the selected elements.
+In the example below, the `CustomCard` function is defined
+and then used inside a parent component.
 
 ```js
 // React Native
@@ -505,7 +553,9 @@ const CustomCard = ({ index, onPress }) => {
 <CustomCard onPress={this.onPress} index={item.key} />
 ```
 
-在 Flutter 中，您可以定義一個類別來建立自訂元件（Widget），然後重複使用該元件。您也可以像下方範例中的 `build` 函式一樣，定義並呼叫一個會回傳可重複使用元件的函式。
+In Flutter, define a class to create a custom widget and then reuse the
+widget. You can also define and call a function that returns a
+reusable widget as shown in the `build` function in the following example.
 
 <?code-excerpt "lib/components.dart (components)"?>
 ```dart
@@ -547,20 +597,23 @@ class UseCard extends StatelessWidget {
 }
 ```
 
-在前面的範例中，`CustomCard` 類別的建構函式使用 Dart 的大括號語法 `{ }` 來表示[具名參數][named parameters]。
+In the previous example, the constructor for the `CustomCard`
+class uses Dart's curly brace syntax `{ }` to indicate [named parameters][].
 
-若要強制這些欄位為必填，可以移除建構函式中的大括號，或是在建構函式中加入 `required`。
+To require these fields, either remove the curly braces from
+the constructor, or add `required` to the constructor.
 
-以下螢幕截圖展示了一個可重複使用的 `CustomCard` 類別範例。
+The following screenshots show an example of the reusable
+`CustomCard` class.
 
 {% render docs/android-ios-figure-pair.md, image: "react-native/custom-cards.png", alt: "Custom cards", class: "border" %}
 
-## 專案結構與資源
+## Project structure and resources
 
-### 我該從哪裡開始撰寫程式碼？
+### Where do I start writing the code?
 
-請從 `lib/main.dart` 檔案開始。
-當你建立 Flutter 應用程式時，這個檔案會自動產生。
+Start with the `lib/main.dart` file.
+It's autogenerated when you create a Flutter app.
 
 <?code-excerpt "lib/examples.dart (main)"?>
 ```dart
@@ -570,13 +623,15 @@ void main() {
 }
 ```
 
-在 Flutter 中，進入點檔案是`{project_name}/lib/main.dart`，執行會從`main`函式開始。
+In Flutter, the entry point file is
+`{project_name}/lib/main.dart` and execution
+starts from the `main` function.
 
-### Flutter 應用程式的檔案結構是如何安排的？
+### How are files structured in a Flutter app?
 
-當你建立新的 Flutter 專案時，
-它會產生以下目錄結構。
-你可以在之後自訂，但這是起始的架構。
+When you create a new Flutter project,
+it builds the following directory structure.
+You can customize it later, but this is where you start.
 
 ```plaintext
 ┬
@@ -597,18 +652,20 @@ void main() {
                    This is equivalent to the package.json file in React Native.
 ```
 
-### 我應該把資源和 Assets 放在哪裡？要怎麼使用它們？
+### Where do I put my resources and assets and how do I use them?
 
-Flutter 的資源（resource）或 Assets（資產）是與你的應用程式一起打包並部署的檔案，並且可以在執行時存取。
-Flutter 應用程式可以包含以下類型的資源：
+A Flutter resource or asset is a file that is bundled and deployed
+with your app and is accessible at runtime.
+Flutter apps can include the following asset types:
 
-* 靜態資料，例如 JSON 檔案
-* 設定檔
-* 圖示和圖片（JPEG、PNG、GIF、動畫 GIF、WebP、動畫 WebP、BMP 和 WBMP）
+* Static data such as JSON files
+* Configuration files
+* Icons and images (JPEG, PNG, GIF, Animated GIF, WebP, Animated WebP, BMP,
+  and WBMP)
 
-Flutter 會使用`pubspec.yaml`檔案，
-該檔案位於你的專案根目錄，
-用來識別應用程式所需的資源。
+Flutter uses the `pubspec.yaml` file,
+located at the root of your project, to
+identify assets required by an app.
 
 ```yaml
 flutter:
@@ -617,19 +674,25 @@ flutter:
     - assets/background.png
 ```
 
-`assets` 子區塊用來指定應該隨應用程式一同包含的檔案。
-每個資源（Assets）都會以相對於 `pubspec.yaml` 檔案的明確路徑來識別，也就是資源檔案所在的位置。
-宣告資源的順序沒有影響。
-實際使用的目錄（此例為 `assets`）也沒有影響。
-不過，雖然資源可以放在任何應用程式目錄中，最佳做法是將它們放在 `assets` 目錄下。
+The `assets` subsection specifies files that should be included with the app.
+Each asset is identified by an explicit path
+relative to the `pubspec.yaml` file, where the asset file is located.
+The order in which the assets are declared does not matter.
+The actual directory used (`assets` in this case) does not matter.
+However, while assets can be placed in any app directory, it's a
+best practice to place them in the `assets` directory.
 
-在建置過程中，Flutter 會將資源放入一個特殊的封存檔，稱為 *asset bundle*，應用程式會在執行時從中讀取資料。
-當資源路徑被指定在 `pubspec.yaml` 的 assets 區塊時，
-建置流程會尋找相鄰子目錄中任何同名的檔案。
-這些檔案也會一併包含在 asset bundle 中，與指定的資源一起打包。
-Flutter 會使用資源變體（asset variants）來為你的應用程式選擇合適解析度的圖片。
+During a build, Flutter places assets into a special archive
+called the *asset bundle*, which apps read from at runtime.
+When an asset's path is specified in the assets' section of `pubspec.yaml`,
+the build process looks for any files
+with the same name in adjacent subdirectories.
+These files are also included in the asset bundle
+along with the specified asset. Flutter uses asset variants
+when choosing resolution-appropriate images for your app.
 
-在 React Native 中，你會將靜態圖片檔案放在原始碼目錄下，並直接引用它。
+In React Native, you would add a static image by placing the image file
+in a source code directory and referencing it.
 
 ```js
 <Image source={require('./my-icon.png')} />
@@ -641,79 +704,112 @@ Flutter 會使用資源變體（asset variants）來為你的應用程式選擇�
 />
 ```
 
-在 Flutter 中，若要將靜態圖片加入你的應用程式，可以在元件（Widget）的 build 方法中，使用 `Image.asset` 建構函式。
+In Flutter, add a static image to your app
+using the `Image.asset` constructor in a widget's build method.
 
 <?code-excerpt "lib/examples.dart (image-asset)" replace="/return //g"?>
 ```dart
 Image.asset('assets/background.png');
 ```
 
-如需更多資訊，請參閱 [在 Flutter 中新增資源與圖片][Adding Assets and Images in Flutter]。
+For more information, see [Adding Assets and Images in Flutter][].
 
-### 如何載入網路上的圖片？
+### How do I load images over a network?
 
-在 React Native 中，你會在 `Image` 元件的 `source` 屬性中指定 `uri`，並在需要時提供圖片尺寸。
+In React Native, you would specify the `uri` in the
+`source` prop of the `Image` component and also provide the
+size if needed.
 
-在 Flutter 中，請使用 `Image.network` 建構函式來載入來自 URL 的圖片。
+In Flutter, use the `Image.network` constructor to include
+an image from a URL.
 
 <?code-excerpt "lib/examples.dart (image-network)" replace="/return //g"?>
 ```dart
 Image.network('https://docs.flutter.dev/assets/images/docs/owl.jpg');
 ```
 
-### 如何安裝套件與套件插件？
+### How do I install packages and package plugins?
 
-Flutter 支援使用其他開發者貢獻給 Flutter 與 Dart 生態系統的共用套件（package）。這讓你可以快速建構應用程式，而不需要從零開始開發所有功能。包含平台專屬程式碼的套件稱為套件插件（package plugins）。
+Flutter supports using shared packages contributed by other developers to the
+Flutter and Dart ecosystems. This allows you to quickly build your app without
+having to develop everything from scratch. Packages that contain
+platform-specific code are known as package plugins.
 
-在 React Native 中，你會使用 `yarn add {package-name}` 或 `npm install --save {package-name}` 於命令列安裝套件。
+In React Native, you would use `yarn add {package-name}` or
+`npm install --save {package-name}` to install packages
+from the command line.
 
-在 Flutter 中，請依照以下說明安裝套件：
+In Flutter, install a package using the following instructions:
 
-1. 若要將 `google_sign_in` 套件新增為相依套件，請執行 `flutter pub add`：
+1. To add the `google_sign_in` package as a dependency, run `flutter pub add`:
 
 ```console
 $ flutter pub add google_sign_in
 ```
 
-2. 透過命令列使用 `flutter pub get` 安裝套件。
-    如果你使用的是 IDE，通常會自動執行 `flutter pub get`，或者可能會提示你手動執行。
-3. 如下所示，將該套件匯入你的應用程式程式碼中：
+2. Install the package from the command line by using `flutter pub get`.
+   If using an IDE, it often runs `flutter pub get` for you, or it might
+   prompt you to do so.
+3. Import the package into your app code as shown below:
 
 <?code-excerpt "lib/examples.dart (package-import)"?>
 ```dart
 import 'package:flutter/material.dart';
 ```
 
-如需更多資訊，請參閱 [使用套件][Using Packages] 與
-[開發套件與外掛][Developing Packages & Plugins]。
+For more information, see [Using Packages][] and
+[Developing Packages & Plugins][].
 
-你可以在 [pub.dev][pub.dev] 的 [Flutter 套件][Flutter packages] 區域找到許多 Flutter 開發者分享的套件。
+You can find many packages shared by Flutter developers in the
+[Flutter packages][] section of [pub.dev][].
 
-## Flutter 元件 (Widgets)
+## Flutter widgets
 
-在 Flutter 中，你會使用元件 (Widgets) 來構建 UI，這些元件會根據其目前的設定與狀態，描述其視圖應該呈現的樣貌。
+In Flutter, you build your UI out of widgets that describe what their view
+should look like given their current configuration and state.
 
-元件 (Widgets) 通常由許多小型、單一用途的元件組合而成，透過巢狀結構產生強大的效果。例如，`Container` 元件包含了多個負責版面配置、繪製、定位與尺寸調整的元件。具體來說，`Container` 元件包含了 `LimitedBox`、`ConstrainedBox`、`Align`、`Padding`、`DecoratedBox` 與 `Transform` 等元件。你不需要透過繼承 `Container` 來實現自訂效果，而是可以將這些及其他簡單元件，以全新且獨特的方式組合使用。
+Widgets are often composed of many small,
+single-purpose widgets that are nested to produce powerful effects.
+For example, the `Container` widget consists of
+several widgets responsible for layout, painting, positioning, and sizing.
+Specifically, the `Container` widget includes the `LimitedBox`,
+`ConstrainedBox`, `Align`, `Padding`, `DecoratedBox`, and `Transform` widgets.
+Rather than subclassing `Container` to produce a customized effect, you can
+compose these and other simple widgets in new and unique ways.
 
-`Center` 元件是你可以控制版面配置的另一個例子。若要置中一個元件，只需將其包裹在 `Center` 元件中，然後再利用其他版面配置元件 (Layout widgets) 來進行對齊、行、列與網格的安排。這些版面配置元件本身不會有任何視覺表現，其唯一目的是控制其他元件的某些版面配置層面。若想了解某個元件為何以特定方式呈現，通常檢查其相鄰元件會很有幫助。
+The `Center` widget is another example of how you can control the layout.
+To center a widget, wrap it in a `Center` widget and then use layout
+widgets for alignment, row, columns, and grids.
+These layout widgets do not have a visual representation of their own.
+Instead, their sole purpose is to control some aspect of another
+widget's layout. To understand why a widget renders in a
+certain way, it's often helpful to inspect the neighboring widgets.
 
-如需更多資訊，請參閱 [Flutter 技術概覽][Flutter Technical Overview]。
+For more information, see the [Flutter Technical Overview][].
 
-如需 `Widgets` 套件中核心元件的更多資訊，請參閱 [Flutter 基本元件][Flutter Basic Widgets]、[Flutter 元件目錄][Flutter Widget Catalog]，或 [Flutter 元件索引][Flutter Widget Index]。
+For more information about the core widgets from the `Widgets` package,
+see [Flutter Basic Widgets][],
+the [Flutter Widget Catalog][],
+or the [Flutter Widget Index][].
 
-## 視圖 (Views)
+## Views
 
-### `View` 容器在 Flutter 中的對應元件是什麼？
+### What is the equivalent of the `View` container?
 
-在 React Native 中，`View` 是一個支援使用 `Flexbox` 進行版面配置、樣式、觸控處理與無障礙控制的容器。
+In React Native, `View` is a container that supports layout with `Flexbox`,
+style, touch handling, and accessibility controls.
 
-在 Flutter 中，你可以使用 `Widgets` 函式庫中的核心版面配置元件 (Layout widgets)，例如 [`Container`][`Container`]、[`Column`][`Column`]、[`Row`][`Row`] 以及 [`Center`][`Center`]。如需更多資訊，請參閱 [版面配置元件][Layout Widgets] 目錄。
+In Flutter, you can use the core layout widgets in the `Widgets`
+library, such as [`Container`][], [`Column`][],
+[`Row`][], and [`Center`][].
+For more information, see the [Layout Widgets][] catalog.
 
-### `FlatList` 或 `SectionList` 在 Flutter 中的對應元件是什麼？
+### What is the equivalent of `FlatList` or `SectionList`?
 
-`List` 是一個可捲動的元件清單，垂直排列各個元件。
+A `List` is a scrollable list of components arranged vertically.
 
-在 React Native 中，會使用 `FlatList` 或 `SectionList` 來渲染簡單或分段的清單。
+In React Native, `FlatList` or `SectionList` are used to render simple or
+sectioned lists.
 
 ```js
 // React Native
@@ -723,11 +819,12 @@ import 'package:flutter/material.dart';
 />
 ```
 
-[`ListView`][`ListView`] 是 Flutter 最常用的滾動元件 (Scrolling Widget)。
-其預設建構函式會接收一個明確的 `children` 清單。
-[`ListView`][`ListView`] 最適合用於元件數量較少的情境。
-若是需要顯示大量或無限的清單，請使用 `ListView.builder`，
-它會根據需求動態建立子元件，且只會建立目前可見的那些子元件。
+[`ListView`][] is Flutter's most commonly used scrolling widget.
+The default constructor takes an explicit list of children.
+[`ListView`][] is most appropriate for a small number of widgets.
+For a large or infinite list, use `ListView.builder`,
+which builds its children on demand and only builds
+those children that are visible.
 
 <?code-excerpt "lib/examples.dart (list-view)"?>
 ```dart
@@ -742,13 +839,13 @@ return ListView.builder(
 
 {% render docs/android-ios-figure-pair.md, image: "react-native/flatlist.webp", alt: "Flat list", class: "border" %}
 
-若想了解如何實作無限滾動清單，請參考官方的
-[`infinite_list`][infinite_list] 範例。
+To learn how to implement an infinite scrolling list, see the official
+[`infinite_list`][infinite_list] sample.
 
-### 如何使用 Canvas 進行繪製或繪圖？
+### How do I use a Canvas to draw or paint?
 
-在 React Native 中，沒有內建的 canvas 元件，
-因此通常會使用像 `react-native-canvas` 這類第三方函式庫來實現。
+In React Native, canvas components aren't present
+so third party libraries like `react-native-canvas` are used.
 
 ```js
 // React Native
@@ -770,10 +867,14 @@ const CanvasComp = () => {
 }
 ```
 
-在 Flutter 中，你可以使用 [`CustomPaint`][`CustomPaint`] 和 [`CustomPainter`][`CustomPainter`] 類別來進行畫布繪製（canvas 繪製）。
+In Flutter, you can use the [`CustomPaint`][]
+and [`CustomPainter`][] classes to draw to the canvas.
 
-以下範例展示如何在繪製（paint）階段，透過 `CustomPaint` 元件 (Widget) 來繪圖。這個範例實作了抽象類別 `CustomPainter`，並將其傳遞給 `CustomPaint` 的 painter 屬性。
-`CustomPaint` 的子類別必須實作 `paint()` 和 `shouldRepaint()` 方法。
+The following example shows how to draw during the paint phase using the
+`CustomPaint` widget. It implements the abstract class, `CustomPainter`,
+and passes it to `CustomPaint`'s painter property.
+`CustomPaint` subclasses must implement the `paint()`
+and `shouldRepaint()` methods.
 
 <?code-excerpt "lib/examples.dart (custom-paint)"?>
 ```dart
@@ -808,14 +909,16 @@ class MyCanvasWidget extends StatelessWidget {
 
 {% render docs/android-ios-figure-pair.md, image: "react-native/canvas.png", alt: "Canvas", class: "border" %}
 
-## 版面配置（Layouts）
+## Layouts
 
-### 如何使用元件（Widgets）來定義版面配置屬性？
+### How do I use widgets to define layout properties?
 
-在 React Native 中，大多數的版面配置都可以透過傳遞給特定元件（component）的 props 來完成。
-例如，你可以在 `View` 元件上使用 `style` prop，
-以指定 flexbox 的屬性。
-若要將你的元件排列成一個欄（column），你可以指定像是 `flexDirection: 'column'` 這樣的 prop。
+In React Native, most of the layout can be done with the props
+that are passed to a specific component.
+For example, you could use the `style` prop on the `View` component
+in order to specify the flexbox properties.
+To arrange your components in a column, you would specify a prop such as:
+`flexDirection: 'column'`.
 
 ```js
 // React Native
@@ -829,10 +932,16 @@ class MyCanvasWidget extends StatelessWidget {
 >
 ```
 
-在 Flutter 中，版面配置主要是透過專門設計用於版面配置的元件（Layout widgets），結合控制元件及其樣式屬性來定義。
+In Flutter, the layout is primarily defined by widgets
+specifically designed to provide layout,
+combined with control widgets and their style properties.
 
-舉例來說，[`Column`][`Column`] 和 [`Row`][`Row`] 元件會接收一個 `children` 清單，分別將其垂直或水平排列。  
-[`Container`][`Container`] 元件則可以同時設定版面配置與樣式屬性，而 [`Center`][`Center`] 元件則會將其子元件置中顯示。
+For example, the [`Column`][] and [`Row`][] widgets
+take an array of children and align them
+vertically and horizontally respectively.
+A [`Container`][] widget takes a combination of
+layout and styling properties, and a
+[`Center`][] widget centers its child widgets.
 
 <?code-excerpt "lib/layouts.dart (column)"?>
 ```dart
@@ -849,22 +958,23 @@ Widget build(BuildContext context) {
   );
 ```
 
-Flutter 在其核心元件（Widgets）庫中提供了各種版面配置元件（Layout widgets）。
-例如，[`Padding`][`Padding`]、[`Align`][`Align`] 和 [`Stack`][`Stack`]。
+Flutter provides a variety of layout widgets in its core widget library.
+For example, [`Padding`][], [`Align`][], and [`Stack`][].
 
-完整清單請參見 [Layout Widgets][Layout Widgets]。
+For a complete list, see [Layout Widgets][].
 
 {% render docs/android-ios-figure-pair.md, image: "react-native/basic-layout.webp", alt: "Layout", class: "border" %}
 
-### 如何堆疊元件（Widgets）？
+### How do I layer widgets?
 
-在 React Native 中，可以透過 `absolute` 定位來堆疊元件。
+In React Native, components can be layered using `absolute` positioning.
 
-Flutter 則使用 [`Stack`][`Stack`] 元件來將子元件（children widgets）以層疊方式排列。
-這些元件可以完全或部分地重疊在基礎元件之上。
+Flutter uses the [`Stack`][]
+widget to arrange children widgets in layers.
+The widgets can entirely or partially overlap the base widget.
 
-`Stack` 元件會根據其方框（box）的邊緣來定位其子元件。
-如果你只想簡單地讓多個子元件重疊，這個類別會很有用。
+The `Stack` widget positions its children relative to the edges of its box.
+This class is useful if you simply want to overlap several children widgets.
 
 <?code-excerpt "lib/layouts.dart (stack)"?>
 ```dart
@@ -883,21 +993,22 @@ Widget build(BuildContext context) {
   );
 ```
 
-前面的範例使用 `Stack` 來疊加一個 Container
-（在半透明黑色背景上顯示其 `Text`）
-於 `CircleAvatar` 之上。
-Stack 透過 alignment 屬性與 `Alignment` 座標來偏移文字。
+The previous example uses `Stack` to overlay a Container
+(that displays its `Text` on a translucent black background)
+on top of a `CircleAvatar`.
+The Stack offsets the text using the alignment property
+and `Alignment` coordinates.
 
 {% render docs/android-ios-figure-pair.md, image: "react-native/stack.png", alt: "Stack", class: "border" %}
 
-如需更多資訊，請參閱 [`Stack`][`Stack`] 類別文件。
+For more information, see the [`Stack`][] class documentation.
 
-## 樣式設定
+## Styling
 
-### 如何設定元件（Components）的樣式？
+### How do I style my components?
 
-在 React Native 中，會使用行內樣式（inline styling）與 `stylesheets.create`
-來設定元件的樣式。
+In React Native, inline styling and `stylesheets.create`
+are used to style components.
 
 ```js
 // React Native
@@ -917,7 +1028,10 @@ const styles = StyleSheet.create({
 });
 ```
 
-在 Flutter 中，`Text` 元件（Widget）可以在其 style 屬性中接受 `TextStyle` 類別。如果你想在多個地方使用相同的文字樣式，你可以建立一個 [`TextStyle`][`TextStyle`] 類別，並將其用於多個 `Text` 元件（Widgets）。
+In Flutter, a `Text` widget can take a `TextStyle` class
+for its style property. If you want to use the same text
+style in multiple places, you can create a
+[`TextStyle`][] class and use it for multiple `Text` widgets.
 
 <?code-excerpt "lib/examples.dart (text-style)"?>
 ```dart
@@ -946,23 +1060,26 @@ return const Center(
 
 {% render docs/android-ios-figure-pair.md, image: "react-native/flutterstyling.webp", alt: "Styling", class: "border" %}
 
-### 如何使用 `Icons` 和 `Colors`？
+### How do I use `Icons` and `Colors`?
 
-React Native 並未內建圖示（icons）支援，因此通常需透過第三方函式庫來實現。
+React Native doesn't include support for icons
+so third party libraries are used.
 
-在 Flutter 中，匯入 Materials 函式庫（Material library）時，也會同時引入豐富的 [Material icons（Material 圖示）][Material icons] 以及 [顏色][colors]。
+In Flutter, importing the Material library also pulls in the
+rich set of [Material icons][] and [colors][].
 
 <?code-excerpt "lib/examples.dart (icon)"?>
 ```dart
 return const Icon(Icons.lightbulb_outline, color: Colors.redAccent);
 ```
 
-當你使用 `Icons` 類別時，  
-請務必在專案的 `uses-material-design: true` 檔案中設定 `pubspec.yaml`。  
-這樣可以確保顯示圖示所需的 `MaterialIcons` 字型會被包含在你的應用程式中。
-
-一般來說，如果你打算使用 Material 函式庫，  
-你應該加入這一行設定。
+When using the `Icons` class,
+make sure to set `uses-material-design: true` in
+the project's `pubspec.yaml` file.
+This ensures that the `MaterialIcons` font,
+which displays the icons, is included in your app.
+In general, if you intend to use the Material library,
+you should include this line.
 
 ```yaml
 name: my_awesome_application
@@ -970,9 +1087,11 @@ flutter:
   uses-material-design: true
 ```
 
-Flutter 的 [Cupertino（iOS 風格）][Cupertino (iOS-style)] 套件提供高度還原的 iOS 當前設計語言元件（Widgets）。
-若要使用 `CupertinoIcons` 字型，
-請在專案的 `pubspec.yaml` 檔案中加入對 `cupertino_icons` 的相依性。
+Flutter's [Cupertino (iOS-style)][] package provides high
+fidelity widgets for the current iOS design language.
+To use the `CupertinoIcons` font,
+add a dependency for `cupertino_icons` in your project's 
+`pubspec.yaml` file.
 
 ```yaml
 name: my_awesome_application
@@ -980,9 +1099,15 @@ dependencies:
   cupertino_icons: ^1.0.8
 ```
 
-若要全域自訂元件（Widgets）的顏色與樣式，可以使用 `ThemeData` 來指定主題中各種層面的預設顏色。請將 `MaterialApp` 的 theme 屬性設為 `ThemeData` 物件。[`Colors`][`Colors`] 類別會根據 Material Design 的 [color palette][color palette] 提供顏色。
+To globally customize the colors and styles of components,
+use `ThemeData` to specify default colors
+for various aspects of the theme.
+Set the theme property in `MaterialApp` to the `ThemeData` object.
+The [`Colors`][] class provides colors
+from the Material Design [color palette][].
 
-以下範例將色彩方案以 `deepPurple` 作為種子，並將文字選取顏色設為 `red`。
+The following example sets the color scheme from seed to `deepPurple`
+and the text selection to `red`.
 
 <?code-excerpt "lib/examples.dart (swatch)"?>
 ```dart
@@ -1005,11 +1130,15 @@ class SampleApp extends StatelessWidget {
 }
 ```
 
-### 如何新增主題樣式？
+### How do I add style themes?
 
-在 React Native 中，常見的主題會在樣式表中為元件（components）定義，然後在元件中使用。
+In React Native, common themes are defined for
+components in stylesheets and then used in components.
 
-在 Flutter 中，幾乎所有內容都可以透過在 [`ThemeData`][`ThemeData`] 類別中定義樣式，並將其傳遞給 [`MaterialApp`][`MaterialApp`] 元件（Widget）的 theme 屬性，來建立一致的樣式。
+In Flutter, create uniform styling for almost everything
+by defining the styling in the [`ThemeData`][]
+class and passing it to the theme property in the
+[`MaterialApp`][] widget.
 
 <?code-excerpt "lib/examples.dart (theme)"?>
 ```dart
@@ -1022,8 +1151,9 @@ Widget build(BuildContext context) {
 }
 ```
 
-即使不使用`MaterialApp`元件（Widget），也可以套用`Theme`。
-[`Theme`][`Theme`]元件（Widget）會在其`data`參數中接收`ThemeData`，並將`ThemeData`套用到所有子元件（children widgets）上。
+A `Theme` can be applied even without using the `MaterialApp` widget.
+The [`Theme`][] widget takes a `ThemeData` in its `data` parameter
+and applies the `ThemeData` to all of its children widgets.
 
 <?code-excerpt "lib/examples.dart (theme-data)"?>
 ```dart
@@ -1039,19 +1169,30 @@ Widget build(BuildContext context) {
 }
 ```
 
-## 狀態管理
+## State management
 
-狀態（State）是指在元件（Widget）建構時可以同步讀取的資訊，或是在元件生命週期中可能會改變的資訊。要在 Flutter 中管理應用程式狀態，請使用 [`StatefulWidget`][`StatefulWidget`] 搭配 State 物件。
+State is information that can be read synchronously
+when a widget is built or information
+that might change during the lifetime of a widget.
+To manage app state in Flutter,
+use a [`StatefulWidget`][] paired with a State object.
 
-如需更多有關在 Flutter 中管理狀態的方法，請參閱 [State management][State management]。
+For more information on ways to approach managing state in Flutter,
+see [State management][].
 
-### 無狀態元件 (StatelessWidget)
+### The StatelessWidget
 
-Flutter 中的 `StatelessWidget` 是一種不需要狀態變更的元件（Widget）——也就是說，它沒有需要管理的內部狀態。
+A `StatelessWidget` in Flutter is a widget
+that doesn't require a state change&mdash;
+it has no internal state to manage.
 
-當你描述的使用者介面部分僅依賴於元件本身的組態資訊，以及該元件被建立時所處的 [`BuildContext`][`BuildContext`]，而不依賴其他任何東西時，無狀態元件特別有用。
+Stateless widgets are useful when the part of the user interface
+you are describing does not depend on anything other than the
+configuration information in the object itself and the
+[`BuildContext`][] in which the widget is inflated.
 
-[`AboutDialog`][`AboutDialog`]、[`CircleAvatar`][`CircleAvatar`] 和 [`Text`][`Text`] 都是繼承自 [`StatelessWidget`][`StatelessWidget`] 的無狀態元件範例。
+[`AboutDialog`][], [`CircleAvatar`][], and [`Text`][] are examples
+of stateless widgets that subclass [`StatelessWidget`][].
 
 <?code-excerpt "lib/stateless.dart"?>
 ```dart
@@ -1075,23 +1216,45 @@ class MyStatelessWidget extends StatelessWidget {
 }
 ```
 
-前一個範例使用 `MyStatelessWidget` 類別的建構函式來傳遞 `text`，而這個屬性被標記為 `final`。這個類別繼承自 `StatelessWidget`——它包含不可變的資料。
+The previous example uses the constructor of the `MyStatelessWidget`
+class to pass the `text`, which is marked as `final`.
+This class extends `StatelessWidget`&mdash;it contains immutable data.
 
-無狀態元件 (StatelessWidget) 的 `build` 方法通常只會在以下三種情況下被呼叫：
+The `build` method of a stateless widget is typically called
+in only three situations:
 
-* 當元件被插入到元件樹中時
-* 當元件的父元件變更其設定時
-* 當它所依賴的 [`InheritedWidget`][`InheritedWidget`] 發生變化時
+* When the widget is inserted into a tree
+* When the widget's parent changes its configuration
+* When an [`InheritedWidget`][] it depends on, changes
 
-### StatefulWidget
+### The StatefulWidget
 
-[`StatefulWidget`][`StatefulWidget`] 是一種會改變狀態的元件 (Widget)。請使用 `setState` 方法來管理 `StatefulWidget` 的狀態變化。呼叫 `setState()` 會通知 Flutter 框架某個狀態已經改變，這會導致應用程式重新執行 `build()` 方法，以便反映這個變化。
+A [`StatefulWidget`][] is a widget that changes state.
+Use the `setState` method to manage the
+state changes for a `StatefulWidget`.
+A call to `setState()` tells the Flutter
+framework that something has changed in a state,
+which causes an app to rerun the `build()` method
+so that the app can reflect the change.
 
-_狀態 (State)_ 是指在元件建立時可以同步讀取，並且在元件生命週期內可能會改變的資訊。元件實作者有責任確保當狀態變更時，狀態物件能夠及時收到通知。當元件可能會動態改變時，請使用 `StatefulWidget`。例如，當在表單中輸入文字或移動滑桿時，元件的狀態會改變；又或者，狀態會隨著時間改變——像是資料來源更新 UI。
+_State_ is information that can be read synchronously when a widget
+is built and might change during the lifetime of the widget.
+It's the responsibility of the widget implementer to ensure that
+the state object is promptly notified when the state changes.
+Use `StatefulWidget` when a widget can change dynamically.
+For example, the state of the widget changes by typing into a form,
+or moving a slider.
+Or, it can change over time—perhaps a data feed updates the UI.
 
-[`Checkbox`][`Checkbox`]、[`Radio`][`Radio`]、[`Slider`][`Slider`]、[`InkWell`][`InkWell`]、[`Form`][`Form`] 以及 [`TextField`][`TextField`] 都是繼承自 [`StatefulWidget`][`StatefulWidget`] 的 stateful 元件 (StatefulWidget) 範例。
+[`Checkbox`][], [`Radio`][], [`Slider`][], [`InkWell`][],
+[`Form`][], and [`TextField`][]
+are examples of stateful widgets that subclass
+[`StatefulWidget`][].
 
-以下範例宣告了一個 `StatefulWidget`，它需要一個 `createState()` 方法。此方法會建立管理元件狀態的狀態物件 `_MyStatefulWidgetState`。
+The following example declares a `StatefulWidget`
+that requires a `createState()` method.
+This method creates the state object that manages the widget's state,
+`_MyStatefulWidgetState`.
 
 <?code-excerpt "lib/stateful.dart (stateful-widget)"?>
 ```dart
@@ -1105,11 +1268,11 @@ class MyStatefulWidget extends StatefulWidget {
 }
 ```
 
-以下的狀態類別 `_MyStatefulWidgetState`，
-為該元件（Widget）實作了 `build()` 方法。
-當狀態改變時，例如使用者切換按鈕時，
-`setState()` 會以新的切換值被呼叫。
-這會導致框架重新建構此元件於 UI 上。
+The following state class, `_MyStatefulWidgetState`,
+implements the `build()` method for the widget.
+When the state changes, for example, when the user toggles
+the button, `setState()` is called with the new toggle value.
+This causes the framework to rebuild this widget in the UI.
 
 <?code-excerpt "lib/stateful.dart (stateful-widget-state)"?>
 ```dart
@@ -1162,34 +1325,47 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 }
 ```
 
-### StatefulWidget 與 StatelessWidget 的最佳實踐是什麼？
+### What are the StatefulWidget and StatelessWidget best practices?
 
-設計元件（Widget）時，請考慮以下幾點：
+Here are a few things to consider when designing your widget.
 
-1. 判斷元件應該是 `StatefulWidget` 還是 `StatelessWidget`。
+1. Determine whether a widget should be
+   a `StatefulWidget` or a `StatelessWidget`.
 
-在 Flutter 中，元件分為 Stateful 或 Stateless，這取決於它們是否依賴狀態變化。
+In Flutter, widgets are either Stateful or Stateless—depending on whether
+they depend on a state change.
 
-* 如果元件會改變——例如使用者與其互動，或資料流中斷 UI，那麼它是 *Stateful*。
-* 如果元件是最終的或不可變的，那麼它是 *Stateless*。
+* If a widget changes&mdash;the user interacts with it or
+  a data feed interrupts the UI, then it's *Stateful*.
+* If a widget is final or immutable, then it's *Stateless*.
 
-2. 判斷哪個物件負責管理元件的狀態（針對 `StatefulWidget`）。
+2. Determine which object manages the widget's state (for a `StatefulWidget`).
 
-在 Flutter 中，主要有三種管理狀態的方法：
+In Flutter, there are three primary ways to manage state:
 
-* 元件自行管理其狀態
-* 父元件管理該元件的狀態
-* 混合搭配的方式
+* The widget manages its own state
+* The parent widget manages the widget's state
+* A mix-and-match approach
 
-在決定採用哪種方式時，請考慮以下原則：
+When deciding which approach to use, consider the following principles:
 
-* 如果相關狀態是使用者資料，例如核取方塊的勾選或未勾選狀態，或滑桿的位置，則建議由父元件管理該狀態。
-* 如果相關狀態是美觀性的，例如動畫（Animation），則建議由元件本身管理該狀態。
-* 如果不確定，建議讓父元件管理子元件的狀態。
+* If the state in question is user data,
+  for example the checked or unchecked mode of a checkbox,
+  or the position of a slider, then the state is best managed
+  by the parent widget.
+* If the state in question is aesthetic, for example an animation,
+  then the widget itself best manages the state.
+* When in doubt, let the parent widget manage the child widget's state.
 
-3. 繼承 StatefulWidget 與 State。
+3. Subclass StatefulWidget and State.
 
-`MyStatefulWidget` 類別會自行管理其狀態——它繼承自 `StatefulWidget`，覆寫 `createState()` 方法以建立 `State` 物件，框架會呼叫 `createState()` 來建構元件。在此範例中，`createState()` 會建立 `_MyStatefulWidgetState` 的實例，該實作會在下一個最佳實踐中說明。
+The `MyStatefulWidget` class manages its own state&mdash;it extends
+`StatefulWidget`, it overrides the `createState()`
+method to create the `State` object,
+and the framework calls `createState()` to build the widget.
+In this example, `createState()` creates an instance of
+`_MyStatefulWidgetState`, which
+is implemented in the next best practice.
 
 <?code-excerpt "lib/best_practices.dart (create-state)" replace="/return const Text\('Hello World!'\);/\/\/.../g"?>
 ```dart
@@ -1209,9 +1385,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 }
 ```
 
-4. 將 StatefulWidget 加入元件樹（widget tree）。
+4. Add the StatefulWidget into the widget tree.
 
-在應用程式的 build 方法中，將你自訂的 `StatefulWidget` 加入元件樹（widget tree）。
+Add your custom `StatefulWidget` to the widget tree
+in the app's build method.
 
 <?code-excerpt "lib/best_practices.dart (use-stateful-widget)"?>
 ```dart
@@ -1233,7 +1410,9 @@ class MyStatelessWidget extends StatelessWidget {
 
 ## Props
 
-在 React Native 中，大多數元件（Components）在建立時都可以透過不同的參數或屬性來自訂，這些參數稱為`props`。這些參數可以在子元件中使用`this.props`來取得。
+In React Native, most components can be customized when they are
+created with different parameters or properties, called `props`.
+These parameters can be used in a child component using `this.props`.
 
 ```js
 // React Native
@@ -1267,7 +1446,8 @@ const App = () => {
 };
 ```
 
-在 Flutter 中，你可以將帶有 `final` 標記的區域變數或函式，透過帶參數的建構函式所接收到的屬性進行賦值。
+In Flutter, you assign a local variable or function marked
+`final` with the property received in the parameterized constructor.
 
 <?code-excerpt "lib/components.dart (components)"?>
 ```dart
@@ -1311,13 +1491,18 @@ class UseCard extends StatelessWidget {
 
 {% render docs/android-ios-figure-pair.md, image: "react-native/modular.png", alt: "Cards", class: "border" %}
 
-## 本機儲存（Local storage）
+## Local storage
 
-如果你不需要儲存大量資料，且這些資料不需要結構化，你可以使用 `shared_preferences`，它允許你讀寫原始資料型別（布林值、浮點數、整數、長整數和字串）的持久性鍵值對。
+If you don't need to store a lot of data, and it doesn't require
+structure, you can use `shared_preferences` which allows you to
+read and write persistent key-value pairs of primitive data
+types: booleans, floats, ints, longs, and strings.
 
-### 如何儲存全域且持久的鍵值對資料？
+### How do I store persistent key-value pairs that are global to the app?
 
-在 React Native 中，你可以使用 `AsyncStorage` 元件的 `setItem` 和 `getItem` 函式，來儲存和讀取全域且持久的資料。
+In React Native, you use the `setItem` and `getItem` functions
+of the `AsyncStorage` component to store and retrieve data
+that is persistent and global to the app.
 
 ```js
 // React Native
@@ -1331,9 +1516,13 @@ AsyncStorage.getItem('counterkey').then(value => {
 });
 ```
 
-在 Flutter 中，請使用 [`shared_preferences`][`shared_preferences`] 套件來儲存與讀取屬於應用程式全域且具備持久性的鍵值資料。`shared_preferences` 套件在 iOS 上包裝了 `NSUserDefaults`，在 Android 上則包裝了 `SharedPreferences`，為簡單資料提供持久化儲存功能。
+In Flutter, use the [`shared_preferences`][] plugin to
+store and retrieve key-value data that is persistent and global
+to the app. The `shared_preferences` plugin wraps
+`NSUserDefaults` on iOS and `SharedPreferences` on Android,
+providing a persistent store for simple data.
 
-若要將 `shared_preferences` 套件新增為相依套件，請執行 `flutter pub add`：
+To add the `shared_preferences` package as a dependency, run `flutter pub add`:
 
 ```console
 $ flutter pub add shared_preferences
@@ -1344,13 +1533,14 @@ $ flutter pub add shared_preferences
 import 'package:shared_preferences/shared_preferences.dart';
 ```
 
-要實作持久化資料，請使用 `SharedPreferences` 類別所提供的 setter 方法。
-
-setter 方法可用於多種基本型別，例如 `setInt`、`setBool` 和 `setString`。
-
-若要讀取資料，請使用 `SharedPreferences` 類別所提供的適當 getter 方法。
-
-每個 setter 方法都有一個對應的 getter 方法，例如 `getInt`、`getBool` 和 `getString`。
+To implement persistent data, use the setter methods
+provided by the `SharedPreferences` class.
+Setter methods are available for various primitive
+types, such as `setInt`, `setBool`, and `setString`.
+To read data, use the appropriate getter method provided
+by the `SharedPreferences` class. For each
+setter there is a corresponding getter method,
+for example, `getInt`, `getBool`, and `getString`.
 
 <?code-excerpt "lib/examples.dart (shared-prefs-update)"?>
 ```dart
@@ -1366,17 +1556,23 @@ Future<void> updateCounter() async {
 }
 ```
 
-## 路由（Routing）
+## Routing
 
-大多數應用程式都包含多個螢幕，用於顯示不同類型的資訊。例如，你可能有一個產品螢幕（product screen），用來顯示圖片，使用者可以點擊某個產品圖片，在新的螢幕上獲取該產品的更多資訊。
+Most apps contain several screens for displaying different
+types of information. For example, you might have a product
+screen that displays images where users could tap on a product
+image to get more information about the product on a new screen.
 
-在 Android 中，每個新螢幕對應一個新的 Activity。
-在 iOS 中，每個新螢幕對應一個新的 ViewController。而在 Flutter 中，螢幕就是元件（Widgets）！要在 Flutter 中導覽到新的螢幕，請使用 Navigator 元件。
+In Android, new screens are new Activities.
+In iOS, new screens are new ViewControllers. In Flutter,
+screens are just Widgets! And to navigate to new
+screens in Flutter, use the Navigator widget.
 
-### 如何在螢幕之間導覽？
+### How do I navigate between screens?
 
-在 React Native 中，主要有三種導覽器（navigator）：StackNavigator、TabNavigator 和 DrawerNavigator。
-每一種都提供了設定與定義螢幕的方式。
+In React Native, there are three main navigators:
+StackNavigator, TabNavigator, and DrawerNavigator.
+Each provides a way to configure and define the screens.
 
 ```js
 // React Native
@@ -1398,17 +1594,23 @@ export default (MyApp1 = DrawerNavigator({
 }));
 ```
 
-在 Flutter 中，主要有兩種元件（Widgets）用於在螢幕間導覽：
+In Flutter, there are two main widgets used to navigate between screens:
 
-* [`Route`][`Route`] 是應用程式螢幕或頁面的抽象表示。
-* [`Navigator`][`Navigator`] 是管理路由的元件（Widget）。
+* A [`Route`][] is an abstraction for an app screen or page.
+* A [`Navigator`][] is a widget that manages routes.
 
-`Navigator` 定義為一個以堆疊方式管理一組子元件（Widgets）的元件（Widget）。Navigator 會管理一個 `Route` 物件的堆疊，並提供管理堆疊的方法，例如 [`Navigator.push`][`Navigator.push`] 和 [`Navigator.pop`][`Navigator.pop`]。
-路由清單可以在 [`MaterialApp`][`MaterialApp`] 元件（Widget）中指定，也可以動態建立，例如在 hero 動畫中。
-以下範例在 `MaterialApp` 元件（Widget）中指定了命名路由（named routes）。
+A `Navigator` is defined as a widget that manages a set of child
+widgets with a stack discipline. The navigator manages a stack
+of `Route` objects and provides methods for managing the stack,
+like [`Navigator.push`][] and [`Navigator.pop`][].
+A list of routes might be specified in the [`MaterialApp`][] widget,
+or they might be built on the fly, for example, in hero animations.
+The following example specifies named routes in the `MaterialApp` widget.
 
 :::note
-命名路由（named routes）目前已不再建議用於大多數應用程式。如需更多資訊，請參閱 [Limitations][Limitations] 於 [navigation overview][navigation overview] 頁面。
+Named routes are no longer recommended for most
+applications. For more information, see
+[Limitations][] in the [navigation overview][] page.
 :::
 
 [Limitations]: /ui/navigation#limitations
@@ -1434,19 +1636,24 @@ class NavigationApp extends StatelessWidget {
 }
 ```
 
-要導向至命名路由（named route），會使用 [`Navigator.of()`][`Navigator.of()`] 方法，並指定 `BuildContext`（在元件樹中某個元件的位置控制代碼）。路由名稱會傳遞給 `pushNamed` 函式，以導向至指定的路由。
+To navigate to a named route, the [`Navigator.of()`][]
+method is used to specify the `BuildContext`
+(a handle to the location of a widget in the widget tree).
+The name of the route is passed to the `pushNamed` function to
+navigate to the specified route.
 
 <?code-excerpt "lib/navigation.dart (push-named)"?>
 ```dart
 Navigator.of(context).pushNamed('/a');
 ```
 
-你也可以使用 `Navigator` 的 push 方法（push() 方法），
-這個方法會將指定的 [`Route`][`Route`] 加入到最緊密包覆給定 [`BuildContext`][`BuildContext`] 的 Navigator 的歷史記錄中，
-並切換到該路由。在以下範例中，
-[`MaterialPageRoute`][`MaterialPageRoute`] 元件（Widget）是一個模態路由（modal route），
-會以平台自適應的轉場效果取代整個螢幕。
-它需要一個 [`WidgetBuilder`][`WidgetBuilder`] 作為必要參數。
+You can also use the push method of `Navigator` which
+adds the given [`Route`][] to the history of the
+navigator that most tightly encloses the given [`BuildContext`][],
+and transitions to it. In the following example,
+the [`MaterialPageRoute`][] widget is a modal route that
+replaces the entire screen with a platform-adaptive
+transition. It takes a [`WidgetBuilder`][] as a required parameter.
 
 <?code-excerpt "lib/navigation.dart (navigator-push)"?>
 ```dart
@@ -1456,14 +1663,18 @@ Navigator.push(
 );
 ```
 
-### 如何使用分頁（Tab）導覽與抽屜（Drawer）導覽？
+### How do I use tab navigation and drawer navigation?
 
-在 Material Design 應用程式中，Flutter 提供了兩種主要的導覽選項：分頁（tabs）與抽屜（drawers）。
-當空間不足以支援分頁時，抽屜是一個很好的替代方案。
+In Material Design apps, there are two primary options
+for Flutter navigation: tabs and drawers.
+When there is insufficient space to support tabs, drawers
+provide a good alternative.
 
-#### 分頁（Tab）導覽
+#### Tab navigation
 
-在 React Native 中，`createBottomTabNavigator` 和 `TabNavigation` 用於顯示分頁並進行分頁導覽。
+In React Native, `createBottomTabNavigator`
+and `TabNavigation` are used to
+show tabs and for tab navigation.
 
 ```js
 // React Native
@@ -1475,19 +1686,22 @@ const MyApp = TabNavigator(
 );
 ```
 
-Flutter 提供了多種專門用於抽屜（drawer）和分頁（tab）導覽的元件（Widgets）：
+Flutter provides several specialized widgets for drawer and
+tab navigation:
 
-[`TabController`][`TabController`]
-: 協調 `TabBar` 和 `TabBarView` 之間的分頁選擇。
+[`TabController`][]
+: Coordinates the tab selection between a `TabBar`
+  and a `TabBarView`.
 
-[`TabBar`][`TabBar`]
-: 顯示一排橫向排列的分頁。
+[`TabBar`][]
+: Displays a horizontal row of tabs.
 
-[`Tab`][`Tab`]
-: 建立一個 Material Design 樣式的 TabBar 分頁。
+[`Tab`][]
+: Creates a material design TabBar tab.
 
-[`TabBarView`][`TabBarView`]
-: 顯示與目前所選分頁對應的元件（Widget）。
+[`TabBarView`][]
+: Displays the widget that corresponds to the currently selected tab.
+
 
 <?code-excerpt "lib/navigation.dart (tab-nav)"?>
 ```dart
@@ -1508,18 +1722,31 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
 ```
 
 
-`TabController` 是用來協調 `TabBar` 與 `TabBarView` 之間的分頁（tab）選擇所必須的。
-`TabController` 建構子的 `length` 參數代表分頁的總數。
-每當畫面（frame）觸發狀態變更時，必須有 `TickerProvider` 來觸發通知。
-`TickerProvider` 是 `vsync`。每當你建立新的 `TabController` 時，請將 `vsync: this` 參數傳遞給 `TabController` 建構子。
+A `TabController` is required to coordinate the tab selection
+between a `TabBar` and a `TabBarView`.
+The `TabController` constructor `length` argument is the total
+number of tabs. A `TickerProvider` is required to trigger
+the notification whenever a frame triggers a state change.
+The `TickerProvider` is `vsync`. Pass the
+`vsync: this` argument to the `TabController` constructor
+whenever you create a new `TabController`.
 
-[`TickerProvider`][`TickerProvider`] 是一個由可以提供 [`Ticker`][`Ticker`] 物件的類別所實作的介面。
-Ticker 可以被任何需要在每次畫面（frame）觸發時收到通知的物件使用，但最常見的是透過 [`AnimationController`][`AnimationController`] 間接使用。`AnimationController` 需要 `TickerProvider` 來取得它們的 `Ticker`。
-如果你是從 State 建立 AnimationController，那麼你可以使用 [`TickerProviderStateMixin`][`TickerProviderStateMixin`] 或 [`SingleTickerProviderStateMixin`][`SingleTickerProviderStateMixin`] 類別來取得合適的 `TickerProvider`。
+The [`TickerProvider`][] is an interface implemented
+by classes that can vend [`Ticker`][] objects.
+Tickers can be used by any object that must be notified whenever a
+frame triggers, but they're most commonly used indirectly via an
+[`AnimationController`][]. `AnimationController`s
+need a `TickerProvider` to obtain their `Ticker`.
+If you are creating an AnimationController from a State,
+then you can use the [`TickerProviderStateMixin`][]
+or [`SingleTickerProviderStateMixin`][]
+classes to obtain a suitable `TickerProvider`.
 
-[`Scaffold`][`Scaffold`] 元件（Widget）包裹了一個新的 `TabBar` 元件，並建立了兩個分頁（tab）。
-`TabBarView` 元件會作為 `Scaffold` 元件的 `body` 參數傳入。
-所有對應於 `TabBar` 元件分頁的螢幕，都是 `TabBarView` 元件的子元件（children），並且共用相同的 `TabController`。
+The [`Scaffold`][] widget wraps a new `TabBar` widget and
+creates two tabs. The `TabBarView` widget
+is passed as the `body` parameter of the `Scaffold` widget.
+All screens corresponding to the `TabBar` widget's tabs are
+children to the `TabBarView` widget along with the same `TabController`.
 
 <?code-excerpt "lib/navigation.dart (navigation-home-page-state)"?>
 ```dart
@@ -1549,9 +1776,10 @@ class _NavigationHomePageState extends State<NavigationHomePage>
 }
 ```
 
-#### Drawer 導覽
+#### Drawer navigation
 
-在 React Native 中，請匯入所需的 react-navigation 套件，然後使用 `createDrawerNavigator` 和 `DrawerNavigation`。
+In React Native, import the needed react-navigation packages and then use
+`createDrawerNavigator` and `DrawerNavigation`.
 
 ```js
 // React Native
@@ -1565,12 +1793,22 @@ export default (MyApp1 = DrawerNavigator({
 }));
 ```
 
-在 Flutter 中，我們可以將 `Drawer` 元件（Widget）與 `Scaffold` 結合使用，建立具有 Material Design 抽屜（drawer）的版面配置。  
-若要將 `Drawer` 新增至應用程式，請將其包裹在 `Scaffold` 元件中。  
-`Scaffold` 元件為遵循 [Material Design][Material Design] 指南的應用程式，提供一致的視覺結構。它同時支援特殊的 Material Design 元件（Material components），例如 `Drawers`、`AppBars` 和 `SnackBars`。
+In Flutter, we can use the `Drawer` widget in combination with a
+`Scaffold` to create a layout with a Material Design drawer.
+To add a `Drawer` to an app, wrap it in a `Scaffold` widget.
+The `Scaffold` widget provides a consistent
+visual structure to apps that follow the
+[Material Design][] guidelines. It also supports
+special Material Design components,
+such as `Drawers`, `AppBars`, and `SnackBars`.
 
-`Drawer` 元件是一個 Material Design 面板，會從 `Scaffold` 的邊緣以水平方式滑入，用來在應用程式中顯示導覽連結。你可以提供 [`ElevatedButton`][`ElevatedButton`]、[`Text`][`Text`] 元件，或是一個項目清單作為 `Drawer` 元件的 child 來顯示。  
-在下方範例中，[`ListTile`][`ListTile`] 元件提供了點擊時的導覽功能。
+The `Drawer` widget is a Material Design panel that slides
+in horizontally from the edge of a `Scaffold` to show navigation
+links in an application. You can
+provide a [`ElevatedButton`][], a [`Text`][] widget,
+or a list of items to display as the child to the `Drawer` widget.
+In the following example, the [`ListTile`][]
+widget provides the navigation on tap.
 
 <?code-excerpt "lib/examples.dart (drawer)"?>
 ```dart
@@ -1589,7 +1827,10 @@ Widget build(BuildContext context) {
 }
 ```
 
-`Scaffold` 元件（Widget）同時包含了一個 `AppBar` 元件，當 `Scaffold` 中有 Drawer 可用時，會自動顯示一個合適的 IconButton 來顯示 `Drawer`。`Scaffold` 也會自動處理螢幕邊緣滑動的手勢，以顯示 `Drawer`。
+The `Scaffold` widget also includes an `AppBar` widget that automatically
+displays an appropriate IconButton to show the `Drawer` when a Drawer is
+available in the `Scaffold`. The `Scaffold` automatically handles the
+edge-swipe gesture to show the `Drawer`.
 
 <?code-excerpt "lib/examples.dart (scaffold)"?>
 ```dart
@@ -1614,13 +1855,22 @@ Widget build(BuildContext context) {
 
 {% render docs/android-ios-figure-pair.md, image: "react-native/navigation.webp", alt: "Navigation", class: "border" %}
 
-## 手勢偵測與觸控事件處理
+## Gesture detection and touch event handling
 
-為了監聽並回應手勢，Flutter 支援點擊（tap）、拖曳（drag）以及縮放（scaling）等操作。Flutter 的手勢系統分為兩個獨立的層級。第一層是原始指標事件（raw pointer events），用來描述指標（例如觸控、滑鼠、手寫筆等）在螢幕上的位置與移動。第二層則是手勢（gestures），用來描述語意上的動作，這些動作通常由一個或多個指標移動所組成。
+To listen for and respond to gestures,
+Flutter supports taps, drags, and scaling.
+The gesture system in Flutter has two separate layers.
+The first layer includes raw pointer events,
+which describe the location and movement of pointers,
+(such as touches, mice, and styli movements), across the screen.
+The second layer includes gestures
+that describe semantic actions
+and consist of one or more pointer movements.
 
-### 如何為元件（Widget）新增點擊或按壓監聽器？
+### How do I add a click or press listeners to a widget?
 
-在 React Native 中，可以透過在元件上加入 `PanResponder` 或使用 `Touchable` 元件來新增監聽器。
+In React Native, listeners are added to components
+using `PanResponder` or the `Touchable` components.
 
 ```js
 // React Native
@@ -1636,7 +1886,8 @@ Widget build(BuildContext context) {
 </TouchableOpacity>
 ```
 
-對於更複雜的手勢，以及將多個觸控結合為單一手勢時，會使用 [`PanResponder`][`PanResponder`]。
+For more complex gestures and combining several touches into
+a single gesture, [`PanResponder`][] is used.
 
 ```js
 // React Native
@@ -1665,7 +1916,10 @@ const App = () => {
 };
 ```
 
-在 Flutter 中，若要為元件（Widget）新增點擊（或按下）監聽器，可以使用具有`onPress: field`的按鈕或可觸控元件。或者，也可以將任何元件包裹在 [`GestureDetector`][`GestureDetector`] 中，以加入手勢偵測功能。
+In Flutter, to add a click (or press) listener to a widget,
+use a button or a touchable widget that has an `onPress: field`.
+Or, add gesture detection to any widget by wrapping it
+in a [`GestureDetector`][].
 
 <?code-excerpt "lib/examples.dart (gesture-detector)"?>
 ```dart
@@ -1699,19 +1953,23 @@ Widget build(BuildContext context) {
 }
 ```
 
-如需更多資訊，包括 Flutter `GestureDetector` 回呼（callback）列表，請參閱 [GestureDetector class][GestureDetector class]。
+For more information, including a list of
+Flutter `GestureDetector` callbacks,
+see the [GestureDetector class][].
 
 [GestureDetector class]: {{site.api}}/flutter/widgets/GestureDetector-class.html#instance-properties
 
 {% render docs/android-ios-figure-pair.md, image: "react-native/flutter-gestures.webp", alt: "Gestures", class: "border" %}
 
-## 進行 HTTP 網路請求
+## Making HTTP network requests
 
-從網路擷取資料是大多數應用程式的常見需求。在 Flutter 中，`http` 套件提供了最簡單的方法來從網路擷取資料。
+Fetching data from the internet is common for most apps. And in Flutter,
+the `http` package provides the simplest way to fetch data from the internet.
 
-### 如何從 API 呼叫中擷取資料？
+### How do I fetch data from API calls?
 
-React Native 提供 Fetch API 進行網路通訊——你可以發送 fetch 請求，然後接收回應以取得資料。
+React Native provides the Fetch API for networking—you make a fetch request
+and then receive the response to get the data.
 
 ```js
 // React Native
@@ -1729,24 +1987,24 @@ const _getIPAddress = () => {
 };
 ```
 
-Flutter 使用 `http` 套件。
+Flutter uses the `http` package. 
 
-若要將 `http` 套件新增為相依套件，請執行 `flutter pub add`：
+To add the `http` package as a dependency, run `flutter pub add`:
 
 ```console
 $ flutter pub add http
 ```
 
-Flutter 使用 [`dart:io`][`dart:io`] 核心 HTTP 支援用戶端。
-要建立一個 HTTP Client，請匯入 `dart:io`。
+Flutter uses the [`dart:io`][] core HTTP support client.
+To create an HTTP Client, import `dart:io`.
 
 <?code-excerpt "lib/examples.dart (import-dart-io)"?>
 ```dart
 import 'dart:io';
 ```
 
-此用戶端支援以下 HTTP 操作：
-GET、POST、PUT 和 DELETE。
+The client supports the following HTTP operations:
+GET, POST, PUT, and DELETE.
 
 <?code-excerpt "lib/examples.dart (http)"?>
 ```dart
@@ -1766,13 +2024,17 @@ Future<void> getIPAddress() async {
 
 {% render docs/android-ios-figure-pair.md, image: "react-native/api-calls.webp", alt: "API calls", class: "border" %}
 
-## 表單輸入
+## Form input
 
-文字欄位（text field）允許使用者在你的應用程式中輸入文字，因此可以用來建立表單、即時通訊應用、搜尋體驗等。Flutter 提供了兩個核心的文字欄位元件（text field widgets）：[`TextField`][`TextField`] 和 [`TextFormField`][`TextFormField`]。
+Text fields allow users to type text into your app so they can be
+used to build forms, messaging apps, search experiences, and more.
+Flutter provides two core text field widgets:
+[`TextField`][] and [`TextFormField`][].
 
-### 如何使用文字欄位元件？
+### How do I use text field widgets?
 
-在 React Native 中，若要輸入文字，你會使用 `TextInput` 元件來顯示文字輸入框，然後透過回呼（callback）將值儲存到變數中。
+In React Native, to enter text you use a `TextInput` component to show a text
+input box and then use the callback to store the value in a variable.
 
 ```js
 // React Native
@@ -1785,15 +2047,15 @@ const [password, setPassword] = useState('')
 <Button title="Submit" onPress={this.validate} />
 ```
 
-在 Flutter 中，使用 [`TextEditingController`][`TextEditingController`]
-類別來管理 `TextField` 元件（Widget）。
-每當文字欄位（text field）被修改時，
-controller 會通知其監聽者（listeners）。
+In Flutter, use the [`TextEditingController`][]
+class to manage a `TextField` widget.
+Whenever the text field is modified,
+the controller notifies its listeners.
 
-監聽者會讀取 text 和 selection 屬性，
-以了解使用者在欄位中輸入了什麼內容。
-你可以透過 controller 的 `text` 屬性，
-在 `TextField` 中存取文字內容。
+Listeners read the text and selection properties to
+learn what the user typed into the field.
+You can access the text in `TextField`
+by the `text` property of the controller.
 
 <?code-excerpt "lib/examples.dart (text-editing-controller)"?>
 ```dart
@@ -1829,20 +2091,27 @@ Widget build(BuildContext context) {
 }
 ```
 
-在此範例中，當使用者點擊提交按鈕時，會顯示一個 alert 對話框，內容為目前在文字欄位 (text field) 中輸入的文字。
-這是透過 [`AlertDialog`][`AlertDialog`] 元件 (Widget) 來顯示提示訊息，並且由 [`TextEditingController`][`TextEditingController`] 的 `text` 屬性來取得 `TextField` 中的文字。
+In this example, when a user clicks on the submit button an alert dialog
+displays the current text entered in the text field.
+This is achieved using an [`AlertDialog`][]
+widget that displays the alert message, and the text from
+the `TextField` is accessed by the `text` property of the
+[`TextEditingController`][].
 
-### 如何使用 Form 元件 (Widgets)？
+### How do I use Form widgets?
 
-在 Flutter 中，請使用 [`Form`][`Form`] 元件 (Widget)，
-並將 [`TextFormField`][`TextFormField`] 元件 (Widgets) 以及提交按鈕作為 children 傳入。
-`TextFormField` 元件 (Widget) 有一個名為 [`onSaved`][`onSaved`] 的參數，
-可接受一個 callback，並在表單儲存時執行。
-`FormState` 物件可用來儲存、重設或驗證
-每個作為此 `Form` 子孫的 `FormField`。
-若要取得 `FormState`，你可以使用 `Form.of()`，
-並傳入一個其祖先為 `Form` 的 context，
-或是在建立 `Form` 時傳入 `GlobalKey`，然後呼叫 `GlobalKey.currentState()`。
+In Flutter, use the [`Form`][] widget where
+[`TextFormField`][] widgets along with the submit
+button are passed as children.
+The `TextFormField` widget has a parameter called
+[`onSaved`][] that takes a callback and executes
+when the form is saved. A `FormState`
+object is used to save, reset, or validate
+each `FormField` that is a descendant of this `Form`.
+To obtain the `FormState`, you can use `Form.of()`
+with a context whose ancestor is the `Form`,
+or pass a `GlobalKey` to the `Form` constructor and call
+`GlobalKey.currentState()`.
 
 <?code-excerpt "lib/examples.dart (form-state)"?>
 ```dart
@@ -1874,7 +2143,8 @@ Widget build(BuildContext context) {
 }
 ```
 
-以下範例展示了如何使用 `Form.save()` 和 `formKey`（其為 `GlobalKey`），在提交時儲存表單。
+The following example shows how `Form.save()` and `formKey`
+(which is a `GlobalKey`), are used to save the form on submit.
 
 <?code-excerpt "lib/examples.dart (form-submit)"?>
 ```dart
@@ -1897,11 +2167,14 @@ void _submit() {
 
 {% render docs/android-ios-figure-pair.md, image: "react-native/input-fields.webp", alt: "Input", class: "border" %}
 
-## 平台專屬程式碼
+## Platform-specific code
 
-當你開發跨平台應用程式時，通常會希望盡可能在不同平台間重複使用程式碼。然而，有些情境下，根據作業系統（OS）讓程式碼有所不同會更為合理。這時就需要針對特定平台宣告，並實作獨立的邏輯。
+When building a cross-platform app, you want to re-use as much code as
+possible across platforms. However, scenarios might arise where it
+makes sense for the code to be different depending on the OS.
+This requires a separate implementation by declaring a specific platform.
 
-在 React Native 中，可以使用以下方式來實作：
+In React Native, the following implementation would be used:
 
 ```js
 // React Native
@@ -1914,7 +2187,7 @@ if (Platform.OS === 'ios') {
 }
 ```
 
-在 Flutter 中，請使用以下實作方式：
+In Flutter, use the following implementation:
 
 <?code-excerpt "lib/examples.dart (platform)"?>
 ```dart
@@ -1931,21 +2204,31 @@ if (platform == TargetPlatform.fuchsia) {
 return 'not recognized ';
 ```
 
-## 除錯
+## Debugging
 
-### 我可以使用哪些工具來除錯我的 Flutter 應用程式？
+### What tools can I use to debug my app in Flutter?
 
-你可以使用 [DevTools][DevTools] 工具套件來除錯 Flutter 或 Dart 應用程式。
+Use the [DevTools][] suite for debugging Flutter or Dart apps.
 
-DevTools 提供了效能分析、堆積檢查、元件樹（widget tree）檢視、診斷日誌、除錯、觀察程式碼執行行、記憶體洩漏與記憶體碎片化除錯等功能。更多資訊請參考 [DevTools][DevTools] 文件。
+DevTools includes support for profiling, examining the heap,
+inspecting the widget tree, logging diagnostics, debugging,
+observing executed lines of code, debugging memory leaks and memory
+fragmentation. For more information, check out the
+[DevTools][] documentation.
 
-如果你使用的是整合式開發環境（IDE），也可以直接利用 IDE 內建的除錯工具來除錯你的應用程式。
+If you're using an IDE,
+you can debug your application using the IDE's debugger.
 
-### 如何執行熱重載（hot reload）？
+### How do I perform a hot reload?
 
-Flutter 的 Stateful Hot Reload（狀態熱重載）功能可協助你快速且輕鬆地實驗、建立 UI、加入新功能或修正錯誤。你不需要每次修改後都重新編譯應用程式，只需執行熱重載即可立即看到變更。應用程式會即時更新以反映你的修改，並且保留目前的應用程式狀態。
+Flutter's Stateful Hot Reload feature helps you quickly and easily experiment,
+build UIs, add features, and fix bugs. Instead of recompiling your app
+every time you make a change, you can hot reload your app instantly.
+The app is updated to reflect your change,
+and the current state of the app is preserved.
 
-首先，請在你習慣使用的 IDE 中，啟用自動儲存（autosave）以及儲存時自動熱重載（hot reloads on save）。
+First, from your preferred IDE,
+enable autosave and hot reloads on save.
 
     **VS Code**
 
@@ -1966,68 +2249,75 @@ Flutter 的 Stateful Hot Reload（狀態熱重載）功能可協助你快速且�
         - Check the option to `Perform hot reload on save`.
 
 
-在 React Native 中，
-快捷鍵為 iOS 模擬器的 ⌘R，Android 模擬器則是連按兩次 R。
+In React Native,
+the shortcut is ⌘R for the iOS Simulator and tapping R twice on
+Android emulators.
 
-在 Flutter 中，如果你使用 IntelliJ IDE 或 Android Studio，
-可以選擇「全部儲存」（⌘s/ctrl-s），或點擊工具列上的
-Hot Reload（熱重載）按鈕。如果你
-在命令列使用 `flutter run` 執行應用程式，
-請在 Terminal 視窗中輸入 `r`。
-你也可以在 Terminal 視窗中輸入 `R` 來執行完整重啟。
+In Flutter, if you are using IntelliJ IDE or Android Studio,
+you can select Save All (⌘s/ctrl-s), or you can click the
+Hot Reload button on the toolbar. If you
+are running the app at the command line using `flutter run`,
+type `r` in the Terminal window.
+You can also perform a full restart by typing `R` in the
+Terminal window.
 
-### 如何存取應用程式內的開發者選單？
+### How do I access the in-app developer menu?
 
-在 React Native 中，可以透過搖晃裝置來開啟開發者選單：iOS 模擬器使用 ⌘D，Android 模擬器則是 ⌘M。
+In React Native, the developer menu can be accessed by shaking your device: ⌘D
+for the iOS Simulator or ⌘M for Android emulator.
 
-在 Flutter 中，如果你使用 IDE，可以直接利用 IDE 工具。如果你是用 `flutter run` 啟動應用程式，也可以在 terminal 視窗中輸入 `h` 來存取選單，或使用下列快捷鍵：
+In Flutter, if you are using an IDE, you can use the IDE tools. If you start
+your application using `flutter run` you can also access the menu by typing `h`
+in the terminal window, or type the following shortcuts:
 
-| 動作| Terminal 快捷鍵| 除錯功能與屬性|
+| Action| Terminal Shortcut| Debug functions and properties|
 | :------- | :------: | :------ |
-| 應用程式的元件階層| `w`| debugDumpApp()|
-| 應用程式的渲染樹| `t`| debugDumpRenderTree()|
-| 圖層| `L`| debugDumpLayerTree()|
-| 無障礙資訊 | `S`（遍歷順序）或<br>`U`（反向點擊測試順序）|debugDumpSemantics()|
-| 切換元件檢查器 | `i` | WidgetsApp.showWidgetInspectorOverride|
-| 切換建構線顯示| `p` | debugPaintSizeEnabled|
-| 模擬不同作業系統| `o` | defaultTargetPlatform|
-| 顯示效能覆蓋層 | `P` | WidgetsApp.showPerformanceOverlay|
-| 儲存螢幕截圖為 flutter.png| `s` ||
-| 離開| `q` ||
+| Widget hierarchy of the app| `w`| debugDumpApp()|
+| Rendering tree of the app | `t`| debugDumpRenderTree()|
+| Layers| `L`| debugDumpLayerTree()|
+| Accessibility | `S` (traversal order) or<br>`U` (inverse hit test order)|debugDumpSemantics()|
+| To toggle the widget inspector | `i` | WidgetsApp. showWidgetInspectorOverride|
+| To toggle the display of construction lines| `p` | debugPaintSizeEnabled|
+| To simulate different operating systems| `o` | defaultTargetPlatform|
+| To display the performance overlay | `P` | WidgetsApp. showPerformanceOverlay|
+| To save a screenshot to flutter. png| `s` ||
+| To quit| `q` ||
 
 {:.table .table-striped}
 
-## 動畫 (Animation)
+## Animation
 
-精心設計的動畫能讓 UI 更直覺，
-提升應用程式的質感，
-並改善使用者體驗。
-Flutter 的動畫支援讓你可以輕鬆
-實作簡單或複雜的動畫效果。
-Flutter SDK（Flutter 軟體開發套件）內建許多 Material Design 元件 (Widgets)，
-這些元件包含標準的動態效果，
-你也可以輕鬆自訂這些效果，
-讓你的應用程式更具個人化。
+Well-designed animation makes a UI feel intuitive,
+contributes to the look and feel of a polished app,
+and improves the user experience.
+Flutter's animation support makes it easy
+to implement simple and complex animations.
+The Flutter SDK includes many Material Design widgets
+that include standard motion effects,
+and you can easily customize these effects
+to personalize your app.
 
-在 React Native 中，會使用 Animated API 來建立動畫。
+In React Native, Animated APIs are used to create animations.
 
-在 Flutter 中，請使用 [`Animation`][`Animation`]
-類別與 [`AnimationController`][`AnimationController`] 類別。
-`Animation` 是一個抽象類別，能夠掌握其
-當前值與狀態（完成或關閉）。
-`AnimationController` 類別允許你
-正向或反向播放動畫，
-也能停止動畫並將動畫
-設為特定值，以自訂動畫動作。
+In Flutter, use the [`Animation`][]
+class and the [`AnimationController`][] class.
+`Animation` is an abstract class that understands its
+current value and its state (completed or dismissed).
+The `AnimationController` class lets you
+play an animation forward or in reverse,
+or stop animation and set the animation
+to a specific value to customize the motion.
 
-### 如何加入簡單的淡入動畫？
+### How do I add a simple fade-in animation?
 
-在下方的 React Native 範例中，會使用 Animated API 建立一個動畫元件，
-`FadeInView`。
-定義了初始透明度狀態、最終狀態，以及動畫過渡的持續時間。
-動畫元件會被加入到 `Animated` 元件中，
-透明度狀態 `fadeAnim` 會對應到我們想要動畫的 `Text` 元件的透明度，
-然後呼叫 `start()` 來啟動動畫。
+In the React Native example below, an animated component,
+`FadeInView` is created using the Animated API.
+The initial opacity state, final state, and the
+duration over which the transition occurs are defined.
+The animation component is added inside the `Animated` component,
+the opacity state `fadeAnim` is mapped
+to the opacity of the `Text` component that we want to animate,
+and then, `start()` is called to start the animation.
 
 ```js
 // React Native
@@ -2054,17 +2344,38 @@ const FadeInView = ({ style, children }) => {
     ...
 ```
 
-要在 Flutter 中建立相同的動畫，請建立一個名為 `controller` 的 [`AnimationController`][`AnimationController`] 物件，並指定持續時間。預設情況下，`AnimationController` 會在指定的持續時間內，線性產生從 0.0 到 1.0 的數值。每當執行你的應用程式的裝置準備好顯示新畫面時，動畫控制器就會產生一個新數值。通常這個速率約為每秒 60 個數值。
+To create the same animation in Flutter, create an
+[`AnimationController`][] object named `controller`
+and specify the duration. By default, an `AnimationController`
+linearly produces values that range from 0.0 to 1.0,
+during a given duration. The animation controller generates a new value
+whenever the device running your app is ready to display a new frame.
+Typically, this rate is around 60 values per second.
 
-在定義 `AnimationController` 時，你必須傳入一個 `vsync` 物件。`vsync` 的存在可以防止離螢幕的動畫消耗不必要的資源。你可以將你的 stateful 物件作為 `TickerProviderStateMixin`，方法是在類別定義中加入 `vsync`。`AnimationController` 需要一個 TickerProvider，這可以透過建構函式中的 `vsync` 參數來設定。
+When defining an `AnimationController`,
+you must pass in a `vsync` object.
+The presence of `vsync` prevents offscreen
+animations from consuming unnecessary resources.
+You can use your stateful object as the `vsync` by adding
+`TickerProviderStateMixin` to the class definition.
+An `AnimationController` needs a TickerProvider,
+which is configured using the `vsync` argument on the constructor.
 
-[`Tween`][`Tween`] 用來描述起始值與結束值之間的內插，或是將輸入範圍對應到輸出範圍。若要將 `Tween` 物件用於動畫，請呼叫 `Tween` 物件的 `animate()` 方法，並傳入你想要修改的 `Animation` 物件。
+A [`Tween`][] describes the interpolation between a
+beginning and ending value or the mapping from an input
+range to an output range. To use a `Tween` object
+with an animation, call the `Tween` object's `animate()`
+method and pass it the `Animation` object that you want to modify.
 
-在這個範例中，會使用 [`FadeTransition`][`FadeTransition`] 元件，並將 `opacity` 屬性對應到 `animation` 物件。
+For this example, a [`FadeTransition`][]
+widget is used and the `opacity` property is
+mapped to the `animation` object.
 
-要啟動動畫，請使用 `controller.forward()`。你也可以透過控制器執行其他操作，例如 `fling()` 或 `repeat()`。
-
-在這個範例中，[`FlutterLogo`][`FlutterLogo`] 元件會被放在 `FadeTransition` 元件內部使用。
+To start the animation, use `controller.forward()`.
+Other operations can also be performed using the
+controller such as `fling()` or `repeat()`.
+For this example, the [`FlutterLogo`][]
+widget is used inside the `FadeTransition` widget.
 
 <?code-excerpt "lib/animation.dart"?>
 ```dart
@@ -2119,11 +2430,13 @@ class _LogoFadeState extends State<LogoFade>
 
 {% render docs/android-ios-figure-pair.md, image: "react-native/flutter-fade.webp", alt: "Flutter fade", class: "border" %}
 
-### 如何為卡片加入滑動動畫（swipe animation）？
+### How do I add swipe animation to cards?
 
-在 React Native 中，可以使用 `PanResponder` 或第三方函式庫來實現滑動動畫（swipe animation）。
+In React Native, either the `PanResponder` or
+third-party libraries are used for swipe animation.
 
-在 Flutter 中，若要加入滑動動畫，請使用 [`Dismissible`][`Dismissible`] 元件（Widget），並將子元件（child widgets）巢狀於其中。
+In Flutter, to add a swipe animation, use the
+[`Dismissible`][] widget and nest the child widgets.
 
 <?code-excerpt "lib/examples.dart (dismissible)"?>
 ```dart
@@ -2140,75 +2453,77 @@ return Dismissible(
 
 {% render docs/android-ios-figure-pair.md, image: "react-native/card-swipe.webp", alt: "Card swipe", class: "border" %}
 
-## React Native 與 Flutter 元件（Widgets）對應表
+## React Native and Flutter widget equivalent components
 
-下表列出了常用的 React Native 元件，對應到 Flutter 的元件（Widgets）及其常見屬性。
+The following table lists commonly-used React Native
+components mapped to the corresponding Flutter widget
+and common widget properties.
 
-| React Native 元件                                                                    | Flutter 元件（Widget）                                                                                             | 說明                                                                                                                            |
-| ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| [`Button`](https://reactnative.dev/docs/button)                        | [`ElevatedButton`][`ElevatedButton`]                           | 基本的凸起按鈕（raised button）。                                                                              |
-|                                                                                           |  onPressed [required]                                                                                        | 當按鈕被點擊或啟動時的回呼函式。                                                          |
-|                                                                                           | Child                                                                              | 按鈕的標籤。                                                                                                      |
+| React Native Component                                                                    | Flutter Widget                                                                                             | Description                                                                                                                            |
+| ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| [`Button`](https://reactnative.dev/docs/button)                        | [`ElevatedButton`][]                           | A basic raised button.                                                                              |
+|                                                                                           |  onPressed [required]                                                                                        | The callback when the button is tapped or otherwise activated.                                                          |
+|                                                                                           | Child                                                                              | The button's label.                                                                                                      |
 |                                                                                           |                                                                                                            |                                                                                                                                        |
-| [`Button`](https://reactnative.dev/docs/button)                        | [`TextButton`][`TextButton`]                               | 基本的扁平按鈕（flat button）。                                                                                                         |
-|                                                                                           |  onPressed [required]                                                                                        | 當按鈕被點擊或啟動時的回呼函式。                                                            |
-|                                                                                           | Child                                                                              | 按鈕的標籤。                                                                                                      |
+| [`Button`](https://reactnative.dev/docs/button)                        | [`TextButton`][]                               | A basic flat button.                                                                                                         |
+|                                                                                           |  onPressed [required]                                                                                        | The callback when the button is tapped or otherwise activated.                                                            |
+|                                                                                           | Child                                                                              | The button's label.                                                                                                      |
 |                                                                                           |                                                                                                            |                                                                                                                                        |
-| [`ScrollView`](https://reactnative.dev/docs/scrollview)                | [`ListView`][`ListView`]                                    | 可捲動的線性排列元件（Widget）清單。|
-||        children                                                                              | 	( <Widget\> [ ])  要顯示的子元件（Widget）清單。
-||controller |[ [`ScrollController`][ [`ScrollController`] ] 可用於控制可捲動元件（Widget）的物件。
-||itemExtent|[ double ] 若非 null，強制所有子元件在捲動方向上具有指定長度。
-||scroll Direction|[ [`Axis`][ [`Axis`] ] 捲動檢視的捲動軸向。
+| [`ScrollView`](https://reactnative.dev/docs/scrollview)                | [`ListView`][]                                    | A scrollable list of widgets arranged linearly.|
+||        children                                                                              | 	( <Widget\> [ ])  List of child widgets to display.
+||controller |[ [`ScrollController`][] ] An object that can be used to control a scrollable widget.
+||itemExtent|[ double ] If non-null, forces the children to have the given extent in the scroll direction.
+||scroll Direction|[ [`Axis`][] ] The axis along which the scroll view scrolls.
 ||                                                                                                            |                                                                                                                                        |
-| [`FlatList`](https://reactnative.dev/docs/flatlist)                    | [`ListView.builder`][`ListView.builder`]               | 按需建立線性元件（Widget）陣列的建構函式。
-||itemBuilder [required] |[[`IndexedWidgetBuilder`][[`IndexedWidgetBuilder`]] 用於按需建立子元件。此回呼僅會以大於等於零且小於 itemCount 的索引呼叫。
-||itemCount |[ int ] 提升 `ListView` 預估最大捲動範圍的能力。
+| [`FlatList`](https://reactnative.dev/docs/flatlist)                    | [`ListView.builder`][]               | The constructor for a linear array of widgets that are created on demand.
+||itemBuilder [required] |[[`IndexedWidgetBuilder`][]] helps in building the children on demand. This callback is called only with indices greater than or equal to zero and less than the itemCount.
+||itemCount |[ int ] improves the ability of the `ListView` to estimate the maximum scroll extent.
 |                                                                                           |                                                                                                            |                                                                                                                                        |
-| [`Image`](https://reactnative.dev/docs/image)                         | [`Image`][`Image`]                                           | 用於顯示圖片的元件（Widget）。                                                                                                       |
-|                                                                                           |  image [required]                                                                                          | 要顯示的圖片。                                                                                                                  |
-|                                                                                           | Image. asset                                                                                                | 提供多種建構函式以支援不同方式指定圖片。                                                 |
-|                                                                                           | width, height, color, alignment                                                                            | 設定圖片的樣式與版面配置。                                                                                                         |
-|                                                                                           | fit                                                                                                        | 將圖片填滿在版面配置分配的空間內。                                                                           |
+| [`Image`](https://reactnative.dev/docs/image)                         | [`Image`][]                                           | A widget that displays an image.                                                                                                       |
+|                                                                                           |  image [required]                                                                                          | The image to display.                                                                                                                  |
+|                                                                                           | Image. asset                                                                                                | Several constructors are provided for the various ways that an image can be specified.                                                 |
+|                                                                                           | width, height, color, alignment                                                                            | The style and layout for the image.                                                                                                         |
+|                                                                                           | fit                                                                                                        | Inscribing the image into the space allocated during layout.                                                                           |
 |                                                                                           |                                                                                                            |                                                                                                                                        |
-| [`Modal`](https://reactnative.dev/docs/modal)                          | [`ModalRoute`][`ModalRoute`]                                | 阻擋與前一個路由互動的路由（Route）。                                                                                  |
-|                                                                                           | animation                                                                                                  | 控制此路由轉場及前一個路由前進轉場的動畫（Animation）。                                          |
+| [`Modal`](https://reactnative.dev/docs/modal)                          | [`ModalRoute`][]                                | A route that blocks interaction with previous routes.                                                                                  |
+|                                                                                           | animation                                                                                                  | The animation that drives the route's transition and the previous route's forward transition.                                          |
 |                                                                                           |                                                                                                            |                                                                                                                                        |
-|  [`ActivityIndicator`](https://reactnative.dev/docs/activityindicator) | [`CircularProgressIndicator`][`CircularProgressIndicator`] | 顯示圓形進度的元件（Widget）。                                                                                           |
-|                                                                                           | strokeWidth                                                                                                | 繪製圓形時使用的線寬。                                                                                         |
-|                                                                                           | backgroundColor                                                                                            | 進度指示器的背景顏色，預設為目前主題的 `ThemeData.backgroundColor`。                                   |
+|  [`ActivityIndicator`](https://reactnative.dev/docs/activityindicator) | [`CircularProgressIndicator`][] | A widget that shows progress along a circle.                                                                                           |
+|                                                                                           | strokeWidth                                                                                                | The width of the line used to draw the circle.                                                                                         |
+|                                                                                           | backgroundColor                                                                                            | The progress indicator's background color. The current theme's `ThemeData.backgroundColor` by default.                                   |
 |                                                                                           |                                                                                                            |                                                                                                                                        |
-|  [`ActivityIndicator`](https://reactnative.dev/docs/activityindicator) | [`LinearProgressIndicator`][`LinearProgressIndicator`]     | 顯示線性進度的元件（Widget）。                                                                                           |
-|                                                                                           | value                                                                                                      | 此進度指示器的值。                                                                                                   |
+|  [`ActivityIndicator`](https://reactnative.dev/docs/activityindicator) | [`LinearProgressIndicator`][]     | A widget that shows progress along a line.                                                                                           |
+|                                                                                           | value                                                                                                      | The value of this progress indicator.                                                                                                   |
 |                                                                                           |                                                                                                            |                                                                                                                                        |
-| [`RefreshControl`](https://reactnative.dev/docs/refreshcontrol)        | [`RefreshIndicator`][`RefreshIndicator`]                   | 支援 Material「滑動以重新整理」操作的元件（Widget）。                                                                          |
-|                                                                                           | color                                                                                                      | 進度指示器的前景顏色。                                                                                             |
-|                                                                                           | onRefresh                                                                                                  | 當使用者拖曳刷新指示器到足夠距離以示意要重新整理應用程式時所呼叫的函式。  |
+| [`RefreshControl`](https://reactnative.dev/docs/refreshcontrol)        | [`RefreshIndicator`][]                   | A widget that supports the Material "swipe to refresh" idiom.                                                                          |
+|                                                                                           | color                                                                                                      | The progress indicator's foreground color.                                                                                             |
+|                                                                                           | onRefresh                                                                                                  | A function that's called when a user drags the refresh indicator far enough to demonstrate that they want the app to refresh.  |
 |                                                                                           |                                                                                                            |                                                                                                                                        |
-| [`View`](https://reactnative.dev/docs/view)                            | [`Container`][`Container`]                                  | 包覆子元件（Widget）的元件。                                                                                                                |
+| [`View`](https://reactnative.dev/docs/view)                            | [`Container`][]                                  | A widget that surrounds a child widget.                                                                                                                |
 |                                                                                           |                                                                                                            |                                                                                                                                        |
-| [`View`](https://reactnative.dev/docs/view)                            | [`Column`][`Column`]                                        | 垂直排列其子元件（Widget）的元件。                                                                                              |
+| [`View`](https://reactnative.dev/docs/view)                            | [`Column`][]                                        | A widget that displays its children in a vertical array.                                                                                              |
 |                                                                                           |                                                                                                            |                                                                                                                                        |
-| [`View`](https://reactnative.dev/docs/view)                            | [`Row`][`Row`]                                              | 水平排列其子元件（Widget）的元件。                                                                                            |
+| [`View`](https://reactnative.dev/docs/view)                            | [`Row`][]                                              | A widget that displays its children in a horizontal array.                                                                                            |
 |                                                                                           |                                                                                                            |                                                                                                                                        |
-| [`View`](https://reactnative.dev/docs/view)                            | [`Center`][`Center`]                                        | 將子元件（Widget）置中的元件。                                                                                                       |
+| [`View`](https://reactnative.dev/docs/view)                            | [`Center`][]                                        | A widget that centers its child within itself.                                                                                                       |
 |                                                                                           |                                                                                                            |                                                                                                                                        |
-| [`View`](https://reactnative.dev/docs/view)                            | [`Padding`][`Padding`]                                      | 依指定內距（padding）包覆子元件（Widget）的元件。                                                                                                 |
-|                                                                                           | padding [required]                                                                                         | [ EdgeInsets ] 內縮子元件的空間大小。
+| [`View`](https://reactnative.dev/docs/view)                            | [`Padding`][]                                      | A widget that insets its child by the given padding.                                                                                                 |
+|                                                                                           | padding [required]                                                                                         | [ EdgeInsets ] The amount of space to inset the child.
 |||
-| [`TouchableOpacity`](https://reactnative.dev/docs/touchableopacity)    | [`GestureDetector`][`GestureDetector`]                      | 偵測手勢的元件（Widget）。                                                                                                                       |
-|                                                                                           | onTap                                                                                                      | 點擊時的回呼函式。                                                                                                               |
-|                                                                                           | onDoubleTap                                                                                                | 在同一位置短時間內連續點擊兩次時的回呼函式。
+| [`TouchableOpacity`](https://reactnative.dev/docs/touchableopacity)    | [`GestureDetector`][]                      | A widget that detects gestures.                                                                                                                       |
+|                                                                                           | onTap                                                                                                      | A callback when a tap occurs.                                                                                                               |
+|                                                                                           | onDoubleTap                                                                                                | A callback when a tap occurs at the same location twice in quick succession.
 |||
-| [`TextInput`](https://reactnative.dev/docs/textinput)                | [`TextInput`][`TextInput`]                                   | 系統文字輸入控制介面的元件（Widget）。                                                                                           |
-|                                                                                           | controller                                                                                                 | [ [`TextEditingController`][ [`TextEditingController`] ] 用於存取與修改文字。
+| [`TextInput`](https://reactnative.dev/docs/textinput)                | [`TextInput`][]                                   | The interface to the system's text input control.                                                                                           |
+|                                                                                           | controller                                                                                                 | [ [`TextEditingController`][] ] used to access and modify text.
 |||
-| [`Text`](https://reactnative.dev/docs/text)                          | [`Text`][`Text`]                                            | 顯示單一樣式文字字串的 Text 元件（Widget）。                                                                                                                                                                           |
-|                                                                                         | data                                                                                                      | [ String ] 要顯示的文字。                                                                                                                                                                              |
-|                                                                                         | textDirection                                                                                             | [ [`TextAlign`][ [`TextAlign`] ] 文字的流向。                                                                                     |
+| [`Text`](https://reactnative.dev/docs/text)                          | [`Text`][]                                            | The Text widget that displays a string of text with a single style.                                                                                                                                                                           |
+|                                                                                         | data                                                                                                      | [ String ] The text to display.                                                                                                                                                                              |
+|                                                                                         | textDirection                                                                                             | [ [`TextAlign`][] ] The direction in which the text flows.                                                                                     |
 |                                                                                         |                                                                                                           |                                                                                                                                                                                                              |
-| [`Switch`](https://reactnative.dev/docs/switch)                      | [`Switch`][`Switch`]                                      | Material Design 風格的開關元件（switch）。                                                                                                                                                                                    |
-|                                                                                         | value [required]                                                                                          | [ boolean ] 此開關目前是否為開啟狀態。                                                                                                                                                                 |
-|                                                                                         | onChanged [required]                                                                                      | [ callback ] 當使用者切換開關時呼叫。                                                                                                                                               |
+| [`Switch`](https://reactnative.dev/docs/switch)                      | [`Switch`][]                                      | A material design switch.                                                                                                                                                                                    |
+|                                                                                         | value [required]                                                                                          | [ boolean ] Whether this switch is on or off.                                                                                                                                                                 |
+|                                                                                         | onChanged [required]                                                                                      | [ callback ] Called when the user toggles the switch on or off.                                                                                                                                               |
 
 {:.table .table-striped}
 

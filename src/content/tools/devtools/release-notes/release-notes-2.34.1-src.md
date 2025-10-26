@@ -1,63 +1,71 @@
-# DevTools 2.34.1 發行說明
+# DevTools 2.34.1 release notes
 
-Dart 與 Flutter DevTools 2.34.1 版本
-包含以下變更及其他一般性改進。
-如需進一步了解 DevTools，請參閱
-[DevTools overview](/tools/devtools)。
+The 2.34.1 release of the Dart and Flutter DevTools
+includes the following changes among other general improvements.
+To learn more about DevTools, check out the
+[DevTools overview](/tools/devtools).
 
-## 一般更新
+## General updates
 
-* 修正了一個導致 DevTools 無法連接由 Flutter Tools 以外方式啟動的 Flutter 應用程式的問題。- [#6848](https://github.com/flutter/devtools/issues/6848)
-* 提升 FlatTable 的效能。-
+* Fixed an issue preventing DevTools from connecting to Flutter apps that
+  are not launched from Flutter Tools. - [#6848](https://github.com/flutter/devtools/issues/6848)
+* Improved performance of the FlatTable. -
   [#7391](https://github.com/flutter/devtools/pull/7391)
 
-## 檢查器（Inspector）更新
+## Inspector updates
 
-- 修正某些邊緣案例，避免來自其他套件的元件（Widgets）顯示在檢查器樹中。- [#7353](https://github.com/flutter/devtools/pull/7353)
+- Fixes an edge case where widgets from other packages could
+  show up in the inspector tree. - [#7353](https://github.com/flutter/devtools/pull/7353)
 
-## 效能（Performance）更新
-* 新增設定，可在 Timeline 中包含 CPU 取樣資料。-
+## Performance updates
+* Add a setting to include CPU samples in the Timeline. -
   [#7333](https://github.com/flutter/devtools/pull/7333), [#7369](https://github.com/flutter/devtools/pull/7369)
 
     ![Timeline settings](/assets/images/docs/tools/devtools/release-notes/images-2.34.1/7369-timeline-settings.png "Timeline settings")
 
-* 移除舊版 trace viewer。
-  舊版 trace viewer 自 DevTools 2.21.1 起已由內嵌的 Perfetto trace viewer 取代，但仍可透過設定啟用以確保平順過渡。
-  本次發行已完全移除舊版 trace viewer。- [#7316](https://github.com/flutter/devtools/pull/7316)
-* 更新 Perfetto trace viewer 的建置版本。-
+* Removed the legacy trace viewer.
+  The legacy trace viewer was replaced with the
+  embedded Perfetto trace viewer in DevTools version 2.21.1, but was
+  available behind a setting to ensure a smooth rollout.
+  This release of DevTools removes the legacy trace viewer entirely. - [#7316](https://github.com/flutter/devtools/pull/7316)
+* Updated the Perfetto trace viewer build. -
   [#7445](https://github.com/flutter/devtools/pull/7445),
   [#7456](https://github.com/flutter/devtools/pull/7456),
   [#7480](https://github.com/flutter/devtools/pull/7480)
-* 當 Timeline 重新整理時，新增載入中訊息。- [#7463](https://github.com/flutter/devtools/pull/7463)
+* Added a loading message to show when refreshing the timeline. - [#7463](https://github.com/flutter/devtools/pull/7463)
 
     ![Loading message](/assets/images/docs/tools/devtools/release-notes/images-2.34.1/7463-overlay.png "Loading message")
 
-## 記憶體（Memory）更新
+## Memory updates
 
-* 啟用快照匯出並提升快照效能。-
+* Enabled export of snapshots and improved snapshotting performance. -
   [#7197](https://github.com/flutter/devtools/pull/7197),
   [#7439](https://github.com/flutter/devtools/pull/7439),
   [#7449](https://github.com/flutter/devtools/pull/7449)
 
     ![Export snapshot](/assets/images/docs/tools/devtools/release-notes/images-2.34.1/7197-export.png "Export snapshot")
 
-* 修正在追蹤（tracing）過程中斷線時的失敗問題。- [#7440](https://github.com/flutter/devtools/pull/7440)
+* Fixed failures during disconnect in tracing. - [#7440](https://github.com/flutter/devtools/pull/7440)
 
-* 讓類別過濾器（class filter）於
-  `Profile Memory` 與 `Diff Snapshots` 面板間共用。- [#7462](https://github.com/flutter/devtools/pull/7462)
+* Made class filter shared between
+  the panes `Profile Memory` and `Diff Snapshots`. - [#7462](https://github.com/flutter/devtools/pull/7462)
 
-## 網路分析器（Network profiler）更新
+## Network profiler updates
 
-* 提升 Network profiler 效能。- [#7266](https://github.com/flutter/devtools/pull/7266)
-* 修正已選取的待處理請求在更新後未能刷新分頁的問題。- [#7266](https://github.com/flutter/devtools/pull/7266)
-* 修正 JSON 檢視器（viewer），讓多行字串能在其列中顯示，並可透過工具提示檢視。- [#7389](https://github.com/flutter/devtools/pull/7389)
-* 修正 JsonViewer，避免所有展開的區段會自動收合。[#7367](https://github.com/flutter/devtools/pull/7367)
+* Improved Network profiler performance. - [#7266](https://github.com/flutter/devtools/pull/7266)
+* Fixed a bug where selected pending requests weren't
+  refreshing the tab once updated. - [#7266](https://github.com/flutter/devtools/pull/7266)
+* Fixed the JSON viewer so multiline strings are visible in their row, and
+  through a tooltip. - [#7389](https://github.com/flutter/devtools/pull/7389)
+* Fixed JsonViewer where all of the
+  expanded sections would snap closed. [#7367](https://github.com/flutter/devtools/pull/7367)
 
-## Deep Links 工具更新
+## Deep Links tool updates
 
-* 自動從已連接的 IDE 中擷取 Flutter 專案清單。- [#7415](https://github.com/flutter/devtools/pull/7415), [#7431](https://github.com/flutter/devtools/pull/7431)
+* Automatically populate a list of Flutter projects from
+  the connected IDE. - [#7415](https://github.com/flutter/devtools/pull/7415), [#7431](https://github.com/flutter/devtools/pull/7431)
 
-## 完整提交記錄
+## Full commit history
 
-如需本次發行的完整變更清單，請參閱
-[DevTools git log](https://github.com/flutter/devtools/tree/v2.34.1)。
+To find a complete list of changes in this release, check out the
+[DevTools git log](https://github.com/flutter/devtools/tree/v2.34.1).

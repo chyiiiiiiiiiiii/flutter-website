@@ -1,6 +1,6 @@
 ---
-title: 網路通訊
-description: Flutter 應用程式中網路通訊相關食譜的目錄。
+title: Networking
+description: A catalog of recipes for networking in your Flutter app.
 ---
 
 {% include docs/cookbook-group-index.md %}

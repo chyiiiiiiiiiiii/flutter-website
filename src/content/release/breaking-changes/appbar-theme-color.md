@@ -1,45 +1,53 @@
 ---
-title: AppBar 主題色彩參數棄用
+title: AppBar theme color parameter deprecation
 description: >-
-  為了提升 API 一致性，AppBarTheme 與 AppBarThemeData 中的 color 參數已被棄用，請改用 backgroundColor。
+  The color parameter in AppBarTheme and AppBarThemeData has been
+  deprecated in favor of backgroundColor for better API consistency.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-`color` 參數在 `AppBarTheme` 和 `AppBarThemeData` 的建構函式，以及它們的 `copyWith` 方法中已被棄用。請改用 `backgroundColor`。此變更會影響 AppBar 主題的設定方式，並可能在現有程式碼中產生棄用警告。
+The `color` parameter in `AppBarTheme` and `AppBarThemeData` constructors
+and their `copyWith` methods have been deprecated. Use `backgroundColor`
+instead. This change affects how AppBar themes are configured and might
+cause deprecation warnings in existing code.
 
-## 背景
+## Background
 
-AppBar 主題化（theming）系統中原本有兩個參數可控制相同屬性：`color` 和 `backgroundColor`。這種重複設計導致 API 混淆與不一致。為了提升清晰度與一致性，`color` 參數已被棄用，請改用 `backgroundColor`。
+The AppBar theming system had two parameters that controlled the same
+property: `color` and `backgroundColor`. This duplication created confusion
+and inconsistency in the API. To improve clarity and consistency, the
+`color` parameter has been deprecated in favor of `backgroundColor`.
 
-本次棄用影響以下類別與方法：
+The deprecation affects the following classes and methods:
 
-- `AppBarTheme` 建構函式
-- `AppBarTheme.copyWith` 方法
-- `AppBarThemeData` 建構函式
-- `AppBarThemeData.copyWith` 方法
+- `AppBarTheme` constructor
+- `AppBarTheme.copyWith` method
+- `AppBarThemeData` constructor
+- `AppBarThemeData.copyWith` method
 
-當你使用已棄用的 `color` 參數時，將會看到如下警告：
+When using the deprecated `color` parameter, you'll see warnings like:
 
 ```txt
 'color' is deprecated and shouldn't be used. Use backgroundColor instead.
 This feature was deprecated after v3.33.0-0.2.pre.
 ```
 
-這些類別同時包含了斷言檢查，以防止同時使用兩個參數：
+The classes also include assertion checks to prevent using both parameters
+simultaneously:
 
 ```txt
 The color and backgroundColor parameters mean the same thing. Only specify one.
 ```
 
-## 遷移指南
+## Migration guide
 
-請將所有在
-`AppBarTheme` 和 `AppBarThemeData` 建構函式以及 `copyWith` 方法中使用的 `color` 參數，替換為 `backgroundColor`。
+Replace all uses of the `color` parameter with `backgroundColor` in
+`AppBarTheme` and `AppBarThemeData` constructors and `copyWith` methods.
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 // AppBarTheme constructor
@@ -67,7 +75,7 @@ themeData.copyWith(
 )
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 // AppBarTheme constructor
@@ -95,18 +103,18 @@ themeData.copyWith(
 )
 ```
 
-## 時程
+## Timeline
 
-合併於版本：3.33.0-0.2.pre<br>  
-正式版本：3.35.4
+Landed in version: 3.33.0-0.2.pre<br>
+In stable release: 3.35.4
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
 - [`AppBarTheme`](https://main-api.flutter.dev/flutter/material/AppBarTheme-class.html)
 - [`AppBarThemeData`](https://main-api.flutter.dev/flutter/material/AppBarThemeData-class.html)
 
-相關 PR：
+Relevant PRs:
 
 - [AppBar theme color parameter deprecation #170624]({{site.github}}/flutter/flutter/pull/170624)

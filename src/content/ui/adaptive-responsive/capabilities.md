@@ -1,76 +1,80 @@
-```markdown
 ---
-title: 能力與政策
+title: Capabilities & policies
 description: >-
-  瞭解如何讓您的應用程式適應
-  平台、應用程式商店、公司等
-  所要求的能力與政策。
+  Learn how to adapt your app to the
+  capabilities and policies required
+  by the platform, app store, your company,
+  and so on.
 ---
 
-大多數實際應用程式都需要適應不同裝置與平台的能力與政策。
-本頁將提供在程式碼中處理這些情境的建議。
+Most real-world apps have the need to adapt to the
+capabilities and policies of different devices and platforms.
+This page contains advice for how to
+handle these scenarios in your code.
 
-## 針對每種裝置類型的優勢進行設計
+## Design to the strengths of each device type
 
-請考慮不同裝置的獨特優勢與限制。
-除了螢幕尺寸與輸入方式（如觸控、滑鼠、鍵盤）之外，
-還有什麼其他獨特的能力可以加以利用？
-Flutter 讓您的程式碼可以在不同裝置上「執行」，
-但良好的設計不僅僅是讓程式碼能跑起來。
-請思考每個平台最擅長的部分，
-並看看是否有獨特的能力可以發揮。
+Consider the unique strengths and weaknesses of different devices.
+Beyond their screen size and inputs, such as touch, mouse, keyboard,
+what other unique capabilities can you leverage?
+Flutter enables your code to _run_ on different devices,
+but strong design is more than just running code.
+Think about what each platform does best and
+see if there are unique capabilities to leverage.
 
-舉例來說：Apple 的 App Store 與 Google 的 Play Store
-對應用程式有不同的規範必須遵守。
-不同的主機作業系統，隨著時間推移以及彼此之間，
-也會有不同的能力。
+For example: Apple's App Store and Google's Play Store
+have different rules that apps need to abide by.
+Different host operating systems have differing
+capabilities across time as well as each other. 
 
-另一個例子是利用網頁極低的分享門檻。
-如果您要部署網頁應用程式，
-請決定要支援哪些深層連結 (deep links)，
-並以此設計導覽路由。
+Another example is leveraging the web's extremely
+low barrier for sharing. If you're deploying a web app,
+decide what deep links to support,
+and design the navigation routes with those in mind.
 
-Flutter 建議的做法是，針對這些獨特能力所帶來的不同行為，
-為您的應用程式建立一組 `Capability` 與 `Policy` 類別。
+Flutter's recommended pattern for handling different
+behavior based on these unique capabilities is to create
+a set of `Capability` and `Policy` classes for your app.
 
-### 能力（Capabilities）
+### Capabilities
 
-_能力_ 定義了程式碼或裝置「可以」做什麼。
-能力的範例包括：
+A _capability_ defines what the code or device _can_ do.
+Examples of capabilities include:
 
-* API 的存在
-* 作業系統強制的限制
-* 實體硬體需求（如相機）
+* The existence of an API
+* OS-enforced restrictions
+* Physical hardware requirements (like a camera) 
 
-### 政策（Policies）
+### Policies
 
-_政策_ 定義了程式碼「應該」做什麼。
+A _policy_ defines what the code _should_ do.
 
-政策的範例包括：
+Examples of policies include:
 
-* 應用程式商店的指引
-* 設計偏好
-* 參考主機裝置的資源或文案
-* 伺服器端啟用的功能
+* App store guidelines
+* Design preferences
+* Assets or copy that refers to the host device
+* Features enabled on the server side 
 
-### 如何組織政策相關程式碼
+### How to structure policy code 
 
-最簡單的機械式方式是使用 `Platform.isAndroid`、
-`Platform.isIOS` 和 `kIsWeb`。這些 API 可以機械式地
-告訴您程式碼目前執行的位置，但隨著應用程式
-可執行的平台增加，以及主機平台功能的擴充，
-這種方式會出現一些問題。
+The simplest mechanical way is `Platform.isAndroid`,
+`Platform.isIOS`, and `kIsWeb`. These APIs mechanically
+let you know where the code is running but have some
+problems as the app expands where it can run, and
+as host platforms add functionality. 
 
-以下指南說明了在開發應用程式能力與政策時的最佳實踐：
+The following guidelines explain best practices
+when developing the capabilities and policies for your app:
 
-**避免使用 `Platform.isAndroid` 及類似函式來做版面配置決策，
-或對裝置能力做出假設。**
+**Avoid using `Platform.isAndroid` and similar functions
+to make layout decisions or assumptions about what a device can do.**
 
-請改用方法來描述您想要分支的條件。
+Instead, describe what you want to branch on in a method. 
 
-範例：您的應用程式有一個連結可在網站上購買商品，
-但基於政策考量，您不希望在 iOS 裝置上顯示該連結。
-``` 
+Example: Your app has a link to buy something in a
+website, but you don't want to show that link on iOS
+devices for policy reasons. 
 
 ```dart
 bool shouldAllowPurchaseClick() {
@@ -87,10 +91,11 @@ TextSpan(
   } : null,
 ```
 
-新增一層間接層（indirection）後，你得到了什麼？
-這段程式碼更清楚地說明了為什麼會有分支路徑的存在。
-這個方法可以直接存在於類別（class）中，但很有可能程式碼的其他部分也需要進行同樣的檢查。
-如果是這樣，請將這段程式碼放到一個類別中。 
+What did you get by adding an additional layer of indirection?
+The code makes it more clear why the branched path exists.
+This method can exist directly in the class but it's likely
+that other parts of the code might need this same check.
+If so, put the code in a class. 
 
 ```dart title="policy.dart"
 
@@ -103,48 +108,87 @@ class Policy {
 }
 ```
 
-將這段程式碼放在一個類別中後，任何元件測試都可以 mock `Policy().shouldAllowPurchaseClick`，並且能夠獨立於裝置運行的位置驗證其行為。  
-這也意味著，日後如果你決定在 Android 用戶上，於網頁購買不是正確的流程時，你可以更改實作方式，而與可點擊文字相關的測試則無需更動。
+With this code in a class, any widget test can mock
+`Policy().shouldAllowPurchaseClick` and verify the behavior
+independently of where the device runs. 
+It also means that later, if you decide that
+buying on the web isn't the right flow for
+Android users, you can change the implementation
+and the tests for clickable text won't need to change. 
 
-## 能力（Capabilities）
+## Capabilities 
 
-有時你希望你的程式碼執行某些操作，但 API 並不存在，或者你依賴的某個外掛功能尚未在你支援的所有平台上實作。  
-這就是裝置「能」做什麼的限制。
+Sometimes you want your code to do something but the
+API doesn't exist, or maybe you depend on a plugin feature
+that isn't yet implemented on all of the platforms you support.
+This is a limitation of what the device _can_ do. 
 
-這些情況與前述的政策決策類似，但這些被稱為「能力（capabilities）」。  
-為什麼要將政策類別（policy classes）與能力類別分開，即使它們的結構很相似？  
-Flutter 團隊在實際產品應用中發現，將應用程式「能做什麼」與「應該做什麼」做出邏輯區分，有助於大型產品在平台能力變動、平台需求變動，或在初始程式碼撰寫後根據自身偏好調整時，能更靈活地應對。
+Those situations are similar to the policy decisions
+described above, but these are referred to as _capabilities_.
+Why separate policy classes from capabilities
+when the structure of the classes is similar?
+The Flutter team has found with productionized apps that making
+a logical distinction between what apps _can_ do and
+what they _should_ do helps larger products respond to
+changes in what platforms can do or require
+in addition to your own preferences after
+the initial code is written. 
 
-舉例來說，假設有一個平台新增了一項權限，要求用戶必須先與系統對話框互動，才能讓你的程式碼呼叫敏感 API。  
-你的團隊針對平台 1 完成了相關工作，並建立了一個名為 `requirePermissionDialogFlow` 的能力。  
-然後，假如平台 2 也加入了類似的要求，但僅限於新版 API，這時 `requirePermissionDialogFlow` 的實作就可以檢查 API 等級，並在平台 2 上回傳 true。  
-你就能重複利用先前完成的工作。
+For example, consider the case where one platform adds
+a new permission that requires users to interact with
+a system dialog before your code calls a sensitive API.
+Your team does the work for platform 1 and creates a
+capability named `requirePermissionDialogFlow`.
+Then, if and when platform 2 adds a similar requirement
+but only for new API versions,
+then the implementation of `requirePermissionDialogFlow`
+can now check the API level and return true for platform 2.
+You've leveraged the work you already did.
 
-## 政策（Policies）
+## Policies 
 
-我們建議一開始就建立一個 `Policy` 類別，即使你認為目前不會有太多基於政策的決策。  
-隨著類別的複雜度增加或輸入數量擴展，你可能會決定根據功能或其他標準，將政策類別拆分。
+We encourage starting with a `Policy` class initially
+even if it seems like you won't make many policy based decisions.
+As the complexity of the class grows or the number of inputs expands,
+you might decide to break up the policy class by feature
+or some other criteria.  
 
-在政策實作上，你可以選擇編譯時（compile time）、執行時（run time），或以遠端程序呼叫（RPC, Remote Procedure Call）為後盾的實作方式。
+For policy implementation, you can use compile time,
+run time, or Remote Procedure Call (RPC) backed implementations.
 
-- 編譯時政策檢查適用於偏好不太可能變動，且意外更動可能造成重大後果的平台。  
-  例如，如果某平台要求你不能連結到 Play 商店，或要求你根據應用內容使用特定的支付服務商。
+Compile-time policy checks are good for platforms
+where the preference is unlikely to change and where
+accidentally changing the value might have large consequences.
+For example, if a platform requires that you not
+link to the Play store, or requires that you use
+a specific payment provider given the content of your app.
 
-- 執行時檢查則適合用來判斷用戶是否可以使用觸控螢幕。  
-  Android 有相關功能可檢查，Web 端則可檢查最大觸控點數。
+Runtime checks can be good for determining if there
+is a touch screen the user can use. Android has a feature
+you can check and your web implementation could
+check for max touch points. 
 
-- 以 RPC 為後盾的政策變更則適合漸進式功能推出，或是未來可能變動的決策。
+RPC-backed policy changes are good for incremental
+feature rollout or for decisions that might change later. 
 
-## 小結（Summary）
+## Summary 
 
-使用 `Capability` 類別來定義程式碼「能」做什麼。  
-你可以檢查 API 是否存在、作業系統強制限制，以及實體硬體需求（如相機）。  
-能力（capability）通常涉及編譯時或執行時檢查。
+Use a `Capability` class to define what the code *can* do.
+You might check against the existence of an API,
+OS-enforced restrictions,
+and physical hardware requirements (like a camera).
+A capability usually involves compile or runtime checks.
 
-使用 `Policy` 類別（或依複雜度拆分多個類別）來定義程式碼「應該」做什麼，以符合 App 商店規範、設計偏好，以及需要參照主機裝置的資源或文案。  
-政策（policy）可以是編譯時、執行時或 RPC 檢查的組合。
+Use a `Policy` class (or classes depending on complexity)
+to define what the code _should_ do to comply with
+App store guidelines, design preferences,
+and assets or copy that need to refer to the host device.
+Policies can be a mix of compile, runtime, or RPC checks. 
 
-透過 mock 能力與政策來測試分支程式碼，這樣當能力或政策變動時，元件測試就不需要更動。
+Test the branching code by mocking capabilities and
+policies so the widget tests don't need to change
+when capabilities or policies change.
 
-在你的能力（capabilities）與政策（policies）類別中，請根據它們要分支的行為來命名方法，而不是依據裝置類型來命名。
+Name the methods in your capabilities and policies classes
+based on what they are trying to branch, rather than on device type.
 

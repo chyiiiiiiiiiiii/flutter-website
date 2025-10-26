@@ -1,23 +1,31 @@
 ---
-title: 在 Flutter Web 應用程式中嵌入網頁內容
-shortTitle: Flutter 中的網頁內容
-description: 學習如何在網頁上載入與顯示圖片。
+title: Embedding web content into a Flutter web app
+shortTitle: Web content in Flutter
+description: Learn how to load and display images on the web.
 ---
 
-在某些情況下，Flutter Web 應用程式需要嵌入非 Flutter 所渲染的網頁內容。例如，嵌入一個 `google_maps_flutter` 視圖（使用 Google Maps JavaScript SDK），或是一個 `video_player`（使用標準的 `video` 元素）。
+In some cases, Flutter web applications need to embed web content not
+rendered by Flutter. For example, embedding a `google_maps_flutter` view
+(which uses the Google Maps JavaScript SDK) or a `video_player`
+(which uses a standard `video` element).
 
-Flutter Web 可以在 `Widget` 的範圍內渲染任意網頁內容，而前述範例套件所使用的基礎功能，也同樣開放給所有 Flutter Web 應用程式使用。
+Flutter web can render arbitrary web content within the boundaries of a `Widget`,
+and the primitives used to implement the example packages mentioned previously,
+are available to all Flutter web applications.
 
 ## `HtmlElementView`
 
-`HtmlElementView` Flutter 元件（Widget）會在版面配置中保留一個區域，用來填入任意 HTML 元素。它有兩個建構函式：
+The `HtmlElementView` Flutter widget reserves a space in the layout to be
+filled with any HTML Element. It has two constructors:
 
-* `HtmlElementView.fromTagName`。
-* `HtmlElementView` 與 `registerViewFactory`。
+* `HtmlElementView.fromTagName`.
+* `HtmlElementView` and `registerViewFactory`.
 
 ### `HtmlElementView.fromTagName`
 
-[`HtmlElementView.fromTagName` 建構函式][`HtmlElementView.fromTagName` constructor] 會根據其 `tagName` 建立一個 HTML 元素，並提供 `onElementCreated` 方法，讓你在元素被注入 DOM 之前進行設定：
+The [`HtmlElementView.fromTagName` constructor][] creates an HTML Element from
+its `tagName`, and provides an `onElementCreated` method to configure that
+element before it's injected into the DOM:
 
 ```dart
 // Create a `video` tag, and set its `src` and some `style` properties...
@@ -30,32 +38,41 @@ HtmlElementView.fromTag('video', onElementCreated: (Object video) {
 });
 ```
 
-若想進一步了解如何與 DOM API 互動，請參閱 [`HTMLVideoElement` class] 於 [`package:web`][`package:web`]。
+To learn more about the way to interact with DOM APIs,
+check out the [`HTMLVideoElement` class] in [`package:web`][].
 
-若想進一步了解投放到 `web.HTMLVideoElement` 的影片 `Object`，請參閱 Dart 的 [JS Interoperability][JS Interoperability] 文件。
+To learn more about the video `Object` that is cast to `web.HTMLVideoElement`,
+check out Dart's [JS Interoperability][] documentation.
 
 [`HtmlElementView.fromTagName` constructor]: {{site.api}}/flutter/widgets/HtmlElementView/HtmlElementView.fromTagName.html
 [`HTMLVideoElement` class]: {{site.pub}}/documentation/web/latest/web/HTMLVideoElement-extension-type.html
 [`package:web`]: {{site.pub-pkg}}/web
 
-### `HtmlElementView` 與 `registerViewFactory`
+### `HtmlElementView` and `registerViewFactory`
 
-如果你需要更細緻地控制所注入的 HTML 程式碼，可以使用 Flutter 用來實作 `fromTagName` 建構子的原始方法。在這種情境下，你需要為每一種要加入應用程式的 HTML 內容註冊自己的 HTML Element factory。
+If you need more control over generating the HTML code you inject, you can use
+the primitives that Flutter uses to implement the `fromTagName` constructor. In
+this scenario, register your own HTML Element factory for each type of HTML
+content that needs to be added to your app.
 
-這種做法的程式碼會較為冗長，且每一種平台檢視類型需分兩個步驟：
+The resulting code is more verbose, and has two steps per platform view type:
 
-1. 使用 `dart:ui_web.` 提供的 `platformViewRegistry.registerViewFactory` 註冊 HTML Element Factory  
-2. 在應用程式的元件樹中，透過 `HtmlElementView('viewType')` 放置帶有指定 `viewType` 的元件
+1. Register the HTML Element Factory using
+`platformViewRegistry.registerViewFactory` provided by `dart:ui_web.`  
+2. Place the widget with the desired `viewType`  with
+`HtmlElementView('viewType')` in your app's widget tree.
 
-如需此方法的詳細說明，請參閱 [`HtmlElementView` widget][`HtmlElementView` widget] 文件。
+For more details about this approach, check out
+[`HtmlElementView` widget][] docs.
 
 [`HtmlElementView` widget]: {{site.api}}/flutter/widgets/HtmlElementView-class.html
 
 ## `package:webview_flutter`
 
-在 Flutter 應用程式中嵌入完整 HTML 頁面是非常常見的需求，因此 Flutter 團隊提供了一個專用的插件：
+Embedding a full HTML page inside a Flutter app is such a common feature, that
+the Flutter team offers a plugin to do so:
 
-* [`package:webview_flutter`][`package:webview_flutter`]
+* [`package:webview_flutter`][]
 
 [JS Interoperability]: {{site.dart-site}}/interop/js-interop
 [`package:webview_flutter`]: {{site.pub}}/packages/webview_flutter

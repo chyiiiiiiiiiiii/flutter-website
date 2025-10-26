@@ -1,34 +1,41 @@
 ---
 title: DevTools
-description: 學習在開發 Flutter 應用程式時使用 Dart DevTools。
+description: Learn to use the Dart DevTools when developing Flutter apps.
 permalink: /tutorial/devtools/
 ---
 
 {%- comment %} TODO(ewindmill) embed video {%- endcomment %}
 
-隨著你的 Flutter 應用程式變得越來越複雜，了解每個元件（Widget）屬性如何影響 UI 變得更加重要。
-[Dart 的 DevTools][Dart's DevTools] 提供兩個特別實用的功能來協助你：**元件檢查器（widget inspector）** 與 **屬性編輯器（property editor）**。
+As your Flutter app grows in complexity, it becomes more important
+to understand how each of the widgets properties affect the UI.
+[Dart's DevTools][] assists you with two particularly useful features: the
+**widget inspector** and the **property editor**.
 
-首先，請在你的應用程式以除錯模式（debug mode）執行時，執行以下指令來啟動 DevTools：
+First, launch DevTools by running the following commands while your app is running in debug mode:
 
 ```shell
 $ flutter pub global activate devtools  # You only need to run this once
 $ devtools
 ```
 
-:::note 在你的 IDE 中執行
+:::note Run in your IDE 
 
-你也可以直接在 [VS Code][VS Code] 和 [IntelliJ][IntelliJ] 內執行 DevTools，只要你已安裝 Flutter 外掛。這一課所使用的截圖來自 VS Code。
+You can also run DevTools directly inside [VS Code][] and [IntelliJ][],
+provided you have the Flutter plugin installed. The screenshots in this lesson 
+are from VS Code.
 
 :::
 
-## 元件檢查器 (widget inspector)
+## The widget inspector
 
-元件檢查器 (widget inspector) 讓你可以視覺化並探索你的元件樹 (widget tree)。它有助於你理解 UI 的版面配置，並找出螢幕上各個區塊分別由哪些元件負責。以你目前所建置的應用程式來說，檢查器看起來會像這樣：
+The widget inspector allows you to visualize and explore your widget tree. It
+helps you understand the layout of your UI and identifies which widgets are
+responsible for different parts of the screen. Running against the app you've
+built so far, the inspector looks like this:
 
 <img src='/assets/images/docs/tutorial/widget_inspector.png' alt="A screenshot of the Flutter widget inspector tool.">
 
-請參考你在本節中建立的 `GamePage` 元件：
+Consider the `GamePage` widget you created in this section:
 
 ```dart
 class GamePage extends StatelessWidget {
@@ -57,7 +64,7 @@ class GamePage extends StatelessWidget {
 }
 ```
 
-以及它在 `MainApp` 中的使用方式：
+And how it's used in `MainApp`:
 
 ```dart
 class MainApp extends StatelessWidget {
@@ -74,29 +81,53 @@ class MainApp extends StatelessWidget {
 }
 ```
 
-在元件檢查器（widget inspector）中，你應該會看到一棵與你程式碼中完全相同的元件（Widgets）樹：以 `MaterialApp` 為根節點，`Scaffold` 作為其 `home`，並有一個 `AppBar` 作為其 `appBar`，如此一路往下，直到擁有 `Tile` 子元件的 `Row` 元件為止。你可以在樹狀結構中選取任何一個元件，以查看其屬性，甚至可以直接在你的 IDE 中跳轉到其原始碼。
+In the widget inspector, you should see a tree of exactly the same
+widgets that are in your code: `MaterialApp` as the root, with
+`Scaffold` as its `home` and an `AppBar` as its `appBar`, and so on
+down the entire tree to the `Row` widgets with `Tile` children. You
+can select any widget in the tree to see its properties and even jump
+to its source code in your IDE.
 
-## 偵錯版面配置問題
+## Debugging layout issues
 
-元件檢查器在偵錯版面配置（layout）問題時，或許是最有用的工具。
+The widget inspector is perhaps most useful for debugging layout issues.
 
-在某些情況下，元件的 [constraints][constraints]（約束）是無界（unbounded）或無限的。這代表最大寬度或最大高度被設為 [`double.infinity`][`double.infinity`]。當元件嘗試盡可能變大時，若遇到無界約束，在 debug 模式下將無法正常運作，並會拋出例外。
+In certain situations, a widget's [constraints][] are unbounded, or
+infinite. This means that either the maximum width or the maximum
+height is set to [`double.infinity`][]. A widget that tries to be as
+big as possible won't function usefully when given an unbounded
+constraint and, in debug mode, throws an exception.
 
-最常見的情況是，當一個 render box 處於 flex box 元件（如 [`Row`][`Row`] 或 [`Column`][`Column`]）內，或在可捲動區域（例如 [`ListView`][`ListView`] 及其他 [`ScrollView`][`ScrollView`] 子類別）時，會出現無界約束。舉例來說，`ListView` 會嘗試在其交錯方向上展開以填滿可用空間（也許它是一個垂直捲動的區塊，並嘗試與其父元件一樣寬）。如果你將一個垂直捲動的 `ListView` 巢狀在一個水平捲動的 `ListView` 內，內層的清單會嘗試變得盡可能寬，這在該方向上會是無限寬，因為外層是可捲動的。
+The most common case where a render box ends up with an unbounded
+constraint is within a flex box widget ([`Row`][] or [`Column`][]),
+and within a scrollable region (such as [`ListView`][] and other
+[`ScrollView`][] subclasses). `ListView`, for example, tries to expand
+to fit the space available in its cross-direction (perhaps it's a
+vertically-scrolling block and tries to be as wide as its parent). If
+you nest a vertically scrolling `ListView` inside a horizontally
+scrolling `ListView`, the inner list tries to be as wide as possible,
+which is infinitely wide, since the outer one is scrollable in that
+direction.
 
-你在開發 Flutter 應用程式時最常遇到的錯誤之一，就是錯誤使用版面配置元件（Layout widgets）所導致，這通常被稱為「無界約束（unbounded constraints）」錯誤。
+Perhaps the most common error you'll run into while building a Flutter
+application is due to incorrectly using layout widgets, and is
+referred to as the "unbounded constraints" error.
 
-請觀看以下影片，了解如何發現並解決這個問題。
+Watch the following video to get an understanding of how to spot and
+resolve this issue.
 
 {% ytEmbed 'jckqXR5CrPI', 'Decoding Flutter: Unbounded height and width' %}
 
-## 屬性編輯器
+## The property editor
 
-當你在元件檢查器中選取某個元件時，屬性編輯器會顯示該元件的所有屬性。這是一個強大的工具，能幫助你理解元件為何會呈現目前的樣貌，並可即時嘗試修改屬性值。
+When you select a widget in the widget inspector, the property editor
+displays all the properties of that selected widget. This is a
+powerful tool for understanding why a widget looks the way it does and
+for experimenting with property value changes in real-time.
 
 <img src='/assets/images/docs/tutorial/property_editor.png' alt="A screenshot of the Flutter property editor tool.">
 
-請參考前面提到的 `Tile` 元件的 `build` 方法：
+Look at the `Tile` widget's `build` method from earlier:
 
 ```dart
 class Tile extends StatelessWidget {
@@ -124,9 +155,17 @@ class Tile extends StatelessWidget {
 }
 ```
 
-如果你在 Widget Inspector（元件檢查器）中選取了一個 `Tile` 元件（Widget），Property Editor（屬性編輯器）會顯示其 `width`（60）、`height`（60）以及 `decoration` 屬性。你可以展開 `BoxDecoration`，查看 `border` 和 `color` 屬性。
+If you select a `Tile` widget in the Widget Inspector, the Property
+Editor would show you its `width` (60), `height` (60), and the
+`decoration` property. You could then expand the `BoxDecoration` to
+see the `border` and `color` properties.
 
-對於許多屬性，你甚至可以直接在屬性編輯器中修改它們的值。例如，若要快速測試不同的 `width` 或 `height` 在你的 `Container` 於 `Tile` 元件（Widget）中的呈現效果，只需在 Property Editor（屬性編輯器）中變更數值，即可立即在執行中的應用程式上看到更新，無需重新編譯甚至 hot reload。這讓 UI 設計能夠快速反覆調整。
+For many properties, you can even modify their values directly within the
+property editor. For example, to quickly test how a different
+`width` or `height` would look for your `Container` in the `Tile` widget,
+ change the numerical value in the Property Editor and see the update
+instantly on your running app without needing to recompile or even hot reload.
+This allows for rapid iteration on UI design.
 
 [Dart's DevTools]: /tools/devtools
 [constraints]: /ui/layout/constraints

@@ -1,6 +1,6 @@
 ---
-title: 在清單上方放置浮動 app bar
-description: 如何在清單上方放置浮動 app bar 或導覽列。
+title: Place a floating app bar above a list
+description: How to place a floating app bar or navigation bar above a list.
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,46 +8,48 @@ js:
 
 <?code-excerpt path-base="cookbook/lists/floating_app_bar/"?>
 
-本指南說明如何在 Flutter 應用程式中，將浮動 app bar 或
-導覽列放置於清單上方。
+This guide describes how to place a floating app bar or
+navigation bar above a list in a Flutter app.
 
-## 概述
+## Overview
 
-為了讓使用者更方便瀏覽項目清單，
-你可能會希望在使用者向下捲動清單時，
-將 app bar（導覽列）最小化。
+To make it easier for users to view a list of items,
+you might want to minimize the app bar (navigation bar), as
+the user scrolls down the list.
 
-將 app bar 移入 [`CustomScrollView`][`CustomScrollView`] 可以
-讓你建立一個可最小化或在捲動清單時
-隨著內容一起捲出螢幕外的 app bar，
-而這些清單項目都包含在 `CustomScrollView` 之中。
+Moving the app bar into a [`CustomScrollView`][] allows you
+to create an app bar that can be minimized or scroll
+offscreen as you scroll through a list of items contained
+inside the `CustomScrollView`.
 
-本教學將示範如何使用 `CustomScrollView`，
-在頂部顯示一個 app bar，並在使用者向下捲動清單時
-自動最小化。步驟如下：
+This recipe demonstrates how to use a `CustomScrollView` to
+display a list of items with an app bar on top that
+minimizes as the user scrolls down the list using the
+following steps:
 
-  1. 建立 `CustomScrollView`。
-  2. 在 `CustomScrollView` 中加入浮動 app bar。
-  3. 在 `CustomScrollView` 中加入項目清單。
+  1. Create a `CustomScrollView`.
+  2. Add a floating app bar to `CustomScrollView`.
+  3. Add a list of items to `CustomScrollView`.
 
-## 1. 建立 `CustomScrollView`
+## 1. Create a `CustomScrollView`
 
-要建立浮動 app bar，請將 app bar 放入
-同時包含項目清單的 `CustomScrollView` 中。
-這樣可以同步 app bar 與清單的捲動位置。
-你可以將 `CustomScrollView` 元件（Widget）
-想像成一個能讓你混合搭配不同類型可捲動清單與元件的
-`ListView`。
+To create a floating app bar, place the app bar inside a
+`CustomScrollView` that also contains the list of items.
+This synchronizes the scroll position of the app bar and the
+list of items. You might think of the `CustomScrollView`
+widget as a `ListView` that allows you to mix and match
+different types of scrollable lists and widgets together.
 
-提供給 `CustomScrollView` 的可捲動清單與元件稱為 _slivers_。
-sliver 有多種類型，例如 `SliverList`、`SliverGrid` 和
-`SliverAppBar`。事實上，`ListView` 與 `GridView`
-元件就是透過 `SliverList` 和 `SliverGrid` 元件來
-實作捲動功能。
+The scrollable lists and widgets provided to the
+`CustomScrollView` are known as _slivers_. There are several
+types of slivers, such as `SliverList`, `SliverGrid`, and
+`SliverAppBar`. In fact, the `ListView` and `GridView`
+widgets use the `SliverList` and `SliverGrid` widgets to
+implement scrolling.
 
-在這個範例中，請建立一個包含
-`SliverList` 的 `CustomScrollView`。如果你的程式碼中
-已經有 app bar 屬性，請將其移除。
+For this example, create a `CustomScrollView` that contains
+a `SliverList`. Also, remove the app bar property from your
+code if it exists.
 
 {% tabs "device-type-tabs" %}
 
@@ -69,7 +71,7 @@ MaterialApp(
 
 {% endtab %}
 
-{% tab "Cupertino 元件 (Widgets)" %}
+{% tab "Cupertino widgets" %}
 
 <?code-excerpt "lib/starter_cupertino.dart (CustomScrollView)" replace="/^return const //g"?>
 ```dart
@@ -90,25 +92,29 @@ CupertinoApp(
 {% endtabs %}
 
 
-## 2. 新增浮動應用程式列（Floating App Bar）
+## 2. Add a floating app bar
 
-接下來，將應用程式列（app bar）新增到 [`CustomScrollView`][`CustomScrollView`]。
+Next, add an app bar to the [`CustomScrollView`][].
 
 {% tabs "device-type-tabs" %}
 
 {% tab "Material widgets" %}
 
-Flutter 提供了 [`SliverAppBar`][`SliverAppBar`] 元件（Widget），其功能與一般的 `AppBar` 元件類似，
-同樣使用 `SliverAppBar` 來顯示標題、分頁（tabs）、圖片（images）等內容。
+Flutter provides the [`SliverAppBar`][] widget which,
+much like the normal `AppBar` widget,
+uses the `SliverAppBar` to display a title,
+tabs, images and more.
 
-然而，`SliverAppBar` 還能讓你建立一個「浮動」的應用程式列（floating app bar），
-當你不在頁面頂部時，該列會縮小並浮動顯示。
+However, the `SliverAppBar` also gives you the ability to
+create a "floating" app bar that shrinks and floats when
+you're not at the top of the page.
 
-要實現這個效果：
+To create this effect:
 
-  1. 先建立一個只顯示標題的應用程式列（app bar）。
-  2. 將 `pinned` 屬性設為 `true`。
-  3. 新增一個 `flexibleSpace` 元件，讓它填滿可用的 `expandedHeight`。
+  1. Start with an app bar that displays only a title.
+  2. Set the `pinned` property to `true`.
+  3. Add a `flexibleSpace` widget that fills the available
+     `expandedHeight`.
 
 <?code-excerpt "lib/step2_material.dart (SliverAppBar)" replace="/^body: //g;/^\),$/)/g"?>
 ```dart
@@ -128,26 +134,27 @@ slivers: [
 ```
 
 :::tip
-試著操作看看
-[你可以傳遞給 `SliverAppBar` 元件（Widget）的各種屬性][various properties you can pass to the `SliverAppBar` widget]，
-並利用 hot reload 來即時查看結果。例如，你可以在
-`flexibleSpace` 屬性中使用 `Image` 元件（Widget），
-來建立一個隨著畫面捲動而縮小的背景圖片。
+Play around with the
+[various properties you can pass to the `SliverAppBar` widget][],
+and use hot reload to see the results. For example, use an
+`Image` widget for the `flexibleSpace` property to create a
+background image that shrinks in size as it's scrolled offscreen.
 :::
 
 {% endtab %}
 
 {% tab "Cupertino widgets" %}
 
-Flutter 提供了 [`CupertinoSliverNavigationBar`][`CupertinoSliverNavigationBar`]
-元件（Widget），讓你可以擁有一個「浮動」的導覽列，
-當你向下捲動時會縮小，當你不在頁面頂部時則會浮動顯示。
+Flutter provides the [`CupertinoSliverNavigationBar`][]
+widget, which lets you have a "floating" navigation
+bar that shrinks when you scroll down and floats when
+you're not at the top of the page.
 
-要實現這個效果：
+To create this effect: 
 
-  1. 將 `CupertinoSliverNavigationBar` 加入到
-     `CustomScrollView`。
-  2. 先建立一個只顯示標題的 app bar。
+  1. Add `CupertinoSliverNavigationBar` to
+     `CustomScrollView`. 
+  2. Start with an app bar that displays only a title.
 
 <?code-excerpt "lib/step2_cupertino.dart (SliverAppBar)" replace="/^body: //g;/^\),$/)/g"?>
 ```dart
@@ -165,9 +172,14 @@ slivers: [
 {% endtabs %}
 
 
-## 3. 新增項目清單
+## 3. Add a list of items
 
-現在你已經完成了 app bar，接下來要在 `CustomScrollView` 中新增一個項目清單。你有兩個選擇：[`SliverList`][`SliverList`] 或 [`SliverGrid`][`SliverGrid`]。如果你需要將多個項目依序顯示，請使用 `SliverList` 元件 (Widget)。如果你需要顯示網格清單，則請使用 `SliverGrid` 元件 (Widget)。
+Now that you have the app bar in place, add a list of items
+to the `CustomScrollView`. You have two options: a
+[`SliverList`][] or a [`SliverGrid`][].  If you need to
+display a list of items one after the other, use the
+`SliverList` widget. If you need to display a grid list, use
+the `SliverGrid` widget.
 
 {% tabs "device-type-tabs" %}
 
@@ -188,7 +200,7 @@ SliverList.builder(
 
 {% endtab %}
 
-{% tab "Cupertino 元件 (Widgets)" %}
+{% tab "Cupertino widgets" %}
 
 <?code-excerpt "lib/main_cupertino.dart (SliverList)" replace="/^\),$/)/g"?>
 ```dart
@@ -207,11 +219,11 @@ SliverList.builder(
 
 {% endtabs %}
 
-## 互動範例
+## Interactive example
 
 {% tabs "device-type-tabs" %}
 
-{% tab "Material 元件 (Widgets)" %}
+{% tab "Material widgets" %}
 
 <?code-excerpt "lib/main_material.dart"?>
 ```dartpad title="Flutter floating app bar hands-on example in DartPad" run="false"
@@ -262,12 +274,12 @@ class MyApp extends StatelessWidget {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/floating-app-bar.webp" alt="使用浮動應用程式列（floating app bar）示範" class="site-mobile-screenshot"/> 
+  <img src="/assets/images/docs/cookbook/floating-app-bar.webp" alt="Use floating app bar demo" class="site-mobile-screenshot"/> 
 </noscript>
 
 {% endtab %}
 
-{% tab "Cupertino 元件 (Widgets)" %}
+{% tab "Cupertino widgets" %}
 
 <?code-excerpt "lib/main_cupertino.dart"?>
 ```dartpad title="Flutter floating navigation bar hands-on example in DartPad" run="false"
@@ -312,7 +324,7 @@ class MyApp extends StatelessWidget {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/floating-app-bar.webp" alt="使用浮動導覽列示範" class="site-mobile-screenshot"/> 
+  <img src="/assets/images/docs/cookbook/floating-app-bar.webp" alt="Use floating nav bar demo" class="site-mobile-screenshot"/> 
 </noscript>
 
 {% endtab %}

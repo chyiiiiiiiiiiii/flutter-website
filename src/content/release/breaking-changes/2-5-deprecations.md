@@ -1,53 +1,54 @@
 ---
-title: v2.5 之後移除的已棄用 API
+title: Deprecated API removed after v2.5
 description: >
-  在達到生命週期終止後，以下已棄用的 API
-  已從 Flutter 移除。
+  After reaching end of life, the following deprecated APIs
+  were removed from Flutter.
 ---
 
-## 摘要
+## Summary
 
-根據 Flutter 的 [棄用政策][Deprecation Policy]，
-在 2.5 穩定版發佈後，達到生命週期終止的
-已棄用 API 已被移除。
+In accordance with Flutter's [Deprecation Policy][],
+deprecated APIs that reached end of life after the
+2.5 stable release have been removed.
 
-所有受影響的 API 已彙整於此主要來源，
-以協助遷移。另提供
-[快速參考表][quick reference sheet]。
+All affected APIs have been compiled into this
+primary source to aid in migration. A
+[quick reference sheet][] is available as well.
 
 
 [Deprecation Policy]: {{site.repo.flutter}}/blob/main/docs/contributing/Tree-hygiene.md#deprecations
 [quick reference sheet]: /go/deprecations-removed-after-2-5
 
-## 變更內容
+## Changes
 
-本節依受影響的類別列出棄用項目。
+This section lists the deprecations by affected class.
 
 ---
 
-### `autovalidate`（屬於 `Form` 及相關類別）
+### `autovalidate` of `Form` & related classes
 
-Flutter Fix 支援：是
+Supported by Flutter Fix: yes
 
-`autovalidate` 在 v1.19 已被棄用。
+`autovalidate` was deprecated in v1.19.
 
-請改用 `autovalidateMode`。
-若 `autovalidate` 為 true，請替換為 `AutovalidateMode.always`。
-若 `autovalidate` 為 false，請替換為 `AutovalidateMode.disabled`。
-此變更允許指定更多行為，超越原本的二元選擇，並新增 `AutovalidateMode.onUserInteraction` 作為額外選項。
+Use `autovalidateMode` instead.
+Where `autovalidate` was true, replace with `AutovalidateMode.always`.
+Where `autovalidate` was false, replace with `AutovalidateMode.disabled`.
+This change allows more behaviors to be specified beyond the original binary
+choice, adding `AutovalidateMode.onUserInteraction` as an additional option.
 
-以下類別皆有相同的 API 變更：
+The following classes all have the same change of API:
 
 - `Form`
 - `FormField`
 - `DropdownButtonFormField`
 - `TextFormField`
 
-**遷移指南**
+**Migration guide**
 
-[提供詳細遷移指南][In-depth migration guide available]
+[In-depth migration guide available][]
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 const Form form = Form(autovalidate: true);
@@ -65,7 +66,7 @@ const DropdownButtonFormField dropDownButtonFormField = DropdownButtonFormField(
 const DropdownButtonFormField dropdownButtonFormField = DropdownButtonFormField(autovalidate: false);
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 const Form form = Form(autovalidateMode: AutovalidateMode.always);
@@ -85,17 +86,17 @@ const DropdownButtonFormField dropdownButtonFormField = DropdownButtonFormField(
 
 [In-depth migration guide available]: /release/breaking-changes/form-field-autovalidation-api
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`Form`][`Form`]
-* [`FormField`][`FormField`]
-* [`TextFormField`][`TextFormField`]
-* [`DropdownButtonFormField`][`DropdownButtonFormField`]
-* [`AutovalidateMode`][`AutovalidateMode`]
+* [`Form`][]
+* [`FormField`][]
+* [`TextFormField`][]
+* [`DropdownButtonFormField`][]
+* [`AutovalidateMode`][]
 
-相關議題：
+Relevant issues:
 
 * [Issue 56363]({{site.repo.flutter}}/issues/56363)
 * [Issue 18885]({{site.repo.flutter}}/issues/18885)
@@ -103,10 +104,10 @@ API 文件：
 * [Issue 36154]({{site.repo.flutter}}/issues/36154)
 * [Issue 48876]({{site.repo.flutter}}/issues/48876)
 
-相關 PR：
+Relevant PRs:
 
-* 在 [#59766]({{site.repo.flutter}}/pull/59766) 中標記為過時
-* 在 [#90292]({{site.repo.flutter}}/pull/90292) 中移除
+* Deprecated in [#59766]({{site.repo.flutter}}/pull/59766)
+* Removed in [#90292]({{site.repo.flutter}}/pull/90292)
 
 [`Form`]: {{site.api}}/flutter/widgets/Form-class.html
 [`FormField`]: {{site.api}}/flutter/widgets/FormField-class.html
@@ -118,15 +119,17 @@ API 文件：
 
 ### `FloatingHeaderSnapConfiguration.vsync`
 
-Flutter Fix 支援：否
+Supported by Flutter Fix: no
 
-`FloatingHeaderSnapConfiguration` 的 `TickerProvider` `vsync` 屬性已於 v1.19 標記為過時。
+The `TickerProvider` `vsync` property of `FloatingHeaderSnapConfiguration` was
+deprecated in v1.19.
 
-動畫 (Animation) 的 `vsync` 應改為使用 `SliverPersistentHeaderDelegate.vsync` 來指定。
+The `vsync` for the animation should instead be specified using
+`SliverPersistentHeaderDelegate.vsync`.
 
-**遷移指南**
+**Migration guide**
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 class MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
@@ -134,7 +137,7 @@ class MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
 }
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 class MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
@@ -144,26 +147,26 @@ class MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
 
 ```
 
-**參考資料**
+**References**
 
-設計文件：
+Design document:
 
-* [Control SliverPersistentHeader's showOnScreen Behavior][Control SliverPersistentHeader's showOnScreen Behavior]
+* [Control SliverPersistentHeader's showOnScreen Behavior][]
 
-API 文件：
+API documentation:
 
-* [`FloatingHeaderSnapConfiguration`][`FloatingHeaderSnapConfiguration`]
-* [`SliverPersistentHeaderDelegate`][`SliverPersistentHeaderDelegate`]
-* [`TickerProvider`][`TickerProvider`]
+* [`FloatingHeaderSnapConfiguration`][]
+* [`SliverPersistentHeaderDelegate`][]
+* [`TickerProvider`][]
 
-相關議題：
+Relevant issues:
 
 * [Issue 25507]({{site.repo.flutter}}/issues/25507)
 
-相關 PR：
+Relevant PRs:
 
-* 已在 [#56413]({{site.repo.flutter}}/pull/56413) 標記為過時
-* 已在 [#90293]({{site.repo.flutter}}/pull/90293) 移除
+* Deprecated in [#56413]({{site.repo.flutter}}/pull/56413)
+* Removed in [#90293]({{site.repo.flutter}}/pull/90293)
 
 [Control SliverPersistentHeader's showOnScreen Behavior]: https://docs.google.com/document/d/1BZhxy176uUnqOCnXdnHM1XetS9mw9WIyUAOE-dgVdUM/edit?usp=sharing
 [`FloatingHeaderSnapConfiguration`]: {{site.api}}/flutter/rendering/FloatingHeaderSnapConfiguration-class.html
@@ -172,17 +175,18 @@ API 文件：
 
 ---
 
-### `AndroidViewController` 及其子類別的 `id`
+### `AndroidViewController` & subclasses' `id`
 
-Flutter Fix 支援：是
+Supported by Flutter Fix: yes
 
-`AndroidViewController`、`TextureAndroidViewController` 和 `SurfaceAndroidViewController` 的 `id` 已在 v1.20 被標記為過時。
+The `id` of `AndroidViewController`, `TextureAndroidViewController`, and
+`SurfaceAndroidViewController`, was deprecated in v1.20.
 
-針對上述所有使用情境，應改用 `viewId`。
+For all of these use cases, `viewId` should be used instead.
 
-**遷移指南**
+**Migration guide**
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 final SurfaceAndroidViewController surfaceController = SurfaceAndroidViewController(
@@ -205,7 +209,7 @@ final TextureAndroidViewController textureController = TextureAndroidViewControl
 viewId = textureController.id;
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 final SurfaceAndroidViewController surfaceController = SurfaceAndroidViewController(
@@ -228,26 +232,26 @@ final TextureAndroidViewController textureController = TextureAndroidViewControl
 viewId = textureController.viewId;
 ```
 
-**參考資料**
+**References**
 
-設計文件：
+Design document:
 
-* [Flutter Hybrid Composition][Flutter Hybrid Composition]
+* [Flutter Hybrid Composition][]
 
-API 文件：
+API documentation:
 
-* [`AndroidViewController`][`AndroidViewController`]
-* [`TextureAndroidViewController`][`TextureAndroidViewController`]
-* [`SurfaceAndroidViewController`][`SurfaceAndroidViewController`]
+* [`AndroidViewController`][]
+* [`TextureAndroidViewController`][]
+* [`SurfaceAndroidViewController`][]
 
-相關議題：
+Relevant issues:
 
 * [Issue 55218]({{site.repo.flutter}}/issues/55218)
 
-相關 PR：
+Relevant PRs:
 
-* 在 [#60320]({{site.repo.flutter}}/issues/60320) 標記為已淘汰
-* 在 [#90294]({{site.repo.flutter}}/issues/90294) 移除
+* Deprecated in [#60320]({{site.repo.flutter}}/issues/60320)
+* Removed in [#90294]({{site.repo.flutter}}/issues/90294)
 
 [Flutter Hybrid Composition]: {{site.repo.flutter}}/blob/main/docs/platforms/Hybrid-Composition.md
 [`AndroidViewController`]: {{site.api}}/flutter/services/AndroidViewController-class.html
@@ -258,15 +262,17 @@ API 文件：
 
 ### `BlacklistingTextInputFormatter` & `WhitelistingTextInputFormatter`
 
-Flutter Fix 支援：否
+Supported by Flutter Fix: no
 
-`BlacklistingTextInputFormatter` 和 `WhitelistingTextInoutFormatter` 這兩個類別已於 v1.20 標記為已淘汰。
+The entire classes of `BlacklistingTextInputFormatter` and
+`WhitelistingTextInoutFormatter` were deprecated in v1.20.
 
-它們的功能已重寫整合至單一類別 `FilteringTextInputFormatter`。
+Their functionality has been rewritten into a single class,
+`FilteringTextInputFormatter`.
 
-**遷移指南**
+**Migration guide**
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 formatter = BlacklistingTextInputFormatter(pattern, replacementString: 'replacedPattern');
@@ -277,7 +283,7 @@ formatter = WhitelistingTextInputFormatter.digitsOnly;
 pattern = formatter.whitelistedPattern;
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 formatter = FilteringTextInputFormatter.deny(pattern, replacementString: 'replacedPattern');
@@ -288,16 +294,16 @@ formatter = FilteringTextInputFormatter.digitsOnly;
 pattern = formatter.filterPattern;
 ```
 
-**參考資料**
+**References**
 
-API 文件：
+API documentation:
 
-* [`FilteringTextInputFormatter`][`FilteringTextInputFormatter`]
+* [`FilteringTextInputFormatter`][]
 
-相關 PR：
+Relevant PRs:
 
-* 在 [#59120]({{site.repo.flutter}}/issues/59120) 標記為已淘汰
-* 在 [#90296]({{site.repo.flutter}}/issues/90296) 移除
+* Deprecated in [#59120]({{site.repo.flutter}}/issues/59120)
+* Removed in [#90296]({{site.repo.flutter}}/issues/90296)
 
 [`FilteringTextInputFormatter`]: {{site.api}}/flutter/services/FilteringTextInputFormatter-class.html
 
@@ -305,16 +311,18 @@ API 文件：
 
 ### `BottomNavigationBarItem.title`
 
-Flutter Fix 支援：是
+Supported by Flutter Fix: yes
 
-`BottomNavigationBarItem` 的 `title` 已於 v1.19 標記為已淘汰。
-應改用 `label` 屬性。此遷移可帶來更佳的文字縮放效果，並且在 `BottomNavigationBar` 的情境下，為 `BottomNavigationBarItem` 提供內建的 `Tooltip`。
+The `title` of `BottomNavigationBarItem` was deprecated in v1.19.
+The `label` property should be used instead. This migration allows for better
+text scaling, and presents built-in `Tooltip`s for the `BottomNavigationBarItem`
+in the context of a `BottomNavigationBar`.
 
-**遷移指南**
+**Migration guide**
 
-[提供詳細遷移指南][In-depth migration guide available]
+[In-depth migration guide available][]
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 const BottomNavigationBarItem bottomNavigationBarItem = BottomNavigationBarItem(title: myTitle);
@@ -322,7 +330,7 @@ const BottomNavigationBarItem bottomNavigationBarItem = BottomNavigationBarItem(
 bottomNavigationBarItem.title;
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 const BottomNavigationBarItem bottomNavigationBarItem = BottomNavigationBarItem(label: myTitle);
@@ -330,21 +338,21 @@ const BottomNavigationBarItem bottomNavigationBarItem = BottomNavigationBarItem(
 bottomNavigationBarItem.label;
 ```
 
-**參考資料**
+**References**
 
-設計文件：
-* [BottomNavigationBarItem title][BottomNavigationBarItem title]
+Design document:
+* [BottomNavigationBarItem title][]
 
-API 文件：
+API documentation:
 
-* [`BottomNavigationBarItem`][`BottomNavigationBarItem`]
-* [`BottomNavigationBar`][`BottomNavigationBar`]
-* [`Tooltip`][`Tooltip`]
+* [`BottomNavigationBarItem`][]
+* [`BottomNavigationBar`][]
+* [`Tooltip`][]
 
-相關 PR：
+Relevant PRs:
 
-* 已在 [#59127]({{site.repo.flutter}}/issues/59127) 標記為已淘汰（Deprecated）
-* 已在 [#90295]({{site.repo.flutter}}/issues/90295) 移除
+* Deprecated in [#59127]({{site.repo.flutter}}/issues/59127)
+* Removed in [#90295]({{site.repo.flutter}}/issues/90295)
 
 [In-depth migration guide available]: /release/breaking-changes/bottom-navigation-title-to-label
 [BottomNavigationBarItem title]: /go/bottom-navigation-bar-title-deprecation
@@ -354,25 +362,31 @@ API 文件：
 
 ---
 
-### `packageRoot` 在 `dart:core`、`dart:isolate` 和 `package:platform` 中
+### `packageRoot` in `dart:core`, `dart:isolate`, and `package:platform`
 
-以下 API 已被移除：
+The following APIs have been removed:
 
-* [`Platform.packageRoot`][`Platform.packageRoot`] 位於 `dart:core`
-* [`Isolate.packageRoot`][`Isolate.packageRoot`] 位於 `dart:isolate`
-* [`Platform.packageRoot`][`Platform.packageRoot`] 位於 `package:platform`
+* [`Platform.packageRoot`][] in `dart:core`
+* [`Isolate.packageRoot`][] in `dart:isolate`
+* [`Platform.packageRoot`][] in `package:platform`
 
-這些 API 已於 [Dart 2.0 中標記為已淘汰][dart-deprecated]，且在任何 Dart 2.x 版本中皆無法正確運作。
+These APIs were marked deprecated [in Dart 2.0][dart-deprecated], and did not
+work correctly in any Dart 2.x release.
 
-**遷移指南**
+**Migration guide**
 
-這些 `packageRoot` API 已由新的一組 `packageConfig` API 取代，建議您遷移至新 API。
+These `packageRoot` APIs have been replaced by a new set of `packageConfig` APIs,
+which you should migrate to.
 
-* [`Platform.packageConfig`][`Platform.packageConfig`] 位於 `dart:core`
-* [`Isolate.packageConfig`][`Isolate.packageConfig`] 位於 `dart:isolate`
-* [`Platform.packageConfig`][`Platform.packageConfig`] 位於 `package:platform`
+* [`Platform.packageConfig`][] in `dart:core`
+* [`Isolate.packageConfig`][] in `dart:isolate`
+* [`Platform.packageConfig`][] in `package:platform`
 
-如果您正在使用 `package:platform` 套件，請注意，無論您是否有使用 `packageRoot` API，該套件的舊版本皆不相容於 Dart 2.16 及更高版本，因為其依賴已被移除的 `packageRoot` API。當您嘗試執行應用程式時，可能會看到如下錯誤訊息：
+If you are using the `package:platform` package, note that regardless of whether
+you are using the `packageRoot` API or not, older versions of that package are
+not compatible with Dart 2.16 and later, as they depend on the now removed
+`packageRoot` API. You may see an error like this when attempting to run your
+app:
 
 ```plaintext
 ../../.pub-cache/hosted/pub.dartlang.org/platform-3.0.0/
@@ -382,20 +396,21 @@ API 文件：
                   ^^^^^^^^^^^
 ```
 
-為了解決此問題，請將 `package:platform` 升級至 `3.1.0` 版本或更高版本，方法是更新你在 `pubspec.yaml` 檔案中的相依性限制：
+To resolve that, upgrade to version `3.1.0` or later of `package:platform` by
+upgrading the constraint in your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
   platform: ^3.1.0
 ```
 
-**參考資料**
+**References**
 
-相關的 PR：
+Relevant PRs:
 
-* 已從 Dart 函式庫中移除，詳見 [#47769][#47769]
-* 已從 `package:platform` 中移除，詳見 [PR #38][PR #38]
-* Flutter 已更新為使用 `package:platform` 3.1.0，詳見 [PR #94603][PR #94603]
+* Removed from the Dart libraries in [#47769][]
+* Removed from `package:platform` in [PR #38][]
+* Updated Flutter to use `package:platform` 3.1.0 in [PR #94603][]
 
 [`Platform.packageRoot`]: {{site.dart.api}}/stable/2.15.1/dart-io/Platform/packageRoot.html
 [`Isolate.packageRoot`]: {{site.dart.api}}/stable/2.15.1/dart-isolate/Isolate/packageRoot.html
@@ -410,6 +425,6 @@ dependencies:
 
 ---
 
-## 時程表
+## Timeline
 
-穩定版發行：2.10
+In stable release: 2.10

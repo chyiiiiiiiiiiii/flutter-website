@@ -1,7 +1,7 @@
 ---
-title: Flutter 學習資源
-description: Flutter 範例應用程式、Codelab 與教學課程目錄。
-shortTitle: 學習資源
+title: Flutter learning resources
+description: A catalog of Flutter sample applications, codelabs, and tutorials.
+shortTitle: Learning resources
 showBreadcrumbs: false
 extraBodyClass: wide-site-content
 showToc: false
@@ -9,11 +9,11 @@ js: [ { url: '/assets/js/learning-resources-index.js', defer: true } ]
 ---
 
 :::secondary
-本頁列出了我們所有的額外學習資源：
-* Cookbook 範例，展示如何使用 Flutter 解決常見問題。
-* 有引導的 Codelab 與教學課程，帶你一步步建立功能與應用程式。
-* 可運作的範例應用程式，展示如何使用 Flutter。
-* 功能豐富的展示應用程式，說明大型應用程式的建構方式。
+This page lists all of our additional learning resources:
+* Cookbook recipes that demonstrate how to solve common problems with Flutter.
+* Guided Codelabs and tutorials that walk you through building features and applications.
+* Working sample applications that show how to use Flutter.
+* Feature-rich demo applications that show how larger applications are built.
 :::
 
 {% assign resources = learning-resources-index.codelabs | concat: learning-resources-index.cookbook | concat: learning-resources-index.demos | concat: learning-resources-index.quickstarts_flutter | concat: learning-resources-index.quickstarts_dart -%}
@@ -26,8 +26,8 @@ js: [ { url: '/assets/js/learning-resources-index.js', defer: true } ]
             <div class="top-row">
                 <div class="search-wrapper" id="resource-search">
                     <span class="material-symbols leading-icon" aria-hidden="true" translate="no">search</span>
-                    <input type="search" placeholder='試試看「button」或「networking」...'
-                        aria-label="依名稱與類別搜尋學習資源">
+                    <input type="search" placeholder='Try "button" or "networking"...'
+                        aria-label="Search learning resources by name and category">
                 </div>
                 {% comment -%}This dropdown is shown on narrow screens{% endcomment -%}
                 <button class="icon-button show-filters-button">
@@ -36,11 +36,11 @@ js: [ { url: '/assets/js/learning-resources-index.js', defer: true } ]
             </div>
             <div class="label-row">
                 <label for="resource-search">
-                    顯示 <span id="displayed-resource-card-count">0</span> / <span id="total-resource-card-count">0</span>
+                    Showing <span id="displayed-resource-card-count">0</span> / <span id="total-resource-card-count">0</span>
                 </label>
                 <button id="clear-resource-index-filters" disabled>
                     <span class="material-symbols" aria-hidden="true" translate="no">close_small</span>
-                    <span>清除篩選</span>
+                    <span>Clear filters</span>
                 </button>
             </div>
         </div>

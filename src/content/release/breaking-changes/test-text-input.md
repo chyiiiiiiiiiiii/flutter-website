@@ -1,63 +1,78 @@
-```markdown
 ---
-title: TestTextInput 狀態重設
-description: TestTextInput 狀態現在會在測試之間重設。
+title: TestTextInput state reset
+description: TestTextInput state is now reset between tests.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-`TestTextInput` 實例（系統螢幕鍵盤的 stub）現在會在每個測試之間重設其狀態。
+The state of a `TestTextInput` instance,
+a stub for the system's onscreen keyboard,
+is now reset between tests.
 
-## 背景說明
+## Context
 
-Flutter 測試框架使用一個名為 `TestTextInput` 的類別，來追蹤並操作元件（Widgets）測試中的編輯狀態。單一測試可以呼叫方法來修改此物件的內部狀態，有時甚至是間接地（例如，透過在 `SystemChannels.textInput` 上設置自己的 handler）。接下來的測試如果檢查 `WidgetTester.testTextInput` 的狀態，可能會得到非預期的值。
+The Flutter test framework uses a class called `TestTextInput`
+to track and manipulate editing state in a widgets test.
+Individual tests can make calls that modify the internal
+state of this object, sometimes indirectly (such as
+by setting their own handlers on `SystemChannels.textInput`).
+Subsequent tests might then check the state of
+`WidgetTester.testTextInput` and get unexpected values.
 
-## 變更說明
+## Description of change
 
-`WidgetTester.testTextInput` 的狀態現在會在執行 `testWidgets` 測試前重設。
+The state of `WidgetTester.testTextInput`
+is now reset before running a `testWidgets` test.
 
-## 遷移指南
+## Migration guide
 
-若測試依賴於先前執行測試所遺留的 dirty 狀態，則必須進行更新。例如，下列來自 `packages/flutter/test/material/text_field_test.dart` 的測試（位於 `'Controller can update server'` 測試中），過去會因為前一個測試遺留的 dirty 狀態，以及在應該設定狀態時未實際設定而通過。
+Tests that relied on dirty state from a previously run
+test must be updated. For example, the following test,
+from `packages/flutter/test/material/text_field_test.dart`
+in the `'Controller can update server'` test,
+previously passed because of a combination of dirty state
+from previous tests and a failure to actually set state
+in cases where it should have been set.
 
-遷移前的程式碼：
+Code before migration:
 
-在 `widgetsTest` 中，於實際更改文字編輯元件（text editing widget）上的文字前，這個呼叫可能會成功：
-```
+In a `widgetsTest`, before actually changing text on a
+text editing widget, this call might have succeeded:
 
 ```dart
     expect(tester.testTextInput.editingState['text'], isEmpty);
 ```
 
-遷移後的程式碼：
+Code after migration:
 
-你可以選擇完全移除該呼叫，或考慮使用下列方式來斷言狀態尚未被修改：
+Either remove the call entirely, or consider using the
+following to assert that the state hasn't been modified yet:
 
 ```dart
     expect(tester.testTextInput.editingState, isNull);
 ```
 
-## 時程
+## Timeline
 
-納入版本：1.16.3<br>  
-穩定版釋出：1.17
+Landed in version: 1.16.3<br>
+In stable release: 1.17
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`TestTextInput`][`TestTextInput`]
-* [`WidgetTester`][`WidgetTester`]
+* [`TestTextInput`][]
+* [`WidgetTester`][]
 
-相關議題：
+Relevant issue:
 
-* [Randomize test order to avoid global state][Randomize test order to avoid global state]
+* [Randomize test order to avoid global state][]
 
-相關 PR：
+Relevant PR:
 
-* [Reset state between tests][Reset state between tests]
+* [Reset state between tests][]
 
 
 [Randomize test order to avoid global state]: {{site.repo.flutter}}/issues/47233

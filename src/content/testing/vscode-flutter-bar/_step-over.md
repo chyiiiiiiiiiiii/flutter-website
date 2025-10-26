@@ -1,1 +1,1 @@
-![一個藍色圓圈上有小型藍色弧形箭頭，表示在 Flutter 應用程式中跳過目前區塊或敘述](/assets/images/docs/testing/debugging/vscode-ui/icons/step-over.png)
+![Small blue arched arrow over a blue circle that indicates skipping the current block or statement in the Flutter app](/assets/images/docs/testing/debugging/vscode-ui/icons/step-over.png)

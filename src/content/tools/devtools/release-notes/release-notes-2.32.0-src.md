@@ -1,96 +1,59 @@
-# DevTools 2.32.0 發行說明
+# DevTools 2.32.0 release notes
 
-Dart 與 Flutter DevTools 2.32.0 版本
-包含以下變更以及其他一般性改進。
-如需進一步了解 DevTools，請參閱
-[DevTools overview](https://docs.flutter.dev/tools/devtools)。
+The 2.32.0 release of the Dart and Flutter DevTools
+includes the following changes among other general improvements.
+To learn more about DevTools, check out the
+[DevTools overview](https://docs.flutter.dev/tools/devtools).
 
-## 一般更新
+## General updates
 
-* 透過讓 DevTools UI 更為緊湊，提升整體易用性。
-  這大幅改善了在 IDE 內嵌使用 DevTools 時的使用體驗。- [#7030](https://github.com/flutter/devtools/pull/7030)
-* 移除了「密集模式（Dense mode）」設定。- [#7086](https://github.com/flutter/devtools/pull/7086)
-* 在 Logging、Network 及 CPU profiler 頁面新增支援正則表達式過濾功能。- [#7027](https://github.com/flutter/devtools/pull/7027)
-* 新增 DevTools 伺服器互動功能以取得 DTD URI。- [#7054](https://github.com/flutter/devtools/pull/7054)
+* Improved overall usability by making the DevTools UI more dense.
+  This significantly improves the user experience when using
+  DevTools embedded in an IDE. - [#7030](https://github.com/flutter/devtools/pull/7030)
+* Removed the "Dense mode" setting. - [#7086](https://github.com/flutter/devtools/pull/7086)
+* Added support for filtering with regular expressions in the
+  Logging, Network, and CPU profiler pages - [#7027](https://github.com/flutter/devtools/pull/7027)
+* Add a DevTools server interaction for getting the DTD uri. - [#7054](https://github.com/flutter/devtools/pull/7054)
 
-## 記憶體相關更新
+## Memory updates
 
-* 支援 Flutter profile build 及 Dart AOT 編譯應用程式的配置追蹤（allocation tracing）。- [#7058](https://github.com/flutter/devtools/pull/7058)
-* 支援匯入記憶體快照。- [#6974](https://github.com/flutter/devtools/pull/6974)
+* Supported allocation tracing for Flutter profile builds and
+  Dart AOT compiled applications. - [#7058](https://github.com/flutter/devtools/pull/7058)
+* Supported import of memory snapshots. - [#6974](https://github.com/flutter/devtools/pull/6974)
 
-## 除錯器相關更新
+## Debugger updates
 
-* 將 `extension type` 高亮顯示為宣告關鍵字，
-  在識別字插值中將 `# DevTools 2.32.0 發行說明
+* Highlighted `extension type` as a declaration keyword,
+  highlight the `$` in identifier interpolation as part of the interpolation,
+  and properly highlight comments within type arguments. - [#6837](https://github.com/flutter/devtools/pull/6837)
 
-Dart 與 Flutter DevTools 2.32.0 版本
-包含以下變更及其他一般性改進。
-如需進一步了解 DevTools，請參閱
-[DevTools overview](https://docs.flutter.dev/tools/devtools)。
+## Logging updates
 
-## 一般更新
-
-* 透過讓 DevTools UI 更為緊湊，提升整體易用性。
-  這大幅改善了在 IDE 內嵌使用 DevTools 的使用體驗。- [#7030](https://github.com/flutter/devtools/pull/7030)
-* 移除了「密集模式（Dense mode）」設定。- [#7086](https://github.com/flutter/devtools/pull/7086)
-* 在 Logging、Network 與 CPU profiler 頁面新增支援正則表達式過濾功能。- [#7027](https://github.com/flutter/devtools/pull/7027)
-* 新增 DevTools 伺服器互動以取得 DTD URI。- [#7054](https://github.com/flutter/devtools/pull/7054)
-
-## 記憶體相關更新
-
-* 支援 Flutter profile build 及 Dart AOT 編譯應用程式的配置追蹤（allocation tracing）。- [#7058](https://github.com/flutter/devtools/pull/7058)
-* 支援匯入記憶體快照。- [#6974](https://github.com/flutter/devtools/pull/6974)
-
-## 除錯器相關更新
-
-* 將 ` 高亮為插值的一部分，
-  並正確高亮顯示型別參數中的註解。- [#6837](https://github.com/flutter/devtools/pull/6984)
-
-## Logging 相關更新
-
-* 新增切換過濾器，可過濾掉雜訊較多的 Flutter 與 Dart 日誌。- [#7026](https://github.com/flutter/devtools/pull/6709)
-
-    ![Logging view filters](https://github.com/flutter/devtools/tree/v2.32.0)
-
-* 在詳細資訊窗格中新增捲軸。- [#6917]⟦L11⟧
-
-## DevTools 擴充功能相關更新
-
-* 在使用者專案中建立的 ` 高亮顯示為宣告關鍵字，
-  在識別字插值中將  作為插值的一部分進行高亮，
-  並正確高亮型別參數中的註解。- [#6837](https://github.com/flutter/devtools/pull/6837)
-
-## 日誌相關更新
-
-* 新增切換過濾器，可過濾掉雜訊較多的 Flutter 與 Dart 日誌。- [#7026](https://github.com/flutter/devtools/pull/7026)
+* Added toggle filters to filter out noisy Flutter and Dart logs - [#7026](https://github.com/flutter/devtools/pull/7026)
 
     ![Logging view filters](/assets/images/docs/tools/devtools/release-notes/images-2.32.0/logging_toggle_filters.png "Toggle filters for logging screen")
 
-* 為詳細資訊窗格新增捲軸。- [#6917](https://github.com/flutter/devtools/pull/6917)
+* Added a scrollbar to the details pane. - [#6917](https://github.com/flutter/devtools/pull/6917)
 
-## DevTools 擴充功能相關更新
+## DevTools extension updates
 
-* 在使用者專案中建立的 ` 檔案中，新增描述與文件連結。- [#7052]⟦L12⟧
-* 更新模擬 DevTools 環境面板，現在可收合（感謝 @victoreronmosele！）。- [#7062]⟦L13⟧
-* DevTools 擴充功能已整合至新的 Dart Tooling Daemon。
-  這將允許 DevTools 擴充功能存取其他 DTD 用戶端（如 IDE）註冊的公開方法，
-  並可存取簡易檔案系統 API，以便與開發專案互動。- [#7108]⟦L14⟧
+* Added a description and documentation link to the `devtools_options.yaml` file
+  that is created in a user's project. - [#7052](https://github.com/flutter/devtools/pull/7052)
+* Updated the Simulated DevTools Environment Panel to be collapsible
+  (thanks to @victoreronmosele!) - [#7062](https://github.com/flutter/devtools/pull/7062)
+* Integrated DevTools extensions with the new Dart Tooling Daemon.
+  This will allow DevTools extensions to access public methods registered by
+  other DTD clients, such as an IDE, as well as access a minimal file system API
+  for interacting with the development project. - [#7108](https://github.com/flutter/devtools/pull/7108)
 
-## VS Code 側邊欄相關更新
+## VS Code sidebar updates
 
-* 修正近期 ` 檔案中，新增描述與文件連結。- [#7052](https://github.com/flutter/devtools/pull/7052)
-* 將模擬 DevTools 環境面板（Simulated DevTools Environment Panel）更新為可收合
-  （感謝 @victoreronmosele！）- [#7062](https://github.com/flutter/devtools/pull/7062)
-* DevTools 擴充功能已整合至全新 Dart Tooling Daemon。
-  這將允許 DevTools 擴充功能存取其他 DTD 用戶端（如 IDE）所註冊的公開方法，
-  並可存取簡易檔案系統 API，以便與開發專案互動。- [#7108](https://github.com/flutter/devtools/pull/7108)
+* Fixed an issue that prevented the VS code sidebar from
+  loading in recent `beta` and `main` builds. - [#6984](https://github.com/flutter/devtools/pull/6984)
+* Showed DevTools extensions as an option from the
+  debug sessions DevTools dropdown, when available. [#6709](https://github.com/flutter/devtools/pull/6709)
 
-## VS Code 側邊欄相關更新
+## Full commit history
 
-* 修正近期 ` 與 ` 與 ` 版本中，VS Code 側邊欄無法載入的問題。- [#6984]⟦L15⟧
-* 當可用時，於偵錯階段的 DevTools 下拉選單中，將 DevTools 擴充功能顯示為選項。- [#6709]⟦L16⟧
-
-## 完整提交紀錄
-
-如需本次發行的完整變更清單，請參閱
-[DevTools git log]⟦L17⟧。
+To find a complete list of changes in this release, check out the
+[DevTools git log](https://github.com/flutter/devtools/tree/v2.32.0).

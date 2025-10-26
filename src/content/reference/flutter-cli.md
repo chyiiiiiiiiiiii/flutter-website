@@ -1,11 +1,14 @@
 ---
-title: "flutter：Flutter 命令列工具 (Command Line Tool)"
-description: "在終端機視窗中使用 'flutter' 的參考頁面。"
+title: "flutter: The Flutter command-line tool"
+description: "The reference page for using 'flutter' in a terminal window."
 ---
 
-`flutter` 命令列工具 (Command Line Tool) 是開發者（或 IDE 代表開發者）與 Flutter 互動的方式。若需執行 Dart 相關指令，可以使用 [`dart`][`dart`] 命令列工具。
+The `flutter` command-line tool is how developers (or IDEs on behalf of
+developers) interact with Flutter. For Dart related commands,
+you can use the [`dart`][] command-line tool.
 
-以下是你可能會如何使用 `flutter` 工具來建立、分析、測試與執行應用程式的範例：
+Here's how you might use the `flutter` tool to create, analyze, test, and run an
+app:
 
 ```console
 $ flutter create my_app
@@ -15,7 +18,7 @@ $ flutter test
 $ flutter run lib/main.dart
 ```
 
-若要使用 `flutter` 工具執行 [`pub`][`dart pub`] 指令：
+To run [`pub`][`dart pub`] commands using the `flutter` tool:
 
 ```console
 $ flutter pub get
@@ -23,56 +26,57 @@ $ flutter pub outdated
 $ flutter pub upgrade
 ```
 
-要查看 `flutter` 支援的所有指令：
+To view all commands that `flutter` supports:
 
 ```console
 $ flutter --help --verbose
 ```
 
-若要取得目前 Flutter SDK（包含其 framework、engine 與 tools）的版本資訊：
+To get the current version of the Flutter SDK, including its framework, engine,
+and tools:
 
 ```console
 $ flutter --version
 ```
 
-## `flutter` 指令
+## `flutter` commands
 
-下表列出了你可以搭配 `flutter` 工具使用的指令：
+The following table shows which commands you can use with the `flutter` tool:
 
-| 指令            | 使用範例                                         | 更多資訊                                                                              |
-|-----------------|------------------------------------------------|---------------------------------------------------------------------------------------|
-| analyze         | `flutter analyze -d <DEVICE_ID>`               | 分析專案的 Dart 原始碼。<br>請改用 [`dart analyze`][`dart analyze`]。                                 |
-| assemble        | `flutter assemble -o <DIRECTORY>`              | 組建並建置 Flutter 資源。                                                            |
-| attach          | `flutter attach -d <DEVICE_ID>`                | 連接到正在執行中的應用程式。                                                         |
-| bash-completion | `flutter bash-completion`                      | 輸出命令列 shell 自動補全設定腳本。                                                  |
-| build           | `flutter build <DIRECTORY>`                    | Flutter 建置相關指令。                                                               |
-| channel         | `flutter channel <CHANNEL_NAME>`               | 列出或切換 Flutter 頻道。                                                            |
-| clean           | `flutter clean`                                | 刪除 `build/` 和 `.dart_tool/` 目錄。                                               |
-| config          | `flutter config --build-dir=<DIRECTORY>`       | 設定 Flutter 相關參數。若要移除設定，請將其設為空字串。                              |
-| create          | `flutter create <DIRECTORY>`                   | 建立新專案。                                                                         |
-| custom-devices  | `flutter custom-devices list`                  | 新增、刪除、列出與重設自訂裝置。                                                     |
-| devices         | `flutter devices -d <DEVICE_ID>`               | 列出所有已連接的裝置。                                                               |
-| doctor          | `flutter doctor`                               | 顯示已安裝工具的相關資訊。                                                           |
-| downgrade       | `flutter downgrade`                            | 將 Flutter 降級至目前頻道的上一個啟用版本。                                          |
-| drive           | `flutter drive`                                | 執行目前專案的 Flutter Driver 測試。                                                 |
-| emulators       | `flutter emulators`                            | 列出、啟動與建立模擬器。                                                             |
-| gen-l10n        | `flutter gen-l10n <DIRECTORY>`                 | 產生 Flutter 專案的在地化檔案。                                                      |
-| install         | `flutter install -d <DEVICE_ID>`               | 將 Flutter 應用程式安裝到已連接的裝置上。                                            |
-| logs            | `flutter logs`                                 | 顯示正在執行的 Flutter 應用程式的日誌輸出。                                          |
-| precache        | `flutter precache <ARGUMENTS>`                 | 預先下載 Flutter 工具所需的二進位資源快取。                                          |
-| pub             | `flutter pub <PUB_COMMAND>`                    | 套件管理相關操作。<br>請改用 [`dart pub`][`dart pub`]。                                      |
-| run             | `flutter run <DART_FILE>`                      | 執行 Flutter 程式。                                                                  |
-| screenshot      | `flutter screenshot`                           | 從已連接的裝置擷取 Flutter 應用程式的螢幕截圖。                                      |
-| symbolize       | `flutter symbolize --input=<STACK_TRACK_FILE>` | 將 AOT 編譯的 Flutter 應用程式堆疊追蹤符號化。                            |
-| test            | `flutter test [<DIRECTORYDART_FILE>]`          | 執行此套件中的測試。<br>請改用 [`dart test`][`dart test`]。                          |
-| upgrade         | `flutter upgrade`                              | 升級你的 Flutter 版本。                                                              |
+| Command         | Example of use                                 | More information                                                                  |
+|-----------------|------------------------------------------------|-----------------------------------------------------------------------------------|
+| analyze         | `flutter analyze -d <DEVICE_ID>`               | Analyzes the project's Dart source code.<br>Use instead of [`dart analyze`][].    |
+| assemble        | `flutter assemble -o <DIRECTORY>`              | Assemble and build flutter resources.                                             |
+| attach          | `flutter attach -d <DEVICE_ID>`                | Attach to a running application.                                                  |
+| bash-completion | `flutter bash-completion`                      | Output command line shell completion setup scripts.                               |
+| build           | `flutter build <DIRECTORY>`                    | Flutter build commands.                                                           |
+| channel         | `flutter channel <CHANNEL_NAME>`               | List or switch flutter channels.                                                  |
+| clean           | `flutter clean`                                | Delete the `build/` and `.dart_tool/` directories.                                |
+| config          | `flutter config --build-dir=<DIRECTORY>`       | Configure Flutter settings. To remove a setting, configure it to an empty string. |
+| create          | `flutter create <DIRECTORY>`                   | Creates a new project.                                                            |
+| custom-devices  | `flutter custom-devices list`                  | Add, delete, list, and reset custom devices.                                      |
+| devices         | `flutter devices -d <DEVICE_ID>`               | List all connected devices.                                                       |
+| doctor          | `flutter doctor`                               | Show information about the installed tooling.                                     |
+| downgrade       | `flutter downgrade`                            | Downgrade Flutter to the last active version for the current channel.             |
+| drive           | `flutter drive`                                | Runs Flutter Driver tests for the current project.                                |
+| emulators       | `flutter emulators`                            | List, launch and create emulators.                                                |
+| gen-l10n        | `flutter gen-l10n <DIRECTORY>`                 | Generate localizations for the Flutter project.                                   |
+| install         | `flutter install -d <DEVICE_ID>`               | Install a Flutter app on an attached device.                                      |
+| logs            | `flutter logs`                                 | Show log output for running Flutter apps.                                         |
+| precache        | `flutter precache <ARGUMENTS>`                 | Populates the Flutter tool's cache of binary artifacts.                           |
+| pub             | `flutter pub <PUB_COMMAND>`                    | Works with packages.<br>Use instead of [`dart pub`][].                            |
+| run             | `flutter run <DART_FILE>`                      | Runs a Flutter program.                                                           |
+| screenshot      | `flutter screenshot`                           | Take a screenshot of a Flutter app from a connected device.                       |
+| symbolize       | `flutter symbolize --input=<STACK_TRACK_FILE>` | Symbolize a stack trace from the AOT compiled flutter application.                |
+| test            | `flutter test [<DIRECTORYDART_FILE>]`          | Runs tests in this package.<br>Use instead of [`dart test`][`dart test`].         |
+| upgrade         | `flutter upgrade`                              | Upgrade your copy of Flutter.                                                     |
 
 {:.table .table-striped .nowrap}
 
-如需任何指令的更多說明，請輸入 `flutter help <command>`
-或參考「更多資訊」欄位中的連結。
-你也可以取得 `pub` 指令的詳細資訊，例如
-`flutter help pub outdated`。
+For additional help on any of the commands, enter `flutter help <command>`
+or follow the links in the **More information** column.
+You can also get details on `pub` commands — for example,
+`flutter help pub outdated`.
 
 [`dart`]: {{site.dart-site}}/tools/dart-tool
 [`dart analyze`]: {{site.dart-site}}/tools/dart-analyze

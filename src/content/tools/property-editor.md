@@ -1,29 +1,37 @@
 ---
-title: Flutter 屬性編輯器
-description: 學習如何使用 Flutter 屬性編輯器來檢視與修改元件（Widgets）的屬性。
+title: Flutter Property Editor
+description: Learn how to use the Flutter Property Editor to view and modify the properties of your widgets.
 ---
 
 :::note
-Flutter 屬性編輯器需要 Flutter 3.32 或更高版本。
+The Flutter Property Editor requires Flutter version 3.32 or higher.
 :::
 
-## 什麼是 Flutter 屬性編輯器？
+## What is it?
 
-Flutter 屬性編輯器是一個功能強大的 IDE 工具，讓你可以直接從視覺化介面檢視與修改元件（Widgets）的屬性。
+The Flutter Property Editor is a powerful IDE-tool that lets you view and modify
+widget properties directly from a visual interface.
 
-它讓你能夠快速發現並修改元件（Widgets）現有與可用的建構子參數，無需跳轉至定義或手動編輯原始碼。此外，該工具與 Flutter 檢查器（inspector）和熱重載（hot reload）整合，讓你能即時查看變更，加速 UI 開發與迭代。
+It allows you to quickly discover and modify your widgets' existing and
+available constructor arguments, eliminating the need to jump-to-definition or
+manually edit the source code. Furthermore, its integration with the Flutter
+inspector and hot reload enables you to view changes in real time, speeding up
+UI development and iteration.
 
 ![Flutter Property Editor](/assets/images/docs/tools/devtools/property-editor-text-widget.png){:width="500px"}
 
-## 如何存取 Flutter 屬性編輯器
+## How to access the Flutter Property Editor
 
-1.  在支援的 IDE（[VS Code][VS Code]、[Android Studio/IntelliJ][Android Studio/IntelliJ]）中開啟 Flutter 屬性編輯器。
+1.  Open the Flutter Property Editor in your supported IDE ([VS Code][],
+    [Android Studio/IntelliJ][]).
 
-2.  在 Flutter 程式碼中找到一個[元件建構子呼叫][widget constructor invocation]。
+2.  Locate a [widget constructor invocation][] in your Flutter code.
 
-3.  將游標移動到元件建構子呼叫的任意位置。
+3.  Move your cursor anywhere inside the widget constructor invocation. 
 
-    例如，在以下 `build` 方法中，將游標放在 `Text` 的 `T` 與 `TextOverflow.clip` 後方的結尾括號 `)` 之間的任意位置：
+    For example, in the following `build` method, place your cursor anywhere
+    between the `T` of `Text` and the ending parenthesis `)` after
+    `TextOverflow.clip`:
 
     ```dart
     @override
@@ -35,37 +43,38 @@ Flutter 屬性編輯器是一個功能強大的 IDE 工具，讓你可以直接�
     }
     ```
 
-4.  Flutter Property Editor 面板會自動更新，顯示游標所在元件（Widget）的屬性。
+4.  The Flutter Property Editor panel automatically updates to display the
+    properties of the widget at your cursor location.
 
 [VS Code]: /tools/vs-code#property-editor
 [Android Studio/IntelliJ]: /tools/android-studio#property-editor
 [widget constructor invocation]: /get-started/fundamentals/widgets
 
-### 執行時使用方式
+### Runtime usage
 
-#### 與 Flutter inspector 的整合
+#### Integration with the Flutter inspector
 
-Flutter Property Editor 可以與 [Flutter inspector][Flutter inspector] 搭配使用，讓你能同時在兩個工具中檢查你的元件（Widgets）。
+The Flutter Property Editor can be used in conjunction with the
+[Flutter inspector][] to inspect your widgets simultaneously in both tools.
 
-1.  在你偏好的 IDE 中，執行並除錯你的 Flutter 應用程式。
-    * [VS Code 指引][VS Code instructions]
-    * [Android Studio/IntelliJ 指引][Android Studio/IntelliJ instructions]
+1.  From your preferred IDE, run and debug your Flutter application.
+    * [VS Code instructions][]
+    * [Android Studio/IntelliJ instructions][]
 
-2.  在你的 IDE 中開啟 [Flutter inspector][Flutter inspector]。
+2.  Open the [Flutter inspector][] in your IDE.
 
-你可以透過以下任一方式，使用 Flutter inspector 將元件載入至 Flutter Property Editor：
+You can then use the Flutter inspector to load a widget in the Flutter Property Editor by either:
 
-1. 在樹狀結構中選取元件：
-    * 點擊 [inspector 的元件樹][inspector's widget tree] 中的某個元件。
+1. Selecting a widget in tree:
+    * Click on a widget in the [inspector's widget tree][].
 
-2. 在你的應用程式中選取元件：
-    * 在 inspector 中啟用 ["Select Widget Mode"]["Select Widget Mode"]。
-    * 點擊你執行中應用程式裡的某個元件。
+2. Selecting a widget in your app:
+    * Enable ["Select Widget Mode"][] in the inspector.
+    * Click on a widget in your running application.
 
-這兩種操作都會自動：
-- 跳至原始碼中該元件的宣告處。
-- 在 Flutter Property Editor 中載入所選元件。
-
+Both actions will automatically:
+- Jump to the widget's declaration in your source code.
+- Load the selected widget in the Flutter Property Editor.
 
 [VS Code instructions]: /tools/devtools/vscode/#run-and-debug
 [Android Studio/IntelliJ instructions]: /tools/devtools/android-studio/#run-and-debug
@@ -73,124 +82,155 @@ Flutter Property Editor 可以與 [Flutter inspector][Flutter inspector] 搭配�
 [inspector's widget tree]: /tools/devtools/inspector#flutter-widget-tree
 ["Select Widget Mode"]: /tools/devtools/inspector#inspecting-a-widget
 
-#### 與 hot reload 的整合
+#### Integration with hot reload
 
-Flutter Property Editor 可以與 hot reload 搭配使用，即時查看變更效果。
+The Flutter Property Editor can be used in conjunction
+with hot reload to view changes in real time.
 
-1. 在你偏好的 IDE 中，啟用自動儲存與儲存時自動 hot reload。
+1. From your preferred IDE, enable autosave and hot reloads on save.
 
     **VS Code**
 
-    在你的 `.vscode/settings.json` 檔案中加入以下內容：
+    Add the following to your `.vscode/settings.json` file:
 
     ```json
     "files.autoSave": "afterDelay",
     "dart.flutterHotReloadOnSave": "all",
     ```
 
-    **Android Studio 與 IntelliJ**
+    **Android Studio and IntelliJ**
 
-    * 開啟 `Settings > Tools > Actions on Save` 並選擇
-     `Configure autosave options`。
-        - 勾選 `Save files if the IDE is idle for X seconds` 選項。
-        - **建議：** 設定較短的延遲時間，例如 2 秒。
+    * Open `Settings > Tools > Actions on Save` and select
+     `Configure autosave options`.
+        - Check the option to `Save files if the IDE is idle for X seconds`.
+        - **Recommended:** Set a small delay duration. For example, 2 seconds. 
     
-    * 開啟 `Settings > Languages & Frameworks > Flutter`。
-        - 勾選 `Perform hot reload on save` 選項。
+    * Open `Settings > Languages & Frameworks > Flutter`. 
+        - Check the option to `Perform hot reload on save`.
 
-2. 執行並除錯你的 Flutter 應用程式。
-    * [VS Code 操作說明][VS Code instructions]
-    * [Android Studio/IntelliJ 操作說明][Android Studio/IntelliJ instructions]
+2.  Run and debug your Flutter application.
+    * [VS Code instructions][]
+    * [Android Studio/IntelliJ instructions][]
 
-3. 你在 Flutter Property Editor 中所做的任何變更，都會自動反映在正在執行的應用程式中。
+3.  Any changes you make from the Flutter Property Editor are automatically
+    reflected in your running app.
 
-## 功能集
+## Feature set
 
-Flutter Property Editor 配備多項設計來加速開發流程的功能。
+The Flutter Property Editor comes equipped with several features designed to
+speed up the development process.
 
-### 檢視元件（Widget）文件
+### Viewing widget documentation
 
-當你在 Flutter Property Editor 選取某個元件（Widget）時，其文件會顯示在頂端。這讓你可以快速閱讀該元件的文件，無需跳轉到定義或在網路上搜尋。
+When a widget is selected in the Flutter Property Editor, its documentation is
+displayed at the top. This allows you to quickly read the widget documentation,
+without needing to jump-to-definition or search online. 
 
-預設情況下，元件文件會被截斷。點擊「顯示更多」即可展開完整文件。
+By default, the widget documentation is truncated. Click on "Show more" to
+expand the widget documentation.
 
 :::tip
-若要在 Flutter Property Editor 中看到你應用程式自訂元件的文件，請務必遵循 [Dart 風格指南][Dart style guide]。
+To see the documentation for your app's custom widgets in the Flutter Property
+Editor, make sure to follow the [Dart style guide][].
 :::
 
 ![Flutter Property Editor gif displaying the documentation for a Text widget](/assets/images/docs/tools/devtools/property-editor-documentation.gif)
 
 [Dart style guide]: {{site.dart-site}}/effective-dart/documentation
 
-### 編輯元件（Widget）屬性
+### Editing widget properties
 
-Flutter Property Editor 針對每個建構函式參數的型別，提供專屬的輸入欄位。
+The Flutter Property Editor contains input fields tailored to the type of each
+constructor argument.
 
-- **string、double 與 int 屬性：**
-    * 這些會以文字輸入欄位的形式呈現。
-    * 只需在欄位中輸入新值即可。
-    * 按下 ••Tab•• 或 ••Enter••，即可將編輯內容直接套用到原始碼。
+- **string, double, and int properties:**
+    * These are represented by text input fields.
+    * Simply type the new value into the field.
+    * Press ••Tab•• or ••Enter•• to apply the edit directly to your source code.
 
-- **boolean 與 enum 屬性：**
-    * 這些會以下拉選單的形式呈現。
-    * 點擊下拉選單即可查看可用選項（`true`/`false` 代表 boolean，或各種 enum 值）。
-    * 從清單中選擇想要的值，即可套用到你的程式碼。
+- **boolean and enum properties:**
+    * These are represented by dropdown menus.
+    * Click the dropdown to see the available options (`true`/`false` for
+      booleans, or the various enum values).
+    * Select the desired value from the list to apply it to your code.
 
-- **object 屬性（例如 `TextStyle`、`EdgeInsets`、`Color`）：**
-    * 目前尚未支援。Flutter Property Editor 尚不支援直接編輯複雜的 object 屬性。你需要直接在原始碼中進行編輯。
+- **object properties (for example, `TextStyle`, `EdgeInsets`, `Color`):**
+    * Currently not supported. The Flutter Property Editor does not yet allow
+      direct editing of complex object properties. You will need to edit these
+      directly in your source code.
 
-### 了解屬性輸入欄位
+### Understanding the property inputs
 
-Flutter Property Editor 中的每個屬性輸入欄位，都會附帶相關資訊，協助你理解其用途。
+Each property input in the Flutter Property Editor is accompanied by information
+to help you understand its usage.
 
-- **型別與名稱：** 建構函式參數的**型別**（例如 `StackFit`）與**名稱**（例如 `fit`）會作為每個輸入欄位的標籤顯示。
+- **Type and name:** The **type** (for example, `StackFit`) and the **name**
+  (for example, `fit`) of the constructor parameter are displayed as a label
+  for each input field.
 
     ![Type and name label for a property input](/assets/images/docs/tools/devtools/property-editor-name-type.png){:width="500px"}
 
-- **資訊提示（ⓘ）：**
-    * 將滑鼠游標懸停在屬性輸入欄位旁的資訊圖示上時，會顯示提示視窗。
-    * 提示內容包含：
-        * 若元件建構函式有定義預設值，則會顯示該屬性的預設值。
-        * 該屬性的相關文件說明。
+- **Info tooltip (ⓘ):**
+    * Hovering over the info icon next to a property input displays a tooltip.
+    * The information in the tooltip includes:
+        * The default value of the property, if one is defined in the widget's constructor.
+        * Any documentation for that property.
 
     ![Info tooltip for a property input](/assets/images/docs/tools/devtools/property-editor-tooltip.png){:width="600px"}
 
-* **「set」與「default」標籤：**
-    * 若屬性已在原始碼中明確設定，則輸入欄位旁會顯示 **「set」** 標籤。這代表在元件建構函式呼叫時有傳入對應參數。
-    * 若目前屬性值與元件中定義的預設參數值相同，則會顯示 **「default」** 標籤。
+* **"Set" and "default" labels:**
+    * The **"set"** label appears next to an input if the property has been
+      explicitly set in your source code. This means there is a corresponding
+      argument provided in the widget constructor call.
+    * The **"default"** label appears next to an input if the current property
+      value matches the default parameter value as defined in the widget.
 
     :::tip
-    若某個屬性輸入欄位同時有「set」與「default」標籤，表示你在程式碼中明確提供了值，但這個值與元件的預設值相同。在這種情況下，你可以安全地將這個參數從程式碼中移除，以讓程式更簡潔，因為元件仍會使用預設值。
+    If a property input has both a "set" and a "default" label, it means you
+    have explicitly provided a value in your code, but this value is the same as
+    the widget's default value for that property. In such cases, you can safely
+    remove this argument from your code to make it more concise, as the widget
+    will use the default value anyway.
     :::
 
     !["Set" and "default" labels for a property input](/assets/images/docs/tools/devtools/property-editor-labels.png){:width="500px"}
 
-### 篩選屬性
+### Filtering properties
 
-對於具有大量屬性的元件（Widgets），篩選列（filter bar）可以協助你快速找到感興趣的屬性。
+For widgets with many properties, the filter bar can help to quickly locate
+properties of interest.
 
-* **以文字篩選：**
-    * 只需在篩選列中輸入文字，屬性列表會動態更新，只顯示符合你輸入內容的屬性。
-    * 你可以依據屬性的名稱、目前值或型別進行篩選。例如：
-        * 輸入「main」會篩選出`mainAxisAlignment`、`mainAxisSize`，或名稱中包含「main」的其他屬性。
-        * 輸入「true」會篩選出目前設為`true`的所有布林（boolean）屬性。
-        * 輸入「double」會篩選出所有型別為`double`的屬性。
+* **Filter by text:**
+    * Simply type into the filter bar. The list of properties will dynamically
+      update to show only those that match your input.
+    * You can filter by a property's name, its current value, or its type. For
+      example:
+        * Typing "main" would filter to `mainAxisAlignment`, `mainAxisSize`, or
+          other properties with "main" in their name.
+        * Typing "true" would filter to all boolean properties currently set to
+          `true`.
+        * Typing "double" would filter to all properties of type `double`.
 
-    ![以文字篩選時，篩選輸入列被標示](/assets/images/docs/tools/devtools/property-editor-filter-text.png){:width="500px"}   
+    ![Filter input with filtering by text highlighted](/assets/images/docs/tools/devtools/property-editor-filter-text.png){:width="500px"}   
 
-* **以「已設定」屬性篩選：**
-    * 使用篩選選單按鈕打開篩選選項，勾選「只包含在程式碼中已設定的屬性」。
-    * 這會隱藏所有未在你的程式碼中明確設定的屬性，讓你能專注於你已明確設定的屬性。
+* **Filter by "set" properties:**
+    * Use the filter menu button to open the filter options. Check "Only
+      include properties that are set in the code."
+    * This hides all properties that have not been explicitly set in your
+      code, allowing you to focus only on the properties you have explicitly set.
 
-    ![以「已設定」屬性篩選時，篩選選單按鈕被標示](/assets/images/docs/tools/devtools/property-editor-filter-menu-button.png){:width="500px"}   
+    ![Filter input with filter menu button highlighted](/assets/images/docs/tools/devtools/property-editor-filter-menu-button.png){:width="500px"}   
 
-* **以正規表示式（regex）篩選：**
-    * regex 切換按鈕（`*` 圖示按鈕）可讓你開啟或關閉篩選輸入的正規表示式模式。
-    * 啟用後，你的篩選文字會被當作正規表示式來解讀。
+* **Filter with a regex:**
+    * The regex toggle (an `*` icon button) allows you to toggle on regex mode
+      for the filter input.
+    * When enabled, your filter text will be interpreted as a regular
+      expression.
 
-    ![以正規表示式篩選時，regex 切換按鈕被標示](/assets/images/docs/tools/devtools/property-editor-filter-regex-toggle.png){:width="500px"} 
+    ![Filter input with regex toggle highlighted](/assets/images/docs/tools/devtools/property-editor-filter-regex-toggle.png){:width="500px"} 
 
-* **清除目前篩選條件：**
-    * 清除按鈕（`X` 圖示按鈕）可清除所有作用中的篩選條件，重新顯示該元件（Widget）的所有屬性。
+* **Clear the current filter:**
+    * The clear button (an `X` icon button) clears out any active filters,
+      displaying all properties of the widget again.
 
-    ![清除篩選時，清除按鈕被標示](/assets/images/docs/tools/devtools/property-editor-filter-clear-button.png){:width="500px"}
+    ![Filter input with clear button highlighted](/assets/images/docs/tools/devtools/property-editor-filter-clear-button.png){:width="500px"}

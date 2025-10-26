@@ -1,49 +1,49 @@
 ---
-title: 為 Android 設定應用程式連結（App Links）
+title: Set up app links for Android
 description: >-
-  學習如何為使用 Flutter 建置的
-  Android 應用程式設定應用程式連結（App Links）。
+  Learn how to set up app links for an
+  Android application built with Flutter.
 ---
 
-深度連結（deep linking）是一種使用 URI 啟動應用程式的機制。
-這個 URI 包含 scheme、host 和 path，
-並可直接開啟應用程式至特定螢幕。
+Deep linking is a mechanism for launching an app with a URI.
+This URI contains scheme, host, and path,
+and opens the app to a specific screen.
 
-_應用程式連結（app link）_ 是一種深層連結（deep link），
-它使用 `http` 或 `https`，且僅限於 Android 裝置。
+An _app link_ is a type of deep link that uses
+`http` or `https` and is exclusive to Android devices.
 
-設定應用程式連結需要擁有一個網域。
-否則，您可以考慮暫時使用 [Firebase Hosting][Firebase Hosting]
-或 [GitHub Pages][GitHub Pages] 作為解決方案。
+Setting up app links requires one to own a web domain.
+Otherwise, consider using [Firebase Hosting][]
+or [GitHub Pages][] as a temporary solution.
 
-當您設定好深層連結（deep links）後，可以進行驗證。
-欲了解更多，請參閱 [驗證深層連結][Validate deep links]。
+Once you've set up your deep links, you can validate them.
+To learn more, see [Validate deep links][].
 
-## 1. 自訂 Flutter 應用程式
+## 1. Customize a Flutter application
 
-撰寫一個可以處理傳入 URL 的 Flutter 應用程式。
-本範例使用 [go_router][go_router] 套件來處理路由。
-Flutter 團隊維護 `go_router` 套件，
-它提供簡單的 API 來應對複雜的路由情境。
+Write a Flutter app that can handle an incoming URL.
+This example uses the [go_router][] package to handle the routing.
+The Flutter team maintains the `go_router` package.
+It provides a simple API to handle complex routing scenarios.
 
- 1. 若要建立新應用程式，請輸入 `flutter create <app-name>`：
+ 1. To create a new application, type `flutter create <app-name>`:
 
     ```console
     $ flutter create deeplink_cookbook
     ```
 
- 2. 若要在您的應用程式中加入 `go_router` 套件，
-    請在專案中新增對 `go_router` 的相依性：
+ 2. To include `go_router` package in your app,
+    add a dependency for `go_router` to the project:
 
-    若要將 `go_router` 套件作為相依性加入，
-    請執行 `flutter pub add`：
+    To add the `go_router` package as a dependency,
+    run `flutter pub add`:
 
     ```console
     $ flutter pub add go_router
     ```
 
- 3. 若要處理路由，
-    請在`main.dart`檔案中建立`GoRouter`物件：
+ 3. To handle the routing,
+    create a `GoRouter` object in the `main.dart` file:
 
     ```dart title="main.dart"
     import 'package:flutter/material.dart';
@@ -72,13 +72,14 @@ Flutter 團隊維護 `go_router` 套件，
     );
     ```
 
-## 2. 修改 AndroidManifest.xml
+## 2. Modify AndroidManifest.xml
 
- 1. 使用 VS Code 或 Android Studio 開啟 Flutter 專案。
- 2. 導航至 `android/app/src/main/AndroidManifest.xml` 檔案。
- 3. 在 `<activity>` 標籤內，並搭配 `.MainActivity`，新增以下 metadata 標籤與 intent filter。
+ 1. Open the Flutter project with VS Code or Android Studio. 
+ 2. Navigate to `android/app/src/main/AndroidManifest.xml` file.
+ 3. Add the following metadata tag and intent filter inside the
+   `<activity>` tag with `.MainActivity`.
 
-    請將 `example.com` 替換為你自己的網域名稱。
+    Replace `example.com` with your own web domain.
 
     ```xml
     <intent-filter android:autoVerify="true">
@@ -91,9 +92,9 @@ Flutter 團隊維護 `go_router` 套件，
     ```
 
     :::version-note
-    如果您使用的 Flutter 版本早於 3.27，
-    需要手動啟用深度連結（deep linking），
-    請在`<activity>`中加入以下 metadata 標籤：
+    If you use a Flutter version earlier than 3.27,
+    you need to manually opt in to deep linking by
+    adding the following metadata tag to `<activity>`:
 
     ```xml
     <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
@@ -101,40 +102,51 @@ Flutter 團隊維護 `go_router` 套件，
     :::
 
     :::note
-    如果你使用第三方套件來處理深層連結 (deep links)，
-    例如 [app_links][app_links]，
-    Flutter 預設的深層連結處理器會
-    造成這些套件無法正常運作。
+    If you use a third-party plugin to handle deep links,
+    such as [app_links][],
+    Flutter's default deeplink handler will
+    break these plugins.
 
-    若要停用 Flutter 預設的深層連結處理器，
-    請在 `<activity>` 中加入以下 metadata 標籤：
+    To opt out of using Flutter's default deep link handler,
+    add the following metadata tag to `<activity>`:
 
     ```xml
     <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
     ```
     :::
 
-## 3. 託管 assetlinks.json 檔案
+## 3. Hosting assetlinks.json file
 
-使用你擁有的網域，在網頁伺服器上託管 `assetlinks.json` 檔案。這個檔案會告訴行動瀏覽器，應該開啟哪個 Android 應用程式，而不是直接在瀏覽器中開啟。要建立這個檔案，請取得你在前一步建立的 Flutter 應用程式的套件名稱（package name），以及你將用來建置 APK 的簽署金鑰（signing key）的 sha256 指紋。
+Host an `assetlinks.json` file in using a web server
+with a domain that you own. This file tells the
+mobile browser which Android application to open instead
+of the browser. To create the file,
+get the package name of the Flutter app you created in
+the previous step and the sha256 fingerprint of the
+signing key you will be using to build the APK.
 
-### 套件名稱（Package name）
+### Package name
 
-在 `AndroidManifest.xml` 中找到套件名稱，位於 `<manifest>` 標籤下的 `package` 屬性。套件名稱通常的格式為 `com.example.*`。
+Locate the package name in `AndroidManifest.xml`,
+the `package` property under `<manifest>` tag.
+Package names are usually in the format of `com.example.*`.
 
-### sha256 指紋
+### sha256 fingerprint
 
-產生 sha256 指紋的流程會依據 APK 的簽署方式有所不同。
+The process might differ depending on how the apk is signed.
 
-#### 使用 Google Play 應用程式簽署（app signing）
+#### Using google play app signing
 
-你可以直接從 Play 開發人員主控台（Play Developer Console）取得 sha256 指紋。請在 Play Console 中開啟你的應用程式，然後到 **Release > Setup > App Integrity > App Signing** 分頁：
+You can find the sha256 fingerprint directly from play
+developer console. Open your app in the play console,
+under **Release> Setup > App Integrity> App Signing tab**:
 
 <img src="/assets/images/docs/cookbook/set-up-app-links-pdc-signing-key.png" alt="Screenshot of sha256 fingerprint in play developer console" width="50%" />
 
-#### 使用本地 keystore
+#### Using local keystore
 
-如果你是將金鑰儲存在本地，可以使用以下指令產生 sha256 指紋：
+If you are storing the key locally,
+you can generate sha256 using the following command:
 
 ```console
 keytool -list -v -keystore <path-to-keystore>
@@ -142,7 +154,7 @@ keytool -list -v -keystore <path-to-keystore>
 
 ### assetlinks.json
 
-託管的檔案應該類似如下所示：
+The hosted file should look similar to this:
 
 ```json
 [{
@@ -156,28 +168,31 @@ keytool -list -v -keystore <path-to-keystore>
 }]
 ```
 
- 1. 將 `package_name` 設定為你的 Android 應用程式 ID。
+ 1. Set the `package_name` value to your Android application ID.
 
-2. 將 sha256_cert_fingerprints 設定為你在前一步取得的值。
+ 2. Set sha256_cert_fingerprints to the value you got
+    from the previous step.
 
-3. 將該檔案託管在類似以下格式的 URL 上：
-   `<webdomain>/.well-known/assetlinks.json`
+ 3.  Host the file at a URL that resembles the following:
+    `<webdomain>/.well-known/assetlinks.json`
 
-4. 確認你的瀏覽器可以存取這個檔案。
+ 4. Verify that your browser can access this file.
 
 :::note
-如果你有多個 flavor，可以在 sha256_cert_fingerprints 欄位中加入多個 sha256_cert_fingerprint 值。
-只需將它們加入 sha256_cert_fingerprints 清單即可。
+If you have multiple flavors, you can have many sha256_cert_fingerprint 
+values in the sha256_cert_fingerprints field. 
+Just add it to the sha256_cert_fingerprints list
 :::
 
-## 測試
+## Testing
 
-你可以使用實體裝置或模擬器（Emulator）來測試 app link，但請先確保你已在裝置上至少執行過一次 `flutter run`。
-這可確保 Flutter 應用程式已安裝。
+You can use a real device or the Emulator to test an app link,
+but first make sure you have executed `flutter run` at least once on
+the devices. This ensures that the Flutter application is installed.
 
 <img src="/assets/images/docs/cookbook/set-up-app-links-emulator-installed.png" alt="Emulator screenshot" width="50%" />
 
-若只需測試 app 設定，可使用 adb 指令：
+To test **only** the app setup, use the adb command:
 
 ```console
 adb shell 'am start -a android.intent.action.VIEW \
@@ -187,27 +202,29 @@ adb shell 'am start -a android.intent.action.VIEW \
 ```
 
 :::note
-這個方法**不會**測試網頁檔案是否被正確託管，
-這個指令會啟動應用程式，
-即使網頁檔案不存在也一樣。
+This doesn't test whether the web files are
+hosted correctly,
+the command launches the app even
+if web files are not presented.
 :::
 
-若要同時測試**網頁與應用程式**的設定，必須直接透過網頁瀏覽器或其他應用程式點擊連結。
-其中一種方式是建立一份 Google 文件，新增該連結，然後點擊它。
+To test **both** web and app setup, you must click a link
+directly through web browser or another app.
+One way is to create a Google Doc, add the link, and tap on it.
 
 :::note
-如果你是在本機偵錯（而不是從 Play 商店下載應用程式），
-你可能需要手動啟用 **Supported web addresses**（支援的網頁位址）開關。
+If you are debugging locally (and not downloading the app from the Play Store),
+you might need to enable the toggle for **Supported web addresses** manually.
 :::
 
-如果一切設定正確，Flutter 應用程式
-會啟動並顯示詳細資料螢幕：
+If everything is set up correctly, the Flutter application
+launches and displays the details screen:
 
 <img src="/assets/images/docs/cookbook/set-up-app-links-emulator-deeplinked.png" alt="Deeplinked Emulator screenshot" width="50%" />
 
-## 附錄
+## Appendix
 
-原始碼：[deeplink_cookbook][deeplink_cookbook]
+Source code: [deeplink_cookbook][]
 
 [deeplink_cookbook]: {{site.github}}/flutter/codelabs/tree/main/deeplink_cookbook
 [Firebase Hosting]: {{site.firebase}}/docs/hosting

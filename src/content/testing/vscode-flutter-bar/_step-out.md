@@ -1,1 +1,1 @@
-![一個藍色圓圈上有向上的小藍色箭頭，表示在 Flutter 應用程式中經過一次執行後離開目前函式](/assets/images/docs/testing/debugging/vscode-ui/icons/step-out.png)
+![Small blue upward arrow over a blue circle that indicates exiting the current function after one passthrough in a Flutter app](/assets/images/docs/testing/debugging/vscode-ui/icons/step-out.png)

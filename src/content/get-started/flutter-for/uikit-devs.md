@@ -1,136 +1,141 @@
 ---
-title: Flutter for UIKit 開發者
-description: 學習如何將 iOS 與 UIKit 開發經驗應用於 Flutter 應用程式開發。
+title: Flutter for UIKit developers
+description: Learn how to apply iOS and UIKit developer knowledge when building Flutter apps.
 ---
 
 <?code-excerpt path-base="get-started/flutter-for/ios_devs"?>
 
-具備 UIKit 開發經驗的 iOS 開發者，
-若想使用 Flutter 開發行動應用程式，
-建議閱讀本指南。
-本指南將說明如何將現有的 UIKit 知識應用於 Flutter。
+iOS developers with experience using UIKit
+who want to write mobile apps using Flutter
+should review this guide.
+It explains how to apply existing UIKit knowledge to Flutter.
 
 :::note
-如果你有使用 SwiftUI 開發應用程式的經驗，
-請參考 [Flutter for SwiftUI developers][Flutter for SwiftUI developers]。
+If you have experience building apps with SwiftUI,
+check out [Flutter for SwiftUI developers][] instead.
 :::
 
-Flutter 是一個用於建構跨平台應用程式的框架，
-採用 Dart 程式語言。
-若想了解 Dart 與 Swift 在程式設計上的差異，
-可參考 [Learning Dart as a Swift Developer][Learning Dart as a Swift Developer]
-以及 [Flutter concurrency for Swift developers][Flutter concurrency for Swift developers]。
+Flutter is a framework for building cross-platform applications
+that uses the Dart programming language.
+To understand some differences between programming with Dart
+and programming with Swift,
+check out [Learning Dart as a Swift Developer][]
+and [Flutter concurrency for Swift developers][].
 
-你在 iOS 與 UIKit 上的知識與經驗，
-在使用 Flutter 開發時同樣非常有價值。
+Your iOS and UIKit knowledge and experience
+are highly valuable when building with Flutter.
 {% comment %}
   TODO: Add talk about plugin system for interacting with OS and hardware
-  when [iOS and Apple hardware interactions with Flutter][iOS and Apple hardware interactions with Flutter] is released.
+  when [iOS and Apple hardware interactions with Flutter][] is released.
 {% endcomment -%}
 
-Flutter 也針對在 iOS 執行時的應用程式行為做了多項調整。
-想了解詳情，請參閱 [Platform adaptations][Platform adaptations]。
+Flutter also makes a number of adaptations
+to app behavior when running on iOS.
+To learn how, see [Platform adaptations][].
 
 :::tip
-若要將 Flutter 程式碼整合至**現有**的 iOS 應用程式中，
-請參考 [Add Flutter to existing app][Add Flutter to existing app]。
+To integrate Flutter code into an **existing** iOS app,
+check out [Add Flutter to existing app][].
 :::
 
-請將本指南視為一本食譜，
-可依需求跳閱，尋找最符合你需求的解答。
+Use this guide as a cookbook.
+Jump around and find questions that address your most relevant needs.
 
-## 概覽
+## Overview
 
-作為入門，請觀看以下影片。
-影片將說明 Flutter 在 iOS 上的運作方式，以及如何使用 Flutter 開發 iOS 應用程式。
+As an introduction, watch the following video.
+It outlines how Flutter works on iOS and how to use Flutter to build iOS apps.
 
 {% ytEmbed 'ceMsPBbcEGg', 'Flutter for iOS developers', true %}
 
 ### Views vs. Widgets
 
 :::secondary
-React 風格或稱_宣告式_（declarative）的程式設計，
-與傳統的命令式（imperative）程式設計有何不同？
-如需比較，請參閱 [Introduction to declarative UI][Introduction to declarative UI]。
+How is react-style, or _declarative_,
+programming different from the
+traditional imperative style?
+For a comparison, see [Introduction to declarative UI][].
 :::
 
-在 UIKit 中，你建立 UI 大多是透過視圖物件，
-也就是 `UIView` 類別的實例。
-這些視圖可以作為其他 `UIView` 類別的容器，
-共同組成你的版面配置。
+In UIKit, most of what you create in the UI is done using view objects,
+which are instances of the `UIView` class.
+These can act as containers for other `UIView` classes,
+which form your layout.
 
-在 Flutter 中，與 `UIView` 大致相當的概念是 `Widget`。
-元件（Widgets）並不完全等同於 iOS 的 views，
-但在熟悉 Flutter 運作方式時，
-你可以將它們視為「宣告與建構 UI 的方式」。
+In Flutter, the rough equivalent to a `UIView` is a `Widget`.
+Widgets don't map exactly to iOS views,
+but while you're getting acquainted with how Flutter works
+you can think of them as "the way you declare and construct UI".
 
-然而，這兩者與 `UIView` 仍有一些差異。
-首先，元件（Widgets）有不同的生命週期：它們是不可變的，
-僅存在於需要變更之前。
-每當元件或其狀態發生變化時，
-Flutter 框架會建立一個新的元件樹。
-相比之下，UIKit 的 view 在變更時並不會被重新建立，
-而是作為可變的實體，只會在使用 `setNeedsDisplay()` 使其失效後才重新繪製。
+However, these have a few differences to a `UIView`.
+To start, widgets have a different lifespan: they are immutable
+and only exist until they need to be changed.
+Whenever widgets or their state change,
+Flutter's framework creates a new tree of widget instances.
+In comparison, a UIKit view is not recreated when it changes,
+but rather it's a mutable entity that is drawn once
+and doesn't redraw until it is invalidated using `setNeedsDisplay()`.
 
-此外，不同於 `UIView`，Flutter 的元件（Widgets）非常輕量，
-部分原因是它們的不可變特性。
-因為元件本身並不是 view，
-也不直接負責繪製任何內容，
-而是作為 UI 及其語意的描述，
-最終會在底層「展開」成實際的視圖物件。
+Furthermore, unlike `UIView`, Flutter's widgets are lightweight,
+in part due to their immutability.
+Because they aren't views themselves,
+and aren't directly drawing anything,
+but rather are a description of the UI and its semantics
+that get "inflated" into actual view objects under the hood.
 
-Flutter 內建了 [Material Components][Material Components] 函式庫，
-這些元件實作了
-[Material Design 指南][Material Design guidelines]。
-Material Design 是一套彈性的設計系統，
-[針對所有平台最佳化][optimized for all platforms]，包含 iOS。
+Flutter includes the [Material Components][] library.
+These are widgets that implement the
+[Material Design guidelines][].
+Material Design is a flexible design system
+[optimized for all platforms][], including iOS.
 
-但 Flutter 本身足夠靈活且具表現力，
-可以實現任何設計語言。
-在 iOS 上，你可以使用 [Cupertino 元件 (Widgets)][Cupertino widgets]
-函式庫，打造外觀符合
-[Apple 的 iOS 設計語言][Apple's iOS design language] 的介面。
+But Flutter is flexible and expressive enough
+to implement any design language.
+On iOS, you can use the [Cupertino widgets][]
+library to produce an interface that looks like
+[Apple's iOS design language][].
 
-### 更新元件（Widgets）
+### Updating widgets
 
-在 UIKit 中，若要更新視圖，你會直接修改它們。
-在 Flutter 中，元件（Widgets）是不可變的，不能直接更新。
-你需要操作的是元件的狀態（state）。
+To update your views in UIKit, you directly mutate them.
+In Flutter, widgets are immutable and not updated directly.
+Instead, you have to manipulate the widget's state.
 
-這就是 Stateful 與 Stateless 元件（Widgets）概念的由來。
-`StatelessWidget` 顧名思義，
-就是沒有任何狀態的元件。
+This is where the concept of Stateful vs Stateless widgets
+comes in. A `StatelessWidget` is just what it sounds
+like&mdash;a widget with no state attached.
 
-`StatelessWidgets` 適用於你要描述的 UI 部分，
-只依賴元件初始設定資訊，不會因其他因素而改變。
+`StatelessWidgets` are useful when the part of the user interface you are
+describing does not depend on anything other than the initial configuration
+information in the widget.
 
-舉例來說，在 UIKit 中，這類情境就像放置一個 `UIImageView`，
-並將你的 logo 設為 `image`。如果 logo 在執行期間不會變動，
-那麼在 Flutter 中就可以使用 `StatelessWidget`。
+For example, with UIKit, this is similar to placing a `UIImageView`
+with your logo as the `image`. If the logo is not changing during runtime,
+use a `StatelessWidget` in Flutter.
 
-如果你希望根據 HTTP 請求取得的資料動態改變 UI，
-則應使用 `StatefulWidget`。
-當 HTTP 請求完成後，需通知 Flutter 框架
-該元件的 `State` 已更新，讓 UI 能隨之變更。
+If you want to dynamically change the UI based on data received
+after making an HTTP call, use a `StatefulWidget`.
+After the HTTP call has completed, tell the Flutter framework
+that the widget's `State` is updated, so it can update the UI.
 
-無狀態與有狀態元件（Widgets）最重要的差異在於，
-`StatefulWidget` 會擁有一個 `State` 物件，
-用來儲存狀態資料，並在元件樹重建時保留這些資料，
-不會遺失。
+The important difference between stateless and
+stateful widgets is that `StatefulWidget`s have a `State` object
+that stores state data and carries it over across tree rebuilds,
+so it's not lost.
 
-如果你不確定該用哪一種，請記住這個原則：
-如果元件會在 `build` 方法之外發生變化
-（例如因為執行期間的使用者互動），
-那就是有狀態元件。
-如果元件在建立後就不會再變動，則是無狀態元件。
-不過，即使某個元件是有狀態的，
-其父元件只要本身不會響應這些變化（或其他輸入），
-仍然可以是無狀態元件。
+If you are in doubt, remember this rule:
+if a widget changes outside of the `build` method
+(because of runtime user interactions, for example),
+it's stateful.
+If the widget never changes, once built, it's stateless.
+However, even if a widget is stateful, the containing parent widget
+can still be stateless if it isn't itself reacting to those changes
+(or other inputs).
 
-以下範例展示如何使用 `StatelessWidget`。
-一個常見的 `StatelessWidget` 是 `Text` 元件。
-如果你查看 `Text` 元件的實作，
-會發現它是繼承自 `StatelessWidget`。
+The following example shows how to use a `StatelessWidget`.
+A common`StatelessWidget` is the `Text` widget.
+If you look at the implementation of the `Text` widget,
+you'll find it subclasses `StatelessWidget`.
 
 <?code-excerpt "lib/text_widget.dart (text-widget)" replace="/return const //g"?>
 ```dart
@@ -140,13 +145,17 @@ Text(
 );
 ```
 
-如果你查看上面的程式碼，可能會注意到`Text`元件（Widget）本身並沒有帶有任何明確的狀態。它只會渲染在其建構函式中傳入的內容，除此之外沒有其他行為。
+If you look at the code above, you might notice that the `Text` widget
+carries no explicit state with it. It renders what is passed in its
+constructors and nothing more.
 
-但如果你想讓「I Like Flutter」這段文字能夠動態改變，例如當點擊`FloatingActionButton`時該怎麼辦？
+But, what if you want to make "I Like Flutter" change dynamically,
+for example when clicking a `FloatingActionButton`?
 
-要實現這個功能，可以將`Text`元件包裹在`StatefulWidget`中，並在使用者點擊按鈕時進行更新。
+To achieve this, wrap the `Text` widget in a `StatefulWidget` and
+update it when the user clicks the button.
 
-舉例如下：
+For example:
 
 <?code-excerpt "lib/text_widget.dart (stateful-widget)"?>
 ```dart
@@ -194,13 +203,14 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-### 元件（Widget）版面配置
+### Widget layout
 
-在 UIKit 中，你可能會使用 Storyboard 檔案來組織你的視圖並設定約束（constraints），
-或者你也可以在 view controller 中以程式方式設定約束。
-在 Flutter 中，則是透過組合元件樹（widget tree）在程式碼中宣告你的版面配置。
+In UIKit, you might use a Storyboard file
+to organize your views and set constraints,
+or you might set your constraints programmatically in your view controllers.
+In Flutter, declare your layout in code by composing a widget tree.
 
-以下範例展示如何顯示一個帶有內距（padding）的簡單元件：
+The following example shows how to display a simple widget with padding:
 
 <?code-excerpt "lib/layout.dart (simple-widget)"?>
 ```dart
@@ -219,15 +229,25 @@ Widget build(BuildContext context) {
 }
 ```
 
-你可以為任何元件（Widget）新增內距（padding），這類似於 iOS 中 constraints 的功能。
+You can add padding to any widget,
+which mimics the functionality of constraints in iOS.
 
-你可以在 [widget catalog][widget catalog] 中查看 Flutter 提供的各種版面配置元件（Layout widgets）。
+You can view the layouts that Flutter has to offer
+in the [widget catalog][].
 
-### 移除元件（Widgets）
+### Removing Widgets
 
-在 UIKit 中，你可以在父視圖上呼叫 `addSubview()`，或在子視圖上呼叫 `removeFromSuperview()`，以動態新增或移除子視圖。在 Flutter 中，由於元件（Widgets）是不可變的，因此沒有直接對應 `addSubview()` 的方法。取而代之的是，你可以傳遞一個函式給父元件，該函式會回傳一個元件，並透過布林旗標來控制該子元件的建立。
+In UIKit, you call `addSubview()` on the parent,
+or `removeFromSuperview()` on a child view
+to dynamically add or remove child views.
+In Flutter, because widgets are immutable,
+there is no direct equivalent to `addSubview()`.
+Instead, you can pass a function to the parent
+that returns a widget, and control that child's creation
+with a boolean flag.
 
-以下範例展示了當使用者點擊 `FloatingActionButton` 時，如何在兩個元件之間切換顯示：
+The following example shows how to toggle between two widgets
+when the user clicks the `FloatingActionButton`:
 
 <?code-excerpt "lib/layout.dart (toggle-widget)"?>
 ```dart
@@ -281,29 +301,35 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-### 動畫 (Animation)
+### Animations
 
-在 UIKit 中，你可以透過在 view 上呼叫 `animate(withDuration:animations:)` 方法來建立動畫 (Animation)。
-在 Flutter 中，則使用動畫函式庫 (animation library)
-將元件 (Widget) 包裹在動畫元件 (animated widget) 內。
+In UIKit, you create an animation by calling the
+`animate(withDuration:animations:)` method on a view.
+In Flutter, use the animation library
+to wrap widgets inside an animated widget.
 
-在 Flutter 中，請使用 `AnimationController`，它是一個可以暫停、快轉、停止及反轉動畫的 `Animation<double>`。
-它需要一個 `Ticker`，用來在 vsync 發生時發出訊號，
-並在動畫執行期間於每一幀產生 0 到 1 之間的線性內插值。
-接著，你可以建立一個或多個 `Animation`，並將它們附加到控制器上。
+In Flutter, use an `AnimationController`, which is an `Animation<double>`
+that can pause, seek, stop, and reverse the animation.
+It requires a `Ticker` that signals when vsync happens
+and produces a linear interpolation
+between 0 and 1 on each frame while it's running.
+You then create one or more
+`Animation`s and attach them to the controller.
 
-例如，你可以使用 `CurvedAnimation`
-來沿著內插曲線 (interpolated curve) 實現動畫效果。
-在這個意義上，控制器 (controller) 是動畫進度的「主」來源，
-而 `CurvedAnimation` 則計算用來取代控制器預設線性運動的曲線。
-就像元件 (Widgets) 一樣，Flutter 中的動畫 (Animation) 也採用組合式 (composition) 運作。
+For example, you might use `CurvedAnimation`
+to implement an animation along an interpolated curve.
+In this sense, the controller is the "master" source
+of the animation progress
+and the `CurvedAnimation` computes the curve
+that replaces the controller's default linear motion.
+Like widgets, animations in Flutter work with composition.
 
-當你建立元件樹 (widget tree) 時，可以將 `Animation` 指派給元件的動畫屬性，
-例如 `FadeTransition` 的透明度 (opacity)，
-然後指示控制器開始執行動畫。
+When building the widget tree you assign the `Animation` to an animated
+property of a widget, such as the opacity of a `FadeTransition`,
+and tell the controller to start the animation.
 
-以下範例展示如何撰寫一個 `FadeTransition`，
-當你按下 `FloatingActionButton` 時，會將元件淡入顯示為 logo：
+The following example shows how to write a `FadeTransition` that
+fades the widget into a logo when you press the `FloatingActionButton`:
 
 <?code-excerpt "lib/animation.dart"?>
 ```dart
@@ -374,13 +400,18 @@ class _MyFadeTest extends State<MyFadeTest>
 }
 ```
 
-如需更多資訊，請參閱 [動畫與動態元件][Animation & Motion widgets]、[動畫教學][Animations tutorial]，以及 [動畫總覽][Animations overview]。
+For more information, see [Animation & Motion widgets][],
+the [Animations tutorial][], and the [Animations overview][].
 
-### 螢幕繪製
+### Drawing on the screen
 
-在 UIKit 中，你會使用 `CoreGraphics` 來在螢幕上繪製線條和圖形。Flutter 則有一套不同的 API，主要基於 `Canvas` 類別，並搭配另外兩個協助繪製的類別：`CustomPaint` 和 `CustomPainter`，其中 `CustomPainter` 會實作你的繪製演算法，將內容繪製到畫布上。
+In UIKit, you use `CoreGraphics` to draw lines and shapes to the
+screen. Flutter has a different API based on the `Canvas` class,
+with two other classes that help you draw: `CustomPaint` and `CustomPainter`,
+the latter of which implements your algorithm to draw to the canvas.
 
-若想了解如何在 Flutter 中實作簽名繪圖功能，請參考 Collin 在 [StackOverflow][StackOverflow] 上的解答。
+To learn how to implement a signature painter in Flutter,
+see Collin's answer on [StackOverflow][].
 
 [StackOverflow]: {{site.so}}/questions/46241071/create-signature-area-for-mobile-app-in-dart-flutter
 
@@ -451,22 +482,23 @@ class SignaturePainter extends CustomPainter {
 }
 ```
 
-### 元件透明度
+### Widget opacity
 
-在 UIKit 中，一切都有 `.opacity` 或 `.alpha`。
-在 Flutter 中，大多數情況下你需要
-將元件（Widget）包裹在 `Opacity` 元件中來達到這個效果。
+In UIKit, everything has `.opacity` or `.alpha`.
+In Flutter, most of the time you need to
+wrap a widget in an `Opacity` widget to accomplish this.
 
-### 自訂元件
+### Custom Widgets
 
-在 UIKit 中，你通常會繼承 `UIView`，或使用現有的 view，
-以覆寫並實作方法來達到你想要的行為。
-在 Flutter 中，則是透過[組合][composing]較小的元件來建立自訂元件
-（而不是繼承它們）。
+In UIKit, you typically subclass `UIView`, or use a pre-existing view,
+to override and implement methods that achieve the desired behavior.
+In Flutter, build a custom widget by [composing][] smaller widgets
+(instead of extending them).
 
-舉例來說，如何建立一個在建構函式中接收 label 的 `CustomButton`？
-你可以建立一個 CustomButton，將 `ElevatedButton` 與 label 組合起來，
-而不是繼承 `ElevatedButton`：
+For example, how do you build a `CustomButton`
+that takes a label in the constructor?
+Create a CustomButton that composes a `ElevatedButton` with a label,
+rather than by extending `ElevatedButton`:
 
 <?code-excerpt "lib/custom.dart (custom-button)"?>
 ```dart
@@ -482,7 +514,8 @@ class CustomButton extends StatelessWidget {
 }
 ```
 
-然後就可以像使用其他 Flutter 元件（Widgets）一樣，使用 `CustomButton`：
+Then use `CustomButton`,
+just as you'd use any other Flutter widget:
 
 <?code-excerpt "lib/custom.dart (use-custom-button)"?>
 ```dart
@@ -492,38 +525,46 @@ Widget build(BuildContext context) {
 }
 ```
 
-### 管理相依套件
+### Managing dependencies
 
-在 iOS 中，你可以透過 CocoaPods，將相依套件加入`Podfile` 來管理。
-Flutter 則使用 Dart 的建置系統以及 Pub 套件管理工具來處理相依套件。
-這些工具會將原生 Android 和 iOS 包裝應用程式的建置工作，委派給各自的平台建置系統。
+In iOS, you add dependencies with CocoaPods by adding to your `Podfile`.
+Flutter uses Dart's build system and the Pub package manager
+to handle dependencies. The tools delegate the building of the
+native Android and iOS wrapper apps to the
+respective build systems.
 
-雖然在你的 Flutter 專案的 iOS 資料夾中會有一個 Podfile，但只有在你需要針對特定平台整合原生相依套件時才需要使用它。
-一般來說，請使用 `pubspec.yaml` 來宣告 Flutter 的外部相依套件。
-你可以在 [pub.dev][pub.dev] 上找到許多優質的 Flutter 套件。
+While there is a Podfile in the iOS folder in your
+Flutter project, only use this if you are adding native
+dependencies needed for per-platform integration.
+In general, use `pubspec.yaml` to declare external dependencies in Flutter.
+A good place to find great packages for Flutter is on [pub.dev][].
 
-## 導覽（Navigation）
+## Navigation
 
-本節將說明應用程式頁面之間的導覽、push 與 pop 機制等內容。
+This section of the document discusses navigation
+between pages of an app, the push and pop mechanism, and more.
 
-### 頁面之間的導覽
+### Navigating between pages
 
-在 UIKit 中，若要在 view controller 之間切換，你可以使用`UINavigationController` 來管理 view controller 堆疊並顯示。
+In UIKit, to travel between view controllers, you can use a
+`UINavigationController` that manages the stack of view controllers
+to display.
 
-Flutter 也有類似的實作方式，
-是透過`Navigator` 與 `Routes`。
-`Route` 是對應用程式「螢幕」或「頁面」的抽象概念，
-而 `Navigator` 則是一個[元件 (Widget)][widget]，
-用來管理路由。Route 大致上對應到
-`UIViewController`。Navigator 的運作方式與 iOS 的
-`UINavigationController` 類似，可以根據你要前往或返回某個畫面，執行 `push()` 與 `pop()` 路由的動作。
+Flutter has a similar implementation,
+using a `Navigator` and `Routes`.
+A `Route` is an abstraction for a "screen" or "page" of an app,
+and a `Navigator` is a [widget][]
+that manages routes. A route roughly maps to a
+`UIViewController`. The navigator works in a similar way to the iOS
+`UINavigationController`, in that it can `push()` and `pop()`
+routes depending on whether you want to navigate to, or back from, a view.
 
-要在頁面間導覽，你有幾種選擇：
+To navigate between pages, you have a couple options:
 
-* 指定`Map`（命名路由）的名稱清單。
-* 直接導覽至某個路由。
+* Specify a `Map` of route names.
+* Directly navigate to a route.
 
-以下範例建立了一個`Map.`
+The following example builds a `Map.`
 
 <?code-excerpt "lib/intent.dart (map)"?>
 ```dart
@@ -541,36 +582,46 @@ void main() {
 }
 ```
 
-透過將其名稱`push`到`Navigator`來導覽至指定的路由（Route）。
+Navigate to a route by `push`ing its name to the `Navigator`.
 
 <?code-excerpt "lib/intent.dart (push)"?>
 ```dart
 Navigator.of(context).pushNamed('/b');
 ```
 
-`Navigator` 類別負責在 Flutter 中處理路由，並用於從你推送到堆疊上的路由取得回傳結果。這可以透過在 `push()` 回傳的 `Future` 上`await`來完成。
+The `Navigator` class handles routing in Flutter and is used to get
+a result back from a route that you have pushed on the stack.
+This is done by `await`ing on the `Future` returned by `push()`.
 
-例如，若要啟動一個讓使用者選擇所在地點的 `location` 路由，你可以這樣做：
+For example, to start a `location` route that lets the user select their
+location, you might do the following:
 
 <?code-excerpt "lib/intent.dart (push-await)"?>
 ```dart
 Object? coordinates = await Navigator.of(context).pushNamed('/location');
 ```
 
-然後，在你的 `location` 路由（Route）中，當使用者選擇好他們的位置後，`pop()` 堆疊（stack），並帶上結果：
+And then, inside your `location` route, once the user has selected their
+location, `pop()` the stack with the result:
 
 <?code-excerpt "lib/intent.dart (pop)"?>
 ```dart
 Navigator.of(context).pop({'lat': 43.821757, 'long': -79.226392});
 ```
 
-### 導航至其他應用程式
+### Navigating to another app
 
-在 UIKit 中，若要將使用者導向另一個應用程式，會使用特定的 URL scheme。對於系統層級的應用程式，所使用的 scheme 取決於該應用程式。若要在 Flutter 中實現此功能，可以建立原生平台整合，或使用[現有的套件][existing plugin]，例如 [`url_launcher`][`url_launcher`]。
+In UIKit, to send the user to another application,
+you use a specific URL scheme.
+For the system level apps, the scheme depends on the app.
+To implement this functionality in Flutter,
+create a native platform integration, or use an
+[existing plugin][], such as [`url_launcher`][].
 
-### 手動返回上一層
+### Manually pop back
 
-從 Dart 程式碼中呼叫 `SystemNavigator.pop()`，會觸發以下的 iOS 程式碼：
+Calling `SystemNavigator.pop()` from your Dart code
+invokes the following iOS code:
 
 ```objc
 UIViewController* viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
@@ -579,15 +630,15 @@ if ([viewController isKindOfClass:[UINavigationController class]]) {
 }
 ```
 
-如果這樣還無法達到你的需求，你可以自行建立
-[platform channel][platform channel] 來呼叫任意的 iOS 程式碼。
+If that doesn't do what you want, you can create your own
+[platform channel][] to invoke arbitrary iOS code.
 
-### 處理在地化（localization）
+### Handling localization
 
-與 iOS 使用 `Localizable.strings` 檔案不同，
-Flutter 目前尚未有專門處理字串的系統。
-目前的最佳實踐是將你的文案字串
-宣告在一個 class 中作為 static 欄位，並從該處存取。例如：
+Unlike iOS, which has the `Localizable.strings` file,
+Flutter doesn't currently have a dedicated system for handling strings.
+At the moment, the best practice is to declare your copy text
+in a class as static fields and access them from there. For example:
 
 <?code-excerpt "lib/string_examples.dart (strings)"?>
 ```dart
@@ -596,16 +647,18 @@ class Strings {
 }
 ```
 
-你可以這樣存取你的字串：
+You can access your strings as such:
 
 <?code-excerpt "lib/string_examples.dart (access-string)" replace="/const //g; /return //g;"?>
 ```dart
 Text(Strings.welcomeMessage);
 ```
 
-預設情況下，Flutter 只支援美式英文（US English）字串。
-如果你需要支援其他語言，請加入 `flutter_localizations` 套件。
-你也可能需要加入 Dart 的 [`intl`][`intl`] 套件，以使用 i10n 機制，例如日期／時間格式化。
+By default, Flutter only supports US English for its strings.
+If you need to add support for other languages,
+include the `flutter_localizations` package.
+You might also need to add Dart's [`intl`][]
+package to use i10n machinery, such as date/time formatting.
 
 ```yaml
 dependencies:
@@ -614,9 +667,9 @@ dependencies:
   intl: any # Use version of intl from flutter_localizations.
 ```
 
-要使用 `flutter_localizations` 套件，
-請在應用程式的元件（Widget）上指定 `localizationsDelegates` 和
-`supportedLocales`：
+To use the `flutter_localizations` package,
+specify the `localizationsDelegates` and
+`supportedLocales` on the app widget:
 
 <?code-excerpt "lib/localizations_example.dart"?>
 ```dart
@@ -644,51 +697,104 @@ class MyWidget extends StatelessWidget {
 }
 ```
 
-委派（delegates）包含實際的在地化值，而`supportedLocales`則定義了應用程式支援哪些語系。上面的範例使用了`MaterialApp`，因此同時有`GlobalWidgetsLocalizations`（用於基礎元件 (Widgets) 的在地化值）以及`MaterialWidgetsLocalizations`（用於 Material 元件 (Material components) 的在地化值）。如果你的應用程式使用`WidgetsApp`，則不需要後者。請注意，這兩個委派都包含「預設」值，但如果你希望自己的應用程式內容也能在地化，則需要另外提供一個或多個委派來處理你自訂的可在地化內容。
+The delegates contain the actual localized values,
+while the `supportedLocales` defines which locales the app supports.
+The above example uses a `MaterialApp`,
+so it has both a `GlobalWidgetsLocalizations`
+for the base widgets localized values,
+and a `MaterialWidgetsLocalizations` for the Material widgets localizations.
+If you use `WidgetsApp` for your app, you don't need the latter.
+Note that these two delegates contain "default" values,
+but you'll need to provide one or more delegates
+for your own app's localizable copy,
+if you want those to be localized too.
 
-初始化時，`WidgetsApp`（或`MaterialApp`）會根據你指定的委派，為你建立一個 [`Localizations`][`Localizations`] 元件 (Widget)。裝置目前的語系，隨時可以從當前 context 的`Localizations`元件（以`Locale`物件的形式）取得，或是使用 [`Window.locale`][`Window.locale`]。
+When initialized, the `WidgetsApp` (or `MaterialApp`)
+creates a [`Localizations`][] widget for you,
+with the delegates you specify.
+The current locale for the device is always accessible
+from the `Localizations` widget from the current context
+(in the form of a `Locale` object), or using the [`Window.locale`][].
 
-若要存取在地化資源，請使用`Localizations.of()`方法，取得由指定委派所提供的特定在地化類別。使用 [`intl_translation`][`intl_translation`] 套件，將可翻譯內容匯出為 [arb][arb] 檔案進行翻譯，然後再匯入回應用程式，搭配`intl`使用。
+To access localized resources, use the `Localizations.of()` method
+to access a specific localizations class that is provided by a given delegate.
+Use the [`intl_translation`][] package to extract translatable copy
+to [arb][] files for translating, and importing them back into the app
+for using them with `intl`.
 
-如需更多 Flutter 國際化與在地化的細節，請參閱 [internationalization guide][internationalization guide]，其中包含有使用與未使用`intl`套件的範例程式碼。
+For further details on internationalization and localization in Flutter,
+see the [internationalization guide][], which has sample code
+with and without the `intl` package.
 
 ## ViewControllers
 
-本節將說明 Flutter 中對應 ViewController 的概念，以及如何監聽生命週期事件。
+This section of the document discusses the equivalent
+of ViewController in Flutter and how to listen to
+lifecycle events.
 
-### Flutter 中的 ViewController 對應
+### Equivalent of ViewController in Flutter
 
-在 UIKit 中，`ViewController` 代表一部分使用者介面，最常用於一個螢幕或區段。這些 ViewController 可以組合起來，建立複雜的使用者介面，有助於擴展應用程式的 UI。在 Flutter 中，這個角色則由元件 (Widgets) 擔任。如同在「導覽」章節所述，Flutter 中的螢幕是由元件 (Widgets) 表示，因為「一切皆為元件 (Widget)！」。你可以使用`Navigator`在不同的`Route`之間切換，這些`Route`代表不同的螢幕或頁面，或是同一資料的不同狀態或呈現方式。
+In UIKit, a `ViewController` represents a portion of user interface,
+most commonly used for a screen or section.
+These are composed together to build complex user interfaces,
+and help scale your application's UI.
+In Flutter, this job falls to Widgets.
+As mentioned in the Navigation section,
+screens in Flutter are represented by Widgets since
+"everything is a widget!"
+Use a `Navigator` to move between different `Route`s
+that represent different screens or pages,
+or maybe different states or renderings of the same data.
 
-### 監聽生命週期事件
+### Listening to lifecycle events
 
-在 UIKit 中，你可以覆寫`ViewController`的方法，來攔截視圖本身的生命週期方法，或是在`AppDelegate`中註冊生命週期回呼。在 Flutter 中，沒有這兩個概念，但你可以透過註冊`WidgetsBinding`觀察者，並監聽`didChangeAppLifecycleState()`變更事件，來達到監聽生命週期事件的目的。
+In UIKit, you can override methods to the `ViewController`
+to capture lifecycle methods for the view itself,
+or register lifecycle callbacks in the `AppDelegate`.
+In Flutter, you have neither concept, but you can instead
+listen to lifecycle events by hooking into
+the `WidgetsBinding` observer and listening to
+the `didChangeAppLifecycleState()` change event.
 
-可觀察的生命週期事件包括：
+The observable lifecycle events are:
 
 **`inactive`**
-：應用程式處於非活動狀態，且不會接收使用者輸入。此事件僅適用於 iOS，Android 沒有對應事件。
+: The application is in an inactive state and is not receiving
+user input. This event only works on iOS,
+as there is no equivalent event on Android.
 
 **`paused`**
-：應用程式目前對使用者不可見，不會回應使用者輸入，但仍在背景執行。
+: The application is not currently visible to the user,
+is not responding to user input, but is running in the background.
 
 **`resumed`**
-：應用程式可見，且正在回應使用者輸入。
+: The application is visible and responding to user input.
 
 **`suspending`**
-：應用程式暫時被掛起。iOS 平台沒有對應事件。
+: The application is suspended momentarily.
+The iOS platform has no equivalent event.
 
-如需這些狀態的詳細說明，請參閱 [`AppLifecycleState` documentation][`AppLifecycleState` documentation]。
+For more details on the meaning of these states, see
+[`AppLifecycleState` documentation][].
 
-## 版面配置（Layouts）
+## Layouts
 
-本節將說明 Flutter 中的不同版面配置方式，以及它們與 UIKit 的對應關係。
+This section discusses different layouts in Flutter
+and how they compare with UIKit.
 
-### 顯示列表檢視（List View）
+### Displaying a list view
 
-在 UIKit 中，你可以使用`UITableView`或`UICollectionView`來顯示列表。在 Flutter 中，則有類似的實作方式，使用`ListView`。在 UIKit 中，這些檢視有委派方法（delegate methods）來決定列數、每個 index path 的 cell，以及 cell 的大小。
+In UIKit, you might show a list in
+either a `UITableView` or a `UICollectionView`.
+In Flutter, you have a similar implementation using a `ListView`.
+In UIKit, these views have delegate methods
+for deciding the number of rows,
+the cell for each index path, and the size of the cells.
 
-由於 Flutter 採用不可變元件（immutable widget）模式，你只需將元件 (Widgets) 清單傳遞給`ListView`，Flutter 會自動確保捲動時的流暢與效能。
+Due to Flutter's immutable widget pattern,
+you pass a list of widgets to your `ListView`,
+and Flutter takes care of making sure that
+scrolling is fast and smooth.
 
 <?code-excerpt "lib/listview.dart"?>
 ```dart
@@ -736,10 +842,11 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-### 偵測被點擊的項目
+### Detecting what was clicked
 
-在 UIKit 中，你會實作委派方法 `tableView:didSelectRowAtIndexPath:`。  
-在 Flutter 中，則使用傳入元件 (Widgets) 所提供的觸控處理功能。
+In UIKit, you implement the delegate method,
+`tableView:didSelectRowAtIndexPath:`.
+In Flutter, use the touch handling provided by the passed-in widgets.
 
 <?code-excerpt "lib/list_item_tapped.dart"?>
 ```dart
@@ -796,17 +903,27 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-### 動態更新 ListView
+### Dynamically updating ListView
 
-在 UIKit 中，你會更新 list view 的資料，並使用 `reloadData` 方法來通知 table 或 collection view。
+In UIKit, you update the data for the list view,
+and notify the table or collection view using the
+`reloadData` method.
 
-在 Flutter 中，如果你在 `setState()` 內部更新 widget 清單，你會很快發現資料在畫面上沒有任何變化。  
-這是因為當呼叫 `setState()` 時，Flutter 的渲染引擎會檢查 widget tree，來判斷是否有任何變動。  
-當它遍歷到你的 `ListView` 時，會執行 `==` 檢查，並判斷兩個 `ListView` 是相同的。  
-既然沒有任何變化，因此不需要更新。
+In Flutter, if you update the list of widgets inside a `setState()`,
+you quickly see that your data doesn't change visually.
+This is because when `setState()` is called,
+the Flutter rendering engine looks at the widget tree
+to see if anything has changed.
+When it gets to your `ListView`, it performs an `==` check,
+and determines that the two `ListView`s are the same.
+Nothing has changed, so no update is required.
 
-如果你想用簡單的方法來更新你的 `ListView`，可以在 `setState()` 內部建立一個新的 `List`，然後將舊清單的資料複製到新清單。  
-這種做法雖然簡單，但不建議用於大量資料集，下一個範例會說明原因。
+For a simple way to update your `ListView`,
+create a new `List` inside of `setState()`,
+and copy the data from the old list to the new list.
+While this approach is simple,
+it is not recommended for large data sets,
+as shown in the next example.
 
 <?code-excerpt "lib/listview_dynamic.dart"?>
 ```dart
@@ -869,8 +986,10 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-建議且高效、有效率地建立清單的方法是使用`ListView.Builder`。  
-當你有動態清單或資料量非常大的清單時，這種方法特別適合。
+The recommended, efficient,
+and effective way to build a list uses a `ListView.Builder`.
+This method is great when you have a dynamic
+list or a list with very large amounts of data.
 
 <?code-excerpt "lib/listview_builder.dart"?>
 ```dart
@@ -936,17 +1055,26 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-與其建立`ListView`，請建立`ListView.builder`，並傳入兩個主要參數：清單的初始長度，以及`ItemBuilder`函式。
+Instead of creating a `ListView`, create a `ListView.builder`
+that takes two key parameters: the initial length of the list,
+and an `ItemBuilder` function.
 
-`ItemBuilder`函式類似於 iOS table 或 collection view 中的`cellForItemAt`委派方法，會接收一個位置（position），並回傳你希望在該位置渲染的 cell。
+The `ItemBuilder` function is similar to the `cellForItemAt`
+delegate method in an iOS table or collection view,
+as it takes a position, and returns the
+cell you want rendered at that position.
 
-最後，也是最重要的一點，請注意`onTap()`函式不再重新建立清單，而是對其進行`.add`。
+Finally, but most importantly, notice that the `onTap()` function
+doesn't recreate the list anymore, but instead `.add`s to it.
 
-### 建立可捲動視圖
+### Creating a scroll view
 
-在 UIKit 中，你會將你的視圖包裹在`ScrollView`中，讓使用者在需要時可以捲動內容。
+In UIKit, you wrap your views in a `ScrollView` that
+allows a user to scroll your content if needed.
 
-在 Flutter 中，最簡單的方式是使用`ListView`元件 (Widget)。它同時扮演`ScrollView`和 iOS `TableView`的角色，因為你可以將元件以垂直格式排列。
+In Flutter the easiest way to do this is using the `ListView` widget.
+This acts as both a `ScrollView` and an iOS `TableView`,
+as you can lay out widgets in a vertical format.
 
 <?code-excerpt "lib/layout.dart (list-view)"?>
 ```dart
@@ -963,18 +1091,24 @@ Widget build(BuildContext context) {
 }
 ```
 
-如需更詳細的 Flutter 元件 (Widgets) 版面配置說明，請參閱 [layout tutorial][layout tutorial]。
+For more detailed docs on how to lay out widgets in Flutter,
+see the [layout tutorial][].
 
-## 手勢偵測與觸控事件處理
+## Gesture detection and touch event handling
 
-本節將說明如何在 Flutter 中偵測手勢與處理各種事件，並與 UIKit 進行比較。
+This section discusses how to detect gestures
+and handle different events in Flutter,
+and how they compare with UIKit.
 
-### 新增點擊監聽器
+### Adding a click listener
 
-在 UIKit 中，你會將 `GestureRecognizer` 附加到一個 view 以處理點擊事件。
-在 Flutter 中，新增觸控監聽器有兩種方式：
+In UIKit, you attach a `GestureRecognizer` to a view to
+handle click events.
+In Flutter, there are two ways of adding touch listeners:
 
-1. 如果該元件（Widget）本身支援事件偵測，則可以直接傳入一個函式，並在該函式中處理事件。例如，`ElevatedButton` 元件有一個 `onPressed` 參數：
+1. If the widget supports event detection, pass a function to it,
+   and handle the event in the function. For example, the
+   `ElevatedButton` widget has an `onPressed` parameter:
 
   <?code-excerpt "lib/events.dart (on-pressed)"?>
    ```dart
@@ -989,8 +1123,9 @@ Widget build(BuildContext context) {
   }
    ```
 
-2. 如果該元件（Widget）不支援事件偵測，  
-   請將該元件包裹在 `GestureDetector` 中，並將函式傳遞給 `onTap` 參數。
+2. If the Widget doesn't support event detection,
+   wrap the widget in a GestureDetector and pass a function
+   to the `onTap` parameter.
 
   <?code-excerpt "lib/events.dart (on-tap)"?>
    ```dart
@@ -1013,58 +1148,73 @@ Widget build(BuildContext context) {
   }
    ```
 
-### 處理其他手勢
+### Handling other gestures
 
-使用 `GestureDetector`，你可以監聽多種手勢事件，例如：
+Using `GestureDetector` you can listen
+to a wide range of gestures such as:
 
-* **點擊（Tapping）**
+* **Tapping**
 
   **`onTapDown`**
-  ：一個可能會觸發點擊的指標已經在特定位置接觸螢幕。
+  : A pointer that might cause a tap has contacted the
+  screen at a particular location.
 
   **`onTapUp`**
-  ：觸發點擊的指標已經在特定位置停止接觸螢幕。
+  : A pointer that triggers a tap has stopped contacting the
+  screen at a particular location.
 
   **`onTap`**
-  ：點擊事件已發生。
+  : A tap has occurred.
 
   **`onTapCancel`**
-  ：先前觸發 `onTapDown` 的指標將不會產生點擊事件。
+  : The pointer that previously triggered the `onTapDown`
+  won't cause a tap.
 
-* **雙擊（Double tapping）**
+* **Double tapping**
 
   **`onDoubleTap`**
-  ：使用者在同一位置快速連續點擊兩次螢幕。
+  : The user tapped the screen at the same location twice in
+  quick succession.
 
-* **長按（Long pressing）**
+* **Long pressing**
 
   **`onLongPress`**
-  ：指標在同一位置長時間接觸螢幕。
+  : A pointer has remained in contact with the screen
+  at the same location for a long period of time.
 
-* **垂直拖曳（Vertical dragging）**
+* **Vertical dragging**
 
   **`onVerticalDragStart`**
-  ：指標已接觸螢幕，並可能開始垂直移動。
+  : A pointer has contacted the screen and might begin to
+  move vertically.
 
   **`onVerticalDragUpdate`**
-  ：與螢幕接觸的指標已進一步向垂直方向移動。
+  : A pointer in contact with the screen
+  has moved further in the vertical direction.
 
   **`onVerticalDragEnd`**
-  ：先前與螢幕接觸並垂直移動的指標已不再接觸螢幕，並且在離開時具有特定速度。
+  : A pointer that was previously in contact with the
+  screen and moving vertically is no longer in contact
+  with the screen and was moving at a specific velocity
+  when it stopped contacting the screen.
 
-* **水平拖曳（Horizontal dragging）**
+* **Horizontal dragging**
 
   **`onHorizontalDragStart`**
-  ：指標已接觸螢幕，並可能開始水平移動。
+  : A pointer has contacted the screen and might begin
+  to move horizontally.
 
   **`onHorizontalDragUpdate`**
-  ：與螢幕接觸的指標已進一步向水平方向移動。
+  : A pointer in contact with the screen
+  has moved further in the horizontal direction.
 
   **`onHorizontalDragEnd`**
-  ：先前與螢幕接觸並水平移動的指標已不再接觸螢幕。
+  : A pointer that was previously in contact with the
+  screen and moving horizontally is no longer in
+  contact with the screen.
 
-以下範例展示了一個 `GestureDetector`，
-當雙擊時會旋轉 Flutter 標誌：
+The following example shows a `GestureDetector`
+that rotates the Flutter logo on a double tap:
 
 <?code-excerpt "lib/events.dart (sample-app)"?>
 ```dart
@@ -1113,25 +1263,43 @@ class _SampleAppState extends State<SampleApp>
 }
 ```
 
-## 主題、樣式與媒體
+## Themes, styles, and media
 
-Flutter 應用程式非常容易進行樣式設計；你可以在淺色與深色主題之間切換、變更文字和 UI 元件的樣式，還有更多其他自訂選項。本節將介紹如何為你的 Flutter 應用程式進行樣式設計，並比較在 UIKit 中如何達成相同的效果。
+Flutter applications are easy to style; you can switch
+between light and dark themes,
+change the style of your text and UI components,
+and more. This section covers aspects of styling your Flutter apps
+and compares how you might do the same in UIKit.
 
-### 使用主題
+### Using a theme
 
-Flutter 預設就內建了美觀的 Material Design 實作，這涵蓋了許多你通常需要處理的樣式與主題化需求。
+Out of the box, Flutter comes with a beautiful implementation
+of Material Design, which takes care of a lot of styling and
+theming needs that you would typically do.
 
-為了充分利用 Material 元件，你需要在應用程式的進入點宣告一個頂層元件 `MaterialApp`。  
-`MaterialApp` 是一個方便的元件，它包裝了一些在實作 Material Design 應用程式時常用的元件。  
-它是在 `WidgetsApp` 的基礎上，加入了 Material 特有的功能。
+To take full advantage of Material Components in your app,
+declare a top-level widget, `MaterialApp`,
+as the entry point to your application.
+`MaterialApp` is a convenience widget that wraps a number
+of widgets that are commonly required for applications
+implementing Material Design.
+It builds upon a `WidgetsApp` by adding Material specific functionality.
 
-不過，Flutter 也足夠靈活且具表現力，可以實作任何設計語言。在 iOS 上，你可以使用 [Cupertino library][Cupertino library] 來打造符合 [Human Interface Guidelines][Human Interface Guidelines] 的介面。  
-如果你想查看這些元件的完整集合，請參見 [Cupertino widgets][Cupertino widgets] 畫廊。
+But Flutter is flexible and expressive enough to implement
+any design language. On iOS, you can use the
+[Cupertino library][] to produce an interface that adheres to the
+[Human Interface Guidelines][].
+For the full set of these widgets,
+see the [Cupertino widgets][] gallery.
 
-你也可以將 `WidgetsApp` 作為你的應用程式元件，這會提供部分相同的功能，但不像 `MaterialApp` 那樣豐富。
+You can also use a `WidgetsApp` as your app widget,
+which provides some of the same functionality,
+but is not as rich as `MaterialApp`.
 
-若要自訂任何子元件的顏色與樣式，請將 `ThemeData` 物件傳遞給 `MaterialApp` 元件。  
-例如，在下方的程式碼中，主題色彩方案（color scheme）是以 deepPurple 為種子色，分隔線顏色則設為 grey。
+To customize the colors and styles of any child components,
+pass a `ThemeData` object to the `MaterialApp` widget.
+For example, in the code below,
+the color scheme from seed is set to deepPurple and divider color is grey.
 
 <?code-excerpt "lib/theme.dart (theme)"?>
 ```dart
@@ -1154,10 +1322,13 @@ class SampleApp extends StatelessWidget {
 }
 ```
 
-### 使用自訂字型
+### Using custom fonts
 
-在 UIKit 中，你需要將任何 `ttf` 字型檔案匯入專案，並在 `info.plist` 檔案中建立參考。
-在 Flutter 中，請將字型檔案放置於資料夾中，並在 `pubspec.yaml` 檔案中進行參考，這與匯入圖片的方式類似。
+In UIKit, you import any `ttf` font files into your project
+and create a reference in the `info.plist` file.
+In Flutter, place the font file in a folder
+and reference it in the `pubspec.yaml` file,
+similar to how you import images.
 
 ```yaml
 fonts:
@@ -1167,7 +1338,7 @@ fonts:
       - style: italic
 ```
 
-然後將該字型指派給你的`Text`元件（Widget）：
+Then assign the font to your `Text` widget:
 
 <?code-excerpt "lib/text.dart (custom-font)"?>
 ```dart
@@ -1185,9 +1356,11 @@ Widget build(BuildContext context) {
 }
 ```
 
-### 文字樣式設定
+### Styling text
 
-除了字型之外，你還可以自訂`Text`元件（Widget）的其他樣式元素。`Text`元件的 style 參數接受一個`TextStyle`物件，你可以在其中自訂許多參數，例如：
+Along with fonts, you can customize other styling elements on a `Text` widget.
+The style parameter of a `Text` widget takes a `TextStyle` object,
+where you can customize many parameters, such as:
 
 * `color`
 * `decoration`
@@ -1204,22 +1377,27 @@ Widget build(BuildContext context) {
 * `textBaseline`
 * `wordSpacing`
 
-### 在應用程式中打包圖片
+### Bundling images in apps
 
-在 iOS 中，圖片（images）和資源（assets）被視為不同的項目，而 Flutter 應用程式只有資源（assets）。在 iOS 上放置於`Images.xcasset`資料夾中的資源，對於 Flutter 來說則放在 assets 資料夾中。和 iOS 一樣，資源可以是任何類型的檔案，不僅限於圖片。例如，你可能會有一個 JSON 檔案放在`my-assets`資料夾中：
+While iOS treats images and assets as distinct items,
+Flutter apps have only assets. Resources that are
+placed in the `Images.xcasset` folder on iOS,
+are placed in an assets' folder for Flutter.
+As with iOS, assets are any type of file, not just images.
+For example, you might have a JSON file located in the `my-assets` folder:
 
 ```plaintext
 my-assets/data.json
 ```
 
-在 `pubspec.yaml` 檔案中宣告資源（asset）：
+Declare the asset in the `pubspec.yaml` file:
 
 ```yaml
 assets:
  - my-assets/data.json
 ```
 
-然後可以在程式碼中透過 [`AssetBundle`][`AssetBundle`] 來存取：
+And then access it from code using an [`AssetBundle`][]:
 
 <?code-excerpt "lib/asset_bundle.dart"?>
 ```dart
@@ -1231,18 +1409,20 @@ Future<String> loadAsset() async {
 }
 ```
 
-對於圖片，Flutter 採用類似 iOS 的簡單密度（density）格式。
-圖片資源可以是 `1.0x`、`2.0x`、`3.0x`，或任何其他倍數。
-Flutter 的 [`devicePixelRatio`][`devicePixelRatio`] 表示單一邏輯像素中實體像素的比例。
+For images, Flutter follows a simple density-based format like iOS.
+Image assets might be `1.0x`, `2.0x`, `3.0x`, or any other multiplier.
+Flutter's [`devicePixelRatio`][] expresses the ratio
+of physical pixels in a single logical pixel.
 
-資源（Assets）可以放在任意的資料夾中——
-Flutter 並沒有預先定義的資料夾結構。
-你需要在 `pubspec.yaml` 檔案中宣告資源（包含路徑），Flutter 會自動載入這些資源。
+Assets are located in any arbitrary folder&mdash;
+Flutter has no predefined folder structure.
+You declare the assets (with location) in
+the `pubspec.yaml` file, and Flutter picks them up.
 
-舉例來說，若要將一個名為 `my_icon.png` 的圖片加入你的 Flutter 專案，
-你可以選擇將它存放在任意命名為 `images` 的資料夾中。
-將基礎圖片（1.0x）放在 `images` 資料夾，
-其他不同倍率的圖片則放在以對應倍率命名的子資料夾中：
+For example, to add an image called `my_icon.png` to your Flutter
+project, you might decide to store it in a folder arbitrarily called `images`.
+Place the base image (1.0x) in the `images` folder, and the
+other variants in sub-folders named after the appropriate ratio multiplier:
 
 ```plaintext
 images/my_icon.png       // Base: 1.0x image
@@ -1250,21 +1430,21 @@ images/2.0x/my_icon.png  // 2.0x image
 images/3.0x/my_icon.png  // 3.0x image
 ```
 
-接下來，在 `pubspec.yaml` 檔案中宣告這些圖片：
+Next, declare these images in the `pubspec.yaml` file:
 
 ```yaml
 assets:
  - images/my_icon.png
 ```
 
-你現在可以使用 `AssetImage` 來存取你的圖片：
+You can now access your images using `AssetImage`:
 
 <?code-excerpt "lib/images.dart (asset-image)"?>
 ```dart
 image: AssetImage('images/a_dot_burr.png'),
 ```
 
-或直接在`Image`元件（Widget）中使用：
+or directly in an `Image` widget:
 
 <?code-excerpt "lib/images.dart (image-asset)"?>
 ```dart
@@ -1274,18 +1454,26 @@ Widget build(BuildContext context) {
 }
 ```
 
-如需更多詳細資訊，請參閱
-[在 Flutter 中新增資源與圖片][Adding Assets and Images in Flutter]。
+For more details, see
+[Adding Assets and Images in Flutter][].
 
-## 表單輸入
+## Form input
 
-本節將說明如何在 Flutter 中使用表單，以及其與 UIKit 的比較。
+This section discusses how to use forms in Flutter
+and how they compare with UIKit.
 
-### 取得使用者輸入
+### Retrieving user input
 
-考慮到 Flutter 採用不可變元件（Widgets）並分離狀態的設計，你可能會好奇使用者輸入在這樣的架構下該如何處理。在 UIKit 中，通常會在需要提交使用者輸入或對其進行操作時，直接查詢元件的當前值。那麼在 Flutter 中又是如何實現的呢？
+Given how Flutter uses immutable widgets with a separate state,
+you might be wondering how user input fits into the picture.
+In UIKit, you usually query the widgets for their current values
+when it's time to submit the user input, or action on it.
+How does that work in Flutter?
 
-實際上，表單在 Flutter 中的處理方式，和其他功能一樣，是透過專門的元件（Widgets）來完成。如果你有一個 `TextField` 或 `TextFormField`，可以提供一個 [`TextEditingController`][`TextEditingController`] 來取得使用者輸入：
+In practice forms are handled, like everything in Flutter,
+by specialized widgets. If you have a `TextField` or a
+`TextFormField`, you can supply a [`TextEditingController`][]
+to retrieve user input:
 
 <?code-excerpt "lib/form.dart (my-form-state)"?>
 ```dart
@@ -1332,11 +1520,14 @@ class _MyFormState extends State<MyForm> {
 }
 ```
 
-你可以在 [Retrieve the value of a text field][Retrieve the value of a text field] 中找到更多資訊以及完整程式碼範例。
+You can find more information and the full code listing in
+[Retrieve the value of a text field][].
 
-### 文字欄位 (text field) 的佔位文字
+### Placeholder in a text field
 
-在 Flutter 中，你可以很容易地透過在 `Text` 元件（Widget）的 decoration 建構子參數中加入 `InputDecoration` 物件，來顯示「提示」或佔位文字：
+In Flutter, you can easily show a "hint" or a placeholder text
+for your field by adding an `InputDecoration` object
+to the decoration constructor parameter for the `Text` widget:
 
 <?code-excerpt "lib/form.dart (input-hint)" replace="/return const //g;/;//g"?>
 ```dart
@@ -1345,11 +1536,14 @@ Center(
 )
 ```
 
-### 顯示驗證錯誤
+### Showing validation errors
 
-就像使用「提示」（hint）一樣，將`InputDecoration`物件傳遞給`Text`元件（Widget）的裝飾（decoration）建構子。
+Just as you would with a "hint", pass an `InputDecoration` object
+to the decoration constructor for the `Text` widget.
 
-不過，你不會一開始就顯示錯誤訊息。相反地，當使用者輸入了無效資料時，更新狀態，並傳遞新的`InputDecoration`物件。
+However, you don't want to start off by showing an error.
+Instead, when the user has entered invalid data,
+update the state, and pass a new `InputDecoration` object.
 
 <?code-excerpt "lib/validation_errors.dart"?>
 ```dart
@@ -1415,17 +1609,32 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-## 執行緒與非同步性
+## Threading & asynchronicity
 
-本節將討論 Flutter 中的並行處理（concurrency），以及其與 UIKit 的比較。
+This section discusses concurrency in Flutter and
+how it compares with UIKit.
 
-### 撰寫非同步程式碼
+### Writing asynchronous code
 
-Dart 採用單一執行緒（single-threaded）的執行模型，並支援 `Isolate`（可在另一個執行緒上執行 Dart 程式碼）、事件迴圈（event loop）以及非同步程式設計。除非你建立新的 `Isolate`，否則 Dart 程式碼都會在主 UI 執行緒上執行，並由事件迴圈所驅動。Flutter 的事件迴圈等同於 iOS 的主迴圈，也就是附加在主執行緒上的 `Looper`。
+Dart has a single-threaded execution model,
+with support for `Isolate`s
+(a way to run Dart code on another thread),
+an event loop, and asynchronous programming.
+Unless you spawn an `Isolate`,
+your Dart code runs in the main UI thread and is
+driven by an event loop. Flutter's event loop is
+equivalent to the iOS main loop&mdash;that is,
+the `Looper` that is attached to the main thread.
 
-Dart 的單一執行緒模型並不代表你必須將所有操作都以阻塞方式執行，導致 UI 停滯。你可以善用 Dart 語言所提供的非同步機制，例如 `async`/`await`，來執行非同步工作。
+Dart's single-threaded model doesn't mean you are
+required to run everything as a blocking operation
+that causes the UI to freeze. Instead,
+use the asynchronous facilities that the Dart language provides,
+such as `async`/`await`, to perform asynchronous work.
 
-舉例來說，你可以利用 `async`/`await` 執行網路程式碼，而不會造成 UI 卡頓，Dart 會自動處理繁重的工作：
+For example, you can run network code without causing the
+UI to hang by using `async`/`await` and letting Dart do
+the heavy lifting:
 
 <?code-excerpt "lib/async.dart (load-data)"?>
 ```dart
@@ -1438,13 +1647,13 @@ Future<void> loadData() async {
 }
 ```
 
-當`await`的網路呼叫完成後，
-請透過呼叫`setState()`來更新 UI，
-這會觸發元件（Widget）子樹的重建，
-並更新資料。
+Once the `await`ed network call is done,
+update the UI by calling `setState()`,
+which triggers a rebuild of the widget subtree
+and updates the data.
 
-以下範例會以非同步方式載入資料，
-並將其顯示在`ListView`中：
+The following example loads data asynchronously and
+displays it in a `ListView`:
 
 <?code-excerpt "lib/async.dart"?>
 ```dart
@@ -1512,13 +1721,23 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-請參考下一節，瞭解更多有關背景執行工作的資訊，以及 Flutter 與 iOS 的差異。
+Refer to the next section for more information on doing work
+in the background, and how Flutter differs from iOS.
 
-### 移動至背景執行緒
+### Moving to the background thread
 
-由於 Flutter 是單執行緒（single threaded）並運行事件迴圈（event loop，類似於 Node.js），你不需要擔心執行緒管理或建立背景執行緒。如果你正在執行 I/O 密集型工作，例如磁碟存取或網路呼叫，那麼你可以安全地使用 `async`/`await`，就完成了。如果你需要執行計算密集型工作，會讓 CPU 持續忙碌，則應該將其移至 `Isolate`，以避免阻塞事件迴圈。
+Since Flutter is single threaded and runs an event loop
+(like Node.js), you don't have to worry about
+thread management or spawning background threads.
+If you're doing I/O-bound work,
+such as disk access or a network call,
+then you can safely use `async`/`await` and you're done.
+If, on the other hand, you need to do computationally intensive
+work that keeps the CPU busy, you want to move it to an
+`Isolate` to avoid blocking the event loop.
 
-針對 I/O 密集型工作，請將函式宣告為 `async` 函式，並在函式內對長時間執行的任務使用 `await`：
+For I/O-bound work, declare the function as an `async` function,
+and `await` on long-running tasks inside the function:
 
 <?code-excerpt "lib/async.dart (load-data)"?>
 ```dart
@@ -1531,20 +1750,24 @@ Future<void> loadData() async {
 }
 ```
 
-這是你在進行網路或資料庫呼叫時的典型做法，
-這兩者都屬於 I/O 操作。
+This is how you typically do network or database calls,
+which are both I/O operations.
 
-然而，有時你可能需要處理大量資料，導致 UI 停滯。
-在 Flutter 中，可以使用`Isolate`來善用多核心 CPU，
-以執行長時間運算或計算密集型任務。
+However, there are times when you might be processing
+a large amount of data and your UI hangs.
+In Flutter, use `Isolate`s to take advantage of
+multiple CPU cores to do long-running or
+computationally intensive tasks.
 
-Isolate（隔離執行緒）是獨立的執行緒，與主執行緒的記憶體堆完全不共享任何記憶體。
-這表示你無法存取主執行緒的變數，
-也無法透過呼叫`setState()`來更新 UI。
-Isolate 顧名思義，就是完全隔離，無法共享記憶體（例如 static 欄位）。
+Isolates are separate execution threads that do not share
+any memory with the main execution memory heap.
+This means you can't access variables from the main thread,
+or update your UI by calling `setState()`.
+Isolates are true to their name, and cannot share memory
+(in the form of static fields, for example).
 
-以下範例展示如何在一個簡單的 isolate 中，
-將資料傳回主執行緒以更新 UI。
+The following example shows, in a simple isolate,
+how to share data back to the main thread to update the UI.
 
 <?code-excerpt "lib/isolates.dart (load-data)"?>
 ```dart
@@ -1591,10 +1814,14 @@ Future<List<Map<String, dynamic>>> sendReceive(SendPort port, String msg) {
 }
 ```
 
-在這裡，`dataLoader()` 是運行於自己獨立執行緒（execution thread）中的 `Isolate`。  
-在該 isolate（隔離區）中，你可以執行更多需要 CPU 資源的處理（例如解析大型 JSON），或進行運算密集型的數學運算，例如加密或訊號處理。
+Here, `dataLoader()` is the `Isolate` that runs in
+its own separate execution thread.
+In the isolate, you can perform more CPU intensive
+processing (parsing a big JSON, for example),
+or perform computationally intensive math,
+such as encryption or signal processing.
 
-你可以執行以下完整範例：
+You can run the full example below:
 
 <?code-excerpt "lib/isolates.dart"?>
 ```dart
@@ -1718,17 +1945,21 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-### 發送網路請求
+### Making network requests
 
-在 Flutter 中發送網路請求非常簡單，只要使用熱門的 [`http` 套件][`http` package] 即可。這個套件將許多你原本需要自行實作的網路細節進行了抽象化，讓你可以更輕鬆地進行網路呼叫。
+Making a network call in Flutter is easy when you
+use the popular [`http` package][]. This abstracts
+away a lot of the networking that you might normally
+implement yourself, making it simple to make network calls.
 
-若要將 `http` 套件加入為相依套件，請執行 `flutter pub add`：
+To add the `http` package as a dependency, run `flutter pub add`:
 
 ```console
 flutter pub add http
 ```
 
-要進行網路呼叫（network call），請在 `async` 函式的 `http.get()` 上呼叫 `await`：
+To make a network call,
+call `await` on the `async` function `http.get()`:
 
 <?code-excerpt "lib/progress.dart (load-data)"?>
 ```dart
@@ -1741,19 +1972,21 @@ Future<void> loadData() async {
 }
 ```
 
-### 顯示長時間執行任務的進度
+### Showing the progress on long-running tasks
 
-在 UIKit 中，通常會在背景執行長時間任務時，使用 `UIProgressView`。
+In UIKit, you typically use a `UIProgressView`
+while executing a long-running task in the background.
 
-在 Flutter 中，請使用 `ProgressIndicator` 元件 (Widget)。
-透過布林旗標來控制何時渲染，程式化地顯示進度。
-在長時間任務開始前，通知 Flutter 更新其狀態，
-任務結束後再將其隱藏。
+In Flutter, use a `ProgressIndicator` widget.
+Show the progress programmatically by controlling
+when it's rendered through a boolean flag.
+Tell Flutter to update its state before your long-running task starts,
+and hide it after it ends.
 
-在下方範例中，build 函式被拆分為三個不同的函式。
-如果 `showLoadingDialog` 為 `true`
-（當 `widgets.length == 0` 時），則渲染 `ProgressIndicator`。
-否則，則以從網路呼叫取得的資料渲染 `ListView`。
+In the example below, the build function is separated into three different
+functions. If `showLoadingDialog` is `true`
+(when `widgets.length == 0`), then render the `ProgressIndicator`.
+Otherwise, render the `ListView` with the data returned from a network call.
 
 <?code-excerpt "lib/progress.dart"?>
 ```dart
@@ -1839,40 +2072,40 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-[Flutter for SwiftUI developers]: /get-started/flutter-for/swiftui-devs  
-[Add Flutter to existing app]: /add-to-app  
-[Adding Assets and Images in Flutter]: /ui/assets/assets-and-images  
-[Animation & Motion widgets]: /ui/widgets/animation  
-[Animations overview]: /ui/animations  
-[Animations tutorial]: /ui/animations/tutorial  
-[Apple's iOS design language]: {{site.apple-dev}}/design/resources  
-[`AppLifecycleState` documentation]: {{site.api}}/flutter/dart-ui/AppLifecycleState.html  
-[arb]: {{site.github}}/googlei18n/app-resource-bundle  
-[`AssetBundle`]: {{site.api}}/flutter/services/AssetBundle-class.html  
-[composing]: /resources/architectural-overview#composition  
-[Cupertino library]: {{site.api}}/flutter/cupertino/cupertino-library.html  
-[Cupertino widgets]: /ui/widgets/cupertino  
-[`devicePixelRatio`]: {{site.api}}/flutter/dart-ui/FlutterView/devicePixelRatio.html  
-[existing plugin]: {{site.pub}}/flutter  
-[Flutter concurrency for Swift developers]: /get-started/flutter-for/dart-swift-concurrency  
-[`http` package]: {{site.pub-pkg}}/http  
-[Human Interface Guidelines]: {{site.apple-dev}}/ios/human-interface-guidelines/overview/themes/  
-[internationalization guide]: /ui/internationalization  
-[`intl`]: {{site.pub-pkg}}/intl  
-[`intl_translation`]: {{site.pub-pkg}}/intl_translation  
-[Introduction to declarative UI]: /get-started/flutter-for/declarative  
-[layout tutorial]: /ui/widgets/layout  
-[`Localizations`]: {{site.api}}/flutter/widgets/Localizations-class.html  
-[Material Components]: {{site.material}}/develop/flutter/  
-[Material Design guidelines]: {{site.material}}/styles/  
-[optimized for all platforms]: {{site.material2}}/design/platform-guidance/cross-platform-adaptation.html#cross-platform-guidelines  
-[Platform adaptations]: /platform-integration/platform-adaptations  
-[platform channel]: /platform-integration/platform-channels  
-[pub.dev]: {{site.pub}}/flutter/packages  
-[Retrieve the value of a text field]: /cookbook/forms/retrieve-input  
-[`TextEditingController`]: {{site.api}}/flutter/widgets/TextEditingController-class.html  
-[`url_launcher`]: {{site.pub-pkg}}/url_launcher  
-[widget]: /resources/architectural-overview#widgets  
-[widget catalog]: /ui/widgets/layout  
-[`Window.locale`]: {{site.api}}/flutter/dart-ui/Window/locale.html  
+[Flutter for SwiftUI developers]: /get-started/flutter-for/swiftui-devs
+[Add Flutter to existing app]: /add-to-app
+[Adding Assets and Images in Flutter]: /ui/assets/assets-and-images
+[Animation & Motion widgets]: /ui/widgets/animation
+[Animations overview]: /ui/animations
+[Animations tutorial]: /ui/animations/tutorial
+[Apple's iOS design language]: {{site.apple-dev}}/design/resources
+[`AppLifecycleState` documentation]: {{site.api}}/flutter/dart-ui/AppLifecycleState.html
+[arb]: {{site.github}}/googlei18n/app-resource-bundle
+[`AssetBundle`]: {{site.api}}/flutter/services/AssetBundle-class.html
+[composing]: /resources/architectural-overview#composition
+[Cupertino library]: {{site.api}}/flutter/cupertino/cupertino-library.html
+[Cupertino widgets]: /ui/widgets/cupertino
+[`devicePixelRatio`]: {{site.api}}/flutter/dart-ui/FlutterView/devicePixelRatio.html
+[existing plugin]: {{site.pub}}/flutter
+[Flutter concurrency for Swift developers]: /get-started/flutter-for/dart-swift-concurrency
+[`http` package]: {{site.pub-pkg}}/http
+[Human Interface Guidelines]: {{site.apple-dev}}/ios/human-interface-guidelines/overview/themes/
+[internationalization guide]: /ui/internationalization
+[`intl`]: {{site.pub-pkg}}/intl
+[`intl_translation`]: {{site.pub-pkg}}/intl_translation
+[Introduction to declarative UI]: /get-started/flutter-for/declarative
+[layout tutorial]: /ui/widgets/layout
+[`Localizations`]: {{site.api}}/flutter/widgets/Localizations-class.html
+[Material Components]: {{site.material}}/develop/flutter/
+[Material Design guidelines]: {{site.material}}/styles/
+[optimized for all platforms]: {{site.material2}}/design/platform-guidance/cross-platform-adaptation.html#cross-platform-guidelines
+[Platform adaptations]: /platform-integration/platform-adaptations
+[platform channel]: /platform-integration/platform-channels
+[pub.dev]: {{site.pub}}/flutter/packages
+[Retrieve the value of a text field]: /cookbook/forms/retrieve-input
+[`TextEditingController`]: {{site.api}}/flutter/widgets/TextEditingController-class.html
+[`url_launcher`]: {{site.pub-pkg}}/url_launcher
+[widget]: /resources/architectural-overview#widgets
+[widget catalog]: /ui/widgets/layout
+[`Window.locale`]: {{site.api}}/flutter/dart-ui/Window/locale.html
 [Learning Dart as a Swift Developer]: {{site.dart-site}}/guides/language/coming-from/swift-to-dart

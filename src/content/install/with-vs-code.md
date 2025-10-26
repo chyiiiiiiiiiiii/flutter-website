@@ -1,51 +1,53 @@
 ---
-title: 使用 VS Code 安裝 Flutter
-shortTitle: 使用 VS Code 安裝
-breadcrumb: 使用 VS Code
+title: Install Flutter using VS Code
+shortTitle: Install with VS Code
+breadcrumb: With VS Code
 description: >-
-  學習如何使用 VS Code 快速安裝與設定 Flutter SDK。
+  Learn how to use VS Code to quickly install and set up the Flutter SDK.
 ---
 
-學習如何在基於 Code OSS 的編輯器中安裝與設定 Flutter。
-這包含（但不限於）[VS Code][VS Code]、[Cursor][Cursor] 以及 [Windsurf][Windsurf]。
+Learn how to install and set up Flutter in a Code OSS-based editor.
+This includes (but is not limited to), [VS Code][], [Cursor][], and [Windsurf][].
 
 [VS Code]: https://code.visualstudio.com
 [Cursor]: https://cursor.com/
 [Windsurf]: https://windsurf.com/
 
 :::tip
-如果你從未設定過 Flutter 或開發過 Flutter 應用程式，
-請改為參考 [設定並試用 Flutter][Set up and test drive Flutter]。
+If you've never set up or developed an app with Flutter before,
+follow [Set up and test drive Flutter][] instead.
 :::
 
 [Set up and test drive Flutter]: /get-started/quick
 
-## 選擇你的開發平台 {: #dev-platform}
+## Choose your development platform {: #dev-platform}
 
-本頁的說明預設涵蓋在 **Windows**{:.selected-os-text} 裝置上安裝 Flutter。
+The instructions on this page are configured to cover
+installing Flutter on a **Windows**{:.selected-os-text} device.
 
-如果你想參考其他作業系統的安裝說明，
-請選擇以下其中一項。
+If you'd like to follow the instructions for a different OS,
+please select one of the following.
 
 {% osSelector %}
 
-## 下載必要軟體 {: #download-prerequisites}
+## Download prerequisite software {: #download-prerequisites}
 
-為了讓 Flutter 安裝流程更順暢，
-請先安裝以下工具。
+For the smoothest Flutter setup,
+first install the following tools.
 
- 1. <h3>設定 Linux 支援</h3>
+ 1. <h3>Set up Linux support</h3>
 
-    如果你尚未在 Chromebook 上設定 Linux 支援，
-    請[開啟 Linux 支援][chromeos-linux]。
+    If you haven't set up Linux support on your Chromebook before,
+    [Turn on Linux support][chromeos-linux].
 
-    如果你已經開啟 Linux 支援，
-    請依照[修正 Linux 問題][chromeos-linux-update]的說明，確保其為最新狀態。
+    If you've already turned on Linux support,
+    ensure it's up to date following the
+    [Fix problems with Linux][chromeos-linux-update] instructions.
 
- 1. <h3>下載並安裝必要套件</h3>
+ 1. <h3>Download and install prerequisite packages</h3>
 
-    使用 `apt-get` 或你偏好的安裝方式，
-    安裝下列套件的最新版本：
+    Using `apt-get` or your preferred installation mechanism,
+    install the latest versions of the following packages:
 
     - `curl`
     - `git`
@@ -54,59 +56,61 @@ description: >-
     - `zip`
     - `libglu1-mesa`
 
-    如果你想使用 `apt-get`，
-    請使用以下指令安裝這些套件：
+    If you want to use `apt-get`,
+    install these packages using the following commands:
 
     ```console
     $ sudo apt-get update -y && sudo apt-get upgrade -y
     $ sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
     ```
 
- 1. <h3>下載並安裝 Visual Studio Code</h3>
+ 1. <h3>Download and install Visual Studio Code</h3>
 
-    若要快速安裝 Flutter，並編輯與除錯您的應用程式，請[安裝並設定 Visual Studio Code][vscode-install]。
+    To quickly install Flutter, then edit and debug your apps,
+    [install and set up Visual Studio Code][vscode-install].
 
 {: .steps .chromeos-only}
 
- 1. <h3>安裝 Xcode 命令列工具</h3>
+ 1. <h3>Install the Xcode command-line tools</h3>
 
-    下載 Xcode 命令列工具，以取得 Flutter 依賴的命令列工具，包括 Git。
+    Download the Xcode command-line tools to get access to
+    the command-line tools that Flutter relies on, including Git.
 
-    若要下載這些工具，請在您偏好的終端機中執行以下指令：
+    To download the tools, run the following command in your preferred terminal:
 
     ```console
     $ xcode-select --install
     ```
 
-    如果你尚未安裝相關工具，
-    系統應會跳出對話框，確認你是否要安裝這些工具。
-    請點選 **Install**（安裝），安裝完成後再點選 **Done**（完成）。
+    If you haven't installed the tools already,
+    a dialog should open that confirms you'd like to install them.
+    Click **Install**, then once the installation is complete, click **Done**.
 
- 1. <h3>下載並安裝 Visual Studio Code</h3>
+ 1. <h3>Download and install Visual Studio Code</h3>
 
-    若要快速安裝 Flutter，並編輯與除錯你的應用程式，
-    請[安裝並設定 Visual Studio Code][vscode-install]。
+    To quickly install Flutter, then edit and debug your apps,
+    [install and set up Visual Studio Code][vscode-install].
 
 {: .steps .macos-only}
 
- 1. <h3>安裝 Git for Windows</h3>
+ 1. <h3>Install Git for Windows</h3>
 
-    下載並安裝最新版的 [Git for Windows][Git for Windows]。
+    Download and install the latest version of [Git for Windows][].
 
-    如需安裝或疑難排解 Git 的協助，
-    請參考 [Git 文件][git-install]。
+    For help installing or troubleshooting Git,
+    reference the [Git documentation][git-install].
 
- 1. <h3>下載並安裝 Visual Studio Code</h3>
+ 1. <h3>Download and install Visual Studio Code</h3>
 
-    若要快速安裝 Flutter，並編輯與除錯你的應用程式，
-    請[安裝並設定 Visual Studio Code][vscode-install]。
+    To quickly install Flutter, then edit and debug your apps,
+    [install and set up Visual Studio Code][vscode-install].
 
 {: .steps .windows-only}
 
- 1. <h3>下載並安裝必要的套件</h3>
+ 1. <h3>Download and install prerequisite packages</h3>
 
-    使用你偏好的套件管理工具或安裝方式，
-    安裝下列套件的最新版：
+    Using your preferred package manager or mechanism,
+    install the latest versions of the following packages:
 
     - `curl`
     - `git`
@@ -115,18 +119,18 @@ description: >-
     - `zip`
     - `libglu1-mesa`
 
-    在以 Debian 為基礎的發行版（如 Ubuntu）且有 `apt-get` 的情況下，
-    可使用以下指令安裝這些套件：
+    On Debian-based distros with `apt-get`, such as Ubuntu,
+    install these packages using the following commands:
 
     ```console
     $ sudo apt-get update -y && sudo apt-get upgrade -y
     $ sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
     ```
 
- 1. <h3>下載並安裝 Visual Studio Code</h3>
+ 1. <h3>Download and install Visual Studio Code</h3>
 
-    若要快速安裝 Flutter，並編輯與除錯您的應用程式，
-    請[安裝並設定 Visual Studio Code][vscode-install]。
+    To quickly install Flutter, then edit and debug your apps,
+    [install and set up Visual Studio Code][vscode-install].
 
 {: .steps .linux-only}
 
@@ -136,78 +140,79 @@ description: >-
 [git-install]: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
 [vscode-install]: https://code.visualstudio.com/docs/setup/setup-overview
 
-## 安裝與設定 Flutter {: #install-flutter}
+## Install and set up Flutter {: #install-flutter}
 
-現在您已經安裝了 Git 與 VS Code，
-請依照以下步驟，使用 VS Code 來安裝與設定 Flutter。
+Now that you've installed Git and VS Code,
+follow these steps to use VS Code to install and set up Flutter.
 
- 1. <h3>啟動 VS Code</h3>
+ 1. <h3>Launch VS Code</h3>
 
-    如果尚未開啟，請透過 Spotlight 搜尋 VS Code，
-    或從安裝目錄手動開啟。
+    If not already open, open VS Code by searching for it with Spotlight
+    or opening it manually from the directory where it's installed.
 
- 1. <h3>將 Flutter 擴充功能加入 VS Code</h3>
+ 1. <h3>Add the Flutter extension to VS Code</h3>
 
-    若要將 Dart 與 Flutter 擴充功能加入 VS Code，
-    請造訪 [Flutter 擴充功能的 marketplace 頁面][flutter-vscode]，
-    並點擊 **Install**（安裝）。
-    若瀏覽器出現提示，請允許其開啟 VS Code。
+    To add the Dart and Flutter extensions to VS Code,
+    visit the [Flutter extension's marketplace page][flutter-vscode],
+    and click **Install**.
+    If prompted by your browser, allow it to open VS Code.
 
- 1. <h3>使用 VS Code 安裝 Flutter</h3>
+ 1. <h3>Install Flutter with VS Code</h3>
 
-    1. 在 VS Code 中開啟命令選擇器。
+    1. Open the command palette in VS Code.
 
-       前往 **View** <span aria-label="and then">></span> **Command Palette**
-       或按下 <kbd class="special-key">Cmd/Ctrl</kbd> +
-       <kbd>Shift</kbd> + <kbd>P</kbd>。
+       Go to **View** <span aria-label="and then">></span> **Command Palette**
+       or press <kbd class="special-key">Cmd/Ctrl</kbd> +
+       <kbd>Shift</kbd> + <kbd>P</kbd>.
 
-    1. 在命令選擇器中輸入 `flutter`。
+    1. In the command palette, type `flutter`.
 
-    1. 選擇 **Flutter: New Project**。
+    1. Select **Flutter: New Project**.
 
-    1. VS Code 會提示您在電腦上定位 Flutter SDK。
-       請選擇 **Download SDK**（下載 SDK）。
+    1. VS Code prompts you to locate the Flutter SDK on your computer.
+       Select **Download SDK**.
 
-    1. 當出現 **Select Folder for Flutter SDK**（選擇 Flutter SDK 資料夾）對話框時，
-       請選擇您想安裝 Flutter 的位置。
+    1. When the **Select Folder for Flutter SDK** dialog displays,
+       choose where you want to install Flutter.
 
-    1. 點擊 **Clone Flutter**（複製 Flutter）。
+    1. Click **Clone Flutter**.
 
-       下載 Flutter 的過程中，VS Code 會顯示以下彈出通知：
+       While downloading Flutter, VS Code displays this pop-up notification:
 
        ```console
        Downloading the Flutter SDK. This may take a few minutes.
        ```
 
-       此下載過程可能需要幾分鐘時間。  
-如果你懷疑下載程序已經卡住，請點選 **取消**，然後重新開始安裝。
+       This download takes a few minutes.
+       If you suspect that the download has hung, click **Cancel** then
+       start the installation again.
 
-1. 點選 **Add SDK to PATH**。
+    1. Click **Add SDK to PATH**.
 
-   當操作成功時，系統會顯示通知：
+       When successful, a notification displays:
 
        ```console
        The Flutter SDK was added to your PATH
        ```
 
-    1. VS Code 可能會顯示 Google Analytics（分析）通知。
+    1. VS Code might display a Google Analytics notice.
 
-       如果你同意，請點擊 **OK**。
+       If you agree, click **OK**.
 
-    1. 為確保 Flutter 可在所有終端機中使用：
+    1. To ensure that Flutter is available in all terminals:
 
-       1. 關閉並重新開啟所有終端機視窗。
-       1. 重新啟動 VS Code。
+       1. Close, then reopen all terminal windows.
+       1. Restart VS Code.
 
        {:type="a"}
 
- 1. <h3>驗證你的安裝環境</h3>
+ 1. <h3>Validate your setup</h3>
 
-    為確保你已正確安裝 Flutter，
-    請在你偏好的終端機中執行 `flutter doctor -v`。
+    To ensure you installed Flutter correctly,
+    run `flutter doctor -v` in your preferred terminal.
 
-    如果找不到該指令或出現錯誤，
-    請參考 [Flutter 安裝疑難排解][troubleshoot]。
+    If the command isn't found or there's an error,
+    check out [Flutter installation troubleshooting][troubleshoot].
 
 {:.steps}
 
@@ -215,16 +220,17 @@ description: >-
 [flutter-vscode]: https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter
 [troubleshoot]: /install/troubleshoot
 
-## 繼續你的 Flutter 之旅 {: #next-steps}
+## Continue your Flutter journey {: #next-steps}
 
-現在你已成功安裝 Flutter，
-請設定至少一個目標平台的開發環境，
-以繼續你的 Flutter 之旅。
+Now that you've successfully installed Flutter,
+set up development for at least one target platform
+to continue your journey with Flutter.
 
 :::recommend
-如果你尚未決定開發時要針對哪個目標平台，
-Flutter 團隊建議你可以先嘗試
-[開發 Web 應用程式][web-setup]！
+If you don't yet have a preferred platform
+to target during development,
+the Flutter team recommends you first try out
+[developing for the web][web-setup]!
 :::
 
 [web-setup]: /platform-integration/web/setup
@@ -235,27 +241,27 @@ Flutter 團隊建議你可以先嘗試
       <img src="/assets/images/decorative/flutter-on-phone.svg" height="160" aria-hidden="true" alt="A representation of Flutter on multiple devices.">
     </div>
     <div class="card-header">
-      <span class="card-title">設定目標平台</span>
+      <span class="card-title">Set up a target platform</span>
     </div>
     <div class="card-content">
       <ul>
         <li>
-          <a class="text-button" href="/platform-integration/web/setup">目標 Web</a>
+          <a class="text-button" href="/platform-integration/web/setup">Target the web</a>
         </li>
         <li>
-          <a class="text-button" href="/platform-integration/android/setup">目標 Android</a>
+          <a class="text-button" href="/platform-integration/android/setup">Target Android</a>
         </li>
         <li class="macos-only">
-          <a class="text-button" href="/platform-integration/ios/setup">目標 iOS</a>
+          <a class="text-button" href="/platform-integration/ios/setup">Target iOS</a>
         </li>
         <li class="macos-only">
-          <a class="text-button" href="/platform-integration/macos/setup">目標 macOS</a>
+          <a class="text-button" href="/platform-integration/macos/setup">Target macOS</a>
         </li>
         <li class="windows-only">
-          <a class="text-button" href="/platform-integration/windows/setup">目標 Windows</a>
+          <a class="text-button" href="/platform-integration/windows/setup">Target Windows</a>
         </li>
         <li class="linux-only">
-          <a class="text-button" href="/platform-integration/linux/setup">目標 Linux</a>
+          <a class="text-button" href="/platform-integration/linux/setup">Target Linux</a>
         </li>
       </ul>
     </div>
@@ -266,18 +272,18 @@ Flutter 團隊建議你可以先嘗試
       <img src="/assets/images/decorative/pointing-the-way.png" height="160" aria-hidden="true" alt="Dash helping you explore Flutter learning resources.">
     </div>
     <div class="card-header">
-      <span class="card-title">學習 Flutter 開發</span>
+      <span class="card-title">Learn Flutter development</span>
     </div>
     <div class="card-content">
       <ul>
         <li>
-          <a class="text-button" href="/get-started/codelab">撰寫你的第一個應用程式</a>
+          <a class="text-button" href="/get-started/codelab">Write your first app</a>
         </li>
         <li>
-          <a class="text-button" href="/get-started/fundamentals">學習基礎知識</a>
+          <a class="text-button" href="/get-started/fundamentals">Learn the fundamentals</a>
         </li>
         <li>
-          <a class="text-button" href="https://www.youtube.com/watch?v=b_sQ9bMltGU&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG">探索 Flutter 元件 (Widgets)</a>
+          <a class="text-button" href="https://www.youtube.com/watch?v=b_sQ9bMltGU&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG">Explore Flutter widgets</a>
         </li>
       </ul>
     </div>
@@ -288,18 +294,18 @@ Flutter 團隊建議你可以先嘗試
       <img src="/assets/images/decorative/up-to-date.png" height="160" aria-hidden="true" alt="Keep up to date with Flutter">
     </div>
     <div class="card-header">
-      <span class="card-title">隨時掌握 Flutter 最新動態</span>
+      <span class="card-title">Stay up to date with Flutter</span>
     </div>
     <div class="card-content">
       <ul>
         <li>
-          <a class="text-button" href="/install/upgrade">更新 Flutter</a>
+          <a class="text-button" href="/install/upgrade">Update Flutter</a>
         </li>
         <li>
-          <a class="text-button" href="/release/release-notes">了解最新消息</a>
+          <a class="text-button" href="/release/release-notes">Find out what's new</a>
         </li>
         <li>
-          <a class="text-button" href="{{site.social.youtube}}">訂閱 YouTube 頻道</a>
+          <a class="text-button" href="{{site.social.youtube}}">Subscribe on YouTube</a>
         </li>
       </ul>
     </div>

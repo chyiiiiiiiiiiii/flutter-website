@@ -1,49 +1,51 @@
 ---
-title: 在 iOS 應用程式中加入 Flutter 螢幕
-shortTitle: 加入 Flutter 螢幕
-description: 學習如何在既有的 iOS 應用程式中加入單一 Flutter 螢幕。
+title: Add a Flutter screen to an iOS app
+shortTitle: Add a Flutter screen
+description: Learn how to add a single Flutter screen to your existing iOS app.
 ---
 
-本指南說明如何在既有的 iOS 應用程式中加入單一 Flutter 螢幕。
+This guide describes how to add a single Flutter screen to an existing iOS app.
 
-## 啟動 FlutterEngine 與 FlutterViewController
+## Start a FlutterEngine and FlutterViewController
 
-若要從既有的 iOS 應用程式啟動 Flutter 螢幕，你需要啟動一個
-[`FlutterEngine`][`FlutterEngine`] 和一個 [`FlutterViewController`][`FlutterViewController`]。
+To launch a Flutter screen from an existing iOS app, you start a
+[`FlutterEngine`][] and a [`FlutterViewController`][].
 
 :::note
-`FlutterEngine` 作為 Dart VM 與 Flutter 執行階段的主機，
-而 `FlutterViewController` 則會附加到 `FlutterEngine`，以將
-輸入事件傳遞給 Flutter，並顯示由
-`FlutterEngine` 所繪製的畫面。
+The `FlutterEngine` serves as a host to the Dart VM and your Flutter runtime,
+and the `FlutterViewController` attaches to a `FlutterEngine` to pass 
+input events into Flutter and to display frames rendered by the
+`FlutterEngine`.
 :::
 
-`FlutterEngine` 的生命週期可以與你的
-`FlutterViewController` 相同，或比你的 `FlutterViewController` 更長。
+The `FlutterEngine` might have the same lifespan as your
+`FlutterViewController` or outlive your `FlutterViewController`.
 
 :::tip
-一般建議為你的應用程式預先啟動（pre-warm）一個長生命週期的
-`FlutterEngine`，原因如下：
+It's generally recommended to pre-warm a long-lived
+`FlutterEngine` for your application because:
 
-* 顯示 `FlutterViewController` 時，第一幀畫面會更快出現。
-* 你的 Flutter 與 Dart 狀態會比單一 `FlutterViewController` 存活得更久。
-* 在顯示 UI 之前，你的應用程式與插件可以與 Flutter 及 Dart
-  邏輯互動。
+* The first frame appears faster when showing the `FlutterViewController`.
+* Your Flutter and Dart state will outlive one `FlutterViewController`.
+* Your application and your plugins can interact with Flutter and your Dart
+  logic before showing the UI.
 :::
 
-關於預先啟動引擎的延遲與記憶體取捨分析，請參閱[載入流程與效能][Loading sequence and performance]。
+See [Loading sequence and performance][]
+for more analysis on the latency and memory
+trade-offs of pre-warming an engine.
 
-### 建立 FlutterEngine
+### Create a FlutterEngine
 
-你應該在何處建立 `FlutterEngine`，取決於你的主應用程式架構。
+Where you create a `FlutterEngine` depends on your host app.
 
 {% tabs "darwin-framework" %}
 {% tab "SwiftUI" %}
 
-在此範例中，我們在 SwiftUI 的 [`Observable`][`Observable`]
-物件中建立一個 `FlutterEngine` 物件，名稱為 `FlutterDependencies`。
-透過呼叫 `run()` 來預先啟動引擎，然後使用 `environment()` view modifier
-將此物件注入到 `ContentView` 中。 
+In this example, we create a `FlutterEngine` object inside a SwiftUI [`Observable`][] 
+object called `FlutterDependencies`. 
+Pre-warm the engine by calling `run()`, and then inject this object 
+into a `ContentView` using the `environment()` view modifier. 
 
  ```swift title="MyApp.swift"
 import SwiftUI
@@ -78,7 +80,9 @@ struct MyApp: App {
 {% endtab %}
 {% tab "UIKit-Swift" %}
 
-舉例來說，我們將示範如何在應用程式啟動時，於 app delegate 中建立一個`FlutterEngine`，並將其作為屬性公開。
+As an example, we demonstrate creating a
+`FlutterEngine`, exposed as a property, on app startup in
+the app delegate.
 
 ```swift title="AppDelegate.swift"
 import UIKit
@@ -103,7 +107,8 @@ class AppDelegate: FlutterAppDelegate { // More on the FlutterAppDelegate.
 {% endtab %}
 {% tab "UIKit-ObjC" %}
 
-以下範例說明如何在 app 啟動時於 app delegate 中建立一個 `FlutterEngine`，並將其作為屬性公開。
+The following example demonstrates creating a `FlutterEngine`, 
+exposed as a property, on app startup in the app delegate.
 
 ```objc title="AppDelegate.h"
 @import UIKit;
@@ -138,17 +143,17 @@ class AppDelegate: FlutterAppDelegate { // More on the FlutterAppDelegate.
 {% endtab %}
 {% endtabs %}
 
-### 使用你的 FlutterEngine 顯示 FlutterViewController
+### Show a FlutterViewController with your FlutterEngine
 
 {% tabs "darwin-framework" %}
 {% tab "SwiftUI" %}
 
-以下範例展示了一個通用的 `ContentView`，其
-[`NavigationLink`][`NavigationLink`] 已連接到一個 Flutter 螢幕。
-首先，建立一個 `FlutterViewControllerRepresentable` 來代表
-`FlutterViewController`。`FlutterViewController` 的建構子會接收
-預先啟動的 `FlutterEngine` 作為參數，並透過
-view environment 注入。 
+The following example shows a generic `ContentView` with a 
+[`NavigationLink`][] hooked to a flutter screen. 
+First, create a `FlutterViewControllerRepresentable` to represent the 
+`FlutterViewController`. The `FlutterViewController` constructor takes 
+the pre-warmed `FlutterEngine` as an argument, which is injected through
+the view environment. 
 
 ```swift title="ContentView.swift"
 import SwiftUI
@@ -179,17 +184,20 @@ struct ContentView: View {
 }
 ```
 
-現在，你已經在你的 iOS 應用程式中嵌入了一個 Flutter 螢幕。
+Now, you have a Flutter screen embedded in your iOS app.
 
 :::note
-在這個範例中，當 `FlutterDependencies` observable 被初始化時，你的 Dart `main()` entrypoint 函式會執行。
+In this example, your Dart `main()` entrypoint function runs 
+when the `FlutterDependencies` observable is initialized. 
 :::
 
 {% endtab %}
 {% tab "UIKit-Swift" %}
 
-以下範例展示了一個通用的 `ViewController`，其中有一個 `UIButton` 綁定用來顯示一個 [`FlutterViewController`][`FlutterViewController`]。
-`FlutterViewController` 使用在 `AppDelegate` 中建立的 `FlutterEngine` 實例。
+The following example shows a generic `ViewController` with a
+`UIButton` hooked to present a [`FlutterViewController`][].
+The `FlutterViewController` uses the `FlutterEngine` instance
+created in the `AppDelegate`.
 
 ```swift title="ViewController.swift"
 import UIKit
@@ -217,18 +225,23 @@ class ViewController: UIViewController {
 }
 ```
 
-現在，你已經在你的 iOS 應用程式中嵌入了一個 Flutter 螢幕。
+Now, you have a Flutter screen embedded in your iOS app.
 
 :::note
-根據前述範例，當你在`AppDelegate`中建立的`FlutterEngine`上呼叫`run`時，預設 Dart 函式庫的預設`main()`進入點函式會被執行。
+Using the previous example, the default `main()`
+entrypoint function of your default Dart library
+would run when calling `run` on the
+`FlutterEngine` created in the `AppDelegate`.
 :::
 
 
 {% endtab %}
 {% tab "UIKit-ObjC" %}
 
-以下範例展示了一個通用的`ViewController`，其中有一個`UIButton`用來呈現一個[`FlutterViewController`][`FlutterViewController`]。
-`FlutterViewController`會使用在`AppDelegate`中建立的`FlutterEngine`實例。
+The following example shows a generic `ViewController` with a
+`UIButton` hooked to present a [`FlutterViewController`][].
+The `FlutterViewController` uses the `FlutterEngine` instance
+created in the `AppDelegate`.
 
 ```objc title="ViewController.m"
 @import Flutter;
@@ -260,30 +273,36 @@ class ViewController: UIViewController {
 @end
 ```
 
-現在，你已經在你的 iOS 應用程式中嵌入了一個 Flutter 螢幕。
+Now, you have a Flutter screen embedded in your iOS app.
 
 :::note
-根據前面的範例，當你在 `AppDelegate` 中建立的 `FlutterEngine` 上呼叫 `run` 時，你預設 Dart 函式庫的預設 `main()`
-進入點（entrypoint）函式會被執行。
+Using the previous example, the default `main()`
+entrypoint function of your default Dart library
+would run when calling `run` on the
+`FlutterEngine` created in the `AppDelegate`.
 :::
 
 
 {% endtab %}
 {% endtabs %}
 
-### _另一種方式_ - 使用隱式 FlutterEngine 建立 FlutterViewController
+### _Alternatively_ - Create a FlutterViewController with an implicit FlutterEngine
 
-作為前述範例的替代方案，你也可以讓
-`FlutterViewController` 隱式地自行建立一個 `FlutterEngine`，
-而不需要事先預熱（pre-warming）。
+As an alternative to the previous example, you can let the
+`FlutterViewController` implicitly create its own `FlutterEngine` without
+pre-warming one ahead of time.
 
-通常不建議這麼做，因為隨需建立
-`FlutterEngine` 可能會導致從顯示 `FlutterViewController`
-到其渲染第一幀之間出現明顯的延遲。不過，如果 Flutter 螢幕很少被顯示、沒有合適的啟發式方法來判斷何時啟動 Dart VM，且 Flutter 不需要在不同 view controller 之間保留狀態時，這種方式可能會有用。
+This is not usually recommended because creating a
+`FlutterEngine` on-demand could introduce a noticeable
+latency between when the `FlutterViewController` is
+presented and when it renders its first frame. This could, however, be
+useful if the Flutter screen is rarely shown, when there are no good
+heuristics to determine when the Dart VM should be started, and when Flutter
+doesn't need to persist state between view controllers.
 
-若要讓 `FlutterViewController` 在沒有現有
-`FlutterEngine` 的情況下顯示，請省略 `FlutterEngine` 的建立，並在沒有 engine 參考的情況下建立
-`FlutterViewController`。
+To let the `FlutterViewController` present without an existing
+`FlutterEngine`, omit the `FlutterEngine` construction, and create the
+`FlutterViewController` without an engine reference.
 
 {% tabs "darwin-framework" %}
 {% tab "SwiftUI" %}
@@ -341,20 +360,26 @@ func showFlutter() {
 {% endtab %}
 {% endtabs %}
 
-請參閱[載入順序與效能][Loading sequence and performance]，以深入瞭解延遲與記憶體使用情況。
+See [Loading sequence and performance][]
+for more explorations on latency and memory usage.
 
-## 使用 FlutterAppDelegate
+## Using the FlutterAppDelegate
 
-建議（但非強制）讓你的應用程式的`UIApplicationDelegate`子類別繼承`FlutterAppDelegate`。
+Letting your application's `UIApplicationDelegate` subclass
+`FlutterAppDelegate` is recommended but not required.
 
-`FlutterAppDelegate`會執行以下功能：
+The `FlutterAppDelegate` performs functions such as:
 
-* 轉發應用程式回呼（如 [`openURL`][`openURL`]）給像 [local_auth][local_auth] 這樣的插件。
-* 在偵錯模式下，當手機螢幕鎖定時，保持 Flutter 連線開啟。
+* Forwarding application callbacks such as [`openURL`][]
+  to plugins such as [local_auth][].
+* Keeping the Flutter connection open 
+  in debug mode when the phone screen locks.
 
-### 建立 FlutterAppDelegate 子類別
-在 UIKit 應用程式中建立`FlutterAppDelegate`的子類別，已在[啟動 FlutterEngine 與 FlutterViewController 章節][Start a FlutterEngine and FlutterViewController section]中說明。
-在 SwiftUI 應用程式中，你可以建立`FlutterAppDelegate`的子類別，並使用 [`Observable()`][`Observable()`] 巨集進行標註，如下所示：
+### Creating a FlutterAppDelegate subclass
+Creating a subclass of the `FlutterAppDelegate` in UIKit apps was shown 
+in the [Start a FlutterEngine and FlutterViewController section][]. 
+In a SwiftUI app, you can create a subclass of the 
+`FlutterAppDelegate` and annotate it with the [`Observable()`][] macro as follows:
 
 ```swift title="MyApp.swift"
 import SwiftUI
@@ -390,7 +415,7 @@ struct MyApp: App {
 }
 ```
 
-然後，在你的視圖中，`AppDelegate` 可以透過 view environment 取得。
+Then, in your view, the `AppDelegate` is accessible through the view environment.
 
 ```swift title="ContentView.swift"
 import SwiftUI
@@ -421,11 +446,14 @@ struct ContentView: View {
 }
 ```
 
-### 如果你無法直接讓 FlutterAppDelegate 成為子類別
+### If you can't directly make FlutterAppDelegate a subclass
 
-如果你的 app delegate 無法直接讓 `FlutterAppDelegate` 成為其子類別，請讓你的 app delegate 實作 `FlutterAppLifeCycleProvider` protocol，以確保你的插件（plugins）能收到必要的回呼（callback）。否則，依賴這些事件的插件可能會出現未定義的行為。
+If your app delegate can't directly make `FlutterAppDelegate` a subclass,
+make your app delegate implement the `FlutterAppLifeCycleProvider`
+protocol in order to make sure your plugins receive the necessary callbacks.
+Otherwise, plugins that depend on these events might have undefined behavior.
 
-例如：
+For instance:
 
 {% tabs "darwin-language" %}
 {% tab "Swift" %}
@@ -502,8 +530,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, FlutterAppLifeCycleProvid
 @end
 ```
 
-此實作應主要委派給
-`FlutterPluginAppLifeCycleDelegate`：
+The implementation should delegate mostly to a
+`FlutterPluginAppLifeCycleDelegate`:
 
 ```objc title="AppDelegate.m"
 @interface AppDelegate ()
@@ -607,26 +635,27 @@ performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult result))comp
 {% endtab %}
 {% endtabs %}
 
-## 啟動選項
+## Launch options
 
-這些範例展示了如何使用預設的啟動設定來執行 Flutter。
+The examples demonstrate running Flutter using the default launch settings.
 
-若要自訂你的 Flutter 執行環境，
-你也可以指定 Dart 的 entrypoint（進入點）、library（函式庫）以及 route（路由）。
+In order to customize your Flutter runtime,
+you can also specify the Dart entrypoint, library, and route.
 
-### Dart entrypoint（進入點）
+### Dart entrypoint
 
-在 `FlutterEngine` 上呼叫 `run`，預設會執行
-你的 `lib/main.dart` 檔案中的 `main()` Dart 函式。
+Calling `run` on a `FlutterEngine`, by default,
+runs the `main()` Dart function
+of your `lib/main.dart` file.
 
-你也可以透過
-[`runWithEntrypoint`][`runWithEntrypoint`] 並傳入一個 `NSString` 來指定
-不同的 Dart 進入點函式。
+You can also run a different entrypoint function by using
+[`runWithEntrypoint`][] with an `NSString` specifying
+a different Dart function.
 
 :::note
-除了 `main()` 以外的 Dart 進入點函式，
-必須加上以下註解，才能在編譯時
-避免被 [tree-shaken][tree-shaken] 移除：
+Dart entrypoint functions other than `main()`
+must be annotated with the following in order to
+not be [tree-shaken][] away when compiling:
 
 ```dart
 @pragma('vm:entry-point')
@@ -634,11 +663,13 @@ void myOtherEntrypoint() { ... };
 ```
 :::
 
-### Dart 函式庫
+### Dart library
 
-除了可以指定 Dart 函式之外，你也可以在特定檔案中指定一個 entrypoint（進入點）函式。
+In addition to specifying a Dart function, you can specify an entrypoint
+function in a specific file.
 
-例如，以下範例會在 `lib/other_file.dart` 執行 `myOtherEntrypoint()`，而不是在 `lib/main.dart` 執行 `main()`：
+For instance the following runs `myOtherEntrypoint()`
+in `lib/other_file.dart` instead of `main()` in `lib/main.dart`:
 
 {% tabs "darwin-language" %}
 {% tab "Swift" %}
@@ -660,8 +691,9 @@ flutterEngine.run(withEntrypoint: "myOtherEntrypoint", libraryURI: "other_file.d
 
 ### Route
 
-從 Flutter 1.22 版本開始，您可以在建立 Flutter
-[`WidgetsApp`][`WidgetsApp`] 時，為 FlutterEngine 或 FlutterViewController 設定初始 Route（路由）。
+Starting in Flutter version 1.22, an initial route can be set for your Flutter
+[`WidgetsApp`][] when constructing the FlutterEngine or the
+FlutterViewController.
 
 {% tabs "darwin-language" %}
 {% tab "Swift" %}
@@ -686,11 +718,11 @@ FlutterEngine *flutterEngine = [[FlutterEngine alloc] init];
 {% endtab %}
 {% endtabs %}
 
-這段程式碼將你的 `dart:ui` 的 [`PlatformDispatcher.defaultRouteName`][`PlatformDispatcher.defaultRouteName`]
-設為 `"/onboarding"`，而不是 `"/"`。
+This code sets your `dart:ui`'s [`PlatformDispatcher.defaultRouteName`][]
+to `"/onboarding"` instead of `"/"`.
 
-另外，如果你想直接建立一個 FlutterViewController，而不需要預先啟動
-FlutterEngine，可以這麼做：
+Alternatively, to construct a FlutterViewController directly without pre-warming
+a FlutterEngine:
 
 {% tabs "darwin-language" %}
 {% tab "Swift" %}
@@ -715,16 +747,24 @@ FlutterViewController* flutterViewController =
 {% endtabs %}
 
 :::tip
-如果你想在 `FlutterEngine` 已經執行後，從平台端以命令方式變更目前的 Flutter Route，可以在 `FlutterViewController` 上使用 [`pushRoute()`][`pushRoute()`] 或 [`popRoute()`]。
+In order to imperatively change your current Flutter
+route from the platform side after the `FlutterEngine`
+is already running, use [`pushRoute()`][]
+or [`popRoute()`] on the `FlutterViewController`.
 
-若要從 Flutter 端 pop 出 iOS Route，請呼叫 [`SystemNavigator.pop()`][`SystemNavigator.pop()`]。
+To pop the iOS route from the Flutter side,
+call [`SystemNavigator.pop()`][].
 :::
 
-如需更多關於 Flutter Route 的資訊，請參閱 [Navigation and routing][Navigation and routing]。
+See [Navigation and routing][] for more about Flutter's routes.
 
-### 其他
+### Other
 
-前述範例僅說明了自訂 Flutter 實例啟動方式的幾種方法。透過 [platform channels][platform channels]，你可以在使用 `FlutterViewController` 呈現 Flutter UI 之前，自由地推送資料或以任何你想要的方式準備 Flutter 執行環境。
+The previous example only illustrates a few ways to customize
+how a Flutter instance is initiated. Using [platform channels][],
+you're free to push data or prepare your Flutter environment
+in any way you'd like, before presenting the Flutter UI using a
+`FlutterViewController`.
 
 
 [`FlutterEngine`]: {{site.api}}/ios-embedder/interface_flutter_engine.html

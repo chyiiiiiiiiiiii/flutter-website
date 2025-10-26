@@ -1,6 +1,6 @@
 ---
-title: 使用命名路由進行導覽
-description: 如何實作命名路由以在螢幕間導覽。
+title: Navigate with named routes
+description: How to implement named routes for navigating between screens.
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -9,38 +9,38 @@ js:
 <?code-excerpt path-base="cookbook/navigation/named_routes"?>
 
 :::note
-大多數應用程式現在已不再建議使用命名路由。
-如需更多資訊，請參閱
-[Limitations][Limitations] 於 [navigation overview][navigation overview] 頁面。
+Named routes are no longer recommended for most
+applications. For more information, see
+[Limitations][] in the [navigation overview][] page.
 :::
 
 [Limitations]: /ui/navigation#limitations
 [navigation overview]: /ui/navigation
 
-在 [Navigate to a new screen and back][Navigate to a new screen and back] 教學中，
-你已學會如何建立新的 Route 並將其推送到 [`Navigator`][`Navigator`]，
-以導覽至新螢幕。
+In the [Navigate to a new screen and back][] recipe,
+you learned how to navigate to a new screen by creating a new route and
+pushing it to the [`Navigator`][].
 
-然而，如果你需要在應用程式的多個地方導覽至相同的螢幕，
-這種做法會導致程式碼重複。
-解決方法是定義一個 _命名路由_（named route），
-並使用命名路由來進行導覽。
+However, if you need to navigate to the same screen in many parts
+of your app, this approach can result in code duplication.
+The solution is to define a _named route_,
+and use the named route for navigation.
 
-要使用命名路由，
-請使用 [`Navigator.pushNamed()`][`Navigator.pushNamed()`] 函式。
-本範例重現了原始教學的功能，
-並透過以下步驟示範如何使用命名路由：
+To work with named routes,
+use the [`Navigator.pushNamed()`][] function.
+This example replicates the functionality from the original recipe,
+demonstrating how to use named routes using the following steps:
 
-  1. 建立兩個螢幕。
-  2. 定義路由。
-  3. 使用 `Navigator.pushNamed()` 導覽至第二個螢幕。
-  4. 使用 `Navigator.pop()` 返回第一個螢幕。
+  1. Create two screens.
+  2. Define the routes.
+  3. Navigate to the second screen using `Navigator.pushNamed()`.
+  4. Return to the first screen using `Navigator.pop()`.
 
-## 1. 建立兩個螢幕
+## 1. Create two screens
 
-首先，建立兩個要操作的螢幕。第一個螢幕包含一個
-按鈕，用來導覽至第二個螢幕。第二個螢幕則包含一個
-按鈕，可導覽回第一個螢幕。
+First, create two screens to work with. The first screen contains a
+button that navigates to the second screen. The second screen contains a
+button that navigates back to the first.
 
 <?code-excerpt "lib/main_original.dart"?>
 ```dart
@@ -85,13 +85,15 @@ class SecondScreen extends StatelessWidget {
 }
 ```
 
-## 2. 定義路由
+## 2. Define the routes
 
-接下來，透過在 [`MaterialApp`][`MaterialApp`] 建構函式中提供額外的屬性來定義路由：`initialRoute`
-以及 `routes` 本身。
+Next, define the routes by providing additional properties
+to the [`MaterialApp`][] constructor: the `initialRoute`
+and the `routes` themselves.
 
-`initialRoute` 屬性用來定義應用程式啟動時應該從哪個路由開始。
-`routes` 屬性則用來定義可用的命名路由（named routes）以及在導向這些路由時要建立的元件（Widgets）。
+The `initialRoute` property defines which route the app should start with.
+The `routes` property defines the available named routes and the widgets
+to build when navigating to those routes.
 
 {% comment %}
 RegEx removes the trailing comma
@@ -113,17 +115,18 @@ MaterialApp(
 ```
 
 :::warning
-當你使用 `initialRoute` 時，**不要** 定義 `home` 屬性。
+When using `initialRoute`, **don't** define a `home` property.
 :::
 
-## 3. 導航至第二個螢幕
+## 3. Navigate to the second screen
 
-當元件（Widgets）與命名路由（routes）都設定完成後，可以透過
-[`Navigator.pushNamed()`][`Navigator.pushNamed()`] 方法來觸發導航。
-這會告訴 Flutter 去建立在 `routes` 表格中定義的元件（Widget），並開啟該螢幕。
+With the widgets and routes in place, trigger navigation by using the
+[`Navigator.pushNamed()`][] method.
+This tells Flutter to build the widget defined in the
+`routes` table and launch the screen.
 
-在 `FirstScreen` 元件（Widget）的 `build()` 方法中，更新 `onPressed()`
-回呼函式（callback）：
+In the `build()` method of the `FirstScreen` widget, update the `onPressed()`
+callback:
 
 {% comment %}
 RegEx removes the trailing comma
@@ -137,10 +140,10 @@ onPressed: () {
 }
 ```
 
-## 4. 返回第一個螢幕
+## 4. Return to the first screen
 
-若要導覽回到第一個螢幕，請使用
-[`Navigator.pop()`][`Navigator.pop()`] 函式。
+To navigate back to the first screen, use the
+[`Navigator.pop()`][] function.
 
 {% comment %}
 RegEx removes the trailing comma
@@ -155,7 +158,7 @@ onPressed: () {
 }
 ```
 
-## 互動範例
+## Interactive example
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter Named Routes hands-on example in DartPad" run="true"
@@ -223,7 +226,7 @@ class SecondScreen extends StatelessWidget {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/navigation-basics.webp" alt="導航基礎示範" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/navigation-basics.webp" alt="Navigation Basics Demo" class="site-mobile-screenshot" />
 </noscript>
 
 

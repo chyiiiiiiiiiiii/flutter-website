@@ -1,34 +1,47 @@
 ---
-title: 帶有 action 的 SnackBar 不再自動關閉
+title: SnackBar with action no longer auto-dismisses
 description: >-
-  帶有 action 按鈕的 SnackBar 現在預設不會自動關閉，除非使用者手動關閉。
+  SnackBars with an action button now default to not auto-dismissing unless
+  manually dismissed by the user.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-帶有 action 的 [`SnackBar`][`SnackBar`] 的預設行為已經變更。過去，帶有 action 的 `SnackBar` 在啟用 talkback 時不會自動關閉。
-現在，所有帶有 action 的 `SnackBar` 預設都會維持在螢幕上，直到使用者與 action 按鈕互動為止。
+The default behavior of a [`SnackBar`][] with an action has changed. Previously, a
+`SnackBar` with an action would not auto-dismiss if talkback was enabled. 
+Now, all `SnackBar`s with an action default to a non-dismissible state until the
+user interacts with the action button.
 
-## 背景說明
+## Context
 
-帶有 action 按鈕的 `SnackBar` 現在被視為需要使用者互動的較持久通知。這項變更提升了無障礙性與使用者體驗，確保重要通知會一直顯示在螢幕上，直到被確認。
+A `SnackBar` with an action button is now treated as a more persistent
+notification that requires user interaction. This change improves accessibility
+and user experience by ensuring that critical notifications remain on the screen
+until they are acknowledged.
 
-## 變更說明
+## Description of change
 
-這項變更符合 Material 3 設計規範對 `SnackBar` 的要求：
-* 舊行為：帶有 action 按鈕的 `SnackBar` 會在一段時間後自動關閉，除非啟用 talkback。
-* 新行為：帶有 action 按鈕的 `SnackBar` 不會自動關閉；它會一直顯示在螢幕上，直到使用者手動關閉。
+This change aligns with the Material 3 design specifications for `SnackBar`s:
+* Old behavior: A `SnackBar` with an action button would auto-dismiss after a
+  duration unless talkback was enabled.
+* New behavior: A `SnackBar` with an action button won't auto-dismiss; 
+   it remains on screen until dismissed by the user.
 
-若需覆寫此行為，已在 `SnackBar` 中新增了可選的 `persist` 屬性。
-當 `persist` 為 true 時，`SnackBar` 不會自動關閉，並會一直顯示在螢幕上，直到使用者手動關閉。若為 false，`SnackBar` 會在標準時間後自動關閉，不論是否有 action。若為 null，`SnackBar` 則會遵循預設行為：若有 action 則不會自動關閉。
+To override this behavior, an optional `persist` property has 
+been added to `SnackBar`. When `persist` is true, the `SnackBar` won't auto-dismiss  
+and remains on screen until manually dismissed by the user. When false, the 
+`SnackBar` auto-dismisses after its standard duration, regardless of the 
+presence of an action. When null, the `SnackBar` follows the default 
+behavior, which won't auto-dismiss if an action is present.
 
-## 移轉指南
+## Migration guide
 
-若要讓帶有 action 的 SnackBar 恢復舊有的自動關閉行為，請將 `persist` 設為 false。
+To restore the old auto-dismiss behavior for a SnackBar with an action, set
+`persist` to false.
 
-移轉前的程式碼：
+Code before migration:
 
 ```dart
 ScaffoldMessenger.of(context).showSnackBar(
@@ -44,7 +57,7 @@ ScaffoldMessenger.of(context).showSnackBar(
 );
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 ScaffoldMessenger.of(context).showSnackBar(
@@ -61,20 +74,20 @@ ScaffoldMessenger.of(context).showSnackBar(
 );
 ```
 
-## 時程
+## Timeline
 
-納入版本：TBD  
-穩定版釋出：TBD
+Landed in version: TBD
+In stable release: TBD
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`SnackBar`][`SnackBar`]
+* [`SnackBar`][]
 
-相關 PR：
+Relevant PRs:
 
-* [SnackBar with action no longer auto-dismisses][SnackBar with action no longer auto-dismisses]
+* [SnackBar with action no longer auto-dismisses][]
 
 [`SnackBar`]: {{site.api}}/flutter/material/SnackBar-class.html
 

@@ -1,26 +1,41 @@
 ---
-title: 使用 Flutter 建置 Linux 應用程式
-description: 使用 Flutter 為 Linux 建置應用程式時的平臺專屬注意事項。
-shortTitle: Linux 開發
+title: Build Linux apps with Flutter
+description: Platform-specific considerations when building for Linux with Flutter.
+shortTitle: Linux development
 ---
 
-本頁說明使用 Flutter 建置 Linux 應用程式時的專屬考量，包括 Shell 整合以及應用程式發佈前的準備事項。
+This page discusses considerations unique to building
+Linux apps with Flutter, including shell integration
+and preparation of apps for distribution.
 
-## 與 Linux 整合
+## Integrate with Linux
 
-Linux 的程式設計介面（包括函式庫函數與系統呼叫）是以 C 語言及其 ABI 為基礎設計的。所幸，Dart 提供了 `dart:ffi` 套件，使 Dart 程式能夠呼叫 C 函式庫。
+The Linux programming interface,
+comprising library functions and system calls,
+is designed around the C language and ABI.
+Fortunately, Dart provides the `dart:ffi` package,
+which enables Dart programs to call into C libraries.
 
-Foreign Function Interfaces（FFI，外部函式介面）讓 Flutter 應用程式能夠對原生函式庫執行以下操作：
+Foreign Function Interfaces (FFI) allow Flutter apps to perform the
+following with native libraries:
 
-* 使用 `malloc` 或 `calloc` 配置原生記憶體
-* 支援指標、結構體與回呼（callback）
-* 支援如 `long` 與 `size_t` 等 Application Binary Interface（ABI）型別
+* allocate native memory with `malloc` or `calloc`
+* support pointers, structs, and callbacks
+* support Application Binary Interface (ABI) types like `long` and `size_t`
 
-如需進一步瞭解如何從 Flutter 呼叫 C 函式庫，請參考 [使用 `dart:ffi` 進行 C 互操作][C interop using `dart:ffi`]。
+To learn more about calling C libraries from Flutter,
+consult [C interop using `dart:ffi`][].
 
-許多應用程式受益於使用將底層函式庫呼叫包裝成更方便、符合 Dart 慣用寫法的 API 的套件。[Canonical 已經開發了一系列套件][Canonical]，專注於讓 Dart 與 Flutter 能在 Linux 上運作，包括桌面通知、dbus、網路管理及藍牙等支援。
+Many apps benefit from using a package that wraps the underlying library
+calls in a more convenient, idiomatic Dart API.
+[Canonical has built a series of packages][Canonical]
+with a focus on enabling Dart and Flutter on Linux,
+including support for desktop notifications,
+dbus, network management, and Bluetooth.
 
-一般來說，還有許多[支援建立 Linux 應用程式的套件][support-linux]，其中包含常用套件如 [`url_launcher`]、[`shared_preferences`]、[`file_selector`] 及 [`path_provider`]。
+In general, many other [packages support creating Linux apps][support-linux],
+including common packages such as [`url_launcher`],
+[`shared_preferences`], [`file_selector`], and [`path_provider`].
 
 [C interop using `dart:ffi`]: {{site.dart-site}}/guides/libraries/c-interop
 [Canonical]: {{site.pub}}/publishers/canonical.com/packages
@@ -30,41 +45,48 @@ Foreign Function Interfaces（FFI，外部函式介面）讓 Flutter 應用程�
 [`file_selector`]: {{site.pub-pkg}}/file_selector
 [`path_provider`]: {{site.pub-pkg}}/path_provider
 
-## 為 Linux 應用程式發佈做準備
+## Prepare Linux apps for distribution
 
-可執行的二進位檔案會位於你的專案目錄下的 `build/linux/x64/<build mode>/bundle/`。
-在 `bundle` 目錄下，除了可執行檔之外，還會有兩個目錄：
+The executable binary can be found in your project under
+`build/linux/x64/<build mode>/bundle/`.
+Alongside your executable binary in the `bundle` directory,
+you can find two directories:
 
-* `lib` 包含必要的 `.so` 函式庫檔案
-* `data` 則包含應用程式的資料資源，例如字型或圖片
+* `lib` contains the required `.so` library files
+* `data` contains the application's data assets, such as fonts or images
 
-除了這些檔案之外，你的應用程式還會依賴多個作業系統函式庫，這些函式庫是在編譯時連結的。若要查看完整的函式庫清單，可以在應用程式目錄下使用 `ldd` 指令。
+In addition to these files, your application also relies on various
+operating system libraries against which it's been compiled.
+To see the full list of libraries,
+use the `ldd` command on your application's directory.
 
-舉例來說，假設你有一個名為 `linux_desktop_test` 的 Flutter 桌面應用程式。
-若要檢查其系統函式庫相依性，可以使用下列指令：
+For example, assume you have a Flutter desktop application
+called `linux_desktop_test`.
+To inspect the its system library dependencies, use the following commands:
 
 ```console
 $ flutter build linux --release
 $ ldd build/linux/x64/release/bundle/linux_desktop_test
 ```
 
-要將此應用程式打包發行，
-請包含 `bundle` 目錄中的所有內容，
-並確認目標 Linux 系統已具備所有必要的系統函式庫。
+To wrap up this application for distribution,
+include everything in the `bundle` directory
+and verify the target Linux system has all required system libraries.
 
-這通常只需要執行以下指令即可。
+This might only require using the following command.
 
 ```console
 $ sudo apt-get install libgtk-3-0 libblkid1 liblzma5
 ```
 
-若要瞭解如何將 Linux 應用程式發佈到 [Snap Store]，
-請參考[將 Linux 應用程式建置並發佈到 Snap Store][Build and release a Linux application to the Snap Store]。
+To learn how to publish a Linux application to the [Snap Store],
+consult [Build and release a Linux application to the Snap Store][].
 
-## 其他資源
+## Additional resources
 
-若要瞭解如何為你的 Flutter 桌面應用程式建立 Linux Debian（`.deb`）與 RPM（`.rpm`）建置檔，
-請參考逐步說明的 [Linux 打包指南][linux_packaging_guide]。
+To learn how to create Linux Debian (`.deb`) and RPM (`.rpm`)
+builds of your Flutter desktop app,
+consult the step-by-step [Linux packaging guide][linux_packaging_guide].
 
 [Snap Store]: https://snapcraft.io/store
 [Build and release a Linux application to the Snap Store]: /deployment/linux

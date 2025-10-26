@@ -1,52 +1,73 @@
-# DevTools 2.18.0 版本發行說明
+# DevTools 2.18.0 release notes
 
-Dart 與 Flutter DevTools 2.18.0 版本包含以下變更，以及其他一般性改進。  
-如需進一步了解 DevTools，請參閱 [DevTools overview](https://docs.flutter.dev/tools/devtools)。
+The 2.18.0 release of the Dart and Flutter DevTools
+includes the following changes among other general improvements.
+To learn more about DevTools, check out the
+[DevTools overview](https://docs.flutter.dev/tools/devtools).
 
-## Inspector 更新
+## Inspector updates
 
-- 改善自動捲動行為，當將元件 (Widget) 對齊聚焦時更為順暢 - [#4283](https://github.com/flutter/devtools/pull/4283)
-- 修正當連線到暫停中的應用程式時，元件檢查器 (widget inspector) 無法載入的問題 - [#4527](https://github.com/flutter/devtools/pull/4527)
-- 改善元件檢查器 (widget inspector) 的 hover 卡片，等待資料時會顯示進度 - [#4488](https://github.com/flutter/devtools/pull/4488)
+- Auto scrolling behavior improved when snapping a widget into focus -
+  [#4283](https://github.com/flutter/devtools/pull/4283)
+- Fix issue where widget inspector wouldn't load when
+  connecting to a paused app -
+  [#4527](https://github.com/flutter/devtools/pull/4527)
+- Improve widget inspector hover cards to show progress while waiting for data -
+  [#4488](https://github.com/flutter/devtools/pull/4488)
 
-## 效能 (Performance) 更新
+## Performance updates
 
-- 修正捲軸與畫面內容不同步的問題 - [#4503](https://github.com/flutter/devtools/pull/4503)
-- 新增離線瀏覽 raster 統計資料的支援 - [#4491](https://github.com/flutter/devtools/pull/4491)
-- 在 Raster Metrics 分頁中新增「Rendering time」欄位 - [#4474](https://github.com/flutter/devtools/pull/4474)
+- Fix issue where scrollbar would go out of sync with the frame content -
+  [#4503](https://github.com/flutter/devtools/pull/4503)
+- Add offline support for raster stats -
+  [#4491](https://github.com/flutter/devtools/pull/4491)
+- Add 'Rendering time' column to Raster Metrics tab -
+  [#4474](https://github.com/flutter/devtools/pull/4474)
 
   ![render-time-column](/assets/images/docs/tools/devtools/release-notes/images-2.18.0/render-time-column.png "Rendering time column in the Raster Metrics tab")
 
-## CPU 分析器 (Profiler) 更新
+## CPU profiler updates
 
-- 修正過濾空 frame 時發生閃退的問題 - [#4502](https://github.com/flutter/devtools/pull/4502)
-- 修正在 CPU profile 樹狀結構中的錯誤 - [#4413](https://github.com/flutter/devtools/pull/4413)
-- UI 介面優化 - [#4404](https://github.com/flutter/devtools/pull/4404)
+- Fix crash when an empty frame is filtered -
+  [#4502](https://github.com/flutter/devtools/pull/4502)
+- Fix bugs in CPU profile trees -
+  [#4413](https://github.com/flutter/devtools/pull/4413)
+- UI Cleanup - [#4404](https://github.com/flutter/devtools/pull/4404)
 
-## 記憶體 (Memory) 更新
+## Memory updates
 
-- 新增 Profile 與 Allocation Tracing 子分頁 - [#4523](https://github.com/flutter/devtools/pull/4523)
+- Add Profile and Allocation Tracing sub-tabs -
+  [#4523](https://github.com/flutter/devtools/pull/4523)
 
   ![profile](/assets/images/docs/tools/devtools/release-notes/images-2.18.0/profile.png "Profile in Memory tab")
 
   ![allocation-tracing](/assets/images/docs/tools/devtools/release-notes/images-2.18.0/allocation-tracing.png "Allocation Tracing in Memory tab")
 
-- 實作快照視覺化功能 - [#4473](https://github.com/flutter/devtools/pull/4473)
+- Implement snapshot visualization -
+  [#4473](https://github.com/flutter/devtools/pull/4473)
 
-## 除錯器 (Debugger) 更新
+## Debugger updates
 
-- 修正檔案開啟器與搜尋功能的錯誤 - [#4525](https://github.com/flutter/devtools/pull/4525)
-- 修正程式碼檢視區的可捲動範圍 - [#4448](https://github.com/flutter/devtools/pull/4448)
-- 允許在剖析器中對巢狀擷取進行語法高亮 - [#4427](https://github.com/flutter/devtools/pull/4427)
+- Fix bug for file opener and search -
+  [#4525](https://github.com/flutter/devtools/pull/4525)
+- Fix the code view's scrollable area -
+  [#4448](https://github.com/flutter/devtools/pull/4448)
+- Allow syntax highlighting on nested captures in parser -
+  [#4427](https://github.com/flutter/devtools/pull/4427)
 
-## 網路分析器 (Network Profiler) 更新
+## Network profiler updates
 
-- 當位於 Network 分頁時，應用程式進行熱重啟後，網路錄製功能仍可持續運作 - [#4438](https://github.com/flutter/devtools/pull/4438)
+- When on the Network tab, network recordings now continue working
+  after the app hot restarts -
+  [#4438](https://github.com/flutter/devtools/pull/4438)
 
-## 日誌 (Logging) 更新
+## Logging updates
 
-- 現在會顯示來自非 stdout 來源的日誌訊息 - [#4487](https://github.com/flutter/devtools/pull/4487)
+- Log messages from non-stdout sources are now shown -
+  [#4487](https://github.com/flutter/devtools/pull/4487)
 
-## 完整提交紀錄
+## Full commit history
 
-如需查詢自上個版本以來的完整變更清單，請參閱 [the diff on GitHub](https://github.com/flutter/devtools/compare/v2.17.0...v2.18.0)。
+To find a complete list of changes since the previous release,
+check out
+[the diff on GitHub](https://github.com/flutter/devtools/compare/v2.17.0...v2.18.0).

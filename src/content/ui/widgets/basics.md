@@ -1,7 +1,7 @@
 ---
-title: 基本元件
-shortTitle: 基礎
-description: Flutter 基本元件目錄。
+title: Basic widgets
+shortTitle: Basics
+description: A catalog of Flutter's basic widgets.
 ---
 
 {% render docs/catalog-page.md, categoryName:"Basics", catalog:catalog %}

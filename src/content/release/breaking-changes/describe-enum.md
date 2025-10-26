@@ -1,55 +1,55 @@
 ---
-title: describeEnum 與 EnumProperty 的遷移指南
-description: 了解 describeEnum 的移除及如何進行遷移。
+title: Migration guide for describeEnum and EnumProperty
+description: Learn about the removal of describeEnum and how to migrate.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-全域方法 `describeEnum` 已被棄用。先前使用
-`describeEnum(Enum.something)` 的情境，應改為使用
-`Enum.something.name`。
+The global method `describeEnum` has been deprecated. Previous uses
+of `describeEnum(Enum.something)` should use
+`Enum.something.name` instead.
 
-類別 `EnumProperty` 已修改為
-繼承 `<T extends Enum?>`，而非 `<T>`。
-現有使用 `EnumProperty<NotAnEnum>` 的程式碼，
-應改為使用 `DiagnosticsProperty<NotAnEnum>`。
+The class `EnumProperty` was modified to
+extend `<T extends Enum?>` instead of `<T>`. 
+Existing uses of `EnumProperty<NotAnEnum>` should
+use `DiagnosticsProperty<NotAnEnum>` instead.
 
-## 背景說明
+## Context
 
-Dart 2.17 引入了[增強型 enum][enhanced enums]，新增了 `Enum` 作為型別。
-因此，所有 enum 都有了一個 `name` getter，這讓 `describeEnum`
-變得多餘。在此之前，enum 類別經常透過
-`EnumProperty` 來分析。
+Dart 2.17 introduced [enhanced enums][], which added `Enum` as a type.
+As a result, all enums got a `name` getter, which made `describeEnum`
+redundant. Before that, enum classes were often analyzed using an
+`EnumProperty`.
 
-`describeEnum` 方法過去用來將 enum 值轉換為字串，
-因為 `Enum.something.toString()` 會產生 `Enum.something`，
-而不是許多使用者想要的 `something`。現在，`name` getter 已可達成此需求。
+The `describeEnum` method was used to convert an enum value to a string,
+since `Enum.something.toString()` would produce `Enum.something` instead
+of `something`, which a lot of users wanted. Now, the `name` getter does this.
 
-`describeEnum` 函式即將被棄用，
-因此 `EnumProperty` 類別已更新為僅接受 `Enum` 物件。
+The `describeEnum` function is being deprecated,
+so the `EnumProperty` class is updated to only accept `Enum` objects.
 
 [enhanced enums]: {{site.dart-site}}/language/enums#declaring-enhanced-enums
 
-## 變更說明
+## Description of change
 
-移除 `describeEnum`。
+Remove `describeEnum`.
 
-- 將 `describeEnum(Enum.something)` 替換為 `Enum.something.name`。
+- Replace `describeEnum(Enum.something)` with `Enum.something.name`.
 
-`EnumProperty` 現在僅接受 null 或 `Enum`；
-你不能再傳入非 `Enum` 類別。
+The `EnumProperty` now expects null or an `Enum`;
+you can no longer pass it a non-`Enum` class.
 
-## 遷移指南
+## Migration guide
 
-如果你先前使用 `describeEnum(Enum.field)` 來取得 enum 的
-字串值，現在可以直接呼叫 `Enum.field.name`。
+If you previously used `describeEnum(Enum.field)` to access the
+string value from an enum, you can now call `Enum.field.name`.
 
-如果你先前使用 `EnumProperty<NotAnEnum>`，
-現在可以改用泛型的 `DiagnosticsProperty<NotAnEnum>`。
+If you previously used `EnumProperty<NotAnEnum>`, you can
+now use the generic `DiagnosticsProperty<NotAnEnum>`.
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 enum MyEnum { paper, rock }
@@ -60,7 +60,7 @@ print(describeEnum(MyEnum.paper)); // output: paper
 properties.add(EnumProperty<TextInputType>( ... ));
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 enum MyEnum { paper, rock }
@@ -71,25 +71,25 @@ print(MyEnum.paper.name); // output: paper
 properties.add(DiagnosticsProperty<TextInputType>( ... ));
 ```
 
-## 時程
+## Timeline
 
-合併於版本：3.14.0-2.0.pre<br>  
-穩定版發佈於：3.16
+Landed in version: 3.14.0-2.0.pre<br>
+In stable release: 3.16
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`describeEnum`][`describeEnum`]
-* [`EnumProperty`][`EnumProperty`]
+* [`describeEnum`][]
+* [`EnumProperty`][]
 
-相關議題：
+Relevant issues:
 
-* [Cleanup SemanticsFlag and SemanticsAction issue][Cleanup SemanticsFlag and SemanticsAction issue]
+* [Cleanup SemanticsFlag and SemanticsAction issue][]
 
-相關 PR：
+Relevant PRs:
 
-* [Deprecate `describeEnum` PR][Deprecate `describeEnum` PR]
+* [Deprecate `describeEnum` PR][]
 
 [`describeEnum`]: {{site.api}}/flutter/foundation/describeEnum.html
 [`EnumProperty`]: {{site.api}}/flutter/foundation/EnumProperty-class.html

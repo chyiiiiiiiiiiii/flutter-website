@@ -1,75 +1,88 @@
 ---
-title: 安裝疑難排解
-shortTitle: 疑難排解
+title: Troubleshooting installation
+shortTitle: Troubleshoot
 description: >-
-  協助新手 Flutter 開發者解決常見的安裝問題。
+  Get help with common installation issues that new
+  Flutter developers might have run into.
 ---
 
-本頁說明了一些新手 Flutter 使用者常見的安裝問題，並提供了解決建議。
+This page describes some common installation issues that
+new Flutter users have encountered and offers suggestions
+on how to resolve them.
 
-如果在參考本頁內容後仍然遇到問題，建議您前往 [社群支援管道][community support channels] 尋求協助。
-若您想新增主題或修正內容，歡迎[提交 issue][file an issue] 或在 GitHub 上送出 [pull request][pull request]。
+If you are still experiencing problems after
+using this page, consider reaching out to any of
+the resources listed under [community support channels][].
+To add a topic to this page or make a correction,
+you can [file an issue][] or
+submit a [pull request][] on GitHub.
 
-[community support channels]: #社群支援
+[community support channels]: #community-support
 [file an issue]: {{site.github}}/flutter/website/issues/new
 [pull request]: {{site.github}}/flutter/website/pulls
 
-## 取得 Flutter SDK
+## Get the Flutter SDK
 
-### 找不到 `flutter` 指令
+### Unable to find the `flutter` command
 
-__這個問題會出現什麼狀況？__
+__What does this issue look like?__
 
-當你嘗試執行 `flutter` 指令時，終端機找不到該指令。
-通常會出現如下錯誤訊息：
+When you try to run the `flutter` command,
+the console fails to find it.
+The error usually looks as follows:
 
 ```plaintext
 'flutter' is not recognized as an internal or external command operable program or batch file
 ```
 
-在 macOS 和 Linux 上的錯誤訊息可能會與 Windows 上顯示的略有不同。
+Error messages on macOS and Linux could look slightly different from
+the one on Windows.
 
-__說明與建議__
+__Explanation and suggestions__
 
-你是否已經將 Flutter 加入你平台的 `PATH` 環境變數中？
-在 Windows 上，請依照這份[將指令加入 path 的說明][windows path]操作。
+Did you add Flutter to the `PATH` environment variable for your platform?
+On Windows, follow these [instructions for adding a command
+to your path][windows path].
 
-如果你已經[設定好 VS Code][set up VS Code] 以進行 Flutter 開發，
-可以使用 Flutter 擴充功能的 **Locate SDK** 提示，
-來確認你的 `flutter` 資料夾位置。
+If you've already [set up VS Code][] for Flutter development,
+you can use the Flutter extension's **Locate SDK** prompt
+to identify the location of your `flutter` folder.
 
-另請參考：[Configuring PATH and Environment Variables - Dart Code][config path]
+See also: [Configuring PATH and Environment Variables - Dart Code][config path]
 
 [windows path]: https://www.wikihow.com/Change-the-PATH-Environment-Variable-on-Windows
 [set up VS Code]: /tools/vs-code#setup
 [config path]: https://dartcode.org/docs/configuring-path-and-environment-variables/
 
-### Flutter 放在特殊資料夾中
+### Flutter in special folders
 
-__這個問題會是什麼樣子？__
 
-執行你的 Flutter 專案時，會出現如下的錯誤訊息：
+__What does this issue look like?__
+
+Running your Flutter project produces an error like the following:
 
 ```plaintext
 The Flutter SDK is installed in a protected folder and may not function correctly.
 Please move the SDK to a location that is user-writable without Administration permissions and restart.
 ```
 
-__說明與建議__
+__Explanation and suggestions__
 
-在 Windows 上，這通常發生於將 Flutter 安裝在像是
-`C:\Program Files\` 這類需要提升權限的目錄時。
-請嘗試將 Flutter 移動到其他資料夾，
-例如 `C:\src\flutter`。
+On Windows, this usually happens when Flutter is installed
+in a directory like
+`C:\Program Files\` that requires elevated privileges.
+Try relocating Flutter to a different folder,
+such as `C:\src\flutter`.
 
-## Android 設定
+## Android setup
 
-### 安裝多個版本的 Java
+### Having multiple versions of Java installed
 
-__這個問題會是什麼樣子？__
+__What does this issue look like?__
 
-執行 `flutter doctor --android-licenses` 指令時會失敗。
-執行 `flutter doctor --verbose` 時，會出現如下的錯誤訊息：
+The command `flutter doctor --android-licenses` fails.
+Running `flutter doctor --verbose` gives an error message
+like the following:
 
 ```plaintext
 java.lang.UnsupportedClassVersionError: com/android/prefs/AndroidLocationsProvider
@@ -77,23 +90,24 @@ has been compiled by a more recent version of the Java Runtime (class file versi
 this version of the Java Runtime only recognizes class file versions up to 52.0
 ```
 
-__說明與建議__
+__Explanation and suggestions__
 
-此錯誤發生的原因是您的電腦上安裝了較舊版本的
-Java Development Kit（JDK）。
+The error occurs when an older version of the
+Java Development Kit (JDK)
+is installed on your computer.
 
-如果您不需要多個版本的 Java，
-請從電腦中解除安裝現有的 JDK。
-Flutter 會自動使用 Android Studio 內建的 JDK。
+If you don't need multiple versions of Java,
+uninstall existing JDKs from your computer.
+Flutter automatically uses the JDK included in Android Studio.
 
-如果您確實需要其他版本的 Java，
-請嘗試在
-[這個 GitHub issue][java binary path]
-中描述的替代方案，直到有長期解決方案為止。
-欲了解更多資訊，
-請參考 [Android Java Gradle 遷移指南][Android Java Gradle migration guide]
-或 [flutter doctor --android-licenses 無法執行，因為
-    java.lang.UnsupportedClassVersionError - Stack Overflow][so java version]。
+If you do need another version of Java,
+try the workaround described in
+[this GitHub issue][java binary path]
+until a long-term solution is implemented.
+For more information,
+check out the [Android Java Gradle migration guide][]
+or [flutter doctor --android-licenses not working due to
+    java.lang.UnsupportedClassVersionError - Stack Overflow][so java version].
 
 [java binary path]: {{site.repo.flutter}}/issues/106416#issuecomment-1522198064
 [Android Java Gradle migration guide]: /release/breaking-changes/android-java-gradle-migration-guide
@@ -101,11 +115,11 @@ Flutter 會自動使用 Android Studio 內建的 JDK。
 
 ### `cmdline-tools` component is missing
 
-__這個問題會出現什麼狀況？__
+__What does this issue look like?__
 
-`flutter doctor` 指令會顯示
-`cmdline-tools` 在 Android 工具鏈中遺失的錯誤訊息。
-例如：
+The `flutter doctor` command complains that the
+`cmdline-tools` are missing from the Android toolchain.
+For example:
 
 ```plaintext noHighlight
 [!] Android toolchain - develop for Android devices (Android SDK version 33.0.2)
@@ -113,29 +127,34 @@ __這個問題會出現什麼狀況？__
     X cmdline-tools component is missing
 ```
 
-__說明與建議__
+__Explanation and suggestions__
 
-取得 cmdline-tools 最簡單的方法是透過 Android Studio 的 SDK Manager。
-請依照以下步驟操作：
+The easiest way to get the cmdline-tools is through the
+SDK Manager in Android Studio.
+To do this, use the following instructions:
 
-1. 在 Android Studio 中，從選單列選擇 **Tools > SDK Manager** 開啟 SDK Manager。
-2. 勾選最新的 Android SDK（或您的應用程式所需的特定版本）、Android SDK Command-line Tools，以及 Android SDK Build-Tools。
-3. 點擊 **Apply** 以安裝所選的元件。
+1. Open the SDK Manager from Android Studio by
+   selecting **Tools > SDK Manager** from the menu bar.
+2. Select the latest Android SDK
+   (or a specific version that your app requires),
+   Android SDK Command-line Tools, and Android SDK Build-Tools.
+3. Click **Apply** to install the selected artifacts.
 
 ![Android Studio SDK Manager](/assets/images/docs/get-started/install_android_tools.png)
 
-如果您沒有使用 Android Studio，
-可以透過 [sdkmanager][sdkmanager] 命令列工具下載這些工具。
+If you're not using Android Studio,
+you can download the tools using the
+[sdkmanager][] command-line tool.
 
 [sdkmanager]: {{site.android-dev}}/studio/command-line/sdkmanager
 
-## macOS 設定
+## macOS setup
 
 ### SocketException: Send failed, OS Error: No route to host, errno = 65
 
-__這個問題會出現什麼狀況？__
+__What does this issue look like?__
 
-在 macOS 上，`flutter run` 指令會產生如下錯誤：
+On macOS, the `flutter run` command produces an error like:
 
 ```plaintext
 $ flutter run
@@ -145,26 +164,27 @@ Installing and launching...
 Oops; flutter has exited unexpectedly: "SocketException: Send failed (OS Error: No route to host, errno = 65), address = 0.0.0.0, port = 5353".
 ```
 
-__說明與建議__
+__Explanation and suggestions__
 
-此問題與 macOS 權限有關。
+This issue is related to macOS permissions.
 
-要修正此問題，請依下列步驟操作：
+To fix this:
 
-1. 將你的 Flutter SDK 升級至最新版本。
+1. Upgrade your Flutter SDK to the latest version.
 
-2. 開啟 **系統設定** > **隱私權與安全性** > **本機網路**。
-   開啟你用來啟動 Flutter 應用程式的所有程式碼編輯器與終端機的權限。
-   你可能需要重新啟動你的程式碼編輯器、終端機以及實體裝置。
+2. Open **System Settings** > **Privacy & Security** > **Local Network**.
+   Toggle on the permission for all the code editors and terminals you use to
+   launch Flutter apps.
+   You might need to restart your code editor, terminal, and physical device.
 
-## 其他問題
+## Other problems
 
 ### Exit code 69
 
-__這個問題會出現什麼狀況？__
+__What does this issue look like?__
 
-執行 `flutter` 指令時，會出現 "exit code: 69" 的錯誤，
-如下方範例所示：
+Running a `flutter` command produces an "exit code: 69" error,
+as shown in the following example:
 
 ```plaintext
 Running "flutter pub get" in flutter_tools...
@@ -183,29 +203,39 @@ pub env: {
 exit code: 69
 ```
 
-__說明與建議__
+__Explanation and suggestions__
 
-此問題與網路連線有關。
-請嘗試以下步驟進行故障排除：
+This issue is related to networking.
+Try the following instructions to troubleshoot:
 
-* 檢查您的網路連線。
-  請確保您已連接至網際網路，且連線穩定。
-* 重新啟動您的裝置，包括電腦與網路設備。
-* 使用 VPN，以協助繞過可能阻止您連線至網路的限制。
-* 如果您已嘗試上述所有步驟仍然出現錯誤，請使用 `flutter doctor -v` 指令列印詳細日誌，並在其中一個[社群支援頻道][community support channels]尋求協助。
+* Check your internet connection.
+  Make sure that you're connected to the
+  internet and that your connection is stable.
+* Restart your devices, including your computer
+  and networking equipment.
+* Use a VPN to help to bypass any restrictions that
+  might prevent you from connecting to the network.
+* If you have tried all of these steps and are
+  still getting the error, print out verbose logs
+  with the `flutter doctor -v` command and ask for help in
+  one of the [community support channels][].
 
-[community support channels]: #社群支援
+[community support channels]: #community-support
 
-## 社群支援
+## Community support
 
-Flutter 社群非常友善且樂於協助。
-如果上述建議皆無法解決您的安裝問題，請考慮在以下任一管道尋求協助：
+The Flutter community is helpful and welcoming.
+If none of the above suggestions solves your installation issue,
+consider asking for support from one of the following channels:
 
-* Reddit 上的 [/r/flutterhelp](https://www.reddit.com/r/flutterhelp/)
-* Discord 上的 [/r/flutterdev](https://discord.gg/rflutterdev)，特別是此伺服器的 `install-and-setup` 頻道。
-* [StackOverflow][StackOverflow]，尤其是標記有 [#flutter][#flutter] 或 [#dart][#dart] 的問題。
+* [/r/flutterhelp](https://www.reddit.com/r/flutterhelp/) on Reddit
+* [/r/flutterdev](https://discord.gg/rflutterdev) on Discord,
+  particularly the `install-and-setup` channel on this server.
+* [StackOverflow][],
+  in particular, questions tagged with [#flutter][] or [#dart][].
 
-為了尊重大家的時間，請在發佈新問題前，先搜尋過往討論紀錄，確認是否已有類似問題。
+To be respectful of everyone's time,
+search the archive for a similar issue before posting a new one.
 
 [StackOverflow]: {{site.so}}
 [#dart]: {{site.so}}/questions/tagged/dart

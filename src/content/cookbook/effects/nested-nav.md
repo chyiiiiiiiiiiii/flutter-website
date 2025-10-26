@@ -1,6 +1,6 @@
 ---
-title: 建立巢狀導覽流程
-description: 如何實作具有巢狀導覽的流程。
+title: Create a nested navigation flow
+description: How to implement a flow with nested navigation.
 js:
   - defer: true
     url: /assets/js/inject_dartpad.dart.js
@@ -8,42 +8,47 @@ js:
 
 <?code-excerpt path-base="cookbook/effects/nested_nav"?>
 
-隨著應用程式的發展，路由（Route）會逐漸累積成數十甚至數百個。
-其中有些路由適合作為頂層（全域）路由。
-例如 "/", "profile", "contact", "social_feed" 都是
-應用程式中可能的頂層路由。
-但試想，如果你將所有可能的路由都定義在
-頂層的 `Navigator` 元件（Widget）中，清單會非常冗長，
-而且其中許多路由更適合巢狀在其他元件之中管理。
+Apps accumulate dozens and then hundreds of routes over time.
+Some of your routes make sense as top-level (global) routes.
+For example, "/", "profile", "contact", "social_feed" are all
+possible top-level routes within your app. 
+But, imagine that you defined every possible route in your
+top-level `Navigator` widget. The list would be very long,
+and many of these routes would 
+be better handled nested within another widget.
 
-以一個物聯網（IoT）無線燈泡的設定流程為例，
-你可以透過 App 來控制燈泡。
-這個設定流程包含四個頁面：
+Consider an Internet of Things (IoT) setup flow for a wireless
+light bulb that you control with your app.
+This setup flow consists of four pages: 
 
-* `find_devices` 頁面：搜尋附近的燈泡。
-* `select_device` 頁面：選擇你想新增的燈泡。
-* `connecting` 頁面：新增燈泡。
-* `finished` 頁面：完成設定。
+* `find_devices` page: Find nearby bulbs.
+* `select_device` page: Select the bulb that you want to
+  add.
+* `connecting` page: Add the bulb.
+* `finished` page: Complete the setup.
 
-你可以在頂層的 `Navigator` 元件（Widget）中協調這些行為。
-不過，更合理的做法是在 `SetupFlow` 元件內部定義第二個
-巢狀的 `Navigator` 元件，並讓這個巢狀的 `Navigator` 元件
-負責管理設定流程中的四個頁面。
-這種導覽的委派方式能讓本地控制更靈活，
-在軟體開發時通常是較佳選擇。
+You could orchestrate this behavior from your top-level 
+`Navigator` widget. However, it makes more sense to define a second, 
+nested `Navigator` widget within your `SetupFlow` widget,
+and let the nested `Navigator` take ownership over the four pages
+in the setup flow. This delegation of navigation facilitates
+greater local control, which is 
+generally preferable when developing software.
 
-下方動畫展示了 App 的行為：
+The following animation shows the app's behavior:
 
 ![Gif showing the nested "setup" flow](/assets/images/docs/cookbook/effects/NestedNavigator.webp){:.site-mobile-screenshot}
 
-在本教學中，你將實作一個四頁式的 IoT 設定流程，
-並讓它的導覽邏輯巢狀於頂層的 `Navigator` 元件之下。
+In this recipe, you implement a four-page IoT setup
+flow that maintains its own navigation nested beneath
+the top-level `Navigator` widget.
 
-## 導覽前的準備
+## Prepare for navigation
 
-這個 IoT App 有兩個頂層螢幕，
-以及一個設定流程。請將這些
-路由名稱定義為常數，方便在程式碼中引用。
+This IoT app has two top-level screens,
+along with the setup flow. Define these 
+route names as constants so that they can
+be referenced within code.
 
 <?code-excerpt "lib/main.dart (routes)"?>
 ```dart
@@ -57,15 +62,25 @@ const routeDeviceSetupConnectingPage = 'connecting';
 const routeDeviceSetupFinishedPage = 'finished';
 ```
 
-home 和 settings 螢幕是以靜態名稱參照的。然而，setup flow 頁面則是使用兩個路徑來建立其路由名稱：`/setup/` 前綴加上特定頁面的名稱。
+The home and settings screens are referenced with
+static names. The setup flow pages, however,
+use two paths to create their route names: 
+a `/setup/` prefix followed by the name of the specific page.
+By combining the two paths, your `Navigator` can determine
+that a route name is intended for the setup flow without
+recognizing all the individual pages associated with 
+the setup flow.
 
-透過結合這兩個路徑，你的 `Navigator` 可以判斷某個路由名稱是屬於 setup flow，而不需要辨識所有與 setup flow 相關的個別頁面。
+The top-level `Navigator` isn't responsible for identifying
+individual setup flow pages. Therefore, your top-level
+`Navigator` needs to parse the incoming route name to
+identify the setup flow prefix. Needing to parse the route name 
+means that you can't use the `routes` property of your top-level
+`Navigator`. Instead, you must provide a function for the
+`onGenerateRoute` property.
 
-最上層的 `Navigator` 並不負責辨識個別的 setup flow 頁面。因此，你的最上層 `Navigator` 需要解析傳入的路由名稱，以辨識 setup flow 的前綴。
-
-需要解析路由名稱，代表你不能使用最上層 `routes` 的屬性。相反地，你必須為 `onGenerateRoute` 屬性提供一個函式。
-
-實作 `onGenerateRoute`，以便針對三個最上層路徑分別回傳適當的元件（Widget）。
+Implement `onGenerateRoute` to return the appropriate widget
+for each of the three top-level paths.
 
 <?code-excerpt "lib/main.dart (OnGenerateRoute)"?>
 ```dart
@@ -93,11 +108,17 @@ onGenerateRoute: (settings) {
 },
 ```
 
-請注意，home 和 settings 這兩個路由是以精確的路由名稱來匹配的。然而，setup flow 路由的條件則只檢查前綴。如果路由名稱包含 setup flow 的前綴，則剩下的路由名稱會被忽略，並傳遞給 `SetupFlow` widget 進行處理。
+Notice that the home and settings routes are matched with exact 
+route names. However, the setup flow route condition only
+checks for a prefix. If the route name contains the setup
+flow prefix, then the rest of the route name is ignored
+and passed on to the `SetupFlow` widget to process. 
+This splitting of the route name is what allows the top-level
+`Navigator` to be agnostic toward the various subroutes
+within the setup flow.
 
-這種對路由名稱的拆分方式，使得最上層的 `Navigator` 能夠對 setup flow 內的各種子路由保持無感知。
-
-建立一個名為 `SetupFlow` 的 stateful widget，並讓它接受一個路由名稱。
+Create a stateful widget called `SetupFlow` that
+accepts a route name.
 
 <?code-excerpt "lib/setupflow.dart (SetupFlow)" replace="/@override\n*.*\n\s*return const SizedBox\(\);\n\s*}/\/\/.../g"?>
 ```dart
@@ -115,14 +136,14 @@ class SetupFlowState extends State<SetupFlow> {
 }
 ```
 
-## 為設定流程顯示應用程式列（App Bar）
+## Display an app bar for the setup flow
 
-設定流程會顯示一個持續存在的應用程式列（App Bar），
-並且會在所有頁面上顯示。
+The setup flow displays a persistent app bar
+that appears across all pages.
 
-請在你的 `SetupFlow` 元件（Widget）的 `build()` 方法中
-回傳 `Scaffold` 元件（Widget），
-並加入你想要的 `AppBar` 元件（Widget）。
+Return a `Scaffold` widget from your `SetupFlow`
+widget's `build()` method, 
+and include the desired `AppBar` widget.
 
 <?code-excerpt "lib/setupflow2.dart (SetupFlow2)"?>
 ```dart
@@ -136,9 +157,15 @@ PreferredSizeWidget _buildFlowAppBar() {
 }
 ```
 
-應用程式列（app bar）會顯示返回箭頭，並在按下返回箭頭時結束設定流程（setup flow）。然而，結束流程會導致使用者失去所有進度。因此，系統會提示使用者確認是否真的要離開設定流程。
+The app bar displays a back arrow and exits the setup
+flow when the back arrow is pressed. However,
+exiting the flow causes the user to lose all progress. 
+Therefore, the user is prompted to confirm whether they
+want to exit the setup flow.
 
-請提示使用者確認是否要離開設定流程，並確保當使用者按下裝置上的硬體返回鍵時，也會顯示此提示。
+Prompt the user to confirm exiting the setup flow,
+and ensure that the prompt appears when the user
+presses the hardware back button on their device.
 
 <?code-excerpt "lib/prompt_user.dart (PromptUser)"?>
 ```dart
@@ -209,27 +236,27 @@ PreferredSizeWidget _buildFlowAppBar() {
 }
 ```
 
-當使用者在應用程式列（app bar）點擊返回箭頭，
-或在裝置上按下返回按鈕時，
-會跳出一個提示對話框，確認
-使用者是否真的想要離開設定流程（setup flow）。
-如果使用者按下 **Leave**（離開），則設定流程會將自己
-從頂層導覽堆疊（navigation stack）中移除。
-如果使用者按下 **Stay**（停留），則該動作會被忽略。
+When the user taps the back arrow in the app bar,
+or presses the back button on their device,
+an alert dialog pops up to confirm that the
+user wants to leave the setup flow.
+If the user presses **Leave**, then the setup flow pops itself 
+from the top-level navigation stack.
+If the user presses **Stay**, then the action is ignored.
 
-你可能會注意到 `Navigator.pop()`
-同時被 **Leave** 和
-**Stay** 按鈕呼叫。需要特別說明的是，
-這個 `pop()` 動作是將提示對話框從
-導覽堆疊中移除，而不是設定流程。
+You might notice that the `Navigator.pop()`
+is invoked by both the **Leave** and 
+**Stay** buttons. To be clear,
+this `pop()` action pops the alert dialog off 
+the navigation stack, not the setup flow.
 
-## 產生巢狀路由（nested routes）
+## Generate nested routes
 
-設定流程的工作是顯示流程中
-適當的頁面。
+The setup flow's job is to display the appropriate
+page within the flow.
 
-在 `SetupFlow` 中加入 `Navigator` 元件（Widget），
-並實作 `onGenerateRoute` 屬性。
+Add a `Navigator` widget to `SetupFlow`,
+and implement the `onGenerateRoute` property.
 
 <?code-excerpt "lib/add_navigator.dart (AddNavigator)"?>
 ```dart
@@ -295,26 +322,63 @@ Route<Widget> _onGenerateRoute(RouteSettings settings) {
 }
 ```
 
-`_onGenerateRoute` 函式的運作方式與頂層的 `Navigator` 相同。`RouteSettings` 物件會被傳入該函式，其中包含該路由的 `name`。根據這個路由名稱，會回傳四個流程頁面中的其中一個。
+The `_onGenerateRoute` function works the same as
+for a top-level `Navigator`. A `RouteSettings`
+object is passed into the function,
+which includes the route's `name`.
+Based on that route name,
+one of four flow pages is returned.
 
-第一個頁面稱為 `find_devices`，它會等待幾秒鐘以模擬網路掃描。等待結束後，該頁面會呼叫其 callback。在這個案例中，該 callback 為 `_onDiscoveryComplete`。設定流程會辨識到，當裝置探索完成時，應顯示裝置選擇頁面。因此，在 `_onDiscoveryComplete` 中，`_navigatorKey` 會指示巢狀的 `Navigator` 導航至 `select_device` 頁面。
+The first page, called `find_devices`,
+waits a few seconds to simulate network scanning.
+After the wait period, the page invokes its callback. 
+In this case, that callback is `_onDiscoveryComplete`.
+The setup flow recognizes that, when device discovery
+is complete, the device selection page should be shown.
+Therefore, in `_onDiscoveryComplete`, the `_navigatorKey` 
+instructs the nested `Navigator` to navigate to the
+`select_device` page.
 
-`select_device` 頁面會要求使用者從可用裝置清單中選擇一個裝置。在本範例中，僅會向使用者顯示一個裝置。當使用者點選裝置時，會呼叫 `onDeviceSelected` callback。設定流程會辨識到，當選擇裝置後，應顯示連線頁面。因此，在 `_onDeviceSelected` 中，`_navigatorKey` 會指示巢狀的 `Navigator` 導航至 `"connecting"` 頁面。
+The `select_device` page asks the user to select a
+device from a list of available devices. In this recipe,
+only one device is presented to the user. 
+When the user taps a device, the `onDeviceSelected`
+callback is invoked. The setup flow recognizes that,
+when a device is selected, the connecting page 
+should be shown. Therefore, in `_onDeviceSelected`,
+the `_navigatorKey` instructs the nested `Navigator`
+to navigate to the `"connecting"` page.
 
-`connecting` 頁面的運作方式與 `find_devices` 頁面相同。`connecting` 頁面會等待幾秒鐘，然後呼叫其 callback。在這個案例中，callback 為 `_onConnectionEstablished`。設定流程會辨識到，當連線建立後，應顯示最終頁面。因此，在 `_onConnectionEstablished` 中，`_navigatorKey` 會指示巢狀的 `Navigator` 導航至 `finished` 頁面。
+The `connecting` page works the same way as the
+`find_devices` page. The `connecting` page waits
+for a few seconds and then invokes its callback. 
+In this case, the callback is `_onConnectionEstablished`.
+The setup flow recognizes that, when a connection is established,
+the final page should be shown. Therefore,
+in `_onConnectionEstablished`, the `_navigatorKey` 
+instructs the nested `Navigator` to navigate to the
+`finished` page.
 
-`finished` 頁面會提供使用者一個 **完成** 按鈕。當使用者點選 **完成** 時，會呼叫 `_exitSetup` callback，該 callback 會將整個設定流程從頂層 `Navigator` 堆疊中彈出，將使用者帶回主畫面。
+The `finished` page provides the user with a **Finish**
+button. When the user taps **Finish**,
+the `_exitSetup` callback is invoked, which pops the entire 
+setup flow off the top-level `Navigator` stack,
+taking the user back to the home screen.
 
-恭喜！
-你已經實作了具有四個子路由的巢狀導覽。
+Congratulations!
+You implemented nested navigation with four subroutes.
 
-## 互動範例
+## Interactive example
 
-執行應用程式：
+Run the app:
 
-* 在 **新增您的第一個燈泡** 螢幕上，點選浮動操作按鈕（FAB），按鈕上有加號 **+**。這會帶你到 **選擇附近裝置** 螢幕。螢幕上會列出一個燈泡。
-* 點選列出的燈泡。會出現 **完成！** 螢幕。
-* 點選 **完成** 按鈕即可返回第一個螢幕。
+* On the **Add your first bulb** screen,
+  click the FAB, shown with a plus sign, **+**.
+  This brings you to the **Select a nearby device**
+  screen. A single bulb is listed.
+* Click the listed bulb. A **Finished!** screen appears.
+* Click the **Finished** button to return to the
+  first screen.
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter nested navigation hands-on example in DartPad" run="true" height="640px"

@@ -1,1 +1,1 @@
-![一個藍色圓圈上有向下的小藍色箭頭，表示進入 Flutter 應用程式中的下一個函式](/assets/images/docs/testing/debugging/vscode-ui/icons/step-into.png)
+![Small blue downward arrow over a blue circle that indicates going into the next function in a Flutter app](/assets/images/docs/testing/debugging/vscode-ui/icons/step-into.png)

@@ -1,6 +1,6 @@
 ---
-title: 建立一個應用程式
-description: 如何建立新的 Flutter 應用程式的說明。
+title: Create an app
+description: Instructions on how to create a new Flutter app.
 permalink: /tutorial/create-an-app/
 ---
 
@@ -8,28 +8,34 @@ permalink: /tutorial/create-an-app/
 <!-- TODO(ewindmill) embed video -->
 {%- endcomment %}
 
-在本 Flutter 教學的第一部分，你將建立一個名為「Birdle」的應用程式核心 UI，這是一款類似於 [Wordle，紐約時報熱門遊戲][Wordle, the popular New York Times
-game] 的遊戲。
+In this first section of the Flutter tutorial, you’ll build the core UI of an
+app called ‘Birdle’, a game similar to [Wordle, the popular New York Times
+game][].
 
-完成本教學後，你將學會建立 Flutter UI 的基本知識，而你的應用程式將會長得像下方的螢幕截圖（而且大部分功能都能正常運作 😀）。
+By the end of this tutorial, you’ll have learned the fundamentals of building
+Flutter UIs, and your app will look like the following screenshot (and it’ll
+even mostly work 😀).
 
 <img src='/assets/images/docs/tutorial/birdle.png' width="100%" alt="A screenshot that resembles the popular game Wordle.">
 
-## 建立新的 Flutter 專案
+## Create a new Flutter project
 
-建立 Flutter 應用程式的第一步，就是建立一個新的專案。你可以使用 [Flutter 命令列介面 (Command Line Interface) 工具][Flutter CLI tool] 來建立新應用程式，該工具已隨 Flutter SDK 一併安裝。
+The first step to building Flutter apps is to create a new project. You create
+new apps with the [Flutter CLI tool][], installed as part of the Flutter SDK. 
 
-請開啟你的終端機或命令提示字元，並執行下列指令來建立新的 Flutter 專案：
+Open your terminal or command prompt and run the following command to create a
+new Flutter project:
 
 ```shell
 $ flutter create birdle --empty
 ```
 
-這會使用最精簡的「空白」範本建立一個新的 Flutter 專案。
+This creates a new Flutter project using the minimal “empty” template.
 
-## 檢視程式碼
+## Examine the code
 
-在你的 IDE 中，開啟位於 `lib/main.dart` 的檔案。從檔案頂端開始，你會看到以下程式碼。
+In your IDE, open the file at `lib/main.dart`. Starting from the top, you’ll see
+this code.
 
 ```dart
 import 'package:flutter/material.dart'; // imports Flutter
@@ -40,9 +46,13 @@ void main() {
 // ...
 ```
 
-`main` 函式是所有 Dart 程式的進入點，而 Flutter 應用程式本質上就是一個 **Dart** 程式。`runApp` 方法是 Flutter SDK（Flutter 軟體開發套件）的一部分，它會接收一個**元件（Widget）**作為參數。（本教學大多內容都在介紹元件（Widgets），簡單來說，元件就是描述一個 UI 片段的 Dart 物件。）在這裡，傳入的是 `MainApp` 元件（Widget）的實例。
+The `main` function is the entry point to any Dart program, and a Flutter app is
+just a **Dart** program. The `runApp` method is part of the Flutter SDK, and it
+takes a **widget** as an argument. (Most of this tutorial is about widgets, but
+in the simplest terms a widget is a Dart object that describes a piece of UI.)
+In this case, an instance of the `MainApp` widget is being passed in. 
 
-在 `main` 函式的下方，你會看到 `MainApp` 類別的宣告。
+Just below the `main` function, you’ll find the `MainApp` class declaration.
 
 ```dart
 class MainApp extends StatelessWidget {
@@ -62,36 +72,46 @@ class MainApp extends StatelessWidget {
 
 ```
 
-`MainApp` 是**根元件（root widget）**，因為它是被傳遞給 `runApp` 的元件。在這個元件中，有一個 `build` 方法，該方法會回傳另一個名為 `MaterialApp` 的元件。基本上，這就是一個 Flutter 應用程式的本質：由多個元件（Widgets）組成的樹狀結構，稱為**元件樹（widget tree）**。作為 Flutter 開發者，你的工作就是將 SDK 中的元件組合成更大的自訂元件，來呈現 UI。
+`MainApp` is the **root widget**, as it’s the widget that’s passed into
+`runApp`. Within this widget, there’s a `build` method, which returns another
+widget called `MaterialApp`.  Essentially, this is what a Flutter app is: a
+composition of Widgets that make up a tree structure called the **widget tree.**
+Your job as a Flutter developer is to compose widgets from the SDK into larger,
+custom widgets that display a UI.
 
-目前，元件樹相當簡單：
+At the moment, the widget tree is quite simple:
 
 <img src='/assets/images/docs/tutorial/initial_widget_tree.png' alt="A screenshot that resembles the popular game Wordle.">
 
-## 執行你的應用程式
+## Run your app
 
-在終端機中，於你的 Flutter 應用程式根目錄下執行：
+In your terminal at the root of your Flutter app, run:
 
 ```shell
 $ cd birdle
 $ flutter run -d chrome
 ```
 
-應用程式將會建置並在新的 Chrome 實例中啟動。
+The app will build and launch in a new instance of Chrome. 
 
 <img src='/assets/images/docs/tutorial/hello_world.png' alt="A screenshot that resembles the popular game Wordle.">
 
-## 使用熱重載（hot reload）
+## Use hot reload
 
-如果你還沒聽過，**有狀態熱重載（Stateful hot reload）** 允許正在執行中的 Flutter 應用程式，在不到一秒的時間內重新渲染已更新的商業邏輯或 UI 程式碼——而且不會失去你在應用程式中的當前位置。
+**Stateful hot reload**, if you haven't heard of it, allows a running Flutter
+app to re-render updated business logic or UI code in less than a second - all
+without losing your place in the app.
 
-在你的 IDE 中，打開 `main.dart` 檔案，並前往大約第 15 行，找到以下程式碼：
+In your IDE, open the `main.dart` file and navigate to line ~15 and find this
+code:
 
 ```dart
 child: Text('Hello World!'),
 ```
 
-將字串中的文字更改為你想要的內容。然後，在應用程式執行的終端機中按下`r`，即可熱重載（hot-reload）你的應用程式。執行中的應用程式應該會立即顯示你更新後的文字。
+Change the text inside the string to anything you want. Then, hot-reload your
+app by pressing `r` in your terminal where the app is running. The running app
+should instantly show your updated text. 
 
 
 [Flutter CLI tool]: /reference/flutter-cli

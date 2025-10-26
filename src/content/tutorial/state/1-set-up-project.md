@@ -1,53 +1,66 @@
 ---
-title: 建立你的專案
-description: 如何建立新的 Flutter 應用程式的說明。
+title: Set up your project
+description: Instructions on how to create a new Flutter app.
 permalink: /tutorial/set-up-state-app/
 ---
 
-在本教學中，你將學習如何在 Flutter 應用程式中處理資料。你將建立一個應用程式，從 [Wikipedia API][Wikipedia API] 取得並顯示文章摘要。
+In this tutorial, you'll learn how to work with data in a Flutter app.
+You'll build an app that fetches and displays article summaries from
+the [Wikipedia API][]. 
 
 <img src="/assets/images/docs/tutorial/wikipedia_app.png" height="500px" 
 style="border:1px solid black" alt="A screenshot of the completed 
 Wikipedia reader app showing an article with image, title, 
 description, and extract text.">
 
-本教學將探討：
+This tutorial explores:
 
-* 在 Flutter 中發送 HTTP 請求
-* 使用 `ChangeNotifier` 管理應用程式狀態
-* 採用 MVVM 架構模式
-* 建立能隨資料變動自動更新的響應式使用者介面
+* Making HTTP requests in Flutter
+* Managing application state with `ChangeNotifier`
+* Using the MVVM architecture pattern
+* Creating responsive user interfaces that update automatically when
+  data changes 
 
-本教學假設你已完成 [Dart 入門教學][Dart Getting Started
-tutorial] 以及 [Flutter 入門教學][introductory Flutter tutorial]，因此不會再說明 HTTP、JSON 或元件（Widget）基礎等概念。
 
-:::note 支持 Wikipedia
-Wikipedia 是一個極具價值的資源，透過全球志工協作撰寫的數百萬篇文章，免費提供人類知識。請考慮[捐款支持 Wikipedia][donating to
-Wikipedia]，協助讓這個珍貴的資源持續免費且對所有人開放。
+This tutorial assumes you've completed the [Dart Getting Started
+tutorial][] and the [introductory Flutter tutorial][], and therefore
+doesn't explain concepts like HTTP, JSON, or widget basics.
+
+:::note Support Wikipedia
+Wikipedia is a valuable resource, providing free
+access to human knowledge through millions of articles written
+collaboratively by volunteers worldwide. Consider [donating to
+Wikipedia][] to help keep this incredible resource free and accessible
+to everyone.
 :::
 
-## 建立新的 Flutter 專案
+## Create a new Flutter project
 
-請使用 [Flutter CLI][Flutter CLI] 建立新的 Flutter 專案。在你的終端機中，執行下列指令以建立一個最小化的 Flutter 應用程式：
+Create a new Flutter project using the [Flutter CLI][]. In your
+terminal, run the following command to create a minimal Flutter app:
 
 ```bash
 $ flutter create wikipedia_reader --empty
 ```
 
-## 新增所需的相依套件
+## Add required dependencies
 
-您的應用程式需要兩個 [套件][packages] 來處理 HTTP 請求以及 Wikipedia 資料。請將它們加入您的專案中：
+Your app needs two [packages][] to work with HTTP requests and
+Wikipedia data. Add them to your project:
 
 ```shell
 $ cd wikipedia_reader
 $ flutter pub add http dartpedia
 ```
 
-[`http` 套件][`http` package] 提供用於發送 HTTP 請求的工具，而 `dartpedia` 套件則包含用於處理 Wikipedia API 回應的資料模型。
+The [`http` package][] provides tools for making HTTP requests, while
+the `dartpedia` package contains data models for working with
+Wikipedia's API responses.
 
-## 檢查起始程式碼
+## Examine the starter code
 
-打開 `lib/main.dart`，並將現有程式碼替換為以下這個基本結構，這會加入應用程式所需的 import。
+Open `lib/main.dart` and replace the existing code with this basic
+structure, which adds required imports that the app uses.
 
 ```dart
 import 'dart:convert';
@@ -80,17 +93,20 @@ class MainApp extends StatelessWidget {
 }
 ```
 
-這段程式碼提供了一個基本的應用程式結構，包含標題列和佔位內容。最上方的匯入（import）已經包含了你進行 HTTP 請求、JSON 解析，以及 Wikipedia 資料模型所需的一切。
+This code provides a basic app structure with a title bar and
+placeholder content. The imports at the top include everything you
+need for HTTP requests, JSON parsing, and Wikipedia data models.
 
-## 執行你的應用程式
+## Run your app
 
-透過執行你的應用程式來測試一切是否正常運作：
+Test that everything works by running your app:
 
 ```bash
 $ flutter run -d chrome
 ```
 
-你應該會看到一個簡單的應用程式，App Bar 上顯示「Wikipedia Flutter」，螢幕中央則顯示「Loading...」。
+You should see a simple app with "Wikipedia Flutter" in the app bar
+and "Loading..." in the center of the screen.
 
 [Wikipedia API]: https://en.wikipedia.org/api/rest_v1/
 [donating to Wikipedia]: https://donate.wikimedia.org/

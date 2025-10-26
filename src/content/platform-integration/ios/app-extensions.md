@@ -1,16 +1,21 @@
 ---
-title: 新增 iOS App Extension
-description: 瞭解如何將 App Extension 新增至你的 Flutter 應用程式
+title: Adding iOS app extensions
+description: Learn how to add app extensions to your Flutter apps
 ---
 
-本指南將說明如何在 Flutter 應用程式中使用 iOS app extension。
+This guide shows you how to use iOS app extensions with a
+Flutter app.
 
-## 概述 {: #overview }
+## Overview {: #overview }
 
-[iOS app extensions][iOS app extensions] 讓你能夠將功能擴展到 iOS 應用程式之外。你的應用程式可以以主畫面小工具（widget）的形式出現，或是在其他應用程式中提供部分功能。
+[iOS app extensions][] allow you to expand functionality
+outside of your iOS app. Your app could appear as a home screen widget,
+or you can make portions of your app available within other apps.
 
-在以下範例中，當使用者於 iOS 相簿（Photo app）中選擇一張照片並分享時，名為 `Example App With Extension` 的 Flutter 應用程式會顯示在
-相簿應用程式的分享選單（share sheet）中：
+In the following example, when a user selects a
+photo to share in the iOS Photo app, a Flutter app called
+`Example App With Extension` is displayed in the
+Photo apps share sheet:
 
 <figure>
   <div class="site-figure-container">
@@ -20,127 +25,147 @@ description: 瞭解如何將 App Extension 新增至你的 Flutter 應用程式
 
 [iOS app extensions]: {{site.apple-dev}}/app-extensions/
 
-## 將 iOS app extension 新增至你的 Flutter 應用程式 {: #add-extension }
+## Add an iOS app extension to your Flutter app {: #add-extension }
 
-如果你想要讓 Flutter 應用程式與 iOS 作業系統整合，可以將 iOS app extension 新增到你的 Flutter 專案。為了讓流程更順暢，下列步驟將示範如何將 [Share][Share] app extension 新增至一個名為 `example_app_with_extension` 的全新 Flutter 應用程式，但你也可以從既有專案開始。
+If you want to integrate your Flutter app with
+the iOS operating system, you can add iOS app extensions
+to your Flutter project. For a seamless workflow, the
+following steps show how to add a [Share][]
+app extension to a new Flutter app called
+`example_app_with_extension`, but you can always start with
+an existing project.
 
-1.  在終端機中建立一個名為 `example_app_with_extension` 的全新 Flutter 專案。
+1.  In the console, create a new Flutter project called
+    `example_app_with_extension`.
 
     ```console
     $ flutter create example_app_with_extension
     ```
 
-1.  在終端機中，開啟 `example_app_with_extension` 專案的 Xcode workspace。
+1.  In the console, open the Xcode workspace for the
+    `example_app_with_extension` project.
 
     ```console
     $ cd example_app_with_extension && open ios/Runner.xcworkspace
     ```
 
-1.  在 Xcode 中，新增一個名為 `Share` 的 app extension，並將其命名為 `ShareExtension`。
+1.  In Xcode, add an app extension called `Share`
+    and call it `ShareExtension`.
 
-    *   在 Xcode 的選單列中，選擇
-        **File** > **New** > **Target**。
+    *   In the Xcode menu bar, select
+        **File** > **New** > **Target**.
     
-    *   新增 **Share Extension**。
+    *   Add **Share Extension**.
 
-    *   在 **Name field**（名稱欄位）中，輸入 **ShareExtension**。
+    *   In the **Name field**, enter **ShareExtension**.
 
-    *   點擊 **Finish**。
+    *   Click **Finish**.
 
-    *   在出現的 **Activate … Scheme** 對話框中，
-        選擇 **Activate**。
+    *   In the **Activate … Scheme** dialog box that
+        appears, select **Activate**.
 
-1.  在 Xcode 中，調整建置流程的順序。
+1.  In Xcode, change the order of the build process.
 
-    *   開啟 **project navigator**
-        （**View** > **Navigators** > **Project**）。
+    *   Open the **project navigator**
+        (**View** > **Navigators** > **Project**).
     
-    *   在 **project navigator** 頂端，選擇
-        **Runner**。
+    *   In the **project navigator**, at the top, select
+        **Runner**.
 
-    *   在主視窗的 **TARGETS** 區塊下，選擇
-        **Runner**。
+    *   In the main window under **TARGETS**, select
+        **Runner**.
 
-    *   開啟 **Build Phases** 分頁。
+    *   Open the **Build Phases** tab.
 
-    *   將 **Embed Foundation Extensions** 拖曳到
-        **Run Script** 之上。
+    *   Drag **Embed Foundation Extensions** above
+        **Run Script**.
 
-1.  確認你的 **Minimum Deployments**（最低部署版本）iOS 值已正確設定，並且在 **Runner** 與 **ShareExtension** 兩者中一致。
 
-    *   開啟 **project navigator**
-        （**View** > **Navigators** > **Project**）。
+1.  Make sure your **Minimum Deployments** iOS value is properly
+    set and matches in both **Runner** and **ShareExtension**
+
+    *   Open the **project navigator**
+        (**View** > **Navigators** > **Project**).
     
-    *   在 **project navigator** 頂端，選擇
-        **Runner**。
+    *   In the **project navigator**, at the top, select
+        **Runner**.
 
-    *   在主視窗的 **TARGETS** 區塊下，選擇
-        **Runner**。
+    *   In the main window under **TARGETS**, select
+        **Runner**.
 
-    *   在 **General** 分頁中，檢查 **Minimum Deployments**
-        下拉選單的值，確保與
-        **ShareExtension** > **General** 分頁中的設定一致。
+    *   On the **General** tab check your **Minimum Deployments**
+        dropdown value to match the one you have on
+        **ShareExtension** > **General** tab.
 
-1.  在終端機（console）中執行以下指令，以重新建置你的 iOS 應用程式：
+1.  In the console, run the following command to rebuild your
+    iOS app:
 
     ```console
     $ flutter build ios --config-only
     ```
 
-1.  [使用模擬器測試你的應用程式][Test your app with the simulator]。
+1.  [Test your app with the simulator][].
 
-當你新增一個 app extension（應用程式擴充功能）時，Xcode 會根據你選擇的範本產生範例程式碼。關於這些產生的程式碼以及 WidgetKit 的更多資訊，請參閱 [Apple 的 app extension 文件][Apple's app extension documentation]。
+When you add a new app extension, Xcode generates
+sample code based on the template you selected. For more
+information about the generated code and WidgetKit, see
+[Apple's app extension documentation][].
 
 [Apple's app extension documentation]: {{site.apple-dev}}/app-extensions/
 [Test your app with the simulator]: #test-extensions
 [Share]: https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/Share.html
 
-## 測試 iOS app extension {: #test-extensions }
+## Test an iOS app extension {: #test-extensions }
 
-在你將 app extension 新增到 Flutter 專案後，你可以使用模擬器或實體裝置進行測試。
-如果你要在 debug 模式下測試 extension，必須使用 iOS 模擬器。
+After you've added an app extension to your Flutter project,
+you can test it, using a simulator or physical device.
+If you are testing you extension in debug mode, you must
+use the iOS simulator.
 
-以下步驟假設你正在使用
-[新增 iOS app extensions][Adding iOS app extensions] 中的範例應用程式和 Share extension。
+The following steps assume you're using the sample
+application and Share extension from
+[Adding iOS app extensions][].
 
 {% tabs "register-plugins-tabs", true %}
 
 {% tab "Simulator" %}
 
-1.  在 Xcode 中，[將 app extension 加入你的專案][add an app extension to your project]。
+1.  In Xcode, [add an app extension to your project][].
 
-1.  在終端機中，使用以下指令來執行你的 iOS 應用程式：
+1.  In the console, use the following command to run your
+    iOS app:
 
     ```console
     $ flutter run
     ```
 
-1.  在模擬器中測試你的 App Extension（應用程式擴充功能）。
+1.  In the simulator, test your app extension.
 
-    *   啟動一個支援 Share extension（分享擴充功能）的應用程式，
-        例如 Photos app（照片應用程式）。
+    *   Launch an app that supports the Share extension,
+        such as the Photos app.
 
-    *   選擇一張照片，點擊分享按鈕，然後點擊你應用程式的分享擴充功能圖示。
+    *   Select a photo, tap the share button, then tap
+        on the share extension icon of your app.
 
 {% endtab %}
 
 {% tab "Physical device" %}
 
-1.  將 App Extension（應用程式擴充功能）加入你的專案。
+1.  Add an app extension to your project.
 
-1.  在終端機中，以 release 模式執行你的 Flutter 應用程式：
+1.  In the console, run your Flutter app in release mode:
 
     ```console
     $ flutter run --release
     ```
 
-1.  在你的裝置上測試你的 App Extension（應用程式擴充）。
+1.  On your device, test your app extension.
 
-    *   啟動一個支援 Share extension（分享擴充）的應用程式，
-        例如「照片」(Photos) app。
+    *   Launch an app that supports the Share extension,
+        such as the Photos app.
     
-    *   選擇一張照片，點擊分享按鈕，然後點擊你應用程式的
-        分享擴充圖示。
+    *   Select a photo, tap the share button, then tap on
+        the share extension icon of your app.
 
 {% endtab %}
 
@@ -149,70 +174,71 @@ description: 瞭解如何將 App Extension 新增至你的 Flutter 應用程式
 [Adding iOS app extensions]: #add-extension
 [add an app extension to your project]: #add-extension
 
-## 與 iOS App Extension 互動的其他方式 {: #interact-app-extensions }
+## Additional ways to interact with iOS app extensions {: #interact-app-extensions }
 
-Flutter 應用程式與 iOS app extension（應用程式擴充）互動的方式，
-與 UIKit 或 SwiftUI 應用程式相同。
-主應用程式（containing app）與 app extension 不會直接通訊。
-當使用者與 extension 互動時，主應用程式可能並未執行中。
-應用程式與 extension 可以讀寫共享資源，
-或使用更高階的 API 來彼此通訊。
+Flutter apps interact with iOS app extensions using the same
+techniques as UIKit or SwiftUI apps.
+The containing app and the app extension don't communicate directly.
+The containing app might not be running while the device user
+interacts with the extension.
+The app and your extension can read and write to
+shared resources or use higher-level APIs
+to communicate with each other.
 
-### 使用高階 API {: #using-higher-level-apis }
+### Use higher-level APIs {: #using-higher-level-apis }
 
-有些 extension 具備 API。舉例來說，
-[Core Spotlight][Core Spotlight] framework（框架）可以為你的應用程式建立索引，
-讓使用者能從 Spotlight 與 Safari 搜尋內容。
-[WidgetKit][WidgetKit] framework 則可觸發主畫面小工具（widget）的更新。
+Some extensions have APIs. For example, 
+the [Core Spotlight][] framework indexes your app,
+allowing users to search from Spotlight and Safari.
+The [WidgetKit][] framework can trigger an update
+of your home screen widget.
 
-為了簡化應用程式與 extension 的通訊，
-Flutter 套件（plugin）會包裝這些 API。
-若要尋找包裝 extension API 的套件，
-請參考 [Leveraging Apple's System APIs and Frameworks][leverage]
-或在 [pub.dev][pub.dev] 搜尋。
-
+To simplify how your app communicates with extensions,
+Flutter plugins wrap these APIs.
+To find plugins that wrap extension APIs,
+check out [Leveraging Apple's System APIs and Frameworks][leverage]
+or search [pub.dev][].
 
 [Core Spotlight]: {{site.apple-dev}}/documentation/corespotlight
 [leverage]: /platform-integration/ios/apple-frameworks
 [pub.dev]: {{site.pub-pkg}}
 [WidgetKit]: {{site.apple-dev}}/documentation/widgetkit
 
-### 資源共享 {: #sharing-resources }
+### Share resources {: #sharing-resources }
 
-若要在 Flutter 應用程式與 app extension 之間共享資源，
-請將 `Runner` app target 與 extension target
-放在同一個 [App Group][App Group] 中。
+To share resources between your Flutter app
+and your app extension, put the `Runner` app target
+and the extension target in the same [App Group][].
 
 :::note
-你必須登入你的 Apple Developer 帳號。
+You must be signed in to your Apple Developer account.
 :::
 
-將 target 加入 App Group 的步驟如下：
+To add a target to an App Group:
 
-1. 在 Xcode 中開啟目標（target）設定。
-1. 前往 **Signing & Capabilities** 分頁。
-1. 選擇 **+ Capability**，然後選擇 **App Groups**。
-1. 從下列兩種方式之一選擇要加入的 App Group：
+1. Open the target settings in Xcode.
+1. Navigate to the **Signing & Capabilities** tab.
+1. Select **+ Capability** then **App Groups**.
+1. Choose which App Group you want to add the target from
+   one of two options:
 
     {: type="a"}
-    1. 從清單中選擇一個 App Group。
-    1. 點擊 **+** 新增一個 App Group。
+    1. Select an App Group from the list.
+    1. Click **+** to add a new App Group.
 
-{% render docs/app-figure.md, image:"development/platform-integration/app-extensions/xcode-app-groups.png", alt:"在 Xcode Runner target 設定中選擇 App Group。" %}
+{% render docs/app-figure.md, image:"development/platform-integration/app-extensions/xcode-app-groups.png", alt:"Selecting an App Group within an Xcode Runner target configuration." %}
 
-當兩個 target 屬於同一個 App Group 時，
-它們可以讀寫同一個來源。
-請根據你的資料選擇以下其中一種來源：
+When two targets belong to the same App Group,
+they can read from and write to the same source.
+Choose one of the following sources for your data.
 
-* **Key/value：** 使用 [`shared_preference_app_group`][`shared_preference_app_group`]
-  套件在同一個 App Group 內讀寫 `UserDefaults`。
-* **檔案（File）：** 使用
-  [`path_provider`][`path_provider`] 套件的 App Group container 路徑來
-  [讀寫檔案][read and write files]。
-* **資料庫（Database）：** 使用
-  [`path_provider`][`path_provider`] 套件的 App Group container 路徑，
-  並搭配 [`sqflite`][`sqflite`] 套件建立資料庫。
-
+* **Key/value:** Use the [`shared_preference_app_group`][]
+  plugin to read or write to `UserDefaults` within the same App Group.
+* **File:** Use the App Group container path from the
+  [`path_provider`][] plugin to [read and write files][].
+* **Database:** Use the App Group container path from
+  the [`path_provider`][] plugin to create a database with the
+  [`sqflite`][] plugin.
 
 [App Group]: {{site.apple-dev}}/documentation/xcode/configuring-app-groups
 [`path_provider`]: {{site.pub-pkg}}/path_provider
@@ -220,154 +246,162 @@ Flutter 套件（plugin）會包裝這些 API。
 [`shared_preference_app_group`]: {{site.pub-pkg}}/shared_preference_app_group
 [`sqflite`]: {{site.pub-pkg}}/sqflite
 
-### 排程背景更新 {: #background-updates }
+### Schedule background updates {: #background-updates }
 
-背景任務（Background tasks）可讓你不論主應用程式狀態如何，
-都能透過程式碼更新 extension。
+Background tasks provide a means to update your extension
+through code regardless of the status of your app.
 
-若要從 Flutter 應用程式排程背景工作，
-請使用 [`workmanager`][`workmanager`] 套件。
-
+To schedule background work from your Flutter app,
+use the [`workmanager`][] plugin.
 
 [`workmanager`]: {{site.pub-pkg}}/workmanager
 
-### 加入深度連結（Deep Linking） {: #deep-linking }
+### Add deep linking {: #deep-linking }
 
-你可能希望從 app extension
-導引用戶到 Flutter 應用程式中的特定頁面。
-若要在應用程式中開啟特定 route，
-可以使用 [Deep Linking][Deep Linking]。
-
+You might want to direct users from an
+app extension to a specific page in your Flutter app.
+To open a specific route in your app,
+you can use [Deep Linking][].
 
 [Deep Linking]:/ui/navigation/deep-linking
 
-### 加入可捲動清單 {: #advanced-scrolling-behavior }
+### Add a scrollable list {: #advanced-scrolling-behavior }
 
-預設情況下，flutter view 在 [Share][Share] extension 中
-不會處理捲動手勢。若要在 Share extension 中支援可捲動清單，
-請依照[這些指引][these instructions]操作。
-
+By default, flutter view does not handle scroll gestures
+in a [Share][] extension. To support a scrollable list in
+the Share extension, follow [these instructions][].
 
 [Share]: https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/Share.html
 [these instructions]: {{site.github}}/flutter/flutter/issues/164670#issuecomment-2740702986
 
-### 在 iOS App Extension 中開啟 Flutter 應用程式 {: #creating-app-extension-uis-with-flutter }
+### Open a Flutter app in an iOS app extension {: #creating-app-extension-uis-with-flutter }
 
-你可以直接在某些 iOS app extension（如
-[Share][Share] extension）中開啟 Flutter 應用程式，
-並搭配 `FlutterViewController` 使用。
+You can open your Flutter app directly
+in some iOS app extensions, such as the
+[Share][] extension, with a `FlutterViewController`.
 
-以下範例中，一個名為 `Example App With Extension` 的 Flutter 應用程式
-被開啟於 Share extension 中，讓使用者可在應用程式間分享內容：
+In the following example, a Flutter app called
+`Example App With Extension` is opened in the
+Share extension, which lets users share content
+between apps:
 
 <figure>
   <div class="site-figure-container">
-    <img src='/assets/images/docs/development/platform-integration/app-extensions/share-extension-open-app.gif' alt='Flutter 應用程式在分享選單中新增項目的範例' height='400'>
+    <img src='/assets/images/docs/development/platform-integration/app-extensions/share-extension-open-app.gif' alt='An example of an entry added to the share menu by a Flutter app' height='400'>
   </div>
 </figure>
 
-請依照下列步驟，在 [Share][Share] app extension 中顯示 Flutter 應用程式。
-本範例中，app extension 的 scheme 名稱為 `ShareExtension`，
-Flutter app 的 scheme 名稱為 `Runner`，
-而 Flutter app 名稱為 `Example App With Extension`：
+Use the following steps to display a Flutter app inside of
+a [Share][] app extension. In this example the app extension
+scheme is called `ShareExtension`, the Flutter app scheme is
+called `Runner`, and the Flutter app is called
+`Example App With Extension`:
 
-1.  [將 extension 加入你的 Flutter 應用程式][Add an extension to your Flutter app]
-    （如果尚未加入的話）。
+1.  [Add an extension to your Flutter app][] if you haven't
+    already done so.
 
-1.  在終端機（console）中，切換到你的 Flutter 專案目錄，
-    然後用下列指令在 Xcode 中開啟你的專案： 
+1.  In the console, navigate to your Flutter project
+    directory and then open your project in Xcode
+    with the following command: 
 
     ```console
     open ios/Runner.xcworkspace
     ```
 
-1.  在 Xcode 中，停用使用者腳本沙箱（User Script Sandboxing）。
+1.  In Xcode, disable user script sandboxing.
 
-    *   開啟 **專案導覽器**（**View** > **Navigators** > **Project**）。
+    *   Open the **project navigator**
+        (**View** > **Navigators** > **Project**).
 
-    *   在主視窗的 **TARGETS** 區塊下，選取 **ShareExtension**。
+    *   In the main window under **TARGETS**, select
+        **ShareExtension**.
 
-    *   開啟 **Build Settings** 分頁。
+    *   Open the **Build Settings** tab.
 
-    *   前往 **Build Options**。
+    *   Navigate to **Build Options**.
 
-    *   將 **User Script Sandboxing** 設定為 **No**。
+    *   Set **User Script Sandboxing** as **No**.
 
-1.  在 Xcode 中，將 pre-action 新增至 `ShareExtension` scheme。
+1.  In Xcode, add the pre-action to the
+    `ShareExtension` scheme.
 
-    *   開啟 **Manage Schemes** 視窗（**Product** > **Scheme** > **Manage Schemes**）。
+    *   Open the **Manage Schemes** window
+        (**Product** > **Scheme** > **Manage Schemes**).
 
-    *   選取 **ShareExtension** scheme 並進行編輯。
+    *   Select the **ShareExtension** scheme and edit it.
 
-    *   展開 **Build** 分頁。
+    *   Expand the **Build** tab.
 
-    *   選擇 **Pre-actions**。
+    *   Select **Pre-actions**.
 
-    *   點擊 **+** 並選擇 **New Run Script Action**。
+    *   Click **+** and select **New Run Script Action**.
 
-    *   在 **Provide build settings from** 下拉選單中，選擇 **ShareExtension**。
+    *   In the **Provide build settings from**
+        drop-down list, select **ShareExtension**.
 
-    *   在 **Shell** 文字欄位中輸入：
+    *   In the **Shell** text field, enter:
 
         ```console
         /bin/sh "$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh" prepare
         ```
 
-    *   點擊 **Close**（關閉）。
+    *   Click **Close**.
 
-1.  在 Xcode 中，共享建置組態（build configurations）。
+1.  In Xcode, share the build configurations.
 
-    *   開啟 **project navigator**（專案導覽器）
-        （**View** > **Navigators** > **Project**）。
+    *   Open the **project navigator**
+        (**View** > **Navigators** > **Project**).
 
-    *   在主視窗中，於 **PROJECT** 下選取
-        **Runner**。
+    *   In the main window under **PROJECT**, select
+        **Runner**.
 
-    *   開啟 **Info**（資訊）分頁。
+    *   Open the **Info** tab.
 
-    *   展開 **Configuration**（組態）。
+    *   Expand **Configuration**.
 
-    *   展開 **Debug**，並將
-        **ShareExtension** 的值更新為與
-        **Runner** 相同。
+    *   Expand **Debug** and update the value for
+        **ShareExtension** to match the value for
+        **Runner**.
 
-    *   對 **Profile** 和
-        **Release** 重複前述步驟。
-
-    *   完成後，請確認組態設定看起來類似以下畫面：
+    *   Repeat the previous step for **Profile**, and
+        **Release**.
+    
+    *   When you are finished, make sure that the
+        configurations look similar to the following:
 
         ![Xcode configurations](/assets/images/docs/development/platform-integration/app-extensions/xcode-configurations.png)
 
 
-1.  （選用）如有需要，可在 Xcode 中將任何 storyboard 檔案
-    替換為 extension 類別。
+1.  (Optional) In Xcode, replace any storyboard files with
+    an extension class, if needed.
 
-    *   開啟 **project navigator**（專案導覽器）
-        （**View** > **Navigators** > **Project**）。
+    *   Open the **project navigator**
+        (**View** > **Navigators** > **Project**).
 
-    *   選取 **Runner** > **ShareExtension** > **Info**。
+    *   Select **Runner** > **ShareExtension** > **Info**.
 
-    *   展開 **Information Property List**（資訊屬性清單）。
+    *   Expand **Information Property List**.
 
-    *   刪除 **NSExtensionMainStoryboard** 鍵值。
+    *   Delete the **NSExtensionMainStoryboard** key.
 
-    *   新增 **NSExtensionPrincipalClass** 鍵值。
+    *   Add the **NSExtensionPrincipalClass** key.
 
-    *   為 `NSExtensionPrincipalClass` 鍵新增下列其中一個值：
+    *   Add one of these values for the
+        `NSExtensionPrincipalClass` key:
 
-        *   （Swift）**ShareExtension.ShareViewController**
-        *   （Objective-C）**ShareViewController**
+        *   (Swift) **ShareExtension.ShareViewController**
+        *   (Objective-C)  **ShareViewController**
 
-1.  在 Xcode 中，將 `ShareViewController` 更新為使用
-    `FlutterViewController`。
+1.  In Xcode, update the `ShareViewController` to use the
+    `FlutterViewController`.
 
-    *   開啟 **project navigator**（專案導覽器）
-        （**View** > **Navigators** > **Project**）。
+    *   Open the **project navigator**
+        (**View** > **Navigators** > **Project**).
 
-    *   選取 **Runner** > **ShareExtension** > **ShareViewController**。
+    *   Select **Runner** > **ShareExtension** > **ShareViewController**.
 
-    *   將 `ShareViewController` 更新為使用
-        `FlutterViewController` 類別：
+    *   Update `ShareViewController` to use the
+        `FlutterViewController` class:
 
 {% tabs "controller-code-tabs", true %}
 
@@ -444,65 +478,71 @@ class ShareViewController: UIViewController {
 
 {% endtabs %}
 
-8.  [使用模擬器測試你的應用程式][Test your app with the simulator]。
+8.  [Test your app with the simulator][].
 
 [Add an extension to your Flutter app]: #add-extension
 [Share]: https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/Share.html
 [Test your app with the simulator]: #test-extensions
 
-### 註冊插件（Register plugins）
+### Register plugins
 
-請依照以下步驟，為應用程式擴充套件（app extension）註冊插件。本範例中，應用程式擴充套件的 scheme 為 `ShareExtension`，Flutter 應用程式的 scheme 為 `Runner`，Flutter 應用程式名稱為 `Example App With Extension`：
+Use the following steps to register plugins for
+an app extension. In this example, the app extension
+scheme is called `ShareExtension`, the Flutter app scheme is
+called `Runner`, and the Flutter app is called
+`Example App With Extension`:
 
-1.  如果尚未完成，請先[將擴充套件新增至你的 Flutter 應用程式][Add an extension to your Flutter app]。
+1.  [Add an extension to your Flutter app][] if you haven't
+    already done so.
 
-1.  在 Xcode 中，將 `GeneratedPluginRegistrant.m` 新增至應用程式擴充套件目標（target）。
+1.  In Xcode, add `GeneratedPluginRegistrant.m` to the
+    app extension target.
 
-    *   開啟 **project navigator**
-        （**View** > **Navigators** > **Project**）。
+    *   Open the **project navigator**
+        (**View** > **Navigators** > **Project**).
 
-    *   在主視窗的 **TARGETS** 區塊下，選擇 
-        **ShareExtension**。
+    *   In the main window under **TARGETS**, select 
+        **ShareExtension**.
 
-    *   開啟 **Build Phases** 分頁。
+    *   Open the **Build Phases** tab.
 
-    *   展開 **Compile Sources**。
+    *   Expand **Compile Sources**.
 
-    *   點擊 **+**。
+    *   Click **+**.
 
-    *   在
-        _Choose item to add_ 對話框的清單中，選擇
-        **GeneratedPluginRegistrant.m**。
+    *   From the list in the
+        _Choose item to add_ dialog box, select
+        **GeneratedPluginRegistrant.m**.
 
-    *   點擊 **Add**。
+    *   Click **Add**.
 
-1.  （僅限 Swift）在 Xcode 中，更新
-    `SWIFT_OBJC_BRIDGING_HEADER` 的 build 設定。
+1.  (Swift only) In Xcode, update the
+    `SWIFT_OBJC_BRIDGING_HEADER` build setting.
 
-    *   開啟 **project navigator**
-        （**View** > **Navigators** > **Project**）。
+    *   Open the **project navigator**
+        (**View** > **Navigators** > **Project**).
 
-    *   在主視窗的 **TARGETS** 區塊下，選擇
-        **ShareExtension**。
+    *   In the main window under **TARGETS**, select
+        **ShareExtension**.
 
-    *   開啟 **Build Settings** 分頁。
+    *   Open the **Build Settings** tab.
 
-    *   選擇 **All** 篩選器。
+    *   Select the **All** filter.
 
-    *   前往 **Swift Compiler - General**，將
-        **Objective-C Bridging Header**
-        鍵值設定為 **Runner/Runner-Bridging-Header.h**。
+    *   Navigate to **Swift Compiler - General** and change
+        the value for the **Objective-C Bridging Header**
+        key to **Runner/Runner-Bridging-Header.h**.
 
-1.  在 Xcode 中，更新 `ShareViewController` 的程式碼，
-    以註冊 `GeneratedPluginRegistrant.h`。
+1.  In Xcode, update the code for `ShareViewController`
+    to register `GeneratedPluginRegistrant.h`.
 
-    *   開啟 **project navigator**
-        （**View** > **Navigators** > **Project**）。
+    *   Open the **project navigator**
+        (**View** > **Navigators** > **Project**).
 
-    *   選擇 **Runner** > **ShareExtension** > **ShareViewController**。
+    *   Select **Runner** > **ShareExtension** > **ShareViewController**.
 
-    *   更新 `ShareViewController` 檔案，使用
-        `GeneratedPluginRegistrant.h`：
+    *   Update the `ShareViewController` file to use the
+        `GeneratedPluginRegistrant.h`:
 
 {% tabs "register-plugins-tabs", true %}
 
@@ -531,39 +571,48 @@ GeneratedPluginRegistrant.register(with: flutterEngine)
 
 {% endtabs %}        
 
-5.  （Xcode）[使用模擬器測試你的應用程式][Test your app with the simulator]。
+5.  (Xcode) [Test your app with the simulator][].
 
 [Add an extension to your Flutter app]: #add-extension
 [Share]: https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/Share.html
 [Test your app with the simulator]: #test-extensions
 
-## 限制條件 {: #constraints }
+## Constraints {: #constraints }
 
-*   你必須使用 iOS 模擬器來在偵錯模式下測試你的擴充功能（extension）。
+*   You must use an iOS simulator to test your extension in
+    debug mode.
 
-*   當使用 Flutter 建立擴充功能 UI 時，Flutter 尚未完全支援在實體裝置上以偵錯模式執行應用程式擴充功能，因為實體裝置可能會發生記憶體不足的情況。
+*   Flutter doesn't fully support running app extensions in
+    debug mode on physical devices when used to build
+    extension UIs because a physical device might run out of
+    memory.
 
-*   iOS 應用程式擴充功能有記憶體限制。
-    建議僅在應用程式擴充功能至少支援 100MB 記憶體時，才修改其 UI。
+*   iOS app extensions have limited memory.
+    It is advisable to only modify an app extension's UI
+    if the app extension supports at least 100MB of memory.
 
-## 在 iOS 應用程式擴充功能中呼叫 Dart 程式碼／渲染 Flutter 內容
+## Call Dart code / render Flutter content in iOS app extensions 
 
-[home_widget][home_widget] 套件提供了大量功能，包括允許你：
+The [home_widget][] package provides a large amount of functionality,
+which includes allowing the following:
 
-* 在應用程式擴充功能中使用 Dart 程式碼[回應使用者輸入][Respond to user input]。
+* [Respond to user input][] in app extensions 
+  using Dart Code.
   
-* [將 Flutter 元件（Widgets）渲染為圖片][Render Flutter widgets]，顯示於應用程式擴充功能中。
+* [Render Flutter widgets][] in an app extension as an image.
   
-* [從 `UserDefaults` 儲存與讀取資料][Save and retrieve data]，適用於 iOS。
+* [Save and retrieve data][] from `UserDefaults` on iOS.
 
-## 其他資源 {: #other-resources }
+## Other resources {: #other-resources }
 
-如需逐步教學，說明如何在 Flutter iOS 應用程式中使用應用程式擴充功能，請參考
-[為你的 Flutter 應用程式新增主畫面小工具（Home Screen Widget）][lab]
-codelab。
+For step-by-step instruction for using app
+extensions with your Flutter iOS app, check out the
+[Adding a Home Screen Widget to your Flutter app][lab]
+codelab.
 
-若想進一步了解如何將 Flutter 螢幕加入 iOS 應用程式，請參閱
-[將 Flutter 螢幕加入 iOS 應用程式][Adding a Flutter Screen to an iOS app]。
+To learn more about the various ways you can add a
+Flutter Screen to an iOS app, see
+[Adding a Flutter Screen to an iOS app][].
 
 [Adding a Flutter Screen to an iOS app]: /add-to-app/ios/add-flutter-screen
 [lab]: {{site.codelabs}}/flutter-home-screen-widgets

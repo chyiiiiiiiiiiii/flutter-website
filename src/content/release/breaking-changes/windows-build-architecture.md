@@ -1,62 +1,65 @@
 ---
-title: Windows 建置路徑新增目標架構
+title: Windows build path changed to add the target architecture
 description: >-
-  為了支援 Windows on Arm64，
-  Windows 的建置路徑已更新，現在會包含目標架構。
+  In preparation for supporting Windows on Arm64,
+  the Windows build path was updated to include the target architecture.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-Flutter Windows 應用程式所建置出的可執行檔，現在會依照架構分類存放於不同的資料夾中。
+Built executables for Flutter Windows apps are now located in architecture
+dependent folders.
 
-## 背景
+## Context
 
-為了支援 Windows on Arm64，Windows 的建置路徑已更新，現在會加入建置時的目標架構。
+In preparation for supporting Windows on Arm64, the Windows build path was
+updated to add the build's target architecture.
 
-過去，Flutter 在 Windows 上建置時預設目標架構為 x64。
+Previously, Flutter builds for Windows assumed an x64 target architecture.
 
-## 移轉指南
+## Migration guide
 
-您可能需要更新您的基礎設施，以使用新的 Flutter Windows 建置路徑。
+You may need to update your infrastructure to use the new Flutter Windows
+build path.
 
-移轉前的建置路徑範例：
+Example build path before the migration:
 
 ```plaintext
 build\windows\runner\Release\hello_world.exe
 ```
 
-遷移後，若目標為 x64，則建置路徑範例如下：
+Example build path after the migration if targeting x64:
 
 ```plaintext
 build\windows\x64\runner\Release\hello_world.exe
 ```
 
-遷移後，若目標為 Arm64，則範例建置路徑如下：
+Example build path after the migration if targeting Arm64:
 
 ```plaintext
 build\windows\arm64\runner\Release\hello_world.exe
 ```
 
-如果你使用 [`package:msix`][`package:msix`]，請更新至 3.16.7 或更新版本。
+If you use [`package:msix`][], update to version 3.16.7 or newer.
 
 [`package:msix`]: {{site.pub-pkg}}/msix
 
-## 時程
+## Timeline
 
-功能加入版本：3.15.0-0.0.pre<br>  
-正式版釋出：3.16
+Landed in version: 3.15.0-0.0.pre<br>
+In stable release: 3.16
 
-## 參考資料
+## References
 
-設計文件：
+Design document:
 
-* [flutter.dev/go/windows-arm64][flutter.dev/go/windows-arm64]
+* [flutter.dev/go/windows-arm64][]
 
-相關 Pull Request：
+Relevant pull requests:
 
-* [Introduce architecture subdirectory for Windows build][Introduce architecture subdirectory for Windows build]
+* [Introduce architecture subdirectory for Windows build][]
 
 [flutter.dev/go/windows-arm64]: {{site.main-url}}/go/windows-arm64
 [Introduce architecture subdirectory for Windows build]: {{site.repo.flutter}}/pull/131843

@@ -1,7 +1,7 @@
 ---
-title: 技術文件撰寫人員，語言類
+title: Technical Writer, Languages
 showToc: false
-description: 了解並申請這個技術文件撰寫職缺！
+description: Learn about and apply to this technical writer role!
 ---
 
 {% comment %}
@@ -9,54 +9,97 @@ external link:
 https://www.google.com/about/careers/applications/jobs/results/95463419917804230-technical-writer-languages
 {% endcomment %}
 
-## 關於團隊
+## About the team
 
-這是一個全職職位，隸屬於 Frameworks and Languages 團隊，該團隊是 Developer Relations（開發者關係）的一部分。這個團隊致力於教育使用我們產品的開發者，包括 Dart、Flutter 和 Go。
+This full time position is in the Frameworks and Languages team, part of Developer Relations.
+As such, this team is dedicated to educating developers who use our products,
+including Dart, Flutter, and Go.
 
-## 關於職位
+## About the position
 
-技術文件撰寫人員負責規劃、撰寫及維護教育內容，這是工程或使用者體驗不可或缺的一環。內容形式通常為文件，但也可能包括 UI 文字、範例程式碼、影片或其他教育素材。無論內容媒介為何，技術文件撰寫人員的特點在於能夠將複雜主題以對目標讀者有用的方式清楚解釋。
+Technical writers plan, create, and maintain educational content
+as an integral part of the engineering or user experience.
+The content is often in the form of documentation, but may also be UI text,
+sample code, videos, or other educational material.
+Regardless of the content medium, technical writers are distinguished by
+their abilities to explain complex topics in a way that’s useful to their audience.
 
-此全職職位於美國的基本年薪範圍為 $87,000-$125,000，另有獎金、股票分紅及福利。我們的薪資範圍依職務、職級及地點而定。在此範圍內，個人薪資會根據工作地點及其他因素（包括與職務相關的技能、經驗，以及相關學歷或訓練）決定。您的招募專員可在面試過程中，針對您偏好的地點，提供更詳細的薪資範圍資訊。
+The US base salary range for this full-time position is $87,000-$125,000
++ bonus + equity + benefits. Our salary ranges are determined by role,
+level, and location. Within the range, individual pay is determined by
+work location and additional factors, including job-related skills,
+experience, and relevant education or training. Your recruiter can share
+more about the specific salary range for your preferred location during the hiring process.
 
-請注意，美國職缺所列的薪資僅為基本年薪，未包含獎金、股票分紅或福利。進一步了解 [Google 的福利](https://www.google.com/about/careers/applications/benefits/)。
+Please note that the compensation details listed in US role postings reflect
+the base salary only, and do not include bonus, equity, or benefits.
+Learn more about
+[benefits at Google](https://www.google.com/about/careers/applications/benefits/).
 
-## 我們的價值觀
+## Our values
 
-### 指導與導師制度
+### Mentorship
 
-加入 Google 後，您將會被分配一位正式導師，協助您熟悉工作流程、建立人脈，並學習完成工作所需的系統。您的主管也能協助您尋找能在 Google 職涯發展過程中給予指導的導師。除了正式導師外，我們也會一起工作與訓練，彼此學習，並且慶祝與支持團隊成員的職涯成長。
+Upon joining Google, you will be paired with a formal mentor,
+who will help guide you in the process of ramping up, forging relationships,
+and learning the systems you'll need to do your job.
+Your manager can also help you find mentors who can coach you
+as you navigate your career at Google. In addition to formal mentors,
+we work and train together so that we are always learning from one another,
+and we celebrate and support the career progression of our team members.
 
-### 多元共融
+### Inclusion
 
-在 Flutter 團隊與 Google，我們擁抱彼此的差異，並[致力於推動我們的多元共融文化](https://flutter.dev/culture)。除了像 [Flutteristas](https://flutteristas.org/) 這樣的團體外，[員工資源社群（Employee Resource Groups, ERGs）](https://diversity.google/commitments/) 也是由員工自發組成的網絡，旨在支持代表性不足的員工及其盟友，並以創造歸屬感為共同價值，推動社群與 Google 內部的多元共融。
+Here on the Flutter team and at Google, we embrace our differences
+and are [committed to furthering our culture of inclusion](https://flutter.dev/culture).
+In addition to groups like the [Flutteristas](https://flutteristas.org/),
+[Employee Resource Groups (ERGs)](https://diversity.google/commitments/)
+are employee-initiated networks for supporting underrepresented employees
+and their allies with shared values of creating belonging 
+across their communities and Google.
 
-### 工作與生活平衡
+### Work-Life balance
 
-我們團隊非常重視工作與生活的平衡。維持個人與職業生活的健康平衡，對於您的幸福與成功至關重要，因此我們不會著重於您在工作或線上花費了多少小時。我們樂於提供彈性工時，讓您能在工作內外都擁有更高的生產力與更均衡的生活。
+Our team also puts a high value on work-life balance.
+Striking a healthy balance between your personal and professional life
+is crucial to your happiness and success here, which is why we aren't focused
+on how many hours you spend at work or online. Instead,
+we're happy to offer a flexible schedule so you can have a more productive and
+well-balanced life—both in and outside of work.
 
-## 工作地點
+## Job location
 
-Sunnyvale，加州，美國
+Sunnyvale, CA, USA
 
-## 工作職責
+## Job responsibilities
 
-在主管指導下，執行分配的任務，包括問題分類、pull request 管理、內容驗證與回饋審查。為指定專案撰寫清晰、簡潔且有組織的內容，滿足使用者需求並遵循風格指南。校對、編輯並重組現有文件，以提升開發者體驗並確保風格一致性。與團隊成員及主題專家協作。展現對使用者資訊需求及內容創作流程的基本認識。維持對產品領域及技術寫作原則的基礎理解。
+Execute assigned tasks, including issue triage, pull request management,
+content verification, and feedback review, under executive guidance.
+Write clear, concise, and organized content for defined projects,
+meeting user needs and adhering to style guidelines.
+Proofread, edit, and reorganize existing documentation to enhance
+the developer experience and ensure style consistency.
+Collaborate with team members and subject matter experts.
+Demonstrate basic knowledge of user information needs and content creation processes.
+Maintain a foundational understanding of the product domain and technical writing principles.
 
-## 資格條件
+## Qualifications
 
-### 基本資格
+### Minimum qualifications
 
-* 相關領域學士學位，或具備同等實務經驗。
-* 有為技術受眾創作內容的經驗（例如：開發者文件、計算機科學課程教材，或 IT 管理手冊）。
-* 熟悉一種或多種程式語言（如 Python、Java、C++、Dart、Go 等）。
+* Bachelor's degree in a relevant field, or equivalent practical experience.
+* Experience creating content for technical audiences
+  (for example, developer documentation, Computer Science course material,
+  or IT administration playbooks).
+* Experience with one or more programming languages
+  (Python, Java, C++, Dart, Go, etc).
 
-### 加分條件
+### Preferred qualifications
 
-* 具備 1 年技術寫作經驗。
-* 有為技術受眾創作內容的經驗。
-* 對 Dart 或 Go 等程式語言有興趣。
+* 1 year of experience in technical writing.
+* Experience creating content for technical audiences.
+* Interest in programming languages such as Dart or Go.
 
-## 如何申請
+## To apply
 
-請[填寫以下表單](https://flutter.dev/go/job)以申請。
+Please apply by [filling out the following form](https://flutter.dev/go/job).

@@ -1,46 +1,48 @@
 ---
-title: 在背景解析 JSON
-description: 如何在背景執行任務。
+title: Parse JSON in the background
+description: How to perform a task in the background.
 ---
 
 <?code-excerpt path-base="cookbook/networking/background_parsing/"?>
 
-預設情況下，Dart 應用程式都在單一執行緒上執行所有工作。
-在許多情況下，這種模型能簡化程式撰寫，且速度足夠快，
-不會導致應用程式效能不佳或動畫卡頓，
-這種現象通常被稱為「jank」。
+By default, Dart apps do all of their work on a single thread.
+In many cases, this model simplifies coding and is fast enough
+that it does not result in poor app performance or stuttering animations,
+often called "jank."
 
-然而，有時你可能需要執行較耗時的運算，
-例如解析非常大的 JSON 文件。
-如果這項工作花費超過 16 毫秒，
-使用者就會感受到卡頓。
+However, you might need to perform an expensive computation,
+such as parsing a very large JSON document.
+If this work takes more than 16 milliseconds,
+your users experience jank.
 
-為了避免卡頓，你需要將這類耗時的運算
-移至背景執行，並使用獨立的 [Isolate][Isolate]。
-本教學將採用以下步驟：
+To avoid jank, you need to perform expensive computations
+like this in the background, using a separate [Isolate][].
+This recipe uses the following steps:
 
-  1. 新增 `http` 套件。
-  2. 使用 `http` 套件發送網路請求。
-  3. 將回應轉換為照片清單。
-  4. 將這些工作移至獨立的 isolate 執行。
+  1. Add the `http` package.
+  2. Make a network request using the `http` package.
+  3. Convert the response into a list of photos.
+  4. Move this work to a separate isolate.
 
-## 1. 新增 `http` 套件
+## 1. Add the `http` package
 
-首先，將 [`http`][`http`] 套件加入你的專案中。
-`http` 套件可以讓你更容易執行網路請求，
-例如從 JSON 端點擷取資料。
+First, add the [`http`][] package to your project.
+The `http` package makes it easier to perform network
+requests, such as fetching data from a JSON endpoint.
 
-要將 `http` 套件設為相依套件，
-請執行 `flutter pub add`：
+To add the `http` package as a dependency,
+run `flutter pub add`:
 
 ```console
 $ flutter pub add http
 ```
 
-## 2. 發送網路請求
+## 2. Make a network request
 
-本範例說明如何使用 [`http.get()`][`http.get()`] 方法，
-從 [JSONPlaceholder REST API][JSONPlaceholder REST API] 取得一份包含 5000 個照片物件的大型 JSON 文件。
+This example covers how to fetch a large JSON document
+that contains a list of 5000 photo objects from the
+[JSONPlaceholder REST API][],
+using the [`http.get()`][] method.
 
 <?code-excerpt "lib/main_step2.dart (fetchPhotos)"?>
 ```dart
@@ -50,22 +52,22 @@ Future<http.Response> fetchPhotos(http.Client client) async {
 ```
 
 :::note
-在這個範例中，你將`http.Client`傳遞給函式。
-這樣可以讓函式更容易在不同環境下進行測試與使用。
+You're providing an `http.Client` to the function in this example.
+This makes the function easier to test and use in different environments.
 :::
 
-## 3. 解析並將 JSON 轉換為照片清單
+## 3. Parse and convert the JSON into a list of photos
 
-接下來，依照
-[從網路擷取資料][Fetch data from the internet] 教學的指引，
-將`http.Response`轉換為 Dart 物件的清單。
-這樣可以讓資料更容易操作。
+Next, following the guidance from the
+[Fetch data from the internet][] recipe,
+convert the `http.Response` into a list of Dart objects.
+This makes the data easier to work with.
 
-### 建立 `Photo` 類別
+### Create a `Photo` class
 
-首先，建立一個`Photo`類別，用來儲存有關照片的資料。
-請加入`fromJson()`工廠方法（factory method），
-讓你可以輕鬆地從 JSON 物件建立`Photo`。
+First, create a `Photo` class that contains data about a photo.
+Include a `fromJson()` factory method to make it easy to create a
+`Photo` starting with a JSON object.
 
 <?code-excerpt "lib/main_step3.dart (Photo)"?>
 ```dart
@@ -96,14 +98,15 @@ class Photo {
 }
 ```
 
-### 將回應轉換為照片清單
+### Convert the response into a list of photos
 
-現在，請依照以下指示來更新
-`fetchPhotos()` 函式，使其回傳
-`Future<List<Photo>>`：
+Now, use the following instructions to update the
+`fetchPhotos()` function so that it returns a
+`Future<List<Photo>>`:
 
-  1. 建立一個 `parsePhotos()` 函式，將回應主體（body）轉換為 `List<Photo>`。
-  2. 在 `fetchPhotos()` 函式中使用 `parsePhotos()` 函式。
+  1. Create a `parsePhotos()` function that converts the response
+     body into a `List<Photo>`.
+  2. Use the `parsePhotos()` function in the `fetchPhotos()` function.
 
 <?code-excerpt "lib/main_step3.dart (parsePhotos)"?>
 ```dart
@@ -125,16 +128,17 @@ Future<List<Photo>> fetchPhotos(http.Client client) async {
 }
 ```
 
-## 4. 將這項工作移至獨立的 isolate
+## 4. Move this work to a separate isolate
 
-如果你在較慢的裝置上執行 `fetchPhotos()` 函式，
-你可能會注意到應用程式在解析與轉換 JSON 時會短暫凍結。
-這就是所謂的 jank（卡頓），你會希望將其消除。
+If you run the `fetchPhotos()` function on a slower device,
+you might notice the app freezes for a brief moment as it parses and
+converts the JSON. This is jank, and you want to get rid of it.
 
-你可以透過使用 Flutter 提供的 [`compute()`][`compute()`]
-函式，將解析與轉換的工作移到背景 isolate 來消除卡頓。
-`compute()` 函式會在背景 isolate 執行耗時的函式並回傳結果。
-在這個案例中，請將 `parsePhotos()` 函式放到背景執行。
+You can remove the jank by moving the parsing and conversion
+to a background isolate using the [`compute()`][]
+function provided by Flutter. The `compute()` function runs expensive
+functions in a background isolate and returns the result. In this case,
+run the `parsePhotos()` function in the background.
 
 <?code-excerpt "lib/main.dart (fetchPhotos)"?>
 ```dart
@@ -148,18 +152,22 @@ Future<List<Photo>> fetchPhotos(http.Client client) async {
 }
 ```
 
-## 使用 isolates 的注意事項
+## Notes on working with isolates
 
-Isolate 之間是透過傳遞訊息來進行通訊。這些訊息可以是原始值，例如 `null`、`num`、`bool`、`double` 或 `String`，也可以是像本範例中的 `List<Photo>` 這樣的簡單物件。
+Isolates communicate by passing messages back and forth. These messages can
+be primitive values, such as `null`, `num`, `bool`, `double`, or `String`, or
+simple objects such as the `List<Photo>` in this example.
 
-如果你嘗試在 isolates 之間傳遞較為複雜的物件，例如 `Future` 或 `http.Response`，可能會遇到錯誤。
+You might experience errors if you try to pass more complex objects,
+such as a `Future` or `http.Response` between isolates.
 
-作為替代方案，你可以參考 [`worker_manager`][`worker_manager`] 或 [`workmanager`][`workmanager`] 套件來進行背景處理。
+As an alternate solution, check out the [`worker_manager`][] or
+[`workmanager`][] packages for background processing.
 
 [`worker_manager`]:  {{site.pub}}/packages/worker_manager
 [`workmanager`]: {{site.pub}}/packages/workmanager
 
-## 完整範例
+## Complete example
 
 <?code-excerpt "lib/main.dart"?>
 ```dart

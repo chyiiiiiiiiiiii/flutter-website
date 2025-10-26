@@ -1,49 +1,50 @@
 ---
-title: Route transition record 和 transition delegate 的更新
+title: Route transition record and transition delegate updates
 description: >
-  關於 transition delegate 如何解析路由轉場的規則變更。
+  Changes to the rule on how transition delegate resolve route transition.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-在 route transition record 中新增了一個布林值 getter `isWaitingForExitingDecision`，
-而 getter `isEntering` 則被重新命名為 `isWaitingForEnteringDecision`。
-在 transition delegate 的 `resolve()` 方法中，
-請使用 `isWaitingForExitingDecision` 來檢查一個即將離開的 Route
-是否真的需要明確決定如何從螢幕上移除。
-如果你試圖對一個 _並未_ 等待決策的現有 Route 做出決策，
-Flutter 會拋出 assertion error（斷言錯誤）。
+A new boolean getter `isWaitingForExitingDecision` was added
+to the route transition record and the `isEntering` getter
+was renamed to `isWaitingForEnteringDecision`.
+In the `resolve()` method for the transition delegate,
+use the `isWaitingForExitingDecision` to check if an exiting
+route actually needs an explicit decision on how to transition
+off the screen. If you try to make a decision for an existing route
+that _isn't_ waiting for a decision, Flutter throws an assertion error.
 
-## 背景說明
+## Context
 
-當 Navigator 收到新的 page 清單時，會嘗試將目前的 Route 堆疊
-更新為與該清單一致。不過，這需要明確決定
-如何將 Route 轉場進入或離開螢幕。
-過去，所有不在新清單中的 Route 都需要決定
-如何離開螢幕。但後來我們發現，這並非總是如此。
-如果一個 Route 已經被 pop，
-但仍在等待 pop 動畫（Animation）結束，
-這個 Route 會暫時留在 Navigator 的 Route 堆疊中，
-直到動畫完成。如果這期間發生 page 更新，
-這個 Route 雖然離開了，但不需要決定
-如何從螢幕上移除。因此，
-新增了 `isWaitingForExitingDecision` 來涵蓋這種情境。
+When the navigator receives a new list of pages, it tries to update its
+current routes stack to match the list. However, it requires explicit
+decisions on how to transition the route on and off the screen.
+Previously, routes that were not in the new list required decisions
+on how to transition off the screen. However, we later found out
+this is not always true. If a route is popped,
+but is still waiting for the popping animation to finish,
+this route would sit in the navigator routes stack until
+the animation was done. If a page update occurred during this time,
+this route exits but doesn't require a decision
+on how to transition off the screen. Therefore,
+`isWaitingForExitingDecision` was added to cover that case.
 
-getter `isEntering` 也被重新命名為
-`isWaitingForEnteringDecision`，讓名稱更具描述性，
-同時提升命名的一致性。
+The `isEntering` getter is also renamed to
+`isWaitingForEnteringDecision` to be more descriptive,
+and also to make the naming more consistent.
 
-## 遷移指南
+## Migration guide
 
-如果你有自行實作 transition delegate，請在
-對即將離開的 Route 呼叫 `markForPop`、`markForComplete` 或 `markForRemove` 之前，
-務必先透過 getter `isWaitingForExitingDecision` 進行檢查。
-同時，也需要將所有 `isEntering` 的參考
-改為 `isWaitingForEnteringDecision`。
+If you implement your own transition delegate, you need to check the
+exiting routes using the getter `isWaitingForExitingDecision` before you
+call `markForPop`, `markForComplete`, or `markForRemove` on them.
+You also need to rename all the references from `isEntering` to
+`isWaitingForEnteringDecision`.
 
-遷移前的程式碼：
+Code before migration:
 
 ```dart
 import 'package:flutter/widgets.dart';
@@ -80,7 +81,7 @@ class NoAnimationTransitionDelegate extends TransitionDelegate<void> {
 }
 ```
 
-遷移後的程式碼：
+Code after migration:
 
 ```dart
 import 'package:flutter/widgets.dart';
@@ -121,27 +122,28 @@ class NoAnimationTransitionDelegate extends TransitionDelegate<void> {
 }
 ```
 
-## 時程
+## Timeline
 
-納入版本：1.18.0<br>  
-穩定版發佈：1.20
+Landed in version: 1.18.0<br>
+In stable release: 1.20
 
-## 參考資料
+## References
 
-API 文件：
+API documentation:
 
-* [`Navigator`][`Navigator`]
-* [`TransitionDelegate`][`TransitionDelegate`]
-* [`RouteTransitionRecord`][`RouteTransitionRecord`]
+* [`Navigator`][]
+* [`TransitionDelegate`][]
+* [`RouteTransitionRecord`][]
 
-相關議題：
+Relevant issue:
 
-* [Issue 45938: Navigator 2.0][Issue 45938: Navigator 2.0]
+* [Issue 45938: Navigator 2.0][]
 
-相關 PR：
+Relevant PR:
 
-* [PR 55998][PR 55998]：修正當仍有 Route 等待時，Navigator 頁面更新發生的崩潰問題
-  
+* [PR 55998][]: Fixes the navigator pages update crash
+  when there is still a route waiting
+
 
 [Issue 45938: Navigator 2.0]: {{site.repo.flutter}}/issues/45938
 [`Navigator`]: {{site.api}}/flutter/widgets/Navigator-class.html

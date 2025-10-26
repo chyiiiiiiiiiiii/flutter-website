@@ -1,46 +1,49 @@
 ---
-title: 在 Flutter 應用程式中使用 Platform Views 承載原生 macOS 視圖
+title: Hosting native macOS views in your Flutter app with Platform Views
 shortTitle: macOS platform-views
-description: 學習如何在 Flutter 應用程式中使用 Platform Views 承載原生 macOS 視圖。
+description: Learn how to host native macOS views in your Flutter app with Platform Views.
 ---
 
 <?code-excerpt path-base="platform_integration/platform_views"?>
 
-Platform views（平台視圖）允許你在 Flutter 應用程式中嵌入原生視圖，因此你可以從 Dart 對原生視圖套用轉換、裁剪和透明度等效果。
+Platform views allow you to embed native views in a Flutter app, so you can
+apply transforms, clips, and opacity to the native view from Dart.
 
-這讓你例如可以直接在 Flutter 應用程式內使用原生的網頁視圖（web views）。
+This allows you, for example, to use the native web views directly inside your
+Flutter app.
 
 :::note
-本頁說明如何在 Flutter 應用程式中承載你自己的
-原生 macOS 視圖。
-如果你想在 Flutter 應用程式中嵌入原生 Android 視圖，
-請參閱 [Hosting native Android views][Hosting native Android views]。
-如果你想在 Flutter 應用程式中嵌入原生 iOS 視圖，
-請參閱 [Hosting native iOS views][Hosting native iOS views]。
+This page discusses how to host your own
+native macOS views within a Flutter app.
+If you'd like to embed native Android views in your Flutter app,
+see [Hosting native Android views][].
+If you'd like to embed native iOS views in your Flutter app,
+see [Hosting native iOS views][].
 :::
 
 [Hosting native Android views]: /platform-integration/android/platform-views
 [Hosting native iOS views]: /platform-integration/ios/platform-views
 
 :::version-note
-目前版本下，macOS 上的 Platform view 支援尚未完全可用。
-例如，macOS 尚未支援手勢操作。
-請持續關注未來的穩定版本更新。
+Platform view support on macOS isn't fully functional as of the current release.
+For example, gesture support isn't yet available on macOS.
+Stay tuned for a future stable release.
 :::
 
-macOS 採用 Hybrid composition（混合組合），這代表
-原生的 `NSView` 會被加入到視圖階層中。
+macOS uses Hybrid composition, which means that the
+native `NSView` is appended to the view hierarchy.
 
-要在 macOS 上建立 platform view，請依照以下指示操作：
+To create a platform view on macOS, use the following instructions:
 
-## Dart 端
+## On the Dart side
 
-在 Dart 端，建立一個 `Widget` 並新增 build 實作，
-如以下步驟所示：
+On the Dart side, create a `Widget` and add the build implementation,
+as shown in the following steps:
 
-在 Dart 元件（Widget）檔案中，進行類似 `native_view_example.dart` 的修改：
+In the Dart widget file, make changes similar to those 
+shown in `native_view_example.dart`:
 
- 1. 新增以下匯入：
+ 1. Add the following imports:
 
     <?code-excerpt "lib/native_view_example_4.dart (import)"?>
     ```dart
@@ -48,7 +51,7 @@ macOS 採用 Hybrid composition（混合組合），這代表
     import 'package:flutter/services.dart';
     ```
 
- 1. 實作一個 `build()` 方法：
+ 1. Implement a `build()` method:
 
     <?code-excerpt "lib/native_view_example_4.dart (macos-composition)"?>
     ```dart
@@ -67,16 +70,16 @@ macOS 採用 Hybrid composition（混合組合），這代表
     }
     ```
 
-如需更多資訊，請參閱 [`AppKitView`][`AppKitView`] API 文件。
+For more information, check out the [`AppKitView`][] API docs.
 
 [`AppKitView`]: {{site.api}}/flutter/widgets/AppKitView-class.html
 
-## 在平台端
+## On the platform side
 
-實作 factory 與 platform view。
-`NativeViewFactory` 會建立 platform view，而
-platform view 則會提供 `NSView` 的參考。
-例如，`NativeView.swift`：
+Implement the factory and the platform view.
+The `NativeViewFactory` creates the platform view, and
+the platform view provides a reference to the `NSView`.
+For example, `NativeView.swift`:
 
 ```swift title="NativeView.swift"
 import Cocoa
@@ -140,10 +143,10 @@ class NativeView: NSView {
 }
 ```
 
-最後，註冊平台視圖（platform view）。
-這可以在應用程式或外掛程式（plugin）中完成。
+Finally, register the platform view.
+This can be done in an app or a plugin.
 
-若要在應用程式中註冊，請修改 App 的 `MainFlutterWindow.swift`：
+For app registration, modify the App's `MainFlutterWindow.swift`:
 
 ```swift title="MainFlutterWindow.swift"
 import Cocoa
@@ -162,7 +165,7 @@ class MainFlutterWindow: NSWindow {
 }
 ```
 
-要註冊 plugin，請修改該 plugin 的主檔案：
+For plugin registration, modify the plugin's main file:
 
 ```swift title="Plugin.swift"
 import Cocoa
@@ -176,21 +179,21 @@ public class Plugin: NSObject, FlutterPlugin {
 }
 ```
 
-如需更多資訊，請參閱以下 API 文件：
+For more information, check out the API docs for:
 
-* [`FlutterPlatformViewFactory`][`FlutterPlatformViewFactory`]
-* [`FlutterPlatformView`][`FlutterPlatformView`]
-* [`PlatformView`][`PlatformView`]
+* [`FlutterPlatformViewFactory`][]
+* [`FlutterPlatformView`][]
+* [`PlatformView`][]
 
 [`FlutterPlatformView`]: {{site.api}}/ios-embedder/protocol_flutter_platform_view-p.html
 [`FlutterPlatformViewFactory`]: {{site.api}}/ios-embedder/protocol_flutter_platform_view_factory-p.html
 [`PlatformView`]: {{site.api}}/javadoc/io/flutter/plugin/platform/PlatformView.html
 
-## 綜合應用
+## Putting it together
 
-當你在 Dart 中實作 `build()` 方法時，
-可以使用 [`defaultTargetPlatform`][`defaultTargetPlatform`]
-來偵測平台，並決定要使用哪個元件（Widget）：
+When implementing the `build()` method in Dart,
+you can use [`defaultTargetPlatform`][]
+to detect the platform, and decide which widget to use:
 
 <?code-excerpt "lib/native_view_example_4.dart (together-widget)"?>
 ```dart
@@ -215,10 +218,17 @@ Widget build(BuildContext context) {
 
 [`defaultTargetPlatform`]: {{site.api}}/flutter/foundation/defaultTargetPlatform.html
 
-## 效能
+## Performance
 
-在 Flutter 中使用平台視圖（Platform views）會帶來效能上的取捨。
+Platform views in Flutter come with performance trade-offs.
 
-舉例來說，在一般的 Flutter 應用程式中，Flutter UI 會在專屬的光柵執行緒（raster thread）上進行組合。這讓 Flutter 應用程式能夠保持高速，因為這個執行緒很少被阻塞。
+For example, in a typical Flutter app, the Flutter UI is composed on a dedicated
+raster thread. This allows Flutter apps to be fast, as this thread is rarely
+blocked.
 
-當以混合組合（hybrid composition）方式渲染平台視圖時，Flutter UI 依然會由專屬的光柵執行緒來組合，但平台視圖則會在平台執行緒（platform thread）上執行圖形操作。為了將這些內容一同光柵化，Flutter 會在其光柵執行緒與平台執行緒之間進行同步。因此，任何在平台執行緒上發生的緩慢或阻塞操作，都可能對 Flutter 的圖形效能產生負面影響。
+When a platform view is rendered with hybrid composition, the Flutter UI
+continues to be composed from the dedicated raster thread, but the platform view
+performs graphics operations on the platform thread. To rasterize the combined
+contents, Flutter performs synchronization between its raster thread and the
+platform thread. As such, any slow or blocking operations on the platform thread
+can negatively impact Flutter graphics performance.

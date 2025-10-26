@@ -1,141 +1,189 @@
 ---
-title: 使用者體驗
+title: User experience
 description: >
-  使用者在你的應用程式中體驗 AI Toolkit 的方式。
+  How the user will experience the AI Toolkit in your app.
 prev:
-  title: AI Toolkit 概覽
+  title: AI Toolkit overview
   path: /ai-toolkit/
 next:
-  title: 功能整合
+  title: Feature integration
   path: /ai-toolkit/feature-integration
 ---
 
-[`LlmChatView`][`LlmChatView`] 元件（Widget）是 AI Toolkit 提供的互動式聊天體驗的進入點。
-只要在應用中加入 `LlmChatView` 的實例，就能啟用多項使用者體驗功能，無需額外撰寫程式碼：
+The [`LlmChatView`][] widget is the entry point for the
+interactive chat experience that AI Toolkit provides.
+Hosting an instance of the `LlmChatView` enables a
+number of user experience features that don't require
+any additional code to use:
 
-* **多行文字輸入**：允許使用者貼上長文字，或在輸入時插入換行。
-* **語音輸入**：讓使用者可以透過語音輸入提示，提升便利性。
-* **多媒體輸入**：使用者可拍照、傳送圖片及其他檔案類型。
-* **圖片縮放**：使用者可放大圖片縮圖檢視細節。
-* **複製到剪貼簿**：允許使用者將訊息或大型語言模型 (LLM) 回應的文字複製到剪貼簿。
-* **訊息編輯**：允許使用者編輯最近一次訊息，並重新提交給 LLM。
-* **Material 與 Cupertino**：同時遵循兩種設計語言的最佳實踐。
+* **Multi-line text input**: Allows users to paste long text
+  input or insert new lines into their text as they enter it.
+* **Voice input**: Allows users to input prompts using speech
+  for ease of use.
+* **Multimedia input**: Enables users to take pictures and
+  send images and other file types.
+* **Image zoom**: Enables users to zoom into image thumbnails.
+* **Copy to clipboard**: Allows the  user to copy the text of
+  a message or a LLM response to the clipboard.
+* **Message editing**: Allows the user to edit the most recent
+  message for resubmission to the LLM.
+* **Material and Cupertino**: Adapts to the best practices of
+  both design languages.
 
 [`LlmChatView`]: {{site.pub-api}}/flutter_ai_toolkit/latest/flutter_ai_toolkit/LlmChatView-class.html
 
-## 多行文字輸入
+## Multi-line text input
 
-當使用者完成提示內容的編輯後，可根據不同平台選擇提交方式：
+The user has  options when it comes to submitting
+their prompt once they've finished composing it,
+which again differs depending on their platform:
 
-* **行動裝置**：點擊 **提交** 按鈕
-* **網頁**：按下 **Enter** 鍵或點擊 **提交** 按鈕
-* **桌面**：按下 **Enter** 鍵或點擊 **提交** 按鈕
+* **Mobile**: Tap the **Submit** button
+* **Web**: Press **Enter** or tap the **Submit** button
+* **Desktop**: Press **Enter** or tap the **Submit** button
 
-此外，聊天視圖支援含有換行的文字提示。若使用者已有帶換行的文字，可直接貼到提示文字欄位。
+In addition, the chat view supports text prompts
+with embedded newlines in them. If the user has existing
+text with newlines, they can paste them into the
+prompt text field as normal.
 
-如果使用者希望在輸入時手動插入換行，也可以這麼做。不同平台的操作方式如下：
+If they'd like to embed newlines into their prompt
+manually as they enter it, they can do so.
+The gesture for that activity differs based on the
+platform they're using:
 
-* **行動裝置**：在虛擬鍵盤上點擊 Return 鍵
-* **網頁**：不支援
-* **桌面**：按下 `Ctrl+Enter` 或 `Opt/Alt+Enter`
+* **Mobile**: Tap Return key on the virtual keyboard
+* **Web**: Unsupported
+* **Desktop**: Press `Ctrl+Enter` or `Opt/Alt+Enter`
 
-這些選項的畫面如下：
+These options look like the following:
 
-**桌面**：
+**Desktop**:
 
 ![Screenshot of entering text on desktop](/assets/images/docs/ai-toolkit/desktop-enter-text.png)
 
-**行動裝置**：
+**Mobile**:
 
 ![Screenshot of entering text on mobile](/assets/images/docs/ai-toolkit/mobile-enter-text.png)
 
-## 語音輸入
+## Voice input
 
-除了文字輸入外，聊天視圖也可透過點擊麥克風按鈕錄製語音作為輸入，當尚未輸入任何文字時會顯示該按鈕。
+In addition to text input the chat view can take an
+audio recording as input by tapping the Mic button,
+which is visible when no text has yet been entered.
 
-點擊 **麥克風** 按鈕即可開始錄音：
+Tapping the **Mic** button starts the recording:
 
 ![Screenshot of entering text](/assets/images/docs/ai-toolkit/enter-textfield.png)
 
-按下 **停止** 按鈕後，系統會將使用者的語音輸入轉換為文字：
+Pressing the **Stop** button translates the user's voice input into text:
 
-這段文字可照常編輯、補充並提交。
+This text can then be edited, augmented and submitted as normal.
 
 ![Screenshot of entered voice](/assets/images/docs/ai-toolkit/enter-voice-into-textfield.png)
 
-## 多媒體輸入
+## Multi-media Input
 
 ![Textfield containing "Testing, testing, one, two, three"](/assets/images/docs/ai-toolkit/multi-media-testing-testing.png)
 
-聊天視圖也能接收圖片和檔案，並傳遞給底層的 LLM。使用者可點擊文字輸入框左側的 **加號** 按鈕，從 **拍照**、**圖片庫**、**附加檔案**三個圖示中選擇：
+The chat view can also take images and files as input to pass along
+to the underlying LLM. The user can press the **Plus** button to the
+left of the text input and choose from the **Take Photo**, **Image Gallery**,
+and **Attach File** icons:
 
 ![Screenshot of the 4 icons](/assets/images/docs/ai-toolkit/multi-media-icons.png)
 
-**拍照** 按鈕讓使用者可直接使用裝置相機拍攝照片：
+The **Take Photo** button allows the user to use their device's camera to take a photo:
 
 ![Selfie image](/assets/images/docs/ai-toolkit/selfie.png)
 
-點擊 **圖片庫** 按鈕可讓使用者從裝置的圖片庫上傳圖片：
+Pressing the **Image Gallery** button lets the user upload
+from their device's image gallery:
 
 ![Download image from gallery](/assets/images/docs/ai-toolkit/download-from-gallery.png)
 
-點擊 **附加檔案** 按鈕可讓使用者選擇裝置上任意類型的檔案，如 PDF 或 TXT 檔。
+Pressing the **Attach File** button lets the user select
+a file of any type available on their device, like a PDF or TXT file.
 
-選取照片、圖片或檔案後，該檔案會作為附件顯示在目前的提示下方縮圖：
+Once a photo, image, or file has been selected, it becomes an attachment and shows up as a thumbnail associated with the currently active prompt:
 
 ![Thumbnails of images](/assets/images/docs/ai-toolkit/image-thumbnails.png)
 
-使用者可點擊縮圖上的 **X** 按鈕移除附件。
+The user can remove an attachment by clicking the
+**X** button on the thumbnail.
 
-## 圖片縮放
+## Image zoom
 
-使用者可點擊圖片縮圖來放大檢視：
+The user can zoom into an image thumbnail by tapping it:
 
 ![Zoomed image](/assets/images/docs/ai-toolkit/image-zoom.png)
 
-按下 **ESC** 鍵或點擊圖片外任意區域即可關閉放大圖。
+Pressing the **ESC** key or tapping anywhere outside the
+image dismisses the zoomed image.
 
-## 複製到剪貼簿
+## Copy to clipboard
 
-使用者可透過多種方式，將目前聊天中的任何文字提示或 LLM 回應複製下來。
-在桌面或網頁上，使用者可用滑鼠選取畫面上的文字，然後照常複製到剪貼簿：
+The user can copy any text prompt or LLM response
+in their current chat in a variety of ways.
+On the desktop or the web, the user can mouse
+to select the text on their screen and
+copy it to the clipboard as normal:
 
 ![Copy to clipboard](/assets/images/docs/ai-toolkit/copy-to-clipboard.png)
 
-此外，在每個提示或回應的下方，當滑鼠懸停時會出現 **複製** 按鈕，點擊即可複製：
+In addition, at the bottom of each prompt or response,
+the user can press the **Copy** button that pops up
+when they hover their mouse:
 
 ![Press the copy button](/assets/images/docs/ai-toolkit/chatbot-prompt.png)
 
-在行動裝置上，使用者可長按提示或回應，並選擇複製選項：
+On mobile platforms, the user can long-tap a prompt or response and choose the Copy option:
 
 ![Long tap to see the copy button](/assets/images/docs/ai-toolkit/long-tap-choose-copy.png)
 
-## 訊息編輯
+## Message editing
 
-若使用者想要編輯上一則提示並讓 LLM 重新生成回應，可以這麼做。在桌面上，使用者可在最近的提示旁點擊 **編輯** 按鈕（與 **複製** 按鈕並列）：
+If the user would like to edit their last prompt
+and cause the LLM to take another run at it,
+they can do so. On the desktop,
+the user can tap the **Edit** button alongside the
+**Copy** button for their most recent prompt:
 
 ![How to edit prompt](/assets/images/docs/ai-toolkit/how-to-edit-prompt.png)
 
-在行動裝置上，使用者可長按最近的提示，取得 **編輯** 選項：
+On a mobile device, the user can long-tap and get access
+to the **Edit** option on their most recent prompt:
 
 ![How to access edit menu](/assets/images/docs/ai-toolkit/accessing-edit-menu.png)
 
-點擊 **編輯** 按鈕後，會進入編輯模式，這時系統會將使用者最後一則提示及 LLM 的回應從聊天記錄中移除，並將提示文字放回文字欄位，同時顯示編輯中指示：
+Once the user taps the **Edit** button, they enter Editing mode,
+which removes both the user's last prompt and the LLM's
+last response from the chat history,
+puts the text of the prompt into the text field, and
+provides an Editing indicator:
 
 ![How to exit editing mode](/assets/images/docs/ai-toolkit/how-to-exit-editing-mode.png)
 
-在編輯模式下，使用者可自由修改提示內容並提交，讓 LLM 正常產生回應。
-若改變主意，也可點擊編輯指示旁的 **X** 來取消編輯，並恢復先前的 LLM 回應。
+In Editing mode, the user can edit the prompt as they choose
+and submit it to have the LLM produce a response as normal.
+Or, if they change their mind, they can tap the **X**
+near the Editing indicator to cancel their edit and restore
+their previous LLM response.
 
-## Material 與 Cupertino
+## Material and Cupertino
 
-當 `LlmChatView` 元件（Widget）被放在 [Material app][Material app] 中時，會採用 Material 設計語言的相關功能，例如 Material 的 [`TextField`][`TextField`]。
-同樣地，當放在 [Cupertino app][Cupertino app] 中時，則會採用 Cupertino 設計語言的相關功能，例如 [`CupertinoTextField`][`CupertinoTextField`]。
+When the `LlmChatView` widget is hosted in a [Material app][],
+it uses facilities provided by the Material design language,
+such as Material's [`TextField`][].
+Likewise, when hosted in a [Cupertino app][],
+it uses those facilities, such as [`CupertinoTextField`][].
 
 ![Cupertino example app](/assets/images/docs/ai-toolkit/cupertino-chat-app.png)
 
-不過，雖然聊天視圖同時支援 Material 與 Cupertino 應用程式類型，但並不會自動套用相關主題。
-主題設定需透過 `LlmChatView` 的 `style` 屬性來指定，詳見 [自訂樣式][Custom styling] 文件說明。
+However, while the chat view supports both the Material and
+Cupertino app types, it doesn't automatically adopt the associated themes.
+Instead, that's set by the `style` property of the `LlmChatView`
+as described in the [Custom styling][] documentation.
 
 [Cupertino app]: {{site.api}}/flutter/cupertino/CupertinoApp-class.html
 [`CupertinoTextField`]: {{site.api}}/flutter/cupertino/CupertinoTextField-class.html

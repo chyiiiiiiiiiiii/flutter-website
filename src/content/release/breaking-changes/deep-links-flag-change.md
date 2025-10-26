@@ -1,32 +1,37 @@
 ---
-title: 深層連結旗標變更
+title: Deep links flag change
 description: >-
-  如果你在行動應用程式中使用第三方深層連結 (deep linking) 套件，
-  請將 Flutter 的深層連結旗標設為 false。
+  If you use a third party deep linking plugin package for mobile apps,
+  set Flutter's deep linking flag to false.
 ---
 
 {% render docs/breaking-changes.md %}
 
-## 摘要
+## Summary
 
-**此重大變更僅影響有使用第三方深層連結 (deep linking) 套件的行動應用程式。**
+**This breaking change only affects mobile apps that
+use a third party deep linking plugin package.**
 
-Flutter 的深層連結選項預設值已由 `false` 變更為 `true`，這代表現在預設為需自行選擇啟用深層連結 (opt-in)。
+The default value for Flutter's deep linking option has changed from
+`false` to `true`, meaning that deep linking is now opt-in by default.
 
-## 遷移指南
+## Migration guide
 
-如果你是使用 Flutter 預設的深層連結設定，這項變更對你來說不會造成影響。
+If you're using Flutter's default deep linking setup,
+this isn't a breaking change for you.
 
-但如果你有使用第三方深層連結 (deep links) 套件，例如下列這些，這次更新會帶來重大變更：
+However, if you're using a third-party plugin for deep links,
+such as the following, this update introduces a breaking change:
 
 - [Firebase dynamic links](https://firebase.google.com/docs/dynamic-links)
 - [`package:uni_link`]({{site.pub-pkg}}/uni_links)
 - [`package:app_links`]({{site.pub-pkg}}/app_links)
 - [`package:flutter_branch_sdk`]({{site.pub-pkg}}/flutter_branch_sdk)
 
-在這種情況下，你必須手動將 Flutter 的深層連結選項重設為 `false`。
+In this case, you must manually reset the
+Flutter deep linking option to `false`.
 
-請在你的 Android 專案的 `AndroidManifest.xml` 檔案中進行設定：
+Within your app's `AndroidManifest.xml` file for Android:
 
 ```xml title="AndroidManifest.xml" highlightLines=4
 <manifest>
@@ -38,24 +43,24 @@ Flutter 的深層連結選項預設值已由 `false` 變更為 `true`，這代�
 </manifest>
 ```
 
-在您的 iOS 應用程式的 `info.plist` 檔案中：
+Within your app's `info.plist` file for iOS:
 
 ```xml title="info.plist"
  <key>FlutterDeepLinkingEnabled</key>
  <false/>
 ```
 
-## 時程
+## Timeline
 
-導入版本：3.25.0-0.1.pre<br>  
-穩定版發佈：3.27
+Landed in version: 3.25.0-0.1.pre<br>
+Stable release: 3.27
 
-## 參考資料
+## References
 
-設計文件：
+Design document:
 
 - [flutter.dev/go/deep-link-flag-migration]({{site.main-url}}/go/deep-link-flag-migration)
 
-相關 PR：
+Relevant PR:
 
 * [Set deep linking flag to true by default]({{site.github}}/flutter/engine/pull/52350)

@@ -1,21 +1,25 @@
 ---
-title: Flutter 編輯器支援
-shortTitle: 編輯器
+title: Flutter editor support
+shortTitle: Editors
 description: >-
-  Dart 與 Flutter 的編輯器支援。
+  Editor support for Dart and Flutter.
 showToc: false
 ---
 
-你可以使用任何文字編輯器或整合式開發環境（IDE），
-搭配 Flutter 的命令列工具（Command Line Interface），來開發 Flutter 應用程式。
+You can build apps with Flutter using any text editor or
+integrated development environment (IDE)
+combined with Flutter's command-line tools.
 
-Flutter 團隊建議使用支援 Flutter 擴充功能或外掛的編輯器，例如 VS Code 和 Android Studio。
-這些外掛能提供程式碼自動完成、語法高亮、元件（Widgets）編輯輔助、除錯支援等多種功能。
+The Flutter team recommends using an editor that supports
+a Flutter extension or plugin, like VS Code and Android Studio.
+These plugins provide code completion, syntax highlighting,
+widget editing assists, debug support, and much more.
 
-## 本地端編輯器
+## Local editors
 
-Flutter 團隊支援 VS Code、Android Studio 及 IntelliJ 的外掛。
-這些外掛提供完整的開發與除錯支援，並與 [Dart analyzer][Dart analyzer] 及 [Dart 和 Flutter DevTools][Dart and Flutter DevTools] 深度整合。
+The Flutter team supports plugins for VS Code, Android Studio, and IntelliJ.
+The plugins provide extensive development and debugging support as well as
+deep integrations with the [Dart analyzer][] and [Dart and Flutter DevTools][].
 
 <div class="card-grid">
   <a class="card outlined-card" href="/tools/vs-code">
@@ -23,15 +27,15 @@ Flutter 團隊支援 VS Code、Android Studio 及 IntelliJ 的外掛。
       <span class="card-title">Visual Studio Code</span>
     </div>
     <div class="card-content">
-      <p>在精簡且可自訂的程式碼編輯器中開發與除錯 Flutter 應用程式。</p>
+      <p>Develop and debug Flutter apps in a streamlined and customizable code editor.</p>
     </div>
   </a>
   <a class="card outlined-card" href="/tools/android-studio">
     <div class="card-header">
-      <span class="card-title">Android Studio 和 IntelliJ</span>
+      <span class="card-title">Android Studio and IntelliJ</span>
     </div>
     <div class="card-content">
-      <p>在具有豐富語言支援與整合工具的 IDE 中開發與除錯 Flutter 應用程式。</p>
+      <p>Develop and debug Flutter apps in an IDE with rich language support and integrated tooling.</p>
     </div>
   </a>
 </div>
@@ -39,9 +43,10 @@ Flutter 團隊支援 VS Code、Android Studio 及 IntelliJ 的外掛。
 [Dart analyzer]: {{site.dart-site}}/tools/analysis
 [Dart and Flutter DevTools]: /tools/devtools
 
-## 線上編輯器
+## Online editors
 
-你可以使用下列其中一種線上編輯器，無需本地安裝，即可快速體驗 Flutter。
+You can quickly try Flutter online without any local setup
+with one of the following editors.
 
 <div class="card-grid">
   <a class="card outlined-card" href="{{site.dartpad}}" target="_blank">
@@ -52,29 +57,29 @@ Flutter 團隊支援 VS Code、Android Studio 及 IntelliJ 的外掛。
       </span>
     </div>
     <div class="card-content">
-      <p>可在網頁上快速建立並執行簡單的單檔案 Flutter 應用程式。</p>
+      <p>Quickly build and run simple single-file Flutter apps on the web.</p>
     </div>
   </a>
   <a class="card outlined-card" href="https://firebase.studio" target="_blank">
     <div class="card-header">
       <span class="card-title">
         <span>Firebase Studio</span>
-        <span class="material-symbols" aria-hidden="true" style="font-size: 1rem;" translate="no">open_in_new⟧L33⟧
+        <span class="material-symbols" aria-hidden="true" style="font-size: 1rem;" translate="no">open_in_new</span>
       </span>
     </div>
     <div class="card-content">
-      <p>在雲端 AI 協作工作區中開發複雜的 Flutter 應用程式。</p>
+      <p>Develop complex Flutter apps in an AI-assisted workspace in the cloud.</p>
     </div>
   </a>
 </div>
 
-## 其他編輯器
+## Other editors
 
-你也可以使用其他任何文字編輯器與終端機來開發 Dart 與 Flutter 應用程式。
+You can develop Dart and Flutter apps using any other text editor and terminal.
 
-依據編輯器的不同，你可以整合 Dart SDK 對
-[Language Server Protocol][lsp] 和 [Debug Adapter Protocol][dap] 的支援，
-以啟用 Dart 與 Flutter 的進階程式碼編輯與除錯功能。
+Depending on the editor, you can integrate the Dart SDK's support for the
+[Language Server Protocol][lsp] and the [Debug Adapter Protocol][dap] to
+enable rich code editing and debugging features for both Dart and Flutter.
 
 [lsp]: https://github.com/dart-lang/sdk/tree/main/pkg/analysis_server/tool/lsp_spec/README.md
 [dap]: https://github.com/dart-lang/sdk/blob/main/third_party/pkg/dap/tool/README.md

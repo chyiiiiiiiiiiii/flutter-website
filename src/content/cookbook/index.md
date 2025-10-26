@@ -1,17 +1,18 @@
 ---
 title: Cookbook
 description: >-
-  Flutter Cookbook 提供了許多常見任務的解決方案。
+  The Flutter cookbook provides recipes for many commonly performed tasks.
 sitemap: false
-# 這是一個佔位頁面（Firebase 會將此頁面的 URL 重新導向至其他頁面）；
-# 這是為了讓導覽路徑（breadcrumbs）能正常運作所必需的。
+# This is a placeholder page (Firebase redirects this page's URL to another);
+# it is necessary to allow breadcrumbs to work.
 ---
 
-本 Cookbook 收錄了多個實用範例，展示在開發 Flutter 應用程式時，
-如何解決常見問題。
-每個範例都自成一格，可作為參考，協助你使用 Flutter 建構應用程式。
+This cookbook contains recipes that demonstrate how to
+solve common problems while writing Flutter apps.
+Each recipe is self-contained and can be used as a reference to
+help you build up an application with Flutter.
 
-若想探索更多適合你的範例與學習資源，
-請參閱 [learning resources index][learning resources index]。
+To discover recipes and other learning materials relevant to you,
+check out the [learning resources index][].
 
 [learning resources index]: /reference/learning-resources

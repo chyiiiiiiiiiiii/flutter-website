@@ -1,17 +1,17 @@
-# DevTools 2.12.2 發行說明
+# DevTools 2.12.2 release notes
 
-Dart 和 Flutter DevTools 2.12.2 版本
-包含以下變更及其他一般性改進。
-想進一步了解 DevTools，請參考
-[DevTools overview](https://docs.flutter.dev/tools/devtools)。
+The 2.12.2 release of the Dart and Flutter DevTools
+includes the following changes among other general improvements.
+To learn more about DevTools, check out the
+[DevTools overview](https://docs.flutter.dev/tools/devtools).
 
-## 一般更新
+## General updates
 
-* 從遺失的 trace 事件中復原 -
+* Recover from missing trace events -
   [#3960](https://github.com/flutter/devtools/pull/3960)
 
-## 完整提交記錄
+## Full commit history
 
-若需查閱自前一版本以來的完整變更列表，
-請參考
-[the diff on GitHub](https://github.com/flutter/devtools/compare/v2.12.1...v2.12.2)。
+To find a complete list of changes since the previous release,
+check out
+[the diff on GitHub](https://github.com/flutter/devtools/compare/v2.12.1...v2.12.2).

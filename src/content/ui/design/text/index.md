@@ -1,6 +1,6 @@
 ---
 layout: toc
-title: 文字
-description: 說明如何在 Flutter 應用程式中新增與自訂文字內容。
+title: Text
+description: Content covering how to add and customize text in Flutter appw.
 sitemap: false
 ---

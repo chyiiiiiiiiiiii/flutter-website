@@ -1,37 +1,38 @@
 ---
-title: 設定網頁開發環境
+title: Set up web development
 description: >-
-  設定您的開發環境，以在網頁平台上執行、建置及部署 Flutter 應用程式。
+  Configure your development environment to
+  run, build, and deploy Flutter apps for the web platform.
 ---
 
-瞭解如何設定您的開發環境，
-以在網頁平台上執行、建置及部署 Flutter 應用程式。
+Learn how to set up your development environment
+to run, build, and deploy Flutter apps for the web platform.
 
 :::note
-如果您尚未安裝 Flutter，
-請先參閱並依照 [Get started with Flutter][Get started with Flutter] 指南進行。
+If you haven't set up Flutter already,
+visit and follow the [Get started with Flutter][] guide first.
 
-如果您已經安裝了 Flutter，
-請確保其為[最新版本][up to date]。
+If you've already installed Flutter,
+ensure that it's [up to date][].
 :::
 
 [Get started with Flutter]: /get-started
 [up to date]: /install/upgrade
 
-## 安裝網頁瀏覽器 {: #install}
+## Install a web browser {: #install}
 
-若要在網頁上執行與除錯您的 Flutter 應用程式，
-請[下載並安裝 Google Chrome][chrome-install]
-或[安裝並使用 Microsoft Edge][edge-install]。
+To run and debug your Flutter app on the web,
+[download and install Google Chrome][chrome-install]
+or [install and use Microsoft Edge][edge-install].
 
 <details>
-<summary>展開以查看其他瀏覽器的說明</summary>
+<summary>Expand for instructions for other browsers</summary>
 
-如果您希望在其他網頁瀏覽器中除錯應用程式，
-可以使用 `flutter run -d web-server` 指令，
-並手動在您偏好的瀏覽器中前往指定的 URL。
+If you want to debug your app in other web browsers,
+you can use the `flutter run -d web-server` command,
+and manually navigate to the specified URL in your preferred browser.
 
-請注意，在 `web-server` 模式下的除錯支援有限。
+Note that debugging support in the `web-server` mode is limited.
 
 </details>
 
@@ -39,14 +40,14 @@ description: >-
 [chrome-install]: https://www.google.com/chrome/
 [edge-install]: https://www.microsoft.com/edge
 
-## 驗證您的環境設定 {: #validate-setup}
+## Validate your setup {: #validate-setup}
 
-為了確保您已成功安裝瀏覽器，
-且 Flutter 能夠找到它，
-請在您偏好的終端機中執行 `flutter devices`。
+To ensure that you installed the browser successfully,
+and that Flutter can find it,
+run `flutter devices` in your preferred terminal.
 
-您應該至少會看到一個已連線裝置，
-標示為 **Chrome (web)** 或 **Edge (web)**，類似如下畫面：
+You should at least see one connected device labeled
+**Chrome (web)** or **Edge (web)**, similar to the following:
 
 ```console highlightLines=4
 $ flutter devices
@@ -55,68 +56,68 @@ Found 1 connected devices:
   Chrome (web)    • chrome • web-javascript • Google Chrome
 ```
 
-如果找不到該指令，或是沒有看到 Chrome 被列出，
-請參考[設定疑難排解][troubleshoot]。
+If the command isn't found, or you don't see Chrome listed,
+check out [Set up troubleshooting][troubleshoot].
 
 [troubleshoot]: /install/troubleshoot
 
-## 開始進行 Web 開發 {: #start-developing}
+## Start developing for the web {: #start-developing}
 
-現在你已經完成 Flutter 的 Web 開發環境設定，
-可以在網頁上測試你的 Flutter 學習旅程，
-或是開始擴展與 Web 的整合。
+Now that you've set up web development for Flutter,
+you can continue your Flutter learning journey while testing on the web
+or begin expanding integration with the web.
 
 <div class="card-grid link-cards">
   <div class="card filled-card list-card">
     <div class="card-leading">
-      <img src="/assets/images/decorative/pointing-the-way.png" height="160" aria-hidden="true" alt="Dash 幫助你探索 Flutter 學習資源。">
+      <img src="/assets/images/decorative/pointing-the-way.png" height="160" aria-hidden="true" alt="Dash helping you explore Flutter learning resources.">
     </div>
     <div class="card-header">
-      <span class="card-title">繼續學習 Flutter</span>
+      <span class="card-title">Continue learning Flutter</span>
     </div>
     <div class="card-content">
       <ul>
         <li>
-          <a class="text-button" href="/get-started/codelab">撰寫你的第一個應用程式</a>
+          <a class="text-button" href="/get-started/codelab">Write your first app</a>
         </li>
         <li>
-          <a class="text-button" href="/get-started/fundamentals">學習基礎知識</a>
+          <a class="text-button" href="/get-started/fundamentals">Learn the fundamentals</a>
         </li>
         <li>
-          <a class="text-button" href="https://www.youtube.com/watch?v=b_sQ9bMltGU&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG">探索 Flutter 元件 (Widgets)</a>
+          <a class="text-button" href="https://www.youtube.com/watch?v=b_sQ9bMltGU&list=PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG">Explore Flutter widgets</a>
         </li>
         <li>
-          <a class="text-button" href="/reference/learning-resources">查看範例</a>
+          <a class="text-button" href="/reference/learning-resources">Check out samples</a>
         </li>
         <li>
-          <a class="text-button" href="/resources/bootstrap-into-dart">認識 Dart 語言</a>
+          <a class="text-button" href="/resources/bootstrap-into-dart">Learn about Dart</a>
         </li>
       </ul>
     </div>
   </div>
   <div class="card filled-card list-card">
     <div class="card-leading">
-      <img src="/assets/images/decorative/flutter-on-phone.svg" height="160" aria-hidden="true" alt="Flutter 在多裝置上的呈現。">
+      <img src="/assets/images/decorative/flutter-on-phone.svg" height="160" aria-hidden="true" alt="A representation of Flutter on multiple devices.">
     </div>
     <div class="card-header">
-      <span class="card-title">為 Web 建置</span>
+      <span class="card-title">Build for the web</span>
     </div>
     <div class="card-content">
       <ul>
         <li>
-          <a class="text-button" href="/platform-integration/web/building">使用 Flutter 建置 Web 應用程式</a>
+          <a class="text-button" href="/platform-integration/web/building">Build a web app with Flutter</a>
         </li>
         <li>
-          <a class="text-button" href="/platform-integration/web/initialization">自訂應用程式初始化</a>
+          <a class="text-button" href="/platform-integration/web/initialization">Customize app initialization</a>
         </li>
         <li>
-          <a class="text-button" href="/platform-integration/web/wasm">編譯為 Wasm</a>
+          <a class="text-button" href="/platform-integration/web/wasm">Compile to Wasm</a>
         </li>
         <li>
-          <a class="text-button" href="/platform-integration/web/web-content-in-flutter">整合網頁內容</a>
+          <a class="text-button" href="/platform-integration/web/web-content-in-flutter">Integrate web content</a>
         </li>
         <li>
-          <a class="text-button" href="/platform-integration/web/embedding-flutter-web">嵌入至其他 Web 應用程式</a>
+          <a class="text-button" href="/platform-integration/web/embedding-flutter-web">Embed in another web app</a>
         </li>
       </ul>
     </div>

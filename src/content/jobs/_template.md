@@ -4,70 +4,71 @@ showToc: false
 ---
 
 {% comment %}
-1. 請在 `src/jobs` 目錄內複製此文件
-2. 以能代表該職位的名稱命名
-3. 移除文件名稱前的底線（_），以便發佈文件
-4. 在前置資料區（front matter）中指定完整職稱
-5. 更新有 TODO 標記的段落，完成後請移除 TODO
-6. 如有需要，調整「申請方式」的連結
+1. Make a copy of this document within the `src/jobs` directory
+2. Name it something representative of the role
+3. Remove the leading underscore (_) to allow the document to be published
+4. Specify the full job title in the front matter
+5. Update the sections with a TODO, removing the TODO when complete
+6. Adjust the "To apply" link if necessary
 {% endcomment %}
 
-## 關於團隊
+## About the team
 
-<TODO: 團隊簡介>
+<TODO: Area description>
 
-## 關於職位
+## About the position
 
-<TODO: 職位說明>
+<TODO: Role description>
 
-## 我們的價值觀
+## Our values
 
-### 指導與導師制度（Mentorship）
+### Mentorship
 
-加入 Google 後，您將會被分配一位正式的導師（mentor），
-協助您熟悉工作流程、建立人際關係，
-並學習完成工作所需的各項系統。
-您的直屬經理也能協助您尋找能在 Google 職涯發展過程中
-提供指導的導師。除了正式的導師外，
-我們也會一起工作與訓練，彼此互相學習，
-並且慶祝與支持團隊成員的職涯成長。
+Upon joining Google, you will be paired with a formal mentor,
+who will help guide you in the process of ramping up, forging relationships,
+and learning the systems you'll need to do your job.
+Your manager can also help you find mentors who can coach you
+as you navigate your career at Google. In addition to formal mentors,
+we work and train together so that we are always learning from one another,
+and we celebrate and support the career progression of our team members.
 
-### 多元共融（Inclusion）
+### Inclusion
 
-在 Flutter 團隊以及 Google，我們擁抱彼此的差異，
-並[致力於推動我們的多元共融文化](https://flutter.dev/culture)。
-除了像 [Flutteristas](https://flutteristas.org/) 這樣的團體外，
-[員工資源小組（Employee Resource Groups, ERGs）](https://diversity.google/commitments/)
-也是由員工自發組成的網絡，旨在支持代表性不足的員工及其盟友，
-共同秉持創造歸屬感的價值，促進其社群及 Google 內部的連結。
+Here on the Flutter team and at Google, we embrace our differences
+and are [committed to furthering our culture of inclusion](https://flutter.dev/culture).
+In addition to groups like the [Flutteristas](https://flutteristas.org/),
+[Employee Resource Groups (ERGs)](https://diversity.google/commitments/)
+are employee-initiated networks for supporting underrepresented employees
+and their allies with shared values of creating belonging 
+across their communities and Google.
 
-### 工作與生活平衡（Work-life balance）
+### Work-life balance
 
-我們團隊同樣非常重視工作與生活的平衡。
-在這裡，維持個人生活與職業生涯的健康平衡
-對您的幸福與成功至關重要，因此我們不會著重於
-您花了多少時間在工作或線上。相反地，
-我們樂於提供彈性的工作時間安排，讓您能在工作內外
-都擁有更高生產力與更完善的生活平衡。
+Our team also puts a high value on work-life balance.
+Striking a healthy balance between your personal and professional life
+is crucial to your happiness and success here, which is why we aren't focused
+on how many hours you spend at work or online. Instead,
+we're happy to offer a flexible schedule so you can have a more productive and
+well-balanced life—both in and outside of work.
 
-## 工作地點
+## Job location
 
-<TODO: 工作地點>
+<TODO: Location>
 
-## 工作職責
+## Job responsibilities
 
-<TODO: 工作職責>
+<TODO: Responsibilities>
 
-## 資格條件
+## Qualifications
 
-### 基本資格
+### Minimum qualifications
 
-<TODO: 基本資格>
+<TODO: Minimum qualifications>
 
-### 其他加分條件
+### Preferred qualifications
 
-<TODO: 其他加分條件>
+<TODO: Preferred qualifications>
 
-## 申請方式
+## To apply
 
-請[填寫以下表單](https://flutter.dev/go/job)以提出申請。
+Please apply by [filling out the following form](https://flutter.dev/go/job).

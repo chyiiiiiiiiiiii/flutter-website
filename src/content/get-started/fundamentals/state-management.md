@@ -1,43 +1,48 @@
 ---
-title: 狀態管理
-description: 學習如何在 Flutter 中管理狀態。
+title: State management
+description: Learn how to manage state in Flutter.
 prev:
-  title: 版面配置
+  title: Layout
   path: /get-started/fundamentals/layout
 next:
-  title: 處理使用者輸入
+  title: Handling user input
   path: /get-started/fundamentals/user-input
 ---
 
-Flutter 應用程式的 _狀態_ 指的是它用來顯示 UI 或管理系統資源的所有物件。
-狀態管理則是我們如何組織應用程式，
-以最有效的方式存取這些物件，
-並在不同元件（Widgets）之間共享它們的方法。
+The _state_ of a Flutter app refers to all the objects it uses
+to display its UI or manage system resources.
+State management is how we organize our app
+to most effectively access these objects
+and share them between different widgets.
 
-本頁將探討狀態管理的多個面向，包括：
+This page explores many aspects of state management, including:
 
-* 使用 [`StatefulWidget`][`StatefulWidget`]
-* 透過建構函式、[`InheritedWidget`][`InheritedWidget`] 以及回呼函式（callback）在元件之間共享狀態
-* 使用 [`Listenable`][`Listenable`] 來在狀態變化時通知其他元件
-* 為你的應用程式架構採用 Model-View-ViewModel（MVVM）
+* Using a [`StatefulWidget`][]
+* Sharing state between widgets using constructors,
+  [`InheritedWidget`][]s, and callbacks
+* Using [`Listenable`][]s to notify other widgets
+  when something changes
+* Using Model-View-ViewModel (MVVM)
+  for your application's architecture
 
-如果你想了解更多狀態管理的入門資源，請參考以下內容：
+For other introductions to state management, check out these resources:
 
-* 影片：[Managing state in Flutter][managing-state-video]。
-  此影片展示如何使用 [riverpod][riverpod] 套件。
+* Video: [Managing state in Flutter][managing-state-video].
+  This video shows how to use the [riverpod][] package.
 
-<i class="material-symbols" aria-hidden="true" translate="no">flutter_dash</i> 教學：
-[State management][State management]。
-這裡展示如何搭配 [provider][provider] 套件使用 `ChangeNotifer`。
+<i class="material-symbols" aria-hidden="true" translate="no">flutter_dash</i> Tutorial:
+[State management][].
+This shows how to use `ChangeNotifer` with the [provider][] package.
 
-本指南不使用如 provider 或 Riverpod 等第三方套件，
-而是僅使用 Flutter 框架中提供的基本功能。
+This guide doesn't use third-party packages
+like provider or Riverpod. Instead,
+it only uses primitives available in the Flutter framework.
 
-## 使用 StatefulWidget
+## Using a StatefulWidget
 
-管理狀態最簡單的方法是使用 `StatefulWidget`，
-它會將狀態儲存在自身之中。
-例如，請參考以下元件：
+The simplest way to manage state is to use a `StatefulWidget`,
+which stores state within itself.
+For example, consider the following widget:
 
 ```dart
 class MyCounter extends StatefulWidget {
@@ -69,41 +74,51 @@ class _MyCounterState extends State<MyCounter> {
 }
 ```
 
-這段程式碼說明了在思考狀態管理時的兩個重要概念：
+This code illustrates two important concepts
+when thinking about state management:
 
-* **封裝（Encapsulation）**
-: 使用 `MyCounter` 的元件（Widget）無法存取底層的 `count` 變數，
-  也沒有任何方式可以存取或更改它。
-* **物件生命週期（Object lifecycle）**
-: `_MyCounterState` 物件及其 `count` 變數會在 `MyCounter` 第一次被建立時產生，
-  並且會一直存在直到它從螢幕上被移除。
-  這就是 _短暫狀態（ephemeral state）_ 的範例。
+* **Encapsulation**
+: The widget that uses `MyCounter` has no visibility into
+  the underlying `count` variable
+  and no means to access or change it.
+* **Object lifecycle**
+: The `_MyCounterState` object and its `count` variable
+  are created the first time that `MyCounter` is built,
+  and exist until it's removed from the screen.
+  This is an example of _ephemeral state_.
 
-你可能會覺得以下資源很有幫助：
+You might find the following resources to be useful:
 
-* 文章：[Ephemeral state and app state][ephemeral-state]
-* API 文件：[StatefulWidget][StatefulWidget]
+* Article: [Ephemeral state and app state][ephemeral-state]
+* API docs: [StatefulWidget][]
 
-## 在元件（Widgets）之間共享狀態
+## Sharing state between widgets
 
-應用程式需要儲存狀態的情境包括：
+Some scenarios where an app needs to store state
+include the following:
 
-* **更新** 共享狀態並通知應用程式的其他部分
-* **監聽** 共享狀態的變化，並在狀態改變時重建 UI
+* To **update** the shared state and notify other parts of the app
+* To **listen** for changes to the shared state
+  and rebuild the UI when it changes
 
-本節將探討如何在應用程式中不同的元件（Widgets）之間有效地共享狀態。
-最常見的模式有：
+This section explores how you can effectively share state
+between different widgets in your app.
+The most common patterns are:
 
-* **使用元件建構子（widget constructors）**
-  （在其他框架中有時稱為「prop drilling」）
-* **使用 `InheritedWidget`**（或類似的 API，例如 [provider][provider] 套件）。
-* **使用回呼函式（callbacks）** 通知父元件有狀態變更
+* **Using widget constructors**
+  (sometimes called "prop drilling" in other frameworks)
+* **Using `InheritedWidget`** (or a similar API,
+  such as the [provider][] package).
+* **Using callbacks** to notify a parent widget
+  that something has changed
 
-### 使用元件建構子（widget constructors）
+### Using widget constructors
 
-由於 Dart 物件是以參考（reference）方式傳遞，
-元件（Widgets）通常會在其建構子中定義所需使用的物件。
-任何你傳遞到元件建構子的狀態，都可以用來建立其 UI：
+Since Dart objects are passed by reference,
+it's very common for widgets to define the
+objects they need to use in their constructor.
+Any state you pass into a widget's constructor
+can be used to build its UI:
 
 ```dart
 class MyCounter extends StatelessWidget {
@@ -117,7 +132,8 @@ class MyCounter extends StatelessWidget {
 }
 ```
 
-這樣一來，其他使用你元件（Widget）的使用者就能清楚知道，他們需要提供哪些內容才能使用它：
+This makes it obvious for other users of your widget to know
+what they need to provide in order to use it:
 
 ```dart
 Column(
@@ -140,14 +156,27 @@ Column(
 )
 ```
 
-透過元件（widget）建構子傳遞應用程式中的共用資料，可以讓閱讀程式碼的人清楚知道有哪些共用的相依性。這是一種常見的設計模式，稱為 _依賴注入（dependency injection）_，許多框架都會利用這種模式，或提供工具來簡化實作。
+Passing the shared data for your app through widget constructors
+makes it clear to anyone reading the code that there are shared dependencies.
+This is a common design pattern called _dependency injection_
+and many frameworks take advantage of it or provide tools to make it easier.
 
-### 使用 InheritedWidget
+### Using InheritedWidget
 
-手動將資料一層層往下傳遞到元件樹中，可能會讓程式碼變得冗長，並產生不必要的樣板程式碼，因此 Flutter 提供了 _`InheritedWidget`_，它能有效地在父元件中託管資料，讓子元件可以存取這些資料，而不需要將資料存成欄位。
+Manually passing data down the widget tree can be verbose
+and cause unwanted boilerplate code,
+so Flutter provides _`InheritedWidget`_,
+which provides a way to efficiently host data in a parent widget
+so that child widgets can get access them without storing them as a field.
 
-要使用 `InheritedWidget`，請繼承 `InheritedWidget` 類別，並實作靜態方法 `dependOnInheritedWidgetOfExactType`，使用 `of()`。  
-在 build 方法中呼叫 `of()` 的元件，會建立一個由 Flutter 框架管理的相依關係，因此，所有依賴此 `InheritedWidget` 的元件，當該元件以新資料重新建構且 `updateShouldNotify` 回傳 true 時，這些元件也會重新建構。
+To use `InheritedWidget`, extend the `InheritedWidget` class
+and implement the static method `of()`
+using `dependOnInheritedWidgetOfExactType`.
+A widget calling `of()` in a build method
+creates a dependency that is managed by the Flutter framework,
+so that any widgets that depend on this `InheritedWidget` rebuild
+when this widget re-builds with new data
+and `updateShouldNotify` returns true.
 
 ```dart
 class MyState extends InheritedWidget {
@@ -176,7 +205,9 @@ class MyState extends InheritedWidget {
 }
 ```
 
-接下來，請在需要存取共享狀態的元件（Widget）的`build()`方法中，呼叫`of()`方法：
+Next, call the `of()` method
+from the `build()`method of the widget
+that needs access to the shared state:
 
 ```dart
 class HomeScreen extends StatelessWidget {
@@ -195,19 +226,19 @@ class HomeScreen extends StatelessWidget {
 ```
 
 
-### 使用回呼函式（callbacks）
+### Using callbacks
 
-你可以透過公開一個回呼函式（callback），在數值變更時通知其他元件（Widgets）。
-Flutter 提供了 `ValueChanged` 類型，
-這個類型宣告了一個帶有單一參數的函式回呼：
+You can notify other widgets when a value changes by exposing a callback.
+Flutter provides the `ValueChanged` type,
+which declares a function callback with a single parameter:
 
 ```dart
 typedef ValueChanged<T> = void Function(T value);
 ```
 
-透過在元件（Widget）的建構函式中公開 `onChanged`，  
-你就為任何使用此元件的其他元件，  
-提供了一種方式，能夠在你的元件呼叫 `onChanged` 時做出回應。
+By exposing `onChanged` in your widget's constructor,
+you provide a way for any widget that is using this widget
+to respond when your widget calls `onChanged`.
 
 ```dart
 class MyCounter extends StatefulWidget {
@@ -220,7 +251,8 @@ class MyCounter extends StatefulWidget {
 }
 ```
 
-例如，這個元件（Widget）可能會處理 `onPressed` 回呼（callback），並以其最新的內部狀態呼叫 `onChanged`，將 `count` 變數的值傳遞出去：
+For example, this widget might handle the `onPressed` callback,
+and call `onChanged` with its latest internal state for the `count` variable:
 
 ```dart
 TextButton(
@@ -230,30 +262,37 @@ TextButton(
 ),
 ```
 
-### 更深入了解
+### Dive deeper
 
-若想進一步瞭解如何在元件（Widgets）之間共享狀態，請參考以下資源：
+For more information on sharing state between widgets,
+check out the following resources:
 
-* 文章：[Flutter Architectural Overview—State management][architecture-state]
-* 影片：[Pragmatic state management][Pragmatic state management]
-* 影片：[InheritedWidgets][inherited-widget-video]
-* 影片：[A guide to Inherited Widgets][A guide to Inherited Widgets]
-* 範例：[Provider shopper][Provider shopper]
-* 範例：[Provider counter][Provider counter]
-* API 文件：[`InheritedWidget`][`InheritedWidget`]
+* Article: [Flutter Architectural Overview—State management][architecture-state]
+* Video: [Pragmatic state management][]
+* Video: [InheritedWidgets][inherited-widget-video]
+* Video: [A guide to Inherited Widgets][]
+* Sample: [Provider shopper][]
+* Sample: [Provider counter][]
+* API Docs: [`InheritedWidget`][]
 
-## 使用 listenables
+## Using listenables
 
-現在你已經選擇了在應用程式中如何共享狀態，那麼當狀態改變時，該如何更新 UI 呢？又該如何以能夠通知應用程式其他部分的方式來變更共享狀態？
+Now that you've chosen how you want to share state in your app,
+how do you update the UI when it changes?
+How do you change the shared state in a way
+that notifies other parts of the app?
 
-Flutter 提供了一個名為 `Listenable` 的抽象類別，可以用來更新一個或多個監聽者（listeners）。一些常見的 listenables 使用方式如下：
+Flutter provides an abstract class called `Listenable`
+that can update one or more listeners.
+Some useful ways to use listenables are:
 
-* 使用 `ChangeNotifier`，並透過 `ListenableBuilder` 來訂閱它
-* 搭配 `ValueNotifier` 與 `ValueListenableBuilder` 使用
+* Use a `ChangeNotifier` and subscribe to it using a `ListenableBuilder`
+* Use a `ValueNotifier` with a `ValueListenableBuilder`
 
 ### ChangeNotifier
 
-若要使用 `ChangeNotifier`，請建立一個繼承自它的類別，並在需要通知監聽者時呼叫 `notifyListeners`。
+To use `ChangeNotifier`, create a class that extends it,
+and call `notifyListeners` whenever the class needs to notify its listeners.
 
 ```dart
 class CounterNotifier extends ChangeNotifier {
@@ -267,9 +306,9 @@ class CounterNotifier extends ChangeNotifier {
 }
 ```
 
-然後將其傳遞給 `ListenableBuilder`，
-以確保每當 `ChangeNotifier` 更新其監聽器時，
-由 `builder` 函式所回傳的子樹會被重新建構。
+Then pass it to `ListenableBuilder`
+to ensure that the subtree returned by the `builder` function
+is re-built whenever the `ChangeNotifier` updates its listeners.
 
 ```dart
 Column(
@@ -292,21 +331,23 @@ Column(
 
 ### ValueNotifier
 
-[`ValueNotifier`][`ValueNotifier`] 是 `ChangeNotifier` 的簡化版本，
-它只儲存單一數值。
-它實作了 `ValueListenable` 和 `Listenable` 介面，
-因此可以與像是 `ListenableBuilder` 和 `ValueListenableBuilder` 這類元件（Widget）相容。
-要使用時，只需以初始值建立一個 `ValueNotifier` 實例：
+A [`ValueNotifier`][] is a simpler version of a `ChangeNotifier`,
+that stores a single value.
+It implements the `ValueListenable` and `Listenable` interfaces,
+so it's compatible
+with widgets such as `ListenableBuilder` and `ValueListenableBuilder`.
+To use it, create an instance of `ValueNotifier` with the initial value:
 
 ```dart
 ValueNotifier<int> counterNotifier = ValueNotifier(0);
 ```
 
-然後，使用 `value` 欄位來讀取或更新數值，並通知所有監聽者該數值已變更。
-由於 `ValueNotifier` 繼承自 `ChangeNotifier`，
-它同時也是一個 `Listenable`，因此可以搭配 `ListenableBuilder` 使用。
-不過，你也可以使用 `ValueListenableBuilder`，
-它會在 `builder` 回呼（callback）中提供該數值：
+Then use the `value` field to read or update the value,
+and notify any listeners that the value has changed.
+Because `ValueNotifier` extends `ChangeNotifier`,
+it is also a `Listenable` and can be used with a `ListenableBuilder`.
+But you can also use `ValueListenableBuilder`,
+which provides the value in the `builder` callback:
 
 ```dart
 Column(
@@ -327,35 +368,38 @@ Column(
 )
 ```
 
-### 深入探討
+### Deep dive
 
-若想進一步了解 `Listenable` 物件，請參考以下資源：
+To learn more about `Listenable` objects, check out the following resources:
 
-* API 文件: [`Listenable`][`Listenable`]
-* API 文件: [`ValueNotifier`][`ValueNotifier`]
-* API 文件: [`ValueListenable`][`ValueListenable`]
-* API 文件: [`ChangeNotifier`][`ChangeNotifier`]
-* API 文件: [`ListenableBuilder`][`ListenableBuilder`]
-* API 文件: [`ValueListenableBuilder`][`ValueListenableBuilder`]
-* API 文件: [`InheritedNotifier`][`InheritedNotifier`]
+* API Docs: [`Listenable`][]
+* API Docs: [`ValueNotifier`][]
+* API Docs: [`ValueListenable`][]
+* API Docs: [`ChangeNotifier`][]
+* API Docs: [`ListenableBuilder`][]
+* API Docs: [`ValueListenableBuilder`][]
+* API Docs: [`InheritedNotifier`][]
 
-## 為應用程式架構導入 MVVM
+## Using MVVM for your application's architecture
 
-現在我們已經了解如何共享狀態，
-以及當狀態變化時如何通知應用程式的其他部分，
-接下來可以開始思考如何組織應用中的有狀態物件。
+Now that we understand how to share state
+and notify other parts of the app when its state changes,
+we're ready to start thinking about how to organize
+the stateful objects in our app.
 
-本節將說明如何實作一種非常適合與 Flutter 等反應式框架搭配使用的設計模式，
-稱為 _Model-View-ViewModel_（MVVM，模型-檢視-檢視模型）。
+This section describes how to implement a design pattern that works well
+with reactive frameworks like Flutter,
+called _Model-View-ViewModel_ or _MVVM_.
 
-### 定義 Model
+### Defining the Model
 
-Model（模型）通常是一個 Dart 類別，負責執行底層任務，
-例如發送 HTTP 請求、
-快取資料，或管理像外掛程式這類的系統資源。
-Model 通常不需要匯入 Flutter 函式庫。
+The Model is typically a Dart class that does low-level tasks
+such as making HTTP requests,
+caching data, or managing system resources such as a plugin.
+A model doesn't usually need to import Flutter libraries.
 
-舉例來說，以下是一個利用 HTTP 用戶端載入或更新計數器狀態的 Model：
+For example, consider a model that loads or updates the counter state
+using an HTTP client:
 
 ```dart
 import 'package:http/http.dart';
@@ -384,22 +428,32 @@ class CounterModel {
 }
 ```
 
-這個模型不使用任何 Flutter 原生功能（primitives），也不對其運行的平台做任何假設；  
-它唯一的工作就是透過其 HTTP client 來取得或更新計數值。  
-這樣的設計讓模型在單元測試中可以用 Mock 或 Fake 來實作，  
-並且明確劃分了應用程式中低階元件與建構完整應用所需的高階 UI 元件之間的界線。
+This model doesn't use any Flutter primitives or make any assumptions
+about the platform it's running on;
+its only job is to fetch or update the count using its HTTP client.
+This allows the model to be implemented with a Mock or Fake in unit tests,
+and defines clear boundaries between your app's low-level components and the
+higher-level UI components needed to build the full app.
 
-`CounterData` 類別定義了資料的結構，是我們應用程式真正的「模型」（Model）。  
-模型層通常負責應用程式所需的核心演算法與資料結構。  
-如果你對其他定義模型的方式有興趣，例如使用不可變值類型（immutable value types），  
-可以參考 pub.dev 上的 [freezed][freezed] 或 [build_collection][build_collection] 套件。
+The `CounterData` class defines the structure of the data
+and is the true "model" of our application.
+The model layer is typically responsible for the core algorithms
+and data structures needed for your app.
+If you are interested in other ways to define the model,
+such as using immutable value types,
+check out packages like [freezed][]
+or [build_collection][] on pub.dev.
 
-### 定義 ViewModel
+### Defining the ViewModel
 
-`ViewModel` 負責將 _View_ 與 _Model_ 綁定。  
-它保護模型不被 View 直接存取，並確保資料流是從模型的變更開始。  
-資料流由 `ViewModel` 處理，該類別使用 `notifyListeners` 來通知 View 有資料變動。  
-`ViewModel` 就像餐廳的服務生，負責廚房（model）與顧客（views）之間的溝通。
+A `ViewModel` binds the _View_ to the _Model_.
+It protects the model from being accessed directly by the View,
+and ensures that data flow starts from a change to the model.
+Data flow is handled by the `ViewModel`, which uses `notifyListeners`
+to inform the View that something changed.
+The `ViewModel` is like a waiter in a restaurant
+that handles the communication
+between the kitchen (model) and the customers (views).
 
 ```dart
 import 'package:flutter/foundation.dart';
@@ -436,17 +490,20 @@ class CounterViewModel extends ChangeNotifier {
 }
 ```
 
-請注意，當 `ViewModel` 從 Model 收到錯誤時，會儲存一個 `errorMessage`。  
-這樣可以保護 View 不會遇到未處理的執行階段錯誤，這些錯誤可能導致應用程式當機。  
-相反地，`errorMessage` 欄位可以讓 View 用來顯示一個對使用者友善的錯誤訊息。
+Notice that the `ViewModel` stores an `errorMessage`
+when it receives an error from the Model.
+This protects the View from unhandled runtime errors,
+which could lead to a crash.
+Instead, the `errorMessage` field
+can be used by the view to show a user-friendly error message.
 
----
 
-### 定義 View
+### Defining the View
 
-由於我們的 `ViewModel` 是一個 `ChangeNotifier`，  
-任何持有其參考的元件（widget）都可以使用 `ListenableBuilder` 來重建其 widget tree，  
-當 `ViewModel` 通知其監聽者時：
+Since our `ViewModel` is a `ChangeNotifier`,
+any widget with a reference to it can use a `ListenableBuilder`
+to rebuild its widget tree
+when the `ViewModel` notifies its listeners:
 
 ```dart
 ListenableBuilder(
@@ -475,18 +532,19 @@ ListenableBuilder(
 )
 ```
 
-這種模式允許您的應用程式商業邏輯
-與 UI 邏輯以及 Model 層執行的底層操作分離。
+This pattern allows the business logic of your application
+to be separate from the UI logic
+and low-level operations performed by the Model layer.
 
-## 進一步了解狀態管理
+## Learn more about state management
 
-本頁僅簡要介紹狀態管理，
-實際上有許多方式可以組織與管理
-您的 Flutter 應用程式的狀態。
-如果您想進一步學習，請參考以下資源：
+This page touches the surface of state management as
+there are many ways to organize and manage
+the state of your Flutter application.
+If you would like to learn more, check out the following resources:
 
-* 文章：[List of state management approaches][List of state management approaches]
-* 程式碼庫：[Flutter Architecture Samples][Flutter Architecture Samples]
+* Article: [List of state management approaches][]
+* Repository: [Flutter Architecture Samples][]
 
 [A guide to Inherited Widgets]: {{site.youtube-site}}/watch?v=Zbm3hjPjQMk
 [build_collection]: {{site.pub-pkg}}/built_collection
@@ -514,9 +572,9 @@ ListenableBuilder(
 [provider]: {{site.pub-pkg}}/provider
 [riverpod]: {{site.pub-pkg}}/riverpod
 
-## 意見回饋
+## Feedback
 
-由於本網站區塊仍在持續發展中，
-我們[歡迎您的意見回饋][welcome your feedback]！
+As this section of the website is evolving,
+we [welcome your feedback][]!
 
 [welcome your feedback]: https://google.qualtrics.com/jfe/form/SV_6A9KxXR7XmMrNsy?page="state-management"
