@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 不再支援 Web 專用的 golden 比對
 description: >-
@@ -24,7 +23,6 @@ description: >-
 若您有實作自訂的 [`WebGoldenComparator`][`WebGoldenComparator`]，則需將實作遷移到 [`GoldenFileComparator`][`GoldenFileComparator`]。幸運的是，CanvasKit 與 SkWasm 後端本來就需要類似的方法（`compareButes` 與 `updateBytes`）。
 
 例如：
-```
 
 ```dart
 // Before

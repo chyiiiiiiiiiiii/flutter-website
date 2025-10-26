@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 新版 CupertinoIcons 有圖示字形變更
 description: >
@@ -95,7 +94,6 @@ SF Symbols 較為正式的圖示集。
 如果你也將 `cupertino_icons`
 在 pubspec 依賴項從 0.1.3 升級到 1.0.0，
 例如，將以下內容修改為：
-```
 
 ```yaml
 dependencies:
@@ -119,10 +117,10 @@ dependencies:
 
 ## 時程
 
-合併於：1.22.0-10.0.pre.65<br>  
+合併於：1.22.0-10.0.pre.65<br>
 正式版釋出：1.22
 
 ## 參考資料
 
-[0.1.3 icons]: https://raw.githubusercontent.com/flutter/cupertino_icons/master/map.png  
+[0.1.3 icons]: https://raw.githubusercontent.com/flutter/cupertino_icons/master/map.png
 [`CupertinoIcons`]: {{site.api}}/flutter/cupertino/CupertinoIcons-class.html

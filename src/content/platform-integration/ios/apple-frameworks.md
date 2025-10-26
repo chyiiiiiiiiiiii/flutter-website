@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 善用 Apple 的系統 API 與框架
 description: >-
@@ -96,4 +95,3 @@ Dart 稱包含平台專屬程式碼的函式庫為 _plugin_（套件），即「
 [`flutter_core_spotlight`]: {{site.pub-pkg}}/flutter_core_spotlight
 [`home_widget`]: {{site.pub-pkg}}/home_widget
 [`intelligence`]: {{site.pub-pkg}}/intelligence
-```

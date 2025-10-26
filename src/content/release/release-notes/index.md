@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Flutter 發行說明
 shortTitle: 發行說明
@@ -167,4 +166,3 @@ description: 先前版本 Flutter 的發行說明。
 [1.12.13 release notes and change log]: /release/release-notes/release-notes-1.12.13
 [Archived release notes]: /release/release-notes/release-notes-archive
 [CHANGELOG]: {{site.repo.flutter}}/blob/stable/CHANGELOG.md
-```

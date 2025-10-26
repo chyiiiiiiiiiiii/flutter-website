@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 更多關於效能的思考
 description: 什麼是效能，以及為什麼效能很重要
@@ -73,4 +72,3 @@ description: 什麼是效能，以及為什麼效能很重要
 4. 讓效能指標能監控盡可能廣泛的族群，確保沒有人被遺漏。
 
 [1]: https://en.wikipedia.org/wiki/Law_of_large_numbers
-```

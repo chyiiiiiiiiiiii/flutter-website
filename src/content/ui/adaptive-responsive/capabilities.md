@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 功能與政策
 description: >-
@@ -70,11 +69,10 @@ Flutter 建議的做法是，根據這些獨特功能，
 
 舉例：您的應用程式在網站上有一個購買連結，
 但基於政策考量，您不希望在 iOS 裝置上顯示該連結。
-``` 
 
 ```dart
 bool shouldAllowPurchaseClick() {
-  // Banned by Apple App Store guidelines. 
+  // Banned by Apple App Store guidelines.
   return !Platform.isIOS;
 }
 
@@ -91,14 +89,14 @@ TextSpan(
 這段程式碼能更清楚地說明為什麼會有分支路徑存在。
 這個方法可以直接存在於類別（class）中，但很有可能
 程式碼的其他部分也會需要這個相同的檢查。
-如果是這樣，請將這段程式碼放在一個類別中。 
+如果是這樣，請將這段程式碼放在一個類別中。
 
 ```dart title="policy.dart"
 
 class Policy {
 
   bool shouldAllowPurchaseClick() {
-    // Banned by Apple App Store guidelines. 
+    // Banned by Apple App Store guidelines.
     return !Platform.isIOS;
   }
 }

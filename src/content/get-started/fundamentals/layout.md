@@ -131,6 +131,8 @@ Widget build(BuildContext context) {
   );
 }
 ```
+" %}
+
 每個 `Row` 或 `Column` 的子項目（child）本身也可以是
 rows 或 columns，彼此組合以建立複雜的版面配置。
 例如，你可以在上述範例中的每個圖片下方，透過 columns 加上標籤。
@@ -167,7 +169,6 @@ Widget build(BuildContext context) {
 }
 ```
 " %}
-
 
 ### 在 Row 和 Column 中對齊元件 (Widgets)
 
@@ -416,6 +417,8 @@ Widget build(BuildContext context) {
   );
 }
 ```
+" %}
+
 同時，`ListView.builder` 建構函式中的 `itemBuilder` 回呼函式會接收 build context 以及 `int`。  
 這個回呼函式會針對清單中的每一個項目各自被呼叫一次，  
 而 int 參數則代表該清單項目的索引。
@@ -481,7 +484,8 @@ Widget build(BuildContext context) {
   );
 }
 ```
-```markdown
+" %}
+
 ## 其他資源
 
 * 常用版面配置元件 (Layout widgets) 與概念
@@ -580,4 +584,4 @@ Widget build(BuildContext context) {
 我們[歡迎您的意見回饋][welcome your feedback]！
 
 [welcome your feedback]: https://google.qualtrics.com/jfe/form/SV_6A9KxXR7XmMrNsy?page="layout"
-```
+

@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 自訂選單的新方式
 description: >
@@ -22,7 +21,6 @@ description: >
 以下範例展示如何在選取電子郵件地址時，於預設選單中新增 **傳送電子郵件** 按鈕。完整程式碼可在 GitHub 的 samples repository 中的
 [email_button_page.dart]({{site.repo.samples}}/blob/main/context_menus/lib/email_button_page.dart)
 找到。
-```
 
 ```dart
 TextField(
@@ -275,7 +273,7 @@ class _MyTextField extends StatelessWidget {
 
 ## 時程
 
-合併於版本：3.6.0-0.0.pre<br>  
+合併於版本：3.6.0-0.0.pre<br>
 穩定版釋出：3.7.0
 
 ## 參考資料

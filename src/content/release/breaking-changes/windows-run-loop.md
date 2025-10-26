@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 將 Windows 專案遷移至慣用的 run loop
 description: 如何將 Windows 專案更新為使用慣用的 run loop
@@ -26,4 +25,3 @@ Flutter 2.5 將 Windows 應用程式的 run loop 替換為慣用的 Windows 訊�
 6. 檢查 `windows/runner` 目錄下檔案的變更內容
 7. 將這次遷移前對 `windows/runner` 目錄下檔案的自訂變更重新套用
 8. 使用 `flutter build windows` 確認你的應用程式可以成功建置
-```

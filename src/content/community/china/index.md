@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 在中國地區使用 Flutter
 description: 如何在中國地區使用、存取及學習 Flutter。
@@ -39,12 +38,11 @@ _以下所有範例皆假設您使用的是 CFUG 鏡像站點。_
  1. 開啟一個新的 PowerShell 視窗，以準備執行 Shell 指令。
 
  1. 將 `PUB_HOSTED_URL` 設定為您的鏡像站點。
-```
 
     ```ps
     $ $env:PUB_HOSTED_URL="https://pub.flutter-io.cn"
     ```
- 
+
  1. 將 `FLUTTER_STORAGE_BASE_URL` 設定為你的鏡像站點。
 
     ```ps
@@ -122,7 +120,7 @@ _以下所有範例皆假設您使用的是 CFUG 鏡像站點。_
 
  1. 從壓縮檔（zip archive file）中解壓縮 SDK。
 
-    本範例假設你下載的是 macOS 版本的 Flutter SDK。  
+    本範例假設你下載的是 macOS 版本的 Flutter SDK。
     你需要將路徑替換為你實際下載的壓縮檔案及其版本的路徑。
 
     ```console
@@ -303,15 +301,15 @@ From <https://github.com/flutter/website/pull/9338#discussion_r1328077020>
  1. 設定代理伺服器（proxy）。
     如需設定代理伺服器，請參考
     [Dart documentation on proxies][Dart documentation on proxies]。
- 
+
  1. 請確認您的`PUB_HOSTED_URL`環境變數未設定或為空值。
- 
+
     ```ps
     $ echo $env:PUB_HOSTED_URL
     ```
- 
+
     如果此指令回傳任何值，請將其取消設定（unset）。
- 
+
     ```ps
     $ Remove-Item $env:PUB_HOSTED_URL
     ```
@@ -319,19 +317,19 @@ From <https://github.com/flutter/website/pull/9338#discussion_r1328077020>
 {% endtab %}
 {% tab "macOS" %}
 
- 1. 設定代理伺服器。  
-    如需設定代理伺服器，請參考  
+ 1. 設定代理伺服器。
+    如需設定代理伺服器，請參考
     [Dart documentation on proxies][Dart documentation on proxies]。
 
  1. 請確認您的 `PUB_HOSTED_URL` 環境變數
     沒有被設定或為空值。
- 
+
     ```console
     $ echo $PUB_HOSTED_URL
     ```
- 
+
     如果此指令有回傳任何值，請將其取消設定（unset）。
- 
+
     ```console
     $ unset $PUB_HOSTED_URL
     ```
@@ -339,19 +337,19 @@ From <https://github.com/flutter/website/pull/9338#discussion_r1328077020>
 {% endtab %}
 {% tab "Linux" %}
 
- 1. 設定代理伺服器。  
-    如需設定代理伺服器，請參考  
+ 1. 設定代理伺服器。
+    如需設定代理伺服器，請參考
     [Dart documentation on proxies][Dart documentation on proxies]。
- 
+
  1. 請確認您的 `PUB_HOSTED_URL` 環境變數
     尚未設定或為空值。
- 
+
     ```console
     $ echo $PUB_HOSTED_URL
     ```
- 
+
     如果此指令有回傳任何值，請將其取消設定（unset）。
- 
+
     ```console
     $ unset $PUB_HOSTED_URL
     ```

@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 在網路上刪除資料
 description: 如何使用 `http` 套件在網路上刪除資料。
@@ -17,7 +16,6 @@ description: 如何使用 `http` 套件在網路上刪除資料。
 ## 1. 新增 `http` 套件
 
 若要將 `http` 套件加入為相依套件，請執行 `flutter pub add`：
-```
 
 ```console
 $ flutter pub add http
@@ -60,7 +58,7 @@ Future<http.Response> deleteAlbum(String id) async {
 
 ## 3. 更新螢幕
 
-為了檢查資料是否已被刪除，首先請使用 `http.get()` 方法從 [JSONPlaceholder][JSONPlaceholder] 取得資料，並顯示在螢幕上。（完整範例請參考 [Fetch Data][Fetch Data] 教學。）  
+為了檢查資料是否已被刪除，首先請使用 `http.get()` 方法從 [JSONPlaceholder][JSONPlaceholder] 取得資料，並顯示在螢幕上。（完整範例請參考 [Fetch Data][Fetch Data] 教學。）
 現在你應該有一個 **Delete Data** 按鈕，當按下時會呼叫 `deleteAlbum()` 方法。
 
 <?code-excerpt "lib/main.dart (Column)" replace="/return //g"?>
@@ -258,18 +256,18 @@ class _MyAppState extends State<MyApp> {
 }
 ```
 
-[Fetch Data]: /cookbook/networking/fetch-data  
-[ConnectionState]: {{site.api}}/flutter/widgets/ConnectionState-class.html  
-[`didChangeDependencies()`]: {{site.api}}/flutter/widgets/State/didChangeDependencies.html  
-[`Future`]: {{site.api}}/flutter/dart-async/Future-class.html  
-[`FutureBuilder`]: {{site.api}}/flutter/widgets/FutureBuilder-class.html  
-[JSONPlaceholder]: https://jsonplaceholder.typicode.com/  
-[`http`]: {{site.pub-pkg}}/http  
-[`http.delete()`]: {{site.pub-api}}/http/latest/http/delete.html  
-[`http` package]: {{site.pub-pkg}}/http/install  
-[`InheritedWidget`]: {{site.api}}/flutter/widgets/InheritedWidget-class.html  
-[Introduction to unit testing]: /cookbook/testing/unit/introduction  
-[`initState()`]: {{site.api}}/flutter/widgets/State/initState.html  
-[Mock dependencies using Mockito]: /cookbook/testing/unit/mocking  
-[JSON and serialization]: /data-and-backend/serialization/json  
+[Fetch Data]: /cookbook/networking/fetch-data
+[ConnectionState]: {{site.api}}/flutter/widgets/ConnectionState-class.html
+[`didChangeDependencies()`]: {{site.api}}/flutter/widgets/State/didChangeDependencies.html
+[`Future`]: {{site.api}}/flutter/dart-async/Future-class.html
+[`FutureBuilder`]: {{site.api}}/flutter/widgets/FutureBuilder-class.html
+[JSONPlaceholder]: https://jsonplaceholder.typicode.com/
+[`http`]: {{site.pub-pkg}}/http
+[`http.delete()`]: {{site.pub-api}}/http/latest/http/delete.html
+[`http` package]: {{site.pub-pkg}}/http/install
+[`InheritedWidget`]: {{site.api}}/flutter/widgets/InheritedWidget-class.html
+[Introduction to unit testing]: /cookbook/testing/unit/introduction
+[`initState()`]: {{site.api}}/flutter/widgets/State/initState.html
+[Mock dependencies using Mockito]: /cookbook/testing/unit/mocking
+[JSON and serialization]: /data-and-backend/serialization/json
 [`State`]: {{site.api}}/flutter/widgets/State-class.html

@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 為 iOS 設定 Universal Links
 description: >-
@@ -28,13 +27,12 @@ Flutter 團隊維護 `go_router` 套件。
 它提供了簡單的 API 來處理複雜的路由情境。
 
 1. 若要建立新應用程式，請輸入 `flutter create <app-name>`。
-```
 
     ```console
     $ flutter create deeplink_cookbook
     ```
 
-2. 若要將 `go_router` 套件作為相依套件加入，  
+2. 若要將 `go_router` 套件作為相依套件加入，
    請執行 `flutter pub add`：
 
     ```console
@@ -46,9 +44,9 @@ Flutter 團隊維護 `go_router` 套件。
     ```dart title="main.dart"
     import 'package:flutter/material.dart';
     import 'package:go_router/go_router.dart';
-    
+
     void main() => runApp(MaterialApp.router(routerConfig: router));
-    
+
     /// This handles '/' and '/details'.
     final router = GoRouter(
       routes: [

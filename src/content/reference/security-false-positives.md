@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 安全性誤報
 description: 自動化靜態分析工具錯誤回報的安全性漏洞
@@ -102,4 +101,3 @@ Flutter 應用程式會使用 iOS 的預設建置設定（`LD_RUNPATH_SEARCH_PAT
 
 * [Flutter 安全性政策](/security)
 * [Dart 安全性政策]({{site.dart-site}}/security)
-```

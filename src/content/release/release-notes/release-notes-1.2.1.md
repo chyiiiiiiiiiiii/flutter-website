@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Flutter 1.2.1 版本說明
 shortTitle: 1.2.1 版本說明
@@ -177,7 +176,6 @@ iOS 應用程式的 Flutter 資源（assets）現在位於 Frameworks/App.framew
 ### [#27697](https://github.com/flutter/flutter/pull/27697) Cupertino TextField 游標修正
 
 CupertinoTextField 的 cursorColor 預設值現在會與應用程式主題一致。如果你不希望如此，開發者可透過 ThemeData 的 cupertinoOverrideTheme 屬性，使用 CupertinoThemeData 物件提供 Cupertino 專用的覆寫，例如：
-``` 
  
 ```dart
 Widget build(BuildContext context) { 

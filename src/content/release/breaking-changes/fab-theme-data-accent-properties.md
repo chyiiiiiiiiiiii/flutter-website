@@ -1,4 +1,3 @@
-```markdown
 ---
 title: FloatingActionButton 與 ThemeData 的 accent 屬性
 description: >
@@ -45,9 +44,7 @@ description: >
 
 ## 變更說明
 
-過去，`accentIconTheme` 會為
-`FloatingActionButton` 的 `foregroundColor` 屬性提供預設值：
-```
+過去，`accentIconTheme` 會為 `FloatingActionButton` 的 `foregroundColor` 屬性提供預設值：
 
 ```dart
     final Color foregroundColor = this.foregroundColor
@@ -104,7 +101,7 @@ MaterialApp(
 
 ## 時程
 
-合併於版本：1.16.3<br>  
+合併於版本：1.16.3<br>
 進入穩定版：1.17
 
 ## 參考資料

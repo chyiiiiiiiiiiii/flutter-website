@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Web 上的原始圖片使用正確的原點與顏色
 description: >
@@ -56,7 +55,6 @@ Flutter 內部使用的「像素串流（pixel stream）」格式
 因此可以在產生過程中直接完成翻轉。
 
 遷移前的程式碼：
-```
 
 ```dart
 import 'dart:typed_data';
@@ -145,7 +143,7 @@ Future<ui.Image> parseMyImage(Uint8List image, int width, int height) async {
 
 ## 時程
 
-合併於版本：2.9.0-0.0.pre<br>  
+合併於版本：2.9.0-0.0.pre<br>
 穩定版釋出：2.10
 
 ## 參考資料

@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 為你的手機遊戲加入成就與排行榜
 description: >
@@ -68,7 +67,7 @@ description: >
 
 1.  如果你尚未註冊，請前往 [Google Play Console][Google Play Console]
     並在那裡註冊你的遊戲。
-    
+
     ![Google Play Console 中「建立應用程式」按鈕的截圖](/assets/images/docs/cookbook/google-play-create-app.png)
 
 2.  仍在 Google Play Console，從導覽選單選擇 *Play Games Services* → *Setup
@@ -79,7 +78,7 @@ description: >
         設定 OAuth 同意畫面。
         如果你在任何步驟感到迷失，請參考官方
         [Play Games Services 指南][Play Games Services guide]。
-         
+
         ![Google Play Console 中 Games Services 區塊的截圖](/assets/images/docs/cookbook/play-console-play-games-services.png)
 
 3.  完成後，你可以在
@@ -96,7 +95,6 @@ description: >
 
 7.  找到 **Get resources** 按鈕。
     它會回傳一個包含 Play Games Services ID 的 XML 檔案。
-```
 
     ```xml
     <!-- THIS IS JUST AN EXAMPLE -->
@@ -176,7 +174,7 @@ description: >
 
 3.  若要在你自訂的 UI 中顯示成就，請使用
     [`GamesServices.loadAchievements()`][`GamesServices.loadAchievements()`]。
-    
+
 [`GamesServices.loadAchievements()`]: {{site.pub-api}}/games_services/latest/games_services/GamesServices/loadAchievements.html
 
 ## 4. 提交分數
@@ -211,7 +209,7 @@ description: >
     ```
 
 3.  如果你想在自己的 UI 中顯示排行榜分數，可以使用 [`GamesServices.loadLeaderboardScores()`][`GamesServices.loadLeaderboardScores()`] 來取得分數。
-    
+
 [`GamesServices.loadLeaderboardScores()`]: {{site.pub-api}}/games_services/latest/games_services/GamesServices/loadLeaderboardScores.html
 
 ## 5. 下一步

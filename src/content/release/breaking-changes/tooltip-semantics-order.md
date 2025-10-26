@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Tooltip 的無障礙焦點遍歷順序已變更
 description: >-
@@ -31,7 +30,6 @@ description: >-
 請更新任何失敗的無障礙測試，以符合新的 tooltip 語意順序。
 
 例如，若你在測試中建立了以下的元件樹：
-```
 
 ```dart
 Directionality(
@@ -125,7 +123,7 @@ SemanticsNode#0
 
 ## 時程
 
-合併於版本：3.16.0-11.0.pre<br>  
+合併於版本：3.16.0-11.0.pre<br>
 正式版發佈於：3.19.0
 
 ## 參考資料

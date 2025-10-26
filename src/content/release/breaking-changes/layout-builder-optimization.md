@@ -1,4 +1,3 @@
-```markdown
 ---
 title: LayoutBuilder 最佳化
 description: >
@@ -47,7 +46,6 @@ description: >
 **範例**：在下方範例中，builder 函式的內容取決於 `_counter` 欄位的值。因此，每當該值被更新時，應呼叫 `setState` 以通知框架重建元件。不過，即使沒有呼叫 `setState`，如果 `_ResizingBox` 觸發了 `LayoutBuilder` 的重新版面配置，此範例過去仍可能正常運作。
 
 遷移前的程式碼（請注意 `onPressed` 回呼中缺少 `setState`）：
-```
 
 ```dart
 import 'package:flutter/material.dart';
@@ -243,7 +241,7 @@ class _ResizingBoxState extends State<_ResizingBox>
 }
 ```
 
-請留意在同一個元件（Widget）中同時使用 `Animation` 和 `LayoutBuilder` 的情況。  
+請留意在同一個元件（Widget）中同時使用 `Animation` 和 `LayoutBuilder` 的情況。
 動畫（Animation）具有內部可變狀態，並會在每一幀發生變化。如果你的 builder 函式邏輯依賴於動畫的值，則可能需要讓 `setState` 隨著動畫同步更新。為此，請加入一個[動畫監聽器（animation listener）][7]，並在其中呼叫 `setState`，如下所示：
 
 ```dart

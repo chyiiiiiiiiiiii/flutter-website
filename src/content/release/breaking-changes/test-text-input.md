@@ -1,4 +1,3 @@
-```markdown
 ---
 title: TestTextInput 狀態重設
 description: TestTextInput 的狀態現在會在每個測試之間重設。
@@ -36,7 +35,6 @@ Flutter 測試框架會使用一個名為 `TestTextInput` 的類別，
 
 在 `widgetsTest` 中，於實際變更文字編輯元件（text editing widget）上的文字之前，
 這個呼叫可能會成功：
-```
 
 ```dart
     expect(tester.testTextInput.editingState['text'], isEmpty);
@@ -52,7 +50,7 @@ Flutter 測試框架會使用一個名為 `TestTextInput` 的類別，
 
 ## 時程
 
-引入版本：1.16.3<br>  
+引入版本：1.16.3<br>
 穩定版釋出：1.17
 
 ## 參考資料

@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 必須至少提供一種剪貼簿資料變體
 description: >
@@ -31,7 +30,6 @@ description: >
 若要重設文字剪貼簿，請使用空字串 `''`，而非 `null`。
 
 遷移前的程式碼：
-```
 
 ```dart
 void resetClipboard() {

@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Codelabs
 description: >-
@@ -14,4 +13,3 @@ Flutter Codelabs 提供有引導式、實作操作的 Flutter 程式設計體驗
 請參考 [learning resources index][learning resources index]。
 
 [learning resources index]: /reference/learning-resources
-```

@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 將 Windows 專案遷移以支援深色標題列
 description: 如何更新 Windows 專案以支援深色標題列
@@ -28,7 +27,6 @@ description: 如何更新 Windows 專案以支援深色標題列
 
 :::note
 如果建置時出現以下錯誤訊息，請參考 [run loop migration guide][run loop migration guide] 進行處理。
-```
 
 ```console
 flutter_window.obj : error LNK2019: unresolved external symbol "public: void __cdecl RunLoop::RegisterFlutterInstance(class flutter::FlutterEngine *)" (?RegisterFlutterInstance@RunLoop@@QEAAXPEAVFlutterEngine@flutter@@@Z) referenced in function "protected: virtual bool __cdecl FlutterWindow::OnCreate(void)" (?OnCreate@FlutterWindow@@MEAA_NXZ)

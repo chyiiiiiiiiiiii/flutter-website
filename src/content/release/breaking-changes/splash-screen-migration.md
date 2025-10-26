@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 已淘汰的 Splash Screen API 遷移
 description: 如何從 Manifest/Activity 定義的 splash screen 遷移。
@@ -13,7 +12,6 @@ description: 如何從 Manifest/Activity 定義的 splash screen 遷移。
 **在 [`FlutterActivity`][`FlutterActivity`] 中定義自訂 splash screen**
 
 1. 找到你的應用程式在 `FlutterActivity` 中對 `provideSplashScreen()` 的實作，並**將其刪除**。這段實作通常會建立你的應用程式自訂的 splash screen，並作為 `Drawable`。例如：
-```
 
    ```java
    @Override
@@ -65,6 +63,6 @@ description: 如何從 Manifest/Activity 定義的 splash screen 遷移。
    </resources>
    ```
 
-[`provideSplashScreen`]: {{site.api}}/javadoc/io/flutter/embedding/android/SplashScreenProvider.html#provideSplashScreen--  
-[`FlutterActivity`]: {{site.api}}/javadoc/io/flutter/embedding/android/FlutterActivity.html  
+[`provideSplashScreen`]: {{site.api}}/javadoc/io/flutter/embedding/android/SplashScreenProvider.html#provideSplashScreen--
+[`FlutterActivity`]: {{site.api}}/javadoc/io/flutter/embedding/android/FlutterActivity.html
 [define a launch theme]:  /platform-integration/android/splash-screen
