@@ -1,35 +1,35 @@
-# Good for beginners
-- name: Your first Flutter app workshop
+# 適合初學者
+- name: 您的第一個 Flutter 應用程式工作坊
   description: |
-    An instructor-led version of our very popular
-    'Write your first Flutter app' codelab.
+    這是我們非常受歡迎的「撰寫您的第一個 Flutter 應用程式」codelab 的
+    講師帶領版本。
   tags:
-    - beginner
-    - intro
-  type: workshop
+    - 初學者
+    - 入門
+  type: 工作坊
   link:
     label: YouTube
     url: https://www.youtube.com/watch?v=8sAyPDLorek
 
-- name: Your first Flutter app
+- name: 您的第一個 Flutter 應用程式
   description: |
-    Create a simple random-name generator app.
-    This app is responsive and runs on mobile, desktop, and web.
+    建立一個簡單的隨機名稱產生器應用程式。
+    此應用程式具有響應式設計，可在行動裝置、桌面和網頁上運行。
   tags:
-    - beginner
-    - intro
+    - 初學者
+    - 入門
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/flutter-codelab-first
 
-# Next steps
+# 下一步
 
-- name: Records and Patterns in Dart
+- name: Dart 的 Records 與 Patterns
   description: |
-    Discover Dart 3's new records and patterns features.
-    Learn how you can use them in a Flutter app to help you
-    write more readable and maintainable Dart code.
+    探索 Dart 3 的新 records 與 patterns 功能。
+    學習如何在 Flutter 應用程式中使用這些功能，幫助您
+    撰寫更易讀且易維護的 Dart 程式碼。
   tags:
     - dart
     - records
@@ -40,211 +40,200 @@
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/dart-patterns-records
 
-- name: Scrolling experiences in Flutter
+- name: Flutter 的捲動體驗
   description: |
-    Start with an app that performs simple, straightforward scrolling
-      and enhance it to create fancy and custom scrolling effects
-      by using slivers.
+    從一個執行簡單捲動的應用程式開始，
+    並透過 slivers 增強它，打造華麗且自訂的捲動效果。
   tags:
-    - scrolling
+    - 捲動
     - scroll
   type: codelab
   link:
     label: YouTube
     url: https://www.youtube.com/watch?v=YY-_yrZdjGc
 
-#Design
+# 設計
 
-- name: Take your Flutter app from boring to beautiful
+- name: 讓您的 Flutter 應用程式從無聊變美麗
   description: |
-    Learn how to use some of the features in Material 3
-    to make your app beautiful and responsive.
+    學習如何使用 Material 3 的一些功能，
+    讓您的應用程式變得美觀且具備響應式設計。
   tags:
-    - design
+    - 設計
     - material
-    - responsive
-    - adaptive
+    - 響應式
+    - 自適應
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/flutter-boring-to-beautiful
 
-- name: Building next generation UIs in Flutter
+- name: 在 Flutter 中打造新世代 UI
   description: |
-    Learn how to build a Flutter app that uses the power of `flutter_animate`,
-    fragment shaders, and particle fields.
+    學習如何建立一個 Flutter 應用程式，結合 `flutter_animate`、
+    片段著色器與粒子場的強大功能。
   tags:
-    - animation
+    - 動畫
     - flutter animate
     - ui
-    - shaders
+    - 著色器
 
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/flutter-next-gen-uis
 
-- name: Adaptive Apps in Flutter
+- name: 在 Flutter 中打造自適應應用程式
   description: |
-    Learn how to build a Flutter app that adapts to the
-      platform that it's running on, be that Android, iOS,
-      the web, Windows, macOS, or Linux.
+    學習如何建立一個 Flutter 應用程式，能夠根據運行的平台自動調整，
+    無論是 Android、iOS、網頁、Windows、macOS 或 Linux。
   tags:
-    - adaptive
+    - 自適應
     - linux
     - macos
-    - desktop
+    - 桌面
     - windows
     - android
     - ios
-    - web
+    - 網頁
 
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/flutter-adaptive-app
 
-- name: Animations in Flutter
+- name: Flutter 的動畫效果
   description: |
-    Learn how to build animated effects in Flutter. You'll learn how to build
-    implicit and explicit animations, and customize 
-    navigation transition animations the animations package and predictive back
-    on Android.
+    學習如何在 Flutter 中建立動畫效果。您將學習如何建立
+    隱式與顯式動畫，並自訂
+    導航轉場動畫、animations 套件以及 Android 的預測性返回。
   tags:
-    - animations
+    - 動畫
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/advanced-flutter-animations
 
-- name: Building Beautiful Transitions with Material Motion for Flutter
+- name: 使用 Material Motion 為 Flutter 建立美麗轉場
   description: |
-    Learn how to use the Material animations package to
-    add pre-built transitions to a Material app called Reply.
+    學習如何使用 Material 動畫套件，
+    為名為 Reply 的 Material 應用程式加入預設轉場效果。
   tags:
-    - animations
+    - 動畫
     - material
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/material-motion-flutter
 
-- name: How to debug layout issues with the Flutter Inspector
+- name: 如何使用 Flutter Inspector 偵錯版面配置問題
   description: |
-    Step-by-step instructions on how to debug 
-    common layout problems using the Flutter
-    Inspector and Layout Explorer.
+    逐步說明如何使用 Flutter Inspector 與 Layout Explorer
+    偵錯常見的版面配置問題。
   tags:
-    - debug
-    - tooling
-    - developer tools
+    - 偵錯
+    - 工具
+    - 開發者工具
   type: codelab
   link:
     label: Medium
     url: https://blog.flutter.dev/how-to-debug-layout-issues-with-the-flutter-inspector-87460a7b9db
 
-- name: Implicit animations
+- name: 隱式動畫
   description: |
-    Use DartPad (no downloads required!) to learn how to use
-    implicit animations to add motion and create
-    visual effects for the widgets in your UI.
+    使用 DartPad（無需下載！）學習如何使用
+    隱式動畫，為您的 UI 元件加入動態與視覺效果。
   tags:
-    - animations
+    - 動畫
   type: codelab
   link:
     label: Flutter docs
     url: /codelabs/implicit-animations
 
-- name: MDC-101 - Material Components (MDC) Basics
+- name: MDC-101 - Material 元件基礎
   description: |
-    Learn the basics of using Material Components by building
-    a simple app with core components.
+    透過建立一個簡單的應用程式，學習如何使用 Material 元件的核心功能。
   tags:
     - material
-    - design
+    - 設計
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/mdc-101-flutter
 
-- name: MDC-102 - Material Structure and Layout
+- name: MDC-102 - Material 結構與版面配置
   description: |
-    Learn how to use Material for structure and layout in Flutter.
-    Continue building the e-commerce app, introduced in MDC-101,
-    by adding navigation, structure, and data.
+    學習如何在 Flutter 中使用 Material 進行結構與版面配置。
+    繼續在 MDC-101 介紹的電商應用程式中，
+    加入導覽、結構與資料。
   tags:
     - material
-    - design
+    - 設計
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/mdc-102-flutter
 
-- name: MDC-103 - Material Theming with Color, Shape, Elevation, and Type
+- name: MDC-103 - Material 主題：色彩、形狀、陰影與字型
   description: |
-    Discover how Material Components for Flutter make it
-    easy to differentiate your product, and express your
-    brand through design.
+    探索 Flutter 的 Material 元件如何讓您
+    輕鬆展現產品特色，並透過設計表達品牌。
   tags:
     - material
-    - design
+    - 設計
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/mdc-103-flutter
 
-- name: MDC-104 - Material Advanced Components
+- name: MDC-104 - Material 進階元件
   description: |
-    Improve your design and learn to use our advanced
-    component backdrop menu.
+    提升您的設計，學習使用進階元件 backdrop menu。
   tags:
     - material
-    - design
+    - 設計
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/mdc-104-flutter
 
-#Flutter with
+# Flutter 與
 
-## Monetizing Flutter
-- name: Adding AdMob Ads to a Flutter app
+## Flutter 獲利化
+- name: 在 Flutter 應用程式中加入 AdMob 廣告
   description: |
-    Learn how to add an AdMob banner, an interstitial ad,
-    and a rewarded ad to an app called Awesome Drawing Quiz,
-    a game that lets players guess the name of the drawing.
+    學習如何在名為 Awesome Drawing Quiz 的遊戲中加入 AdMob 橫幅廣告、
+    插頁式廣告與獎勵廣告，讓玩家猜測畫作名稱。
   tags:
-    - ads
+    - 廣告
     - admob
-    - monetization
+    - 獲利化
 
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/admob-ads-in-flutter
 
-- name: Adding an AdMob banner and native inline ads to a Flutter app
+- name: 在 Flutter 應用程式中加入 AdMob 橫幅與原生內嵌廣告
   description: |
-    Learn how to implement inline banner and native ads
-    to a travel booking app that lists possible
-    flight destinations.
+    學習如何在旅遊訂票應用程式中實作內嵌橫幅與原生廣告，
+    列出可能的航班目的地。
   tags:
-    - ads
+    - 廣告
     - admob
-    - monetization
+    - 獲利化
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/admob-inline-ads-in-flutter
 
-- name: Adding in-app purchases to your Flutter app
+- name: 在 Flutter 應用程式中加入應用程式內購
   description: |
-    Extend a simple gaming app that uses the Dash mascot as
-    currency to offer three types of in-app purchases:
-    consumable, non-consumable, and subscription.
+    擴充一個以 Dash 吉祥物為貨幣的簡單遊戲應用程式，
+    提供三種應用程式內購：消耗型、非消耗型與訂閱型。
   tags:
-    - in app purchases
-    - monetization
+    - 應用程式內購
+    - 獲利化
   type: codelab
   link:
     label: Google Codelab
@@ -252,45 +241,43 @@
 
 ## Firebase
 
-- name: Add a user authentication flow using FirebaseUI
+- name: 使用 FirebaseUI 加入使用者驗證流程
   description: |
-    Learn how to add Firebase authentication to a Flutter app
-    with only a few lines of code.
+    學習如何只用幾行程式碼，為 Flutter 應用程式加入 Firebase 驗證。
   tags:
     - firebase
-    - authentication
+    - 驗證
     - firebase UI
   type: codelab
   link:
     label: Google Codelab
     url: https://firebase.google.com/codelabs/firebase-auth-in-flutter-apps
 
-- name: Get to know Firebase for Flutter
+- name: 認識 Flutter 的 Firebase
   description: |
-    Build an event RSVP and guestbook chat app on both Android
-    and iOS using Flutter, authenticating users with Firebase
-    Authentication, and sync data using Cloud Firestore.
+    在 Android 與 iOS 上建立活動 RSVP 與留言板聊天應用程式，
+    使用 Firebase Authentication 驗證使用者，
+    並透過 Cloud Firestore 同步資料。
   tags:
     - firebase
     - android
     - ios
     - firestore
-    - real time database
+    - 即時資料庫
   type: codelab
   link:
     label: Google Codelab
     url: https://firebase.google.com/codelabs/firebase-get-to-know-flutter
 
-- name: Notifications with Firebase Cloud Messaging
+- name: 使用 Firebase Cloud Messaging 實作通知
   description: |
-    Learn how to develop a multi-platform app with Flutter
-    and Firebase Cloud Messaging, integrating FCM to send and
-    receive messages on Android, iOS, and web.
+    學習如何使用 Flutter 與 Firebase Cloud Messaging 開發多平台應用程式，
+    整合 FCM 以在 Android、iOS 與網頁上收發訊息。
   tags:
     - firebase
-    - cloud messaging
-    - multi platform
-    - web
+    - 雲端訊息
+    - 多平台
+    - 網頁
     - android
     - ios
   type: codelab
@@ -298,77 +285,76 @@
     label: Google Codelab
     url: https://firebase.google.com/codelabs/firebase-fcm-flutter
 
-## Games
+## 遊戲
 
-- name: Add sound and music to your Flutter game with SoLoud
+- name: 使用 SoLoud 為 Flutter 遊戲加入音效與音樂
   description: |
-    The SoLoud package, a free and portable engine,
-    delivers the low-latency and high-performance sound that's
-    essential for many games.
+    SoLoud 套件是一個免費且可攜式的音效引擎，
+    提供許多遊戲所需的低延遲與高效能音效。
   tags:
-    - game
-    - audio
+    - 遊戲
+    - 音效
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/flutter-codelab-soloud
 
-- name: Build a 2D physics game with Flutter and Flame
+- name: 使用 Flutter 與 Flame 建立 2D 物理遊戲
   description: |
-    This codelab guides you through crafting game mechanics in a
-    Flutter and Flame game using a 2D physics simulation called Forge2D.
+    本 codelab 指導您在 Flutter 與 Flame 遊戲中，
+    使用名為 Forge2D 的 2D 物理模擬，打造遊戲機制。
   tags:
-    - game
-    - physics
+    - 遊戲
+    - 物理
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/flutter-flame-forge2d
 
-- name: Build a word puzzle with Flutter
+- name: 使用 Flutter 建立文字拼圖遊戲
   description: |
-    This codelab focuses on building word puzzle games,
-    and dives into using Flutter's background processing
-    to generate expansive crossword-style grids of interlocking words.
+    本 codelab 著重於建立文字拼圖遊戲，
+    並深入探討如何利用 Flutter 的背景處理，
+    產生大型交錯字詞網格。
   tags:
-    - game
+    - 遊戲
     - isolate
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/flutter-word-puzzle
 
-- name: Introduction to Flame with Flutter
+- name: 使用 Flutter 認識 Flame
   description: |
-    Build a Breakout clone using the Flame 2D game engine and
-    embed it in a Flutter wrapper.
+    使用 Flame 2D 遊戲引擎建立一個打磚塊遊戲，
+    並嵌入 Flutter 包裝器中。
   tags:
-    - game
-    - intro
-    - beginner
+    - 遊戲
+    - 入門
+    - 初學者
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/flutter-flame-brick-breaker
 
-## Other techs
+## 其他技術
 
-- name: Adding Google Maps to a Flutter app
+- name: 在 Flutter 應用程式中加入 Google 地圖
   description: |
-    Display a Google map in an app, retrieve data from a
-    web service, and display the data as markers on the map.
+    在應用程式中顯示 Google 地圖，從網路服務取得資料，
+    並將資料以標記方式顯示在地圖上。
   tags:
     - google maps
-    - maps
+    - 地圖
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/google-maps-in-flutter
 
-- name: Adding WebView to your Flutter app
+- name: 在 Flutter 應用程式中加入 WebView
   description: |
-    With the WebView Flutter plugin you can add a WebView
-    widget to your Android or iOS Flutter app.
+    使用 WebView Flutter 插件，您可以在 Android 或 iOS Flutter 應用程式中
+    加入 WebView 元件。
   tags:
     - android
     - ios
@@ -378,57 +364,54 @@
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/flutter-webview
 
-- name: Using FFI in a Flutter plugin
+- name: 在 Flutter 插件中使用 FFI
   description: |
-    Learn how to use Dart's FFI (foreign function interface)
-    library, ffigen, allowing you to leverage
-    existing native libraries that provide a
-    C interface.
+    學習如何使用 Dart 的 FFI（外部函式介面）函式庫 ffigen，
+    讓您能夠利用提供 C 介面的現有原生函式庫。
   tags:
     - FFI
-    - interop
-    - plugin
+    - 跨平台
+    - 插件
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/flutter-ffigen
 
-# Testing
+# 測試
 
-- name: How to test a Flutter app
+- name: 如何測試 Flutter 應用程式
   description: |
-    Start with a simple app that manages state with the Provider package.
-    Unit test the provider package. Write widget tests for two of the
-    widgets. Use Flutter Driver to create an integration test.
+    從一個使用 Provider 套件管理狀態的簡單應用程式開始。
+    對 provider 套件進行單元測試。為兩個元件撰寫 widget 測試。
+    使用 Flutter Driver 建立整合測試。
   tags:
-    - testing
+    - 測試
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/codelabs/flutter-app-testing/
 
-# Platform
+# 平台
 
-- name: Adding a Home Screen widget to your Flutter app
+- name: 在 Flutter 應用程式中加入主畫面小工具
   description: |
-    Learn how to add a Home Screen widget to your Flutter app
-    on iOS. This applies to your home screen, lock screen, or the
-    today view.
+    學習如何在 iOS 上為 Flutter 應用程式加入主畫面小工具。
+    可應用於主畫面、鎖定畫面或今日檢視。
   tags:
     - ios
-    - home screen widget
+    - 主畫面小工具
   type: codelab
   link:
     label: Google Codelab
     url: https://codelabs.developers.google.com/flutter-home-screen-widgets
 
-- name: Write a Flutter desktop application
+- name: 撰寫 Flutter 桌面應用程式
   description: |
-    Build a Flutter desktop app (Windows, Linux, or macOS)
-    that accesses GitHub APIs, and 
-    create and use plugins to interact with native APIs and desktop applications.
+    建立一個 Flutter 桌面應用程式（Windows、Linux 或 macOS），
+    存取 GitHub API，
+    並建立與使用插件以與原生 API 及桌面應用程式互動。
   tags:
-    - desktop
+    - 桌面
     - windows
     - linux
     - macos

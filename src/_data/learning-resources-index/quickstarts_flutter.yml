@@ -1,257 +1,246 @@
-- name: Asset transformation
+- name: 資產轉換
   description: >-
-    Demonstrates how to transform images' color scales and formats.
+    展示如何轉換圖片的色彩比例和格式。
   tags:
-    - images
-    - UI
-  type: quickstart
+    - 圖片
+    - 使用者介面
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/asset_transformation
     label: Flutter Github
 
-- name: Background isolate channels
+- name: 背景隔離通道
   description: >-
-    Demonstrates how to use long-lived isolates.
+    展示如何使用長時間運行的隔離執行緒。
   tags:
-    - performance
-  type: quickstart
+    - 效能
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/background_isolate_channels
     label: Flutter Github
 
-- name: Code sharing
+- name: 程式碼共享
   description: >-
-    Demonstrates how to share business logic between a
-    Flutter client and Dart server using `package:shelf`.
+    展示如何在 Flutter 客戶端和 Dart 伺服器之間共享業務邏輯，使用 `package:shelf`。
   tags:
     - Dart
-  type: quickstart
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/code_sharing
     label: Flutter Github
 
-- name: Context menus
+- name: 上下文選單
   description: >-
-    This sample shows how to create and customize cross-platform context menus,
-    such as the text selection toolbar on mobile or
-    the right click menu on desktop.
+    此範例展示如何建立和自訂跨平台的上下文選單，
+    如行動裝置上的文字選擇工具列或桌面上的右鍵選單。
   tags:
-    - macos
-    - windows
-  type: quickstart
+    - macOS
+    - Windows
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/context_menus
     label: Flutter Github
 
-- name: Desktop UI
+- name: 桌面使用者介面
   description: >-
-    Demonstrates desktop features in both Material and FluentUI design systems.
+    展示 Material 和 FluentUI 設計系統中的桌面功能。
   tags:
-    - material
-    - macos
-    - windows
-  type: quickstart
+    - Material
+    - macOS
+    - Windows
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/desktop_photo_search
     label: Flutter Github
 
-- name: AI generated dynamic theme
+- name: AI 生成的動態主題
   description: >-
-    Demonstrates how to call on-device Flutter APIs based on
-    output from the Gemini API.
+    展示如何根據 Gemini API 的輸出調用裝置上的 Flutter API。
   tags:
     - AI
-    - google
-  type: quickstart
+    - Google
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/dynamic_theme
     label: Flutter Github
 
-- name: Form app
+- name: 表單應用程式
   description: >-
-    A sample demonstrating different types of forms and best practices.
+    一個展示不同類型表單和最佳實踐的範例。
   tags:
-    - input
-    - layout
-  type: quickstart
+    - 輸入
+    - 佈局
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/form_app
     label: Flutter Github
 
-- name: AI todo list
+- name: AI 待辦事項清單
   description: >-
-    A developer sample written in Flutter demonstrating how to
-    interact with a to-do list in natural language using the Gemini API.
+    一個使用 Flutter 編寫的開發者範例，展示如何使用 Gemini API
+    以自然語言與待辦事項清單互動。
   tags:
     - AI
-    - google
-  type: quickstart
+    - Google
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/gemini_tasks
     label: Flutter Github
 
-- name: Google Maps plugin
+- name: Google 地圖插件
   description: >-
-    Demonstrates the Google Maps for Flutter plugin.
+    展示 Flutter 的 Google 地圖插件。
   tags:
-    - google
-    - maps
-  type: quickstart
+    - Google
+    - 地圖
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/google_maps
     label: Flutter Github
 
-- name: Infinite list
+- name: 無限清單
   description: >-
-    A Flutter sample app that shows an implementation of
-    the 'infinite list' UX pattern.
+    一個 Flutter 範例應用程式，展示如何實現「無限清單」的使用者體驗模式。
   tags:
-    - lists
-    - layout
-    - scrolling
-  type: quickstart
+    - 清單
+    - 佈局
+    - 滾動
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/infinite_list
     label: Flutter Github
 
-- name: Isolates
+- name: 隔離執行緒
   description: >-
-    A sample application that
-    demonstrate best practices when using isolates.
+    一個展示使用隔離執行緒最佳實踐的範例應用程式。
   tags:
-    - isolates
-    - perf
-    - threads
-  type: quickstart
+    - 隔離執行緒
+    - 效能
+    - 執行緒
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/isolate_example
     label: Flutter Github
 
-- name: Navigation and routing
+- name: 導航與路由
   description: >-
-    A sample that shows how to use `go_router` API to
-    handle common navigation scenarios.
+    一個展示如何使用 `go_router` API 處理常見導航場景的範例。
   tags:
-    - navigation
-    - routing
-  type: quickstart
+    - 導航
+    - 路由
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/navigation_and_routing
     label: Flutter Github
 
-- name: Google Maps Flutter plugin
+- name: Google 地圖 Flutter 插件
   description: >-
-    A sample place tracking app that uses the google_apps_flutter plugin.
+    一個使用 google_apps_flutter 插件的範例地點追蹤應用程式。
   tags:
-    - maps
-    - google
-    - plugins
-  type: quickstart
+    - 地圖
+    - Google
+    - 插件
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/place_tracker
     label: Flutter Github
 
-- name: Platform adaptive design
+- name: 平台自適應設計
   description: >-
-    This sample project shows a Flutter app that
-    maximizes application code reuse while adhering to
-    different design patterns on Android and iOS.
+    此範例專案展示了一個 Flutter 應用程式，
+    如何在最大化應用程式程式碼重用的同時，遵循 Android 和 iOS 的不同設計模式。
   tags:
-    - adaptive
-    - design
-  type: quickstart
+    - 自適應
+    - 設計
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/platform_design
     label: Flutter Github
 
-- name: Counter app with Provider
+- name: 使用 Provider 的計數器應用程式
   description: >-
-    The starter Flutter application, but
-    using the Provider package to manage state.
+    使用 Provider 套件管理狀態的 Flutter 起始應用程式。
   tags:
-    - state management
-    - architecture
-  type: quickstart
+    - 狀態管理
+    - 架構
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/provider_counter
     label: Flutter Github
 
-- name: Shopping app with Provider
+- name: 使用 Provider 的購物應用程式
   description: >-
-    A Flutter sample app that shows a
-    state management approach using the Provider package.
+    一個展示使用 Provider 套件進行狀態管理方法的 Flutter 範例應用程式。
   tags:
-    - state management
-    - architecture
-  type: quickstart
+    - 狀態管理
+    - 架構
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/provider_shopper
     label: Flutter Github
 
-- name: Simple shaders
+- name: 簡單著色器
   description: >-
-    A simple Flutter fragment shaders project.
+    一個簡單的 Flutter 碎片著色器專案。
   tags:
-    - shaders
-    - gpu
-  type: quickstart
+    - 著色器
+    - GPU
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/simple_shader
     label: Flutter Github
 
-- name: Desktop calculator
+- name: 桌面計算器
   description: >-
-    A calculator sample to demonstrate a simple start for a desktop Flutter app.
+    一個展示如何開始建立桌面 Flutter 應用程式的計算器範例。
   tags:
-    - desktop
-  type: quickstart
+    - 桌面
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/simplistic_calculator
     label: Flutter Github
 
-- name: Testing app
+- name: 測試應用程式
   description: >-
-    A sample app that shows different types of testing in Flutter.
+    一個展示 Flutter 中不同測試類型的範例應用程式。
   tags:
-    - testing
-  type: quickstart
+    - 測試
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/testing_app
     label: Flutter Github
 
-- name: Web element embedding
+- name: 嵌入網頁元素
   description: >-
-    Modifies the index.html of a flutter app so it
-    is launched in a custom hostElement.
-    This is the most basic embedding example.
+    修改 Flutter 應用程式的 index.html，使其在自訂的 hostElement 中啟動。
+    這是最基本的嵌入範例。
   tags:
-    - web
-  type: quickstart
+    - 網頁
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/web_embedding/element_embedding_demo
     label: Flutter Github
 
 - name: ng-flutter
   description: >-
-    A simple Angular app (and component) that
-    replicates the element embedding example, but in an Angular app.
+    一個簡單的 Angular 應用程式（和元件），
+    複製了元素嵌入範例，但在 Angular 應用程式中實現。
   tags:
-    - web
-    - google
-  type: quickstart
+    - 網頁
+    - Google
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/web_embedding/ng-flutter
     label: Flutter Github
 
-- name: Platform channels
+- name: 平台通道
   description: >-
-    A sample Flutter app which demonstrates how to use
-    `MethodChannel`, `EventChannel`, `BasicMessageChannel` and `MessageCodec`.
+    一個展示如何使用 `MethodChannel`、`EventChannel`、`BasicMessageChannel` 和 `MessageCodec` 的 Flutter 範例應用程式。
   tags:
-    - platforms
-    - android
-    - ios
-  type: quickstart
+    - 平台
+    - Android
+    - iOS
+  type: 快速入門
   link:
     url: https://github.com/flutter/samples/tree/main/platform_channels
     label: Flutter Github

@@ -1,8 +1,8 @@
-- name: Add-to-app
+- name: 加入至應用程式
   description: >-
-    Recommended approaches for adding Flutter to existing apps.
+    建議用於將 Flutter 添加到現有應用程式的方式。
   tags:
-    - platforms
+    - 平台
     - iOS
     - Android
   type: demo
@@ -10,10 +10,9 @@
     url: https://github.com/flutter/samples/tree/main/add_to_app
     label: Flutter Github
 
-- name: Android splash screen
+- name: Android 啟動畫面
   description: >-
-    A Flutter sample app that exemplifies how to implement an
-    animated splash screen for Android devices.
+    一個 Flutter 範例應用程式，展示如何為 Android 設備實現動畫啟動畫面。
   tags:
     - Android
   type: demo
@@ -21,9 +20,9 @@
     url: https://github.com/flutter/samples/tree/main/android_splash_screen
     label: Flutter Github
 
-- name: iOS app clip
+- name: iOS App Clip
   description: >-
-    A sample project demonstrating integration with iOS App Clip.
+    一個展示與 iOS App Clip 整合的範例專案。
   tags:
     - iOS
   type: demo
@@ -31,10 +30,9 @@
     url: https://github.com/flutter/samples/tree/main/ios_app_clip
     label: Flutter Github
 
-- name: Swift platform view
+- name: Swift 平台視圖
   description: >-
-    A Flutter sample app that combines a native iOS UIViewController with
-    a full-screen Flutter view.
+    一個 Flutter 範例應用程式，結合了原生 iOS UIViewController 與全螢幕 Flutter 視圖。
   tags:
     - swift
     - ios
@@ -43,12 +41,12 @@
     url: https://github.com/flutter/samples/tree/main/platform_view_swift
     label: Flutter Github
 
-- name: Simplistic editor
+- name: 簡易編輯器
   description: >-
-    This sample text editor showcases the use of TextEditingDeltas and
-    a DeltaTextInputClient to expand and contract styled ranges of text.
+    此範例文字編輯器展示了如何使用 TextEditingDeltas 和 DeltaTextInputClient
+    來擴展和收縮文字的樣式範圍。
   tags:
-    - text
+    - 文字
   type: quickstart
   link:
     url: https://github.com/flutter/samples/tree/main/simplistic_editor

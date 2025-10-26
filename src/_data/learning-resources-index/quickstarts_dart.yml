@@ -1,78 +1,76 @@
-- name: Command-line app
+- name: 命令列應用程式
   description: >-
-    A command line app that parses command-line options and fetches from GitHub.
+    一個解析命令列選項並從 GitHub 擷取資料的命令列應用程式。
   tags:
     - cli
     - Dart
-  type: quickstart
+  type: 快速入門
   link:
     url: https://github.com/dart-lang/samples/tree/main/command_line
     label: Dart Github
 
-- name: Extension methods
+- name: 擴展方法
   description: >-
-    Demonstrates Dart's extensions method syntax.
+    展示 Dart 的擴展方法語法。
   tags:
-    - syntax
+    - 語法
     - Dart
-  type: quickstart
+  type: 快速入門
   link:
     url: https://github.com/dart-lang/samples/tree/main/extension_methods
     label: Dart Github
 
 - name: FFI
   description: >-
-    A series of simple examples demonstrating how to call C libraries from Dart.
+    一系列簡單的範例，展示如何從 Dart 呼叫 C 函式庫。
   tags:
-    - platforms
+    - 平台
     - Dart
-  type: quickstart
+  type: 快速入門
   link:
     url: https://github.com/dart-lang/samples/tree/main/ffi
     label: Dart Github
 
-- name: Isolates (in a CLI)
+- name: 隔離執行緒（在命令列中）
   description: >-
-    Command line applications that demonstrate how to
-    work with Concurrency in Dart using isolates.
+    命令列應用程式，展示如何使用 Dart 的隔離執行緒進行並行處理。
   tags:
     - cli
     - Dart
-  type: quickstart
+  type: 快速入門
   link:
     url: https://github.com/dart-lang/samples/tree/main/ffi
     label: Dart Github
 
-- name: Native Dart app
+- name: 原生 Dart 應用程式
   description: >-
-    A command line application that can be compiled to
-    native code using `dart compile exe`.
+    一個可以使用 `dart compile exe` 編譯為原生程式碼的命令列應用程式。
   tags:
     - cli
     - Dart
-  type: quickstart
+  type: 快速入門
   link:
     url: https://github.com/dart-lang/samples/tree/main/native_app
     label: Dart Github
 
-- name: Server side Dart
+- name: 伺服器端 Dart
   description: >-
-    Examples of running Dart on the server.
+    展示 Dart 在伺服器端運行的範例。
   tags:
     - cli
     - Dart
-  type: quickstart
+  type: 快速入門
   link:
     url: https://github.com/dart-lang/samples/tree/main/server
     label: Dart Github
 
-- name: Package constraint solver
+- name: 套件約束求解器
   description: >-
-    Demonstrates best-practices for publishing packages on pub.dev.
+    展示在 pub.dev 上發佈套件的最佳實踐。
   tags:
     - pub
     - Dart
-  type: quickstart
+  type: 快速入門
   link:
     url: https://github.com/dart-lang/samples/tree/main/server
     label: Dart Github

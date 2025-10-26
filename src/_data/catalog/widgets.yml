@@ -1,18 +1,13 @@
 - name: AbsorbPointer
   description: >-
-    A widget that absorbs pointers during hit testing. When absorbing is true,
-    this widget prevents its subtree from receiving pointer events by
-    terminating hit testing at itself. It still consumes space during layout and
-    paints its child as usual. It just prevents its children from being the
-    target of located events, because it returns true from RenderBox.hitTest.
+    一個在命中測試期間吸收指針事件的元件。當 absorbing 為 true 時，此元件會阻止其子樹接收指針事件，因為命中測試會在自身終止。它仍然會在佈局期間佔據空間並正常繪製其子元件，只是阻止其子元件成為事件目標，因為 RenderBox.hitTest 會回傳 true。
   categories: []
   subcategories:
     - 'Touch interactions'
   link: https://api.flutter.dev/flutter/widgets/AbsorbPointer-class.html
 - name: AlertDialog
   description: >-
-    Hovering containers that prompt app users to provide more data or make a
-    decision.
+    懸浮式容器，提示使用者提供更多資料或做出決策。
   categories: []
   subcategories:
     - 'Containment'
@@ -24,8 +19,7 @@
     src: /assets/images/docs/widget-catalog/material-3-coral.png
 - name: Align
   description: >-
-    A widget that aligns its child within itself and optionally sizes itself
-    based on the child's size.
+    一個將其子元件在自身內對齊，並可選擇根據子元件大小調整自身大小的元件。
   categories: []
   subcategories:
     - 'Single-child layout widgets'
@@ -44,124 +38,111 @@
     stroke='#f50057' stroke-width='2' marker-end='url(#arrow-align)'/></svg>
 - name: AlignTransition
   description: >-
-    Animated version of an Align that animates its Align.alignment property.
+    Align 的動畫版本，能夠對 Align.alignment 屬性進行動畫處理。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/AlignTransition-class.html
 - name: AnimatedAlign
   description: >-
-    Animated transition that moves the child's position over a given duration
-    whenever the given alignment changes.
+    當 alignment 變化時，於指定時間內以動畫方式移動子元件的位置。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/AnimatedAlign-class.html
 - name: AnimatedBuilder
   description: >-
-    A general-purpose widget for building animations. AnimatedBuilder is useful
-    for more complex widgets that wish to include animation as part of a larger
-    build function. To use AnimatedBuilder, simply construct the widget and pass
-    it a builder function.
+    用於建構動畫的通用元件。AnimatedBuilder 適用於希望在較大型建構函式中包含動畫的複雜元件。只需建構此元件並傳入 builder 函式即可使用。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/AnimatedBuilder-class.html
 - name: AnimatedContainer
   description: >-
-    A container that gradually changes its values over a period of time.
+    一個容器，能在一段時間內逐漸改變其屬性值。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/AnimatedContainer-class.html
 - name: AnimatedCrossFade
   description: >-
-    A widget that cross-fades between two given children and animates itself
-    between their sizes.
+    在兩個子元件間交錯淡入淡出，並在它們的尺寸間進行動畫。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/AnimatedCrossFade-class.html
 - name: AnimatedDefaultTextStyle
   description: >-
-    Animated version of DefaultTextStyle which automatically transitions the
-    default text style (the text style to apply to descendant Text widgets
-    without explicit style) over a given duration whenever the given style
-    changes.
+    DefaultTextStyle 的動畫版本，當樣式變化時，會在指定時間內自動過渡至新的文字樣式（應用於未明確指定 style 的 Text 子元件）。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/AnimatedDefaultTextStyle-class.html
 - name: AnimatedList
   description: >-
-    A scrolling container that animates items when they are inserted or removed.
+    一個可滾動容器，當項目插入或移除時會以動畫方式呈現。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/AnimatedList-class.html
 - name: AnimatedListState
   description: >-
-    The state for a scrolling container that animates items when they are
-    inserted or removed.
+    用於可滾動容器的狀態，當項目插入或移除時會以動畫方式呈現。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/AnimatedListState-class.html
 - name: AnimatedModalBarrier
   description: >-
-    A widget that prevents the user from interacting with widgets behind itself.
+    一個阻止使用者與其背後元件互動的元件。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/AnimatedModalBarrier-class.html
 - name: AnimatedOpacity
   description: >-
-    Animated version of Opacity which automatically transitions the child's
-    opacity over a given duration whenever the given opacity changes.
+    Opacity 的動畫版本，當 opacity 變化時，會在指定時間內自動過渡子元件的透明度。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/AnimatedOpacity-class.html
 - name: AnimatedPhysicalModel
   description: >-
-    Animated version of PhysicalModel.
+    PhysicalModel 的動畫版本。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/AnimatedPhysicalModel-class.html
 - name: AnimatedPositioned
   description: >-
-    Animated version of Positioned which automatically transitions the child's
-    position over a given duration whenever the given position changes.
+    Positioned 的動畫版本，當位置變化時，會在指定時間內自動過渡子元件的位置。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/AnimatedPositioned-class.html
 - name: AnimatedSize
   description: >-
-    Animated widget that automatically transitions its size over a given
-    duration whenever the given child's size changes.
+    當子元件大小變化時，會在指定時間內自動過渡自身大小的動畫元件。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/AnimatedSize-class.html
 - name: AnimatedWidget
   description: >-
-    A widget that rebuilds when the given Listenable changes value.
+    當指定的 Listenable 變化時會重建自身的元件。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/AnimatedWidget-class.html
 - name: ImplicitlyAnimatedWidget
   description: >-
-    An abstract class for building widgets that animate changes to their
-    properties.
+    用於建構屬性變化時自動執行動畫的元件的抽象類別。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/ImplicitlyAnimatedWidget-class.html
 - name: AppBar
-  description: Container that displays content and actions at the top of a screen.
+  description: 顯示內容與操作於螢幕頂部的容器。
   categories:
     - 'Basics'
   subcategories:
@@ -174,7 +155,7 @@
     src: /assets/images/docs/widget-catalog/material-3-bubbles.png
 - name: AspectRatio
   description: >-
-    A widget that attempts to size the child to a specific aspect ratio.
+    嘗試將子元件調整為特定寬高比的元件。
   categories: []
   subcategories:
     - 'Single-child layout widgets'
@@ -191,36 +172,28 @@
     marker-end='url(#arrow-aspect-ratio)'/></svg>
 - name: AssetBundle
   description: >-
-    Asset bundles contain resources, such as images and strings, that can be
-    used by an application. Access to these resources is asynchronous so that
-    they can be transparently loaded over a network (e.g., from a
-    NetworkAssetBundle) or from the local file system without blocking the
-    application's user interface.
+    資源包包含應用程式可用的資源，如圖片和字串。這些資源的存取是非同步的，可透明地從網路（如 NetworkAssetBundle）或本地檔案系統載入，而不會阻塞使用者介面。
   categories:
     - 'Assets, images, and icons'
   subcategories: []
   link: https://api.flutter.dev/flutter/services/AssetBundle-class.html
 - name: Autocomplete
   description: >-
-    A widget for helping the user make a selection by entering some text and
-    choosing from among a list of options.
+    協助使用者輸入文字並從選項列表中選擇的元件。
   categories:
     - 'Input'
   subcategories: []
   link: https://api.flutter.dev/flutter/material/Autocomplete-class.html
 - name: BackdropFilter
   description: >-
-    A widget that applies a filter to the existing painted content and then
-    paints a child. This effect is relatively expensive, especially if the
-    filter is non-local, such as a blur.
+    對已繪製內容套用濾鏡，然後繪製子元件。此效果相對昂貴，特別是非局部濾鏡（如模糊）。
   categories:
     - 'Painting and effects'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/BackdropFilter-class.html
 - name: Badge
   description: >-
-    Icon-like block that conveys dynamic content such as counts or status. It
-    can include labels or numbers.
+    類似圖示的區塊，用於顯示動態內容，如計數或狀態。可包含標籤或數字。
   categories: []
   subcategories:
     - 'Communication'
@@ -230,7 +203,7 @@
   hoverBackground:
     src: /assets/images/docs/widget-catalog/material-3-coral.png
 - name: Baseline
-  description: Container that positions its child according to the child's baseline.
+  description: 根據子元件的基線定位其子元件的容器。
   categories: []
   subcategories:
     - 'Single-child layout widgets'
@@ -250,8 +223,7 @@
     font-family='Roboto' font-size='25' fill='#3b75ad'>Abc </text></svg>
 - name: Bottom app bar
   description: >-
-    Container that displays navigation and key actions at the bottom of a
-    screen.
+    顯示導覽與主要操作於螢幕底部的容器。
   categories: []
   subcategories:
     - 'Navigation'
@@ -261,7 +233,7 @@
   hoverBackground:
     src: /assets/images/docs/widget-catalog/material-3-bubbles.png
 - name: Bottom sheet
-  description: Containers that anchor supplementary content to the bottom of the screen.
+  description: 固定於螢幕底部的容器，用於顯示補充內容。
   categories: []
   subcategories:
     - 'Containment'
@@ -272,8 +244,7 @@
     src: /assets/images/docs/widget-catalog/material-3-coral.png
 - name: BottomNavigationBar
   description: >-
-    Container that includes tools to explore and switch between top-level views
-    in a single tap.
+    包含工具以單一點擊探索並切換頂層檢視的容器。
   categories: []
   subcategories:
     - 'App structure and navigation'
@@ -282,8 +253,7 @@
     src: /assets/images/docs/widget-catalog/material-bottom-navigation-bar.png
 - name: Card
   description: >-
-    Container for short, related pieces of content displayed in a box with
-    rounded corners and a drop shadow.
+    用於顯示簡短、相關內容的容器，具有圓角和陰影效果。
   categories: []
   subcategories:
     - 'Containment'
@@ -295,7 +265,7 @@
     src: /assets/images/docs/widget-catalog/material-3-coral.png
 - name: Center
   description: >-
-    Alignment block that centers its child within itself.
+    將子元件置中於自身的對齊區塊。
   categories: []
   subcategories:
     - 'Single-child layout widgets'
@@ -316,8 +286,7 @@
     marker-end='url(#arrow-center)'/></svg>
 - name: Checkbox
   description: >-
-    Form control that app users can set or clear to select one or more options
-    from a set.
+    表單控制項，使用者可勾選或取消勾選以選擇一或多個選項。
   categories: []
   subcategories:
     - 'Selection'
@@ -329,8 +298,7 @@
     src: /assets/images/docs/widget-catalog/material-3-leaves.png
 - name: Chip
   description: >-
-    Small blocks that simplify entering information, making selections,
-    filtering content, or triggering actions.
+    小型區塊，簡化輸入資訊、選擇、過濾內容或觸發操作。
   categories: []
   subcategories:
     - 'Selection'
@@ -341,7 +309,7 @@
   hoverBackground:
     src: /assets/images/docs/widget-catalog/material-3-leaves.png
 - name: CircularProgressIndicator
-  description: Circular progress indicator that spins to indicate a busy application.
+  description: 旋轉顯示應用程式忙碌狀態的圓形進度指示器。
   categories: []
   subcategories:
     - 'Information displays'
@@ -350,7 +318,7 @@
     src: /assets/images/docs/widget-catalog/material-circular-progress-indicator.png
 - name: ClipOval
   description: >-
-    A widget that clips its child using an oval.
+    使用橢圓形裁剪其子元件的元件。
   categories:
     - 'Painting and effects'
   subcategories: []
@@ -364,14 +332,14 @@
     clip-path='url(#clip-oval)'/></svg>
 - name: ClipPath
   description: >-
-    A widget that clips its child using a path.
+    使用路徑裁剪其子元件的元件。
   categories:
     - 'Painting and effects'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/ClipPath-class.html
 - name: ClipRect
   description: >-
-    A widget that clips its child using a rectangle.
+    使用矩形裁剪其子元件的元件。
   categories:
     - 'Painting and effects'
   subcategories: []
@@ -384,7 +352,7 @@
     height='60' fill='#ffffff'/><rect x='30' y='10' width='60' height='50'
     fill='#4dd0e1' clip-path='url(#clip-rect)'/></svg>
 - name: Column
-  description: Layout a list of child widgets in the vertical direction.
+  description: 垂直排列子元件列表的元件。
   categories:
     - 'Basics'
   subcategories:
@@ -398,8 +366,7 @@
     fill='#4dd0e1'/></svg>
 - name: Common buttons
   description: >-
-    Clickable blocks that start an action, such as sending an email, sharing a
-    document, or liking a comment.
+    可點擊的區塊，用於啟動動作，如寄送郵件、分享文件或按讚。
   categories: []
   subcategories:
     - 'Actions'
@@ -410,7 +377,7 @@
     src: /assets/images/docs/widget-catalog/material-3-leaves.png
 - name: ConstrainedBox
   description: >-
-    A widget that imposes additional constraints on its child.
+    對其子元件施加額外約束的元件。
   categories: []
   subcategories:
     - 'Single-child layout widgets'
@@ -439,13 +406,12 @@
     stroke='#ffffff' stroke-width='2'
     marker-end='url(#arrow-constrained-box)'/></svg>
 - name: Container
+  description: >-
+    結合常用繪製、定位和尺寸元件的便利元件。
   categories:
     - 'Basics'
   subcategories:
     - 'Single-child layout widgets'
-  description: >-
-    A convenience widget that combines common painting, positioning, and sizing
-    widgets.
   link: https://api.flutter.dev/flutter/widgets/Container-class.html
   vector: >-
     <svg viewBox='0 0 100 100'><defs><marker id='arrow-container-1'
@@ -481,7 +447,7 @@
     marker-end='url(#arrow-container-2)'/></svg>
 - name: CupertinoActionSheet
   description: >-
-    An iOS-style modal bottom action sheet to choose an option among many.
+    iOS 風格的底部動作選單，讓使用者在多個選項中選擇。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -490,7 +456,7 @@
     src: /assets/images/docs/widget-catalog/cupertino-action-sheet.png
 - name: CupertinoActionSheetAction
   description: >-
-    A button typically used in a CupertinoActionSheet.
+    通常用於 CupertinoActionSheet 的按鈕。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -499,7 +465,7 @@
     src: /assets/images/docs/widget-catalog/cupertino-action-sheet.png
 - name: CupertinoActivityIndicator
   description: >-
-    An iOS-style activity indicator. Displays a circular 'spinner'.
+    iOS 風格的活動指示器。顯示圓形「旋轉器」。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -508,8 +474,7 @@
     src: /assets/images/docs/widget-catalog/cupertino-activity-indicator.png
 - name: CupertinoAdaptiveTextSelectionToolbar
   description: >-
-    The default Cupertino context menu for text selection for the current
-    platform with the given children.
+    依據平台顯示的預設 Cupertino 文字選取工具列，包含指定的子元件。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -518,7 +483,7 @@
     src: /assets/images/docs/widget-catalog/CupertinoAdaptiveTextSelectionToolbar.png
 - name: CupertinoAlertDialog
   description: >-
-    An iOS-style alert dialog.
+    iOS 風格的警示對話框。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -527,7 +492,7 @@
     src: /assets/images/docs/widget-catalog/cupertino-alert-dialog.png
 - name: CupertinoApp
   description: >-
-    An application that uses Cupertino design.
+    使用 Cupertino 設計風格的應用程式。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -536,7 +501,7 @@
     src: /assets/images/docs/widget-catalog/CupertinoApp.png
 - name: CupertinoButton
   description: >-
-    An iOS-style button.
+    iOS 風格的按鈕。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -545,7 +510,7 @@
     src: /assets/images/docs/widget-catalog/cupertino-button.png
 - name: CupertinoCheckBox
   description: >-
-    A macOS-style checkbox.
+    macOS 風格的核取方塊。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -554,8 +519,7 @@
     src: /assets/images/docs/widget-catalog/CupertinoCheckbox.png
 - name: CupertinoColors
   description: >-
-    A palette of Color constants that describe colors commonly used when
-    matching the iOS platform aesthetics.
+    描述常用於 iOS 平台美學的顏色常數調色盤。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -564,8 +528,7 @@
     src: /assets/images/docs/widget-catalog/CupertinoColors.png
 - name: CupertinoContextMenu
   description: >-
-    An iOS-style full-screen modal route that opens when the child is
-    long-pressed. Used to display relevant actions for your content.
+    iOS 風格的全螢幕模態路由，長按子元件時開啟。用於顯示與內容相關的操作。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -574,7 +537,7 @@
     src: /assets/images/docs/widget-catalog/cupertino-context-menu.png
 - name: CupertinoContextMenuAction
   description: >-
-    A button in a ContextMenuSheet.
+    ContextMenuSheet 中的按鈕。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -583,7 +546,7 @@
     src: /assets/images/docs/widget-catalog/CupertinoContextMenuAction.png
 - name: CupertinoDatePicker
   description: >-
-    An iOS-style date or date and time picker.
+    iOS 風格的日期或日期時間選擇器。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -591,14 +554,14 @@
   image:
     src: /assets/images/docs/widget-catalog/CupertinoDatePicker.png
 - name: CupertinoDesktopTextSelectionControls
-  description: Desktop Cupertino styled text selection controls.
+  description: 桌面 Cupertino 風格的文字選取控制項。
   categories:
     - 'Cupertino'
   subcategories: []
   link: https://api.flutter.dev/flutter/cupertino/CupertinoDesktopTextSelectionControls-class.html
 - name: CupertinoDesktopTextSelectionToolbar
   description: >-
-    A macOS-style text selection toolbar.
+    macOS 風格的文字選取工具列。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -607,7 +570,7 @@
     src: /assets/images/docs/widget-catalog/CupertinoDesktopTextSelectionToolbar.png
 - name: CupertinoDesktopTextSelectionToolbarButton
   description: >-
-    A button in the style of the macOS context menu buttons.
+    macOS 風格的工具列按鈕。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -616,7 +579,7 @@
     src: /assets/images/docs/widget-catalog/CupertinoDesktopTextSelectionToolbarButton.png
 - name: CupertinoDialogAction
   description: >-
-    A button typically used in a CupertinoAlertDialog.
+    通常用於 CupertinoAlertDialog 的按鈕。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -625,22 +588,21 @@
     src: /assets/images/docs/widget-catalog/cupertino-dialog-action.png
 - name: CupertinoDialogRoute
   description: >-
-    A dialog route that shows an iOS-style dialog.
+    顯示 iOS 風格對話框的路由。
   categories:
     - 'Cupertino'
   subcategories: []
   link: https://api.flutter.dev/flutter/cupertino/CupertinoDialogRoute-class.html
 - name: CupertinoDynamicColor
   description: >-
-    A Color subclass that represents a family of colors, and the correct
-    effective color in the color family.
+    Color 的子類別，表示一組顏色及其正確的有效顏色。
   categories:
     - 'Cupertino'
   subcategories: []
   link: https://api.flutter.dev/flutter/cupertino/CupertinoDynamicColor-class.html
 - name: CupertinoFormRow
   description: >-
-    An iOS-style form row.
+    iOS 風格的表單列。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -649,7 +611,7 @@
     src: /assets/images/docs/widget-catalog/CupertinoFormRow.png
 - name: CupertinoFormSection
   description: >-
-    An iOS-style form section.
+    iOS 風格的表單區段。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -658,7 +620,7 @@
     src: /assets/images/docs/widget-catalog/CupertinoFormSection.png
 - name: CupertinoFullscreenDialogTransition
   description: >-
-    An iOS-style transition used for summoning fullscreen dialogs.
+    用於顯示全螢幕對話框的 iOS 風格過渡動畫。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -666,13 +628,13 @@
   image:
     src: /assets/images/docs/widget-catalog/cupertino-fullscreen-dialog-transition.png
 - name: CupertinoThemeData
-  description: Styling specifications for a CupertinoTheme.
+  description: CupertinoTheme 的樣式規格。
   categories:
     - 'Cupertino'
   subcategories: []
   link: https://api.flutter.dev/flutter/cupertino/CupertinoThemeData-class.html
 - name: CupertinoListSection
-  description: Container that uses the iOS style to display a scrollable view.
+  description: 使用 iOS 風格顯示可滾動檢視的容器。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -681,7 +643,7 @@
     src: /assets/images/docs/widget-catalog/cupertino-list-section.png
 - name: CupertinoListTile
   description: >-
-    A block that uses the iOS style to create a row in a list.
+    使用 iOS 風格建立列表列的區塊。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -690,8 +652,7 @@
     src: /assets/images/docs/widget-catalog/cupertino-list-tile.png
 - name: CupertinoListTileChevron
   description: >-
-    A typical iOS trailing widget used to denote that a CupertinoListTile is a
-    button with an action.
+    典型的 iOS 尾端元件，用於表示 CupertinoListTile 是具有動作的按鈕。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -699,23 +660,21 @@
   image:
     src: /assets/images/docs/widget-catalog/CupertinoListTileChevron.png
 - name: CupertinoLocalizations
-  description: Defines the localized resource values used by the Cupertino widgets.
+  description: 定義 Cupertino 元件使用的本地化資源值。
   categories:
     - 'Cupertino'
   subcategories: []
   link: https://api.flutter.dev/flutter/cupertino/CupertinoLocalizations-class.html
 - name: CupertinoMagnifier
   description: >-
-    A RawMagnifier used for magnifying text in cases where a user's finger may
-    be blocking the point of interest, like a selection handle.
+    用於放大文字的 RawMagnifier，適合使用者手指可能遮住重點時（如選取控制點）。
   categories:
     - 'Cupertino'
   subcategories: []
   link: https://api.flutter.dev/flutter/cupertino/CupertinoMagnifier-class.html
 - name: CupertinoModalPopupRoute
   description: >-
-    A route that shows a modal iOS-style popup that
-    slides up from the bottom of the screen.
+    顯示自螢幕底部滑出的 iOS 風格模態彈出視窗的路由。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -723,8 +682,7 @@
     https://api.flutter.dev/flutter/cupertino/CupertinoModalPopupRoute-class.html
 - name: CupertinoNavigationBar
   description: >-
-    Container at the top of a screen that uses the iOS style.
-    Many developers use this with `CupertinoPageScaffold`.
+    使用 iOS 風格的螢幕頂部容器。許多開發者會搭配 `CupertinoPageScaffold` 使用。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -733,7 +691,7 @@
     src: /assets/images/docs/widget-catalog/cupertino-nav-bar.png
 - name: CupertinoNavigationBarBackButton
   description: >-
-    A nav bar back button typically used in CupertinoNavigationBar.
+    通常用於 CupertinoNavigationBar 的返回按鈕。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -742,28 +700,27 @@
     src: /assets/images/docs/widget-catalog/CupertinoNavigationBarBackButton.png
 - name: CupertinoPage
   description: >-
-    A page that creates a cupertino style PageRoute.
+    建立 Cupertino 風格 PageRoute 的頁面。
   categories:
     - 'Cupertino'
   subcategories: []
   link: https://api.flutter.dev/flutter/cupertino/CupertinoPage-class.html
 - name: CupertinoPageRoute
   description: >-
-    A modal route that replaces the entire screen with an iOS transition.
+    以 iOS 動畫取代整個螢幕的模態路由。
   categories:
     - 'Cupertino'
   subcategories: []
   link: https://api.flutter.dev/flutter/cupertino/CupertinoPageRoute-class.html
 - name: CupertinoPageScaffold
   description: >-
-    Basic iOS style page layout structure.
-    Positions a navigation bar and content on a background.
+    基本 iOS 風格頁面佈局結構。將導覽列與內容定位於背景上。
   categories:
     - 'Cupertino'
   subcategories: []
   link: https://api.flutter.dev/flutter/cupertino/CupertinoPageScaffold-class.html
 - name: CupertinoPageTransition
-  description: Provides an iOS-style page transition animation.
+  description: 提供 iOS 風格的頁面過渡動畫。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -772,7 +729,7 @@
     src: /assets/images/docs/widget-catalog/cupertino-page-transition.png
 - name: CupertinoPicker
   description: >-
-    An iOS-style picker control. Used to select an item in a short list.
+    iOS 風格的選擇器控制項。用於在短列表中選擇項目。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -781,22 +738,21 @@
     src: /assets/images/docs/widget-catalog/CupertinoPicker.png
 - name: CupertinoPickerDefaultSelectionOverlay
   description: >-
-    A default selection overlay for CupertinoPickers.
+    CupertinoPicker 的預設選取覆蓋層。
   categories:
     - 'Cupertino'
   subcategories: []
   link: https://api.flutter.dev/flutter/cupertino/CupertinoPickerDefaultSelectionOverlay-class.html
 - name: CupertinoPopupSurface
   description: >-
-    Rounded rectangle surface that looks like an iOS popup surface, such as an
-    alert dialog or action sheet.
+    圓角矩形表面，類似 iOS 彈出視窗表面，如警示對話框或動作選單。
   categories:
     - 'Cupertino'
   subcategories: []
   link: https://api.flutter.dev/flutter/cupertino/CupertinoPopupSurface-class.html
 - name: CupertinoRadio
   description: >-
-    A macOS-style radio button.
+    macOS 風格的單選按鈕。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -805,8 +761,7 @@
     src: /assets/images/docs/widget-catalog/CupertinoRadio.png
 - name: CupertinoScrollbar
   description: >-
-    An iOS-style scrollbar that indicates which portion of a scrollable widget
-    is currently visible.
+    iOS 風格的捲軸，顯示目前可見的可滾動元件區域。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -814,14 +769,14 @@
   image:
     src: /assets/images/docs/widget-catalog/cupertino-scrollbar.png
 - name: CupertinoScrollBehavior
-  description: Describes how Scrollable widgets behave for CupertinoApps.
+  description: 描述 CupertinoApp 中 Scrollable 元件的行為。
   categories:
     - 'Cupertino'
   subcategories: []
   link: https://api.flutter.dev/flutter/cupertino/CupertinoScrollBehavior-class.html
 - name: CupertinoSearchTextField
   description: >-
-    An iOS-style search field.
+    iOS 風格的搜尋欄位。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -829,7 +784,7 @@
   image:
     src: /assets/images/docs/widget-catalog/cupertino-search-field.png
 - name: CupertinoSlider
-  description: Used to select from a range of values.
+  description: 用於選擇一個值範圍。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -838,8 +793,7 @@
     src: /assets/images/docs/widget-catalog/cupertino-slider.png
 - name: CupertinoSlidingSegmentedControl
   description: >-
-    An iOS-13-style segmented control. Used to select mutually exclusive options
-    in a horizontal list.
+    iOS 13 風格的分段控制元件。用於在水平列表中選擇互斥選項。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -848,7 +802,7 @@
     src: /assets/images/docs/widget-catalog/cupertino-sliding-segmented-control.png
 - name: CupertinoSliverNavigationBar
   description: >-
-    A navigation bar with iOS-11-style large titles using slivers.
+    使用 slivers 的 iOS 11 風格大型標題導覽列。
   categories:
     - 'Cupertino'
   subcategories:
@@ -858,14 +812,14 @@
     src: /assets/images/docs/widget-catalog/cupertino-sliver-navigation-bar.png
 - name: CupertinoSliverRefreshControl
   description: >-
-    A sliver widget implementing the iOS-style pull to refresh content control.
+    實作 iOS 風格下拉刷新內容控制的 sliver 元件。
   categories:
     - 'Cupertino'
   subcategories:
     - 'Sliver widgets'
   link: https://api.flutter.dev/flutter/cupertino/CupertinoSliverRefreshControl-class.html
 - name: CupertinoSpellCheckSuggestionsToolbar
-  description: The default spell check suggestions toolbar for iOS.
+  description: iOS 預設拼字檢查建議工具列。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -874,7 +828,7 @@
     src: /assets/images/docs/widget-catalog/CupertinoSpellCheckSuggestionsToolbar.png
 - name: CupertinoSwitch
   description: >-
-    An iOS-style switch. Used to toggle the on/off state of a single setting.
+    iOS 風格的開關。用於切換單一設定的開/關狀態。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -883,7 +837,7 @@
     src: /assets/images/docs/widget-catalog/cupertino-switch.png
 - name: CupertinoTabBar
   description: >-
-    An iOS-style bottom tab bar. Typically used with CupertinoTabScaffold.
+    iOS 風格的底部分頁列。通常搭配 CupertinoTabScaffold 使用。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -892,14 +846,13 @@
     src: /assets/images/docs/widget-catalog/cupertino-tab-bar.png
 - name: CupertinoTabController
   description: >-
-    Coordinates tab selection between a CupertinoTabBar and
-    a CupertinoTabScaffold.
+    協調 CupertinoTabBar 與 CupertinoTabScaffold 的分頁選擇。
   categories:
     - 'Cupertino'
   subcategories: []
   link: https://api.flutter.dev/flutter/cupertino/CupertinoTabController-class.html
 - name: CupertinoTabScaffold
-  description: Tabbed iOS app structure. Positions a tab bar on top of tabs of content.
+  description: 分頁式 iOS 應用結構。將分頁列定位於分頁內容之上。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -908,8 +861,7 @@
     src: /assets/images/docs/widget-catalog/cupertino-tab-scaffold.png
 - name: CupertinoTabView
   description: >-
-    Root content of a tab that supports parallel navigation between tabs.
-    Typically used with CupertinoTabScaffold.
+    支援分頁間平行導覽的分頁根內容。通常搭配 CupertinoTabScaffold 使用。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -918,7 +870,7 @@
     src: /assets/images/docs/widget-catalog/cupertino-tab-view.png
 - name: CupertinoTextField
   description: >-
-    An iOS-style text field.
+    iOS 風格的文字欄位。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -927,8 +879,7 @@
     src: /assets/images/docs/widget-catalog/cupertino-textfield.png
 - name: CupertinoTextFormFieldRow
   description: >-
-    Creates a CupertinoFormRow containing a FormField that wraps a
-    CupertinoTextField.
+    建立包含 CupertinoTextField 的 CupertinoFormRow。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -937,8 +888,7 @@
     src: /assets/images/docs/widget-catalog/CupertinoTextFormFieldRow.png
 - name: CupertinoTextMagnifier
   description: >-
-    A CupertinoMagnifier used for magnifying text in cases where a user's finger
-    may be blocking the point of interest, like a selection handle.
+    用於放大文字的 CupertinoMagnifier，適合使用者手指可能遮住重點時（如選取控制點）。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -946,14 +896,14 @@
   image:
     src: /assets/images/docs/widget-catalog/CupertinoTextMagnifier.png
 - name: CupertinoTextSelectionControls
-  description: iOS-style text selection controls.
+  description: iOS 風格的文字選取控制項。
   categories:
     - 'Cupertino'
   subcategories: []
   link: https://api.flutter.dev/flutter/cupertino/CupertinoTextSelectionControls-class.html
 - name: CupertinoTextSelectionToolbar
   description: >-
-    An iOS-style text selection toolbar.
+    iOS 風格的文字選取工具列。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -962,7 +912,7 @@
     src: /assets/images/docs/widget-catalog/CupertinoTextSelectionToolbar.png
 - name: CupertinoTextSelectionToolbarButton
   description: >-
-    A button in the style of the iOS text selection toolbar buttons.
+    iOS 文字選取工具列按鈕風格的按鈕。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -970,27 +920,27 @@
   image:
     src: /assets/images/docs/widget-catalog/CupertinoTextSelectionToolbarButton.png
 - name: CupertinoTextThemeData
-  description: Cupertino typography theme in a CupertinoThemeData.
+  description: CupertinoThemeData 中的 Cupertino 字型主題。
   categories:
     - 'Cupertino'
   subcategories: []
   link: https://api.flutter.dev/flutter/cupertino/CupertinoTextThemeData-class.html
 - name: CupertinoTheme
   description: >-
-    Applies a visual styling theme to descendant Cupertino widgets.
+    對後代 Cupertino 元件套用視覺樣式主題。
   categories:
     - 'Cupertino'
   subcategories: []
   link: https://api.flutter.dev/flutter/cupertino/CupertinoTheme-class.html
 - name: CupertinoThumbPainter
-  description: Paints an iOS-style slider thumb or switch thumb.
+  description: 繪製 iOS 風格滑桿或開關的滑塊。
   categories:
     - 'Cupertino'
   subcategories: []
   link: https://api.flutter.dev/flutter/cupertino/CupertinoThumbPainter-class.html
 - name: CupertinoTimerPicker
   description: >-
-    An iOS-style countdown timer picker.
+    iOS 風格的倒數計時選擇器。
   categories:
     - 'Cupertino'
   subcategories: []
@@ -999,14 +949,14 @@
     src: /assets/images/docs/widget-catalog/CupertinoTimerPicker.png
 - name: CustomMultiChildLayout
   description: >-
-    A widget that uses a delegate to size and position multiple children.
+    使用委派來調整多個子元件大小與位置的元件。
   categories: []
   subcategories:
     - 'Multi-child layout widgets'
   link: https://api.flutter.dev/flutter/widgets/CustomMultiChildLayout-class.html
 - name: CustomPaint
   description: >-
-    A widget that provides a canvas on which to draw during the paint phase.
+    提供畫布以在繪製階段繪圖的元件。
   categories:
     - 'Painting and effects'
   subcategories: []
@@ -1020,9 +970,7 @@
     transform='rotate(-25)'/></svg>
 - name: CarouselView
   description: >-
-    A Material carousel widget that presents a scrollable
-    list of items, each of which can dynamically change
-    size based on the chosen layout.
+    一個 Material 輪播元件，呈現可滾動的項目列表，每個項目可根據所選佈局動態改變大小。
   categories:
     - 'Scrolling'
   subcategories:
@@ -1032,7 +980,7 @@
     src: /assets/images/docs/widget-catalog/material-carousel.png
 - name: CustomScrollView
   description: >-
-    A ScrollView that creates custom scroll effects using slivers.
+    使用 slivers 建立自訂滾動效果的 ScrollView。
   categories:
     - 'Scrolling'
   subcategories:
@@ -1040,15 +988,14 @@
   link: https://api.flutter.dev/flutter/widgets/CustomScrollView-class.html
 - name: CustomSingleChildLayout
   description: >-
-    A widget that defers the layout of its single child to a delegate.
+    將單一子元件的佈局委託給委派的元件。
   categories: []
   subcategories:
     - 'Single-child layout widgets'
   link: https://api.flutter.dev/flutter/widgets/CustomSingleChildLayout-class.html
 - name: DataTable
   description: >-
-    Data tables display sets of raw data. They usually appear in desktop
-    enterprise products. The DataTable widget implements this component.
+    資料表格用於顯示原始資料集，通常出現在桌面企業產品中。DataTable 元件實作此元件。
   categories: []
   subcategories:
     - 'Information displays'
@@ -1056,7 +1003,7 @@
   image:
     src: /assets/images/docs/widget-catalog/material-data-table.png
 - name: DatePicker
-  description: Calendar interface used to select a date or a range of dates.
+  description: 用於選擇日期或日期範圍的行事曆介面。
   categories: []
   subcategories:
     - 'Selection'
@@ -1068,7 +1015,7 @@
     src: /assets/images/docs/widget-catalog/material-3-leaves.png
 - name: DecoratedBox
   description: >-
-    A widget that paints a Decoration either before or after its child paints.
+    在子元件繪製前或後繪製 Decoration 的元件。
   categories:
     - 'Painting and effects'
   subcategories: []
@@ -1086,38 +1033,33 @@
     stroke-width='5' stroke='#4dd0e1'/></svg>
 - name: DecoratedBoxTransition
   description: >-
-    Animated version of a DecoratedBox that animates the different properties of
-    its Decoration.
+    DecoratedBox 的動畫版本，能對 Decoration 的不同屬性進行動畫處理。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/DecoratedBoxTransition-class.html
 - name: DefaultTextStyle
-  description: The text style to apply to descendant Text widgets without explicit style.
+  description: 套用於未明確指定 style 的 Text 子元件的預設文字樣式。
   categories:
     - 'Text'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/DefaultTextStyle-class.html
 - name: DefaultTextStyleTransition
   description: >-
-    Animated version of a DefaultTextStyle that animates the different properties of its TextStyle.
+    DefaultTextStyle 的動畫版本，能對 TextStyle 的不同屬性進行動畫處理。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/DefaultTextStyleTransition-class.html
 - name: Dismissible
   description: >-
-    A widget that can be dismissed by dragging in the indicated direction.
-    Dragging or flinging this widget in the DismissDirection causes the child to
-    slide out of view. Following the slide animation, if resizeDuration is
-    non-null, the Dismissible widget animates its height (or width, whichever is
-    perpendicular to the dismiss direction) to zero over the resizeDuration.
+    可透過拖曳指定方向來移除的元件。拖曳或甩動此元件至 DismissDirection 時，子元件會滑出視圖。滑動動畫結束後，若 resizeDuration 非空，則 Dismissible 元件會在 resizeDuration 內將高度（或寬度，取決於移除方向）動畫至零。
   categories: []
   subcategories:
     - 'Touch interactions'
   link: https://api.flutter.dev/flutter/widgets/Dismissible-class.html
 - name: Divider
-  description: Thin line that groups content in lists and containers.
+  description: 用於在列表和容器中分組內容的細線。
   categories: []
   subcategories:
     - 'Containment'
@@ -1129,31 +1071,21 @@
     src: /assets/images/docs/widget-catalog/material-3-coral.png
 - name: DragTarget
   description: >-
-    A widget that receives data when a Draggable widget is dropped. When a
-    draggable is dragged on top of a drag target, the drag target is asked
-    whether it will accept the data the draggable is carrying. If the user does
-    drop the draggable on top of the drag target (and the drag target has
-    indicated that it will accept the draggable's data), then the drag target is
-    asked to accept the draggable's data.
+    接收 Draggable 元件拖放資料的元件。當可拖動元件拖曳至拖放目標上時，拖放目標會判斷是否接受該資料。若使用者在拖放目標上放開可拖動元件（且拖放目標已表示接受），則拖放目標會接收該資料。
   categories: []
   subcategories:
     - 'Touch interactions'
   link: https://api.flutter.dev/flutter/widgets/DragTarget-class.html
 - name: Draggable
   description: >-
-    A widget that can be dragged from to a DragTarget. When a draggable widget
-    recognizes the start of a drag gesture, it displays a feedback widget that
-    tracks the user's finger across the screen. If the user lifts their finger
-    while on top of a DragTarget, that target is given the opportunity to accept
-    the data carried by the draggable.
+    可從 DragTarget 拖曳的元件。當可拖動元件偵測到拖曳手勢開始時，會顯示一個跟隨使用者手指的回饋元件。若使用者在 DragTarget 上放開手指，該目標可選擇接受可拖動元件攜帶的資料。
   categories: []
   subcategories:
     - 'Touch interactions'
   link: https://api.flutter.dev/flutter/widgets/Draggable-class.html
 - name: DraggableScrollableSheet
   description: >-
-    A container for a Scrollable that responds to drag gestures by resizing the
-    scrollable until a limit is reached, and then scrolling.
+    包含可滾動元件的容器，能夠透過拖曳手勢調整可滾動元件大小，直到達到限制後開始滾動。
   categories:
     - 'Scrolling'
   subcategories:
@@ -1161,8 +1093,7 @@
   link: https://api.flutter.dev/flutter/widgets/DraggableScrollableSheet-class.html
 - name: Drawer
   description: >-
-    A Material Design panel that slides in horizontally from the edge of a
-    Scaffold to show navigation links in an application.
+    Material Design 面板，從 Scaffold 邊緣水平滑入以顯示應用程式導覽連結。
   categories: []
   subcategories:
     - 'App structure and navigation'
@@ -1171,8 +1102,7 @@
     src: /assets/images/docs/widget-catalog/material-drawer.png
 - name: DropdownButton
   description: >-
-    Shows the currently selected item and an arrow that opens a menu for
-    selecting another item.
+    顯示目前選取項目及箭頭，點擊箭頭可開啟選單以選擇其他項目。
   categories: []
   subcategories:
     - 'Buttons'
@@ -1192,25 +1122,21 @@
     src: /assets/images/docs/widget-catalog/material-elevated-button.png
 - name: ExcludeSemantics
   description: >-
-    A widget that drops all the semantics of its descendants. This can be used
-    to hide subwidgets that would otherwise be reported but that would only be
-    confusing. For example, the Material Components Chip widget hides the avatar
-    since it is redundant with the chip label.
+    移除所有後代元件語意的元件。可用於隱藏只會造成混淆的子元件，例如 Material Components 的 Chip 元件會隱藏 avatar，因為它與 chip 標籤重複。
   categories:
     - 'Accessibility'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/ExcludeSemantics-class.html
 - name: Expanded
+  description: >-
+    讓 Row、Column 或 Flex 的子元件擴展填滿剩餘空間的元件。
   categories: []
   subcategories:
     - 'Single-child layout widgets'
-  description: >-
-    A widget that expands a child of a Row, Column, or Flex.
   link: https://api.flutter.dev/flutter/widgets/Expanded-class.html
 - name: ExpansionPanel
   description: >-
-    Expansion panels contain creation flows and allow lightweight editing of an
-    element. The ExpansionPanel widget implements this component.
+    展開面板包含建立流程，並允許輕量編輯元素。ExpansionPanel 元件實作此元件。
   categories: []
   subcategories:
     - 'Dialogs, alerts, and panels'
@@ -1219,19 +1145,19 @@
     src: https://material-design.storage.googleapis.com/publish/material_v_9/0B7WCemMG6e0VOXF3eEJ3azZMSjg/components_expansion_panels.png
 - name: FadeTransition
   description: >-
-    Animates the opacity of a widget.
+    以動畫方式改變元件的透明度。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/FadeTransition-class.html
 - name: FittedBox
-  description: Scales and positions its child within itself according to fit.
+  description: 根據 fit 參數縮放並定位其子元件的元件。
   categories: []
   subcategories:
     - 'Single-child layout widgets'
   link: https://api.flutter.dev/flutter/widgets/FittedBox-class.html
 - name: FloatingActionButton
-  description: Clickable block containing an icon that keeps a key action always in reach.
+  description: 包含圖示的可點擊區塊，讓主要操作隨時可用。
   categories: []
   subcategories:
     - 'Actions'
@@ -1243,8 +1169,7 @@
     src: /assets/images/docs/widget-catalog/material-3-leaves.png
 - name: Extended FloatingActionButton
   description: >-
-    Clickable block that triggers an action. These wider blocks can fit a text
-    label and provide a larger target area.
+    觸發動作的可點擊區塊。這些較寬的區塊可容納文字標籤並提供更大的點擊範圍。
   categories: []
   subcategories:
     - 'Actions'
@@ -1256,74 +1181,63 @@
     src: /assets/images/docs/widget-catalog/material-3-leaves.png
 - name: Flow
   description: >-
-    A widget that implements the flow layout algorithm.
+    實作 flow 佈局演算法的元件。
   categories: []
   subcategories:
     - 'Multi-child layout widgets'
   link: https://api.flutter.dev/flutter/widgets/Flow-class.html
 - name: FlutterLogo
   description: >-
-    The Flutter logo, in widget form. This widget respects the IconTheme.
+    Flutter 標誌的元件形式。此元件會遵循 IconTheme。
   categories:
     - 'Basics'
   subcategories: []
   link: https://api.flutter.dev/flutter/material/FlutterLogo-class.html
 - name: Form
   description: >-
-    An optional container for grouping together multiple form field widgets
-    (e.g. TextField widgets).
+    用於分組多個表單欄位元件（如 TextField）的選用容器。
   categories:
     - 'Input'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/Form-class.html
 - name: FormField
   description: >-
-    A single form field.
-    This widget maintains the current state of the form field, so that
-    updates and validation errors are visually reflected in the UI.
+    單一表單欄位。此元件會維護表單欄位的目前狀態，讓更新與驗證錯誤能在 UI 上即時反映。
   categories:
     - 'Input'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/FormField-class.html
 - name: FractionalTranslation
   description: >-
-    A widget that applies a translation expressed as a fraction of the box's
-    size before painting its child.
+    在繪製子元件前，根據盒子大小的比例套用平移的元件。
   categories:
     - 'Painting and effects'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/FractionalTranslation-class.html
 - name: FractionallySizedBox
   description: >-
-    A widget that sizes its child to a fraction of the total available space.
-    For more details about the layout algorithm, see
-    RenderFractionallySizedOverflowBox.
+    讓子元件佔據可用空間的指定比例。更多佈局演算法細節請參考 RenderFractionallySizedOverflowBox。
   categories: []
   subcategories:
     - 'Single-child layout widgets'
   link: https://api.flutter.dev/flutter/widgets/FractionallySizedBox-class.html
 - name: FutureBuilder
   description: >-
-    Widget that builds itself based on the latest snapshot of interaction with a
-    Future.
+    根據與 Future 互動的最新快照建構自身的元件。
   categories:
     - 'Async'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/FutureBuilder-class.html
 - name: GestureDetector
   description: >-
-    A widget that detects gestures. Attempts to recognize gestures that
-    correspond to its non-null callbacks. If this widget has a child, it defers
-    to that child for its sizing behavior. If it does not have a child, it grows
-    to fit the parent instead.
+    偵測手勢的元件。嘗試辨識與其非空回呼對應的手勢。若有子元件，則由子元件決定尺寸行為；若無子元件，則會填滿父元件。
   categories: []
   subcategories:
     - 'Touch interactions'
   link: https://api.flutter.dev/flutter/widgets/GestureDetector-class.html
 - name: GridView
   description: >-
-    A grid list consists of a repeated pattern of cells arrayed in a vertical
-    and horizontal layout. The GridView widget implements this component.
+    網格列表由垂直與水平排列的重複單元格組成。GridView 元件實作此元件。
   categories:
     - 'Scrolling'
   subcategories:
@@ -1334,7 +1248,7 @@
     src: /assets/images/docs/widget-catalog/material-grid-view.png
 - name: Hero
   description: >-
-    A widget that marks its child as being a candidate for hero animations.
+    標記其子元件為英雄動畫候選的元件。
   categories:
     - 'Animation and motion'
   subcategories:
@@ -1342,7 +1256,7 @@
   link: https://api.flutter.dev/flutter/widgets/Hero-class.html
 - name: Icon
   description: >-
-    A Material Design icon.
+    Material Design 的圖示元件。
   categories:
     - 'Basics'
     - 'Assets, images, and icons'
@@ -1352,7 +1266,7 @@
   image:
     src: https://flutter.github.io/assets-for-api-docs/assets/widgets/icon.png
 - name: IconButton
-  description: Clickable icons to prompt app users to take supplementary actions.
+  description: 用於提示使用者執行輔助操作的可點擊圖示。
   categories: []
   subcategories:
     - 'Actions'
@@ -1364,17 +1278,14 @@
     src: /assets/images/docs/widget-catalog/material-3-leaves.png
 - name: IgnorePointer
   description: >-
-    A widget that is invisible during hit testing. When ignoring is true, this
-    widget (and its subtree) is invisible to hit testing. It still consumes
-    space during layout and paints its child as usual. It just cannot be the
-    target of located events, because it returns false from RenderBox.hitTest.
+    命中測試期間不可見的元件。當 ignoring 為 true 時，此元件（及其子樹）在命中測試中不可見。仍會在佈局期間佔據空間並正常繪製子元件，只是無法成為事件目標，因為 RenderBox.hitTest 會回傳 false。
   categories: []
   subcategories:
     - 'Touch interactions'
   link: https://api.flutter.dev/flutter/widgets/IgnorePointer-class.html
 - name: Image
   description: >-
-    A widget that displays an image.
+    顯示圖片的元件。
   categories:
     - 'Basics'
     - 'Assets, images, and icons'
@@ -1388,50 +1299,49 @@
     xlink:href='/assets/images/docs/owl.jpg'/></svg>
 - name: IndexedStack
   description: >-
-    A Stack that shows a single child from a list of children.
+    顯示子元件列表中的單一子元件的 Stack。
   categories: []
   subcategories:
     - 'Multi-child layout widgets'
   link: https://api.flutter.dev/flutter/widgets/IndexedStack-class.html
 - name: InteractiveViewer
   description: >-
-    A widget that enables pan and zoom interactions with its child.
+    允許其子元件進行平移與縮放互動的元件。
   categories: []
   subcategories:
     - 'Touch interactions'
   link: https://api.flutter.dev/flutter/widgets/InteractiveViewer-class.html
 - name: IntrinsicHeight
   description: >-
-    A widget that sizes its child to the child's intrinsic height.
+    讓子元件高度符合其本身內在高度的元件。
   categories: []
   subcategories:
     - 'Single-child layout widgets'
   link: https://api.flutter.dev/flutter/widgets/IntrinsicHeight-class.html
 - name: IntrinsicWidth
   description: >-
-    A widget that sizes its child to the child's intrinsic width.
+    讓子元件寬度符合其本身內在寬度的元件。
   categories: []
   subcategories:
     - 'Single-child layout widgets'
   link: https://api.flutter.dev/flutter/widgets/IntrinsicWidth-class.html
 - name: LayoutBuilder
   description: >-
-    Builds a widget tree that can depend on the parent widget's size.
+    建構可依賴父元件尺寸的元件樹。
   categories: []
   subcategories:
     - 'Multi-child layout widgets'
   link: https://api.flutter.dev/flutter/widgets/LayoutBuilder-class.html
 - name: LimitedBox
   description: >-
-    A box that limits its size only when it's unconstrained.
+    僅在未受約束時限制自身大小的盒子。
   categories: []
   subcategories:
     - 'Single-child layout widgets'
   link: https://api.flutter.dev/flutter/widgets/LimitedBox-class.html
 - name: LinearProgressIndicator
   description: >-
-    Vertical line that changes color as an ongoing process, such as loading an
-    app or submitting a form, completes.
+    垂直線條，隨著進程（如載入應用程式或提交表單）完成而改變顏色。
   categories: []
   subcategories:
     - 'Communication'
@@ -1443,8 +1353,7 @@
     src: /assets/images/docs/widget-catalog/material-3-coral.png
 - name: ListTile
   description: >-
-    A single fixed-height row that typically contains some text as well as a
-    leading or trailing icon.
+    固定高度的單一列，通常包含文字及前置或後置圖示。
   categories: []
   subcategories:
     - 'Containment'
@@ -1456,18 +1365,14 @@
     src: /assets/images/docs/widget-catalog/material-3-coral.png
 - name: ListBody
   description: >-
-    A widget that arranges its children sequentially along a given axis, forcing
-    them to the dimension of the parent in the other axis.
+    沿指定軸依序排列子元件，並強制其在另一軸符合父元件尺寸的元件。
   categories: []
   subcategories:
     - 'Multi-child layout widgets'
   link: https://api.flutter.dev/flutter/widgets/ListBody-class.html
 - name: ListView
   description: >-
-    A scrollable, linear list of widgets. ListView is the most commonly used
-    scrolling widget. It displays its children one after another in the scroll
-    direction. In the cross axis, the children are required to fill the
-    ListView.
+    可滾動、線性排列的元件列表。ListView 是最常用的滾動元件，會依序顯示其子元件。橫向則要求子元件填滿 ListView。
   categories:
     - 'Scrolling'
   subcategories:
@@ -1476,15 +1381,14 @@
   image:
     src: /assets/images/docs/widget-catalog/material-list-tile.png
 - name: LongPressDraggable
-  description: Makes its child draggable starting from long press.
+  description: 長按即可開始拖曳的可拖動元件。
   categories: []
   subcategories:
     - 'Touch interactions'
   link: https://api.flutter.dev/flutter/widgets/LongPressDraggable-class.html
 - name: MaterialApp
   description: >-
-    A convenience widget that wraps a number of widgets that are commonly
-    required for applications implementing Material Design.
+    包裝多個常用於實作 Material Design 應用程式的元件的便利元件。
   categories: []
   subcategories:
     - 'App structure and navigation'
@@ -1493,19 +1397,19 @@
     src: https://storage.googleapis.com/material-design/publish/material_v_11/assets/0Bx4BSt6jniD7Y1huOXVQdlFPMmM/materialdesign_introduction.png
 - name: MatrixTransition
   description: >-
-    Animates the Matrix4 of a transformed widget.
+    對已轉換元件的 Matrix4 屬性進行動畫處理。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/MatrixTransition-class.html
 - name: MediaQuery
-  description: Establishes a subtree in which media queries resolve to the given data.
+  description: 建立一個子樹，讓媒體查詢解析為指定資料。
   categories:
     - 'Styling'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/MediaQuery-class.html
 - name: Menu
-  description: Container that displays a list of choices on a temporary surface.
+  description: 顯示選項列表於暫時性表面的容器。
   categories: []
   subcategories:
     - 'Selection'
@@ -1516,15 +1420,14 @@
     src: /assets/images/docs/widget-catalog/material-3-leaves.png
 - name: MergeSemantics
   description: >-
-    A widget that merges the semantics of its descendants.
+    合併所有後代元件語意的元件。
   categories:
     - 'Accessibility'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/MergeSemantics-class.html
 - name: NavigationBar
   description: >-
-    Persistent container that enables switching between primary destinations in
-    an app.
+    持續顯示的容器，讓使用者在應用程式主要目的地間切換。
   categories: []
   subcategories:
     - 'Navigation'
@@ -1535,8 +1438,7 @@
     src: /assets/images/docs/widget-catalog/material-3-bubbles.png
 - name: NavigationDrawer
   description: >-
-    Container that slides from the leading edge of the app to navigate to other
-    sections in an app.
+    從應用程式前導邊緣滑出以導覽至其他區段的容器。
   categories: []
   subcategories:
     - 'Navigation'
@@ -1547,8 +1449,7 @@
     src: /assets/images/docs/widget-catalog/material-3-bubbles.png
 - name: Navigation rail
   description: >-
-    Persistent container on the leading edge of tablet and desktop screens to
-    navigate to parts of an app.
+    持續顯示於平板與桌面螢幕前導邊緣的容器，用於導覽至應用程式各部分。
   categories: []
   subcategories:
     - 'Navigation'
@@ -1559,44 +1460,35 @@
     src: /assets/images/docs/widget-catalog/material-3-bubbles.png
 - name: Navigator
   description: >-
-    A widget that manages a set of child widgets with a stack discipline. Many
-    apps have a navigator near the top of their widget hierarchy to display
-    their logical history using an Overlay with the most recently visited pages
-    visually on top of the older pages. Using this pattern lets the navigator
-    visually transition from one page to another by moving the widgets around in
-    the overlay. Similarly, the navigator can be used to show a dialog by
-    positioning the dialog widget above the current page.
+    以堆疊方式管理一組子元件的元件。許多應用程式會在元件階層頂部放置 Navigator，以 Overlay 方式顯示邏輯歷史，最近造訪的頁面會在舊頁面之上。此模式可讓 Navigator 透過移動元件在 Overlay 中進行頁面轉換，也可用於顯示對話框。
   categories: []
   subcategories:
     - 'Routing'
   link: https://api.flutter.dev/flutter/widgets/Navigator-class.html
 - name: NestedScrollView
   description: >-
-    A scrolling view inside of which can be nested other scrolling views, with
-    their scroll positions being intrinsically linked.
+    可在其中嵌套其他可滾動檢視，且滾動位置會自動連動的滾動檢視。
   categories:
     - 'Scrolling'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/NestedScrollView-class.html
 - name: NotificationListener
   description: >-
-    A widget that listens for Notifications bubbling up the tree.
+    監聽自下而上冒泡的 Notification 的元件。
   categories:
     - 'Scrolling'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/NotificationListener-class.html
 - name: Offstage
   description: >-
-    A widget that lays the child out as if it was in the tree, but without
-    painting anything, without making the child available for hit testing, and
-    without taking any room in the parent.
+    佈局時如同在樹中，但不繪製、不參與命中測試，也不佔用父元件空間的元件。
   categories: []
   subcategories:
     - 'Single-child layout widgets'
   link: https://api.flutter.dev/flutter/widgets/Offstage-class.html
 - name: Opacity
   description: >-
-    A widget that makes its child partially transparent.
+    讓子元件部分透明的元件。
   categories:
     - 'Painting and effects'
   subcategories: []
@@ -1608,8 +1500,7 @@
     opacity='0.8'/></svg>
 - name: OutlinedButton
   description: >-
-    A Material Design outlined button, essentially a TextButton with an outlined
-    border.
+    Material Design 的外框按鈕，本質上是帶有外框的 TextButton。
   categories: []
   subcategories:
     - 'Buttons'
@@ -1618,15 +1509,14 @@
     src: /assets/images/docs/widget-catalog/material-outlined-button.png
 - name: OverflowBox
   description: >-
-    A widget that imposes different constraints on its child than it gets from
-    its parent, possibly allowing the child to overflow the parent.
+    對子元件施加與自身不同約束，可能讓子元件溢出父元件的元件。
   categories: []
   subcategories:
     - 'Single-child layout widgets'
   link: https://api.flutter.dev/flutter/widgets/OverflowBox-class.html
 - name: Padding
   description: >-
-    A widget that insets its child by the given padding.
+    依指定間距內縮子元件的元件。
   categories:
     - 'Styling'
   subcategories:
@@ -1650,23 +1540,21 @@
     marker-end='url(#arrow-padding)'/></svg>
 - name: PageView
   description: >-
-    A scrollable list that works page by page.
+    逐頁滾動的可滾動列表。
   categories:
     - 'Scrolling'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/PageView-class.html
 - name: Placeholder
   description: >-
-    A widget that draws a box that represents where other widgets will one day
-    be added.
+    繪製一個方框，表示未來將加入其他元件的位置。
   categories:
     - 'Basics'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/Placeholder-class.html
 - name: PopupMenuButton
   description: >-
-    Displays a menu when pressed and calls onSelected when the menu is dismissed
-    because an item was selected.
+    按下時顯示選單，選擇項目後呼叫 onSelected 回呼。
   categories: []
   subcategories:
     - 'Buttons'
@@ -1675,17 +1563,14 @@
     src: /assets/images/docs/widget-catalog/material-popup-menu-button.png
 - name: PositionedTransition
   description: >-
-    Animated version of Positioned which takes a specific Animation to
-    transition the child's position from a start position to and end position
-    over the lifetime of the animation.
+    Positioned 的動畫版本，根據指定 Animation 於動畫期間過渡子元件的位置。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/PositionedTransition-class.html
 - name: Radio
   description: >-
-    Form control that app users can set or clear to select only one option from
-    a set.
+    表單控制項，使用者可勾選或取消勾選以選擇唯一選項。
   categories: []
   subcategories:
     - 'Selection'
@@ -1697,22 +1582,21 @@
     src: /assets/images/docs/widget-catalog/material-3-leaves.png
 - name: RawImage
   description: >-
-    A widget that displays a dart:ui.Image directly.
+    直接顯示 dart:ui.Image 的元件。
   categories:
     - 'Assets, images, and icons'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/RawImage-class.html
 - name: KeyboardListener
   description: >-
-    A widget that calls a callback whenever the user presses or releases a key
-    on a keyboard.
+    使用者按下或放開鍵盤按鍵時呼叫回呼的元件。
   categories:
     - 'Input'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/KeyboardListener-class.html
 - name: RefreshIndicator
   description: >-
-    A Material Design pull-to-refresh wrapper for scrollables.
+    Material Design 的下拉刷新包裝元件，適用於可滾動元件。
   categories:
     - 'Scrolling'
   subcategories: []
@@ -1721,45 +1605,41 @@
     src: https://storage.googleapis.com/material-design/publish/material_v_12/assets/0B7WCemMG6e0VS2kzSmZwNnNKQVk/patterns-swipe-to-refresh.png
 - name: RelativePositionedTransition
   description: >-
-    Animated version of Positioned which transitions the child's position based on the value of rect relative to a bounding box with the specified size.
+    Positioned 的動畫版本，根據 rect 相對於指定大小的邊界框過渡子元件的位置。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/RelativePositionedTransition-class.html
 - name: ReorderableListView
   description: >-
-    A list whose items the user can interactively reorder by dragging.
+    使用者可透過拖曳互動式重新排序項目的列表。
   categories:
     - 'Scrolling'
   subcategories: []
   link: https://api.flutter.dev/flutter/material/ReorderableListView-class.html
 - name: RichText
   description: >-
-    The RichText widget displays text that uses multiple different styles. The
-    text to display is described using a tree of TextSpan objects, each of which
-    has an associated style that is used for that subtree. The text might break
-    across multiple lines or might all be displayed on the same line depending
-    on the layout constraints.
+    RichText 元件可顯示多種樣式的文字。顯示的文字由 TextSpan 物件樹描述，每個 TextSpan 都有其樣式。根據佈局約束，文字可能換行或全部顯示在同一行。
   categories:
     - 'Text'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/RichText-class.html
 - name: RotatedBox
   description: >-
-    A widget that rotates its child by a integral number of quarter turns.
+    以整數個 90 度旋轉其子元件的元件。
   categories:
     - 'Painting and effects'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/RotatedBox-class.html
 - name: RotationTransition
   description: >-
-    Animates the rotation of a widget.
+    以動畫方式旋轉元件。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/RotationTransition-class.html
 - name: Row
-  description: Layout a list of child widgets in the horizontal direction.
+  description: 水平排列子元件列表的元件。
   categories:
     - 'Basics'
   subcategories:
@@ -1773,8 +1653,7 @@
     fill='#4dd0e1'/></svg>
 - name: Scaffold
   description: >-
-    Implements the basic Material Design visual layout structure. This class
-    provides APIs for showing drawers, snack bars, and bottom sheets.
+    實作基本 Material Design 視覺佈局結構。此類別提供顯示抽屜、訊息條與底部工作表的 API。
   categories:
     - 'Basics'
   subcategories:
@@ -1784,22 +1663,20 @@
     src: https://storage.googleapis.com/material-design/publish/material_v_11/assets/0Bx4BSt6jniD7T0hfM01sSmRyTG8/layout_structure_regions_mobile.png
 - name: ScaleTransition
   description: >-
-    Animates the scale of transformed widget.
+    以動畫方式縮放已轉換元件。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/ScaleTransition-class.html
 - name: ScrollConfiguration
-  description: Controls how Scrollable widgets behave in a subtree.
+  description: 控制子樹中 Scrollable 元件的行為。
   categories:
     - 'Scrolling'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/ScrollConfiguration-class.html
 - name: Scrollable
   description: >-
-    Scrollable implements the interaction model for a scrollable widget,
-    including gesture recognition, but does not have an opinion about how the
-    viewport, which actually displays the children, is constructed.
+    Scrollable 實作可滾動元件的互動模型，包括手勢辨識，但不決定實際顯示子元件的檢視區如何建構。
   categories:
     - 'Scrolling'
   subcategories:
@@ -1807,16 +1684,14 @@
   link: https://api.flutter.dev/flutter/widgets/Scrollable-class.html
 - name: Scrollbar
   description: >-
-    A Material Design scrollbar. A scrollbar indicates which portion of a
-    Scrollable widget is actually visible.
+    Material Design 的捲軸。捲軸顯示可滾動元件目前可見的區域。
   categories:
     - 'Scrolling'
   subcategories: []
   link: https://api.flutter.dev/flutter/material/Scrollbar-class.html
 - name: SegmentedButton
   description: >-
-    Single or multiple selected clickable blocks to help people select options,
-    switch views, or sort elements.
+    單選或多選的可點擊區塊，協助使用者選擇選項、切換檢視或排序元素。
   categories: []
   subcategories:
     - 'Actions'
@@ -1827,18 +1702,14 @@
     src: /assets/images/docs/widget-catalog/material-3-leaves.png
 - name: Semantics
   description: >-
-    A widget that annotates the widget tree with a description of the meaning of
-    the widgets. Used by accessibility tools, search engines, and other semantic
-    analysis software to determine the meaning of the application.
+    為元件樹註記元件意義的元件。供輔助工具、搜尋引擎及其他語意分析軟體判斷應用程式意義。
   categories:
     - 'Accessibility'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/Semantics-class.html
 - name: SimpleDialog
   description: >-
-    Simple dialogs can provide additional details or actions about a list item.
-    For example they can display avatars icons clarifying subtext or orthogonal
-    actions (such as adding an account).
+    簡易對話框可提供列表項目的額外細節或操作。例如可顯示頭像、說明文字或其他操作（如新增帳號）。
   categories: []
   subcategories:
     - 'Dialogs, alerts, and panels'
@@ -1847,27 +1718,21 @@
     src: https://material-design.storage.googleapis.com/publish/material_v_9/0B7WCemMG6e0VVGNnN3NvMGdoQTg/components_dialogs.png
 - name: SingleChildScrollView
   description: >-
-    A box in which a single widget can be scrolled. This widget is useful when
-    you have a single box that will normally be entirely visible, for example a
-    clock face in a time picker, but you need to make sure it can be scrolled if
-    the container gets too small in one axis (the scroll direction).
+    可滾動的盒子，僅包含單一元件。當容器在某一軸過小時，可確保內容可滾動（如時間選擇器中的時鐘面盤）。
   categories:
     - 'Scrolling'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/SingleChildScrollView-class.html
 - name: SizeTransition
   description: >-
-    Animates its own size and clips and aligns the child.
+    以動畫方式改變自身大小，並裁剪及對齊子元件。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/SizeTransition-class.html
 - name: SizedBox
   description: >-
-    A box with a specified size. If given a child, this widget forces its child
-    to have a specific width and/or height (assuming values are permitted by
-    this widget's parent). If either the width or height is null, this widget
-    will size itself to match the child's size in that dimension.
+    指定大小的盒子。若有子元件，則強制其寬度和/或高度（若父元件允許）。若寬度或高度為 null，則會根據子元件尺寸調整自身大小。
   categories: []
   subcategories:
     - 'Single-child layout widgets'
@@ -1886,8 +1751,7 @@
     marker-end='url(#arrow-sized-box)'/></svg>
 - name: SizedOverflowBox
   description: >-
-    A widget that is a specific size but passes its original constraints through
-    to its child, which will probably overflow.
+    指定大小但將原始約束傳遞給子元件（可能導致溢出）的元件。
   categories: []
   subcategories:
     - 'Single-child layout widgets'
@@ -1900,7 +1764,7 @@
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/SlideTransition-class.html
 - name: Slider
-  description: Form control that enables selecting a range of values.
+  description: 用於選擇值範圍的表單控制項。
   categories: []
   subcategories:
     - 'Selection'
@@ -1912,7 +1776,7 @@
     src: /assets/images/docs/widget-catalog/material-3-leaves.png
 - name: SliverAppBar
   description: >-
-    A material design app bar that integrates with a CustomScrollView.
+    與 CustomScrollView 整合的 Material Design 應用程式列。
   categories: []
   subcategories:
     - 'App structure and navigation'
@@ -1922,81 +1786,77 @@
     src: /assets/images/docs/widget-catalog/material-app-bar.png
 - name: SliverChildBuilderDelegate
   description: >-
-    A delegate that supplies children for slivers using a builder callback.
+    透過 builder 回呼為 slivers 提供子元件的委派。
   categories: []
   subcategories:
     - 'Sliver widgets'
   link: https://api.flutter.dev/flutter/widgets/SliverChildBuilderDelegate-class.html
 - name: SliverChildListDelegate
   description: >-
-    A delegate that supplies children for slivers using an explicit list.
+    透過明確列表為 slivers 提供子元件的委派。
   categories: []
   subcategories:
     - 'Sliver widgets'
   link: https://api.flutter.dev/flutter/widgets/SliverChildListDelegate-class.html
 - name: SliverFadeTransition
   description: >-
-    Animates the opacity of a sliver widget.
+    以動畫方式改變 sliver 元件的透明度。
   categories:
     - 'Animation and motion'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/SliverFadeTransition-class.html
 - name: SliverFillRemaining
   description: >-
-    A sliver that contains a single box child that fills the remaining space
-    in the viewport.
+    包含單一盒子子元件，填滿檢視區剩餘空間的 sliver。
   categories: []
   subcategories:
     - 'Sliver widgets'
   link: https://api.flutter.dev/flutter/widgets/SliverFillRemaining-class.html
 - name: SliverFixedExtentList
   description: >-
-    A sliver that places multiple box children with the same main axis extent in
-    a linear array.
+    以相同主軸長度線性排列多個盒子子元件的 sliver。
   categories: []
   subcategories:
     - 'Sliver widgets'
   link: https://api.flutter.dev/flutter/widgets/SliverFixedExtentList-class.html
 - name: SliverGrid
   description: >-
-    A sliver that places multiple box children in a two dimensional arrangement.
+    以二維方式排列多個盒子子元件的 sliver。
   categories: []
   subcategories:
     - 'Sliver widgets'
   link: https://api.flutter.dev/flutter/widgets/SliverGrid-class.html
 - name: SliverList
   description: >-
-    A sliver that places multiple box children in a linear array along the main
-    axis.
+    沿主軸線性排列多個盒子子元件的 sliver。
   categories: []
   subcategories:
     - 'Sliver widgets'
   link: https://api.flutter.dev/flutter/widgets/SliverList-class.html
 - name: SliverPadding
   description: >-
-    A sliver that applies padding on each side of another sliver.
+    為另一個 sliver 套用各邊間距的 sliver。
   categories: []
   subcategories:
     - 'Sliver widgets'
   link: https://api.flutter.dev/flutter/widgets/SliverPadding-class.html
 - name: SliverPersistentHeader
   description: >-
-    A sliver whose size varies when the sliver is scrolled to the edge of the
-    viewport opposite the sliver's GrowthDirection.
+    當 sliver 滾動至檢視區對向邊緣時，大小會變化的 sliver。
   categories: []
   subcategories:
     - 'Sliver widgets'
   link: https://api.flutter.dev/flutter/widgets/SliverPersistentHeader-class.html
 - name: SliverToBoxAdapter
   description: >-
-    A sliver that contains a single box widget.
+    包含單一盒子元件的 sliver。
   categories: []
   subcategories:
     - 'Sliver widgets'
   link: https://api.flutter.dev/flutter/widgets/SliverToBoxAdapter-class.html
 - name: SnackBar
   description: >-
-    Brief messages about app processes that display at the bottom of the screen.
+    顯示於螢幕底部的簡短訊息，說明應用程式流程。
   categories: []
   subcategories:
     - 'Communication'
@@ -2008,9 +1868,7 @@
     src: /assets/images/docs/widget-catalog/material-3-coral.png
 - name: Stack
   description: >-
-    This class is useful if you want to overlap several children in a simple
-    way, for example having some text and an image, overlaid with a gradient and
-    a button attached to the bottom.
+    若需簡單重疊多個子元件（如文字、圖片、漸層與底部按鈕），此類別非常實用。
   categories:
     - 'Stack'
   subcategories:
@@ -2035,14 +1893,13 @@
     src: https://material-design.storage.googleapis.com/publish/material_v_9/0B7WCemMG6e0VTndyUnNCR2tQREE/components_steppers.png
 - name: StreamBuilder
   description: >-
-    Widget that builds itself based on the latest snapshot of interaction with a
-    Stream.
+    根據與 Stream 互動的最新快照建構自身的元件。
   categories:
     - 'Async'
   subcategories: []
   link: https://api.flutter.dev/flutter/widgets/StreamBuilder-class.html
 - name: Switch
-  description: Toggle control that changes the state of a single item to on or off.
+  description: 切換單一項目狀態為開或關的控制項。
   categories: []
   subcategories:
     - 'Selection'
@@ -2054,8 +1911,7 @@
     src: /assets/images/docs/widget-catalog/material-3-leaves.png
 - name: TabBar
   description: >-
-    Layered containers that organize content across different screens, data
-    sets, and other interactions.
+    分層容器，將內容組織於不同螢幕、資料集及其他互動中。
   categories: []
   subcategories:
     - 'Navigation'
@@ -2067,8 +1923,7 @@
     src: /assets/images/docs/widget-catalog/material-3-bubbles.png
 - name: TabBarView
   description: >-
-    A page view that displays the widget which corresponds to the currently
-    selected tab. Typically used in conjunction with a TabBar.
+    顯示與目前選取分頁對應的元件的頁面檢視。通常搭配 TabBar 使用。
   categories: []
   subcategories:
     - 'App structure and navigation'
@@ -2076,7 +1931,7 @@
   image:
     src: /assets/images/docs/widget-catalog/material-tab-bar.png
 - name: TabController
-  description: Coordinates tab selection between a TabBar and a TabBarView.
+  description: 協調 TabBar 與 TabBarView 的分頁選擇。
   categories: []
   subcategories:
     - 'App structure and navigation'
@@ -2085,8 +1940,7 @@
     src: /assets/images/docs/widget-catalog/material-tab-bar.png
 - name: TabPageSelector
   description: >-
-    Displays a row of small circular indicators, one per tab. The selected tab's
-    indicator is highlighted. Often used in conjunction with a TabBarView.
+    顯示一排小圓形指示器，每個分頁一個。選取分頁的指示器會高亮顯示。常與 TabBarView 搭配使用。
   categories: []
   subcategories:
     - 'App structure and navigation'
@@ -2094,14 +1948,14 @@
   image:
     src: /assets/images/docs/widget-catalog/material-tab-bar.png
 - name: Table
-  description: Displays child widgets in rows and columns.
+  description: 以列與欄方式顯示子元件。
   categories: []
   subcategories:
     - 'Multi-child layout widgets'
   link: https://api.flutter.dev/flutter/widgets/Table-class.html
 - name: Text
   description: >-
-    A run of text with a single style.
+    具有單一樣式的一段文字。
   categories:
     - 'Basics'
     - 'Text'
@@ -2114,8 +1968,7 @@
     font-family='Roboto' font-size='25' fill='#3b75ad'>Abc</text></svg>
 - name: TextButton
   description: >-
-    A Material Design text button. A simple flat button without a border
-    outline.
+    Material Design 的文字按鈕。簡單的平面按鈕，無外框。
   categories: []
   subcategories:
     - 'Buttons'
@@ -2124,7 +1977,7 @@
     src: https://material-design.storage.googleapis.com/publish/material_v_9/0B7WCemMG6e0VNDg3V3ZjU2hsNGc/components_buttons_usage3.png
 - name: TextField
   description: >-
-    Box into which app users can enter text. They appear in forms and dialogs.
+    讓使用者輸入文字的方框，常見於表單與對話框。
   categories: []
   subcategories:
     - 'Text inputs'
@@ -2136,14 +1989,13 @@
     src: /assets/images/docs/widget-catalog/material-3-bubbles.png
 - name: Theme
   description: >-
-    Applies a theme to descendant widgets. A theme describes the colors and
-    typographic choices of an application.
+    對後代元件套用主題。主題描述應用程式的顏色與字型選擇。
   categories:
     - 'Styling'
   subcategories: []
   link: https://api.flutter.dev/flutter/material/Theme-class.html
 - name: TimePicker
-  description: Clock interface used to select and set a specific time.
+  description: 用於選擇並設定特定時間的時鐘介面。
   categories: []
   subcategories:
     - 'Selection'
@@ -2154,10 +2006,7 @@
     src: /assets/images/docs/widget-catalog/material-3-leaves.png
 - name: Tooltip
   description: >-
-    Tooltips provide text labels that help explain the function of a button or
-    other user interface action. Wrap the button in a Tooltip widget to show a
-    label when the widget long pressed (or when the user takes some other
-    appropriate action).
+    工具提示提供文字標籤，協助說明按鈕或其他介面操作的功能。將按鈕包在 Tooltip 元件中，長按（或其他適當操作）時顯示標籤。
   categories: []
   subcategories:
     - 'Information displays'
@@ -2166,7 +2015,7 @@
     src: /assets/images/docs/widget-catalog/material-tooltip.png
 - name: Transform
   description: >-
-    A widget that applies a transformation before painting its child.
+    在繪製子元件前套用轉換的元件。
   categories:
     - 'Painting and effects'
   subcategories:
@@ -2180,8 +2029,7 @@
     transform='translate(15 -5) rotate(-23) skewX(-10)'/></svg>
 - name: WidgetsApp
   description: >-
-    A convenience class that wraps a number of widgets that are commonly
-    required for an application.
+    包裝多個常用於應用程式的元件的便利類別。
   categories: []
   subcategories:
     - 'App structure and navigation'
@@ -2190,7 +2038,7 @@
     src: /assets/images/docs/widget-catalog/material-widgets-app.png
 - name: Wrap
   description: >-
-    A widget that displays its children in multiple horizontal or vertical runs.
+    以多個水平或垂直行顯示子元件的元件。
   categories: []
   subcategories:
     - 'Multi-child layout widgets'

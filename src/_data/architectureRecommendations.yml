@@ -1,146 +1,144 @@
-- category: Separation of concerns
+- category: 關注點分離
   description: |
-    You should separate your app into a UI layer and a data layer. Within those layers, you should further separate logic into classes by responsibility.
+    您應該將應用程式分為 UI 層和資料層。在這些層中，應進一步根據職責將邏輯分離到不同的類別。
   recommendations:
-    - recommendation: Use clearly defined data and UI layers.
+    - recommendation: 使用明確定義的資料和 UI 層。
       description: |
-        Separation of concerns is the most important architectural principle. 
-        The data layer exposes application data to the rest of the app, and contains most of the business logic in your application.
-        The UI layer displays application data and listens for user events from users. The UI layer contains separate classes for UI logic and widgets.
+        關注點分離是最重要的架構原則。
+        資料層向應用程式的其餘部分公開應用程式資料，並包含應用程式中大多數業務邏輯。
+        UI 層顯示應用程式資料並監聽來自用戶的用戶事件。 UI 層為 UI 邏輯和小部件包含單獨的類。
       confidence: strong
 
-    - recommendation: Use the repository pattern in the data layer.
+    - recommendation: 在資料層中使用儲存庫模式。
       description: |
-        The repository pattern is a software design pattern that isolates the data access logic from the rest of the application. 
-        It creates an abstraction layer between the application's business logic and the underlying data storage mechanisms (databases, APIs, file systems, etc.).
-        In practice, this means creating Repository classes and Service classes.
+        儲存庫模式是一種軟體設計模式，它將資料訪問邏輯與應用程式的其餘部分隔離。
+        它在應用程式的業務邏輯和底層資料存儲機制（資料庫、API、檔案系統等）之間創建了一個抽象層。
+        實際上，這意味著要創建儲存庫類和服務類。
       confidence: strong
 
-    - recommendation: Use ViewModels and Views in the UI layer. (MVVM)
+    - recommendation: 在 UI 層中使用 ViewModels 和 Views。（MVVM）
       description: |
-        Separation of concerns is the most important architectural principle. 
-        This particular separation makes your code much less error prone because your widgets remain "dumb".
+        關注點分離是最重要的架構原則。
+        這種特定的分離使您的代碼不易出錯，因為您的小部件保持「愚蠢」。
       confidence: strong
 
-    - recommendation: Use `ChangeNotifiers` and `Listenables` to handle widget updates.
+    - recommendation: 使用 `ChangeNotifiers` 和 `Listenables` 來處理小部件更新。
       description: |
-        The `ChangeNotifier` API is part of the Flutter SDK, and is a convenient way to have your widgets observe changes in your ViewModels.
+        `ChangeNotifier` API 是 Flutter SDK 的一部分，是一種方便的方式來讓您的小部件觀察 ViewModels 中的變化。
       confidence: conditional
       confidence-description: |
-        There are many options to handle state-management, and ultimately the decision comes down to personal preference.
-        Read about [our ChangeNotifier recommendation][] or [other popular options][].
+        處理狀態管理有很多選擇，最終決定取決於個人喜好。
+        了解 [我們的 ChangeNotifier 建議][] 或 [其他流行選擇][]。
 
-    - recommendation: Do not put logic in widgets.
+    - recommendation: 不要在小部件中放置邏輯。
       description: |
-        Logic should be encapsulated in methods on the ViewModel. The only logic a view should contain is:
-        * Simple if-statements to show and hide widgets based on a flag or nullable field in the ViewModel
-        * Animation logic that relies on the widget to calculate
-        * Layout logic based on device information, like screen size or orientation.
-        * Simple routing logic
+        邏輯應該封裝在 ViewModel 上的方法中。 視圖中應包含的唯一邏輯是：
+        * 根據 ViewModel 中的標誌或可為空字段顯示和隱藏小部件的簡單 if 語句
+        * 依賴於小部件計算的動畫邏輯
+        * 基於設備資訊（如螢幕大小或方向）的佈局邏輯。
+        * 簡單的路由邏輯
       confidence: strong
 
-    - recommendation: Use a domain layer.
+    - recommendation: 使用領域層。
       description: |
-        A domain layer is only needed if your application has exceeding complex logic that crowds your ViewModels, 
-        or if you find yourself repeating logic in ViewModels. 
-        In very large apps, use-cases are useful, but in most apps they add unnecessary overhead.
+        當您的應用程式具有過於複雜的邏輯以至於擠滿了 ViewModels，
+        或者當您發現自己在 ViewModels 中重複邏輯時，領域層才是必需的。
+        在非常大的應用程式中，用例是有用的，但在大多數應用程式中，它們會增加不必要的開銷。
       confidence: conditional
       confidence-description: |
-        Use in apps with complex logic requirements.
+        在具有複雜邏輯需求的應用程式中使用。
 
-- category: Handling data
+- category: 資料處理
   description: |
-    Handling data with care makes your code easier to understand, less error prone, and
-    prevents malformed or unexpected data from being created.
+    謹慎處理資料能讓您的程式碼更易理解、更不易出錯，並防止產生格式錯誤或非預期的資料。
   recommendations:
-    - recommendation: Use unidirectional data flow.
+    - recommendation: 使用單向資料流。
       description: |
-        Data updates should only flow from the data layer to the UI layer. 
-        Interactions in the UI layer are sent to the data layer where they're processed.
+        資料更新應僅從資料層流向 UI 層。
+        UI 層的互動會發送到資料層，然後在那裡處理。
       confidence: strong
 
-    - recommendation: Use `Commands` to handle events from user interaction.
+    - recommendation: 使用 `Commands` 來處理來自用戶互動的事件。
       description: |
-        Commands prevent rendering errors in your app, and standardize how the UI layer sends events to the data layer. 
-        Read about commands in the [architecture case study][].
+        命令可以防止您的應用程式中出現渲染錯誤，並標準化 UI 層如何將事件發送到資料層。
+        了解有關命令的更多資訊，請參閱 [架構案例研究][]。
       confidence: recommend
 
-    - recommendation: Use immutable data models.
+    - recommendation: 使用不可變資料模型。
       description: |
-        Immutable data is crucial in ensuring that any necessary changes occur only in the proper place, usually the data or domain layer. 
-        Because immutable objects can't be modified after creation, you must create a new instance to reflect changes. 
-        This process prevents accidental updates in the UI layer and supports a clear, unidirectional data flow.
+        不可變資料對於確保任何必要的更改僅在適當的位置（通常是資料或領域層）發生至關重要。
+        由於不可變物件在創建後無法修改，因此必須創建一個新實例以反映更改。
+        此過程可防止在 UI 層意外更新，並支持清晰的單向資料流。
       confidence: strong
 
-    - recommendation: Use freezed or built_value to generate immutable data models.
+    - recommendation: 使用 freezed 或 built_value 來生成不可變資料模型。
       description: |
-        You can use packages to help generate useful functionality in your data models, [freezed][] or [built_value][]. 
-        These can generate common model methods like JSON ser/des, deep equality checking and copy methods. 
-        These code generation packages can add significant build time to your applications if you have a lot of models.
+        您可以使用套件來幫助生成資料模型中的有用功能，例如 [freezed][] 或 [built_value][].
+        這些可以生成常見模型方法，例如 JSON ser/des、深度相等檢查和複製方法。
+        如果您有很多模型，這些代碼生成套件可能會顯著增加應用程式的構建時間。
       confidence: recommend
 
-    - recommendation: Create separate API models and domain models.
+    - recommendation: 創建單獨的 API 模型和領域模型。
       description: |
-        Using separate models adds verbosity, but prevents complexity in ViewModels and use-cases.
+        使用單獨的模型會增加冗長性，但可以防止 ViewModels 和用例中的複雜性。
       confidence: conditional
-      confidence-description: Use in large apps.
+      confidence-description: 在大型應用程式中使用。
 
-- category: App structure
+- category: 應用程式結構
   description: |
-    Well organized code benefits both the health of the app itself, and the team working on the code.
+    良好的程式碼組織不僅有益於應用程式本身的健康，也有益於負責程式碼的團隊。
   recommendations:
 
-    - recommendation: Use dependency injection.
+    - recommendation: 使用依賴注入。
       description: |
-        Dependency injection prevents your app from having globally accessible objects, which makes your code less error prone. 
-        We recommend you use the [provider](https://pub.dev/packages/provider) package to handle dependency injection.
+        依賴注入可以防止您的應用程式具有全局可訪問的物件，這使得您的程式碼不易出錯。
+        我們建議您使用 [provider](https://pub.dev/packages/provider) 套件來處理依賴注入。
       confidence: strong
 
-    - recommendation: Use [go_router](https://pub.dev/packages/go_router) for navigation.
+    - recommendation: 對於導航，使用 [go_router](https://pub.dev/packages/go_router)。
       description: |
-        Go_router is the preferred way to write 90% of Flutter applications. 
-        There are some specific use-cases that go_router doesn't solve, 
-        in which case you can use the [Flutter Navigator API][] directly or try other packages found on [pub.dev][].
+        Go_router 是編寫 90% Flutter 應用程式的首選方式。
+        有一些特定的用例是 go_router 無法解決的，
+        在這種情況下，您可以直接使用 [Flutter Navigator API][] 或嘗試其他在 [pub.dev][] 上找到的套件。
       confidence: recommend
 
-    - recommendation: Use standardized naming conventions for classes, files and directories.
+    - recommendation: 對類別、檔案和目錄使用標準化命名約定。
       description: |
-        We recommend naming classes for the architectural component they represent. 
-        For example, you may have the following classes:
-        
+        我們建議根據它們所代表的架構元件為類別命名。
+        例如，您可能會有以下類別：
+
         * HomeViewModel
         * HomeScreen
         * UserRepository
         * ClientApiService
-  
-        For clarity, we do not recommend using names that can be confused with objects from the Flutter SDK. 
-        For example, you should put your shared widgets in a directory called `ui/core/`, 
-        rather than a directory called `/widgets`.
+
+        為了清晰起見，我們不建議使用可能與 Flutter SDK 中的物件混淆的名稱。
+        例如，您應該將共用小部件放在名為 `ui/core/` 的目錄中，
+        而不是放在名為 `/widgets` 的目錄中。
       confidence: recommend
 
-    - recommendation: Use abstract repository classes
+    - recommendation: 使用抽象儲存庫類別
       description: |
-        Repository classes are the sources of truth for all data in your app, 
-        and facilitate communication with external APIs. 
-        Creating abstract repository classes allows you to create different implementations, 
-        which can be used for different app environments, such as "development" and "staging".
+        儲存庫類別是您應用程式中所有資料的真實來源，
+        並促進與外部 API 的通信。
+        創建抽象儲存庫類別允許您創建不同的實現，
+        可用於不同的應用程式環境，例如「開發」和「測試」。
       confidence: strong
 
-- category: Testing
+- category: 測試
   description: |
-    Good testing practices makes your app flexible. 
-    It also makes it straightforward and low risk to add new logic and new UI.
+    良好的測試習慣讓您的應用程式更具彈性，也讓新增邏輯和 UI 變得簡單且低風險。
   recommendations:
 
-    - recommendation: Test architectural components separately, and together.
+    - recommendation: 分開測試架構元件，並將它們一起測試。
       description: |
-        * Write unit tests for every service, repository and ViewModel class. These tests should test the logic of every method individually.
-        * Write widget tests for views. Testing routing and dependency injection are particularly important.
+        * 為每個服務、儲存庫和 ViewModel 類別編寫單元測試。這些測試應該單獨測試每個方法的邏輯。
+        * 為視圖編寫小部件測試。測試路由和依賴注入特別重要。
       confidence: strong
 
-    - recommendation: Make fakes for testing (and write code that takes advantage of fakes.)
+    - recommendation: 為測試創建假物件（並編寫利用假物件的程式碼）。
       description: |
-       Fakes aren't concerned with the inner workings of any given method as much 
-       as they're concerned with inputs and outputs. If you have this in mind while writing application code, 
-       you're forced to write modular, lightweight functions and classes with well defined inputs and outputs.
+       假物件不太關心任何給定方法的內部運作，
+       更關心輸入和輸出。如果您在編寫應用程式碼時考慮到這一點，
+       那麼您就被迫編寫具有明確輸入和輸出的模組化、輕量級函數和類別。
       confidence: strong

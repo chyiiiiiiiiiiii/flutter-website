@@ -1,731 +1,731 @@
-# Animations
+# 動畫
 
-- name: Animate a page route transition
-  description: Transition between routes by animating the new route into view from the bottom of the screen.
+- name: 動畫化頁面路由轉場
+  description: 透過動畫將新路由從螢幕底部顯示進入，實現路由間的轉場效果。
   tags:
-    - animation
-    - route
-  type: recipe
+    - 動畫
+    - 路由
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/animation/page-route-animation
 
-- name: Animate a widget using a physics simulation
-  description: Learn how to move a widget from a dragged point back to the center using a spring simulation.
+- name: 使用物理模擬動畫化元件
+  description: 學習如何使用彈簧模擬，將元件從拖曳點移回中心。
   tags:
-    - animation
-  type: recipe
+    - 動畫
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/animation/physics-simulation
 
-- name: Animate the properties of a container
-  description: Use AnimatedContainer to animate the size, background color, and border radius of a Container.
+- name: 動畫化容器屬性
+  description: 使用 AnimatedContainer 動畫化容器的大小、背景顏色和圓角。
   tags:
-    - animation
-  type: recipe
+    - 動畫
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/animation/animated-container
 
-- name: Fade a widget in and out
-  description: The AnimatedOpacity widget makes it easy to perform opacity animations.
+- name: 元件淡入淡出
+  description: AnimatedOpacity 元件可輕鬆實現透明度動畫。
   tags:
-    - animation
-  type: recipe
+    - 動畫
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/animation/opacity-animation
 
-# Design
+# 設計
 
-- name: Add a drawer to a screen
-  description: Use the Drawer widget in combination with a Scaffold to create a layout with a Material Design drawer.
+- name: 為畫面加入抽屜
+  description: 結合 Drawer 元件與 Scaffold，建立具有 Material Design 抽屜的版面。
   tags:
-    - widget
+    - 元件
     - material
-    - drawer
-    - layout
-  type: recipe
+    - 抽屜
+    - 版面
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/design/drawer
 
-- name: Display a snackbar
-  description: Use the Snackbar widget to display messages to your users.
-  type: recipe
+- name: 顯示訊息條
+  description: 使用 Snackbar 元件向使用者顯示訊息。
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/design/snackbars
 
-- name: Export fonts from a package
-  description: Use a font across multiple apps.
-  type: recipe
+- name: 從套件匯出字型
+  description: 在多個應用程式中使用同一字型。
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/design/package-fonts
 
-- name: Update the UI based on orientation
-  description: Build a list that displays two columns in portrait mode and three columns in landscape mode.
-  type: recipe
+- name: 根據螢幕方向更新 UI
+  description: 建立一個清單，直向顯示兩欄，橫向顯示三欄。
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/design/orientation
 
-- name: Use a custom font
-  description: Apply fonts to your entire app or individual widgets.
-  type: recipe
+- name: 使用自訂字型
+  description: 將字型套用至整個應用程式或個別元件。
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/design/fonts
 
-- name: Use themes to share colors and font styles
-  description: To share styles across your app, use Themes.
-  type: recipe
+- name: 使用主題共用顏色與字型樣式
+  description: 若要在應用程式中共用樣式，請使用主題。
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/design/themes
 
-- name: Work with tabs
-  description: Working with tabs is a common pattern in mobile apps that follow the Material Design or Cupertino guidelines.
-  type: recipe
+- name: 使用分頁
+  description: 分頁是行動應用程式常見的設計模式，符合 Material Design 或 Cupertino 指南。
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/design/tabs
 
-# Effects
+# 特效
 
-- name: Create a download button
-  description: Build a download button that transitions through multiple visual states, based on the status of an app download.
+- name: 建立下載按鈕
+  description: 根據應用程式下載狀態，建立可切換多種視覺狀態的下載按鈕。
   tags:
-    - ui
-    - effects
-    - animations
-  type: recipe
+    - UI
+    - 特效
+    - 動畫
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/effects/download-button
 
-- name: Create a nested navigation flow
-  description: Create top level routes, and routes nested below specific widgets.
+- name: 建立巢狀導覽流程
+  description: 建立頂層路由，以及嵌套於特定元件下的路由。
   tags:
-    - navigation
-    - routing
-  type: recipe
+    - 導覽
+    - 路由
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/effects/nested-nav
 
-- name: Create a scrolling parallax effect
-  description: Create the parallax effect by building a list of cards with images that 'move'.
-  type: recipe
+- name: 建立捲動視差特效
+  description: 透過建立帶有圖片的卡片清單，實現視差捲動效果。
+  type: 教學
   tags:
-    - design
+    - 設計
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/effects/parallax-scrolling
 
-- name: Create a shimmer loading effect
-  description: Communicate that data is loading with a chrome color shimmer on the screen.
-  type: recipe
+- name: 建立閃爍載入特效
+  description: 以銀色閃爍效果告知資料正在載入。
+  type: 教學
   tags:
-    - animation
+    - 動畫
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/effects/shimmer-loading
 
-- name: Create a staggered menu animation
-  description: Build a drawer menu with animated content that is staggered and has a button that pops in at the bottom
-  type: recipe
+- name: 建立交錯式選單動畫
+  description: 建立具有交錯動畫內容的抽屜選單，並在底部加入彈出按鈕。
+  type: 教學
   tags:
-    - animation
-    - design
+    - 動畫
+    - 設計
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/effects/staggered-menu-animation
 
-- name: Create a typing indicator
-  description: Build a speech bubble typing indicator that animates in and out of view.
-  type: recipe
+- name: 建立輸入指示器
+  description: 建立可動畫顯示與隱藏的對話框輸入指示器。
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/effects/typing-indicator
 
-- name: Create an expandable FAB
-  description: Create a floating action button that spawns other action buttons.
+- name: 建立可展開的浮動按鈕
+  description: 建立可展開出其他動作按鈕的浮動操作按鈕。
   tags:
-    - ui
-    - effects
-  type: recipe
+    - UI
+    - 特效
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/effects/expandable-fab
 
-- name: Drag a UI element
-  description: Build a drag-and-drop interaction when the user long presses.
+- name: 拖曳 UI 元件
+  description: 當使用者長按時，建立拖曳互動效果。
   tags:
-    - interaction
-    - design
-  type: recipe
+    - 互動
+    - 設計
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/effects/drag-a-widget
 
-# Forms
-- name: Build a form with validation
-  description: Learn how to add validation to a form.
+# 表單
+- name: 建立帶驗證的表單
+  description: 學習如何為表單加入驗證功能。
   tags:
-    - input
-    - interaction
-  type: recipe
+    - 輸入
+    - 互動
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/forms/validation
 
-- name: Create and style a text field
-  description:  In this recipe, explore how to create and style text fields.
+- name: 建立並設計文字欄位
+  description: 本教學介紹如何建立並設計文字欄位。
   tags:
-    - input
-  type: recipe
+    - 輸入
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/forms/text-input
 
-- name: Focus and text fields
-  description: Shift focus to a text field programmatically.
+- name: 焦點與文字欄位
+  description: 以程式方式切換文字欄位的焦點。
   tags:
-    - input
-  type: recipe
+    - 輸入
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/forms/focus
 
-- name: Handle changes to a text field
-  description: Listen for changes to a TextField using a callback.
+- name: 處理文字欄位變化
+  description: 使用回呼監聽 TextField 的變化。
   tags:
-    - input
-  type: recipe
+    - 輸入
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/forms/text-field-changes
 
-- name: Retrieve the value of a text field
-  description: Learn how to retrieve the text a user has entered into a text field.
+- name: 取得文字欄位的值
+  description: 學習如何取得使用者在文字欄位輸入的內容。
   tags:
-    - input
-  type: recipe
+    - 輸入
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/forms/retrieve-input
 
-# Games
+# 遊戲
 
-- name: Add achievements and leaderboards to your game
-  description: Use the games_services package to add leaderboard functionality to your mobile game.
+- name: 為遊戲加入成就與排行榜
+  description: 使用 games_services 套件為行動遊戲加入排行榜功能。
   tags:
-    - games
-  type: recipe
+    - 遊戲
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/games/achievements-leaderboard
 
-- name: Add multiplayer support to your Flutter game
-  description: Use the cloud_firestore package to implement multiplayer capabilities in your game.
+- name: 為 Flutter 遊戲加入多人連線
+  description: 使用 cloud_firestore 套件實作遊戲的多人連線功能。
   tags:
-    - games
-    - ads
+    - 遊戲
+    - 廣告
     - firebase
-  type: recipe
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/games/firestore-multiplayer
 
-- name: Add ads to your Flutter game
-  description: Use the google_mobile_ads package to add a banner ad to your app or game.
+- name: 為 Flutter 遊戲加入廣告
+  description: 使用 google_mobile_ads 套件為應用程式或遊戲加入橫幅廣告。
   tags:
-    - games
-    - ads
-  type: recipe
+    - 遊戲
+    - 廣告
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/plugins/google-mobile-ads
 
-# Gestures
+# 手勢
 
-- name: Add Material touch ripples
-  description: Use the Inkwell widget to display a ripple animation.
+- name: 加入 Material 觸控漣漪效果
+  description: 使用 Inkwell 元件顯示漣漪動畫。
   tags:
-    - input
+    - 輸入
     - material
-  type: recipe
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/gestures/ripples
 
-- name: Handle taps
-  description: Use the GestureDetector widget to respond to fundamental actions, such as tapping and dragging.
+- name: 處理點擊
+  description: 使用 GestureDetector 元件回應點擊與拖曳等基本操作。
   tags:
-    - input
-  type: recipe
+    - 輸入
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/gestures/handling-taps
 
-- name: Implement swipe to dismiss
-  description: Learn how to use the Dismissible widget.
+- name: 實作滑動刪除
+  description: 學習如何使用 Dismissible 元件。
   tags:
-    - input
-  type: recipe
+    - 輸入
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/gestures/dismissible
 
-# Images
+# 圖片
 
-- name: Display images from the internet
-  description: To work with images from a URL, use the Image.network() constructor.
+- name: 顯示網路圖片
+  description: 若要使用網址圖片，請使用 Image.network() 建構函式。
   tags:
-    - image
-    - beginner
-  type: recipe
+    - 圖片
+    - 初學者
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/images/network-image
 
-- name: Fade in images with a placeholder
-  description: Use the FadeInImage widget to show a visual placeholder before an image loads.
+- name: 使用預設圖淡入圖片
+  description: 使用 FadeInImage 元件在圖片載入前顯示預設圖。
   tags:
-    - image
-  type: recipe
+    - 圖片
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/images/fading-in-images
 
-# Lists
+# 清單
 
-- name: Grid lists
-  description: Learn to use a GridView widget.
+- name: 格狀清單
+  description: 學習使用 GridView 元件。
   tags:
-    - list
-    - layout
-  type: recipe
+    - 清單
+    - 版面
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/lists/grid-lists
 
-- name: Horizontal lists
-  description: Learn to display items horizontally in a scrollable list.
+- name: 橫向清單
+  description: 學習在可捲動清單中橫向顯示項目。
   tags:
-    - list
-    - layout
-  type: recipe
+    - 清單
+    - 版面
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/lists/horizontal-list
 
-- name: Lists with different types of items
-  description: Create a list with headers followed by a few list items.
+- name: 含不同類型項目的清單
+  description: 建立含標頭與多個清單項目的清單。
   tags:
-    - list
-    - layout
-  type: recipe
+    - 清單
+    - 版面
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/lists/mixed-list
 
-- name: Lists and floating app bars
-  description: Place a floating app bar or navigation bar above a list.
+- name: 清單與浮動應用程式列
+  description: 在清單上方放置浮動應用程式列或導覽列。
   tags:
-    - list
-    - layout
-    - scrolling
-  type: recipe
+    - 清單
+    - 版面
+    - 捲動
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/lists/floating-app-bar
 
-- name: Basic lists
-  description: Learn to display items with the ListView widget.
+- name: 基本清單
+  description: 學習使用 ListView 元件顯示項目。
   tags:
-    - list
-    - layout
-    - scrolling
-  type: recipe
+    - 清單
+    - 版面
+    - 捲動
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/lists/basic-list
 
-- name: Long lists
-  description: Work with longer lists with the Listview.builder constructor.
+- name: 長清單
+  description: 使用 Listview.builder 建構函式處理長清單。
   tags:
-    - list
-    - layout
-  type: recipe
+    - 清單
+    - 版面
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/lists/long-lists
 
-- name: Lists with spaced items
-  description: Create a list with padding between items.
+- name: 含間距項目的清單
+  description: 建立項目間有間距的清單。
   tags:
-    - list
-    - layout
-  type: recipe
+    - 清單
+    - 版面
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/lists/spaced-items
 
-- name: Animate a widget across screens
-  description: Use the Hero widget to animate a widget from one screen to the next.
+- name: 跨畫面動畫元件
+  description: 使用 Hero 元件將元件從一個畫面動畫到另一個畫面。
   tags:
-    - navigation
-    - animation
-  type: recipe
+    - 導覽
+    - 動畫
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/navigation/hero-animations
 
-- name: Navigate to a new screen and back
-  description: This recipe uses the Navigator to navigate to a new route.
+- name: 導覽至新畫面並返回
+  description: 本教學使用 Navigator 導覽至新路由。
   tags:
-    - navigation
-  type: recipe
+    - 導覽
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/navigation/navigation-basics
 
-- name: Named routes
-  description: Create named routes and navigate to them.
+- name: 命名路由
+  description: 建立命名路由並導覽至該路由。
   tags:
-    - navigation
-    - routing
-  type: recipe
+    - 導覽
+    - 路由
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/navigation/named-routes
 
-- name: Arguments and named routes
-  description: Pass arguments to a named route and read the arguments on that route.
+- name: 傳遞參數與命名路由
+  description: 傳遞參數至命名路由，並在該路由讀取參數。
   tags:
-    - navigation
-  type: recipe
+    - 導覽
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/navigation/navigate-with-arguments
 
-- name: Android app links
-  description: Set up deep linking on Android
+- name: Android 應用程式連結
+  description: 在 Android 上設定深層連結。
   tags:
-    - navigation
+    - 導覽
     - android
-  type: recipe
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/navigation/set-up-app-links
 
-- name: iOS universal links
-  description: Set up universal links for iOS
+- name: iOS 通用連結
+  description: 為 iOS 設定通用連結。
   tags:
-    - navigation
+    - 導覽
     - iOS
-  type: recipe
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/navigation/set-up-universal-links
 
-- name: Return data from a screen
-  description: Return data from one screen to another with the Navigator.pop method.
+- name: 從畫面返回資料
+  description: 使用 Navigator.pop 方法將資料從一個畫面返回至另一個畫面。
   tags:
-    - navigation
-    - routing
-  type: recipe
+    - 導覽
+    - 路由
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/navigation/returning-data
 
-- name: Send data to a new screen
-  description: Send data from one screen to new one.
+- name: 傳送資料至新畫面
+  description: 從一個畫面傳送資料至新畫面。
   tags:
-    - navigation
-  type: recipe
+    - 導覽
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/navigation/passing-data
 
-# Networking
+# 網路
 
-- name: Fetch data from the internet
-  description: Learn to use HTTP in your app.
+- name: 從網路取得資料
+  description: 學習在應用程式中使用 HTTP。
   tags:
-    - networking
+    - 網路
     - http
-  type: recipe
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/networking/fetch-data
 
-- name: Make authenticated requests
-  description: Authorization headers in HTTP
+- name: 發送帶驗證的請求
+  description: HTTP 的授權標頭。
   tags:
-    - networking
+    - 網路
     - http
-    - auth
-  type: recipe
+    - 驗證
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/networking/authenticated-requests
 
-- name: Send data to the internet
-  description: Send HTTP POST requests in your app.
+- name: 發送資料至網路
+  description: 在應用程式中發送 HTTP POST 請求。
   tags:
-    - networking
+    - 網路
     - http
-  type: recipe
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/networking/send-data
 
-- name: Update data over the internet
-  description: Send an HTTP put request.
+- name: 更新網路資料
+  description: 發送 HTTP PUT 請求。
   tags:
-    - networking
+    - 網路
     - http
-  type: recipe
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/networking/update-data
 
-- name: Delete data on the internet
-  description: Send an HTTP delete request.
+- name: 刪除網路資料
+  description: 發送 HTTP DELETE 請求。
   tags:
-    - networking
+    - 網路
     - http
-  type: recipe
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/networking/delete-data
 
 - name: WebSockets
-  description: Connect to and communicate with a websocket.
+  description: 連接並與 websocket 通訊。
   tags:
-    - networking
+    - 網路
     - websocket
-  type: recipe
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/networking/web-sockets
 
-- name: Parse JSON in the background
-  description: Learn to use Dart's Isolate objects
+- name: 背景解析 JSON
+  description: 學習使用 Dart 的 Isolate 物件。
   tags:
-    - networking
+    - 網路
     - isolates
-    - threading
-  type: recipe
+    - 執行緒
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/networking/background-parsing
 
-- name: Persist data with SQLite
-  description: Use the sqflite package.
+- name: 使用 SQLite 儲存資料
+  description: 使用 sqflite 套件。
   tags:
-    - data
-    - persistence
+    - 資料
+    - 永續化
     - SQL
-  type: recipe
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/persistence/sqlite
 
-- name: Read and write files
-  description: Use the dart:io library and path_provider plugin to save files to disk.
+- name: 讀寫檔案
+  description: 使用 dart:io 函式庫與 path_provider 插件將檔案儲存至磁碟。
   tags:
-    - data
-    - persistence
+    - 資料
+    - 永續化
     - io
-  type: recipe
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/persistence/reading-writing-files
 
-- name: Store key-value data on disk
-  description: Persist data with shared_preferences
+- name: 在磁碟儲存鍵值資料
+  description: 使用 shared_preferences 永續化資料。
   tags:
-    - data
-    - persistence
-  type: recipe
+    - 資料
+    - 永續化
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/persistence/key-value
 
-- name: Play and pause a video
-  description: Play videos stored on the file system, as an asset, or from the internet.
+- name: 播放與暫停影片
+  description: 播放儲存在檔案系統、資源或網路上的影片。
   tags:
-    - plugins
-    - video
-  type: recipe
+    - 插件
+    - 影片
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/plugins/play-video
 
-- name: Use the camera
-  description: Learn to use a devices camera.
+- name: 使用相機
+  description: 學習如何使用裝置相機。
   tags:
-    - plugins
-  type: recipe
+    - 插件
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/plugins/picture-using-camera
 
-- name: Report errors to a service
-  description: Report errors to Sentry crash reporting.
+- name: 回報錯誤至服務
+  description: 回報錯誤至 Sentry 當機回報服務。
   tags:
-    - testing
-    - reporting
-  type: recipe
+    - 測試
+    - 回報
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/maintenance/error-reporting
 
-- name: Performance profiling
-  description: Write a test that records a performance timeline.
+- name: 效能分析
+  description: 撰寫測試以記錄效能時間軸。
   tags:
-    - testing
-    - performance
+    - 測試
+    - 效能
     - perf
-  type: recipe
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/testing/integration/profiling
 
-- name: Write unit tests
-  description: An introduction to writing unit tests.
+- name: 撰寫單元測試
+  description: 單元測試入門。
   tags:
-    - testing
-    - unit testing
-  type: recipe
+    - 測試
+    - 單元測試
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/testing/unit/introduction
 
-- name: Write widget tests
-  description: An introduction to writing widget tests.
+- name: 撰寫元件測試
+  description: 元件測試入門。
   tags:
-    - testing
-    - unit testing
-  type: recipe
+    - 測試
+    - 單元測試
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/testing/widget/introduction
 
-- name: Mock dependencies in tests
-  description: The basics of mocking with the Mockito package.
+- name: 在測試中模擬依賴
+  description: 使用 Mockito 套件進行基本模擬。
   tags:
-    - testing
-    - unit testing
-  type: recipe
+    - 測試
+    - 單元測試
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/testing/unit/mocking
 
-- name: Find widgets in tests
-  description: This recipe looks at the 'find' constant provided by the flutter_test package.
+- name: 在測試中尋找元件
+  description: 本教學介紹 flutter_test 套件提供的 'find' 常數。
   tags:
-    - testing
-  type: recipe
+    - 測試
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/testing/widget/finders
 
-- name: Handle scrolling
-  description: Learn how to scroll in widget tests.
+- name: 處理捲動
+  description: 學習如何在元件測試中進行捲動。
   tags:
-    - testing
-  type: recipe
+    - 測試
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/testing/widget/scrolling
 
-- name: App orientation
-  description: Learn how to check app orientation in widget tests.
+- name: 應用程式方向
+  description: 學習如何在元件測試中檢查應用程式方向。
   tags:
-    - testing
-  type: recipe
+    - 測試
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/testing/widget/orientation
 
-- name: Tap, drag, and enter text
-  description: Interact with widgets in widget tests.
+- name: 點擊、拖曳與輸入文字
+  description: 在元件測試中與元件互動。
   tags:
-    - testing
-  type: recipe
+    - 測試
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /cookbook/testing/widget/tap-drag
 
-- name: Persistent storage architecture - SQL
-  description: Save complex application data to a user's device with SQL.
+- name: 永續儲存架構 - SQL
+  description: 以 SQL 將複雜的應用程式資料儲存至使用者裝置。
   tags:
-    - data
+    - 資料
     - SQL
-    - architecture
-  type: recipe
+    - 架構
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /app-architecture/design-patterns/sql
 
-- name: Error handling with Result objects
-  description: Improve error handling across classes with Result objects.
+- name: 使用 Result 物件處理錯誤
+  description: 透過 Result 物件提升跨類別的錯誤處理。
   tags:
-    - error handling
-    - testing
-    - architecture
-  type: recipe
+    - 錯誤處理
+    - 測試
+    - 架構
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /app-architecture/design-patterns/result
 
-- name: Optimistic state
-  description: Improve the perception of responsiveness of an application by implementing optimistic state.
+- name: 樂觀狀態
+  description: 以樂觀狀態提升應用程式的回應感受。
   tags:
-    - user experience
-    - asynchronous dart
-    - architecture
-  type: recipe
+    - 使用者體驗
+    - 非同步 dart
+    - 架構
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /app-architecture/design-patterns/optimistic-state
 
-- name: Offline First
-  description: Implement offline-first support for one feature in an application.
+- name: 離線優先
+  description: 為應用程式某個功能實作離線優先支援。
   tags:
-    - user experience
-    - network
-    - architecture
-  type: recipe
+    - 使用者體驗
+    - 網路
+    - 架構
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /app-architecture/design-patterns/offline-first
 
-- name: Persistent storage architecture - Key-value data
-  description: Save application data to a user's on-device key-value store.
+- name: 永續儲存架構 - 鍵值資料
+  description: 以裝置上的鍵值儲存應用程式資料。
   tags:
-    - data
-    - network
-    - architecture
-  type: recipe
+    - 資料
+    - 網路
+    - 架構
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /app-architecture/design-patterns/key-value-data
 
-- name: Command pattern
-  description: Simplify view model logic by implementing a Command class.
+- name: 命令模式
+  description: 以 Command 類別簡化 view model 邏輯。
   tags:
     - mvvm
-    - asynchronous dart
-    - architecture
-  type: recipe
+    - 非同步 dart
+    - 架構
+  type: 教學
   link:
-    label: Flutter docs
+    label: Flutter 文件
     url: /app-architecture/design-patterns/command

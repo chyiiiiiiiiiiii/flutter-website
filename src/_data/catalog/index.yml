@@ -1,98 +1,90 @@
-- name: Basics
+- name: 基礎
   description: >-
-    Widgets to know before building your first Flutter app.
+    建立第一個 Flutter 應用程式前必須了解的元件。
   priority: high
   id: basics
-- name: Material components
+- name: Material 元件
   description: >-
-    Visual, behavioral, and motion-rich widgets implementing the
-    Material 3 design specification.
+    實現 Material 3 設計規範的視覺、行為與動態豐富元件。
   subcategories:
-    - name: 'Actions'
+    - name: '操作'
       color: '#D9E7CB'
-    - name: 'Communication'
+    - name: '通訊'
       color: '#F9DBDA'
-    - name: 'Containment'
+    - name: '容器'
       color: '#F9DBDA'
-    - name: 'Navigation'
+    - name: '導覽'
       color: '#E5E4C2'
-    - name: 'Selection'
+    - name: '選擇'
       color: '#D9E7CB'
-    - name: 'Text inputs'
+    - name: '文字輸入'
       color: '#E5E4C2'
   id: material
-- name: Material 2 components
-  description: Widgets implementing the Material 2 design guidelines.
+- name: Material 2 元件
+  description: 實現 Material 2 設計指南的元件。
   subcategories:
-    - name: 'App structure and navigation'
-    - name: 'Buttons'
-    - name: 'Input and selections'
-    - name: 'Dialogs, alerts, and panels'
-    - name: 'Information displays'
-    - name: 'Layout'
+    - name: '應用結構與導覽'
+    - name: '按鈕'
+    - name: '輸入與選擇'
+    - name: '對話框、警示與面板'
+    - name: '資訊顯示'
+    - name: '版面配置'
   id: material2
 - name: Cupertino
   description: >-
-    Beautiful and high-fidelity widgets that align with
-    Apple's Human Interface Guidelines for iOS and macOS.
+    美觀且高擬真的元件，符合 Apple iOS 與 macOS 的人機介面指引。
   id: cupertino
-- name: Layout
+- name: 版面配置
   description: >-
-    Arrange other widgets columns, rows, grids, and many other layouts.
+    以欄、列、格狀等多種方式排列其他元件。
   subcategories:
-    - name: 'Single-child layout widgets'
+    - name: '單一子元件版面配置'
       description: >-
-        Widgets that take a single child and manipulate the
-        layout of the child.
-    - name: 'Multi-child layout widgets'
+        接收單一子元件並調整其版面配置的元件。
+    - name: '多子元件版面配置'
       description: >-
-        These widgets take multiple children and arrange them in different ways.
-    - name: 'Sliver widgets'
+        這些元件接收多個子元件並以不同方式排列。
+    - name: 'Sliver 元件'
       description: >-
-        These widgets take a portion of a CustomScrollView and
-        apply a layout to that portion.
+        這些元件用於 CustomScrollView 的部分，並為該部分套用版面配置。
   id: layout
-- name: Text
-  description: Display and style text.
+- name: 文字
+  description: 顯示與設計文字。
   id: text
-- name: 'Assets, images, and icons'
-  description: Manage assets, display images, and show icons.
+- name: '資源、圖片與圖示'
+  description: 管理資源、顯示圖片與圖示。
   id: assets
-- name: Input
+- name: 輸入
   description: >-
-    Take user input in addition to input widgets in
-    Material components and Cupertino.
+    除了 Material 元件與 Cupertino 的輸入元件外，還可接收使用者輸入。
   id: input
-- name: Animation and motion
-  description: Bring animations to your app.
+- name: 動畫與動態
+  description: 為應用程式加入動畫效果。
   id: animation
-- name: Interaction models
-  description: Respond to touch events and route users to different views.
+- name: 互動模式
+  description: 回應觸控事件並導引使用者至不同畫面。
   subcategories:
-    - name: 'Touch interactions'
-    - name: 'Routing'
+    - name: '觸控互動'
+    - name: '路由'
   id: interaction
-- name: Styling
+- name: 樣式
   description: >-
-    Manage the theme of your app, make your app responsive to screen sizes, or
-    add padding.
+    管理應用程式主題、響應螢幕尺寸或加入間距。
   id: styling
-- name: Painting and effects
+- name: 繪圖與特效
   description: >-
-    These widgets apply visual effects to the children without
-    changing their layout, size, or position.
+    這些元件為子元件套用視覺特效，但不改變其版面、大小或位置。
   id: painting
-- name: Async
-  description: Widgets supporting async patterns in your Flutter apps.
+- name: 非同步
+  description: 支援 Flutter 應用程式非同步模式的元件。
   id: async
-- name: Scrolling
-  description: Scroll multiple widgets as children of the parent.
+- name: 捲動
+  description: 讓多個元件作為父元件的子元件一起捲動。
   subcategories:
-    - name: 'Sliver widgets'
+    - name: 'Sliver 元件'
       description: >-
-        These widgets take a portion of a CustomScrollView and
-        apply a layout to that portion.
+        這些元件用於 CustomScrollView 的部分，並為該部分套用版面配置。
   id: scrolling
-- name: Accessibility
-  description: Make your app accessible.
+- name: 無障礙
+  description: 讓您的應用程式具備無障礙功能。
   id: accessibility
