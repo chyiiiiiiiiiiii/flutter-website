@@ -20,7 +20,7 @@ description: >-
 </div>
 
 **若要查看自上次版本發佈以來的網站變更，
-請參閱[最新動態][].**
+請參閱[最新動態][What's new].**
 
 [What's new]: /release/whats-new
 
@@ -29,10 +29,10 @@ description: >-
 準備好從單一程式碼庫打造美觀、多平台的應用程式了嗎？
 這段影片將帶你了解 Flutter 的基礎，並教你如何開始。
 
-完成[設定 Flutter][]後，
+完成[設定 Flutter][Set up Flutter]後，
 建議你依序參考
-[撰寫你的第一個 Flutter 應用程式][]教學
-以及閱讀[Flutter 基礎][]
+[撰寫你的第一個 Flutter 應用程式][Write your first Flutter app]教學
+以及閱讀[Flutter 基礎][Flutter fundamentals]
 這些資源是經過精心設計的文件，
 會引導你掌握建立 Flutter 應用程式最重要的部分。
 
@@ -45,18 +45,18 @@ description: >-
 [Android][], [SwiftUI][], [UIKit][], [React Native][]，以及
 [Xamarin.Forms][] 開發者。
 
-[建立版面][]
+[建立版面][Building layouts]
 ：學習如何在 Flutter 中建立版面配置，
   在這裡一切皆為元件（Widget）。
 
-[理解限制條件][]
+[理解限制條件][Understanding constraints]
 ：只要你理解「限制條件向下傳遞，尺寸向上回報，父元件設定位置」，
   就能掌握 Flutter 的版面配置模型。
 
 [為你的 Flutter 應用程式加入互動性][interactivity]
 ：學習如何為應用程式新增有狀態元件（Stateful Widget）。
 
-[常見問題][]
+[常見問題][FAQ]
 ：取得常見問題的解答。
 
 [Android]: /get-started/flutter-for/android-devs
@@ -78,8 +78,8 @@ description: >-
 <br>
 
 想了解更多 Google I/O 2025 的 Flutter 內容，請參閱
-[如何使用 Flutter 與 Firebase AI Logic 打造 Agentic 應用程式][]
-以及[Flutter 如何充分發揮各平台優勢][]。
+[如何使用 Flutter 與 Firebase AI Logic 打造 Agentic 應用程式][How to build agentic apps with Flutter and Firebase AI Logic]
+以及[Flutter 如何充分發揮各平台優勢][How Flutter makes the most of your platforms]。
 
 <div class="card-grid">
   <div class="card wrapped-card outlined-card">
@@ -97,7 +97,7 @@ description: >-
 [How to build agentic apps with Flutter and Firebase AI Logic]: {{site.yt.watch}}?v=xo271p-Fl_4
 [How Flutter makes the most of your platforms]: {{site.yt.watch}}?v=flwULzNYRac
 
-想了解所有 Flutter 影片系列，請參閱我們的[影片][]頁面。
+想了解所有 Flutter 影片系列，請參閱我們的[影片][videos]頁面。
 
 我們幾乎每週都會推出新影片！
 
