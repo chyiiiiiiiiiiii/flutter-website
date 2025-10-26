@@ -1,6 +1,6 @@
 ---
-title: `RouteInformation.location` 的遷移指南
-description: `RouteInformation.location` 及其相關 API 的棄用說明。
+title: RouteInformation.location 的遷移指南
+description: RouteInformation.location 及其相關 API 的棄用說明。
 ---
 
 {% render docs/breaking-changes.md %}
