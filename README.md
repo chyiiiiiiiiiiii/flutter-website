@@ -1,3 +1,29 @@
+> 🇹🇼 **本網站為 Flutter 文件的台灣社群繁中版** — [docs.flutter.tw](https://docs.flutter.tw/)
+>
+> ## 關於本站
+>
+> 本站基於 Flutter 官方文件（[flutter/website](https://github.com/flutter/website)）翻譯，
+> 由 Will 保哥（[@doggy8088](https://github.com/doggy8088)）發起並翻譯了多篇繁體中文文件。
+> 目前由 [@chyiiiiiiiiiiii](https://github.com/chyiiiiiiiiiiii) 接手維護。
+>
+> ## 內容版本
+>
+> 本站內容對應 **Flutter 3.x 時期**的官方文件快照（最後一次與 upstream 同步：2025-10）。
+> 如需查閱**最新版本**的官方文件，請前往 [docs.flutter.dev](https://docs.flutter.dev/)。
+>
+> ## 翻譯／勘誤回報
+>
+> 發現翻譯錯誤、想補譯新章節、或單純想交流，都歡迎開 Issue：
+> [Issues](https://github.com/chyiiiiiiiiiiii/flutter-website/issues)
+>
+> ## 維護策略
+>
+> 本站採「快照模式」，不即時追蹤 upstream，於 Flutter 大版本（4.x、5.x）發布時做整批同步。
+>
+> ---
+>
+> _以下為原 flutter/website README 內容（給開發本站者參考）_
+
 [![Flutter logo]](https://docs.flutter.dev)
 
 [Flutter logo]: https://github.com/dart-lang/site-shared/blob/main/src/_assets/image/flutter/icon/64.png?raw=1
