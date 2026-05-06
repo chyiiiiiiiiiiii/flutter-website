@@ -1,0 +1,53 @@
+name: 翻譯問題回報 / Translation issue
+description: 回報翻譯錯誤、不通順的句子，或想補譯的章節
+labels: [translation]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感謝你願意幫忙改善 [docs.flutter.tw](https://docs.flutter.tw/) 的內容！
+
+        - 如果是**單字 typo** 直接送 PR 比較快（在頁面右上角找 GitHub 編輯連結，或直接到本 repo `src/content/` 找對應檔案）
+        - 如果想補譯**整個章節**或對譯名有疑問，請開這個 issue 討論
+
+  - type: input
+    id: page-url
+    attributes:
+      label: 問題頁面網址
+      placeholder: https://docs.flutter.tw/...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: 問題類型
+      options:
+        - 翻譯錯誤（中文意思不對）
+        - 翻譯不通順（看得懂但讀起來怪）
+        - 譯名建議（術語想換更好的中文）
+        - 缺漏未翻譯（整段或整頁還是英文）
+        - 連結／圖片失效
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 問題描述
+      placeholder: |
+        請貼上原本的文字 + 你建議的修改。
+        例：
+        - 原文：「Widget 是不可變的（immutable）」
+        - 建議：「Widget 是不可改變的（immutable）」
+        - 理由：immutable 在 Flutter 文件中通常譯為「不可變」較貼近開發習慣，但句子可改為「Widget 一旦建立後就不能修改」更口語
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: 你願意自己送 PR 修嗎？
+      options:
+        - label: 是，我可以送 PR（你提了 issue 後可以馬上接 PR，不用等回覆）
