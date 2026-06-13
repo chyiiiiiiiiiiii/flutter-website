@@ -1,31 +1,23 @@
 ---
-title: Embedding web content into a Flutter web app
-shortTitle: Web content in Flutter
-description: Learn how to load and display images on the web.
+title: 在 Flutter Web 應用程式中嵌入網頁內容
+shortTitle: Flutter 中的網頁內容
+description: 瞭解如何在網頁上載入與顯示圖片。
 ---
 
-In some cases, Flutter web applications need to embed web content not
-rendered by Flutter. For example, embedding a `google_maps_flutter` view
-(which uses the Google Maps JavaScript SDK) or a `video_player`
-(which uses a standard `video` element).
+在某些情況下，Flutter Web 應用程式需要嵌入非由 Flutter 所渲染的網頁內容。例如，嵌入 `google_maps_flutter` 檢視（其使用 Google Maps JavaScript SDK），或是 `video_player`（其使用標準的 `video` 元素）。
 
-Flutter web can render arbitrary web content within the boundaries of a `Widget`,
-and the primitives used to implement the example packages mentioned previously,
-are available to all Flutter web applications.
+Flutter Web 可以在 `Widget` 的範圍內渲染任意網頁內容，而前述範例套件所使用的基礎原件，所有 Flutter Web 應用程式皆可使用。
 
 ## `HtmlElementView`
 
-The `HtmlElementView` Flutter widget reserves a space in the layout to be
-filled with any HTML Element. It has two constructors:
+`HtmlElementView` Flutter 元件 (Widget) 會在版面配置中保留一個區域，可用來填入任何 HTML 元素。它有兩個建構函式：
 
-* `HtmlElementView.fromTagName`.
-* `HtmlElementView` and `registerViewFactory`.
+* `HtmlElementView.fromTagName`。
+* `HtmlElementView` 與 `registerViewFactory`。
 
 ### `HtmlElementView.fromTagName`
 
-The [`HtmlElementView.fromTagName` constructor][] creates an HTML Element from
-its `tagName`, and provides an `onElementCreated` method to configure that
-element before it's injected into the DOM:
+[`HtmlElementView.fromTagName` 建構函式][`HtmlElementView.fromTagName` constructor] 會根據其 `tagName` 建立一個 HTML 元素，並提供一個 `onElementCreated` 方法，讓你在該元素被注入 DOM 之前進行設定：
 
 ```dart
 // Create a `video` tag, and set its `src` and some `style` properties...
@@ -38,39 +30,30 @@ HtmlElementView.fromTag('video', onElementCreated: (Object video) {
 });
 ```
 
-To learn more about the way to interact with DOM APIs,
-check out the [`HTMLVideoElement` class] in [`package:web`][].
+若想進一步了解如何與 DOM API 互動，請參考 [`package:web`][] 中的 [`HTMLVideoElement` 類別]。
 
-To learn more about the video `Object` that is cast to `web.HTMLVideoElement`,
-check out Dart's [JS Interoperability][] documentation.
+若想進一步了解轉型為 `web.HTMLVideoElement` 的影片 `Object`，請參考 Dart 的 [JS Interoperability][] 文件。
 
 [`HtmlElementView.fromTagName` constructor]: {{site.api}}/flutter/widgets/HtmlElementView/HtmlElementView.fromTagName.html
 [`HTMLVideoElement` class]: {{site.pub}}/documentation/web/latest/web/HTMLVideoElement-extension-type.html
 [`package:web`]: {{site.pub-pkg}}/web
 
-### `HtmlElementView` and `registerViewFactory`
+### `HtmlElementView` 與 `registerViewFactory`
 
-If you need more control over generating the HTML code you inject, you can use
-the primitives that Flutter uses to implement the `fromTagName` constructor. In
-this scenario, register your own HTML Element factory for each type of HTML
-content that needs to be added to your app.
+如果你需要更細緻地控制所注入的 HTML 程式碼，可以使用 Flutter 用來實作 `fromTagName` 建構函式的基礎原件。在這種情境下，你需要為每一種要加入應用程式的 HTML 內容類型，各自註冊自己的 HTML Element factory。
 
-The resulting code is more verbose, and has two steps per platform view type:
+這樣寫出來的程式碼會比較冗長，且每一種平台檢視類型都需分兩個步驟：
 
-1. Register the HTML Element Factory using
-`platformViewRegistry.registerViewFactory` provided by `dart:ui_web.`
-2. Place the widget with the desired `viewType`  with
-`HtmlElementView('viewType')` in your app's widget tree.
+1. 使用 `dart:ui_web.` 提供的 `platformViewRegistry.registerViewFactory` 註冊 HTML Element Factory。
+2. 在應用程式的元件樹中，利用 `HtmlElementView('viewType')` 放置帶有指定 `viewType` 的元件 (Widget)。
 
-For more details about this approach, check out
-[`HtmlElementView` widget][] docs.
+如需此方法的詳細說明，請參考 [`HtmlElementView` 元件][`HtmlElementView` widget] 文件。
 
 [`HtmlElementView` widget]: {{site.api}}/flutter/widgets/HtmlElementView-class.html
 
 ## `package:webview_flutter`
 
-Embedding a full HTML page inside a Flutter app is such a common feature, that
-the Flutter team offers a plugin to do so:
+在 Flutter 應用程式中嵌入完整 HTML 頁面是非常常見的功能，Flutter 團隊也因此提供了專用的插件：
 
 * [`package:webview_flutter`][]
 

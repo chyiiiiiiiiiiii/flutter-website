@@ -1,6 +1,6 @@
 ---
 layout: toc
-title: Swift Package Manager for Flutter
+title: Flutter 的 Swift Package Manager
 description: >
-  Content covering Flutter's integration with Swift Package Manager
+  介紹 Flutter 與 Swift Package Manager 整合的相關內容
 ---

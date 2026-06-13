@@ -1,34 +1,29 @@
 ---
-title: Animate a widget across screens
-description: How to animate a widget from one screen to another
+title: 在螢幕之間動畫顯示元件
+description: 如何將元件從一個螢幕動畫到另一個螢幕
 ---
 
 <?code-excerpt path-base="cookbook/navigation/hero_animations"?>
 
-It's often helpful to guide users through an app as they navigate from screen
-to screen. A common technique to lead users through an app is to animate a
-widget from one screen to the next. This creates a visual anchor connecting
-the two screens.
+當使用者在應用程式中從一個螢幕切換到另一個螢幕時，引導他們的操作通常會很有幫助。一個常見的技巧是將元件 (Widget) 從一個螢幕動畫到下一個螢幕。這樣可以在兩個螢幕之間建立一個視覺上的連結。
 
-Use the [`Hero`][] widget
-to animate a widget from one screen to the next.
-This recipe uses the following steps:
+使用 [`Hero`][] 元件
+可以將元件從一個螢幕動畫到另一個螢幕。
+本教學將依照以下步驟進行：
 
-  1. Create two screens showing the same image.
-  2. Add a `Hero` widget to the first screen.
-  3. Add a `Hero` widget to the second screen.
+  1. 建立兩個顯示相同圖片的螢幕。
+  2. 在第一個螢幕加入 `Hero` 元件。
+  3. 在第二個螢幕加入 `Hero` 元件。
 
-## 1. Create two screens showing the same image
+## 1. 建立兩個顯示相同圖片的螢幕
 
-In this example, display the same image on both screens.
-Animate the image from the first screen to the second screen when
-the user taps the image. For now, create the visual structure;
-handle animations in the next steps.
+在這個範例中，會在兩個螢幕上顯示相同的圖片。
+當使用者點擊圖片時，將圖片從第一個螢幕動畫到第二個螢幕。目前先建立視覺結構，動畫的處理會在後續步驟說明。
 
 :::note
-This example builds upon the
+本範例基於
 [Navigate to a new screen and back][]
-and [Handle taps][] recipes.
+以及 [Handle taps][] 教學。
 :::
 
 <?code-excerpt "lib/main_original.dart"?>
@@ -78,18 +73,17 @@ class DetailScreen extends StatelessWidget {
 }
 ```
 
-## 2. Add a `Hero` widget to the first screen
+## 2. 在第一個螢幕加入 `Hero` 元件
 
-To connect the two screens together with an animation, wrap
-the `Image` widget on both screens in a `Hero` widget.
-The `Hero` widget requires two arguments:
+為了用動畫將兩個螢幕連接起來，請將兩個螢幕上的 `Image` 元件都包裹在 `Hero` 元件內。
+`Hero` 元件需要兩個參數：
 
 `tag`
-: An object that identifies the `Hero`.
-  It must be the same on both screens.
+: 一個用來識別 `Hero` 的物件。
+  這個值在兩個螢幕上必須相同。
 
 `child`
-: The widget to animate across screens.
+: 要在螢幕間執行動畫的元件。
 
 {% comment %}
 RegEx removes the first "child" property name and removed the trailing comma at the end
@@ -102,14 +96,14 @@ Hero(
 )
 ```
 
-## 3. Add a `Hero` widget to the second screen
+## 3. 在第二個螢幕加入 `Hero` 元件
 
-To complete the connection with the first screen,
-wrap the `Image` on the second screen with a `Hero`
-widget that has the same `tag` as the `Hero` in the first screen.
+為了完成與第一個螢幕的連結，
+請將第二個螢幕上的 `Image` 包裹在一個 `Hero` 元件中，
+並且這個元件要有與第一個螢幕上 `Hero` 相同的 `tag`。
 
-After applying the `Hero` widget to the second screen,
-the animation between screens just works.
+當你在第二個螢幕套用 `Hero` 元件後，
+兩個螢幕之間的動畫就會自動運作。
 
 {% comment %}
 RegEx removes the first "child" property name and removed the trailing comma at the end
@@ -124,13 +118,13 @@ Hero(
 
 
 :::note
-This code is identical to what you have on the first screen.
-As a best practice, create a reusable widget instead of
-repeating code. This example uses identical code for both
-widgets, for simplicity.
+這段程式碼與你在第一個螢幕上的內容相同。
+作為最佳實踐，建議建立可重複使用的元件，
+而不是重複撰寫程式碼。為了簡化說明，本範例在兩個
+元件中都使用了相同的程式碼。
 :::
 
-## Interactive example
+## 互動式範例
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter Hero animation hands-on example in DartPad" run="true"
@@ -197,7 +191,7 @@ class DetailScreen extends StatelessWidget {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/hero.webp" alt="Hero demo" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/hero.webp" alt="Hero 範例展示" class="site-mobile-screenshot" />
 </noscript>
 
 

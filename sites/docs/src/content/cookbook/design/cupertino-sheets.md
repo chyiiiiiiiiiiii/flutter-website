@@ -1,28 +1,28 @@
 ---
-title: Display a Cupertino sheet
+title: 顯示 Cupertino sheet
 description: >-
-  How to implement a Cupertino sheet to display messages and content.
+  如何實作 Cupertino sheet 來顯示訊息與內容。
 ---
 
 <?code-excerpt path-base="cookbook/design/cupertino_sheets/"?>
 
-A Cupertino sheet is an iOS-style modal bottom sheet
-used to present content or options.
-It slides up from the bottom of the screen
-and can be pulled down to dismiss.
+Cupertino sheet 是一種 iOS 風格的模態底部 sheet，
+用於呈現內容或選項。
+它從螢幕底部向上滑入，
+並可向下拉動以關閉。
 
-In Flutter, this is the job of [`showCupertinoSheet`][].
-This recipe implements a Cupertino sheet using the following steps:
+在 Flutter 中，這項功能由 [`showCupertinoSheet`][] 負責處理。
+本教學使用以下步驟實作 Cupertino sheet：
 
-  1. Create a `CupertinoApp` or `MaterialApp`.
-  2. Display the sheet content.
+  1. 建立 `CupertinoApp` 或 `MaterialApp`。
+  2. 顯示 sheet 內容。
 
-## 1. Create a `CupertinoApp`
+## 1. 建立 `CupertinoApp`
 
-When creating apps that follow the iOS design guidelines,
-you can use `CupertinoApp`.
-The following example provides a button in the center of the screen
-that triggers the modal.
+建立遵循 iOS 設計規範的應用程式時，
+可以使用 `CupertinoApp`。
+以下範例在螢幕中央提供一個按鈕，
+用來觸發模態視窗。
 
 <?code-excerpt "lib/main.dart (CupertinoSheetDemo)"?>
 ```dart
@@ -39,11 +39,11 @@ class CupertinoSheetDemo extends StatelessWidget {
 }
 ```
 
-## 2. Display the sheet content
+## 2. 顯示 sheet 內容
 
-With the basic app structure in place, display the sheet.
-To show it, call `showCupertinoSheet` and provide a `scrollableBuilder`
-that returns the content for the sheet, such as a `SingleChildScrollView`.
+完成基本應用程式結構後，顯示 sheet。
+呼叫 `showCupertinoSheet` 並提供 `scrollableBuilder`，
+它會回傳 sheet 的內容，例如 `SingleChildScrollView`。
 
 <?code-excerpt "lib/main.dart (ShowCupertinoSheet)"?>
 ```dart
@@ -74,7 +74,7 @@ showCupertinoSheet(
 );
 ```
 
-## Interactive example
+## 互動範例
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter CupertinoSheet hands-on example in DartPad" run="true"

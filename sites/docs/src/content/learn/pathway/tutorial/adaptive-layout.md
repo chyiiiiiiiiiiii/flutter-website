@@ -1,46 +1,43 @@
 ---
-title: LayoutBuilder and adaptive layouts
-description: Learn how to use the LayoutBuilder widget.
+title: LayoutBuilder 與自適應版面配置
+description: 了解如何使用 LayoutBuilder 元件。
 layout: tutorial
 ---
 
 <?code-excerpt replace="/ *\/\/\s+ignore_for_file:[^\n]+\n//g;"?>
 
-Learn how to create layouts that adapt to different screen widths.
+了解如何建立能適應不同螢幕寬度的版面配置。
 
 <SummaryCard>
-title: What you'll accomplish
+title: 你將完成的事項
 items:
-  - title: Create responsive layouts with LayoutBuilder
+  - title: 使用 LayoutBuilder 建立響應式版面配置
     icon: fit_screen
-  - title: Detect screen size to choose different layouts
+  - title: 偵測螢幕大小以選擇不同的版面配置
     icon: devices
-  - title: Build a sidebar and detail layout for large screens
+  - title: 為大螢幕建置側邊欄與詳細內容的版面配置
     icon: view_sidebar
 </SummaryCard>
 
 ---
 
-### Introduction
+### 簡介
 
-Modern apps need to work well on screens of all sizes.
-On this page, you'll learn how to create layouts that
-adapt to different screen widths.
-This app shows a sidebar on large screens and
-a navigation-based UI on small screens.
-Specifically, this app handles two screen sizes:
+現代應用程式需要在各種尺寸的螢幕上都能良好運作。
+在本頁中，你將學習如何建立能適應不同螢幕寬度的版面配置。
+此應用程式在大螢幕上會顯示側邊欄，
+在小螢幕上則使用以導覽為基礎的使用者介面。
+具體而言，此應用程式處理兩種螢幕尺寸：
 
-- **Large screens (tablets, desktop)**:
-  Shows contact groups and contact details side-by-side.
-- **Small screens (phones)**:
-  Uses navigation to move between contact groups and details.
+- **大螢幕（平板電腦、桌上型電腦）**：
+  並排顯示聯絡人群組與聯絡人詳細資料。
+- **小螢幕（手機）**：
+  使用導覽在聯絡人群組與詳細資料之間切換。
 
-### Create the contact groups page
+### 建立聯絡人群組頁面
 
-First, create the basic structure of the `ContactGroupsPage` widget
-for your contact groups screen.
-Create `lib/screens/contact_groups.dart` and add
-the following basic structure:
+首先，為你的聯絡人群組畫面建立 `ContactGroupsPage` 元件 (Widget) 的基本結構。
+建立 `lib/screens/contact_groups.dart` 並加入以下基本結構：
 
 <?code-excerpt "fwe/rolodex/lib/step2_adaptive_layout/screens/contact_groups.dart"?>
 ```dart
@@ -59,10 +56,10 @@ class ContactGroupsPage extends StatelessWidget {
 }
 ```
 
-### Create the contacts page
+### 建立聯絡人頁面
 
-Similarly, create `lib/screens/contacts.dart` to eventually
-display individual contacts:
+同樣地，建立 `lib/screens/contacts.dart`，
+以便日後顯示個別聯絡人：
 
 <?code-excerpt "fwe/rolodex/lib/step2_adaptive_layout/screens/contacts.dart"?>
 ```dart
@@ -83,14 +80,14 @@ class ContactListsPage extends StatelessWidget {
 }
 ```
 
-The `ContaactsListPage` widget and `ContactGroupsPage` widget are
-placeholder pages that are needed to implement the adaptive layout
-widget, which you'll do next.
+`ContaactsListPage` 元件與 `ContactGroupsPage` 元件是
+實作自適應版面配置元件所需的佔位頁面，
+你接下來將進行這項實作。
 
-### Build the adaptive layout foundation
+### 建置自適應版面配置的基礎
 
-Create `lib/screens/adaptive_layout.dart`
-and start with the following basic structure:
+建立 `lib/screens/adaptive_layout.dart`
+並從以下基本結構開始：
 
 <?code-excerpt "fwe/rolodex/lib/step2_adaptive_layout/screens/adaptive_layout_v1.dart"?>
 ```dart
@@ -113,10 +110,10 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
 }
 ```
 
-This is a `StatefulWidget` because the adaptive layout eventually
-manages which contact group is currently selected.
+這是一個 `StatefulWidget`，因為自適應版面配置最終
+需要管理目前選取的聯絡人群組。
 
-Next, add the screen size detection logic to `lib/screens/adaptive_layout.dart`:
+接下來，將螢幕大小偵測邏輯加入 `lib/screens/adaptive_layout.dart`：
 
 <?code-excerpt "fwe/rolodex/lib/step2_adaptive_layout/screens/adaptive_layout_v2.dart"?>
 ```dart
@@ -151,20 +148,19 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
 }
 ```
 
-The `LayoutBuilder` widget provides information about
-the parent's size constraints.
-In the `builder` callback, you receive a`BoxConstraints` object that
-tells you the maximum available width and height.
+`LayoutBuilder` 元件提供了父元件尺寸限制的相關資訊。
+在 `builder` 回呼（callback）中，你會收到一個 `BoxConstraints` 物件，
+告訴你可用的最大寬度與高度。
 
-By checking if `constraints.maxWidth > largeScreenMinWidth`,
-you can decide which layout to show.
-The 600-pixel threshold is a common breakpoint that
-separates phone-sized screens from tablet-sized screens.
+透過檢查 `constraints.maxWidth > largeScreenMinWidth`，
+你可以決定要顯示哪種版面配置。
+600 像素的閾值是常見的斷點，
+用來區分手機尺寸與平板電腦尺寸的螢幕。
 
-### Update the main app
+### 更新主應用程式
 
-Update `main.dart` to use the adaptive layout,
-so you can see your changes:
+更新 `main.dart` 以使用自適應版面配置，
+讓你可以看到變更效果：
 
 <?code-excerpt "fwe/rolodex/lib/step2_adaptive_layout/main.dart"?>
 ```dart
@@ -198,13 +194,13 @@ class RolodexApp extends StatelessWidget {
 }
 ```
 
-If you're running in Chrome, you can resize the browser window to
-see layout changes.
+如果你在 Chrome 中執行，可以調整瀏覽器視窗大小來
+觀察版面配置的變化。
 
-### Add list selection functionality
+### 加入清單選取功能
 
-The large screen layout needs to track which contact group is selected.
-Update the state object in `lib/screens/adaptive_layout.dart` with the following code:
+大螢幕版面配置需要追蹤目前選取的聯絡人群組。
+使用以下程式碼更新 `lib/screens/adaptive_layout.dart` 中的狀態物件：
 
 <?code-excerpt "fwe/rolodex/lib/step2_adaptive_layout/screens/adaptive_layout_v3.dart"?>
 ```dart
@@ -248,14 +244,13 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
 }
 ```
 
-The `selectedListId` variable tracks the currently selected contact group,
-and `_onContactListSelected` updates this value when the user makes a choice.
+`selectedListId` 變數追蹤目前選取的聯絡人群組，
+而 `_onContactListSelected` 則在使用者做出選擇時更新此值。
 
-### Build the large screen layout
+### 建置大螢幕版面配置
 
-Now, implement the side-by-side layout for large screens in `lib/screens/adaptive_layout.dart`.
-First, replace the temporary text with a widget that
-contains the proper layout.
+現在，在 `lib/screens/adaptive_layout.dart` 中實作大螢幕的並排版面配置。
+首先，將暫時的文字替換為包含正確版面配置的元件。
 
 <?code-excerpt "fwe/rolodex/lib/step2_adaptive_layout/screens/adaptive_layout_v4.dart"?>
 ```dart
@@ -307,13 +302,13 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
 }
 ```
 
-The large screen layout uses a `Row` to
-place the sidebar and details side-by-side.
-`SafeArea` ensures that the content doesn't overlap with
-system UI elements like the status bar.
+大螢幕版面配置使用 `Row` 來
+並排放置側邊欄與詳細資料。
+`SafeArea` 確保內容不會與
+狀態列等系統 UI 元素重疊。
 
-Now, set the sizes of the two panels and
-add a visual divider in `lib/screens/adaptive_layout.dart`:
+現在，設定兩個面板的大小，
+並在 `lib/screens/adaptive_layout.dart` 中加入視覺分隔線：
 
 <?code-excerpt "fwe/rolodex/lib/step2_adaptive_layout/screens/adaptive_layout.dart (panel-and-divider)"?>
 ```dart
@@ -333,85 +328,85 @@ Widget _buildLargeScreenLayout() {
 }
 ```
 
-This layout creates the following:
+此版面配置建立了以下結構：
 
-- A fixed-width sidebar (320 pixels) for contact groups.
-- A 1-pixel divider between the panels.
-- A details panel that uses an `Expanded` widget to take the remaining space.
+- 固定寬度的側邊欄（320 像素），用於顯示聯絡人群組。
+- 面板之間 1 像素的分隔線。
+- 詳細資料面板使用 `Expanded` 元件佔用剩餘空間。
 
-### Test the adaptive layout
+### 測試自適應版面配置
 
-Hot reload your app and test the responsive behavior.
-If you're running in Chrome, you can resize the browser window to
-see the layout change:
+熱重載你的應用程式並測試響應式行為。
+如果你在 Chrome 中執行，可以調整瀏覽器視窗大小來
+觀察版面配置變化：
 
-- **Wide window (> 600px)**:
-  Shows placeholder text for the sidebar and details side-by-side.
-- **Narrow window (< 600px)**:
-  Shows only the contact groups page.
+- **寬視窗（> 600px）**：
+  並排顯示側邊欄與詳細資料的佔位文字。
+- **窄視窗（< 600px）**：
+  僅顯示聯絡人群組頁面。
 
-Both the sidebar and main content area show placeholder text for now.
+側邊欄與主要內容區域目前都顯示佔位文字。
 
-In the next lesson, you'll implement slivers to fill in
-the contact list content.
+在下一課中，你將實作 sliver 來填入
+聯絡人清單內容。
 
-### Review
+### 回顧
 
 <SummaryCard>
-title: What you accomplished
-subtitle: Here's a summary of what you built and learned in this lesson.
+title: 你完成了什麼
+subtitle: 以下是你在本課中建置與學習的摘要。
 completed: true
 items:
-  - title: Created responsive layouts with LayoutBuilder
+  - title: 使用 LayoutBuilder 建立響應式版面配置
     icon: fit_screen
     details: >-
-      `LayoutBuilder` provides the parent's size constraints in
-      its builder callback. By checking `constraints.maxWidth`,
-      you can decide which layout to show based on available space.
-  - title: Detected screen size to choose different layouts
+      `LayoutBuilder` 在其 builder 回呼中提供父元件的尺寸限制。
+      透過檢查 `constraints.maxWidth`，
+      你可以根據可用空間決定要顯示哪種版面配置。
+  - title: 偵測螢幕大小以選擇不同的版面配置
     icon: devices
     details: >-
-      You used a 600-pixel breakpoint to
-      distinguish phone-sized screens from tablet-sized screens.
-      This common threshold helps your app adapt its UI to
-      provide the best experience on each device.
-  - title: Built a sidebar and detail layout for large screens
+      你使用了 600 像素的斷點來
+      區分手機尺寸與平板電腦尺寸的螢幕。
+      這個常用閾值幫助你的應用程式調整其使用者介面，
+      為每台裝置提供最佳體驗。
+  - title: 為大螢幕建置側邊欄與詳細內容的版面配置
     icon: view_sidebar
     details: >-
-      On large screens, you displayed a fixed-width sidebar and
-      an `Expanded` detail panel side-by-side using a `Row`.
-      This classic pattern maximizes screen real estate on tablets and desktops.
+      在大螢幕上，你使用 `Row` 並排顯示固定寬度的側邊欄
+      與 `Expanded` 詳細資料面板。
+      這個經典模式在平板電腦與桌上型電腦上最大化了螢幕空間的運用。
 </SummaryCard>
 
-### Test yourself
+### 自我測驗
 
-<Quiz title="Adaptive Layout Quiz">
-- question: What information does LayoutBuilder provide to its builder callback?
+<Quiz title="自適應版面配置測驗">
+- question: LayoutBuilder 向其 builder 回呼提供了什麼資訊？
   options:
-    - text: The device's operating system and screen orientation.
+    - text: 裝置的作業系統與螢幕方向。
       correct: false
-      explanation: LayoutBuilder provides size constraints, not OS or orientation info.
-    - text: The parent's size constraints, including maximum width and height.
+      explanation: LayoutBuilder 提供尺寸限制，而非作業系統或方向資訊。
+    - text: 父元件的尺寸限制，包含最大寬度與高度。
       correct: true
-      explanation: LayoutBuilder's builder receives BoxConstraints that tell you the available space from the parent.
-    - text: The current theme colors and typography.
+      explanation: LayoutBuilder 的 builder 接收 BoxConstraints，告訴你來自父元件的可用空間。
+    - text: 目前的主題顏色與排版。
       correct: false
-      explanation: Theme data comes from Theme.of(context), not LayoutBuilder.
-    - text: The number of child widgets in the tree.
+      explanation: 主題資料來自 Theme.of(context)，而非 LayoutBuilder。
+    - text: 元件樹中子元件的數量。
       correct: false
-      explanation: LayoutBuilder provides layout constraints, not widget tree information.
-- question: In a large screen layout, which widget can be used to place a sidebar and details panel side-by-side?
+      explanation: LayoutBuilder 提供版面配置限制，而非元件樹資訊。
+- question: 在大螢幕版面配置中，哪個元件可用於並排放置側邊欄與詳細資料面板？
   options:
     - text: Column
       correct: false
-      explanation: Column arranges widgets vertically, not side-by-side.
+      explanation: Column 垂直排列元件，而非並排。
     - text: Row
       correct: true
-      explanation: Row arranges its children horizontally, making it ideal for placing a sidebar and details panel side-by-side.
+      explanation: Row 水平排列其子元件，非常適合並排放置側邊欄與詳細資料面板。
     - text: Stack
       correct: false
-      explanation: Stack overlaps widgets on top of each other, not side-by-side.
+      explanation: Stack 將元件堆疊重疊，而非並排。
     - text: ListView
       correct: false
-      explanation: ListView is for scrollable lists, not for side-by-side layout.
+      explanation: ListView 用於可捲動的清單，而非並排版面配置。
 </Quiz>

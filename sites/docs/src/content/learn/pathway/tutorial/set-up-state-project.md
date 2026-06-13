@@ -1,54 +1,47 @@
 ---
-title: Set up your project
-description: Instructions on how to create a new Flutter app.
+title: 設定您的專案
+description: 說明如何建立新的 Flutter 應用程式的操作指引。
 layout: tutorial
 ---
 
-Preview the Wikipedia reader app you'll build and set up the initial project with required packages.
+預覽您將建置的維基百科閱讀器應用程式，並設定含有必要套件的初始專案。
 
 <SummaryCard>
-title: What you'll accomplish
+title: 您將完成的事項
 items:
-  - title: Preview the Wikipedia reader app you'll build
+  - title: 預覽您將建置的維基百科閱讀器應用程式
     icon: preview
-  - title: Add packages for handling HTTP requests and Wikipedia data
+  - title: 新增用於處理 HTTP 請求與維基百科資料的套件
     icon: inventory_2
-  - title: Set up the initial project structure
+  - title: 設定初始專案結構
     icon: code
 </SummaryCard>
 
 ---
 
-### Introduction
+### 簡介
 
-In the next few lessons, you'll learn how to work with data in a Flutter app.
-You'll build an app that fetches and displays article summaries from
-the [Wikipedia API][].
+在接下來的幾堂課中，您將學習如何在 Flutter 應用程式中處理資料。
+您將建置一個能夠從 [Wikipedia API][] 擷取並顯示文章摘要的應用程式。
 
 <img src="/assets/images/docs/tutorial/wikipedia_app.png" width="320px" height="500px"
 style="border:1px solid black" alt="A screenshot of the completed
 Wikipedia reader app showing an article with image, title,
 description, and extract text.">
 
-These lessons explore:
+這些課程將探討以下主題：
 
-- Making HTTP requests in Flutter.
-- Managing application state with `ChangeNotifier`.
-- Using the MVVM architecture pattern.
-- Creating responsive user interfaces that
-  update automatically when data changes.
+- 在 Flutter 中發出 HTTP 請求。
+- 使用 `ChangeNotifier` 管理應用程式狀態 (state)。
+- 使用 MVVM 架構模式。
+- 建立能在資料變更時自動更新的響應式使用者介面。
 
-This tutorial assumes you've completed the
-[Getting started with Dart][] and the [Introduction to Flutter UI][] tutorials,
-and therefore doesn't explain concepts like HTTP, JSON, or widget basics.
+本教學假設您已完成 [Dart 入門][Getting started with Dart] 與 [Flutter UI 簡介][Introduction to Flutter UI] 教學，因此不會另行說明 HTTP、JSON 或元件 (Widget) 基礎等概念。
 
-:::recommend Support Wikipedia
+:::recommend 支持維基百科
 
-[Wikipedia][] is a valuable resource, providing free
-access to human knowledge through millions of articles written
-collaboratively by volunteers worldwide.
-Consider [donating to Wikipedia][] to help keep this incredible resource
-free and accessible to everyone.
+[Wikipedia][] 是一項寶貴的資源，透過全球志工協作撰寫的數百萬篇文章，免費提供人類知識的存取管道。
+請考慮[捐款給維基百科][donating to Wikipedia]，以協助讓這項珍貴資源持續免費且對所有人開放。
 
 :::
 
@@ -58,11 +51,10 @@ free and accessible to everyone.
 [Wikipedia]: https://wikipedia.org/
 [donating to Wikipedia]: https://donate.wikimedia.org/
 
-### Create a new Flutter project
+### 建立新的 Flutter 專案
 
-Create a new Flutter project using the [Flutter CLI][].
-In your preferred terminal, run the following command to
-create a minimal Flutter app:
+使用 [Flutter CLI][] 建立新的 Flutter 專案。
+在您慣用的終端機中，執行以下指令以建立一個最簡化的 Flutter 應用程式：
 
 ```console
 $ flutter create wikipedia_reader --empty
@@ -70,10 +62,10 @@ $ flutter create wikipedia_reader --empty
 
 [Flutter CLI]: /reference/flutter-cli
 
-### Add required dependencies
+### 新增必要的相依套件
 
-Your app needs the [`http` package][] to make HTTP requests.
-Add it to your project:
+您的應用程式需要 [`http` 套件][`http` package] 來發出 HTTP 請求。
+將其加入您的專案：
 
 ```console
 $ cd wikipedia_reader && flutter pub add http
@@ -81,13 +73,12 @@ $ cd wikipedia_reader && flutter pub add http
 
 [`http` package]: {{site.pub}}/packages/http
 
-### Examine the starter code
+### 檢視起始程式碼
 
-First, create a new file `lib/summary.dart` to define the data model
-for Wikipedia article summaries. This file has no special logic, and is
-simply a collection of classes that represent the data returned by the
-Wikipedia API. It's sufficient to copy the code below into the file and then ignore it.
-If you aren't comfortable with basic Dart classes, you should read the [Dart Getting Started][] tutorial first.
+首先，建立新檔案 `lib/summary.dart` 以定義維基百科文章摘要的資料模型。
+此檔案沒有特殊邏輯，僅是代表維基百科 API 所回傳資料的類別集合。
+您只需將下方程式碼複製到檔案中，之後便無需再關注此檔案。
+若您對基本 Dart 類別尚不熟悉，請先閱讀 [Dart 入門][Dart Getting Started] 教學。
 
 <?code-excerpt "fwe/wikipedia_reader/lib/summary.dart (All)"?>
 ```dart title="lib/summary.dart" collapsed
@@ -335,8 +326,8 @@ String? getFileExtension(String file) {
 const acceptableImageFormats = ['png', 'jpg', 'jpeg'];
 ```
 
-Then, open `lib/main.dart` and replace the existing code with
-this basic structure, which adds required imports that the app uses:
+接著，開啟 `lib/main.dart`，將現有程式碼替換為以下基本結構，
+其中已加入應用程式所需的必要匯入：
 
 <?code-excerpt "fwe/wikipedia_reader/lib/step1_main.dart (All)"?>
 ```dart title="lib/main.dart"
@@ -367,81 +358,79 @@ class MainApp extends StatelessWidget {
 }
 ```
 
-This code provides a basic app structure with
-a title bar and placeholder content.
-The imports at the top include everything you need for
-HTTP requests, JSON parsing, and the Wikipedia data model.
+此程式碼提供了帶有標題列與佔位內容的基本應用程式結構。
+頂部的匯入項目包含了 HTTP 請求、JSON 解析以及維基百科資料模型所需的一切。
 
 [Dart Getting Started]: {{site.dart-site}}/tutorial
 
-### Run your app
+### 執行您的應用程式
 
-Test that everything works by running your app:
+執行您的應用程式，確認一切正常運作：
 
 ```console
 $ flutter run -d chrome
 ```
 
-You should see a simple app with "Wikipedia Flutter" in the app bar
-and "Loading..." in the center of the screen.
+您應該會看到一個簡單的應用程式，其應用程式列顯示「Wikipedia Flutter」，
+畫面中央顯示「Loading...」。
 
-### Review
+### 回顧
 
 <SummaryCard>
-title: What you accomplished
-subtitle: Here's a summary of what you built and learned in this lesson.
+title: 您完成的事項
+subtitle: 以下是您在本課中建置與學習內容的摘要。
 completed: true
 items:
-  - title: Previewed the Wikipedia reader app
+  - title: 預覽了維基百科閱讀器應用程式
     icon: preview
     details: >-
-      You're starting a new tutorial section focused on working with data.
-      You'll learn HTTP requests, state management with `ChangeNotifier`,
-      and the MVVM architectural pattern.
-  - title: Added the http package and created a data model
+      您正在開始一個以資料處理為核心的新教學單元。
+      您將學習 HTTP 請求、使用 `ChangeNotifier` 進行狀態管理，
+      以及 MVVM 架構模式。
+  - title: 新增了 http 套件並建立了資料模型
     icon: inventory_2
     details: >-
-      You used `flutter pub add` to install the http package for making HTTP requests
-      and created the `Summary` class for Wikipedia data.
-      Packages let you leverage existing code built by the community
-      instead of building everything from scratch.
-  - title: Set up the initial project structure
+      您使用 `flutter pub add` 安裝了用於發出 HTTP 請求的 http 套件，
+      並為維基百科資料建立了 `Summary` 類別。
+      套件讓您能夠善用社群已建置的現有程式碼，
+      而無需從頭開始建置所有功能。
+  - title: 設定了初始專案結構
     icon: code
     details: >-
-      Your app has the basic structure with all necessary imports for
-      HTTP requests, JSON parsing, and Wikipedia data.
-      You're ready to start fetching real data from the Wikipedia API!
+      您的應用程式已具備基本結構，包含 HTTP 請求、JSON 解析
+      以及維基百科資料所需的所有匯入項目。
+      您已準備好開始從維基百科 API 擷取真實資料！
 </SummaryCard>
 
-### Test yourself
+### 自我測驗
 
-<Quiz title="Project Setup Quiz">
-- question: "What does the `--empty` flag do when running `flutter create`?"
+<Quiz title="專案設定測驗">
+- question: "執行 `flutter create` 時，`--empty` 旗標的作用是什麼？"
   options:
-    - text: Creates a project with no files at all.
+    - text: 建立一個完全沒有任何檔案的專案。
       correct: false
-      explanation: The project still has essential files; it just uses a minimal template.
-    - text: Creates a minimal Flutter project with less boilerplate code.
+      explanation: 專案仍會包含必要的檔案；它只是使用最簡化的範本。
+    - text: 建立一個樣板程式碼較少的最簡化 Flutter 專案。
       correct: true
-      explanation: "The `--empty` flag generates a minimal starter template without the default counter app."
-    - text: Creates a project without any dependencies.
+      explanation: "`--empty` 旗標會產生一個不含預設計數器應用程式的最簡化起始範本。"
+    - text: 建立一個不含任何相依套件的專案。
       correct: false
-      explanation: The project still includes core Flutter dependencies.
-    - text: Creates a project that can only run on web.
+      explanation: 專案仍會包含 Flutter 核心相依套件。
+    - text: 建立一個只能在網頁上執行的專案。
       correct: false
-      explanation: The flag doesn't restrict platforms; it only affects the starter template.
-- question: What command is used to add a package dependency to a Flutter project?
+      explanation: 此旗標不限制平台；它只影響起始範本。
+- question: 用來為 Flutter 專案新增套件相依性的指令是什麼？
   options:
     - text: "`flutter install [package_name]`"
       correct: false
-      explanation: "The correct command uses `pub add`, not `install`."
+      explanation: "正確的指令使用 `pub add`，而非 `install`。"
     - text: "`flutter pub add [package_name]`"
       correct: true
-      explanation: "Running `flutter pub add` adds the package to pubspec.yaml and downloads it."
+      explanation: "執行 `flutter pub add` 會將套件加入 pubspec.yaml 並下載套件。"
     - text: "`dart get [package_name]`"
       correct: false
-      explanation: "The command for adding packages is `flutter pub add` or editing pubspec.yaml."
+      explanation: "新增套件的指令是 `flutter pub add` 或直接編輯 pubspec.yaml。"
     - text: "`flutter package install [package_name]`"
       correct: false
-      explanation: "There is no `flutter package` command; use `flutter pub add`."
+      explanation: "不存在 `flutter package` 指令；請使用 `flutter pub add`。"
 </Quiz>

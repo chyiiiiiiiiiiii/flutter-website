@@ -1,6 +1,6 @@
 ---
-title: Start thinking declaratively
-description: How to think about declarative programming.
+title: 開始用宣告式思維
+description: 如何以宣告式程式設計的角度思考。
 prev:
   title: Intro
   path: /data-and-backend/state-mgmt
@@ -9,16 +9,11 @@ next:
   path: /data-and-backend/state-mgmt/ephemeral-vs-app
 ---
 
-If you're coming to Flutter from an imperative framework
-(such as Android SDK or iOS UIKit), you need to start
-thinking about app development from a new perspective.
+如果你是從命令式框架（例如 Android SDK 或 iOS UIKit）轉換到 Flutter，你需要開始用全新的角度來思考應用程式開發。
 
-Many assumptions that you might have don't apply to Flutter. For example, in
-Flutter it's okay to rebuild parts of your UI from scratch instead of modifying
-it. Flutter is fast enough to do that, even on every frame if needed.
+你過去的一些假設在 Flutter 上並不適用。例如，在 Flutter 中，從頭重建部分 UI 是沒問題的，而不是直接修改它。Flutter 的效能足夠，即使每一幀都重建也沒問題。
 
-Flutter is _declarative_. This means that Flutter builds its user interface to
-reflect the current state of your app:
+Flutter 採用**宣告式**（declarative）方式。這代表 Flutter 會根據應用程式目前的狀態來建構使用者介面：
 
 <img src='/assets/images/docs/development/data-and-backend/state-mgmt/ui-equals-function-of-state.png' width="100%" class="diagram-wrap" alt="A mathematical formula of UI = f(state). 'UI' is the layout on the screen. 'f' is your build methods. 'state' is the application state.">
 
@@ -26,24 +21,22 @@ reflect the current state of your app:
 Source drawing for the png above: : https://docs.google.com/drawings/d/1RDcR5LyFtzhpmiT5-UupXBeos2Ban5cUTU0-JujS3Os/edit?usp=sharing
 {% endcomment %}
 
-When the state of your app changes
-(for example, the user flips a switch in the settings screen),
-you change the state, and that triggers a redraw of the user interface.
-There is no imperative changing of the UI itself
-(like `widget.setText`)&mdash;you change the state,
-and the UI rebuilds from scratch.
+當你的應用程式狀態改變時
+（例如，使用者在設定畫面切換了一個開關），
+你只需要改變狀態，這就會觸發 UI 的重新繪製。
+你不需要用命令式的方式直接改變 UI
+（像是 `widget.setText`）——你只需改變狀態，
+UI 就會從頭重建。
 
-Read more about the declarative approach to UI programming
-in the [Introduction to declarative UI][].
+你可以在[宣告式 UI 簡介][Introduction to declarative UI]中深入了解宣告式 UI 程式設計的方式。
 
-The declarative style of UI programming has many benefits.
-Remarkably, there is only one code path for any state of the UI.
-You describe what the UI should look
-like for any given state, once&mdash;and that is it.
+宣告式 UI 程式設計有許多優點。
+最顯著的是，任何 UI 狀態都只有一條程式碼路徑。
+你只需描述一次，當狀態為某個值時 UI 應該長什麼樣子——就這麼簡單。
 
-At first,
-this style of programming might not seem as intuitive as the
-imperative style. This is why this section is here. Read on.
+一開始，
+這種程式設計風格可能不像命令式那麼直覺。
+這也是本節存在的原因。請繼續閱讀。
 
 
 [Introduction to declarative UI]: /flutter-for/declarative

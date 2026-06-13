@@ -1,10 +1,10 @@
 ---
-title: Fetch data from the internet
-description: Instructions on how to make HTTP requests and parse responses.
+title: 從網際網路擷取資料
+description: 說明如何發出 HTTP 請求並解析回應的操作步驟。
 layout: tutorial
 ---
 
-Learn the MVVM architecture pattern and how to build HTTP requests with async/await.
+學習 MVVM 架構模式，以及如何使用 async/await 建置 HTTP 請求。
 
 <SummaryCard>
 title: What you'll accomplish
@@ -19,35 +19,33 @@ items:
 
 ---
 
-### Introduction
+### 簡介
 
-The overarching pattern that this tutorial implements is called
-_Model-View-ViewModel_ or _MVVM_.
-MVVM is an [architectural pattern][] used in client apps that
-separates your app into three layers:
+本教學所實作的整體架構模式稱為 _Model-View-ViewModel_，簡稱 _MVVM_。
+MVVM 是一種用於用戶端應用程式的[架構模式 (architectural pattern)][architectural pattern]，
+它將你的應用程式分為三個層次：
 
-- **Model**: Handles data operations.
-- **View**: Displays the UI.
-- **ViewModel**: Manages state and connects the two.
+- **Model**：負責資料操作。
+- **View**：負責顯示使用者介面。
+- **ViewModel**：負責管理狀態並連接前兩者。
 
-The core tenet of MVVM (and many other patterns) is *separation of concerns*.
-Managing state in separate classes (outside your UI widgets) makes
-your code more testable, reusable, and easier to maintain.
+MVVM（以及許多其他模式）的核心原則是*關注點分離 (separation of concerns)*。
+在獨立的類別中管理狀態（在 UI 元件 (Widget) 之外），
+可以讓你的程式碼更易於測試、重用，以及維護。
 
-A single feature in your app contains each one of the MVVM components.
-In this tutorial, in addition to Flutter widgets,
-you'll create `ArticleModel`, `ArticleViewModel`, and `ArticleView`.
+你應用程式中的每個功能都包含 MVVM 的三個組成部分。
+在本教學中，除了 Flutter 的元件之外，
+你還會建立 `ArticleModel`、`ArticleViewModel` 以及 `ArticleView`。
 
 [architectural pattern]: /app-architecture/guide
 
-### Define the Model
+### 定義 Model
 
-The Model is the source-of-truth for your app's data and is responsible for
-low-level tasks such as making HTTP requests, caching data, or
-managing system resources such as used by a Flutter plugin.
-A model doesn't usually need to import Flutter libraries.
+Model 是應用程式資料的唯一真實來源，並負責低層次的任務，
+例如發出 HTTP 請求、快取資料，或管理 Flutter 插件 (plugin) 所使用的系統資源。
+Model 通常不需要匯入 Flutter 函式庫。
 
-Create an empty `ArticleModel` class in your `main.dart` file:
+在你的 `main.dart` 檔案中建立一個空的 `ArticleModel` 類別：
 
 <?code-excerpt "fwe/wikipedia_reader/lib/step2a_main.dart (ArticleModel)"?>
 ```dart
@@ -56,16 +54,16 @@ class ArticleModel {
 }
 ```
 
-### Build the HTTP request
+### 建置 HTTP 請求
 
-Wikipedia provides a REST API that returns JSON data about articles.
-For this app, you'll use the endpoint that returns a random article summary.
+Wikipedia 提供了一個 REST API，可回傳有關文章的 JSON 資料。
+在這個應用程式中，你將使用回傳隨機文章摘要的端點 (endpoint)。
 
 ```text
 https://en.wikipedia.org/api/rest_v1/page/random/summary
 ```
 
-Add a method to fetch a random Wikipedia article summary:
+新增一個方法來擷取隨機的 Wikipedia 文章摘要：
 
 <?code-excerpt "fwe/wikipedia_reader/lib/step2b_main.dart (ArticleModel)"?>
 ```dart
@@ -83,24 +81,22 @@ class ArticleModel {
 }
 ```
 
-Use the [`async` and `await`][] keywords to handle asynchronous operations.
-The `async` keyword marks a method as asynchronous, and
-`await` waits for expressions that return a [`Future`][].
+使用 [`async` 與 `await`][`async` and `await`] 關鍵字來處理非同步 (asynchronous) 操作。
+`async` 關鍵字將方法標記為非同步，
+而 `await` 則等待回傳 [`Future`][] 的運算式完成。
 
-The `Uri.https` constructor safely builds URLs by
-handling encoding and formatting.
-This approach is more reliable than string concatenation,
-especially when dealing with special characters or query parameters.
+`Uri.https` 建構式透過處理編碼和格式化，能安全地建置 URL。
+這種方式比字串串接更可靠，
+尤其是在處理特殊字元或查詢參數時。
 
 [`async` and `await`]: {{site.dart-site}}/language/async
 [`Future`]: {{site.api}}/flutter/dart-async/Future-class.html
 
-### Handle network errors
+### 處理網路錯誤
 
-Always handle errors when making HTTP requests.
-A status code of **200** indicates success, while other codes indicate errors.
-If the status code isn't **200**, the model throws an error for
-the UI to display to users.
+發出 HTTP 請求時，請務必處理錯誤。
+狀態碼 **200** 表示成功，其他代碼則表示發生錯誤。
+若狀態碼不是 **200**，Model 就會拋出錯誤，讓 UI 顯示給使用者。
 
 <?code-excerpt "fwe/wikipedia_reader/lib/step2c_main.dart (ArticleModel)"?>
 ```dart
@@ -122,11 +118,11 @@ class ArticleModel {
 }
 ```
 
-### Parse JSON from Wikipedia
+### 解析 Wikipedia 的 JSON 資料
 
-The [Wikipedia API][] returns [JSON][] data that
-you decode into a `Summary` class
-Complete the `getRandomArticleSummary` method:
+[Wikipedia API][] 回傳 [JSON][] 資料，
+你需要將其解碼為 `Summary` 類別。
+完成 `getRandomArticleSummary` 方法：
 
 <?code-excerpt "fwe/wikipedia_reader/lib/step2_main.dart (ArticleModel)"?>
 ```dart
@@ -147,15 +143,15 @@ class ArticleModel {
 }
 ```
 
-The `Summary` class is defined in `summary.dart`.
-If you're unfamiliar with JSON parsing,
-check out the [Getting started with Dart][] tutorial.
+`Summary` 類別定義在 `summary.dart` 中。
+若你對 JSON 解析不熟悉，
+請參閱 [Getting started with Dart][] 教學。
 
 [Wikipedia API]: https://en.wikipedia.org/api/rest_v1/
 [JSON]: {{site.dart-site}}/tutorial/json
 [Getting started with Dart]: {{site.dart-site}}/tutorial
 
-### Review
+### 回顧
 
 <SummaryCard>
 title: What you accomplished
@@ -186,7 +182,7 @@ items:
       you used the `Summary.fromJson` named constructor.
 </SummaryCard>
 
-### Test yourself
+### 自我測驗
 
 <Quiz title="HTTP Requests Quiz">
 - question: "What do the `async` and `await` keywords do in Dart?"

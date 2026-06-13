@@ -1,41 +1,40 @@
 ---
-title: Deprecated API removed after v2.2
+title: v2.2 之後移除的已棄用 API
 description: >
-  After reaching end of life, the following deprecated APIs
-  were removed from Flutter.
+  在達到生命週期終點後，下列已棄用的 API
+  已從 Flutter 中移除。
 ---
 
-## Summary
+## 摘要
 
-In accordance with Flutter's [Deprecation Policy][],
-deprecated APIs that reached end of life after the
-2.2 stable release have been removed.
+根據 Flutter 的 [棄用政策][Deprecation Policy]，
+在 2.2 穩定版發佈後達到生命週期終點的
+已棄用 API 已被移除。
 
-All affected APIs have been compiled into this
-primary source to aid in migration. A
-[quick reference sheet][] is available as well.
+所有受影響的 API 已彙整於此
+主要來源，以協助遷移。
+同時也提供了[快速參考表][quick reference sheet]。
 
 [Deprecation Policy]: {{site.repo.flutter}}/blob/main/docs/contributing/Tree-hygiene.md#deprecations
 [quick reference sheet]: /go/deprecations-removed-after-2-2
 
-## Changes
+## 變更內容
 
-This section lists the deprecations, listed by the affected class.
+本節將依受影響的類別列出棄用項目。
 
-### `hasFloatingPlaceholder` of `InputDecoration` & `InputDecorationTheme`
+### `InputDecoration` 與 `InputDecorationTheme` 的 `hasFloatingPlaceholder`
 
-Supported by Flutter Fix: yes
+Flutter Fix 支援：是
 
-`hasFloatingPlaceholder` was deprecated in v1.13.2.
-Use `floatingLabelBehavior` instead.
-Where `useFloatingPlaceholder` was true, replace with `FloatingLabelBehavior.auto`.
-Where `useFloatingPlaceholder` was false, replace with `FloatingLabelBehavior.never`.
-This change allows more behaviors to be specified beyond the original binary
-choice, adding `FloatingLabelBehavior.always` as an additional option.
+`hasFloatingPlaceholder` 於 v1.13.2 被棄用。
+請改用 `floatingLabelBehavior`。
+當 `useFloatingPlaceholder` 為 true 時，請替換為 `FloatingLabelBehavior.auto`。
+當 `useFloatingPlaceholder` 為 false 時，請替換為 `FloatingLabelBehavior.never`。
+此變更允許指定更多行為，超越原本的二元選擇，並新增了 `FloatingLabelBehavior.always` 作為額外選項。
 
-**Migration guide**
+**遷移指南**
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 // InputDecoration
@@ -63,7 +62,7 @@ inputDecorationTheme.copyWith(hasFloatingPlaceholder: false);
 inputDecorationTheme.copyWith(hasFloatingPlaceholder: true);
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 // InputDecoration
@@ -91,22 +90,22 @@ inputDecorationTheme.copyWith(floatingLabelBehavior: FloatingLabelBehavior.never
 inputDecorationTheme.copyWith(floatingLabelBehavior: FloatingLabelBehavior.auto);
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
-* [`InputDecoration`][]
-* [`InputDecorationTheme`][]
-* [`FloatingLabelBehavior`][]
+* [`InputDecoration`][`InputDecoration`]
+* [`InputDecorationTheme`][`InputDecorationTheme`]
+* [`FloatingLabelBehavior`][`FloatingLabelBehavior`]
 
-Relevant issues:
+相關議題：
 
-* [InputDecoration: option to always float label][]
+* [InputDecoration: option to always float label][InputDecoration: option to always float label]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#46115][]
-* Removed in [#83923][]
+* 已在 [#46115][#46115] 標記為已淘汰
+* 已在 [#83923][#83923] 移除
 
 [`InputDecoration`]: {{site.api}}/flutter/material/InputDecoration-class.html
 [`InputDecorationTheme`]: {{site.api}}/flutter/material/InputDecorationTheme-class.html
@@ -119,13 +118,11 @@ Relevant PRs:
 
 ### `TextTheme`
 
-Supported by Flutter Fix: yes
+Flutter Fix 支援：是
 
-Several `TextStyle` properties of `TextTheme` were deprecated in v1.13.8. They
-are listed in the following table alongside the appropriate replacement in the
-new API.
+多個 `TextStyle` 的 `TextTheme` 屬性已於 v1.13.8 被標記為已淘汰。下表列出了這些屬性及其在新 API 中對應的替代項目。
 
-| Deprecation | New API |
+| 已淘汰屬性 | 新 API |
 |---|---|
 | display4 | headline1 |
 | display3 | headline2 |
@@ -138,9 +135,9 @@ new API.
 | body1 | bodyText2 |
 | subtitle | subtitle2 |
 
-**Migration guide**
+**遷移指南**
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 // TextTheme
@@ -195,7 +192,7 @@ style = textTheme.subtitle;
 style = textTheme.overline;
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 // TextTheme
@@ -248,24 +245,24 @@ style = textTheme.subtitle2;
 style = textTheme.overline;
 ```
 
-**References**
+**參考資料**
 
-Design document:
+設計文件：
 
-* [Update the TextTheme API][]
+* [Update the TextTheme API][Update the TextTheme API]
 
-API documentation:
+API 文件：
 
-* [`TextTheme`][]
+* [`TextTheme`][`TextTheme`]
 
-Relevant issues:
+相關議題：
 
-* [Migrate TextTheme to 2018 APIs][]
+* [Migrate TextTheme to 2018 APIs][Migrate TextTheme to 2018 APIs]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#48547][]
-* Removed in [#83924][]
+* 在 [#48547][#48547] 標記為已淘汰
+* 在 [#83924][#83924] 移除
 
 [Update the TextTheme API]: /go/update-text-theme-api
 [`TextTheme`]: {{site.api}}/flutter/material/TextTheme-class.html
@@ -275,25 +272,25 @@ Relevant PRs:
 
 ---
 
-### Default `Typography`
+### 預設 `Typography`
 
-Supported by Flutter Fix: no
+Flutter Fix 是否支援：否
 
-The default `Typography` was deprecated in v1.13.8.
-The prior default returned the text styles of the 2014 Material Design specification.
-This will now result in `TextStyle`s reflecting the 2018 Material Design specification.
-For the former, use the `material2014` constructor.
+預設的 `Typography` 已於 v1.13.8 標記為已淘汰。
+先前的預設值會回傳 2014 年 Material Design 規範的文字樣式。
+現在將會導致 `TextStyle` 反映 2018 年 Material Design 規範的文字樣式。
+若需使用舊版，請改用 `material2014` 建構子。
 
-**Migration guide**
+**遷移指南**
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 // Formerly returned 2014 TextStyle spec
 Typography();
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 // Use 2018 TextStyle spec, either by default or explicitly.
@@ -304,24 +301,24 @@ Typography.material2018();
 Typography.material2014();
 ```
 
-**References**
+**參考資料**
 
-Design document:
+設計文件：
 
-* [Update the TextTheme API][]
+* [Update the TextTheme API][Update the TextTheme API]
 
-API documentation:
+API 文件：
 
-* [`Typography`][]
+* [`Typography`][`Typography`]
 
-Relevant issues:
+相關議題：
 
-* [Migrate TextTheme to 2018 APIs][]
+* [Migrate TextTheme to 2018 APIs][Migrate TextTheme to 2018 APIs]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#48547][]
-* Removed in [#83924][]
+* 在 [#48547][#48547] 標記為已棄用
+* 在 [#83924][#83924] 移除
 
 [Update the TextTheme API]: /go/update-text-theme-api
 [`Typography`]: {{site.api}}/flutter/material/Typography-class.html
@@ -331,6 +328,6 @@ Relevant PRs:
 
 ---
 
-## Timeline
+## 時程
 
-In stable release: 2.5
+在穩定版發行：2.5

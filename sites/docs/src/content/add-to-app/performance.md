@@ -1,136 +1,71 @@
 ---
-title: Load sequence, performance, and memory
-description: What are the steps involved when showing a Flutter UI.
+title: 載入順序、效能與記憶體
+description: 顯示 Flutter UI 時所涉及的步驟說明。
 ---
 
-This page describes the breakdown of the steps involved
-to show a Flutter UI. Knowing this, you can make better,
-more informed decisions about when to pre-warm the Flutter engine,
-which operations are possible at which stage,
-and the latency and memory costs of those operations.
+本頁說明顯示 Flutter UI 時所涉及步驟的詳細拆解。了解這些步驟後，您可以更好地決定何時預先啟動 Flutter 引擎、各階段可執行哪些操作，以及這些操作的延遲與記憶體成本。
 
-## Loading Flutter
+## 載入 Flutter
 
-Android and iOS apps (the two supported platforms for
-integrating into existing apps), full Flutter apps,
-and add-to-app patterns have a similar sequence of
-conceptual loading steps when displaying the Flutter UI.
+Android 與 iOS 應用程式（目前支援整合至既有應用的兩大平台）、完整 Flutter 應用程式，以及 add-to-app 模式，在顯示 Flutter UI 時，其概念上的載入步驟大致相同。
 
-### Finding the Flutter resources
+### 尋找 Flutter 資源
 
-Flutter's engine runtime and your application's compiled
-Dart code are both bundled as shared libraries on Android
-and iOS. The first step of loading Flutter is to find those
-resources in your .apk/.ipa/.app (along with other Flutter
-assets such as images, fonts, and JIT code, if applicable).
+Flutter 的引擎執行階段與您的應用程式編譯後的 Dart 程式碼，都會以共享函式庫（shared libraries）的形式，打包在 Android 與 iOS 上。載入 Flutter 的第一步，是在您的 .apk/.ipa/.app 檔案中找到這些資源（以及其他 Flutter 資產，如圖片、字型與 JIT 程式碼（若適用））。
 
-This happens when you construct a `FlutterEngine` for the
-first time on both **[Android][android-engine]**
-and **[iOS][ios-engine]** APIs.
+這個步驟會在您第一次建立 `FlutterEngine` 時於 **[Android][android-engine]** 與 **[iOS][ios-engine]** API 上發生。
 
 :::note
-Some packages allow you to share images and fonts
-from the native application to your Flutter screen.
-For example:
+有些套件允許您將原生應用程式的圖片與字型共用到 Flutter 螢幕。例如：
 * [native_font]({{site.pub-pkg}}/native_font)
 * [ios_platform_images]({{site.pub-pkg}}/ios_platform_images)
 :::
 
-### Loading the Flutter library
+### 載入 Flutter 函式庫
 
-After it's found, the engine's shared libraries are memory loaded
-once per process.
+找到資源後，引擎的共享函式庫會在每個行程（process）中載入一次至記憶體。
 
-On **Android**, this also happens when the
-[`FlutterEngine`][android-engine] is constructed because the
-JNI connectors need to reference the Flutter C++ library.
-On **iOS**, this happens when the
-[`FlutterEngine`][ios-engine] is first run,
-such as by running [`runWithEntrypoint:`][].
+在 **Android** 上，這個步驟也會在建立 [`FlutterEngine`][android-engine] 時發生，因為 JNI 連接器需要參考 Flutter 的 C++ 函式庫。在 **iOS** 上，則是在第一次執行 [`FlutterEngine`][ios-engine]（例如執行 [`runWithEntrypoint:`][`runWithEntrypoint:`]）時發生。
 
-### Starting the Dart VM
+### 啟動 Dart VM
 
-The Dart runtime is responsible for managing Dart memory and
-concurrency for your Dart code. In JIT mode,
-it's additionally responsible for compiling
-the Dart source code into machine code during runtime.
+Dart 執行階段負責管理 Dart 記憶體與並行處理。在 JIT 模式下，還會在執行期間將 Dart 原始碼編譯為機器碼。
 
-A single Dart runtime exists per application session on
-Android and iOS.
+每個 Android 與 iOS 應用程式會有一個 Dart 執行階段（runtime）。
 
-A one-time Dart VM start is done when constructing the
-[`FlutterEngine`][android-engine] for the first time on
-**Android** and when [running a Dart entrypoint][ios-engine]
-for the first time on **iOS**.
+首次於 **Android** 建立 [`FlutterEngine`][android-engine]，或於 **iOS** 首次[執行 Dart entrypoint][ios-engine] 時，會進行 Dart VM 的一次性啟動。
 
-At this point, your Dart code's [snapshot][]
-is also loaded into memory from your application's files.
+此時，您的 Dart 程式碼的 [snapshot][snapshot] 也會從應用程式檔案載入至記憶體。
 
-This is a generic process that also occurs if you used the
-[Dart SDK][] directly, without the Flutter engine.
+這是通用流程，即使您直接使用 [Dart SDK][Dart SDK] 而非 Flutter 引擎，也會發生。
 
-The Dart VM never shuts down after it's started.
+Dart VM 啟動後，將不會關閉。
 
-### Creating and running a Dart Isolate
+### 建立並執行 Dart Isolate
 
-After the Dart runtime is initialized,
-the Flutter engine's usage of the Dart
-runtime is the next step.
+Dart 執行階段初始化後，下一步是 Flutter 引擎對 Dart 執行階段的使用。
 
-This is done by starting a [Dart `Isolate`][] in the Dart runtime.
-The isolate is Dart's container for memory and threads.
-A number of [auxiliary threads][] on the host platform are
-also created at this point to support the isolate, such
-as a thread for offloading GPU handling and another for image decoding.
+這會在 Dart 執行階段中啟動一個 [Dart `Isolate`][Dart `Isolate`]。Isolate 是 Dart 用來管理記憶體與執行緒的容器。此時，主機平台也會建立數個[輔助執行緒][auxiliary threads]，以支援 isolate，例如用於 GPU 處理卸載的執行緒，以及圖片解碼的執行緒。
 
-One isolate exists per `FlutterEngine` instance, and multiple isolates
-can be hosted by the same Dart VM.
+每個 `FlutterEngine` 實例對應一個 isolate，同一個 Dart VM 可同時託管多個 isolate。
 
-On **Android**, this happens when you call
-[`DartExecutor.executeDartEntrypoint()`][]
-on a `FlutterEngine` instance.
+在 **Android** 上，這會在您於 `FlutterEngine` 實例上呼叫 [`DartExecutor.executeDartEntrypoint()`][`DartExecutor.executeDartEntrypoint()`] 時發生。
 
-On **iOS**, this happens when you call [`runWithEntrypoint:`][]
-on a `FlutterEngine`.
+在 **iOS** 上，則是在您於 `FlutterEngine` 上呼叫 [`runWithEntrypoint:`][`runWithEntrypoint:`] 時發生。
 
-At this point, your Dart code's selected entrypoint
-(the `main()` function of your Dart library's `main.dart` file,
-by default) is executed. If you called the
-Flutter function [`runApp()`][] in your `main()` function,
-then your Flutter app or your library's widget tree is also created
-and built. If you need to prevent certain functionalities from executing
-in your Flutter code, then the `AppLifecycleState.detached`
-enum value indicates that the `FlutterEngine` isn't attached
-to any UI components such as a `FlutterViewController`
-on iOS or a `FlutterActivity` on Android.
+此時，您的 Dart 程式碼所選的 entrypoint（預設為 Dart 程式庫 `main.dart` 檔案中的 `main()` 函式）會被執行。如果您在 `main()` 函式中呼叫了 Flutter 的 [`runApp()`][`runApp()`] 函式，則您的 Flutter 應用程式或程式庫的元件樹（widget tree）也會被建立與建構。如果您需要避免 Flutter 程式碼中某些功能被執行，則 `AppLifecycleState.detached` 列舉值表示 `FlutterEngine` 尚未附加至任何 UI 元件，例如 iOS 上的 `FlutterViewController` 或 Android 上的 `FlutterActivity`。
 
-### Attaching a UI to the Flutter engine
+### 將 UI 附加至 Flutter 引擎
 
-A standard, full Flutter app moves to reach this state as
-soon as the app is launched.
+標準的完整 Flutter 應用程式在啟動時就會進入此階段。
 
-In an add-to-app scenario,
-this happens when you attach a `FlutterEngine`
-to a UI component such as by calling [`startActivity()`][]
-with an [`Intent`][] built using [`FlutterActivity.withCachedEngine()`][]
-on **Android**. Or, by presenting a [`FlutterViewController`][]
-initialized by using [`initWithEngine: nibName: bundle:`][]
-on **iOS**.
+在 add-to-app 情境下，這會在您將 `FlutterEngine` 附加至 UI 元件時發生，例如於 **Android** 呼叫 [`startActivity()`][`startActivity()`] 並傳入以 [`FlutterActivity.withCachedEngine()`][`FlutterActivity.withCachedEngine()`] 建立的 [`Intent`][`Intent`]；或於 **iOS** 使用 [`initWithEngine: nibName: bundle:`][`initWithEngine: nibName: bundle:`] 初始化後，展示 [`FlutterViewController`][`FlutterViewController`]。
 
-This is also the case if a Flutter UI component was launched without
-pre-warming a `FlutterEngine` such as with
-[`FlutterActivity.createDefaultIntent()`][] on **Android**,
-or with [`FlutterViewController initWithProject: nibName: bundle:`][]
-on **iOS**. An implicit `FlutterEngine` is created in these cases.
+若未先預熱 `FlutterEngine`，直接啟動 Flutter UI 元件（如在 **Android** 使用 [`FlutterActivity.createDefaultIntent()`][`FlutterActivity.createDefaultIntent()`]，或在 **iOS** 使用 [`FlutterViewController initWithProject: nibName: bundle:`][`FlutterViewController initWithProject: nibName: bundle:`]），也會進入此階段。這些情境下會隱式建立 `FlutterEngine`。
 
-Behind the scene, both platform's UI components provide the
-`FlutterEngine` with a rendering surface such as a
-[`Surface`][] on **Android** or a [CAEAGLLayer][] or [CAMetalLayer][]
-on **iOS**.
+在幕後，兩個平台的 UI 元件都會為 `FlutterEngine` 提供一個繪圖表面，例如 **Android** 上的 [`Surface`][`Surface`]，或 **iOS** 上的 [CAEAGLLayer][CAEAGLLayer] 或 [CAMetalLayer][CAMetalLayer]。
 
-At this point, the [`Layer`][] tree generated by your Flutter
-program, per frame, is converted into
-OpenGL (or Vulkan or Metal) GPU instructions.
+此時，您的 Flutter 程式每一幀所產生的 [`Layer`][`Layer`] 樹，會被轉換為 OpenGL（或 Vulkan、Metal）GPU 指令。
 
 [android-engine]: {{site.api}}/javadoc/io/flutter/embedding/engine/FlutterEngine.html
 [auxiliary threads]: {{site.repo.flutter}}/blob/main/docs/about/The-Engine-architecture.md#threading

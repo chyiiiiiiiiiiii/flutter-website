@@ -1,48 +1,32 @@
 ---
-title: Add a Flutter Fragment to an Android app
-shortTitle: Add a Flutter Fragment
-description: Learn how to add a Flutter Fragment to your existing Android app.
+title: 將 Flutter Fragment 加入 Android 應用程式
+shortTitle: 加入 Flutter Fragment
+description: 學習如何將 Flutter Fragment 加入現有的 Android 應用程式。
 ---
 
 <img src='/assets/images/docs/development/add-to-app/android/add-flutter-fragment/add-flutter-fragment_header.png' alt="Add Flutter Fragment Header">
 
-This guide describes how to add a Flutter `Fragment` to an existing
-Android app.  In Android, a [`Fragment`][] represents a modular
-piece of a larger UI. A `Fragment` might be used to present
-a sliding drawer, tabbed content, a page in a `ViewPager`,
-or it might simply represent a normal screen in a
-single-`Activity` app. Flutter provides a [`FlutterFragment`][]
-so that developers can present a Flutter experience any place
-that they can use a regular `Fragment`.
+本指南說明如何將 Flutter `Fragment` 加入現有的 Android 應用程式。在 Android 中，[`Fragment`][] 代表一個大型 UI 的模組化部分。`Fragment` 可用於顯示滑動抽屜、分頁內容、`ViewPager` 中的一個頁面，或僅僅代表單一 `Activity` 應用程式中的一般螢幕。Flutter 提供了 [`FlutterFragment`][]，讓開發者可以在任何可使用一般 `Fragment` 的地方呈現 Flutter 體驗。
 
-If an `Activity` is equally applicable for your application needs,
-consider [using a `FlutterActivity`][] instead of a
-`FlutterFragment`, which is quicker and easier to use.
+如果 `Activity` 同樣適用於你的應用需求，建議[改用 `FlutterActivity`][using a `FlutterActivity`]，其比 `FlutterFragment` 更快速且易於使用。
 
-`FlutterFragment` allows developers to control the following
-details of the Flutter experience within the `Fragment`:
+`FlutterFragment` 讓開發者能夠控制 `Fragment` 中 Flutter 體驗的下列細節：
 
- * Initial Flutter route
- * Dart entrypoint to execute
- * Opaque vs translucent background
- * Whether `FlutterFragment` should control its surrounding `Activity`
- * Whether a new [`FlutterEngine`][] or a cached `FlutterEngine` should be used
+ * 初始 Flutter 路由
+ * 要執行的 Dart 進入點
+ * 不透明或半透明背景
+ * `FlutterFragment` 是否應該控制其周圍的 `Activity`
+ * 應使用新的 [`FlutterEngine`][] 還是快取的 `FlutterEngine`
 
-`FlutterFragment` also comes with a number of calls that
-must be forwarded from its surrounding `Activity`.
-These calls allow Flutter to react appropriately to OS events.
+`FlutterFragment` 也包含多個必須從其周圍 `Activity` 轉發的呼叫。這些呼叫讓 Flutter 能夠正確回應作業系統事件。
 
-All varieties of `FlutterFragment`, and its requirements,
-are described in this guide.
+本指南將說明所有種類的 `FlutterFragment` 及其需求。
 
-## Add a `FlutterFragment` to an `Activity` with a new `FlutterEngine`
+## 以新的 `FlutterEngine` 將 `FlutterFragment` 加入 `Activity`
 
-The first thing to do to use a `FlutterFragment` is to add it to a host
-`Activity`.
+要使用 `FlutterFragment`，首先需將其加入主機 `Activity`。
 
-To add a `FlutterFragment` to a host `Activity`, instantiate and
-attach an instance of `FlutterFragment` in `onCreate()` within the
-`Activity`, or at another time that works for your app:
+若要將 `FlutterFragment` 加入主機 `Activity`，請在 `Activity` 的 `onCreate()` 中，或在其他適合你應用的時機，實例化並附加 `FlutterFragment` 的實例：
 
 <Tabs key="android-language">
 <Tab name="Kotlin">
@@ -144,13 +128,7 @@ public class MyActivity extends FragmentActivity {
 </Tab>
 </Tabs>
 
-The previous code is sufficient to render a Flutter UI
-that begins with a call to your `main()` Dart entrypoint,
-an initial Flutter route of `/`, and a new `FlutterEngine`.
-However, this code is not sufficient to achieve all expected
-Flutter behavior. Flutter depends on various OS signals that
-must  be forwarded from your host `Activity` to `FlutterFragment`.
-These calls are shown in the following example:
+前述程式碼已足以渲染一個 Flutter UI，該 UI 會從呼叫你的 `main()` Dart 進入點開始，初始 Flutter 路由為 `/`，並建立一個新的 `FlutterEngine`。然而，這段程式碼尚不足以實現所有預期的 Flutter 行為。Flutter 依賴於各種作業系統（OS）訊號，這些訊號必須從你的主機 `Activity` 傳遞到 `FlutterFragment`。下列範例展示了這些呼叫：
 
 <Tabs key="android-language">
 <Tab name="Kotlin">
@@ -270,28 +248,28 @@ public class MyActivity extends FragmentActivity {
 </Tab>
 </Tabs>
 
-With the OS signals forwarded to Flutter,
-your `FlutterFragment` works as expected.
-You have now added a `FlutterFragment` to your existing Android app.
+當作業系統訊號已成功轉發給 Flutter 時，
+你的 `FlutterFragment` 就能如預期運作。
+你現在已經將 `FlutterFragment` 新增到現有的 Android 應用程式中。
 
-The simplest integration path uses a new `FlutterEngine`,
-which comes with a non-trivial initialization time,
-leading to a blank UI until Flutter is
-initialized and rendered the first time.
-Most of this time overhead can be avoided by using
-a cached, pre-warmed `FlutterEngine`, which is discussed next.
+最簡單的整合方式是使用一個新的 `FlutterEngine`，
+但這會帶來不小的初始化時間，
+導致在 Flutter 第一次初始化並渲染前，
+畫面會出現空白 UI。
+大部分的時間延遲可以透過使用
+快取且預先啟動（pre-warmed）的 `FlutterEngine` 來避免，
+相關內容將在下節說明。
 
-## Using a pre-warmed `FlutterEngine`
+## 使用預先啟動的 `FlutterEngine`
 
-By default, a `FlutterFragment` creates its own instance
-of a `FlutterEngine`, which requires non-trivial warm-up time.
-This means your user sees a blank `Fragment` for a brief moment.
-You can mitigate most of this warm-up time by
-using an existing, pre-warmed instance of `FlutterEngine`.
+預設情況下，`FlutterFragment` 會自行建立一個
+`FlutterEngine` 實例，這需要一定的啟動時間。
+這表示使用者會在短暫時間內看到空白的 `Fragment`。
+你可以透過使用已存在且預先啟動的 `FlutterEngine` 實例，
+來減少大部分的啟動延遲。
 
-To use a pre-warmed `FlutterEngine` in a `FlutterFragment`,
-instantiate a `FlutterFragment` with the `withCachedEngine()`
-factory method.
+若要在 `FlutterFragment` 中使用預先啟動的 `FlutterEngine`，
+請使用 `withCachedEngine()` 工廠方法實例化 `FlutterFragment`。
 
 <Tabs key="android-language">
 <Tab name="Kotlin">
@@ -344,37 +322,32 @@ FlutterFragment.withCachedEngine("my_engine_id").build();
 </Tab>
 </Tabs>
 
-`FlutterFragment` internally knows about [`FlutterEngineCache`][]
-and retrieves the pre-warmed `FlutterEngine` based on the ID
-given to `withCachedEngine()`.
+`FlutterFragment` 會在內部知曉 [`FlutterEngineCache`][]，
+並根據提供給 `withCachedEngine()` 的 ID 取得預先啟動（pre-warmed）的 `FlutterEngine`。
 
-By providing a pre-warmed `FlutterEngine`,
-as previously shown, your app renders the
-first Flutter frame as quickly as possible.
+如前所示，透過提供預先啟動的 `FlutterEngine`，
+你的應用程式能夠盡可能快速地渲染出
+第一個 Flutter 畫面。
 
-#### Initial route with a cached engine
+#### 使用快取引擎指定初始路由
 
 {% render "docs/add-to-app/android-initial-route-cached-engine.md" %}
 
-## Display a splash screen
+## 顯示啟動畫面
 
-The initial display of Flutter content requires some wait time,
-even if a pre-warmed `FlutterEngine` is used.
-To help improve the user experience around
-this brief waiting period, Flutter supports the
-display of a splash screen (also known as "launch screen") until Flutter
-renders its first frame. For instructions about how to show a launch
-screen, see the [splash screen guide][].
+即使使用了預先啟動的 `FlutterEngine`，
+在最初顯示 Flutter 內容時仍需等待一段時間。
+為了提升使用者在這段短暫等待期間的體驗，Flutter 支援顯示啟動畫面（也稱為「launch screen」），直到 Flutter
+渲染出第一個畫面為止。關於如何顯示啟動畫面的詳細說明，請參閱[啟動畫面指南][splash screen guide]。
 
-## Run Flutter with a specified initial route
+## 以指定的初始路由執行 Flutter
 
-An Android app might contain many independent Flutter experiences,
-running in different `FlutterFragment`s, with different
-`FlutterEngine`s. In these scenarios,
-it's common for each Flutter experience to begin with different
-initial routes (routes other than `/`).
-To facilitate this, `FlutterFragment`'s `Builder`
-allows you to specify a desired initial route, as shown:
+一個 Android 應用程式可能包含多個獨立的 Flutter 體驗，
+分別運行於不同的 `FlutterFragment`，並搭配不同的
+`FlutterEngine`。在這些情境下，
+每個 Flutter 體驗通常會以不同的初始路由（而非 `/`）開始。
+為了實現這一點，`FlutterFragment` 的 `Builder`
+允許你指定所需的初始路由，如下所示：
 
 <Tabs key="android-language">
 <Tab name="Kotlin">
@@ -400,22 +373,15 @@ FlutterFragment flutterFragment = FlutterFragment.withNewEngine()
 </Tabs>
 
 :::note
-`FlutterFragment`'s initial route property has no effect when a pre-warmed
-`FlutterEngine` is used because the pre-warmed `FlutterEngine` already
-chose an initial route. The initial route can be chosen explicitly when
-pre-warming a `FlutterEngine`.
+當使用預先啟動（pre-warmed）的 `FlutterEngine` 時，`FlutterFragment` 的 initial route 屬性不會產生效果，因為預先啟動的 `FlutterEngine` 已經選擇了一個初始路由。當預先啟動 `FlutterEngine` 時，可以明確指定初始路由。
 :::
 
-## Run Flutter from a specified entrypoint
+## 從指定的進入點執行 Flutter
 
-Similar to varying initial routes, different
-`FlutterFragment`s might want to execute different
-Dart entrypoints. In a typical Flutter app, there is only one
-Dart entrypoint: `main()`, but you can define other entrypoints.
+與變更初始路由類似，不同的 `FlutterFragment` 可能希望執行不同的 Dart 進入點。在典型的 Flutter 應用程式中，通常只有一個 Dart 進入點：`main()`，但你也可以定義其他進入點。
 
-`FlutterFragment` supports specification of the desired
-Dart entrypoint to execute for the given Flutter experience.
-To specify an entrypoint, build `FlutterFragment`, as shown:
+`FlutterFragment` 支援指定要為特定 Flutter 體驗執行的 Dart 進入點。
+若要指定進入點，請如以下方式建立 `FlutterFragment`：
 
 <Tabs key="android-language">
 <Tab name="Kotlin">
@@ -438,35 +404,22 @@ FlutterFragment flutterFragment = FlutterFragment.withNewEngine()
 </Tab>
 </Tabs>
 
-The `FlutterFragment` configuration results in the execution
-of a Dart entrypoint called `mySpecialEntrypoint()`.
-Notice that the parentheses `()` are
-not included in the `dartEntrypoint` `String` name.
+`FlutterFragment` 的設定會執行名為 `mySpecialEntrypoint()` 的 Dart 進入點。
+請注意，括號 `()` 不包含在 `dartEntrypoint` `String` 名稱中。
 
 :::note
-`FlutterFragment`'s Dart entrypoint property has no effect
-when a pre-warmed `FlutterEngine` is used because the
-pre-warmed `FlutterEngine` already executed a Dart entrypoint.
-The Dart entrypoint can be chosen explicitly when pre-warming
-a `FlutterEngine`.
+當使用預先啟動（pre-warmed）的 `FlutterEngine` 時，`FlutterFragment` 的 Dart 進入點屬性將不會生效，因為預先啟動的 `FlutterEngine` 已經執行過 Dart 進入點。
+在預先啟動 `FlutterEngine` 時，可以明確指定要執行的 Dart 進入點。
 :::
 
-## Control `FlutterFragment`'s render mode
+## 控制 `FlutterFragment` 的渲染 (render) 模式
 
-`FlutterFragment` can either use a `SurfaceView` to render its
-Flutter content, or it can use a `TextureView`.
-The default is `SurfaceView`, which is significantly
-better for performance than `TextureView`. However, `SurfaceView`
-can't be interleaved in the middle of an Android `View` hierarchy.
-A `SurfaceView` must either be the bottommost `View` in the hierarchy,
-or the topmost `View` in the hierarchy.
-Additionally, on Android versions before Android N,
-`SurfaceView`s can't be animated because their layout and rendering
-aren't synchronized with the rest of the `View` hierarchy.
-If either of these use cases are requirements for your app,
-then you need to use `TextureView` instead of `SurfaceView`.
-Select a `TextureView` by building a `FlutterFragment` with a
-`texture` `RenderMode`:
+`FlutterFragment` 可以使用 `SurfaceView` 來渲染其 Flutter 內容，或是使用 `TextureView`。
+預設值為 `SurfaceView`，其效能明顯優於 `TextureView`。然而，`SurfaceView` 無法插入在 Android `View` 階層的中間。
+`SurfaceView` 必須是階層中最底層的 `View`，或是階層中最頂層的 `View`。
+此外，在 Android N 之前的版本上，`SurfaceView` 無法進行動畫，因為它們的版面配置與渲染無法與其他 `View` 階層同步。
+如果你的應用程式有上述任一需求，則必須使用 `TextureView` 取代 `SurfaceView`。
+可透過建構帶有 `texture` `RenderMode` 的 `FlutterFragment` 來選擇 `TextureView`：
 
 <Tabs key="android-language">
 <Tab name="Kotlin">
@@ -501,40 +454,19 @@ FlutterFragment flutterFragment = FlutterFragment.withCachedEngine("my_engine_id
 </Tab>
 </Tabs>
 
-Using the configuration shown, the resulting `FlutterFragment`
-renders its UI to a `TextureView`.
+使用上述設定後，產生的 `FlutterFragment` 會將其 UI 繪製到 `TextureView`。
 
-## Display a `FlutterFragment` with transparency
+## 顯示具有透明度的 `FlutterFragment`
 
-By default, `FlutterFragment` renders with an opaque background,
-using a `SurfaceView`. (See "Control `FlutterFragment`'s render
-mode.") That background is black for any pixels that aren't
- painted by Flutter. Rendering with an opaque background is
-the preferred rendering mode for performance reasons.
-Flutter rendering with transparency on Android negatively
-affects performance. However, there are many designs that
-require transparent pixels in the Flutter experience that
-show through to the underlying Android UI. For this reason,
-Flutter supports translucency in a `FlutterFragment`.
+預設情況下，`FlutterFragment` 會以不透明的背景進行渲染，並使用 `SurfaceView`。（請參閱「控制 `FlutterFragment` 的渲染模式」。）對於 Flutter 未繪製的像素，該背景會顯示為黑色。為了效能考量，以不透明背景進行渲染是建議的渲染模式。在 Android 上以透明方式渲染 Flutter 會對效能產生負面影響。然而，許多設計需求會要求 Flutter 畫面中的透明像素能夠顯示底層的 Android UI。為此，Flutter 支援在 `FlutterFragment` 中使用半透明效果。
 
 :::note
-Both `SurfaceView` and `TextureView` support transparency.
-However, when a `SurfaceView` is instructed to render with
-transparency, it positions itself at a higher z-index than
-all other Android `View`s, which means it appears
-above all other `View`s. This is a limitation of `SurfaceView`.
-If it's acceptable to render your Flutter experience on top
-of all other content, then `FlutterFragment`'s default
-`RenderMode` of `surface` is the `RenderMode` that you
-should use. However, if you need to display Android `View`s both
-above and below your Flutter experience, then you must specify a
-`RenderMode` of `texture`.
-See "Control `FlutterFragment`'s render mode"
-for information about controlling the `RenderMode`.
+`SurfaceView` 與 `TextureView` 皆支援透明度。
+但當 `SurfaceView` 被設定為透明渲染時，它會自動將自己置於所有其他 Android `View` 之上的較高 z-index，也就是說它會顯示在所有其他 `View` 之上。這是 `SurfaceView` 的限制。如果你可以接受讓 Flutter 畫面顯示在所有其他內容之上，那麼 `FlutterFragment` 的預設 `RenderMode` 為 `surface` 就是你應該使用的 `RenderMode`。但如果你需要在 Flutter 畫面之上與之下同時顯示 Android `View`，則必須指定 `RenderMode` 為 `texture`。
+關於如何控制 `FlutterFragment` 的渲染模式，請參閱「控制 `FlutterFragment` 的渲染模式」。
 :::
 
-To enable transparency for a `FlutterFragment`,
-build it with the following configuration:
+若要為 `FlutterFragment` 啟用透明度，請使用以下設定進行建構：
 
 <Tabs key="android-language">
 <Tab name="Kotlin">
@@ -569,34 +501,18 @@ FlutterFragment flutterFragment = FlutterFragment.withCachedEngine("my_engine_id
 </Tab>
 </Tabs>
 
-## The relationship between `FlutterFragment` and its `Activity`
+## `FlutterFragment` 與其 `Activity` 的關係
 
-Some apps choose to use `Fragment`s as entire Android screens.
-In these apps, it would be reasonable for a `Fragment` to
-control system chrome like Android's status bar,
-navigation bar, and orientation.
+有些應用程式會將 `Fragment` 作為整個 Android 螢幕來使用。
+在這類應用中，讓 `Fragment` 控制系統 chrome（如 Android 的狀態列、導覽列和螢幕方向）是合理的。
 
 <img src='/assets/images/docs/development/add-to-app/android/add-flutter-fragment/add-flutter-fragment_fullscreen.png' alt="Fullscreen Flutter">
 
-In other apps, `Fragment`s are used to represent only
-a portion of a UI. A `FlutterFragment` might be used to
-implement the inside of a drawer, a video player,
-or a single card. In these situations, it would be
-inappropriate for the `FlutterFragment` to affect
-Android's system chrome because there are other UI
-pieces within the same `Window`.
+在其他應用中，`Fragment` 只用來呈現 UI 的某一部分。`FlutterFragment` 可能被用來實作抽屜內部、影片播放器或單一卡片。在這些情境下，讓 `FlutterFragment` 影響 Android 的系統 chrome 就不太合適，因為同一個 `Window` 內還有其他 UI 元素。
 
 <img src='/assets/images/docs/development/add-to-app/android/add-flutter-fragment/add-flutter-fragment_partial-ui.png' alt="Flutter as Partial UI">
 
-`FlutterFragment` comes with a concept that helps
-differentiate between the case when a `FlutterFragment`
-should be able to control its host `Activity`, and the
-cases when a `FlutterFragment` should only affect its
-own behavior. To prevent a `FlutterFragment` from
-exposing its `Activity` to Flutter plugins, and to
-prevent Flutter from controlling the `Activity`'s system UI,
-use the `shouldAttachEngineToActivity()` method in
-`FlutterFragment`'s `Builder`, as shown:
+`FlutterFragment` 提供了一個概念，協助區分何時應讓 `FlutterFragment` 能夠控制其所屬的 `Activity`，以及何時 `FlutterFragment` 只應影響自身行為。為了避免 `FlutterFragment` 將其 `Activity` 暴露給 Flutter 插件，並防止 Flutter 控制 `Activity` 的系統 UI，請在 `FlutterFragment` 的 `Builder` 中使用 `shouldAttachEngineToActivity()` 方法，如下所示：
 
 <Tabs key="android-language">
 <Tab name="Kotlin">
@@ -631,16 +547,15 @@ FlutterFragment flutterFragment = FlutterFragment.withCachedEngine("my_engine_id
 </Tab>
 </Tabs>
 
-Passing `false` to the `shouldAttachEngineToActivity()`
-`Builder` method prevents Flutter from interacting with
-the surrounding `Activity`. The default value is `true`,
-which allows Flutter and Flutter plugins to interact with the
-surrounding `Activity`.
+將 `false` 傳遞給 `shouldAttachEngineToActivity()`
+`Builder` 方法會防止 Flutter 與
+周圍的 `Activity` 互動。預設值為 `true`，
+這允許 Flutter 及 Flutter 插件與
+周圍的 `Activity` 互動。
 
 :::note
-Some plugins might expect or require an `Activity` reference.
-Ensure that none of your plugins require an `Activity`
-before you disable access.
+有些插件可能會預期或需要 `Activity` 參考。
+在你停用存取前，請確保你的插件都不需要 `Activity`。
 :::
 
 [`Fragment`]: {{site.android-dev}}/guide/components/fragments

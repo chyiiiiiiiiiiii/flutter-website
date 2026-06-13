@@ -1,48 +1,41 @@
 ---
-title: Rebuild UI when state changes
-description: Instructions on how to manage state with ChangeNotifiers.
+title: 當狀態變更時重建 UI
+description: 說明如何使用 ChangeNotifier 管理狀態的指南。
 layout: tutorial
 ---
 
 <?code-excerpt replace="/ *\/\/\s+ignore_for_file:[^\n]+\n//g;"?>
 
-Learn to use ListenableBuilder to automatically rebuild UI and
-handle all possible states with switch expressions.
+學習使用 ListenableBuilder 自動重建 UI，並以 switch 運算式處理所有可能的狀態。
 
 <SummaryCard>
-title: What you'll accomplish
+title: 你將完成的事項
 items:
-  - title: Use ListenableBuilder to rebuild UI automatically
+  - title: 使用 ListenableBuilder 自動重建 UI
     icon: sync
-  - title: Handle all possible states with switch expressions
+  - title: 以 switch 運算式處理所有可能的狀態
     icon: alt_route
-  - title: Build the complete View layer with proper styling
+  - title: 建置具備適當樣式的完整 View 層
     icon: article
 </SummaryCard>
 
 ---
 
-### Introduction
+### 介紹
 
-The view layer is your UI, and in Flutter,
-that refers to your app's widgets.
-As it pertains to this tutorial, the important part is
-wiring up your UI to respond to data changes from the ViewModel.
-[`ListenableBuilder`][] is a widget that can "listen" to a
-[`ChangeNotifier`][], and automatically rebuilds when it's
-provided `ChangeNotifier` calls `notifyListeners()`.
+View 層是你的 UI，在 Flutter 中，這指的是應用程式的元件 (Widget)。
+就本教學而言，重要的部分在於將 UI 與 ViewModel 的資料變更連結起來，使其能夠回應。
+[`ListenableBuilder`][] 是一個能夠「監聽」[`ChangeNotifier`][] 的元件，當所提供的 `ChangeNotifier` 呼叫 `notifyListeners()` 時，它會自動重建。
 
 [`ListenableBuilder`]: {{site.api}}/flutter/widgets/ListenableBuilder-class.html
 [`ChangeNotifier`]: {{site.api}}/flutter/foundation/ChangeNotifier-class.html
 
-### Create the article view widget
+### 建立文章 View 元件
 
-Create the `ArticleView` widget that
-manages your page's layout and ViewModel lifecycle.
-Because it must explicitly initialize data fetching before rendering,
-implement it as a `StatefulWidget`.
+建立 `ArticleView` 元件，用來管理頁面的版面配置和 ViewModel 的生命週期。
+由於它必須在渲染之前明確初始化資料擷取，因此將其實作為 `StatefulWidget`。
 
-Start by creating the basic stateful structure:
+從建立基本的有狀態結構開始：
 
 <?code-excerpt "fwe/wikipedia_reader/lib/step4a_main.dart"?>
 ```dart
@@ -68,10 +61,10 @@ class _ArticleViewState extends State<ArticleView> {
 }
 ```
 
-### Instantiate the article view model
+### 實例化文章 View Model
 
-Next, initialize your `ArticleViewModel` mapping it to the state's lifecycle. 
-Provide the ViewModel and execute `fetchArticle()` within `initState()`:
+接著，初始化 `ArticleViewModel` 並將其對應到狀態的生命週期。
+在 `initState()` 中提供 ViewModel 並執行 `fetchArticle()`：
 
 <?code-excerpt "fwe/wikipedia_reader/lib/step4b_main.dart (view-model)"?>
 ```dart highlightLines=2-8
@@ -101,12 +94,11 @@ class _ArticleViewState extends State<ArticleView> {
 }
 ```
 
-### Update your app to include the article view
+### 更新應用程式以加入文章 View
 
-Connect everything together by updating your `MainApp` to
-include your completed `ArticleView`.
+透過更新 `MainApp` 以加入已完成的 `ArticleView`，將所有部分串聯在一起。
 
-Replace your existing `MainApp` with this updated version:
+用以下更新後的版本取代現有的 `MainApp`：
 
 <?code-excerpt "fwe/wikipedia_reader/lib/step4_main.dart (main-app)"?>
 ```dart highlightLines=6
@@ -120,14 +112,12 @@ class MainApp extends StatelessWidget {
 }
 ```
 
-This change switches from the console-based test to the full UI
-experience with proper state management.
+這個變更將從基於主控台的測試切換到具備適當狀態管理的完整 UI 體驗。
 
-### Listen for state changes
+### 監聽狀態變更
 
-Wrap your UI in a [`ListenableBuilder`][] to listen for state changes,
-and pass it a `ChangeNotifier` object.
-In this case, the `ArticleViewModel` extends `ChangeNotifier`.
+將 UI 包覆在 [`ListenableBuilder`][] 中以監聽狀態變更，並傳入一個 `ChangeNotifier` 物件。
+在此範例中，`ArticleViewModel` 繼承了 `ChangeNotifier`。
 
 <?code-excerpt "fwe/wikipedia_reader/lib/step4c_main.dart (view-model)"?>
 ```dart highlightLines=21-26
@@ -162,28 +152,24 @@ class _ArticleViewState extends State<ArticleView> {
 }
 ```
 
-`ListenableBuilder` uses the *builder* pattern,
-which requires a callback rather than a `child` widget to
-build the widget tree below it.
-These widgets are flexible because you can
-perform operations within the callback,
-building different widgets based on the state.
+`ListenableBuilder` 使用*建構器 (builder)* 模式，
+這個模式需要一個回呼（callback）而非 `child` 元件來建置其下方的元件樹。
+這些元件非常靈活，因為你可以在回呼（callback）中執行操作，
+根據狀態建置不同的元件。
 
 [`ListenableBuilder`]: {{site.api}}/flutter/widgets/ListenableBuilder-class.html
 
-### Handle possible view model states
+### 處理 View Model 的可能狀態
 
-Recall the `ArticleViewModel`, which has three properties that
-the UI is interested in:
+回想 `ArticleViewModel`，它有三個 UI 會關注的屬性：
 
 - `Summary? summary`
 - `bool isLoading`
 - `Exception? error`
 
-Depending on the combined state of these properties,
-the UI can display different widgets.
-Use Dart's support for [switch expressions][]
-to handle all possible combinations in a clean, readable way:
+根據這些屬性的組合狀態，UI 可以顯示不同的元件。
+使用 Dart 對 [switch 運算式][switch expressions]的支援，
+以簡潔、易讀的方式處理所有可能的組合：
 
 <?code-excerpt "fwe/wikipedia_reader/lib/step4_main.dart (view-model)"?>
 ```dart
@@ -232,23 +218,20 @@ class _ArticleViewState extends State<ArticleView> {
 }
 ```
 
-This is an excellent example of how a
-declarative, reactive framework like Flutter and
-a pattern like MVVM work together:
-The UI is rendered based on the state and updates when
-a state changes demands it, but it
-doesn't manage any state or the process of updating itself.
-The business logic and rendering are completely separate from each other.
+這是一個很好的範例，說明像 Flutter 這樣的宣告式、響應式框架
+和像 MVVM 這樣的模式如何相互配合：
+UI 根據狀態渲染，並在狀態需要時自動更新，
+但 UI 本身不管理任何狀態或更新自身的過程。
+商業邏輯與渲染完全分離。
 
 [switch expressions]: {{site.dart-site}}/language/branches#switch-expressions
 
-### Complete the UI
+### 完成 UI
 
-The only thing remaining is to use the properties and methods provided
-by the view model to build the UI.
+剩下的唯一工作是使用 View Model 提供的屬性和方法來建置 UI。
 
-Now create a `ArticlePage` widget that displays the actual article content.
-This reusable widget takes summary data and a callback function:
+現在建立一個 `ArticlePage` 元件，用於顯示實際的文章內容。
+這個可重複使用的元件接受摘要資料和一個回呼（callback）函式：
 
 <?code-excerpt "fwe/wikipedia_reader/lib/step4d_main.dart (page)"?>
 ```dart
@@ -271,9 +254,9 @@ class ArticlePage extends StatelessWidget {
 }
 ```
 
-### Add a scrollable layout
+### 加入可捲動的版面配置
 
-Replace the placeholder with a scrollable column layout:
+用可捲動的直欄版面配置取代佔位符：
 
 <?code-excerpt "fwe/wikipedia_reader/lib/step4e_main.dart (page)"?>
 ```dart highlightLines=13-16
@@ -298,9 +281,9 @@ class ArticlePage extends StatelessWidget {
 }
 ```
 
-### Add article content and button
+### 加入文章內容與按鈕
 
-Complete the layout with an article widget and navigation button:
+以文章元件和導覽按鈕完成版面配置：
 
 <?code-excerpt "fwe/wikipedia_reader/lib/step4_main.dart (page)"?>
 ```dart highlightLines=16-20
@@ -331,14 +314,13 @@ class ArticlePage extends StatelessWidget {
 }
 ```
 
-### Create the `ArticleWidget`
+### 建立 `ArticleWidget`
 
-The `ArticleWidget` handles the display of the actual article content
-with proper styling and conditional rendering.
+`ArticleWidget` 負責以適當的樣式和條件式渲染來顯示實際的文章內容。
 
-#### Set up the basic article structure
+#### 設定基本文章結構
 
-Start with the widget that accepts a `summary` parameter:
+從接受 `summary` 參數的元件開始：
 
 <?code-excerpt "fwe/wikipedia_reader/lib/step4f_main.dart (article)"?>
 ```dart
@@ -354,9 +336,9 @@ class ArticleWidget extends StatelessWidget {
 }
 ```
 
-#### Add padding and column layout
+#### 加入內距（padding）和直欄版面配置
 
-Wrap the content in proper padding and layout:
+將內容包覆在適當的內距（padding）和版面配置中：
 
 <?code-excerpt "fwe/wikipedia_reader/lib/step4g_main.dart (article)"?>
 ```dart highlightLines=8-14
@@ -378,9 +360,9 @@ class ArticleWidget extends StatelessWidget {
 }
 ```
 
-#### Add conditional image display
+#### 加入條件式圖片顯示
 
-Add the article image that only shows when available:
+加入只在有圖片時才顯示的文章圖片：
 
 <?code-excerpt "fwe/wikipedia_reader/lib/step4h_main.dart (article)"?>
 ```dart highlightLines=13
@@ -405,10 +387,9 @@ class ArticleWidget extends StatelessWidget {
 }
 ```
 
-#### Complete with styled text content
+#### 以樣式化文字內容完成
 
-Replace the placeholder text with a
-properly styled title, description, and extract:
+以具備適當樣式的標題、描述和摘錄取代佔位符文字：
 
 <?code-excerpt "fwe/wikipedia_reader/lib/step4_main.dart (article)"?>
 ```dart highlightLines=14-25
@@ -444,98 +425,93 @@ class ArticleWidget extends StatelessWidget {
 }
 ```
 
-This widget demonstrates a few important UI concepts:
+這個元件展示了幾個重要的 UI 概念：
 
-- **Conditional rendering**:
-  The `if` statements show content only when available.
-- **Text styling**:
-  Different text styles create visual hierarchy using Flutter's theme system.
-- **Proper spacing**:
-  The `spacing` parameter provides consistent vertical spacing.
-- **Overflow handling**:
-  `TextOverflow.ellipsis` prevents text from breaking the layout.
+- **條件式渲染**：
+  `if` 陳述式只在內容可用時才顯示。
+- **文字樣式**：
+  不同的文字樣式利用 Flutter 的主題系統建立視覺層次。
+- **適當的間距**：
+  `spacing` 參數提供一致的垂直間距。
+- **溢位處理**：
+  `TextOverflow.ellipsis` 防止文字破壞版面配置。
 
-### Run the complete app
+### 執行完整的應用程式
 
-Hot reload your app one final time. You should now see:
+最後一次熱重載應用程式。你現在應該會看到：
 
-1.  A loading spinner while the initial article loads.
-1.  The article's title, description, and summary extract.
-1.  An image (if the article has one).
-1.  A button to load another random article.
+1.  初始文章載入時的讀取轉圈動畫。
+1.  文章的標題、描述和摘要摘錄。
+1.  圖片（如果文章有的話）。
+1.  載入另一篇隨機文章的按鈕。
 
-To see the reactive UI in action,
-click the **Next random article** button.
-The app shows a loading state, fetches new data, and
-updates the display automatically.
+要查看響應式 UI 的實際運作，
+請點擊 **Next random article** 按鈕。
+應用程式會顯示載入狀態，擷取新資料，並自動更新畫面。
 
-### Review
+### 回顧
 
 <SummaryCard>
-title: What you accomplished
-subtitle: Here's a summary of what you built and learned in this lesson.
+title: 你完成了什麼
+subtitle: 以下是你在本課程中建置和學習內容的摘要。
 completed: true
 items:
-  - title: Used ListenableBuilder to rebuild UI automatically
+  - title: 使用 ListenableBuilder 自動重建 UI
     icon: sync
     details: >-
-      `ListenableBuilder` listens to your ViewModel and automatically rebuilds
-      its children whenever `notifyListeners()` is called.
-      In the MVVM pattern,
-      this is the key connection between your ViewModel and View.
-  - title: Handled all possible states with switch expressions
+      `ListenableBuilder` 監聽你的 ViewModel，並在每次呼叫 `notifyListeners()` 時自動重建其子元件。
+      在 MVVM 模式中，這是 ViewModel 與 View 之間的關鍵連結。
+  - title: 以 switch 運算式處理所有可能的狀態
     icon: alt_route
     details: >-
-      Using a switch expression, you accounted for
-      the possible state combinations with an appropriate user interface,
-      Conditionally displaying a loading spinner, an error message,
-      or the actual article content.
-      With this handling, the UI is now more robust and complete.
-  - title: Built the complete View layer with proper styling
+      使用 switch 運算式，你為所有可能的狀態組合提供了適當的使用者介面，
+      條件式地顯示載入轉圈動畫、錯誤訊息，
+      或實際的文章內容。
+      有了這樣的處理，UI 現在更加健全且完整。
+  - title: 建置具備適當樣式的完整 View 層
     icon: article
     details: >-
-      You created `ArticleView`, `ArticlePage`, and
-      `ArticleWidget` with conditional rendering, text styling,
-      proper spacing, and overflow handling.
-      These are core UI patterns you'll use in every Flutter app.
-  - title: Completed the MVVM architecture
+      你建立了具備條件式渲染、文字樣式、
+      適當間距和溢位處理的 `ArticleView`、`ArticlePage` 和
+      `ArticleWidget`。
+      這些是你在每個 Flutter 應用程式中都會用到的核心 UI 模式。
+  - title: 完成 MVVM 架構
     icon: celebration
     details: >-
-      You've built a complete app with Model (data operations),
-      ViewModel (state management), and View (reactive UI) layers.
-      This separation of concerns helps your code be
-      more testable, maintainable, and scalable.
+      你已建置了一個具備 Model（資料操作）、
+      ViewModel（狀態管理）和 View（響應式 UI）層的完整應用程式。
+      這種關注點分離有助於讓你的程式碼更易於測試、維護和擴展。
 </SummaryCard>
 
-### Test yourself
+### 自我測試
 
-<Quiz title="ListenableBuilder Quiz">
-- question: What is the purpose of ListenableBuilder in Flutter?
+<Quiz title="ListenableBuilder 測驗">
+- question: ListenableBuilder 在 Flutter 中的用途是什麼？
   options:
-    - text: To create animations based on a ChangeNotifier.
+    - text: 根據 ChangeNotifier 建立動畫。
       correct: false
-      explanation: ListenableBuilder rebuilds UI on state changes, not specifically for animations.
-    - text: "To listen to a ChangeNotifier and automatically rebuild its child widgets when `notifyListeners()` is called."
+      explanation: ListenableBuilder 是在狀態變更時重建 UI，而非專門用於動畫。
+    - text: "監聽 ChangeNotifier，並在 `notifyListeners()` 被呼叫時自動重建其子元件。"
       correct: true
-      explanation: ListenableBuilder listens to a Listenable and rebuilds its builder function when notified.
-    - text: To manually control when widgets should be rebuilt.
+      explanation: ListenableBuilder 監聽一個 Listenable，並在收到通知時重建其 builder 函式。
+    - text: 手動控制元件何時應該重建。
       correct: false
-      explanation: The rebuild is automatic when notifyListeners() is called; you don't control it manually.
-    - text: To cache widget builds for better performance.
+      explanation: 當 notifyListeners() 被呼叫時，重建會自動發生；你無法手動控制它。
+    - text: 快取元件建置以提升效能。
       correct: false
-      explanation: ListenableBuilder is about reactive updates, not caching.
-- question: When does ListenableBuilder rebuild its child widgets?
+      explanation: ListenableBuilder 是關於響應式更新，而非快取。
+- question: ListenableBuilder 何時會重建其子元件？
   options:
-    - text: Every time the app's frame refreshes.
+    - text: 每次應用程式的畫面更新時。
       correct: false
-      explanation: ListenableBuilder only rebuilds when notified, not on every frame.
-    - text: When the Listenable it's listening to calls notifyListeners().
+      explanation: ListenableBuilder 只在收到通知時重建，而非每一幀都重建。
+    - text: 當它所監聽的 Listenable 呼叫 notifyListeners() 時。
       correct: true
-      explanation: "ListenableBuilder subscribes to the Listenable and rebuilds its builder function whenever `notifyListeners()` is called."
-    - text: Only when the widget is first mounted.
+      explanation: "ListenableBuilder 訂閱 Listenable，並在每次呼叫 `notifyListeners()` 時重建其 builder 函式。"
+    - text: 只在元件首次掛載時。
       correct: false
-      explanation: "It rebuilds whenever `notifyListeners()` is called, not just on mount."
-    - text: When the parent widget rebuilds.
+      explanation: "它在每次 `notifyListeners()` 被呼叫時都會重建，不只是在掛載時。"
+    - text: 當父元件重建時。
       correct: false
-      explanation: "ListenableBuilder rebuilds based on the Listenable, not parent rebuilds."
+      explanation: "ListenableBuilder 根據 Listenable 重建，而非根據父元件的重建。"
 </Quiz>

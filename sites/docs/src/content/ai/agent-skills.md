@@ -1,84 +1,55 @@
 ---
-title: Agent skills for Flutter and Dart
+title: 適用於 Flutter 和 Dart 的 Agent 技能
 sidenav: ai
-shortTitle: Agent skills
+shortTitle: Agent 技能
 description: >-
-  Learn how to give AI agents new capabilities and expertise
-  using Agent Skills.
+  了解如何使用 Agent 技能為 AI 代理賦予新的能力與專業知識。
 ---
 
-This guide covers how to enhance your AI agents and coding assistants
-with domain-specific capabilities using Agent Skills.
+本指南說明如何使用 Agent 技能 (Agent Skills) 為您的 AI 代理和程式碼助理加入特定領域的能力。
 
-## Overview
+## 概觀 {:#overview}
 
-AI agents can write Flutter and Dart code, but they sometimes are unaware of
-tools and best practices that professional developers use.
+AI 代理能夠撰寫 Flutter 和 Dart 程式碼，但有時並不了解專業開發者所使用的工具與最佳實踐。
 
-[Agent Skills](https://agentskills.io/) help solve this problem by providing a
-standardized way to give your AI agent a set of task-oriented blueprints to
-follow. By giving the agent actual domain expertise and repeatable workflows,
-you drastically reduce mistakes and can enforce consistent patterns.
+[Agent Skills](https://agentskills.io/) 透過提供標準化的方式，將一組以任務為導向的藍圖交給 AI 代理遵循，從而幫助解決這個問題。藉由給予代理真正的領域專業知識與可重複執行的工作流程，您可以大幅減少錯誤，並確保一致的模式。
 
-To understand how Agent Skills fit into your workflow, consider how they compare
-to other AI capabilities:
+若要了解 Agent Skills 如何融入您的工作流程，可以將它與其他 AI 能力比較：
 
-*   **Rules files:** While [rules files](/ai/ai-rules) configure the agent's
-    general behavior across all tasks, Agent Skills give the AI step-by-step
-    instructions for one specific job.
-*   **Model Context Protocol (MCP):** The [Dart and Flutter MCP
-    server](/ai/mcp-server) gives your agent access to specialized tools. If MCP
-    provides the raw machinery, an Agent Skill provides the professional
-    know-how to operate that machinery correctly.
+*   **規則檔案：** [規則檔案](/ai/ai-rules) 用於配置代理在所有任務中的通用行為，而 Agent Skills 則為代理提供針對單一特定工作的逐步指示。
+*   **模型情境協定 (Model Context Protocol，MCP)：** [Dart 和 Flutter MCP 伺服器](/ai/mcp-server) 讓您的代理能夠使用專用工具。如果說 MCP 提供的是原始機械裝置，那麼 Agent Skill 就是正確操作該裝置所需的專業知識。
 
-Skills use what we call "progressive disclosure," which is similar to deferred
-loading in Flutter. Instead of loading every single instruction into the context
-window up front, the agent only reads the metadata first. It pulls in the heavy,
-detailed instructions only when it actually needs them for the task at hand.
+技能採用我們所稱的「漸進式揭露 (progressive disclosure)」方式，類似於 Flutter 中的延遲載入。代理不會在一開始就將所有指示載入情境視窗，而是先讀取中繼資料，只有在真正需要執行手邊任務時，才載入詳細的指示內容。
 
-## Official repositories
+## 官方儲存庫 {:#official-repositories}
 
-The Dart and Flutter teams maintain official repositories packed with skills
-tailored specifically for our frameworks.
+Dart 和 Flutter 團隊維護了官方儲存庫，其中包含為這兩個框架量身打造的技能。
 
-*   **[dart-lang/skills](https://github.com/dart-lang/skills)**: Provides skills
-    for Dart development. Use these to generate unit tests, resolve package
-    dependencies, and fix static analysis errors.
-*   **[flutter/skills](https://github.com/flutter/skills)**: Provides skills for
-    Flutter development. These skills help the AI build responsive layouts, wire
-    up declarative routing, and implement JSON serialization.
+*   **[dart-lang/skills](https://github.com/dart-lang/skills)**：提供 Dart 開發的技能，可用於產生單元測試、解析套件相依性，以及修正靜態分析錯誤。
+*   **[flutter/skills](https://github.com/flutter/skills)**：提供 Flutter 開發的技能，協助 AI 建置響應式版面配置、接上宣告式路由，以及實作 JSON 序列化。
 
-## Getting started
+## 快速入門 {:#getting-started}
 
-By default, compatible AI agents discover Agent Skills within the
-`.agents/skills` directory of your project workspace.
+相容的 AI 代理預設會在您專案工作區的 `.agents/skills` 目錄中探索 Agent Skills。
 
-To easily download and manage skills in that folder, you can use the `skills`
-CLI tool. It's distributed through npm, so you'll need
-[Node.js](https://nodejs.org/) installed to run it with `npx`.
+若要輕鬆下載並管理該資料夾中的技能，您可以使用 `skills` CLI 工具。它透過 npm 發布，因此您需要安裝 [Node.js](https://nodejs.org/)，才能以 `npx` 執行。
 
-To install the official Flutter skills:
+安裝官方 Flutter 技能：
 
 ```bash
 npx skills add flutter/skills --skill '*' --agent universal
 ```
 
-And to install the official Dart skills:
+安裝官方 Dart 技能：
 
 ```bash
 npx skills add dart-lang/skills --skill '*' --agent universal
 ```
 
-Running these commands automatically creates the `.agents/skills` directory and
-downloads the requested skills into your project.
+執行上述指令後，系統會自動建立 `.agents/skills` 目錄，並將所需的技能下載至您的專案中。
 
-For more details on available skills, updating, and contributing, see the
-[Dart skills repository](https://github.com/dart-lang/skills) and the
-[Flutter skills repository](https://github.com/flutter/skills).
+如需了解可用技能、更新方式及貢獻方式，請參閱 [Dart 技能儲存庫](https://github.com/dart-lang/skills) 與 [Flutter 技能儲存庫](https://github.com/flutter/skills)。
 
 :::tip
-Once you've added skills to your project, try asking your AI agent to review
-the `.agents/skills` directory. You can ask, "Which of my installed skills
-can help me with [your current task]?" or "Summarize the capabilities of the
-skills I have available."
+將技能加入專案後，可以嘗試要求您的 AI 代理查看 `.agents/skills` 目錄。您可以詢問：「我已安裝的技能中，哪些能協助我完成 [目前的任務]？」或「請摘要說明我目前可用技能的功能。」
 :::

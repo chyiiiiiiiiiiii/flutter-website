@@ -1,50 +1,40 @@
 ---
-title: Widget catalog
-description: A catalog of some of Flutter's rich set of widgets.
-shortTitle: Widgets
+title: 元件目錄
+description: Flutter 豐富元件集的目錄。
+shortTitle: 元件
 showToc: false
 ---
 
-Create beautiful apps faster with Flutter's collection of visual, structural,
-platform, and interactive widgets. In addition to browsing widgets by category,
-you can also see all the widgets in the [widget index][].
+利用 Flutter 的視覺、結構、平台與互動式元件 (Widget) 集合，更快速地打造精美的應用程式。除了依分類瀏覽元件之外，您也可以在[元件索引][widget index]中查看所有元件。
 
-## Design systems
+## 設計系統
 
-Flutter ships with two design systems as part of the SDK.
+Flutter SDK 內建兩套設計系統。
 
 <div class="card-grid">
   <Card title="Cupertino" link="/ui/widgets/cupertino" outlined="true" filled="false">
-    Beautiful and high-fidelity widgets that align with
-    Apple's Human Interface Guidelines for iOS and macOS.
+    精美且高度還原的元件，符合 Apple 針對 iOS 與 macOS 所制定的人機介面指南。
   </Card>
   <Card title="Material design" link="/ui/widgets/material" outlined="true" filled="false">
-    Visual, behavioral, and motion-rich widgets implementing
-    the Material 3 design specification.
+    視覺豐富、行為完整且具備動態效果的元件，實作 Material 3 設計規範。
   </Card>
 </div>
 
-You can find many more design systems created by the Flutter community
-on [pub.dev]({{site.pub}}), the package repository for Dart and Flutter.
-For example, the Windows-inspired [fluent_ui][],
-macOS-inspired [macos_ui][],
-and the Ubuntu-inspired [yaru][] widgets.
+您可以在 Dart 與 Flutter 的套件 (package) 儲存庫 [pub.dev]({{site.pub}}) 上，找到更多由 Flutter 社群建立的設計系統。例如受 Windows 風格啟發的 [fluent_ui][]、受 macOS 風格啟發的 [macos_ui][]，以及受 Ubuntu 風格啟發的 [yaru][] 元件。
 
 [fluent_ui]: {{site.pub-pkg}}/fluent_ui
 [macos_ui]: {{site.pub-pkg}}/macos_ui
 [yaru]: {{site.pub-pkg}}/yaru
 
-## Base widgets
+## 基礎元件
 
-Base widgets support a range of common rendering options
-like input, layout, and text.
+基礎元件支援多種常見的渲染選項，例如輸入、版面配置 (layout) 與文字。
 
 <WidgetCatalogCategories />
 
-## Widget of the Week
+## 每週元件
 
-100+ short, 1-minute explainer videos to
-help you quickly get started with Flutter widgets.
+超過 100 部一分鐘短片，幫助您快速上手 Flutter 元件。
 
 <div class="card-grid wide">
   <div class="card wrapped-card outlined-card">
@@ -79,6 +69,6 @@ help you quickly get started with Flutter widgets.
   </div>
 </div>
 
-<a class="filled-button" target="_blank" href="{{site.yt.playlist}}PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG">Watch more widget of the week videos</a>
+<a class="filled-button" target="_blank" href="{{site.yt.playlist}}PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG">觀看更多每週元件影片</a>
 
 [widget index]: /reference/widgets

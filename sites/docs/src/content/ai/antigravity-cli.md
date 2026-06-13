@@ -2,27 +2,24 @@
 title: Antigravity CLI
 shortTitle: CLI
 sidenav: ai
-description: Learn how to use the Antigravity CLI for Dart and Flutter.
+description: 了解如何在 Dart 和 Flutter 中使用 Antigravity CLI。
 ---
 
-## Introduction
+## 簡介
 
-[Antigravity CLI][] (using the executable command `agy`)
-is a terminal-based interface (TUI)
-for the **Antigravity 2.0** agentic coding assistant.
-It connects directly to your workspace
-and leverages the **Dart and Flutter MCP server**
-to help you build, modify, test, and release Flutter applications
-from the command line.
+[Antigravity CLI][]（使用可執行指令 `agy`）
+是 **Antigravity 2.0** 智能程式碼助理的終端機介面 (TUI)。
+它可直接連線至你的工作區，
+並運用 **Dart 與 Flutter MCP 伺服器**，
+協助你從命令列建置、修改、測試及發佈 Flutter 應用程式。
 
-The Antigravity CLI replaces the legacy Gemini CLI.
+Antigravity CLI 取代了舊版的 Gemini CLI。
 
 [Antigravity CLI]: https://antigravity.google/docs/cli
 
-## Installation
+## 安裝
 
-Install the Antigravity CLI on your machine by running the
-appropriate command for your platform:
+依照你所使用的平台，執行對應的指令，在機器上安裝 Antigravity CLI：
 
 <Tabs key="install-antigravity-cli">
 <Tab name="macOS / Linux">
@@ -48,54 +45,53 @@ winget install Google.AntigravityCLI
 </Tab>
 </Tabs>
 
-After installation, verify that the tool is available on your path by running:
+安裝完成後，執行以下指令確認工具已加入路徑：
 
 ```console
 $ agy --version
 agy version 2.0.0
 ```
 
-## Migration from Gemini CLI
+## 從 Gemini CLI 遷移
 
-If you previously used the Gemini CLI or Gemini CLI extension for Flutter,
-migrating to the Antigravity CLI is straightforward.
+若你先前使用過 Gemini CLI 或適用於 Flutter 的 Gemini CLI 擴充功能，
+遷移至 Antigravity CLI 的步驟十分簡單。
 
-### Automatic migration
+### 自動遷移
 
-The first time you run `agy` in your terminal,
-the tool checks for existing Gemini configuration files
-(such as `~/.gemini/config/mcp_config.json`
-or legacy environment variables).
-If found, the tool asks if you would like to
-automatically migrate your settings,
-preferences, and API configuration.
+第一次在終端機執行 `agy` 時，
+工具會檢查現有的 Gemini 設定檔
+（例如 `~/.gemini/config/mcp_config.json`
+或舊版環境變數）。
+若偵測到相關設定，工具會詢問你是否要
+自動遷移設定、偏好項目及 API 組態。
 
-### Manual migration
+### 手動遷移
 
-If you want to migrate your plugins and history manually,
-or if you skipped the automated setup,
-run the import plugin tool command:
+若你想手動遷移插件與歷史記錄，
+或是跳過了自動設定流程，
+請執行匯入插件工具指令：
 
 ```bash
 agy plugin import gemini
 ```
 
-This command parses your local Gemini configuration
-and copies its configurations over to your active Antigravity profile.
+此指令會解析你本機的 Gemini 組態，
+並將其設定複製到你目前的 Antigravity 設定檔中。
 
-## Workspace configuration and rules
+## 工作區組態與規則
 
-Like the legacy Gemini CLI tool,
-Antigravity CLI respects custom development guidelines
-and configurations stored in your workspace directory:
+與舊版 Gemini CLI 工具相同，
+Antigravity CLI 支援存放於工作區目錄中的
+自訂開發指南與組態：
 
-- **Local rules**: You can place rules files in your project directory
-  (such as `.agents/skills/` or `AGENTS.md`)
-  to instruct the agent on specific coding style guidelines
-  or architectural patterns.
-  Note that Antigravity CLI also supports backward compatibility
-  with the legacy `GEMINI.md` file;
-  however, we recommend renaming it to `AGENTS.md`.
-- **Global configuration**: Antigravity CLI stores global settings
-  and configured MCP servers in `~/.antigravity/`
-  (e.g., `~/.antigravity/mcp_config.json`).
+- **本機規則**：你可以在專案目錄中放置規則檔案
+  （例如 `.agents/skills/` 或 `AGENTS.md`），
+  以告知代理程式特定的程式碼風格指南
+  或架構模式。
+  請注意，Antigravity CLI 亦支援向下相容
+  舊版 `GEMINI.md` 檔案；
+  不過，我們建議將其重新命名為 `AGENTS.md`。
+- **全域組態**：Antigravity CLI 將全域設定
+  與已設定的 MCP 伺服器儲存於 `~/.antigravity/`
+  （例如 `~/.antigravity/mcp_config.json`）。

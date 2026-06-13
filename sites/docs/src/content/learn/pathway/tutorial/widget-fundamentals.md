@@ -1,40 +1,37 @@
 ---
-title: Create widgets
-description: Learn about stateless widgets and how to build your own.
+title: 建立元件
+description: 學習無狀態元件以及如何建置自己的元件。
 layout: tutorial
 ---
 
-Learn to create custom widgets and use the most common SDK widgets like
-Container, Center, and Text.
+學習建立自訂元件 (Widget)，並使用最常見的 SDK 元件，例如 Container、Center 和 Text。
 
 <YouTubeEmbed id="gyBUnaojFDg" title="Anatomy of a widget" fullWidth="true"></YouTubeEmbed>
 
 <SummaryCard>
-title: What you'll accomplish
+title: 你將完成的事項
 items:
-  - title: Create a custom StatelessWidget
+  - title: 建立自訂 StatelessWidget
     icon: widgets
-  - title: Make widgets reusable with constructor parameters
+  - title: 透過建構子參數使元件可重複使用
     icon: tune
-  - title: Style widgets using Container and BoxDecoration
+  - title: 使用 Container 和 BoxDecoration 為元件套用樣式
     icon: palette
 </SummaryCard>
 
 ---
 
-### Before you start
+### 開始之前
 
-This app relies on a bit of game logic that isn't UI-related,
-and thus is outside the scope of this tutorial.
-Before you move on, you need to add this logic to your app.
+這個應用程式依賴一些與 UI 無關的遊戲邏輯，因此不在本教學的範圍內。
+在繼續之前，你需要先將這些邏輯加入應用程式。
 
-1.  Download the following Dart file and save it
-    as `lib/game.dart` in your project directory.
+1.  下載以下 Dart 檔案，並將其儲存為專案目錄中的 `lib/game.dart`。
 
     <DownloadableSnippet src="tutorial/game-code.dart" name="game.dart" />
 
-1.  To enable access to the types defined in the `game.dart` library,
-    add an import to it from your `lib/main.dart` file:
+1.  為了能夠存取 `game.dart` 函式庫中定義的型別，
+    請在 `lib/main.dart` 檔案中加入對其的 import：
 
     ```dart title="main.dart" highlightLines=3
     import 'package:flutter/material.dart';
@@ -42,29 +39,27 @@ Before you move on, you need to add this logic to your app.
     import 'game.dart';
     ```
 
-:::note Game logic note
+:::note 遊戲邏輯備註
 
-You might notice the
-`legalGuesses` and `legalWords` lists only contain a few words.
-The full lists combined have over 10,000 words and were omitted for brevity.
-You don't need the full lists to continue the tutorial.
-When you're testing your app, make sure to use the words from those lists.
+你可能會注意到 `legalGuesses` 和 `legalWords` 列表只包含少數幾個單字。
+完整列表合計超過 10,000 個單字，為求簡潔而省略。
+你不需要完整列表就能繼續本教學。
+在測試應用程式時，請確保使用這些列表中的單字。
 
-Alternatively, you can find the full lists in
-[this GitHub repository][full-words], as well as
-instructions to import it into your project.
+或者，你也可以在[此 GitHub 儲存庫][full-words]中找到完整列表，
+以及將其匯入專案的說明。
 
 :::
 
 [full-words]: https://github.com/ericwindmill/legal_wordle_words
 
-### Anatomy of a stateless widget
+### 無狀態元件的結構
 
-A `Widget` is a Dart class that extends one of the Flutter widget classes,
-in this case [`StatelessWidget`][].
+`Widget` 是一個 Dart 類別，它繼承自 Flutter 的某個元件類別，
+在本例中為 [`StatelessWidget`][]。
 
-Open your `main.dart` file and add this code below the `MainApp` class,
-which defines a new widget called `Tile`.
+開啟 `main.dart` 檔案，在 `MainApp` 類別下方加入以下程式碼，
+這段程式碼定義了一個名為 `Tile` 的新元件。
 
 <?code-excerpt "fwe/birdle/lib/step2a_main.dart (Tile)"?>
 ```dart
@@ -83,26 +78,26 @@ class Tile extends StatelessWidget {
 
 [`StatelessWidget`]: {{site.api}}/flutter/widgets/StatelessWidget-class.html
 
-#### Constructor
+#### 建構子
 
-The `Tile` class has a [constructor][] that defines
-what data needs to be passed into the widget to render the widget.
-In this case, the constructor accepts two parameters:
+`Tile` 類別有一個[建構子 (constructor)][constructor]，用來定義
+渲染元件時需要傳入的資料。
+在本例中，建構子接受兩個參數：
 
-- A `String` representing the guessed letter of the tile.
-- A `HitType` [enum value][] represent the guess result and
-  used to determine the color of the tile.
-  For example, `HitType.hit` results in a green tile.
+- 一個 `String`，代表方格中猜測的字母。
+- 一個 `HitType` [列舉值 (enum value)][enum value]，代表猜測結果，
+  用來決定方格的顏色。
+  例如，`HitType.hit` 會顯示綠色方格。
 
-Passing data into widget constructors is at the core of making widgets reusable.
+透過建構子將資料傳入元件，是使元件可重複使用的核心概念。
 
 [constructor]: {{site.dart-site}}/language/constructors
 [enum value]: {{site.dart-site}}/language/enums
 
-#### Build method
+#### Build 方法
 
-Finally, there's the all important `build` method, which must be defined on
-every widget, and will always return another widget.
+最後是至關重要的 `build` 方法，每個元件都必須定義此方法，
+且它永遠會回傳另一個元件。
 
 <?code-excerpt "fwe/birdle/lib/step2b_main.dart (Tile)"?>
 ```dart
@@ -120,12 +115,11 @@ class Tile extends StatelessWidget {
 }
 ```
 
-### Use the custom widget
+### 使用自訂元件
 
-When the app is finished,
-there will be 25 instances of this widget on the screen.
-For now, though, display just one so you can see the updates as they're made.
-In the `MainApp.build` method, replace the `Text` widget with the following:
+應用程式完成後，畫面上會有 25 個此元件的實例。
+但現在先只顯示一個，以便在修改時看到更新效果。
+在 `MainApp.build` 方法中，將 `Text` 元件替換為以下內容：
 
 <?code-excerpt "fwe/birdle/lib/step2_main.dart (MainApp)"?>
 ```dart
@@ -145,22 +139,22 @@ class MainApp extends StatelessWidget {
 }
 ```
 
-At the moment, your app will be blank,
-because the `Tile` widget returns an empty `Container`,
-which doesn't display anything by default.
+目前應用程式會顯示為空白，
+因為 `Tile` 元件回傳的是空的 `Container`，
+而 `Container` 預設不顯示任何內容。
 
-### The `Container` widget
+### `Container` 元件
 
-The `Tile` widget consists of three of the most common core widgets:
-`Container`, `Center`, and `Text`.
-[`Container`][] is a convenience widget that wraps several core styling widgets,
-such as [`Padding`][], [`ColoredBox`][], [`SizedBox`][], and [`DecoratedBox`][].
+`Tile` 元件由三個最常見的核心元件組成：
+`Container`、`Center` 和 `Text`。
+[`Container`][] 是一個便利元件，它封裝了多個核心樣式元件，
+例如 [`Padding`][]、[`ColoredBox`][]、[`SizedBox`][] 和 [`DecoratedBox`][]。
 
-Because the finished UI contains 25 `Tile` widgets in neat columns and rows,
-it should have an explicit size.
-Set the width and height properties on the `Container`.
-(You could also do this with a `SizedBox` widget, but you'll use
-more properties of the `Container` next.)
+由於完成後的 UI 包含 25 個整齊排列成欄列的 `Tile` 元件，
+因此應為其設定明確的大小。
+在 `Container` 上設定 `width` 和 `height` 屬性。
+（也可以使用 `SizedBox` 元件來完成，但接下來你會用到
+`Container` 更多的屬性。）
 
 <?code-excerpt "fwe/birdle/lib/step2c_main.dart (Tile)"?>
 ```dart
@@ -190,7 +184,7 @@ class Tile extends StatelessWidget {
 
 ### BoxDecoration
 
-Next, add a [`Border`][] to the box with the following code:
+接下來，用以下程式碼為方框加入 [`Border`][]（邊框）：
 
 <?code-excerpt "fwe/birdle/lib/step2d_main.dart (Tile)"?>
 ```dart
@@ -215,26 +209,23 @@ class Tile extends StatelessWidget {
 }
 ```
 
-`BoxDecoration` is an object that knows how to
-add any number of decorations to a widget, from
-background color to borders to box shadows and more.
-In this case, you've added a border.
-When you hot reload, there should be
-a lightly colored border around the white square.
+`BoxDecoration` 是一個物件，可以為元件加入各種裝飾，
+從背景色到邊框再到陰影等。
+在本例中，你加入了一個邊框。
+熱重載後，白色方塊周圍應該出現一條淺色邊框。
 
-When this game is complete,
-the color of the tile will depend on the user's guess.
-The tile will be green when the user has guessed correctly,
-yellow when the letter is correct but the position is incorrect, and
-gray if the guess is wrong in both respects.
+遊戲完成後，方格的顏色將取決於使用者的猜測結果。
+當使用者猜測完全正確時，方格呈綠色；
+字母正確但位置不對時呈黃色；
+兩者都不對時呈灰色。
 
-The following figure shows all three possibilities.
+下圖展示了這三種情況。
 
 <img src='/assets/images/docs/tutorial/tiles.png' width="320px" alt="A screenshot of a green, yellow, and grey tile.">
 
 
-To achieve this in UI, use a [switch expression][] to
-set the `color` of the `BoxDecoration`.
+要在 UI 中實現這一點，請使用 [switch 表達式][switch expression]
+來設定 `BoxDecoration` 的 `color`。
 
 <?code-excerpt "fwe/birdle/lib/step2e_main.dart (Tile)"?>
 ```dart
@@ -267,14 +258,13 @@ class Tile extends StatelessWidget {
 [`Border`]: {{site.api}}/flutter/widgets/Container-class.html
 [switch expression]: {{site.dart-site}}/language/branches#switch-expressions
 
-### Child widgets
+### 子元件
 
-Finally, add the `Center` and `Text` widgets to the `Container.child` property.
+最後，將 `Center` 和 `Text` 元件加入 `Container.child` 屬性。
 
-Most widgets in the Flutter SDK have a `child` or `children` property that's
-meant to be passed a widget or a list of widgets, respectively.
-It's the best practice to use the same naming convention in
-your own custom widgets.
+Flutter SDK 中大多數元件都有 `child` 或 `children` 屬性，
+分別用來接收單一元件或元件列表。
+在你自己的自訂元件中使用相同的命名慣例是最佳實踐。
 
 <?code-excerpt "fwe/birdle/lib/step2f_main.dart (Tile)"?>
 ```dart
@@ -309,8 +299,8 @@ class Tile extends StatelessWidget {
 }
 ```
 
-Hot reload and a green box appears. To toggle the color,
-update and hot reload the `HitType` passed into the `Tile` you created:
+熱重載後會出現一個綠色方塊。若要切換顏色，
+請更新傳入 `Tile` 的 `HitType` 並熱重載：
 
 <?code-excerpt "fwe/birdle/lib/step2_main.dart (TileUsage)"?>
 ```dart
@@ -323,69 +313,68 @@ Tile('A', HitType.miss);
 Tile('A', HitType.partial);
 ```
 
-Soon, this small box will be one of many widgets on the screen. In the next
-lesson, you'll start building the game grid itself.
+不久之後，這個小方塊將成為畫面上眾多元件之一。在下一節課中，
+你將開始建置遊戲格線本身。
 
-### Review
+### 回顧
 
 
 <SummaryCard>
-title: What you accomplished
-subtitle: Here's a summary of what you built and learned in this lesson.
+title: 你完成的事項
+subtitle: 以下是你在本課中建置與學習的摘要。
 completed: true
 items:
-  - title: Built a custom StatelessWidget
+  - title: 建立了自訂 StatelessWidget
     icon: widgets
     details: >-
-      You created a new `Tile` widget by extending `StatelessWidget`.
-      Every widget has a constructor to accept data and
-      a `build` method that returns other widgets.
-      This pattern is fundamental to building user interfaces with Flutter.
-  - title: Made widgets reusable with constructor parameters
+      你透過繼承 `StatelessWidget` 建立了新的 `Tile` 元件。
+      每個元件都有一個接受資料的建構子，
+      以及一個回傳其他元件的 `build` 方法。
+      這個模式是使用 Flutter 建置使用者介面的基礎。
+  - title: 透過建構子參數使元件可重複使用
     icon: tune
     details: >-
-      By accepting `letter` and `hitType` as constructor parameters,
-      your `Tile` widget can display different content and colors.
-      Passing data through constructors is how you can
-      create flexible, reusable components.
-  - title: Styled widgets using Container and BoxDecoration
+      透過接受 `letter` 和 `hitType` 作為建構子參數，
+      你的 `Tile` 元件可以顯示不同的內容和顏色。
+      透過建構子傳遞資料是建立靈活、可重複使用元件的方式。
+  - title: 使用 Container 和 BoxDecoration 為元件套用樣式
     icon: palette
     details: >-
-      You used `Container` to set the widget's size and
-      `BoxDecoration` to add borders and background colors.
-      Then to conditional style the tile's color,
-      you used a switch expression on the `hitType` value.
+      你使用 `Container` 設定元件的大小，
+      並使用 `BoxDecoration` 加入邊框和背景色。
+      然後為了依條件設定方格顏色，
+      你對 `hitType` 值使用了 switch 表達式。
 </SummaryCard>
 
-### Test yourself
+### 自我測驗
 
-<Quiz title="Widget Fundamentals Quiz">
-- question: "What must every Flutter widget's `build` method return?"
+<Quiz title="元件基礎測驗">
+- question: "Flutter 每個元件的 `build` 方法必須回傳什麼？"
   options:
-    - text: A String describing the widget.
+    - text: 描述元件的 String。
       correct: false
-      explanation: "The `build` method returns a widget, not a String."
-    - text: Another widget.
+      explanation: "`build` 方法回傳的是元件，而不是 String。"
+    - text: 另一個元件。
       correct: true
-      explanation: "The `build` method always returns another widget, which forms part of the widget tree."
-    - text: A boolean indicating success or failure.
+      explanation: "`build` 方法永遠回傳另一個元件，構成元件樹的一部分。"
+    - text: 表示成功或失敗的布林值。
       correct: false
-      explanation: Widgets don't indicate success; they return other widgets to be rendered.
-    - text: Null if there's nothing to display.
+      explanation: 元件不表示成功與否；它們回傳其他元件以進行渲染（render）。
+    - text: 若沒有內容要顯示則回傳 Null。
       correct: false
-      explanation: "The `build` method cannot return null; it must return a valid widget."
-- question: Which object is used to add decorations like borders, background colors, and shadows to a Container?
+      explanation: "`build` 方法不能回傳 null；它必須回傳一個有效的元件。"
+- question: 哪個物件用來為 Container 加入邊框、背景色和陰影等裝飾？
   options:
     - text: ThemeData
       correct: false
-      explanation: ThemeData is for app-wide styling, not individual container decorations.
+      explanation: ThemeData 用於全應用程式範圍的樣式，而非個別容器的裝飾。
     - text: TextStyle
       correct: false
-      explanation: TextStyle is for text formatting, not container decorations.
+      explanation: TextStyle 用於文字格式，而非容器裝飾。
     - text: BoxDecoration
       correct: true
-      explanation: BoxDecoration can add borders, background colors, gradients, shadows, and more to a Container.
+      explanation: BoxDecoration 可以為 Container 加入邊框、背景色、漸層、陰影等裝飾。
     - text: EdgeInsets
       correct: false
-      explanation: EdgeInsets is for specifying padding or margin, not visual decorations.
+      explanation: EdgeInsets 用於指定內距（padding）或外距，而非視覺裝飾。
 </Quiz>

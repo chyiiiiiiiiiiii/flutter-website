@@ -1,20 +1,18 @@
 ---
-title: Create a grid list
-description: How to implement a grid list.
+title: 建立格狀清單（Grid List）
+description: 如何實作格狀清單。
 ---
 
 <?code-excerpt path-base="cookbook/lists/grid_lists"?>
 
-In some cases, you might want to display your items as a grid rather than
-a normal list of items that come one after the next.
-For this task, use the [`GridView`][] widget.
+在某些情況下，你可能希望將項目以格狀（grid）的方式顯示，而不是讓項目一個接一個地以一般清單呈現。
+這時，可以使用 [`GridView`][] 元件 (Widget)。
 
-The simplest way to get started using grids is by using the
-[`GridView.count()`][] constructor,
-because it allows you to specify how many rows or columns you'd like.
+最簡單開始使用格狀清單的方法，就是透過 [`GridView.count()`][] 建構函式，
+因為它允許你指定想要的列數或行數。
 
-To visualize how `GridView` works,
-generate a list of 100 widgets that display their index in the list.
+為了幫助你理解 `GridView` 的運作方式，
+我們將產生一個包含 100 個元件的清單，並在每個元件中顯示其在清單中的索引。
 
 <?code-excerpt "lib/main.dart (GridView)" replace="/^body\: //g"?>
 ```dart
@@ -35,7 +33,7 @@ GridView.count(
 ),
 ```
 
-## Interactive example
+## 互動範例
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter GridView hands-on example in DartPad" run="true"

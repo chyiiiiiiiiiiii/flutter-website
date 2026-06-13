@@ -1,9 +1,9 @@
 ---
-title: Structure & output
+title: 結構化輸入與輸出
 sidenav: ai
 description: >
-  Learn how to use structured input and output schemas to receive reliable, 
-  parsable JSON data from an LLM.
+  瞭解如何使用結構化輸入與輸出 schema，以從 LLM 取得可靠、
+  可解析的 JSON 資料。
 prev:
   title: Prompting
   path: /ai/best-practices/prompting
@@ -13,20 +13,13 @@ next:
 ---
 
 
-When you're writing programs against an LLM, you want to provide unambiguous
-input and get unambiguous output.
+在針對 LLM 撰寫程式時，你會希望提供明確的輸入，並取得明確的輸出。
 
-### Structured input
+### 結構化輸入 {:#structured-input}
 
-As input, an LLM can take pretty much anything you can render as text. That
-includes free form text and semi-structured text like Markdown, but also
-includes structured formats like CSV, JSON, and XML. If you have data with
-structure, format the data with that structure and the LLM is going to give you
-better results.
+作為輸入，LLM 幾乎可以接受任何能以文字呈現的內容。這包含自由格式文字與半結構化文字（例如 Markdown），也包含 CSV、JSON 和 XML 等結構化格式。如果你的資料本身具有結構，請以該結構來格式化資料，LLM 就能給你更好的結果。
 
-In addition to structured text input, you can also pass binary data, like images
-or PDFs. In the sample, the app passes the crossword puzzle screenshot images to
-Gemini for it to infer the grid data:
+除了結構化文字輸入之外，你也可以傳入二進位資料，例如圖片或 PDF。在範例應用程式中，該應用程式會將填字遊戲的截圖傳給 Gemini，讓它推斷格線資料：
 
 ```dart
 final imageParts = <Part>[];
@@ -47,16 +40,13 @@ final response = await _crosswordModel.generateContent(content);
 ...
 ```
 
-This code passes the prompt and the images to Gemini as part of the same
-request.
+這段程式碼會將提示與圖片作為同一個請求的一部分傳給 Gemini。
 
-### Structured output
+### 結構化輸出 {:#structured-output}
 
-An LLM can have a harder time with structured output than with structured input.
-You want to be clear and thorough when asking the model for JSON output to
-ensure you get something that you can reliably parse in your apps. 
+相較於結構化輸入，LLM 在結構化輸出方面可能更加困難。當你要求模型輸出 JSON 時，必須表達得清楚且完整，才能確保你拿到的資料在應用程式中可以被可靠地解析。
 
-Start by initializing the model instance with your expected output format:
+首先，在初始化模型實例時傳入你預期的輸出格式：
 
 ```dart
 // the schema for the clue solver output
@@ -116,8 +106,7 @@ _crosswordModel = FirebaseAI.googleAI().generativeModel(
 );
 ```
 
-And while this might be enough, the most reliable results come when you also
-specify the output schema in the system instruction:
+雖然這樣或許已經足夠，但若同時在系統指令中指定輸出 schema，通常能獲得最可靠的結果：
 
 ```dart
 final _crosswordPrompt =
@@ -131,7 +120,7 @@ The JSON schema is as follows: ${jsonEncode(_crosswordSchema.toJson())}
 '''
 ```
 
-Now you can parse the model's text response as JSON:
+現在你就可以將模型回傳的文字解析為 JSON：
 
 ```dart
 final response = await _crosswordModel.generateContent(content);
@@ -144,6 +133,4 @@ final cluesData = json['clues'] as Map<String, dynamic>;
 ...
 ```
 
-Reliable JSON output from the model is what makes it possible to integrate AI
-into your app. The data might or might not be correct, but it will be in a
-format your app can work with.
+來自模型的可靠 JSON 輸出，正是讓你能夠將 AI 整合進應用程式的關鍵所在。資料的內容不一定完全正確，但至少會以你的應用程式可以處理的格式呈現。

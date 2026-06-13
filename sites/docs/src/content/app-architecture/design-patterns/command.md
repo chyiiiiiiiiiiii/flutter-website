@@ -1,6 +1,6 @@
 ---
-title: The command pattern
-description: "Simplify view model logic by implementing a Command class."
+title: 指令模式
+description: "透過實作 Command 類別，簡化 view model 邏輯。"
 contentTags:
   - mvvm
   - asynchronous dart
@@ -11,38 +11,37 @@ order: 4
 
 <?code-excerpt path-base="app-architecture/command"?>
 
-[Model-View-ViewModel (MVVM)][] is a design pattern
-that separates a feature of an application into three parts:
-the model, the view model, and the view.
-Views and view models make up the UI layer of an application.
-Repositories and services represent the data layer of an application,
-or the model layer of MVVM.
+[Model-View-ViewModel (MVVM)](/app-architecture/guide#view-models) 是一種設計模式，
+將應用程式的一個功能分為三個部分：
+model（模型）、view model（檢視模型）以及 view（檢視）。
+View 和 view model 組成應用程式的 UI 層。
+Repository（儲存庫）和 service（服務）則代表應用程式的資料層，
+也就是 MVVM 的 model 層。
 
-A command is a class that wraps a method
-and helps to handle the different states of that method,
-such as running, complete, and error.
+Command（指令）是一個包裝方法的類別，
+用來協助處理該方法的不同狀態，
+例如執行中、完成與錯誤。
 
-[View models][] can use commands to handle interaction and run actions.
-You can also use them to display different UI states,
-like loading indicators when an action is running,
-or display an error dialog when an action failed.
+[View model](/app-architecture/guide#view-models) 可以使用 command 來處理互動與執行動作。
+你也可以利用它們來顯示不同的 UI 狀態，
+像是在動作執行時顯示載入指示器，
+或是在動作失敗時顯示錯誤對話框。
 
-View models can become very complex
-as an application grows
-and features become bigger.
-Commands can help to simplify view models
-and reuse code.
+隨著應用程式規模成長、功能變得更複雜，
+view model 也可能變得非常複雜。
+Command 可以協助簡化 view model，
+並重複利用程式碼。
 
-In this guide, you will learn
-how to use the command pattern
-to improve your view models.
+在本指南中，你將學習
+如何運用指令模式（command pattern）
+來優化你的 view model。
 
-## Challenges when implementing view models
+## 實作 view model 時的挑戰
 
-View model classes in Flutter are typically implemented
-by extending the [`ChangeNotifier`][] class.
-This allows view models to call `notifyListeners()` to refresh views
-when data is updated.
+在 Flutter 中，view model 類別通常是
+透過繼承 [`ChangeNotifier`](/learn/pathway/tutorial/change-notifier) 類別來實作。
+這讓 view model 可以呼叫 `notifyListeners()` 來刷新 view，
+當資料被更新時。
 
 <?code-excerpt "lib/no_command.dart (HomeViewModel2)" replace="/2//g"?>
 ```dart
@@ -51,9 +50,8 @@ class HomeViewModel extends ChangeNotifier {
 }
 ```
 
-View models contain a representation of the UI state,
-including the data being displayed.
-For example, this `HomeViewModel` exposes the `User` instance to the view.
+View model（檢視模型）包含 UI 狀態的表示方式，包括正在顯示的資料。
+例如，這個 `HomeViewModel` 將 `User` 實例暴露給 view（檢視）。
 
 <?code-excerpt "lib/no_command.dart (getUser)" replace="/null;/\/\/ .../g;/2//g"?>
 ```dart
@@ -64,8 +62,7 @@ class HomeViewModel extends ChangeNotifier {
 }
 ```
 
-View models also contain actions typically triggered by the view,
-such as a `load` action in charge of loading the `user`.
+View model 也包含通常由 view 觸發的動作，例如負責載入 `user` 的 `load` 動作。
 
 <?code-excerpt "lib/no_command.dart (load1)" replace="/null;/\/\/ .../g;/2//g"?>
 ```dart
@@ -80,11 +77,9 @@ class HomeViewModel extends ChangeNotifier {
 }
 ```
 
-### UI state in view models
+### 檢視模型（view model）中的 UI 狀態
 
-A view model also contains UI state besides data, such as
-whether the view is running or has experienced an error.
-This allows the app to tell the user if the action has completed successfully.
+檢視模型（view model）除了包含資料之外，還會包含 UI 狀態，例如畫面目前是否正在執行，或是否發生錯誤。這讓應用程式能夠告知使用者某個操作是否已成功完成。
 
 <?code-excerpt "lib/no_command.dart (UiState1)" replace="/(null|false);/\/\/ .../g;/2//g"?>
 ```dart
@@ -103,7 +98,7 @@ class HomeViewModel extends ChangeNotifier {
 }
 ```
 
-You can use the running state to display a progress indicator in the view:
+你可以利用 running 狀態，在畫面中顯示進度指示器：
 
 <?code-excerpt "lib/no_command.dart (ListenableBuilder)" replace="/\.load//g;/body: //g;/^\),$/)/g"?>
 ```dart
@@ -118,7 +113,7 @@ ListenableBuilder(
 )
 ```
 
-Or use the running state to avoid executing the action multiple times:
+或者使用 running 狀態來避免多次執行該動作：
 
 <?code-excerpt "lib/no_command.dart (load2)" replace="/2//g"?>
 ```dart
@@ -130,10 +125,8 @@ void load() {
 }
 ```
 
-Managing the state of an action can get complicated
-if the view model contains multiple actions.
-For example, adding an `edit()` action to the `HomeViewModel`
-can lead the following outcome:
+當一個 view model 包含多個動作（action）時，管理動作的狀態會變得相當複雜。
+例如，將 `edit()` 動作加入 `HomeViewModel` 中，可能會導致以下結果：
 
 <?code-excerpt "lib/no_command.dart (HomeViewModel3)" replace="/(null|false);/\/\/ .../g;/3//g"?>
 ```dart
@@ -158,23 +151,22 @@ class HomeViewModel extends ChangeNotifier {
 }
 ```
 
-Sharing the running state
-between the `load()` and `edit()` actions might not always work,
-because you might want to show a different UI component
-when the `load()` action runs than when the `edit()` action runs;
-you'll have the same problem with the `error` state.
+在 `load()` 和 `edit()` 動作之間共享執行中狀態（running state）並不一定總是可行，
+因為你可能希望在執行 `load()` 動作時顯示不同的 UI 元件，
+而不是在執行 `edit()` 動作時顯示的元件；
+對於 `error` 狀態，你也會遇到相同的問題。
 
-### Triggering UI actions from view models
+### 從 view model 觸發 UI 動作
 
-View model classes can run into problems when
-executing UI actions and the view model's state changes.
+當 view model 類別在執行 UI 動作且 view model 狀態變更時，
+可能會遇到一些問題。
 
-For example, you might want to show a `SnackBar` when an error occurs,
-or navigate to a different screen when an action completes.
-To implement this, listen for changes in the view model,
-and perform the action depending on the state.
+舉例來說，你可能希望在發生錯誤時顯示 `SnackBar`，
+或是在某個動作完成時導向到不同的螢幕。
+要實作這樣的功能，可以監聽 view model 的狀態變化，
+並根據狀態執行相應的動作。
 
-In the view:
+在 view 中：
 
 <?code-excerpt "lib/no_command.dart (addListener)"?>
 ```dart
@@ -200,8 +192,7 @@ void _onViewModelChanged() {
 }
 ```
 
-You need to clear the error state each time you execute this action,
-otherwise this action happens each time `notifyListeners()` is called.
+你需要在每次執行此動作時清除錯誤狀態，否則每當 `notifyListeners()` 被呼叫時，這個動作都會發生。
 
 <?code-excerpt "lib/no_command.dart (_onViewModelChanged)"?>
 ```dart
@@ -213,16 +204,11 @@ void _onViewModelChanged() {
 }
 ```
 
-## Command pattern
+## Command 模式（Command pattern）
 
-You might find yourself repeating the above code over and over,
-implementing a different running state
-for each action in every view model.
-At that point, it makes sense to extract this code
-into a reusable pattern called a _command_.
+你可能會發現自己一再重複上面的程式碼，為每個 view model 的每個動作實作不同的執行狀態。在這種情況下，將這段程式碼抽取出來，變成一個可重複使用的模式，也就是所謂的 _command_（命令）會比較合理。
 
-A command is a class that encapsulates a view model action,
-and exposes the different states that an action can have.
+Command（命令）是一個封裝 view model 動作的類別，並且對外公開一個動作可能擁有的不同狀態。
 
 <?code-excerpt "lib/simple_command.dart (Command)" replace="/(null|false);/\/\/ .../g;"?>
 ```dart
@@ -247,9 +233,9 @@ class Command extends ChangeNotifier {
 }
 ```
 
-In the view model,
-instead of defining an action directly with a method,
-you create a command object:
+在 view model（檢視模型）中，
+你不是直接用方法來定義一個 action（動作），
+而是建立一個 command（命令）物件：
 
 <?code-excerpt "lib/simple_command.dart (ViewModel)" replace="/(null|false);/\/\/ .../g;"?>
 ```dart
@@ -268,19 +254,18 @@ class HomeViewModel extends ChangeNotifier {
 }
 ```
 
-The previous `load()` method becomes `_load()`,
-and instead the command `load` gets exposed to the `View`.
-The previous `running` and `error` states can be removed,
-as they are now part of the command.
+先前的 `load()` 方法變成了 `_load()`，
+現在則是將指令 `load` 暴露給 `View`。
+原本的 `running` 和 `error` 狀態可以移除，
+因為它們現在已經成為指令的一部分。
 
-### Executing a command
+### 執行指令
 
-Instead of calling `viewModel.load()` to run the load action,
-now you call `viewModel.load.execute()`.
+現在不再呼叫 `viewModel.load()` 來執行載入動作，
+而是改為呼叫 `viewModel.load.execute()`。
 
-The `execute()` method can also be called from within the view model.
-The following line of code runs the `load` command when the
-view model is created.
+`execute()` 方法也可以在 view model 內部被呼叫。
+下列程式碼會在 view model 建立時執行 `load` 指令。
 
 <?code-excerpt "lib/main.dart (ViewModelInit)"?>
 ```dart
@@ -289,23 +274,23 @@ HomeViewModel() {
 }
 ```
 
-The `execute()` method sets the running state to `true`
-and resets the `error` and `completed` states.
-When the action finishes,
-the `running` state changes to `false`
-and the `completed` state to `true`.
+`execute()` 方法會將執行狀態設為 `true`，
+並重設 `error` 和 `completed` 狀態。
+當動作結束時，
+`running` 狀態會變為 `false`，
+而 `completed` 狀態則會變為 `true`。
 
-If the `running` state is `true`,
-the command cannot begin executing again.
-This prevents users from triggering a command
-multiple times by pressing a button rapidly.
+如果 `running` 狀態為 `true`，
+則無法再次開始執行該命令。
+這可以防止使用者快速連續按下按鈕時，
+多次觸發同一個命令。
 
-The command’s `execute()` method captures any thrown `Exceptions`
-automatically and exposes them in the `error` state.
+命令的 `execute()` 方法會自動捕捉任何拋出的 `Exceptions`，
+並將其公開於 `error` 狀態中。
 
-The following code shows a sample `Command` class that
-has been simplified for demo purposes.
-You can see a full implementation at the end of this page.
+以下程式碼展示了一個簡化版的 `Command` 類別，
+僅供示範用途。
+你可以在本頁底部看到完整的實作。
 
 <?code-excerpt "lib/main.dart (Command)"?>
 ```dart
@@ -352,14 +337,14 @@ class Command extends ChangeNotifier {
 }
 ```
 
-### Listening to the command state
+### 監聽指令狀態
 
-The `Command` class extends from `ChangeNotifier`,
-allowing Views to listen to its states.
+`Command` 類別繼承自 `ChangeNotifier`，
+讓 Views 能夠監聽其狀態。
 
-In the `ListenableBuilder`,
-instead of passing the view model to `ListenableBuilder.listenable`,
-pass the command:
+在 `ListenableBuilder` 中，
+不需要將 view model 傳遞給 `ListenableBuilder.listenable`，
+而是直接傳遞指令（command）：
 
 
 <?code-excerpt "lib/main.dart (CommandListenable)" replace="/body: //g;/^\),$/)/g"?>
@@ -374,7 +359,7 @@ ListenableBuilder(
 )
 ```
 
-And listen to changes in the command state in order to run UI actions:
+並且監聽指令（command）狀態的變化，以便執行 UI 動作：
 
 <?code-excerpt "lib/main.dart (addListener)"?>
 ```dart
@@ -401,10 +386,9 @@ void _onViewModelChanged() {
 }
 ```
 
-### Combining command and ViewModel
+### 結合 command 與 ViewModel
 
-You can stack multiple `ListenableBuilder` widgets to listen to `running`
-and `error` states before showing the view model data.
+你可以堆疊多個 `ListenableBuilder` 元件 (Widget)，以便在顯示 view model 資料之前，監聽 `running` 和 `error` 狀態。
 
 <?code-excerpt "lib/main.dart (ListenableBuilder)"?>
 ```dart
@@ -432,9 +416,8 @@ body: ListenableBuilder(
 ),
 ```
 
-You can define multiple commands classes in a single view model,
-simplifying its implementation
-and minimizing the amount of repeated code.
+你可以在單一的 view model 中定義多個 command 類別，
+這樣可以簡化其實作，並減少重複程式碼的數量。
 
 <?code-excerpt "lib/main.dart (HomeViewModel2)" replace="/null;/\/\/ .../g"?>
 ```dart
@@ -460,10 +443,10 @@ class HomeViewModel2 extends ChangeNotifier {
 }
 ```
 
-### Extending the command pattern
+### 擴充命令模式（command pattern）
 
-The command pattern can be extended in multiple ways.
-For example, to support a different number of arguments.
+命令模式（command pattern）可以透過多種方式進行擴充。
+例如，可以用來支援不同數量的參數。
 
 <?code-excerpt "lib/extended_command.dart (HomeViewModel)" replace="/null;/\/\/ .../g"?>
 ```dart
@@ -491,27 +474,27 @@ class HomeViewModel extends ChangeNotifier {
 }
 ```
 
-## Putting it all together
+## 整合應用
 
-In this guide,
-you learned how to use the command design pattern
-to improve the implementation of view models
-when using the MVVM design pattern.
+在本指南中，
+你學會了如何使用 Command 設計模式（command design pattern），
+來提升在採用 MVVM 設計模式時，
+ViewModel 的實作品質。
 
-Below, you can find the full `Command` class
-as implemented in the [Compass App example][]
-for the Flutter architecture guidelines.
-It also uses the [`Result` class][]
-to determine if the action completed successfully or with an error.
+下方提供了完整的 `Command` 類別，
+這是根據 [Compass App 範例]({{site.repo.samples}}/tree/main/compass_app)
+於 Flutter 架構指引中實作的版本。
+它同時也會利用 [`Result` 類別](/app-architecture/design-patterns/result)
+來判斷動作是成功完成還是發生錯誤。
 
-This implementation also includes two types of commands,
-a `Command0`, for actions without parameters,
-and a `Command1`, for actions that take one parameter.
+這個實作同時包含了兩種類型的 Command：
+`Command0`，用於無參數的動作，
+以及 `Command1`，用於需要一個參數的動作。
 
 :::note
-Check [pub.dev][] for other ready-to-use
-implementations of the command pattern,
-such as the [`command_it`][] package.
+你也可以在 [pub.dev]({{site.pub}}) 上找到其他
+現成可用的 Command 設計模式實作，
+例如 [`command_it`]({{site.pub-pkg}}/command_it) 套件。
 :::
 
 <?code-excerpt "lib/command.dart"?>

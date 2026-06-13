@@ -1,56 +1,46 @@
 ---
-title: Feature integration
+title: 功能整合
 sidenav: ai
 description: >
-  How to integrate with other Flutter features.
+  如何與其他 Flutter 功能進行整合。
 prev:
-  title: User experience
+  title: 使用者體驗
   path: /ai/ai-toolkit/user-experience
 next:
-  title: Custom LLM providers
+  title: 自訂大型語言模型 (LLM) 提供者
   path: /ai/ai-toolkit/custom-llm-providers
 ---
 
-In addition to the features that are provided automatically by the
-[`LlmChatView`][], a number of integration points allow your app to blend
-seamlessly with other features to provide additional functionality:
+除了 [`LlmChatView`][] 自動提供的功能之外，
+還有多個整合點可讓您的應用程式
+與其他功能無縫結合，以提供更多元的功能：
 
-* **Welcome messages**: Display an initial greeting to users.
-* **Suggested prompts**: Offer users predefined prompts to guide interactions.
-* **System instructions**: Provide the LLM with specific input to influence its
-  responses.
-* **Disable attachments and audio input**: Remove optional parts of the chat UI.
-* **Manage cancel or error behavior**: Change the user cancellation or LLM error
-  behavior.
-* **Manage history**: Every LLM provider allows for managing chat history, which
-  is useful for clearing it, changing it dynamically and storing it between
-  sessions.
-* **Chat serialization/deserialization**: Store and retrieve conversations
-  between app sessions.
-* **Custom response widgets**: Introduce specialized UI components to present
-  LLM responses.
-* **Custom styling**: Define unique visual styles to match the chat appearance
-  to the overall app.
-* **Chat without UI**: Interact directly with the LLM providers without
-  affecting the user's current chat session.
-* **Custom LLM providers**: Build your own LLM provider for integration of chat
-  with your own model backend.
-* **Rerouting prompts**: Debug, log, or reroute messages meant for the provider
-  to track down issues or route prompts dynamically.
+* **歡迎訊息**：顯示給使用者的初始問候語。
+* **建議提示**：為使用者提供預設提示，引導互動方向。
+* **系統指令**：提供特定輸入給大型語言模型 (LLM)，以影響其回應。
+* **停用附件與語音輸入**：移除聊天 UI 的選用部分。
+* **管理取消或錯誤行為**：變更使用者取消或 LLM 發生錯誤時的行為。
+* **管理歷史紀錄**：每個 LLM 提供者都支援管理聊天歷史紀錄，
+  這對於清除、動態變更及跨會話儲存都很實用。
+* **聊天序列化／反序列化**：在應用程式會話之間儲存與讀取對話內容。
+* **自訂回應元件 (Widgets)**：引入專屬的 UI 元件來呈現 LLM 回應。
+* **自訂樣式**：定義獨特的視覺風格，讓聊天外觀與整體應用程式一致。
+* **無 UI 聊天**：可直接與 LLM 提供者互動，而不影響使用者目前的聊天會話。
+* **自訂 LLM 提供者**：建立您自己的 LLM 提供者，將聊天整合至自有模型後端。
+* **重新導向提示**：除錯、記錄或動態重新導向發送給提供者的訊息，以追蹤問題或調整提示路徑。
 
 [`LlmChatView`]:
     {{site.pub-api}}/flutter_ai_toolkit/latest/flutter_ai_toolkit/LlmChatView-class.html
 
-## Welcome messages
+## 歡迎訊息
 
-The chat view allows you to provide a custom welcome message to set context for
-the user:
+聊天畫面允許您自訂歡迎訊息，
+以便為使用者設定情境：
 
-![Example welcome
-message](/assets/images/docs/ai-toolkit/example-of-welcome-message.png)
+![歡迎訊息範例](/assets/images/docs/ai-toolkit/example-of-welcome-message.png)
 
-You can initialize the `LlmChatView` with a welcome message by setting the
-`welcomeMessage` parameter:
+您可以透過設定 `welcomeMessage` 參數，
+在初始化 `LlmChatView` 時加入歡迎訊息：
 
 ```dart
 class ChatPage extends StatelessWidget {
@@ -71,23 +61,19 @@ class ChatPage extends StatelessWidget {
 }
 ```
 
-To see a complete example of setting the welcome message, check out the [welcome
-example][].
+若要查看設定歡迎訊息的完整範例，請參考 [welcome example][]。
 
 [welcome example]:
     {{site.github}}/flutter/ai/blob/main/example/lib/welcome/welcome.dart
 
-## Suggested prompts
+## 建議提示語
 
-You can provide a set of suggested prompts to give the user some idea of what
-the chat session has been optimized for:
+你可以提供一組建議提示語，讓使用者了解這個聊天會話已針對哪些情境進行最佳化：
 
 ![Example suggested
 prompts](/assets/images/docs/ai-toolkit/example-of-suggested-prompts.png)
 
-The suggestions are only shown when there is no existing chat history. Clicking
-one sends it immediately as a request to the underlying LLM. To set the list of
- suggestions, construct the `LlmChatView` with the `suggestions` parameter:
+這些建議僅會在沒有現有聊天記錄時顯示。點擊其中一個建議，會立即將該文字作為請求傳送給底層的大型語言模型 (LLM)。若要設定建議清單，請使用 `suggestions` 參數來建構 `LlmChatView`：
 
 ```dart
 class ChatPage extends StatelessWidget {
@@ -112,18 +98,14 @@ class ChatPage extends StatelessWidget {
 }
 ```
 
-To see a complete example of setting up suggestions for the user, take a look at
-the [suggestions example][].
+若要查看為使用者設定建議（suggestions）的完整範例，請參考 [suggestions example][]。
 
 [suggestions example]:
     {{site.github}}/flutter/ai/blob/main/example/lib/suggestions/suggestions.dart
 
-## LLM instructions
+## 大型語言模型 (LLM) 指令
 
-To optimize an LLM's responses based on the needs of your app, you'll want to
-give it instructions. For example, the [recipes example app][] uses the
-`systemInstructions` parameter of the `GenerativeModel` class to tailor the LLM
-to focus on delivering recipes based on the user's instructions:
+為了根據您的應用程式需求最佳化大型語言模型 (LLM) 的回應，您需要提供相關指令。例如，[recipes example app][] 會使用 `GenerativeModel` 類別中的 `systemInstructions` 參數，來調整 LLM，讓其根據使用者的指示專注於提供食譜內容：
 
 ```dart
 class _HomePageState extends State<HomePage> {
@@ -149,20 +131,21 @@ You should keep things casual and friendly. You may generate multiple recipes in
 }
 ```
 
-Setting system instructions is unique to each provider; the `FirebaseProvider`
-allows you to provide them through the `systemInstruction` parameter.
+設定系統指令（system instructions）在每個提供者（provider）中都是獨特的；
+`FirebaseProvider` 允許你透過 `systemInstruction` 參數來提供這些指令。
 
-Notice that, in this case, we're bringing in user preferences as part of the
-creation of the LLM provider passed to the `LlmChatView` constructor. We set the
-instructions as part of the creation process each time the user changes their
-preferences. The recipes app allows the user to change their food preferences
-using a drawer on the scaffold:
+請注意，在這個例子中，我們將使用者偏好（user preferences）
+納入傳遞給 `LlmChatView` 建構子的
+大型語言模型 (LLM) 提供者的建立過程中。每當使用者變更偏好時，
+我們都會在建立過程中設定指令。
+食譜應用程式（recipes app）允許使用者透過 scaffold 上的抽屜（drawer）
+來變更他們的飲食偏好：
 
 ![Example of refining
 prompt](/assets/images/docs/ai-toolkit/setting-food-preferences.png)
 
-Whenever the user changes their food preferences, the recipes app creates a new
-model to use the new preferences:
+每當使用者變更飲食偏好時，
+食譜應用程式就會建立一個新的模型，以使用新的偏好設定：
 
 ```dart
 class _HomePageState extends State<HomePage> {
@@ -175,25 +158,20 @@ class _HomePageState extends State<HomePage> {
 }
 ```
 
-## Function calling
+## 函式呼叫（Function calling）
 
-To enable the LLM to perform actions on behalf of the user, you can provide a
-set of tools (functions) that the LLM can call. The `FirebaseProvider` supports
-function calling out of the box. It handles the loop of sending the user's
-prompt, receiving a function call request from the LLM, executing the function,
-and sending the result back to the LLM until a final text response is generated.
+若要讓 LLM 能夠代表使用者執行動作，您可以提供一組工具（函式）供 LLM 呼叫。`FirebaseProvider` 內建支援函式呼叫（function calling）。它會處理整個流程：傳送使用者的提示、接收來自 LLM 的函式呼叫請求、執行函式，並將結果傳回給 LLM，直到產生最終的文字回應為止。
 
-To use function calling, you need to define your tools and pass them to the
-`FirebaseProvider`. Check out the [function calling example][] for details.
+若要使用函式呼叫，您需要定義工具並將其傳遞給 `FirebaseProvider`。詳情請參考 [function calling example][]。
 
 [function calling example]:
     {{site.github}}/flutter/ai/blob/main/example/lib/function_calls/function_calls.dart
 
-## Disable attachments and audio input
+## 停用附件與語音輸入
 
-If you'd like to disable attachments (the **+** button) or audio input (the mic
-button), you can do so with the `enableAttachments` and `enableVoiceNotes`
-parameters to the `LlmChatView` constructor:
+如果你希望停用附件（**+** 按鈕）或語音輸入（麥克風按鈕），
+可以透過將 `enableAttachments` 和 `enableVoiceNotes` 參數
+傳遞給 `LlmChatView` 建構子來達成：
 
 ```dart
 class ChatPage extends StatelessWidget {
@@ -215,15 +193,11 @@ class ChatPage extends StatelessWidget {
 }
 ```
 
-Both of these flags default to `true`.
+這兩個旗標的預設值都是 `true`。
 
-## Custom speech-to-text
+## 自訂語音轉文字（Custom speech-to-text）
 
-By default, the AI Toolkit uses the `LlmProvider` to pass to the `LlmChatView`
-to provide the speech-to-text implementation. If you'd like to provide your own
-implementation, for example to use a device-specific service, you can do so by
-implementing the `SpeechToText` interface and passing it to the `LlmChatView`
-constructor:
+預設情況下，AI Toolkit 使用傳遞給 `LlmChatView` 的 `LlmProvider` 來提供語音轉文字的實作。若您希望提供自己的實作，例如使用裝置專屬的服務，可以透過實作 `SpeechToText` 介面，並將其傳遞給 `LlmChatView` 建構子來達成：
 
 ```dart
 LlmChatView(
@@ -232,23 +206,16 @@ LlmChatView(
 )
 ```
 
-Check out the [custom STT example][] for details.
+詳情請參考 [custom STT example][]。
 
 [custom STT example]:
     {{site.github}}/flutter/ai/tree/main/example/lib/custom_stt
 
-## Manage cancel or error behavior
+## 管理取消或錯誤行為
 
-By default, when the user cancels an LLM request, the LLM's response will be
-appended with the string "CANCEL" and a message will pop up that the user has
-canceled the request. Likewise, in the event of an LLM error, like a dropped
-network connection, the LLM's response will be appended with the string "ERROR"
-and an alert dialog will pop up with the details of the error.
+預設情況下，當使用者取消大型語言模型 (LLM) 請求時，LLM 的回應會附加字串 "CANCEL"，並且會跳出訊息提示使用者已取消該請求。同樣地，若發生 LLM 錯誤（例如網路連線中斷），LLM 的回應會附加字串 "ERROR"，並且會跳出包含錯誤細節的警示對話框。
 
-You can override the cancel and error behavior with the `cancelMessage`,
-`errorMessage`, `onCancelCallback` and `onErrorCallback` parameters of the
-`LlmChatView`. For example, the following code replaces the default cancellation
-handling behavior:
+你可以透過 `LlmChatView` 的 `cancelMessage`、`errorMessage`、`onCancelCallback` 和 `onErrorCallback` 參數來覆寫預設的取消與錯誤行為。例如，下列程式碼會取代預設的取消處理行為：
 
 ```dart
 class ChatPage extends StatelessWidget {
@@ -272,14 +239,12 @@ class ChatPage extends StatelessWidget {
 }
 ```
 
-You can override any or all of these parameters and the `LlmChatView` will use
-its defaults for anything you don't override.
+你可以覆寫這些參數中的任意一個或全部，`LlmChatView` 會對你未覆寫的部分使用其預設值。
 
-## Manage history
+## 管理歷史紀錄
 
-The [standard interface that defines all LLM providers][providerIF] that can
-plug into the chat view includes the ability to get and set history for the
-provider:
+[定義所有可插入聊天視圖的大型語言模型 (LLM) 提供者的標準介面][providerIF]
+包含了取得與設定該提供者歷史紀錄的能力：
 
 ```dart
 abstract class LlmProvider implements Listenable {
@@ -301,26 +266,25 @@ abstract class LlmProvider implements Listenable {
 [providerIF]:
     {{site.pub-api}}/flutter_ai_toolkit/latest/flutter_ai_toolkit/LlmProvider-class.html
 
-When the history for a provider changes, it calls the `notifyListener` method
-exposed by the `Listenable` base class. This means that you manually
-subscribe/unsubscribe with the `add` and `remove` methods or use it to construct
-an instance of the `ListenableBuilder` class.
+當 provider 的歷史紀錄發生變化時，
+它會呼叫由 `Listenable` 基底類別所公開的 `notifyListener` 方法。這表示你可以手動
+透過 `add` 和 `remove` 方法來訂閱/取消訂閱，
+或用來建立 `ListenableBuilder` 類別的實例。
 
-The `generateStream` method calls into the underlying LLM without affecting the
-history. Calling the `sendMessageStream` method changes the history by adding
-two new messages to the provider's history—one for the user message and one for
-the LLM response—when the response is completed. The chat view uses
-`sendMessageStream` when it processes a user's chat prompt and `generateStream`
-when it's processing the user's voice input.
+`generateStream` 方法會呼叫底層的大型語言模型 (LLM)，
+但不會影響歷史紀錄。而呼叫 `sendMessageStream`
+方法時，當回應完成後，會在 provider 的歷史紀錄中新增兩則訊息——
+一則為使用者訊息，一則為 LLM 回應。聊天視圖在處理
+使用者的聊天提示時會使用 `sendMessageStream`，
+而在處理使用者語音輸入時則會使用 `generateStream`。
 
-To see or set the history, you can access the `history` property:
+若要查看或設定歷史紀錄，你可以存取 `history` 屬性：
 
 ```dart
 void _clearHistory() => _provider.history = [];
 ```
 
-The ability to access a provider's history is also useful when it comes to
-recreating a provider while maintaining the history:
+當你需要在重新建立 provider 的同時保留歷史紀錄時，能夠存取 provider 的歷史紀錄也非常有用：
 
 ```dart
 class _HomePageState extends State<HomePage> {
@@ -333,10 +297,9 @@ class _HomePageState extends State<HomePage> {
 }
 ```
 
-The `_createProvider` method creates a new provider with the history from the
-previous provider _and_ the new user preferences. It's seamless for the user;
-they can keep chatting away but now the LLM gives them responses taking their
-new food preferences into account. For example:
+`_createProvider` 方法會建立一個新的 provider，這個 provider 同時保留了前一個 provider 的歷史紀錄，以及新的使用者偏好設定。
+對使用者來說，這個過程是無縫接軌的；他們可以繼續對話，而大型語言模型 (LLM) 現在會根據他們的新飲食偏好來回應。
+例如：
 
 
 ```dart
@@ -352,20 +315,21 @@ class _HomePageState extends State<HomePage> {
 }
 ```
 
-To see history in action, check out the [recipes example app][] and the [history
-example app][].
+要實際體驗歷史紀錄功能，
+請參考 [recipes example app][] 以及 [history example app][]。
 
 [history example app]:
     {{site.github}}/flutter/ai/blob/main/example/lib/history/history.dart
 [recipes example app]: {{site.github}}/flutter/ai/tree/main/example/lib/recipes
 
-## Chat serialization/deserialization
+## 聊天序列化／反序列化
 
-To save and restore chat history between sessions of an app requires the ability
-to serialize and deserialize each user prompt, including the attachments, and
-each LLM response. Both kinds of messages (the user prompts and LLM responses),
-are exposed in the `ChatMessage` class. Serialization can be accomplished by
-using the `toJson` method of each `ChatMessage` instance.
+若要在應用程式的不同工作階段之間儲存與還原聊天歷史紀錄，
+就需要能夠序列化與反序列化每一則使用者提示（包含附件）以及每一則大型語言模型 (LLM) 回應。這兩種類型的訊息
+（使用者提示與 LLM 回應），
+都會在 `ChatMessage` 類別中公開。
+序列化可以透過每個 `ChatMessage` 實例的 `toJson`
+方法來完成。
 
 ```dart
 Future<void> _saveHistory() async {
@@ -386,8 +350,7 @@ Future<void> _saveHistory() async {
 }
 ```
 
-Likewise, to deserialize, use the static `fromJson` method of the `ChatMessage`
-class:
+同樣地，若要進行反序列化，請使用 `ChatMessage` 類別的靜態 `fromJson` 方法：
 
 ```dart
 Future<void> _loadHistory() async {
@@ -406,29 +369,36 @@ Future<void> _loadHistory() async {
 }
 ```
 
-To ensure fast turnaround when serializing, we recommend only writing each user
-message once. Otherwise, the user must wait for your app to write every message
-every time and, in the face of binary attachments, that could take a while.
+為了確保序列化時能夠快速回應，
+我們建議每則使用者訊息只寫入一次。
+否則，使用者必須等待您的應用程式
+每次都將所有訊息寫入，
+遇到二進位附件時，
+這個過程可能會花費較長時間。
 
-To see this in action, check out the [history example app][].
+若想實際了解這個做法，請參考 [history example app][]。
 
 [history example app]:
     {{site.github}}/flutter/ai/blob/main/example/lib/history/history.dart
 
-## Custom response widgets
+## 自訂回應元件 (Custom response widgets)
 
-By default, the LLM response shown by the chat view is formatted Markdown.
-However, in some cases, you want to create a custom widget to show the LLM
-response that's specific to and integrated with your app. For example, when the
-user requests a recipe in the [recipes example app][], the LLM response is used
-to create a widget that's specific to showing recipes just like the rest of the
-app does and to provide for an **Add** button in case the user would like to add
-the recipe to their database:
+預設情況下，聊天視圖所顯示的
+大型語言模型 (LLM) 回應會以
+Markdown 格式呈現。然而，在某些情境下，
+您可能希望建立自訂元件 (Widget)，
+以顯示與您的應用程式高度整合、專屬於該應用程式的
+LLM 回應。例如，當使用者在
+[recipes example app][] 中請求食譜時，
+LLM 回應會被用來建立一個專門顯示食譜的元件，
+這個元件的呈現方式與應用程式其他部分一致，
+並且提供一個 **新增** 按鈕，讓使用者可以將
+食譜加入他們的資料庫：
 
 ![Add recipe button](/assets/images/docs/ai-toolkit/add-recipe-button.png)
 
-This is accomplished by setting the `responseBuilder` parameter of the
-`LlmChatView` constructor:
+這是透過在 `LlmChatView` 建構函式中設定 `responseBuilder`
+參數來實現的：
 
 ```dart
 LlmChatView(
@@ -440,8 +410,9 @@ LlmChatView(
 ),
 ```
 
-In this particular example, the `RecipeResponseView` widget is constructed with
-the LLM provider's response text and uses that to implement its `build` method:
+在這個特定範例中，`RecipeResponseView`
+元件（Widget）是以大型語言模型 (LLM) 服務提供者的回應文字來建構，
+並利用該文字來實作其 `build` 方法：
 
 ```dart
 class RecipeResponseView extends StatelessWidget {
@@ -502,15 +473,14 @@ class RecipeResponseView extends StatelessWidget {
 }
 ```
 
-This code parses the text to extract introductory text and the recipe from the
-LLM, bundling them together with an **Add Recipe** button to show in place of
-the Markdown.
+這段程式碼會解析文字，從大型語言模型（LLM）中擷取前言文字與食譜，並將它們與一個 **Add Recipe** 按鈕一起組合，顯示在原本 Markdown 的位置。
 
-Notice that we're parsing the LLM response as JSON. It's common to set the
-provider into JSON mode and to provide a schema to restrict the format of its
-responses to ensure that we've got something we can parse. Each provider exposes
-this functionality in its own way, but the `FirebaseProvider` class enables
-this with a `GenerationConfig` object that the recipes example uses as follows:
+請注意，我們將 LLM 的回應解析為 JSON。
+通常會將提供者設為 JSON 模式，並提供一個 schema（結構定義），以限制其回應格式，確保我們能夠正確解析。
+每個提供者都以自己的方式提供這項功能，
+但 `FirebaseProvider` 類別
+能透過 `GenerationConfig` 物件來實現，
+而食譜範例則如下使用：
 
 ```dart
 class _HomePageState extends State<HomePage> {
@@ -553,21 +523,18 @@ well as any trailing text commentary you care to provide:
 }
 ```
 
-This code initializes the `GenerationConfig` object by setting the
-`responseMimeType` parameter to `'application/json'` and the `responseSchema`
-parameter to an instance of the `Schema` class that defines the structure of the
-JSON that you're prepared to parse. In addition, it's good practice to also ask
-for JSON and to provide a description of that JSON schema in the system
-instructions, which we've done here.
+這段程式碼會初始化 `GenerationConfig` 物件，
+將 `responseMimeType` 參數設為 `'application/json'`，
+並將 `responseSchema` 參數設為 `Schema` 類別的實例，
+該類別定義了你準備解析的 JSON 結構。此外，
+建議在系統指令中同時要求回傳 JSON，並提供該 JSON schema 的描述——這裡我們已經這麼做了。
 
-To see this in action, check out the [recipes example app][].
+想要實際體驗，請參考 [recipes example app][]。
 
-## Custom styling
+## 自訂樣式
 
-The chat view comes out of the box with a set of default styles for the
-background, the text field, the buttons, the icons, the suggestions, and so on.
-You can fully customize those styles by setting your own by using the `style`
-parameter to the `LlmChatView` constructor:
+聊天視圖（chat view）預設提供了一套背景、文字欄位（text field）、按鈕、圖示、建議等的預設樣式。
+你可以透過在 `LlmChatView` 建構函式中設定 `style` 參數，完全自訂這些樣式：
 
 ```dart
 LlmChatView(
@@ -576,20 +543,14 @@ LlmChatView(
 ),
 ```
 
-For example, the [custom styles example app][custom-ex] uses this feature to
-implement an app with a Halloween theme:
+例如，[custom styles example app][custom-ex]
+就利用這個功能實作了一個具有萬聖節主題的應用程式：
 
 ![Halloween-themed demo app](/assets/images/docs/ai-toolkit/demo-app.png)
 
-For a complete list of the styles available in the `LlmChatViewStyle` class,
-check out the [reference documentation][]. You can also customize the appearance
-of the voice recorder using the `voiceNoteRecorderStyle` parameter of the
-`LlmChatViewStyle` class, which is demonstrated in the [styles
-example][styles-ex].
+如需 `LlmChatViewStyle` 類別中可用樣式的完整清單，請參閱 [reference documentation][]。你也可以使用 `LlmChatViewStyle` 類別的 `voiceNoteRecorderStyle` 參數來自訂語音錄音器的外觀，這在 [styles example][styles-ex] 中有示範。
 
-To see custom styles in action, in addition to the [custom styles
-example][custom-ex] and the [styles example][styles-ex], check out the [dark
-mode example][] and the [demo app][].
+若想實際了解自訂樣式的運作方式，除了可以參考 [custom styles example][custom-ex] 以及 [styles example][styles-ex] 之外，也建議查看 [dark mode example][] 以及 [demo app][]。
 
 [custom-ex]:
     {{site.github}}/flutter/ai/blob/main/example/lib/custom_styles/custom_styles.dart
@@ -600,29 +561,29 @@ mode example][] and the [demo app][].
 [reference documentation]:
     {{site.pub-api}}/flutter_ai_toolkit/latest/flutter_ai_toolkit/LlmChatViewStyle-class.html
 
-## Chat without UI
+## 無 UI 的聊天功能
 
-You don't have to use the chat view to access the functionality of the
-underlying provider. In addition to being able to simply call it with whatever
-proprietary interface it provides, you can also use it with the [LlmProvider
-interface][].
+你不一定要使用聊天視圖（chat view）來存取底層提供者的功能。
+除了可以直接透過其專屬介面呼叫之外，
+你也可以搭配 [LlmProvider interface][] 來使用。
 
 [LlmProvider interface]:
     {{site.pub-api}}/flutter_ai_toolkit/latest/flutter_ai_toolkit/LlmProvider-class.html
 
-As an example, the recipes example app provides a Magic button on the page for
-editing recipes. The purpose of that button is to update an existing recipe in
-your database with your current food preferences. Pressing the button allows you
-to preview the recommended changes and decide whether you'd like to apply them
-or not:
+舉例來說，recipes 範例應用程式在頁面上提供了一個
+Magic 按鈕來編輯食譜。
+這個按鈕的目的是根據你目前的飲食偏好，
+更新資料庫中的現有食譜。
+按下按鈕後，你可以預覽推薦的變更內容，
+並決定是否要套用這些變更：
 
 ![User decides whether to update recipe in
 database](/assets/images/docs/ai-toolkit/apply-changes-decision.png)
 
-Instead of using the same provider that the chat portion of the app uses, which
-would insert spurious user messages and LLM responses into the user's chat
-history, the Edit Recipe page instead creates its own provider and uses it
-directly:
+與其使用應用程式聊天區塊所用的同一個提供者（provider），
+這樣會將多餘的使用者訊息與大型語言模型 (LLM) 回應插入使用者的聊天紀錄，
+Edit Recipe 頁面反而會自行建立一個提供者，
+並直接加以使用：
 
 ```dart
 class _EditRecipePageState extends State<EditRecipePage> {
@@ -675,24 +636,16 @@ class _EditRecipePageState extends State<EditRecipePage> {
 }
 ```
 
-The call to `sendMessageStream` creates entries in the provider's history, but
-since it's not associated with a chat view, they won't be shown. If it's
-convenient, you can also accomplish the same thing by calling `generateStream`,
-which allows you to reuse an existing provider without affecting the chat
-history.
+對 `sendMessageStream` 的呼叫會在提供者（provider）的歷史紀錄中建立條目，但由於這些條目沒有關聯到聊天視圖（chat view），因此不會顯示出來。如果方便的話，你也可以透過呼叫 `generateStream` 來達到相同的效果，這樣可以重複使用現有的 provider，同時不會影響聊天歷史紀錄。
 
-To see this in action, check out the [Edit Recipe page][] of the recipes
-example.
+想要實際了解這個流程，可以參考 recipes 範例的 [Edit Recipe page][]。
 
 [Edit Recipe page]:
     {{site.github}}/flutter/ai/blob/main/example/lib/recipes/pages/edit_recipe_page.dart
 
-## Rerouting prompts
+## 重新導向提示（Rerouting prompts）
 
-If you'd like to debug, log, or manipulate the connection between the chat view
-and the underlying provider, you can do so with an implementation of an
-[`LlmStreamGenerator`][] function. You then pass that function to the
-`LlmChatView` in the `messageSender` parameter:
+如果你希望除錯、記錄或操作聊天視圖（chat view）與底層 provider 之間的連線，可以實作一個 [`LlmStreamGenerator`][] 函式來達成。然後，將該函式傳遞給 `LlmChatView` 的 `messageSender` 參數：
 
 [`LlmStreamGenerator`]:
     {{site.pub-api}}/flutter_ai_toolkit/latest/flutter_ai_toolkit/LlmStreamGenerator.html
@@ -735,13 +688,9 @@ class ChatPage extends StatelessWidget {
 }
 ```
 
-This example logs the user prompts and LLM responses as they go back and forth.
-When providing a function as a `messageSender`, it's your responsibility to call
-the underlying provider. If you don't, it won't get the message. This capability
-allows you to do advanced things like routing to a provider dynamically or
-Retrieval Augmented Generation (RAG).
+此範例會在用戶與大型語言模型 (LLM) 之間來回互動時，記錄用戶的提示與 LLM 的回應。當你將函式作為 `messageSender` 提供時，你需要自行負責呼叫底層的服務提供者。如果你沒有這麼做，服務提供者將無法收到訊息。這項能力讓你可以實現進階功能，例如動態路由至不同的服務提供者，或進行檢索增強生成（Retrieval Augmented Generation, RAG）。
 
-To see this in action, check out the [logging example app][].
+想要實際體驗，請參考 [logging example app][]。
 
 [logging example app]:
     {{site.github}}/flutter/ai/blob/main/example/lib/logging/logging.dart

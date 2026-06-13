@@ -1,35 +1,25 @@
 ---
-title: Display a snackbar
-description: How to implement a snackbar to display messages.
+title: 顯示 snackbar
+description: 如何實作 snackbar 來顯示訊息。
 ---
 
 <?code-excerpt path-base="cookbook/design/snackbars/"?>
 
-It can be useful to briefly inform your users when certain actions
-take place. For example, when a user swipes away a message in a list,
-you might want to inform them that the message has been deleted.
-You might even want to give them an option to undo the action.
+在某些操作發生時，短暫地通知使用者是很有幫助的。例如，當使用者在清單中滑動刪除一則訊息時，你可能會想要告知他們該訊息已被刪除。你甚至可能想要提供一個讓他們復原該操作的選項。
 
-![SnackBar Demo](/assets/images/docs/cookbook/snackbar.webp){:.site-mobile-screenshot}
+![SnackBar 範例](/assets/images/docs/cookbook/snackbar.webp){:.site-mobile-screenshot}
 
-In Material Design, this is the job of a [`SnackBar`][].
-This recipe implements a snackbar using the following steps:
+在 Material Design 中，這正是 [`SnackBar`][] 的用途。本教學將透過以下步驟來實作 snackbar：
 
-  1. Create a `Scaffold`.
-  2. Display a `SnackBar`.
-  3. Provide an optional action.
+  1. 建立 `Scaffold`。
+  2. 顯示 `SnackBar`。
+  3. 提供可選的操作。
 
-## 1. Create a `Scaffold`
+## 1. 建立 `Scaffold`
 
-When creating apps that follow the Material Design guidelines,
-give your apps a consistent visual structure.
-In this example, display the `SnackBar` at the bottom of the screen,
-without overlapping other important widgets,
-such as the `FloatingActionButton`.
+當你開發遵循 Material Design 指南的應用程式時，應確保應用程式具有一致的視覺結構。在這個範例中，將 `SnackBar` 顯示在螢幕底部，且不會與其他重要元件 (Widget) 重疊，例如 `FloatingActionButton`。
 
-The [`Scaffold`][] widget, from the [material library][],
-creates this visual structure and ensures that important
-widgets don't overlap.
+[`Scaffold`][] 元件，來自 [material library][]，可建立這種視覺結構，並確保重要元件不會互相重疊。
 
 <?code-excerpt "lib/partial.dart (Scaffold)"?>
 ```dart
@@ -42,10 +32,10 @@ return MaterialApp(
 );
 ```
 
-## 2. Display a `SnackBar`
+## 2. 顯示 `SnackBar`
 
-With the `Scaffold` in place, display a `SnackBar`.
-First, create a `SnackBar`, then display it using `ScaffoldMessenger`.
+在有了 `Scaffold` 之後，顯示 `SnackBar`。
+首先，建立一個 `SnackBar`，然後使用 `ScaffoldMessenger` 來顯示它。
 
 <?code-excerpt "lib/partial.dart (DisplaySnackBar)"?>
 ```dart
@@ -57,22 +47,18 @@ ScaffoldMessenger.of(context).showSnackBar(snackBar);
 ```
 
 :::note
-To learn more, watch the following two-minute Widget of the Week video on
-the `ScaffoldMessenger` widget:
+想了解更多內容，請觀看這段關於 `ScaffoldMessenger` 元件的兩分鐘 Widget of the Week 短片：
 
 <YouTubeEmbed id="lytQi-slT5Y"
   title="ScaffoldMessenger | Flutter widget of the week"></YouTubeEmbed>
 :::
 
-## 3. Provide an optional action
+## 3. 提供可選的操作
 
-You might want to provide an action to the user when
-the `SnackBar` is displayed.
-For example, if the user accidentally deletes a message,
-an `action` in the `SnackBar` could allow recovering the message.
+當 `SnackBar` 顯示時，你可能會希望提供一個操作給使用者。
+例如，若使用者不小心刪除了訊息，他們可以透過 `SnackBar` 中的 `action` 來恢復該訊息。
 
-Here's an example that provides
-an additional `action` to the `SnackBar` widget:
+以下是一個為 `SnackBar` 元件提供額外 `action` 的範例：
 
 <?code-excerpt "lib/main.dart (SnackBarAction)"?>
 ```dart
@@ -87,12 +73,12 @@ final snackBar = SnackBar(
 );
 ```
 
-## Interactive example
+## 互動範例
 
 :::note
-In this example, the `SnackBar` displays when a user taps a button.
-For more information on working with user input,
-see the [Gestures][] section of the cookbook.
+在這個範例中，當使用者點擊按鈕時，`SnackBar` 會顯示出來。
+如需更多關於處理使用者輸入的資訊，
+請參閱 cookbook 的 [Gestures][] 章節。
 :::
 
 <?code-excerpt "lib/main.dart"?>
@@ -147,7 +133,7 @@ class SnackBarPage extends StatelessWidget {
 
 <noscript>
   <img src="/assets/images/docs/cookbook/snackbar.webp"
-    alt="SnackBar Demo" class="site-mobile-screenshot" />
+    alt="SnackBar 範例" class="site-mobile-screenshot" />
 </noscript>
 
 [Gestures]: /cookbook/gestures

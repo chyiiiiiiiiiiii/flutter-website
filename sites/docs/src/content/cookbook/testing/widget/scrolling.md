@@ -1,40 +1,37 @@
 ---
-title: Handle scrolling
-description: How to handle scrolling in a widget test.
+title: 處理滾動
+description: 如何在元件（Widget）測試中處理滾動。
 ---
 
 <?code-excerpt path-base="cookbook/testing/widget/scrolling/"?>
 
-Many apps feature lists of content,
-from email clients to music apps and beyond.
-To verify that lists contain the expected content
-using widget tests,
-you need a way to scroll through lists to search for particular items.
+許多應用程式都包含內容清單，從電子郵件客戶端到音樂應用程式等各種型態。
+若要透過元件 (Widget) 測試驗證清單中是否包含預期內容，
+你需要一種方法來捲動清單，以搜尋特定項目。
 
-To scroll through lists via integration tests,
-use the methods provided by the [`WidgetTester`][] class,
-which is included in the [`flutter_test`][] package:
+若要在整合測試（integration tests）中捲動清單，
+請使用 [`WidgetTester`][] 類別所提供的方法，
+該類別包含於 [`flutter_test`][] 套件中：
 
-In this recipe, learn how to scroll through a list of items to
-verify a specific widget is being displayed,
-and the pros and cons of different approaches.
+在本教學中，你將學會如何捲動項目清單，
+以驗證特定元件（Widget）是否有被顯示，
+並了解不同做法的優缺點。
 
-This recipe uses the following steps:
+本教學包含以下步驟：
 
-1. Create an app with a list of items.
-2. Write a test that scrolls through the list.
-3. Run the test.
+1. 建立一個帶有項目清單的應用程式。
+2. 撰寫一個會捲動清單的測試。
+3. 執行測試。
 
-## 1. Create an app with a list of items
+## 1. 建立一個帶有項目清單的應用程式
 
-This recipe builds an app that shows a long list of items.
-To keep this recipe focused on testing, use the app created in the
-[Work with long lists][] recipe.
-If you're unsure of how to work with long lists,
-see that recipe for an introduction.
+本教學將建立一個顯示長清單的應用程式。
+為了讓教學重點聚焦在測試，這裡直接使用
+[Work with long lists][] 教學中建立的應用程式。
+如果你不確定如何處理長清單，
+請參考該教學作為入門。
 
-Add keys to the widgets you want to interact with
-inside the integration tests.
+請在你想要於整合測試中互動的元件（Widget）上加入 key。
 
 <?code-excerpt "lib/main.dart"?>
 ```dart
@@ -81,22 +78,13 @@ class MyApp extends StatelessWidget {
 ```
 
 
-## 2. Write a test that scrolls through the list
+## 2. 撰寫一個滾動清單的測試
 
-Now, you can write a test. In this example, scroll through the list of items and
-verify that a particular item exists in the list. The [`WidgetTester`][] class
-provides the [`scrollUntilVisible()`][] method, which scrolls through a list
-until a specific widget is visible. This is useful because the height of the
-items in the list can change depending on the device.
+現在，你可以撰寫測試了。在這個範例中，會滾動項目清單並驗證特定項目是否存在於清單中。[`WidgetTester`][] 類別提供了 [`scrollUntilVisible()`][] 方法，該方法會滾動清單直到特定的元件（Widget）可見。這非常實用，因為清單中項目的高度可能會依據裝置而有所不同。
 
-Rather than assuming that you know the height of all the items
-in a list, or that a particular widget is rendered on all devices,
-the `scrollUntilVisible()` method repeatedly scrolls through
-a list of items until it finds what it's looking for.
+與其假設你知道清單中所有項目的高度，或假設特定元件在所有裝置上都會被渲染，`scrollUntilVisible()` 方法會反覆滾動項目清單，直到找到目標項目為止。
 
-The following code shows how to use the `scrollUntilVisible()` method
-to look through the list for a particular item. This code lives in a
-file called `test/widget_test.dart`.
+以下程式碼展示如何使用 `scrollUntilVisible()` 方法，在清單中尋找特定項目。這段程式碼位於名為 `test/widget_test.dart` 的檔案中。
 
 <?code-excerpt "test/widget_test.dart (ScrollWidgetTest)"?>
 ```dart
@@ -132,9 +120,9 @@ void main() {
 }
 ```
 
-## 3. Run the test
+## 3. 執行測試
 
-Run the test using the following command from the root of the project:
+請在專案根目錄下，使用以下指令來執行測試：
 
 ```console
 flutter test test/widget_test.dart

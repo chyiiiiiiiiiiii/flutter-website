@@ -1,44 +1,38 @@
 ---
-title: Build a form with validation
-description: How to build a form that validates input.
+title: 建立具有驗證功能的表單
+description: 如何建立一個能驗證輸入的表單。
 ---
 
 <?code-excerpt path-base="cookbook/forms/validation"?>
 
-Apps often require users to enter information into a text field.
-For example, you might require users to log in with an email address
-and password combination.
+應用程式經常需要使用者在文字欄位（text field）中輸入資訊。
+例如，你可能會要求使用者以電子郵件地址和密碼組合進行登入。
 
-To make apps secure and easy to use, check whether the
-information the user has provided is valid. If the user has correctly filled
-out the form, process the information. If the user submits incorrect
-information, display a friendly error message letting them know what went
-wrong.
+為了讓應用程式更安全且易於使用，應檢查使用者所提供的資訊是否有效。
+如果使用者正確填寫了表單，就處理這些資訊。
+如果使用者提交了錯誤的資訊，則顯示友善的錯誤訊息，讓他們知道哪裡出了問題。
 
-In this example, learn how to add validation to a form that has
-a single text field using the following steps:
+在本範例中，你將學習如何透過以下步驟，為只有一個文字欄位的表單新增驗證功能：
 
-  1. Create a `Form` with a `GlobalKey`.
-  2. Add a `TextFormField` with validation logic.
-  3. Create a button to validate and submit the form.
+  1. 建立一個 `Form` 並搭配 `GlobalKey`。
+  2. 新增帶有驗證邏輯的 `TextFormField`。
+  3. 建立一個按鈕來驗證並提交表單。
 
-## 1. Create a `Form` with a `GlobalKey`
+## 1. 建立 `Form` 並搭配 `GlobalKey`
 
-Create a [`Form`][].
-The `Form` widget acts as a container for grouping and
-validating multiple form fields.
+建立一個 [`Form`][]。
+`Form` 元件 (Widget) 作為容器，用於群組和驗證多個表單欄位。
 
-When creating the form, provide a [`GlobalKey`][].
-This assigns a unique identifier to your `Form`.
-It also allows you to validate the form later.
+建立表單時，請提供一個 [`GlobalKey`][]。
+這會為你的 `Form` 分配一個唯一的識別碼。
+同時也讓你之後可以驗證該表單。
 
-Create the form as a `StatefulWidget`.
-This allows you to create a unique `GlobalKey<FormState>()` once.
-You can then store it as a variable and access it at different points.
+將表單建立為 `StatefulWidget`。
+這樣你就能只建立一次獨特的 `GlobalKey<FormState>()`，
+並將其儲存為變數，方便在不同地方存取。
 
-If you made this a `StatelessWidget`, you'd need to store this key *somewhere*.
-As it is resource expensive, you wouldn't want to generate a new
-`GlobalKey` each time you run the `build` method.
+如果你將這個設為 `StatelessWidget`，你就必須*在某處*儲存這個 key。
+由於這樣做資源消耗較大，你不會希望每次執行 `build` 方法時都產生新的 `GlobalKey`。
 
 <?code-excerpt "lib/form.dart"?>
 ```dart
@@ -80,29 +74,28 @@ class MyCustomFormState extends State<MyCustomForm> {
 ```
 
 :::tip
-Using a `GlobalKey` is the recommended way to access a form.
-However, if you have a more complex widget tree,
-you can use the [`Form.of()`][] method to
-access the form within nested widgets.
+使用 `GlobalKey` 是存取表單的推薦方式。
+然而，如果你的元件（Widget）樹較為複雜，
+你可以使用 [`Form.of()`][] 方法，
+在巢狀元件中存取表單。
 :::
 
-## 2. Add a `TextFormField` with validation logic
+## 2. 新增具有驗證邏輯的 `TextFormField`
 
-Although the `Form` is in place,
-it doesn't have a way for users to enter text.
-That's the job of a [`TextFormField`][].
-The `TextFormField` widget renders a material design text field
-and can display validation errors when they occur.
+雖然已經有了 `Form`，
+但目前還沒有讓使用者輸入文字的方式。
+這正是 [`TextFormField`][] 的用途。
+`TextFormField` 元件會渲染一個 Material Design 風格的文字欄位（text field），
+並在發生驗證錯誤時顯示錯誤訊息。
 
-Validate the input by providing a `validator()` function to the
-`TextFormField`. If the user's input isn't valid,
-the `validator` function returns a `String` containing
-an error message.
-If there are no errors, the validator must return null.
+你可以透過為 `TextFormField` 提供 `validator()` 函式來驗證輸入內容。
+如果使用者的輸入不符合規範，
+`validator` 函式會回傳一個包含錯誤訊息的 `String`。
+如果沒有錯誤，驗證器必須回傳 null。
 
-For this example, create a `validator` that ensures the
-`TextFormField` isn't empty. If it is empty,
-return a friendly error message.
+在這個範例中，請建立一個 `validator`，確保
+`TextFormField` 不為空。如果為空，
+則回傳一個友善的錯誤訊息。
 
 <?code-excerpt "lib/main.dart (TextFormField)"?>
 ```dart
@@ -117,14 +110,14 @@ TextFormField(
 ),
 ```
 
-## 3. Create a button to validate and submit the form
+## 3. 建立一個按鈕來驗證並提交表單
 
-Now that you have a form with a text field,
-provide a button that the user can tap to submit the information.
+現在你已經有一個包含文字欄位（text field）的表單，
+接下來請提供一個按鈕，讓使用者可以點擊以提交資訊。
 
-When the user attempts to submit the form, check if the form is valid.
-If it is, display a success message.
-If it isn't (the text field has no content) display the error message.
+當使用者嘗試提交表單時，請檢查表單是否有效。
+如果有效，則顯示成功訊息。
+如果無效（文字欄位沒有內容），則顯示錯誤訊息。
 
 <?code-excerpt "lib/main.dart (ElevatedButton)" replace="/^child\: //g"?>
 ```dart
@@ -143,21 +136,16 @@ ElevatedButton(
 ),
 ```
 
-### How does this work?
+### 這是如何運作的？
 
-To validate the form, use the `_formKey` created in
-step 1. You can use the `_formKey.currentState`
-accessor to access the [`FormState`][],
-which is automatically created by Flutter when building a `Form`.
+要驗證表單，請使用在步驟 1 建立的 `_formKey`。你可以透過 `_formKey.currentState` 存取 [`FormState`][]，這是在建構 `Form` 時由 Flutter 自動建立的。
 
-The `FormState` class contains the `validate()` method.
-When the `validate()` method is called, it runs the `validator()`
-function for each text field in the form.
-If everything looks good, the `validate()` method returns `true`.
-If any text field contains errors, the `validate()` method
-rebuilds the form to display any error messages and returns `false`.
+`FormState` 類別包含 `validate()` 方法。
+當呼叫 `validate()` 方法時，它會針對表單中的每個文字欄位（text field）執行 `validator()` 函式。
+如果一切都正確，`validate()` 方法會回傳 `true`。
+如果有任何文字欄位（text field）包含錯誤，`validate()` 方法會重新建構表單以顯示錯誤訊息，並回傳 `false`。
 
-## Interactive example
+## 互動範例
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter form validation hands-on example in DartPad" run="true"
@@ -243,11 +231,11 @@ class MyCustomFormState extends State<MyCustomForm> {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/form-validation.webp" alt="Form Validation Demo" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/form-validation.webp" alt="表單驗證示範" class="site-mobile-screenshot" />
 </noscript>
 
-To learn how to retrieve these values, check out the
-[Retrieve the value of a text field][] recipe.
+若想了解如何取得這些值，請參考
+[取得文字欄位 (text field) 的值][Retrieve the value of a text field] 教學。
 
 
 [Retrieve the value of a text field]: /cookbook/forms/retrieve-input

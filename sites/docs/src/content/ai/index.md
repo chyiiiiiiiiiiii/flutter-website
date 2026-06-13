@@ -1,8 +1,8 @@
 ---
-title: Flutter & AI
+title: Flutter 與 AI
 sidenav: ai
 shortTitle: AI
 layout: toc
 description: >-
-  Learn how to integrate with and use AI to develop Flutter apps.
+  學習如何整合並使用 AI 來開發 Flutter 應用程式。
 ---

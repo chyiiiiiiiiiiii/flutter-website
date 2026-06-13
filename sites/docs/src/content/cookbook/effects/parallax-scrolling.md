@@ -1,37 +1,23 @@
 ---
-title: Create a scrolling parallax effect
-description: How to implement a scrolling parallax effect.
+title: 建立滾動視差效果
+description: 如何實作滾動視差效果。
 ---
 
 <?code-excerpt path-base="cookbook/effects/parallax_scrolling"?>
 
-When you scroll a list of cards (containing images,
-for example) in an app, you might notice that those
-images appear to scroll more slowly than the rest of the
-screen. It almost looks as if the cards in the list
-are in the foreground, but the images themselves sit
-far off in the distant background. This effect is
-known as parallax.
+當你在應用程式中滾動一個卡片清單（例如包含圖片的卡片）時，你可能會注意到那些圖片看起來比螢幕上的其他內容滾動得更慢。這種效果幾乎讓人感覺清單中的卡片位於前景，而圖片本身則像是遠遠地位於背景。這種效果被稱為視差 (parallax)。
 
-In this recipe, you create the parallax effect by building
-a list of cards (with rounded corners containing some text).
-Each card also contains an image.
-As the cards slide up the screen,
-the images within each card slide down.
+在本教學中，你將透過建立一個卡片清單（每個卡片有圓角並包含一些文字）來製作視差效果。每個卡片同時也包含一張圖片。當卡片往螢幕上方滑動時，卡片內的圖片則會往下滑動。
 
-The following animation shows the app's behavior:
+下方動畫展示了應用程式的行為：
 
 ![Parallax scrolling](/assets/images/docs/cookbook/effects/ParallaxScrolling.webp){:.site-mobile-screenshot}
 
-## Create a list to hold the parallax items
+## 建立一個用於存放視差項目的清單
 
-To display a list of parallax scrolling images,
-you must first display a list.
+若要顯示一個具有視差滾動效果的圖片清單，你必須先建立一個清單。
 
-Create a new stateless widget called `ParallaxRecipe`.
-Within `ParallaxRecipe`, build a widget tree with a
-`SingleChildScrollView` and a `Column`, which forms
-a list.
+建立一個名為 `ParallaxRecipe` 的無狀態元件 (Widget)。在 `ParallaxRecipe` 中，建立一個包含 `SingleChildScrollView` 和 `Column` 的元件樹，這樣就形成了一個清單。
 
 <?code-excerpt "lib/excerpt1.dart (ParallaxRecipe)"?>
 ```dart
@@ -45,21 +31,15 @@ class ParallaxRecipe extends StatelessWidget {
 }
 ```
 
-## Display items with text and a static image
+## 顯示帶有文字和靜態圖片的項目
 
-Each list item displays a rounded-rectangle background
-image, representing one of seven locations in the world.
-Stacked on top of that background image is the
-name of the location and its country,
-positioned in the lower left. Between the
-background image and the text is a dark gradient,
-which improves the legibility
-of the text against the background.
+每個清單項目會顯示一個圓角矩形的背景圖片，代表世界上七個地點之一。
+在該背景圖片的上方，堆疊著該地點的名稱及其國家，並定位在左下角。
+背景圖片與文字之間有一層深色漸層，這有助於提升文字在背景上的可讀性。
 
-Implement a stateless widget called `LocationListItem`
-that consists of the previously mentioned visuals.
-For now, use a static `Image` widget for the background.
-Later, you'll replace that widget with a parallax version.
+請實作一個名為 `LocationListItem` 的無狀態元件 (Widget)，其內容包含上述所提到的視覺元素。
+目前，請先使用靜態的 `Image` 元件作為背景。
+稍後，你將會以視差版本取代該元件。
 
 <?code-excerpt "lib/excerpt2.dart (LocationListItem)"?>
 ```dart
@@ -142,7 +122,7 @@ class LocationListItem extends StatelessWidget {
 }
 ```
 
-Next, add the list items to your `ParallaxRecipe` widget.
+接下來，將清單項目加入你的 `ParallaxRecipe` 元件 (Widget)。
 
 <?code-excerpt "lib/excerpt3.dart (ParallaxRecipeItems)"?>
 ```dart
@@ -167,56 +147,47 @@ class ParallaxRecipe extends StatelessWidget {
 }
 ```
 
-You now have a typical, scrollable list of cards
-that displays seven unique locations in the world.
-In the next step, you add a parallax effect to the
-background image.
+你現在已經擁有一個典型、可滾動的卡片清單，
+展示了世界上七個獨特的地點。
+在下一步，你將為背景圖片加入視差效果。
 
-## Implement the parallax effect
+## 實作視差效果
 
-A parallax scrolling effect is achieved by slightly
-pushing the background image in the opposite direction
-of the rest of the list. As the list items slide up
-the screen, each background image slides slightly downward.
-Conversely, as the list items slide down the screen,
-each background image slides slightly upward.
-Visually, this results in parallax.
+視差滾動效果是透過將背景圖片
+稍微往與清單其餘部分相反的方向推動來實現的。
+當清單項目往螢幕上方滑動時，每個背景圖片會稍微往下滑動。
+反之，當清單項目往螢幕下方滑動時，
+每個背景圖片會稍微往上滑動。
+從視覺上來看，這就產生了視差效果。
 
-The parallax effect depends on the list item's
-current position within its ancestor `Scrollable`.
-As the list item's scroll position changes, the position
-of the list item's background image must also change.
-This is an interesting problem to solve. The position
-of a list item within the `Scrollable` isn't
-available until Flutter's layout phase is complete.
-This means that the position of the background image
-must be determined in the paint phase, which comes after
-the layout phase. Fortunately, Flutter provides a widget
-called `Flow`, which is specifically designed to give you
-control over the transform of a child widget immediately
-before the widget is painted. In other words,
-you can intercept the painting phase and take control
-to reposition your child widgets however you want.
+視差效果取決於清單項目在其父層 `Scrollable`
+中的當前位置。
+隨著清單項目的滾動位置改變，該項目的背景圖片位置也必須跟著改變。
+這是一個有趣的問題。清單項目在 `Scrollable`
+中的位置，直到 Flutter 的版面配置階段結束後才會得知。
+這表示背景圖片的位置必須在繪製（paint）階段決定，而這個階段是在版面配置階段之後。
+幸運的是，Flutter 提供了一個名為 `Flow` 的元件 (Widget)，
+它專門設計用來讓你在子元件繪製前立即控制其變換（transform）。
+換句話說，你可以攔截繪製階段，並自行掌控子元件的位置調整。
 
 :::note
-To learn more, check out this short
-Widget of the Week video on the `Flow` widget:
+想進一步了解，請參考這段關於 `Flow` 元件 (Widget) 的
+Widget of the Week 短片：
 
 <YouTubeEmbed id="NG6pvXpnIso" title="Flow | Flutter widget of the week"></YouTubeEmbed>
 :::
 
 :::note
-In cases where you need control over what a child paints,
-rather than where a child is painted,
-consider using a [`CustomPaint`][] widget.
+如果你需要控制子元件繪製「內容」，
+而不是控制子元件被繪製「位置」，
+可以考慮使用 [`CustomPaint`][] 元件 (Widget)。
 
-In cases where you need control over the layout,
-painting, and hit testing, consider defining a
-custom [`RenderBox`][].
+如果你需要同時控制版面配置、繪製與點擊測試（hit testing），
+可以考慮自訂一個 [`RenderBox`][]。
 :::
 
-Wrap your background `Image` widget with a
-[`Flow`][] widget.
+將你的背景 `Image` 元件 (Widget) 包裹在
+[`Flow`][] 元件 (Widget) 中。
 
 <?code-excerpt "lib/excerpt4.dart (BuildParallaxBackground)" replace="/\n    delegate: ParallaxFlowDelegate\(\),//g"?>
 ```dart
@@ -227,7 +198,7 @@ Widget _buildParallaxBackground(BuildContext context) {
 }
 ```
 
-Introduce a new `FlowDelegate` called `ParallaxFlowDelegate`.
+引入一個新的 `FlowDelegate`，名稱為 `ParallaxFlowDelegate`。
 
 <?code-excerpt "lib/excerpt4.dart (BuildParallaxBackground)"?>
 ```dart
@@ -262,12 +233,9 @@ class ParallaxFlowDelegate extends FlowDelegate {
 }
 ```
 
-A `FlowDelegate` controls how its children are sized
-and where those children are painted. In this case,
-your `Flow` widget has only one child: the background image.
-That image must be exactly as wide as the `Flow` widget.
+`FlowDelegate` 控制其子元件（children）的尺寸，以及這些子元件的繪製位置。在這個例子中，你的 `Flow` 元件 (Widget) 只有一個子元件：背景圖片。該圖片的寬度必須與 `Flow` 元件完全相同。
 
-Return tight width constraints for your background image child.
+請為你的背景圖片子元件回傳緊縮（tight）的寬度約束條件。
 
 <?code-excerpt "lib/main.dart (TightWidth)"?>
 ```dart
@@ -277,32 +245,26 @@ BoxConstraints getConstraintsForChild(int i, BoxConstraints constraints) {
 }
 ```
 
-Your background images are now sized appropriately,
-but you still need to calculate the vertical position
-of each background image based on its scroll
-position, and then paint it.
+你的背景圖片現在已經有正確的尺寸，
+但你仍然需要根據每張背景圖片的滾動位置來計算其垂直位置，然後將其繪製出來。
 
-There are three critical pieces of information that
-you need to compute the desired position of a
-background image:
+要計算背景圖片的理想位置，有三個關鍵資訊你需要取得：
 
-* The bounds of the ancestor `Scrollable`
-* The bounds of the individual list item
-* The size of the image after it's scaled down
-   to fit in the list item
+* 祖先 `Scrollable` 的邊界（bounds）
+* 個別清單項目的邊界
+* 圖片縮放至適合清單項目後的尺寸
 
-To look up the bounds of the `Scrollable`,
-you pass a `ScrollableState` into your `FlowDelegate`.
+若要查詢 `Scrollable` 的邊界，
+你需要將 `ScrollableState` 傳遞給 `FlowDelegate`。
 
-To look up the bounds of your individual list item,
-pass your list item's `BuildContext` into your `FlowDelegate`.
+若要查詢個別清單項目的邊界，
+請將你的清單項目的 `BuildContext` 傳遞給 `FlowDelegate`。
 
-To look up the final size of your background image,
-assign a `GlobalKey` to your `Image` widget,
-and then you pass that `GlobalKey` into your
-`FlowDelegate`.
+若要查詢背景圖片的最終尺寸，
+請為你的 `Image` 元件 (Widget) 指定一個 `GlobalKey`，
+然後將該 `GlobalKey` 傳遞給 `FlowDelegate`。
 
-Make this information available to `ParallaxFlowDelegate`.
+請將這些資訊提供給 `ParallaxFlowDelegate`。
 
 <?code-excerpt "lib/excerpt5.dart (global-key)" plaster="none"?>
 ```dart
@@ -340,8 +302,7 @@ class ParallaxFlowDelegate extends FlowDelegate {
 }
 ```
 
-Having all the information needed to implement
-parallax scrolling, implement the `shouldRepaint()` method.
+現在已經擁有實作視差滾動（parallax scrolling）所需的所有資訊，請實作 `shouldRepaint()` 方法。
 
 <?code-excerpt "lib/main.dart (ShouldRepaint)"?>
 ```dart
@@ -353,10 +314,9 @@ bool shouldRepaint(ParallaxFlowDelegate oldDelegate) {
 }
 ```
 
-Now, implement the layout calculations for the parallax effect.
+現在，來實作視差效果（parallax effect）的版面配置計算。
 
-First, calculate the pixel position of a list
-item within its ancestor `Scrollable`.
+首先，計算一個清單項目在其祖先 `Scrollable` 內的像素位置。
 
 <?code-excerpt "lib/excerpt5.dart (paint-children)" plaster="none"?>
 ```dart
@@ -372,11 +332,8 @@ void paintChildren(FlowPaintingContext context) {
 }
 ```
 
-Use the pixel position of the list item to calculate its
-percentage from the top of the `Scrollable`.
-A list item at the top of the scrollable area should
-produce 0%, and a list item at the bottom of the
-scrollable area should produce 100%.
+使用清單項目的像素位置來計算其距離 `Scrollable` 頂部的百分比。
+位於可滾動區域頂部的清單項目應產生 0%，而位於可滾動區域底部的清單項目則應產生 100%。
 
 <?code-excerpt "lib/excerpt5.dart (paint-children-2)"?>
 ```dart
@@ -401,11 +358,10 @@ void paintChildren(FlowPaintingContext context) {
 }
 ```
 
-Use the scroll percentage to calculate an `Alignment`.
-At 0%, you want `Alignment(0.0, -1.0)`,
-and at 100%, you want `Alignment(0.0, 1.0)`.
-These coordinates correspond to top and bottom
-alignment, respectively.
+使用滾動百分比來計算 `Alignment`。
+當為 0% 時，你需要 `Alignment(0.0, -1.0)`，
+而當為 100% 時，你需要 `Alignment(0.0, 1.0)`。
+這些座標分別對應到頂部和底部對齊。
 
 <?code-excerpt "lib/excerpt5.dart (paint-children-3)" plaster="none"?>
 ```dart
@@ -433,10 +389,7 @@ void paintChildren(FlowPaintingContext context) {
 }
 ```
 
-Use `verticalAlignment`, along with the size of the
-list item and the size of the background image,
-to produce a `Rect` that determines where the
-background image should be positioned.
+使用 `verticalAlignment`，結合清單項目的尺寸以及背景圖片的尺寸，來產生 `Rect`，以決定背景圖片應該被定位在哪個位置。
 
 <?code-excerpt "lib/excerpt5.dart (paint-children-4)" plaster="none"?>
 ```dart
@@ -475,10 +428,8 @@ void paintChildren(FlowPaintingContext context) {
 }
 ```
 
-Using `childRect`, paint the background image with
-the desired translation transformation.
-It's this transformation over time that gives you the
-parallax effect.
+使用 `childRect`，以所需的平移轉換來繪製背景圖片。
+隨著時間變化的這個轉換，就是產生視差（parallax）效果的關鍵。
 
 <?code-excerpt "lib/excerpt5.dart (paint-children-5)" plaster="none" ?>
 ```dart
@@ -525,14 +476,13 @@ void paintChildren(FlowPaintingContext context) {
 }
 ```
 
-You need one final detail to achieve the parallax effect.
-The `ParallaxFlowDelegate` repaints when the inputs change,
-but the `ParallaxFlowDelegate` doesn't repaint every time
-the scroll position changes.
+你還需要最後一個細節來實現視差（parallax）效果。
+當輸入（inputs）改變時，`ParallaxFlowDelegate` 會重新繪製（repaint），
+但當滾動位置改變時，`ParallaxFlowDelegate` 並不會每次都重新繪製。
 
-Pass the `ScrollableState`'s `ScrollPosition` to
-the `FlowDelegate` superclass so that the `FlowDelegate`
-repaints every time the `ScrollPosition` changes.
+將 `ScrollableState` 的 `ScrollPosition`
+傳遞給 `FlowDelegate` 的父類別（superclass），這樣 `FlowDelegate`
+就能在每次 `ScrollPosition` 改變時都重新繪製。
 
 <?code-excerpt "lib/main.dart (SuperScrollPosition)" replace="/;\n/;\n}/g"?>
 ```dart
@@ -545,15 +495,15 @@ class ParallaxFlowDelegate extends FlowDelegate {
 }
 ```
 
-Congratulations!
-You now have a list of cards with parallax,
-scrolling background images.
+恭喜你！
+你現在已經擁有一個帶有視差（parallax）效果、
+可滾動背景圖片的卡片清單。
 
-## Interactive example
+## 互動範例
 
-Run the app:
+執行應用程式：
 
-* Scroll up and down to observe the parallax effect.
+* 上下滾動以觀察視差效果。
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter parallax scrolling hands-on example in DartPad" run="true"

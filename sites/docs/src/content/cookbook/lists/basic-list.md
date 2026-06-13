@@ -1,20 +1,20 @@
 ---
-title: Use lists
-description: How to implement a list.
+title: 使用清單
+description: 如何實作清單。
 ---
 
 <?code-excerpt path-base="cookbook/lists/basic_list"?>
 
-Displaying lists of data is a fundamental pattern for mobile apps.
-Flutter includes the [`ListView`][]
-widget to make working with lists a breeze.
+在行動應用程式中，顯示資料清單是一個基本的設計模式。
+Flutter 提供了 [`ListView`][]
+元件 (Widget)，讓處理清單變得輕而易舉。
 
-## Create a ListView
+## 建立 ListView
 
-Using the standard `ListView` constructor is
-perfect for lists that contain only a few items.
-The built-in [`ListTile`][]
-widget is a way to give items a visual structure.
+當清單只包含少量項目時，使用標準的 `ListView` 建構函式
+是最理想的選擇。
+內建的 [`ListTile`][]
+元件可以為項目提供視覺結構。
 
 <?code-excerpt "lib/main.dart (ListView)" replace="/^body\: //g"?>
 ```dart
@@ -27,7 +27,7 @@ ListView(
 ),
 ```
 
-## Interactive example
+## 互動範例
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter lists hands-on example in DartPad" run="true"
@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/basic-list.png" alt="Basic List Demo" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/basic-list.png" alt="基本清單範例" class="site-mobile-screenshot" />
 </noscript>
 
 

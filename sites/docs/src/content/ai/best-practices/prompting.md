@@ -1,9 +1,8 @@
 ---
-title: Prompting
+title: 提示詞
 sidenav: ai
 description: >
-  Learn how to build and optimize generative AI prompts in Flutter using system 
-  instructions, dynamic parameters, and versioning techniques.
+  學習如何在 Flutter 中使用系統指令、動態參數與版本控管技術來建置並最佳化生成式 AI 提示詞。
 prev:
   title: Flutter AI best practices
   path: /ai/best-practices
@@ -13,32 +12,15 @@ next:
 ---
 
 
-Assuming you've configured your Flutter app with the Firebase project and
-configuration you need to use the Firebase AI Logic SDK (which you can learn
-about in [the README][crossword-readme]), you're all set to start using
-generative AI. Generative AI is the branch of Machine Learning (ML) that uses a
-neural network trained on a large set of human language to produce a Large
-Language Model (LLM). At this point, the best models (like Google Gemini) are
-trained on what is essentially the entire internet.
+假設你已為 Flutter 應用程式完成 Firebase 專案設定，並具備使用 Firebase AI Logic SDK 所需的設定（可在 [README][crossword-readme] 中了解詳情），那麼你已經準備好開始使用生成式 AI (Generative AI) 了。生成式 AI 是機器學習 (Machine Learning, ML) 的一個分支，它使用在大量人類語言資料上訓練的神經網路來生成大型語言模型 (Large Language Model, LLM)。目前最好的模型（例如 Google Gemini）基本上是以整個網際網路的資料訓練而成的。
 
-At that scale, a model trained with that much data has created models that can
-interpret human language and produce useful human language outputs. By now I'm
-sure you've used [the Gemini chat app][gemini-app] (or ChatGPT or Claude or
-other chat apps), so you know that if you talk to an LLM using vague language,
-you're likely to get vague, often incorrect, results. If you want to get good
-results, you'll have to use good prompts.
+在這樣的規模下，以如此大量資料訓練的模型已具備解讀人類語言並生成實用語言輸出的能力。相信你一定用過 [Gemini 聊天應用程式][gemini-app]（或 ChatGPT、Claude 或其他聊天應用程式），因此你知道，如果使用模糊的語言與 LLM 互動，很可能得到模糊且往往不正確的結果。若想獲得良好的結果，就必須使用良好的提示詞 (prompt)。
 
-### Prompt construction
+### 提示詞的建構
 
-A prompt is the input you provide to an LLM to get the output you want. It will
-include text as well zero or more files, like images or PDF files. If you're
-building chat into your app, then the user will be entering the prompts (and
-[the Flutter AI Toolkit][ai-toolkit] is useful for building the chat UI). If
-you're using an LLM to implement the features of your app, like parsing an image
-for crossword puzzle data, then you're going to be building the prompts
-yourself. How you build them matters.
+提示詞是你提供給 LLM 以取得期望輸出結果的輸入內容，可包含文字以及零個或多個檔案（例如圖片或 PDF 檔案）。如果你要在應用程式中加入聊天功能，那麼提示詞將由使用者輸入（[Flutter AI Toolkit][ai-toolkit] 可協助建置聊天 UI）。若你是使用 LLM 來實作應用程式的功能，例如解析圖片以取得填字遊戲資料，則需要自行建構提示詞。建構的方式相當重要。
 
-As an example, in building the Crossword Companion, the original clue solving prompt looked like this:
+舉例而言，在建置 Crossword Companion 的過程中，最初的線索解題提示詞如下所示：
 
 ```dart
 You are a crossword puzzle solver. Your goal is to solve the puzzle by filling in the grid with the correct answers. Given the current state of the crossword grid and a single clue, provide the answer for that clue. The answer should be a single word, returned in a JSON object that matches the following schema: '{"type": "object", "properties": {"answer": {"type": "string"}}}'.
@@ -52,25 +34,16 @@ ${_getGridStateAsString(grid)}
 ${clue.number} ${clue.direction == ClueDirection.across ? 'Across' : 'Down'}: ${clue.text}
 ```
 
-This prompt isn't all bad – it has some useful pieces:
+這個提示詞並非一無是處，它有一些有用的部分：
 
-- **Persona:** the phrase "You are a crossword puzzle solver" narrows the
-  model's focus  
-- **Context:** the current state of the puzzle  
-- **Query:** asking for a solution to a clue  
-- **Format:** provide the output in JSON so the result could be parsed
-  programmatically
+- **人設 (Persona)：** 「You are a crossword puzzle solver」這段話縮小了模型的關注範圍
+- **脈絡 (Context)：** 提供了謎題的目前狀態
+- **查詢 (Query)：** 請模型解答一個線索
+- **格式 (Format)：** 要求以 JSON 格式輸出，以便以程式化方式解析結果
 
-However, because of the two-dimensional nature of the data, this is a hard
-prompt for some models to solve. The results from Gemini 2.5 Flash (the more
-efficient of the models available at the time) were inconsistent. The quality of
-the results from Gemini 2.5 Pro were excellent, but they were slower and more
-expensive to obtain. Debugging revealed that Pro was essentially solving the
-entire puzzle every time it was called, responding with just the solution to a
-single clue.
+然而，由於資料具有二維的特性，這對某些模型來說是個難以解答的提示詞。Gemini 2.5 Flash（當時可用的模型中效率較高的一款）的結果不一致。Gemini 2.5 Pro 的結果品質極佳，但速度較慢且成本較高。除錯後發現，Pro 基本上每次呼叫時都在解整道謎題，但只回傳單一線索的答案。
 
-What was needed was the efficiency of Flash with the quality of Pro. To do that
-required some work on the prompt:
+所需的是具備 Flash 的效率，同時擁有 Pro 的品質。為此，需要對提示詞進行一些調整：
 
 ```markdown
 Your task is to solve the following crossword clue.
@@ -84,27 +57,17 @@ Your task is to solve the following crossword clue.
 Return your answer and confidence score in the required JSON format.
 ```
 
-This prompt asks to solve the clue, provides the important context, and
-specifies the output format. Instead of handing in the entire state of the
-two-dimensional grid, the input was narrowed to the length requirement and a
-pattern, such as "_ R _ Y". These simplifications produce high quality results
-from Flash that come back quickly enough to make it [fun to
-watch][crossword-demo].  
+這個提示詞要求解答線索、提供重要的脈絡資訊，並指定輸出格式。它不再傳入整個二維格線的狀態，而是將輸入縮減為長度限制與一個模式，例如「_ R _ Y」。這些簡化使 Flash 能產生高品質的結果，而且速度夠快，讓整個過程[充滿趣味][crossword-demo]。
 <img
 src="/assets/images/docs/ai-best-practices/crossword-companion-interface-showing-a.png"
 alt="Crossword Companion interface showing a partially solved grid and clues
 with AI-generated answers and confidence scores">
 
-### Layering your prompts
+### 分層設計提示詞
 
-The prompt used to solve the clues is not the only prompt the model sees. It
-also has the system instruction (also known as the system message or the system
-prompt) which is set as part of model instance creation. Think of the system
-instruction as "this is what you do" while the individual prompts are "now do
-this."
+用於解答線索的提示詞並非模型看到的唯一提示詞。模型還會接收系統指令 (system instruction)（也稱為系統訊息或系統提示詞），它是在建立模型實例時設定的。可以把系統指令想成「這是你的工作內容」，而個別提示詞則是「現在執行這件事」。
 
-Here is the partial system instruction for the clue solver model (you'll see the
-rest later):
+以下是線索解題模型的部分系統指令（其餘部分稍後說明）：
 
 ```dart
 final clueSolverSystemInstruction =
@@ -123,8 +86,7 @@ You are an expert crossword puzzle solver.
 
 ```
 
-Given the model we want to use and the system instruction, we now have
-everything we need to create an instance:
+確定好要使用的模型與系統指令後，我們就具備了建立實例所需的一切：
 
 ```dart
 // The model for solving clues.
@@ -135,14 +97,11 @@ _clueSolverModel = FirebaseAI.googleAI().generativeModel(
 );
 ```
 
-While the system instruction is often static, the individual prompts are usually
-created dynamically based on data.
+系統指令通常是靜態的，而個別提示詞則通常是根據資料動態建立的。
 
-### Parameterizing your prompts
+### 參數化你的提示詞
 
-Each clue solver prompt is created using the text from the clue, the target
-length of the answer and the pattern so far given previously solved clues, such
-as "_R_Y":
+每個線索解題提示詞都使用線索文字、答案的目標長度，以及根據先前已解答的線索所形成的目前模式（例如「_R_Y」）來動態建立：
 
 ```dart
 String getSolverPrompt(Clue clue, int length, String pattern) =>
@@ -159,7 +118,7 @@ Return your answer and confidence score in the required JSON format.
 ''';
 ```
 
-With the prompt in hand, we can pass it along to the model for our clue answer:
+有了提示詞後，我們就可以將其傳遞給模型以取得線索答案：
 
 ```dart
 final result = await _clueSolverModel.generateContent(
@@ -167,15 +126,9 @@ final result = await _clueSolverModel.generateContent(
 );
 ```
 
-### Prompt versioning
+### 提示詞的版本控管
 
-This basic app keeps the prompt strings in code.
-This makes them hard to track down and update.
-For production apps, it's better to keep your prompts separated from the code,
-perhaps bundled as Flutter assets.
-One way to arrange prompt files is to
-use [the Google dotprompt format][dotprompt],
-which allows you to write `.prompt` files that look like this:
+這個基本應用程式將提示詞字串保存在程式碼中，這使得追蹤與更新變得困難。對於正式版應用程式，最好將提示詞與程式碼分離，例如以 Flutter 資源 (assets) 的方式打包。整理提示詞檔案的一種方式是使用 [Google dotprompt 格式][dotprompt]，它允許你撰寫如下所示的 `.prompt` 檔案：
 
 ```markdown
 ---
@@ -196,8 +149,7 @@ Extract the requested information from the given text. If a piece of information
 Text: {{text}}
 ```
 
-To expand a `.prompt` file for use in your Dart and Flutter projects, you can
-use [the dotprompt_dart package][dotprompt-dart].
+若要展開 `.prompt` 檔案以在你的 Dart 和 Flutter 專案中使用，可以使用 [dotprompt_dart 套件][dotprompt-dart]。
 
 
 

@@ -1,18 +1,18 @@
 ---
-title: Custom LLM providers
+title: 自訂大型語言模型 (LLM) 提供者
 sidenav: ai
 description: >
-  How to integrate with other Flutter features.
+  如何與其他 Flutter 功能整合。
 prev:
-  title: Feature integration
+  title: 功能整合
   path: /ai/ai-toolkit/feature-integration
 next:
-  title: Chat client sample
+  title: 聊天用戶端範例
   path: /ai/ai-toolkit/chat-client-sample
 ---
 
-The protocol connecting an LLM and the `LlmChatView` is expressed in the
-[`LlmProvider` interface][]:
+連接大型語言模型 (LLM) 與 `LlmChatView` 的協定，
+是透過 [`LlmProvider` 介面][`LlmProvider` interface] 來表達的：
 
 ```dart
 abstract class LlmProvider implements Listenable {
@@ -23,40 +23,40 @@ abstract class LlmProvider implements Listenable {
 }
 ```
 
-The LLM could be in the cloud or local,
-it could be hosted in the Google Cloud Platform
-or on some other cloud provider,
-it could be a proprietary LLM or open source.
-Any LLM or LLM-like endpoint that can be used
-to implement this interface can be plugged into
-the chat view as an LLM provider. The AI Toolkit
-comes with two providers out of the box,
-both of which implement the `LlmProvider` interface
-that is required to plug the provider into the following:
+大型語言模型 (LLM) 可以部署在雲端或本地端，
+可以託管於 Google Cloud Platform，
+也可以在其他雲端服務商上，
+可以是專有的大型語言模型，也可以是開源的。
+任何能夠用來實作此介面的
+大型語言模型 (LLM) 或類 LLM 端點，
+都可以作為 LLM 提供者，插入聊天視圖中。
+AI Toolkit 預設提供兩種 LLM 提供者，
+這兩者都實作了 `LlmProvider` 介面，
+因此可作為下列用途：
 
-* The [Firebase AI Logic provider][],
-  which wraps the `firebase_ai` package
-* The [Echo provider][],
-  which is useful as a minimal provider example
+* [Firebase AI Logic provider][Firebase AI Logic provider]，
+  封裝了 `firebase_ai` 套件
+* [Echo provider][Echo provider]，
+  作為最簡單的提供者範例非常實用
 
 [Echo provider]: {{site.pub-api}}/flutter_ai_toolkit/latest/flutter_ai_toolkit/EchoProvider-class.html
 [`LlmProvider` interface]: {{site.pub-api}}/flutter_ai_toolkit/latest/flutter_ai_toolkit/LlmProvider-class.html
 [Firebase AI Logic provider]: {{site.pub-api}}/flutter_ai_toolkit/latest/flutter_ai_toolkit/FirebaseProvider-class.html
 
-## Implementation
+## 實作方式
 
-To build your own provider, you need to implement the `LlmProvider` interface
-with these things in mind:
+若要建立自訂的 LLM 提供者，您需要實作
+`LlmProvider` 介面，並注意以下幾點：
 
-1. Providing for full configuration support
-1. Handling history
-1. Translating messages and attachments to the underlying LLM
-1. Calling the underlying LLM
+1. 提供完整的組態支援
+1. 處理歷史紀錄
+1. 將訊息與附件轉換給底層 LLM
+1. 呼叫底層 LLM
 
-1. Configuration
-   To support full configurability in your custom provider,
-   you should allow the user to create the underlying model
-   and pass that in as a parameter, as the MyLlmProvider does:
+1. 組態
+   為了讓您的自訂提供者支援完整的組態功能，
+   您應該允許使用者建立底層模型，
+   並將其作為參數傳入，就像 MyLlmProvider 所做的那樣：
 
 ```dart
 class MyLlmProvider extends LlmProvider ... {
@@ -72,18 +72,12 @@ class MyLlmProvider extends LlmProvider ... {
 }
 ```
 
-In this way, no matter what changes come to the underlying model in the future,
-the configuration knobs will all be available to the user of your custom
-provider.
+如此一來，無論未來底層模型有任何變動，所有的設定選項都會對你自訂的 provider 使用者開放。
 
-2. History
-History is a big part of any provider—not only does the provider need
-to allow history to be manipulated directly, but it has to notify listeners as
-it changes. In addition, to support serialization and changing provider
-parameters, it must also support saving history as part of the construction
-process.
+2. 歷史紀錄
+歷史紀錄（History）是任何 provider 的重要部分——provider 不僅需要允許直接操作歷史紀錄，還必須在變動時通知監聽者。此外，為了支援序列化以及變更 provider 參數，它還必須支援在建構過程中儲存歷史紀錄。
 
-The Firebase provider handles this as shown:
+Firebase provider 的處理方式如下所示：
 
 ```dart
 class MyLlmProvider extends LlmProvider with ChangeNotifier {
@@ -138,31 +132,26 @@ class MyLlmProvider extends LlmProvider with ChangeNotifier {
 }
 ```
 
-You'll notice several things in this code:
-* The use of `ChangeNotifier` to implement the `Listenable` method requirements
-  from the `LlmProvider` interface
-* The ability to pass initial history in as a constructor parameter
-* Notifying listeners when there's a new user prompt/LLM response pair
-* Notifying listeners when the history is changed manually
-* Creating a new chat when the history changes, using the new history
+你會在這段程式碼中注意到以下幾點：
+* 使用 `ChangeNotifier` 來實作 `LlmProvider` 介面中的 `Listenable` 方法需求
+* 可以在建構子參數中傳入初始歷史紀錄（history）
+* 當有新的使用者提示/大型語言模型 (LLM) 回應配對時，會通知監聽器
+* 當歷史紀錄被手動變更時，會通知監聽器
+* 當歷史紀錄變更時，會使用新的歷史紀錄建立新的聊天
 
-Essentially, a custom provider manages the history
-for a single chat session with the underlying LLM.
-As the history changes, the underlying chat either
-needs to be kept up to date automatically
-(as the Firebase provider does when you call
-the underlying chat-specific methods) or manually recreated
-(as the Firebase provider does whenever the history is set manually).
+基本上，自訂的 provider 會管理與底層大型語言模型 (LLM) 單一聊天會話的歷史紀錄。
+隨著歷史紀錄的變化，底層聊天需要自動保持最新
+（就像當你呼叫底層聊天專用方法時，Firebase provider 會自動同步）
+或是需要手動重新建立
+（就像當 Firebase provider 手動設定歷史紀錄時所做的那樣）。
 
-3. Messages and attachments
+3. 訊息與附件
 
-Attachments must be mapped from the standard
-`ChatMessage` class exposed by the `LlmProvider`
-type to whatever is handled by the underlying LLM.
-For example, the Firebase provider maps from the
-`ChatMessage` class from the AI Toolkit to the
-`Content` type provided by the Firebase Logic AI SDK,
-as shown in the following example:
+附件必須從 `LlmProvider` 類型所公開的標準 `ChatMessage` 類別，
+對應到底層大型語言模型 (LLM) 能處理的格式。
+例如，Firebase provider 會將 AI Toolkit 的 `ChatMessage` 類別
+對應到 Firebase Logic AI SDK 所提供的 `Content` 類型，
+如下例所示：
 
 ```dart
 import 'package:firebase_ai/firebase_ai.dart';
@@ -185,18 +174,13 @@ class MyLlmProvider extends LlmProvider with ChangeNotifier {
 }
 ```
 
-The `_contentFrom` method is called whenever a user prompt needs to be sent to
-the underlying LLM. Every provider needs to provide for its own mapping.
+`_contentFrom` 方法會在每當需要將使用者提示詞傳送至底層 LLM 時被呼叫。
+每個提供者都需要為其自身實作對應的映射。
 
-4. Calling the LLM
+4. 呼叫 LLM
 
-How you call the underlying LLM to implement
-`generateStream` and `sendMessageStream` methods
-depends on the protocol it exposes.
-The Firebase provider in the AI Toolkit
-handles configuration and history but calls to
-`generateStream` and `sendMessageStream` each
-end up in a call to an API from the Firebase Logic AI SDK:
+你如何呼叫底層 LLM 來實作 `generateStream` 和 `sendMessageStream` 方法，取決於其所公開的協定。
+AI Toolkit 中的 Firebase provider 會處理組態與歷史紀錄，但對 `generateStream` 和 `sendMessageStream` 的呼叫，最終都會轉為呼叫 Firebase Logic AI SDK 的 API：
 
 ```dart
 class MyLlmProvider extends LlmProvider with ChangeNotifier {
@@ -267,16 +251,12 @@ class MyLlmProvider extends LlmProvider with ChangeNotifier {
 }
 ```
 
-## Examples
+## 範例
 
-The [Firebase provider][] 
-implementation provides
-a good starting point for your own custom provider.
-If you'd like to see an example provider implementation with
-all of the calls to the underlying LLM stripped away,
-check out the [Echo example app][], which simply formats
-the user's prompt and attachments as Markdown
-to send back to the user as its response.
+[Firebase provider][Firebase provider] 的實作
+為你自訂的 provider 提供了一個很好的起點。
+如果你想參考一個將所有對底層大型語言模型 (LLM) 呼叫都移除的 provider 實作範例，
+可以查看 [Echo example app][Echo example app]。該範例僅將使用者的 prompt 和附件格式化為 Markdown，然後作為回應傳回給使用者。
 
 [Echo example app]:
     {{site.github}}/flutter/ai/blob/main/lib/src/providers/implementations/echo_provider.dart

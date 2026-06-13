@@ -1,59 +1,46 @@
 ---
-title: Stateful widgets
-description: Learn about StatefulWidgets and rebuilding Flutter UI.
+title: 具狀態元件
+description: 瞭解 StatefulWidget 以及如何重新建置 Flutter UI。
 layout: tutorial
 ---
 
-Learn when widgets need to be stateful and how to trigger UI updates with setState.
+瞭解元件何時需要具有狀態，以及如何使用 setState 觸發 UI 更新。
 
 <YouTubeEmbed id="Gzz8FwSlsUg" title="Stateful widgets in Flutter" fullWidth="true"></YouTubeEmbed>
 
 <SummaryCard>
-title: What you'll accomplish
+title: 你將完成的事項
 items:
-  - title: Learn when widgets need to be stateful
+  - title: 瞭解元件何時需要具有狀態
     icon: change_circle
-  - title: Convert a StatelessWidget to a StatefulWidget
+  - title: 將 StatelessWidget 轉換為 StatefulWidget
     icon: swap_horiz
-  - title: Trigger UI updates with setState
+  - title: 使用 setState 觸發 UI 更新
     icon: refresh
 </SummaryCard>
 
 ---
 
-### Introduction
+### 簡介
 
-So far, your app displays a grid and an input field,
-but the grid doesn't yet update to reflect the user's guesses.
-When this app is complete, each tile in the next unfilled row should
-update after each submitted user guess by:
+到目前為止，你的應用程式顯示了一個格狀方格和一個輸入欄位，但方格尚未更新以反映使用者的猜測。當此應用程式完成時，下一個未填滿列中的每個方塊，應在每次提交使用者猜測後更新，具體方式為：
 
-- Displaying the correct letter.
-- Changing color to reflect whether the letter is correct (green),
-  is in the word but at an incorrect position (yellow), or
-  doesn't appear in the word at all (grey).
+- 顯示正確的字母。
+- 變更顏色以反映字母是否正確（綠色）、字母存在於單詞中但位置錯誤（黃色），或字母完全不在單詞中（灰色）。
 
-To handle this dynamic behavior, you need to convert `GamePage` from a
-`StatelessWidget` to a [`StatefulWidget`][].
+為了處理這種動態行為，你需要將 `GamePage` 從 `StatelessWidget` 轉換為 [`StatefulWidget`][]。
 
 [`StatefulWidget`]: {{site.api}}/flutter/widgets/StatefulWidget-class.html
 
-### Why stateful widgets?
+### 為何需要具狀態元件？
 
-When a widget's appearance or data needs to change during its lifetime,
-you need a `StatefulWidget` and a companion `State` object.
-While the `StatefulWidget` itself is still immutable (its properties
-can't change after creation), the `State` object is long-lived,
-can hold mutable data, and can be rebuilt when that data changes,
-causing the UI to update.
+當元件 (Widget) 的外觀或資料需要在其生命週期內改變時，你需要使用 `StatefulWidget` 以及配套的 `State` 物件。雖然 `StatefulWidget` 本身仍然是不可變的（其屬性在建立後無法更改），但 `State` 物件是長期存在的，可以保存可變的資料，並且當資料發生變化時可以重新建置，從而使 UI 更新。
 
-For example, the following widget tree imagines a simple app
-that uses a stateful widget with a counter that
-increases when the button is pressed.
+例如，以下的元件樹展示了一個簡單的應用程式範例，該應用程式使用具狀態元件，其計數器會在按下按鈕時遞增。
 
 <img src='/assets/images/docs/tutorial/widget_tree_stateful.png' width="320px" alt="A diagram of a widget tree with a stateful widget and state object.">
 
-Here is the basic `StatefulWidget` structure (doesn't do anything yet):
+以下是基本的 `StatefulWidget` 結構（目前尚未執行任何操作）：
 
 ```dart
 class ExampleWidget extends StatefulWidget {
@@ -71,28 +58,21 @@ class _ExampleWidgetState extends State<ExampleWidget> {
 }
 ```
 
-### Convert `GamePage` to a stateful widget
+### 將 `GamePage` 轉換為具狀態元件
 
-To convert the `GamePage` (or any other) widget from
-a stateless widget to a stateful widget, do the following steps:
+要將 `GamePage`（或任何其他）元件從無狀態元件轉換為具狀態元件，請執行以下步驟：
 
-1.  Change `GamePage` to extend `StatefulWidget` instead of `StatelessWidget`.
-1.  Create a new class named `_GamePageState`, that extends `State<GamePage>`.
-    This new class will hold the mutable state and the `build` method.
-    Move the `build` method and all properties *instantiated on the widget*
-    from `GamePage` to the state object.
-1.  Implement the `createState()` method in `GamePage`, which
-    returns an instance of `_GamePageState`.
+1.  將 `GamePage` 改為繼承 `StatefulWidget` 而非 `StatelessWidget`。
+1.  建立一個名為 `_GamePageState` 的新類別，繼承 `State<GamePage>`。這個新類別將保存可變的狀態和 `build` 方法。將 `build` 方法以及所有*在元件上實例化的屬性*從 `GamePage` 移至狀態物件。
+1.  在 `GamePage` 中實作 `createState()` 方法，該方法會回傳 `_GamePageState` 的實例。
 
-:::tip Quick assists
+:::tip 快速輔助
 
-You don't have to manually do this work, as the Flutter plugins for
-VS Code and IntelliJ provide ["quick assists"][] that can
-do this conversion for you.
+你不必手動執行此工作，因為適用於 VS Code 和 IntelliJ 的 Flutter 插件提供了["quick assists"][]，可以為你自動執行此轉換。
 
 :::
 
-Your modified code should look like this:
+修改後的程式碼應如下所示：
 
 ```dart
 class GamePage extends StatefulWidget {
@@ -137,30 +117,21 @@ class _GamePageState extends State<GamePage> {
 
 ["quick assists"]: /tools/android-studio#assists-quick-fixes
 
-### Updating the UI with `setState`
+### 使用 `setState` 更新 UI
 
-Whenever you mutate a `State` object,
-you must call [`setState`][] to signal the framework to
-update the user interface and call the `build` method again.
+每當你修改 `State` 物件時，你必須呼叫 [`setState`][] 來通知框架更新使用者介面並再次呼叫 `build` 方法。
 
-In this app, when a user makes a guess, the word they guessed is
-saved on the `Game` object, which is a property on the `GamePage` class,
-and therefore is state that might change and require the UI to update.
-When this state is mutated, the grid should be
-re-drawn to show the user's guess.
+在此應用程式中，當使用者進行猜測時，猜測的單詞會儲存在 `Game` 物件上，該物件是 `GamePage` 類別的屬性，因此是可能會變更並需要 UI 更新的狀態 (state)。當此狀態被修改時，方格應重新繪製以顯示使用者的猜測。
 
-To implement this, update the callback function passed to `GuessInput`.
-The function needs to call `setState` and, within `setState`,
-it needs to execute the logic to determine whether the users guess was correct.
+要實作這一點，請更新傳遞給 `GuessInput` 的回呼（callback）函式。該函式需要呼叫 `setState`，並在 `setState` 內部執行邏輯以判斷使用者的猜測是否正確。
 
 :::note
 
-The game logic is abstracted away into the `Game` object,
-and outside the scope of this tutorial.
+遊戲邏輯已抽象化至 `Game` 物件中，不在本教學的範圍內。
 
 :::
 
-Update your code:
+更新你的程式碼：
 
 ```dart
 class GamePage extends StatefulWidget {
@@ -204,73 +175,60 @@ class _GamePageState extends State<GamePage> {
 }
 ```
 
-Now, when you type a legal guess into the `TextInput` and submit it,
-the application will reflect the user's guess.
-If you were to call `_game.guess(guess)` *without* a calling `setState`,
-the internal game data would change, but Flutter wouldn't know it
-needs to repaint the screen, and the user wouldn't see any updates.
+現在，當你在 `TextInput` 中輸入合法的猜測並提交時，應用程式將反映使用者的猜測。如果你在未呼叫 `setState` 的情況下呼叫 `_game.guess(guess)`，內部遊戲資料將會改變，但 Flutter 不會知道需要重新繪製螢幕，使用者也不會看到任何更新。
 
 [`setState`]: {{site.api}}/flutter/widgets/State/setState.html
 
-### Review
+### 複習
 
 <SummaryCard>
-title: What you accomplished
-subtitle: Here's a summary of what you built and learned in this lesson.
+title: 你完成的事項
+subtitle: 以下是你在本課程中建置和學習的摘要。
 completed: true
 items:
-  - title: Learned when widgets need to be stateful
+  - title: 瞭解元件何時需要具有狀態
     icon: change_circle
     details: >-
-      When a widget's appearance or data needs to change during its lifetime,
-      you need a `StatefulWidget`. The widget itself stays immutable, but
-      its companion `State` object holds mutable data and triggers rebuilds.
-  - title: Converted GamePage to a StatefulWidget
+      當元件的外觀或資料需要在其生命週期內改變時，你需要 `StatefulWidget`。元件本身保持不可變，但其配套的 `State` 物件保存可變資料並觸發重新建置。
+  - title: 將 GamePage 轉換為 StatefulWidget
     icon: swap_horiz
     details: >-
-      You refactored `GamePage` to be stateful by
-      creating a companion `_GamePageState` class, moving the
-      `build` method and mutable properties to it, and
-      implementing `createState()`.
-      Your IDE's support for quick assists can automate this conversion.
-  - title: Made your app respond to user input with setState
+      你透過建立配套的 `_GamePageState` 類別、將 `build` 方法和可變屬性移至其中，以及實作 `createState()`，將 `GamePage` 重構為具狀態元件。IDE 的快速輔助支援可以自動化此轉換。
+  - title: 使用 setState 讓應用程式回應使用者輸入
     icon: refresh
     details: >-
-      Calling `setState` tells Flutter to rebuild the UI of a widget.
-      When a user submits a guess, you call `setState` to update the game state,
-      and the grid automatically reflects the new data.
-      Your app is now truly interactive!
+      呼叫 `setState` 會告訴 Flutter 重新建置元件的 UI。當使用者提交猜測時，你呼叫 `setState` 來更新遊戲狀態，方格會自動反映新資料。你的應用程式現在真正具有互動性了！
 </SummaryCard>
 
-### Test yourself
+### 自我測驗
 
 <Quiz title="Stateful Widgets Quiz">
-- question: When should you use a StatefulWidget instead of a StatelessWidget?
+- question: 何時應使用 StatefulWidget 而非 StatelessWidget？
   options:
-    - text: When the widget needs to make HTTP requests.
+    - text: 當元件需要發出 HTTP 請求時。
       correct: false
-      explanation: HTTP requests can be made from either, but state changes require StatefulWidget.
-    - text: When the widget's appearance or data needs to change during its lifetime.
+      explanation: HTTP 請求可以從任一種元件發出，但狀態變更需要 StatefulWidget。
+    - text: 當元件的外觀或資料需要在其生命週期內改變時。
       correct: true
-      explanation: StatefulWidget is needed when the UI must update in response to data changes over time.
-    - text: When the widget has more than three child widgets.
+      explanation: 當 UI 必須回應隨時間發生的資料變更時，需要使用 StatefulWidget。
+    - text: 當元件擁有超過三個子元件時。
       correct: false
-      explanation: The number of children doesn't determine whether a widget is stateful.
-    - text: When the widget is at the root of the widget tree.
+      explanation: 子元件的數量不決定元件是否具有狀態。
+    - text: 當元件位於元件樹的根部時。
       correct: false
-      explanation: Root widgets can be stateless; statefulness depends on whether data changes during the widget's lifetime.
-- question: What happens if you change data in a State object without calling setState?
+      explanation: 根元件可以是無狀態的；是否具有狀態取決於資料是否在元件的生命週期內發生變更。
+- question: 如果你在 State 物件中變更資料而不呼叫 setState，會發生什麼？
   options:
-    - text: The app will crash with an error.
+    - text: 應用程式將崩潰並出現錯誤。
       correct: false
-      explanation: The app won't crash, but the UI won't update.
-    - text: The data changes internally, but Flutter won't rebuild the UI to reflect the change.
+      explanation: 應用程式不會崩潰，但 UI 不會更新。
+    - text: 資料在內部發生變更，但 Flutter 不會重新建置 UI 以反映變更。
       correct: true
-      explanation: Without calling setState, Flutter doesn't know it needs to repaint, so the user won't see updates.
-    - text: Flutter automatically detects the change and rebuilds the UI.
+      explanation: 不呼叫 setState 時，Flutter 不知道需要重新繪製，因此使用者不會看到更新。
+    - text: Flutter 自動偵測到變更並重新建置 UI。
       correct: false
-      explanation: Flutter requires setState to know when to rebuild; it doesn't auto-detect changes.
-    - text: The widget is removed from the widget tree.
+      explanation: Flutter 需要 setState 才能知道何時重新建置；它不會自動偵測變更。
+    - text: 元件從元件樹中被移除。
       correct: false
-      explanation: The widget remains; it just won't visually update without setState.
+      explanation: 元件依然存在；只是在沒有 setState 的情況下不會在視覺上更新。
 </Quiz>

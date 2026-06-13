@@ -1,6 +1,6 @@
 ---
-title: Widget testing
+title: 元件 (Widget) 測試
 breadcrumb: Widget
-description: A catalog of recipes for adding widget testing to your Flutter app.
+description: 為你的 Flutter 應用程式新增元件測試的食譜目錄。
 layout: toc
 ---

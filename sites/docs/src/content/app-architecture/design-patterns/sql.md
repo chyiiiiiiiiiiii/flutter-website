@@ -1,6 +1,6 @@
 ---
-title: "Persistent storage architecture: SQL"
-description: Save complex application data to a user's device with SQL.
+title: "持久化儲存架構：SQL"
+description: 使用 SQL 將複雜的應用程式資料儲存到使用者裝置。
 contentTags:
   - data
   - SQL
@@ -10,82 +10,48 @@ order: 2
 
 <?code-excerpt path-base="app-architecture/todo_data_service"?>
 
-Most Flutter applications,
-no matter how small or big they are,
-might require storing data on the user’s device at some point.
-For example, API keys,
-user preferences or data that should be available offline.
+大多數 Flutter 應用程式，無論規模大小，最終都可能需要將資料儲存在使用者的裝置上。例如，API 金鑰、使用者偏好設定，或是應該可離線存取的資料。
 
-In this recipe,
-you will learn how to integrate persistent storage for complex data using SQL
-in a Flutter application following the Flutter Architecture design pattern.
+在本教學中，你將學習如何在遵循 Flutter 架構設計模式的 Flutter 應用程式中，使用 SQL 整合複雜資料的持久化儲存。
 
-To learn how to store simpler key-value data,
-take a look at the Cookbook recipe:
-[Persistent storage architecture: Key-value data][].
+若你想了解如何儲存較簡單的鍵值資料，請參考 Cookbook 教學：[持久化儲存架構：鍵值資料](/app-architecture/design-patterns/key-value-data)。
 
-To read this recipe,
-you should be familiar with SQL and SQLite.
-If you need help, you can read the [Persist data with SQLite][] recipe
-before reading this one.
+閱讀本教學前，你應該已熟悉 SQL 與 SQLite。如果需要協助，建議先閱讀 [使用 SQLite 持久化資料](/cookbook/persistence/sqlite) 教學。
 
-This example uses [`sqflite`][] with the [`sqflite_common_ffi`][] plugin,
-which combined support for mobile and desktop.
-Support for web is provided in the experimental plugin
-[`sqflite_common_ffi_web`][] but it's not included in this example.
+本範例使用 [`sqflite`]({{site.pub}}/packages/sqflite) 搭配 [`sqflite_common_ffi`]({{site.pub}}/packages/sqflite_common_ffi) 套件，兩者結合可同時支援行動裝置與桌面端。Web 支援則由實驗性套件 [`sqflite_common_ffi_web`]({{site.pub}}/packages/sqflite_common_ffi_web) 提供，但本範例未涵蓋。
 
-## Example application: ToDo list application
+## 範例應用程式：待辦清單應用程式
 
-The example application consists of a single screen with an app bar at the top,
-a list of items, and a text field input at the bottom.
+本範例應用程式包含單一螢幕，頂部有 app bar，中間為項目清單，底部則有文字欄位 (text field) 輸入區。
 
 <img src='/assets/images/docs/cookbook/architecture/todo_app_light.png'
 class="site-mobile-screenshot" alt="ToDo application in light mode" >
 
-The body of the application contains the `TodoListScreen`.
-This screen contains a `ListView` of `ListTile` items,
-each one representing a ToDo item.
-At the bottom, a `TextField` allows users to create new ToDo items
-by writing the task description and then tapping on the “Add” `FilledButton`.
+應用程式主體包含 `TodoListScreen`。此螢幕包含一個 `ListView`，其內為 `ListTile` 項目，每個項目代表一個待辦事項 (ToDo item)。在底部，`TextField` 讓使用者可以輸入任務描述，然後點擊 "Add" `FilledButton` 來建立新的待辦事項。
 
-Users can tap on the delete `IconButton` to delete the ToDo item.
+使用者可以點擊刪除 `IconButton` 來刪除待辦事項。
 
-The list of ToDo items is stored locally using a database service,
-and restored when the user starts the application.
+待辦事項清單會透過資料庫服務儲存在本地端，並在使用者啟動應用程式時還原。
 
 :::note
-The full, runnable source-code for this example is
-available in [`/examples/app-architecture/todo_data_service/`][].
+本範例的完整可執行原始碼可在 [`/examples/app-architecture/todo_data_service/`]({{site.repo.this}}/tree/main/examples/app-architecture/todo_data_service/) 取得。
 :::
 
-## Storing complex data with SQL
+## 使用 SQL 儲存複雜資料
 
-This functionality follows the recommended [Flutter Architecture design][],
-containing a UI layer and a data layer.
-Additionally, in the domain layer you will find the data model used.
+此功能遵循推薦的 [Flutter 架構設計](/app-architecture)，包含 UI 層與資料層。此外，在領域層 (domain layer) 你會看到所使用的資料模型。
 
-- UI layer with `TodoListScreen` and `TodoListViewModel`
-- Domain layer with `Todo` data class
-- Data layer with `TodoRepository` and `DatabaseService`
+- UI 層：`TodoListScreen` 與 `TodoListViewModel`
+- 領域層：`Todo` 資料類別
+- 資料層：`TodoRepository` 與 `DatabaseService`
 
-### ToDo list presentation layer
+### 待辦清單呈現層
 
-The `TodoListScreen` is a Widget that contains the UI in charge of displaying
-and creating the ToDo items.
-It follows the [MVVM pattern][]
-and is accompanied by the `TodoListViewModel`,
-which contains the list of ToDo items
-and three commands to load, add, and delete ToDo items.
+`TodoListScreen` 是一個元件 (Widget)，負責顯示與建立待辦事項的 UI。它遵循 [MVVM 模式](/app-architecture/guide#mvvm)，並搭配 `TodoListViewModel`，其中包含待辦事項清單，以及三個指令：載入、加入與刪除待辦事項。
 
-This screen is divided into two parts,
-one containing the list of ToDo items,
-implemented using a `ListView`,
-and the other is a `TextField`
-and a `Button`, used for creating new ToDo items.
+此螢幕分為兩個部分，一部分為待辦事項清單，使用 `ListView` 實作；另一部分則是 `TextField` 與 `Button`，用於建立新的待辦事項。
 
-The `ListView` is wrapped by a `ListenableBuilder`,
-which listens to changes in the `TodoListViewModel`,
-and shows a `ListTile` for each ToDo item.
+`ListView` 會被 `ListenableBuilder` 包裹，`ListenableBuilder` 會監聽 `TodoListViewModel` 的變化，並為每個待辦事項顯示一個 `ListTile`。
 
 <?code-excerpt "lib/ui/todo_list/widgets/todo_list_screen.dart (ListenableBuilder)" replace="/child: //g;/^\),$/)/g"?>
 ```dart
@@ -109,9 +75,9 @@ ListenableBuilder(
 )
 ```
 
-The list of ToDo items is defined in the `TodoListViewModel`,
-and loaded by the `load` command.
-This method calls the `TodoRepository` and fetches the list of ToDo items.
+待辦事項（ToDo）清單定義在 `TodoListViewModel` 中，
+並由 `load` 指令載入。
+此方法會呼叫 `TodoRepository` 並取得待辦事項清單。
 
 <?code-excerpt "lib/ui/todo_list/viewmodel/todo_list_viewmodel.dart (TodoListViewModel)"?>
 ```dart
@@ -137,9 +103,9 @@ Future<Result<void>> _load() async {
 }
 ```
 
-Pressing the `FilledButton`,
-executes the `add` command
-and passes in the text controller value.
+按下 `FilledButton`，
+會執行 `add` 指令，
+並傳入文字控制器的值。
 
 <?code-excerpt "lib/ui/todo_list/widgets/todo_list_screen.dart (FilledButton)" replace="/^\),$/)/g"?>
 ```dart
@@ -151,15 +117,15 @@ FilledButton.icon(
 )
 ```
 
-The `add` command then calls the `TodoRepository.createTodo()` method
-with the task description text and it creates a new ToDo item.
+`add` 指令接著會呼叫 `TodoRepository.createTodo()` 方法，
+並傳入任務描述文字，進而建立一個新的 ToDo 項目。
 
-The `createTodo()` method returns the newly created ToDo,
-which is then added to the `_todo` list in the view model.
+`createTodo()` 方法會回傳新建立的 ToDo，
+然後將其加入到檢視模型（view model）中的 `_todo` 清單。
 
-ToDo items contain a unique identifier generated by the database.
-This is why the view model doesn’t create the ToDo item,
-but rather the `TodoRepository` does.
+ToDo 項目包含由資料庫產生的唯一識別碼。
+這也是為什麼檢視模型（view model）本身不會建立 ToDo 項目，
+而是由 `TodoRepository` 來負責。
 
 <?code-excerpt "lib/ui/todo_list/viewmodel/todo_list_viewmodel.dart (Add)"?>
 ```dart
@@ -181,8 +147,8 @@ Future<Result<void>> _add(String task) async {
 }
 ```
 
-Finally, the `TodoListScreen` also listens to the result in the `add` command.
-When the action completes, the `TextEditingController` is cleared.
+最後，`TodoListScreen` 也會監聽 `add` 指令中的結果。
+當動作完成時，`TextEditingController` 會被清除。
 
 <?code-excerpt "lib/ui/todo_list/widgets/todo_list_screen.dart (Add)"?>
 ```dart
@@ -195,7 +161,7 @@ void _onAdd() {
 }
 ```
 
-When a user taps on the `IconButton` in the `ListTile`, the delete command is executed.
+當使用者在 `ListTile` 中點擊 `IconButton` 時，將會執行刪除指令。
 
 <?code-excerpt "lib/ui/todo_list/widgets/todo_list_screen.dart (Delete)" replace="/trailing: //g;/^\),$/)/g"?>
 ```dart
@@ -205,10 +171,9 @@ IconButton(
 )
 ```
 
-Then, the view model calls the `TodoRepository.deleteTodo()` method,
-passing the unique ToDo item identifier.
-A correct result removes the ToDo item from the view
-model *and* the screen.
+接著，view model 會呼叫 `TodoRepository.deleteTodo()` 方法，
+並傳入該 ToDo 項目的唯一識別碼。
+正確執行後，該 ToDo 項目會從 view model *以及* 螢幕上移除。
 
 <?code-excerpt "lib/ui/todo_list/viewmodel/todo_list_viewmodel.dart (Delete)"?>
 ```dart
@@ -230,16 +195,14 @@ Future<Result<void>> _delete(int id) async {
 }
 ```
 
-### Todo list domain layer
+### Todo list 領域層（domain layer）
 
-The domain layer of this example application contains
-the `Todo` item data model.
+此範例應用程式的領域層包含 `Todo` 項目資料模型。
 
-Items are presented by an immutable data class.
-In this case, the application uses the `freezed` package to generate the code.
+每個項目皆以不可變的資料類別（immutable data class）表示。
+在本例中，應用程式使用 `freezed` 套件來產生相關程式碼。
 
-The class has two properties, an ID represented by an `int`,
-and a task description, represented by a `String`.
+該類別有兩個屬性，一個是以 `int` 表示的 ID，以及一個以 `String` 表示的任務描述。
 
 <?code-excerpt "lib/business/model/todo.dart (Todo)"?>
 ```dart
@@ -255,24 +218,17 @@ abstract class Todo with _$Todo {
 }
 ```
 
-### Todo list data layer
+### Todo 清單資料層
 
-The data layer of this functionality is composed of two classes,
-the `TodoRepository` and the `DatabaseService`.
+此功能的資料層由兩個類別組成，分別是 `TodoRepository` 和 `DatabaseService`。
 
-The `TodoRepository` acts as the source of truth for all the ToDo items.
-View models must use this repository to access to the ToDo list,
-and it should not expose any implementation details on how they are stored.
+`TodoRepository` 作為所有 Todo 項目的權威資料來源（source of truth）。View model 必須透過這個 repository 來存取 Todo 清單，且不應暴露任何關於其儲存方式的實作細節。
 
-Internally, the `TodoRepository` uses the `DatabaseService`,
-which implements the access to the SQL database using the `sqflite` package.
-You can implement the same `DatabaseService` using other storage packages
-like `sqlite3`, `drift` or even cloud storage solutions like `firebase_database`.
+在內部，`TodoRepository` 會使用 `DatabaseService`，而 `DatabaseService` 則透過 `sqflite` 套件來實作對 SQL 資料庫的存取。你也可以使用其他儲存套件（如 `sqlite3`、`drift`），甚至是雲端儲存解決方案（如 `firebase_database`），來實作相同的 `DatabaseService`。
 
-The `TodoRepository` checks if the database is open
-before every request and opens it if necessary.
+`TodoRepository` 會在每次請求前檢查資料庫是否已開啟，必要時會自動開啟。
 
-It implements the `fetchTodos()`, `createTodo()`, and `deleteTodo()` methods.
+它實作了 `fetchTodos()`、`createTodo()` 和 `deleteTodo()` 方法。
 
 <?code-excerpt "lib/data/repositories/todo_repository.dart (TodoRepository)"?>
 ```dart
@@ -304,11 +260,9 @@ class TodoRepository {
 }
 ```
 
-The `DatabaseService` implements the access to the SQLite database
-using the `sqflite` package.
+`DatabaseService` 透過 `sqflite` 套件來實作對 SQLite 資料庫的存取。
 
-It’s a good idea to define the table and column names as constants
-to avoid typos when writing SQL code.
+建議將資料表與欄位名稱定義為常數，以避免在撰寫 SQL 程式碼時發生拼字錯誤。
 
 <?code-excerpt "lib/data/services/database_service.dart (Table)"?>
 ```dart
@@ -317,8 +271,8 @@ static const String _idColumnName = '_id';
 static const String _taskColumnName = 'task';
 ```
 
-The `open()` method opens the existing database,
-or creates a new one if it doesn’t exist.
+`open()` 方法會開啟現有的資料庫，
+如果資料庫不存在，則會建立一個新的。
 
 <?code-excerpt "lib/data/services/database_service.dart (Open)"?>
 ```dart
@@ -337,13 +291,13 @@ Future<void> open() async {
 }
 ```
 
-Note that the column `id` is set as `primary key` and `autoincrement`;
-this means that each newly inserted item
-is assigned a new value for the `id` column.
+請注意，欄位 `id` 被設為 `primary key` 和 `autoincrement`；
+這表示每次插入新項目時，
+`id` 欄位都會被指派一個新的值。
 
-The `insert()` method creates a new ToDo item in the database,
-and returns a newly created Todo instance.
-The `id` is generated as mentioned before.
+`insert()` 方法會在資料庫中建立一個新的 ToDo 項目，
+並回傳一個新建立的 Todo 實例。
+如前所述，`id` 會自動產生。
 
 <?code-excerpt "lib/data/services/database_service.dart (Insert)"?>
 ```dart
@@ -359,13 +313,9 @@ Future<Result<Todo>> insert(String task) async {
 }
 ```
 
-All the `DatabaseService` operations use the `Result` class to return a value,
-as recommended by the [Flutter architecture recommendations][].
-This facilitates handling errors in further steps in the application code.
+所有的 `DatabaseService` 操作都使用 `Result` 類別來回傳值，這是依照 [Flutter 架構建議](/app-architecture) 所推薦的做法。這有助於在應用程式後續的程式碼步驟中處理錯誤。
 
-The `getAll()` method performs a database query,
-obtaining all the values in the `id` and `task` columns.
-For each entry, it creates a `Todo` class instance.
+`getAll()` 方法會執行資料庫查詢，取得 `id` 與 `task` 欄位中的所有數值。對於每一筆資料，會建立一個 `Todo` 類別的實例。
 
 <?code-excerpt "lib/data/services/database_service.dart (GetAll)"?>
 ```dart
@@ -390,11 +340,9 @@ Future<Result<List<Todo>>> getAll() async {
 }
 ```
 
-The `delete()` method performs a database delete operation
-based on the ToDo item `id`.
+`delete()` 方法會根據 ToDo 項目 `id` 執行資料庫刪除操作。
 
-In this case, if no items were deleted an error is returned,
-indicating that something went wrong.
+在此情況下，如果沒有任何項目被刪除，則會回傳錯誤，表示發生了某些問題。
 
 <?code-excerpt "lib/data/services/database_service.dart (Delete)"?>
 ```dart
@@ -416,23 +364,22 @@ Future<Result<void>> delete(int id) async {
 ```
 
 :::note
-In some cases, you might want to close the database when you are done with it.
-For example, when the user leaves the screen,
-or after a certain time has passed.
+在某些情況下，你可能會希望在使用完資料庫後將其關閉。
+例如，當使用者離開螢幕時，
+或是在經過一段特定時間後。
 
-This depends on the database implementation
-as well as your application requirements.
-It’s recommended that you check with the database package authors
-for recommendations.
+這取決於資料庫的實作方式
+以及你的應用程式需求。
+建議你參考該資料庫套件作者的建議做法。
 :::
 
-## Putting it all together
+## 整合應用
 
-In the `main()` method of your application,
-first initialize the `DatabaseService`,
-which requires different initialization code on different platforms.
-Then, pass the newly created `DatabaseService` into the `TodoRepository`
-which is itself passed into the `MainApp` as a constructor argument dependency.
+在應用程式的 `main()` 方法中，
+首先初始化 `DatabaseService`，
+而這在不同平台上需要不同的初始化程式碼。
+接著，將新建立的 `DatabaseService` 傳入 `TodoRepository`，
+而 `TodoRepository` 本身則作為建構子參數相依性傳入 `MainApp`。
 
 <?code-excerpt "lib/main.dart (MainTodo)"?>
 ```dart
@@ -458,9 +405,9 @@ void main() {
 }
 ```
 
-Then, when the `TodoListScreen` is created,
-also create the `TodoListViewModel`
-and pass the `TodoRepository` to it as dependency.
+然後，當建立 `TodoListScreen` 時，
+同時建立 `TodoListViewModel`，
+並將 `TodoRepository` 作為相依性傳遞給它。
 
 <?code-excerpt "lib/main.dart (TodoListScreen)" replace="/body: //g;/^\),$/)/g"?>
 ```dart

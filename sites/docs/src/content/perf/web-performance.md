@@ -1,55 +1,53 @@
 ---
-title: Debug performance for web apps
-description: Learn how to use Chrome DevTools to debug web performance issues.
+title: 偵錯網頁應用程式的效能
+description: 學習如何使用 Chrome DevTools 偵錯網頁效能問題。
 ---
 
 :::note
-Profiling Flutter web apps requires Flutter version 3.14 or later.
+分析 Flutter 網頁應用程式（Flutter web apps）效能需要 Flutter 3.14 或更新版本。
 :::
 
-The Flutter framework emits timeline events as it works to build frames,
-draw scenes, and track other activity such as garbage collections.
-These events are exposed in the
-[Chrome DevTools performance panel][] for debugging.
+Flutter 框架在建構畫面（frame）、繪製場景（scene）以及追蹤其他活動（如垃圾回收）時，會發出時間軸事件（timeline events）。
+這些事件會在
+[Chrome DevTools 效能面板][Chrome DevTools performance panel] 中公開，供偵錯使用。
 
 :::note
-For information on how to optimize web loading speed,
-check out the (free) article on Medium,
-[Best practices for optimizing Flutter web loading speed][article].
+若需優化網頁載入速度的相關資訊，
+請參考 Medium 上的（免費）文章：
+[Best practices for optimizing Flutter web loading speed][article]。
 
 [article]: {{site.flutter-blog}}/best-practices-for-optimizing-flutter-web-loading-speed-7cc0df14ce5c
 :::
 
-You can also emit your own timeline events using the `dart:developer`
-[Timeline][] and [TimelineTask][] APIs for further performance analysis.
+你也可以使用 `dart:developer`
+[Timeline][Timeline] 和 [TimelineTask][TimelineTask] API 發出自訂的時間軸事件，以進行更深入的效能分析。
 
 [Chrome DevTools performance panel]: https://developer.chrome.com/docs/devtools/performance
 [Timeline]: {{site.api}}/flutter/dart-developer/Timeline-class.html
 [TimelineTask]: {{site.api}}/flutter/dart-developer/TimelineTask-class.html
 
-![Screenshot of the Chrome DevTools performance panel](/assets/images/docs/tools/devtools/chrome-devtools-performance-panel.png)
+![Chrome DevTools 效能面板截圖](/assets/images/docs/tools/devtools/chrome-devtools-performance-panel.png)
 
-## Optional flags to enhance tracing
+## 可選旗標以增強追蹤
 
-To configure which timeline events are tracked, set any of the following top-level properties to `true`
-in your app's `main` method.
+若要設定哪些時間軸事件會被追蹤，可以在應用程式的 `main` 方法中，將下列任一頂層屬性設為 `true`。
 
-- [debugProfileBuildsEnabled][]: Adds `Timeline` events for every `Widget` built.
-- [debugProfileBuildsEnabledUserWidgets][]: Adds `Timeline` events for every user-created `Widget` built.
-- [debugProfileLayoutsEnabled][]: Adds `Timeline` events for every `RenderObject` layout.
-- [debugProfilePaintsEnabled][]: Adds `Timeline` events for every `RenderObject` painted.
+- [debugProfileBuildsEnabled][debugProfileBuildsEnabled]：為每個建構的 `Widget` 新增 `Timeline` 事件。
+- [debugProfileBuildsEnabledUserWidgets][debugProfileBuildsEnabledUserWidgets]：為每個使用者自訂的 `Widget` 建構新增 `Timeline` 事件。
+- [debugProfileLayoutsEnabled][debugProfileLayoutsEnabled]：為每個 `RenderObject` 版面配置新增 `Timeline` 事件。
+- [debugProfilePaintsEnabled][debugProfilePaintsEnabled]：為每個繪製的 `RenderObject` 新增 `Timeline` 事件。
 
 [debugProfileBuildsEnabled]: {{site.api}}/flutter/widgets/debugProfileBuildsEnabled.html
 [debugProfileBuildsEnabledUserWidgets]: {{site.api}}/flutter/widgets/debugProfileBuildsEnabledUserWidgets.html
 [debugProfileLayoutsEnabled]: {{site.api}}/flutter/rendering/debugProfileLayoutsEnabled.html
 [debugProfilePaintsEnabled]: {{site.api}}/flutter/rendering/debugProfilePaintsEnabled.html
 
-## Instructions
+## 操作說明
 
-1. _[Optional]_ Set any desired tracing flags to true from your app's main method.
-2. Run your Flutter web app in [profile mode][].
-3. Open up the [Chrome DevTools Performance panel][] for your application,
-    and [start recording][] to capture timeline events.
+1. _[可選]_ 從應用程式的 main 方法中，將需要的追蹤旗標設為 true。
+2. 以 [profile mode][profile mode] 執行你的 Flutter 網頁應用程式。
+3. 開啟應用程式的 [Chrome DevTools 效能面板][Chrome DevTools Performance panel]，
+    並[開始錄製][start recording]以擷取時間軸事件。
 
 [start recording]: https://developer.chrome.com/docs/devtools/performance/#record
 

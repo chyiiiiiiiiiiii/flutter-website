@@ -1,90 +1,53 @@
 ---
-title: "Calling JetPack APIs"
-description: "Use the latest Android APIs from your Dart code"
+title: "呼叫 JetPack API"
+description: "從 Dart 程式碼使用最新的 Android API"
 ---
 
 <?code-excerpt path-base="platform_integration"?>
 
-Flutter apps running on Android can always make use of the
-latest APIs on the first day they are released on Android, no
-matter what. This page outlines available ways to invoke
-Android-specific APIs.
+無論何時，執行於 Android 上的 Flutter 應用程式都能在 Android 發布最新 API 的第一天即加以利用。本頁將說明可用於呼叫 Android 專屬 API 的各種方式。
 
-## Use an existing solution
+## 使用現有解決方案
 
-In most scenarios, you can use a plugin (as shown in the next section)
-to invoke native APIs without writing any custom boilerplate or
-glue code yourself.
+在大多數情境下，你可以使用插件（如下一節所示）來呼叫原生 API，而無需自己撰寫任何自訂樣板或橋接程式碼。
 
-### Use a plugin
+### 使用插件
 
-Using a plugin is often the easiest way to access native
-APIs, regardless of where your Flutter app is running. To
-use plugins, visit [pub.dev][pub] and search for
-the topic you need. Most native features, including accessing
-common hardware like GPS, the camera, or step counters are
-supported by robust plugins.
+無論你的 Flutter 應用程式運行於何處，使用插件通常是存取原生 API 最簡單的方式。要使用插件，請造訪 [pub.dev][pub] 並搜尋你所需的主題。大多數原生功能，包括存取常見硬體如 GPS、相機或計步器，都有強大的插件支援。
 
-For complete guidance on adding plugins to your Flutter app,
-see the [Using packages documentation][packages].
+如需將套件加入 Flutter 應用程式的完整指引，請參閱 [Using packages documentation][packages]。
 
 [packages]: /packages-and-plugins/using-packages
 [pub]: {{site.pub}}
 
-Not all native features are supported by plugins, especially
-immediately after their release. In any scenario where
-your desired native feature is not covered by a package on
-[pub.dev][pub], continue on to the following sections.
+並非所有原生功能都已由插件支援，尤其是在其剛發布時。在你需要的原生功能尚未被 [pub.dev][pub] 上的套件涵蓋的情境下，請繼續閱讀下方章節。
 
-## Creating a custom solution
+## 建立自訂解決方案
 
-Not all scenarios and APIs will be supported by
-existing solutions; but luckily, you can always add whatever
-support you need. The next sections describe two different
-ways to call native code from Dart.
+並非所有情境與 API 都會被現有解決方案支援；但幸運的是，你隨時可以自行加入所需的支援。接下來的章節將介紹兩種從 Dart 呼叫原生程式碼的方式。
 
 :::note
-Neither solution below is inherently better or worse than
-existing plugins, because all plugins use one of the following
-two options.
+下列兩種解決方案本質上並不優於或劣於現有插件，因為所有插件其實都採用以下其中一種方式。
 :::
 
-### Call native code directly via FFI
+### 透過 FFI 直接呼叫原生程式碼
 
-The most direct and efficient way to invoke native APIs is by
-calling the API directly, via FFI. This links your Dart executable
-to any specified native code at compile-time, allowing you to
-call it directly from the UI thread through a small amount of glue
-code. In most cases, [ffigen][ffigen] or [jnigen][jnigen] are
-helpful in writing this glue code.
+呼叫原生 API 最直接且高效的方法，就是透過 FFI 直接呼叫 API。這會在編譯時將你的 Dart 執行檔與指定的原生程式碼連結，讓你能透過少量橋接程式碼直接在 UI 執行緒呼叫它。在大多數情況下，[ffigen][ffigen] 或 [jnigen][jnigen] 對於撰寫這些橋接程式碼很有幫助。
 
-For complete guidance on directly calling native code from
-your Flutter app, see the [FFI documentation][ffi].
+如需從 Flutter 應用程式直接呼叫原生程式碼的完整指引，請參閱 [FFI documentation][ffi]。
 
-In the coming months, the Dart team hopes to make this process
-easier with direct support for calling native APIs using the
-FFI approach, but without any need for the developer to write
-glue code.
+在未來幾個月內，Dart 團隊期望透過對 FFI 方式的原生 API 呼叫提供直接支援，進一步簡化這個流程，讓開發者無需再撰寫橋接程式碼。
 
 [ffi]: {{site.dart-site}}/interop/c-interop
 [ffigen]: {{site.pub}}/packages/ffigen
 [jnigen]: {{site.pub}}/packages/jnigen
 
 
-### Add a MethodChannel
+### 新增 MethodChannel
 
-[`MethodChannel`][methodchannels-api-docs]s are an alternate
-way Flutter apps can invoke arbitrary native code.
-Unlike the FFI solution described in the previous step,
-MethodChannels are always asynchronous, which
-might or might not matter to you, depending on your use case. As
-with FFI and direct calls to native code, using a `MethodChannel`
-requires a small amount of glue code to translate your Dart objects
-into native objects, and then back again. In most cases,
-[`pkg:pigeon`][pigeon] is helpful in writing this glue code.
+[`MethodChannel`][methodchannels-api-docs] 是 Flutter 應用程式呼叫任意原生程式碼的另一種方式。與前述的 FFI 解決方案不同，MethodChannel 一律是非同步 (asynchronous) 的，這對你來說是否重要則取決於你的使用情境。與 FFI 及直接呼叫原生程式碼一樣，使用 `MethodChannel` 也需要少量橋接程式碼，將 Dart 物件轉換為原生物件，再轉換回來。在大多數情況下，[`pkg:pigeon`][pigeon] 可協助你撰寫這些橋接程式碼。
 
-For complete guidance on adding MethodChannels to your Flutter
-app, see the [`MethodChannel`s documentation][methodchannels].
+如需將 MethodChannel 加入 Flutter 應用程式的完整指引，請參閱 [`MethodChannel`s documentation][methodchannels]。
 
 [methodchannels]: /platform-integration/platform-channels
 [methodchannels-api-docs]: {{site.api}}/flutter/services/MethodChannel-class.html

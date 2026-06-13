@@ -1,112 +1,111 @@
 ---
-title: Set up and test drive Flutter
-shortTitle: Quick start
+title: 設定並試駕 Flutter
+shortTitle: 快速入門
 description: >-
-  Set up Flutter on your device with a Code OSS-based editor, such as VS Code, and
-  get started developing your first multi-platform app with Flutter!
+  使用以 Code OSS 為基礎的編輯器（例如 VS Code）在您的裝置上設定 Flutter，
+  並開始開發您的第一個多平台應用程式！
 showBanner: false
 sitemap: false
 ---
 
 {% render "docs/install/quick.md" site: site %}
 
-## Test drive Flutter {: #test-drive}
+## 試駕 Flutter {: #test-drive}
 
-Now that you've set up VS Code and Flutter,
-it's time to create an app and try out Flutter development!
+現在您已設定好 VS Code 與 Flutter，
+是時候建立一個應用程式並試試 Flutter 開發了！
 
- 1. <h3>Create a new Flutter app</h3>
+ 1. <h3>建立一個新的 Flutter 應用程式</h3>
 
-    1. Open the command palette in VS Code.
+    1. 在 VS Code 中開啟指令面板 (Command Palette)。
 
-       Go to **View** <span aria-label="and then">></span> **Command Palette**
-       or press <kbd class="special-key">Cmd/Ctrl</kbd> +
-       <kbd>Shift</kbd> + <kbd>P</kbd>.
+       前往 **View** <span aria-label="and then">></span> **Command Palette**
+       或按下 <kbd class="special-key">Cmd/Ctrl</kbd> +
+       <kbd>Shift</kbd> + <kbd>P</kbd>。
 
-    1. In the command palette, start typing `flutter:`.
+    1. 在指令面板中，開始輸入 `flutter:`。
 
-       VS Code should surface commands from the Flutter plugin.
+       VS Code 應該會顯示來自 Flutter 插件的指令。
 
-    1. Select the **Flutter: New Project** command.
+    1. 選擇 **Flutter: New Project** 指令。
 
-       Your OS or VS Code might ask for access to your documents,
-       agree to continue to the next step.
+       您的作業系統或 VS Code 可能會要求存取您的文件，
+       同意後即可繼續下一步。
 
-    1. Choose the **Application** template.
+    1. 選擇 **Application** 範本 (template)。
 
-       VS Code should prompt you with **Which Flutter template?**.
-       Choose **Application** to bootstrap a simple counter app.
+       VS Code 應該會以 **Which Flutter template?** 提示您。
+       選擇 **Application** 以建置 (bootstrap) 一個簡單的計數器應用程式。
 
-    1. Create or select the parent directory for your new app's folder.
+    1. 為您的新應用程式資料夾建立或選擇上層目錄 (parent directory)。
 
-       A file dialog should appear.
+       此時應該會出現一個檔案對話框。
 
-       1. Select or create the parent directory where
-          you want the project to be created.
-       1. To confirm your selection,
-          click **Select a folder to create the project in**.
+       1. 選擇或建立您希望建立專案的上層目錄。
+       1. 若要確認您的選擇，
+          點擊 **Select a folder to create the project in**。
 
-    1. Enter a name for your app.
+    1. 輸入您應用程式的名稱。
 
-       VS Code should prompt you to enter a name for your new app.
-       Enter `trying_flutter` or a similar `lowercase_with_underscores` name.
-       To confirm your selection, press <kbd>Enter</kbd>.
+       VS Code 應該會提示您為新應用程式輸入名稱。
+       輸入 `trying_flutter` 或類似的 `lowercase_with_underscores` 名稱。
+       若要確認，請按 <kbd>Enter</kbd>。
 
-    1. Wait for project initialization to complete.
+    1. 等待專案初始化完成。
 
-       Task progress is often surfaced as a notification in the bottom right
-       and can also be accessed from the **Output** panel.
+       工作進度通常會以右下角的通知顯示，
+       也可以從 **Output** 面板存取。
 
-    1. Open the `lib` directory, then the `main.dart` file.
+    1. 開啟 `lib` 目錄，然後開啟 `main.dart` 檔案。
 
-       If you're curious about what each portion of the code does,
-       check out the preceding comments throughout the file.
+       如果您對程式碼各部分的功能感到好奇，
+       請查閱檔案中各處的前置說明注釋。
 
- 1. <h3>Run your app on the web</h3>
+ 1. <h3>在網頁上執行您的應用程式</h3>
 
-    While Flutter apps can run on many platforms,
-    try running your new app on the web.
+    雖然 Flutter 應用程式可以在許多平台上執行，
+    先試著在網頁上執行您的新應用程式吧。
 
-    1. Open the command palette in VS Code.
+    1. 在 VS Code 中開啟指令面板。
 
-       Go to **View** <span aria-label="and then">></span> **Command Palette**
-       or press <kbd class="special-key">Cmd/Ctrl</kbd> +
-       <kbd>Shift</kbd> + <kbd>P</kbd>.
+       前往 **View** <span aria-label="and then">></span> **Command Palette**
+       或按下 <kbd class="special-key">Cmd/Ctrl</kbd> +
+       <kbd>Shift</kbd> + <kbd>P</kbd>。
 
-    1. In the command palette, start typing `flutter:`.
+    1. 在指令面板中，開始輸入 `flutter:`。
 
-       VS Code should surface commands from the Flutter plugin.
+       VS Code 應該會顯示來自 Flutter 插件的指令。
 
-    1. Select the **Flutter: Select Device** command.
+    1. 選擇 **Flutter: Select Device** 指令。
 
-    1. From the **Select Device** prompt, select **Chrome**.
+    1. 在 **Select Device** 提示中，選擇 **Chrome**。
 
-    1. Run or start debugging your app.
+    1. 執行或開始對應用程式進行除錯。
 
-       Go to **Run** <span aria-label="and then">></span>
-       **Start Debugging** or press <kbd>F5</kbd>.
+       前往 **Run** <span aria-label="and then">></span>
+       **Start Debugging** 或按下 <kbd>F5</kbd>。
 
-       `flutter run` is used to build and start your app,
-       then a new instance of Chrome should open and
-       start running your newly created app.
+       `flutter run` 用於建置 (build) 並啟動您的應用程式，
+       接著會開啟一個新的 Chrome 視窗，
+       並開始執行您新建立的應用程式。
 
- 1. <h3>Try hot reload</h3>
+ 1. <h3>試試熱重載 (Hot Reload)</h3>
 
-    Flutter offers a fast development cycle with **stateful hot reload**,
-    the ability to reload the code of a live running app without
-    restarting or losing app state.
+    Flutter 透過**有狀態熱重載 (stateful hot reload)** 提供快速的開發週期，
+    讓您無需重新啟動或遺失應用程式狀態 (app state)，
+    即可重新載入正在執行的應用程式程式碼。
 
-    You can change your app's source code,
-    run the hot reload command in VS Code,
-    then see the change in your running app.
+    您可以變更應用程式的原始碼，
+    在 VS Code 中執行熱重載指令，
+    然後在正在執行的應用程式中看到變更。
 
-    1. In the running app, try adding to the counter a few times by
-       clicking the ![increment (+)][increment-button]{: .text-icon} button.
+    1. 在正在執行的應用程式中，試著點擊幾次
+       ![increment (+)][increment-button]{: .text-icon} 按鈕來增加計數器的值。
 
-    1. With your app still running, make a change in the `lib/main.dart` file.
+    1. 在應用程式仍在執行的情況下，對 `lib/main.dart` 檔案進行修改。
 
-       Change the `_counter++` line in the `_incrementCounter` method
-       to instead decrement the `_counter` field.
+       將 `_incrementCounter` 方法中的 `_counter++` 這行
+       改為遞減 `_counter` 欄位。
 
        ```dart diff
          setState(() {
@@ -116,51 +115,49 @@ it's time to create an app and try out Flutter development!
          });
        ```
 
-    1. Save your changes
-       (**File** <span aria-label="and then">></span> **Save All**) or
-       click the **Hot Reload** ![hot reload icon][]{: .text-icon} button.
+    1. 儲存您的變更
+       (**File** <span aria-label="and then">></span> **Save All**) 或
+       點擊 **Hot Reload** ![hot reload icon][]{: .text-icon} 按鈕。
 
-       Flutter updates the running app without losing any existing state.
-       Notice the existing value stayed the same.
+       Flutter 會在不遺失任何現有狀態的情況下更新正在執行的應用程式。
+       請注意現有的數值保持不變。
 
-    1. Try clicking the
-       ![increment (+)][increment-button]{: .text-icon} button again.
-       Notice the value decreases instead of increases.
+    1. 再次嘗試點擊
+       ![increment (+)][increment-button]{: .text-icon} 按鈕。
+       請注意數值減少而非增加。
 
- 1. <h3>Explore the Flutter sidebar</h3>
+ 1. <h3>探索 Flutter 側邊欄</h3>
 
-    The Flutter plugin adds a dedicated sidebar to VS Code
-    for managing Flutter debug sessions and devices,
-    viewing an outline of your code and widgets,
-    as well as accessing the Dart and Flutter DevTools.
+    Flutter 插件為 VS Code 新增了一個專屬側邊欄，
+    用於管理 Flutter 除錯工作階段與裝置、
+    檢視程式碼與元件 (Widget) 的概覽，
+    以及存取 Dart 和 Flutter DevTools。
 
-    1. If your app isn't running, start debugging it again.
+    1. 如果您的應用程式未在執行，請再次開始除錯。
 
-       Go to **Run** <span aria-label="and then">></span>
-       **Start Debugging** or press <kbd>F5</kbd>.
+       前往 **Run** <span aria-label="and then">></span>
+       **Start Debugging** 或按下 <kbd>F5</kbd>。
 
-    1. Open the Flutter sidebar in VS Code.
+    1. 在 VS Code 中開啟 Flutter 側邊欄。
 
-       Either open it with the Flutter ![Flutter logo][]{: .text-icon} button in
-       the VS Code sidebar or open it from the command palette by
-       running the **Flutter: Focus on Flutter Sidebar View** command.
+       可透過側邊欄中的 Flutter ![Flutter logo][]{: .text-icon} 按鈕開啟，
+       或在指令面板中執行 **Flutter: Focus on Flutter Sidebar View** 指令來開啟。
 
-    1. In the Flutter sidebar, under **DevTools**,
-       click the **Flutter Inspector** button.
+    1. 在 Flutter 側邊欄的 **DevTools** 下，
+       點擊 **Flutter Inspector** 按鈕。
 
-       A separate **Widget Inspector** panel should open in VS Code.
+       VS Code 中應該會開啟一個獨立的 **Widget Inspector** 面板。
 
-       In the widget inspector, you can view your app's widget tree,
-       view the properties and layout of each widget, and more.
+       在元件檢視器 (widget inspector) 中，您可以檢視應用程式的元件樹 (widget tree)、
+       查看每個元件的屬性與版面配置，以及更多功能。
 
-    1. In the widget inspector, try clicking the top-level `MyHomePage` widget.
+    1. 在元件檢視器中，試著點擊頂層的 `MyHomePage` 元件。
 
-       A view of its properties and layout should open, and
-       the VS Code editor should navigate to and focus the line where
-       the widget was included.
+       應該會開啟其屬性與版面配置的檢視，
+       VS Code 編輯器也會導覽並聚焦到
+       包含該元件的那一行程式碼。
 
-    1. Explore and try out other features in
-       the widget inspector and Flutter sidebar.
+    1. 探索並試用元件檢視器和 Flutter 側邊欄中的其他功能。
 
 {:.steps}
 
@@ -168,13 +165,13 @@ it's time to create an app and try out Flutter development!
 [hot reload icon]: /assets/images/docs/get-started/hot-reload.svg
 [Flutter logo]: /assets/images/branding/flutter/logo/square.svg
 
-## Continue your Flutter journey {: #next-steps}
+## 繼續您的 Flutter 學習之旅 {: #next-steps}
 
-**Congratulations!**
-Now that you've installed and tried out Flutter,
-follow the [Flutter learning pathway][],
-set up development for an [additional target platform][], or
-explore some of these resources to continue your Flutter learning journey.
+**恭喜！**
+您已安裝並試用 Flutter，
+接下來可以遵循 [Flutter 學習路徑][Flutter learning pathway]、
+設定[其他目標平台][additional target platform]的開發環境，
+或探索以下資源繼續您的 Flutter 學習之旅。
 
 {% render "docs/get-started/setup-next-steps.html", site: site %}
 

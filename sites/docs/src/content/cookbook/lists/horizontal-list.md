@@ -1,16 +1,15 @@
 ---
-title: Create a horizontal list
-description: How to implement a horizontal list.
+title: 建立水平捲動清單
+description: 如何實作水平捲動清單。
 ---
 
 <?code-excerpt path-base="cookbook/lists/horizontal_list"?>
 
-You might want to create a list that scrolls
-horizontally rather than vertically.
-The [`ListView`][] widget supports horizontal lists.
+有時您可能希望清單能水平捲動，而非垂直捲動。
+元件 (Widget) [`ListView`][] 支援水平清單。
 
-Use the standard `ListView` constructor, passing in a horizontal
-`scrollDirection`, which overrides the default vertical direction.
+使用標準的 `ListView` 建構函式，傳入水平方向的
+`scrollDirection`，即可覆寫預設的垂直方向。
 
 <?code-excerpt "lib/main.dart (list-view)" replace="/^child\: //g"?>
 ```dart highlightLines=2
@@ -25,7 +24,7 @@ ListView(
 
 [`ListView`]: {{site.api}}/flutter/widgets/ListView-class.html
 
-## Interactive example
+## 互動範例 {:#interactive-example}
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter horizontal list hands-on example in DartPad" run="true"

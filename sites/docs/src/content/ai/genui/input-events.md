@@ -1,65 +1,48 @@
 ---
-title: Input and events
+title: 輸入與事件
 sidenav: ai
-description: How input and events are handled in GenUI applications.
+description: 如何在 GenUI 應用程式中處理輸入與事件。
 prev:
   title: Get started with the GenUI SDK for Flutter
   path: /ai/genui/get-started
 ---
 
-This guide explains how user interactions are handled
-within the GenUI package, from the initial widget
-interaction to the AI agent receiving the event.
+本指南說明使用者互動在 GenUI 套件中的處理方式，從最初的元件 (Widget) 互動，到 AI agent 接收事件的完整流程。
 
 :::experimental
-The `genui` package is in alpha and is likely to change.
+`genui` 套件目前處於 alpha 階段，未來可能有所變動。
 :::
 
-## Overview
+## 概覽 {:#overview}
 
-In the GenUI architecture, the UI is driven by the AI,
-but user interactions (like clicking a button or submitting a form)
-must be communicated back to the AI agent.
-This allows the agent to update the UI or perform actions
-in response to user input.
+在 GenUI 架構中，UI 由 AI 驅動，但使用者互動（例如點擊按鈕或提交表單）必須回傳給 AI agent。這讓 agent 能夠根據使用者輸入來更新 UI 或執行相對應的動作。
 
-The flow of an event is as follows:
+事件的流程如下：
 
-1. Interaction: User interacts with a widget;
-   for example, the user taps a button.
-2. Capture: The widget implementation dispatches a `UiEvent`.
-3. Processing: The framework adds context
-   (such as a `surfaceId` or data model values)
-   and forwards the event.
-4. Transmission: The Flutter widget generates the event,
-   adds the appropriate context, and routes
-   it to the AI through the `ContentGenerator`,
-   which forwards it to the AI agent.
+1. **互動**：使用者與元件互動，例如點擊按鈕。
+2. **捕捉**：元件實作傳送（dispatch）一個 `UiEvent`。
+3. **處理**：框架加入上下文資訊（例如 `surfaceId` 或資料模型值），並轉發事件。
+4. **傳輸**：Flutter 元件產生事件，加入適當的上下文，並透過 `ContentGenerator` 將其路由至 AI，`ContentGenerator` 再將其轉發給 AI agent。
 
-## Defining events
+## 定義事件 {:#defining-events}
 
-### Protocol level
+### 協定層級 {:#protocol-level}
 
-The A2UI protocol defines an `action` message used to report events.
-An `action` contains:
+A2UI 協定定義了用於回報事件的 `action` 訊息。一個 `action` 包含：
 
-* `name`: The name of the action
-  (defined by the AI when generating the component).
-* `surfaceId`: The ID of the UI surface where the event occurred.
-* `sourceComponentId`: The ID of the component that triggered the event.
-* `context`: A JSON object containing data relevant to the event.
-* `timestamp`: When the event occurred.
+* `name`：動作的名稱（由 AI 在產生元件時定義）。
+* `surfaceId`：發生事件的 UI surface ID。
+* `sourceComponentId`：觸發事件的元件 ID。
+* `context`：包含事件相關資料的 JSON 物件。
+* `timestamp`：事件發生的時間。
 
-### Dart implementation
+### Dart 實作 {:#dart-implementation}
 
-In [`package:genui`][], user events are represented by the
-`UiEvent` extension type and its concrete implementation
-`UserActionEvent`.
+在 [`package:genui`][] 中，使用者事件以 `UiEvent` 擴充型別（extension type）及其具體實作 `UserActionEvent` 來表示。
 
 [`package:genui`]: {{site.pub-pkg}}/genui
 
-The following structures are defined in
-`lib/src/model/ui_models.dart`:
+以下結構定義於 `lib/src/model/ui_models.dart`：
 
 ```dart title="lib/src/model/ui_models.dart"
 /// A data object that represents a user interaction event in the UI.
@@ -77,23 +60,13 @@ extension type UserActionEvent.fromMap(JsonMap _json) implements UiEvent {
 }
 ```
 
-## Capturing events in widgets
+## 在元件中捕捉事件 {:#capturing-events-in-widgets}
 
-Widgets in GenUI are defined in a `Catalog`,
-which includes information about what events
-the widget can send to the AI.
-The AI can then send
-information about how to communicate those events back.
-When you implement a custom widget (or use the standard widgets),
-you use the `dispatchEvent` method in `CatalogItemContext`
-to dispatch events.
+GenUI 中的元件定義於 `Catalog` 內，其中包含該元件可傳送給 AI 的事件資訊。AI 接著可以傳回關於如何回傳這些事件的資訊。當你實作自訂元件（或使用標準元件）時，需使用 `CatalogItemContext` 中的 `dispatchEvent` 方法來傳送事件。
 
-### Example: Button implementation {: #button-example}
+### 範例：Button 實作 {: #button-example}
 
-The following example shows how a `Button` widget typically captures
-a tap and dispatches an event. It retrieves the action definition
-(provided by the AI) from its properties,
-resolves any data bindings in the context, and sends the event.
+以下範例展示 `Button` 元件如何捕捉點擊並傳送事件。它從屬性中取得動作定義（由 AI 提供），解析上下文中的資料繫結（data binding），並傳送事件。
 
 ```dart
 // Inside a CatalogItem widgetBuilder:
@@ -129,23 +102,18 @@ widgetBuilder: (itemContext) {
 },
 ```
 
-## Event processing pipeline
+## 事件處理管線 {:#event-processing-pipeline}
 
-Once `dispatchEvent` is called,
-the event travels through the GenUI core layers.
+一旦呼叫 `dispatchEvent`，事件便會經過 GenUI 核心層的處理。
 
-### Surface
+### Surface {:#surface}
 
-The `Surface` widget (in `lib/src/core/surface.dart`)
-wraps the rendered widgets.
-It provides the dispatchEvent callback implementation.
+`Surface` 元件（位於 `lib/src/core/surface.dart`）包裹了已渲染的元件，並提供 `dispatchEvent` 回呼（callback）的實作。
 
-When `_dispatchEvent` is called:
+當呼叫 `_dispatchEvent` 時：
 
-1. It automatically injects the `surfaceId` into the event,
-   ensuring the AI knows which surface the interaction came from.
-2. It delegates handling to the `SurfaceHost`
-   (implemented by `SurfaceController`).
+1. 它會自動將 `surfaceId` 注入事件，確保 AI 知道互動來自哪個 surface。
+2. 它將處理委派給 `SurfaceHost`（由 `SurfaceController` 實作）。
 
 ```dart
 // Surface implementation details
@@ -160,17 +128,15 @@ void _dispatchEvent(UiEvent event) {
 }
 ```
 
-### SurfaceController
+### SurfaceController {:#surfacecontroller}
 
-The `SurfaceController` (in `lib/src/core/surface_controller.dart`)
-is the central hub for managing UI state.
+`SurfaceController`（位於 `lib/src/core/surface_controller.dart`）是管理 UI 狀態的核心樞紐。
 
-When `handleUiEvent` is called, it does the following:
+當呼叫 `handleUiEvent` 時，它會執行以下步驟：
 
-1.  Verifies the event type.
-2.  Wraps the event in the `action` JSON envelope
-   required by the protocol.
-3.  Emits a `UserUiInteractionMessage` on its `onSubmit` stream.
+1.  驗證事件型別。
+2.  將事件包裝在協定所需的 `action` JSON 封裝中。
+3.  在其 `onSubmit` 串流上發出一個 `UserUiInteractionMessage`。
 
 ```dart
 // SurfaceController implementation details
@@ -186,26 +152,18 @@ void handleUiEvent(UiEvent event) {
 }
 ```
 
-## Transmission to AI
+## 傳輸至 AI {:#transmission-to-ai}
 
-The final step sends the event to the AI Agent.
-This is typically handled by `Conversation`
-(in `lib/src/facade/conversation.dart`).
-The `Conversation` listens to the `onSubmit` stream
-from the message processor.
+最後一個步驟是將事件傳送給 AI Agent。這通常由 `Conversation`（位於 `lib/src/facade/conversation.dart`）處理。`Conversation` 監聽來自訊息處理器的 `onSubmit` 串流。
 
 ```dart
 // Conversation constructor
 _userEventSubscription = surfaceController.onSubmit.listen(sendRequest);
 ```
 
-When an event is received, the `sendRequest` method:
+當接收到事件時，`sendRequest` 方法會：
 
-1. Wraps the `UserUiInteractionMessage` back to the developer's client code.
-2. The custom integration or predefined transport adapter forwards
-   the message to the LLM agent network transport.
+1. 將 `UserUiInteractionMessage` 包裝後回傳給開發者的用戶端程式碼。
+2. 自訂整合或預定義的傳輸轉接器將訊息轉發至 LLM agent 的網路傳輸層。
 
-The AI Agent receives this JSON message, processes the user action,
-and might stream back new `surfaceUpdate` or `dataModelUpdate` messages
-to modify the UI, or some other action, completing the full interaction loop.
-
+AI Agent 接收此 JSON 訊息，處理使用者動作，並可能串流回新的 `surfaceUpdate` 或 `dataModelUpdate` 訊息來修改 UI，或執行其他動作，完成完整的互動迴圈。

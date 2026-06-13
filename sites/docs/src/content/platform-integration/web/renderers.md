@@ -1,120 +1,107 @@
 ---
-title: Web renderers
-description: Choosing build modes and renderers for a Flutter web app.
+title: Web 渲染器
+description: 為 Flutter Web 應用程式選擇建置模式與渲染器。
 ---
 
-Flutter web offers two _build modes_, and two _renderers_.
-The two build modes are the **default** and **WebAssembly**,
-and the two renderers are **canvaskit** and **skwasm**.
+Flutter Web 提供兩種 _建置模式_ 以及兩種 _渲染器_。
+兩種建置模式分別為 **預設** 及 **WebAssembly**，
+而兩種渲染器則為 **canvaskit** 與 **skwasm**。
 
-Flutter chooses the build mode when building the app,
-and determines which renderers are available at runtime.
+Flutter 會在建置應用程式時選擇建置模式，
+並於執行階段決定可用的渲染器。
 
-For a default build,
-Flutter chooses the `canvaskit` renderer at runtime.
-For a WebAssembly build,
-Flutter chooses the `skwasm` renderer at runtime,
-and falls back to `canvaskit` if the browser doesn't support `skwasm`.
+在預設建置時，
+Flutter 會於執行階段選擇 `canvaskit` 渲染器。
+若為 WebAssembly 建置，
+Flutter 會於執行階段選擇 `skwasm` 渲染器，
+若瀏覽器不支援 `skwasm`，則會回退至 `canvaskit`。
 
-## Build modes
+## 建置模式
 
-### Default build mode
+### 預設建置模式
 
-Flutter chooses the default mode when the
-`flutter run` or `flutter build web` commands are
-used without passing `--wasm`, or when passing `--no-wasm`.
+當使用 `flutter run` 或 `flutter build web` 指令且未傳遞 `--wasm`，或有傳遞 `--no-wasm` 時，
+Flutter 會選擇預設模式。
 
-This build mode only uses the `canvaskit` renderer.
+此建置模式僅使用 `canvaskit` 渲染器。
 
-To run in a Chrome using the default build mode:
+若要在 Chrome 中以預設建置模式執行：
 
 ```console
 flutter run -d chrome
 ```
 
-To build your app for release using the default build mode:
+要使用預設的建置模式將您的應用程式建置為發行版本：
 
 ```console
 flutter build web
 ```
 
-### WebAssembly build mode
+### WebAssembly 建置模式
 
-This mode is enabled by passing `--wasm` to `flutter run` and
-`flutter build web` commands.
+啟用此模式時，需在 `flutter run` 和 `flutter build web` 指令中傳入 `--wasm`。
 
-This mode makes both `skwasm` and `canvaskit` available. `skwasm` requires
-[WasmGC][], which is not yet supported by all modern browsers.
-Therefore, at runtime Flutter chooses `skwasm` if garbage collection is
-supported, and falls back to `canvaskit` if not. This allows apps compiled in the
-WebAssembly mode to still run in all modern browsers.
+此模式會同時提供 `skwasm` 和 `canvaskit`。`skwasm` 需要 [WasmGC][]，而目前並非所有現代瀏覽器都支援該功能。因此，Flutter 會在執行時偵測是否支援垃圾回收（garbage collection），若支援則選擇 `skwasm`，否則則退回使用 `canvaskit`。這讓以 WebAssembly 模式編譯的應用程式仍可在所有現代瀏覽器中運作。
 
-The `--wasm` flag is not supported by non-web platforms.
+`--wasm` 旗標不支援非 Web 平台。
 
-To run in Chrome using the WebAssembly mode:
+若要在 Chrome 上以 WebAssembly 模式執行：
 
 ```console
 flutter run -d chrome --wasm
 ```
 
-To build your app for release using the WebAssembly mode:
+若要使用 WebAssembly 模式建置您的應用程式以進行發布：
 
 ```console
 flutter build web --wasm
 ```
 
-## Renderers
+## 渲染器
 
-Flutter has two renderers (`canvaskit` and `skwasm`)
-that re-implement the Flutter engine to run the browser.
-The renderer converts UI primitives (stored as `Scene` objects) into
-pixels.
+Flutter 有兩種渲染器（`canvaskit` 和 `skwasm`），
+這兩者都是為了在瀏覽器中運行而重新實作的 Flutter 引擎。
+渲染器 (renderer) 會將 UI 原語（以 `Scene` 物件儲存）轉換為像素。
 
 ### canvaskit
 
-The `canvaskit` renderer is compatible with all modern browsers, and is the
-renderer that is used in the _default_ build mode.
+`canvaskit` 渲染器相容於所有現代瀏覽器，並且是 _預設_ 建置模式下所使用的渲染器。
 
-It includes a copy of Skia compiled to WebAssembly, which adds
-about 1.5MB in download size.
+它包含一份以 WebAssembly 編譯的 Skia，這會增加約 1.5MB 的下載大小。
 
 ### skwasm
 
-The `skwasm` renderer is a more compact version of Skia
-that is compiled to WebAssembly and supports rendering on a separate thread.
+`skwasm` 渲染器是 Skia 的更精簡版本，
+同樣以 WebAssembly 編譯，並支援在獨立執行緒上進行渲染。
 
-This renderer must be used with the _WebAssembly_ build mode,
-which compiles the Dart code to WebAssembly.
+此渲染器必須搭配 _WebAssembly_ 建置模式使用，
+該模式會將 Dart 程式碼編譯為 WebAssembly。
 
-To take advantage of multiple threads,
-the web server must meet the [SharedArrayBuffer security requirements][].
-In this mode,
-Flutter uses a dedicated [web worker][] to offload part of the rendering
-workload to a separate thread,
-taking advantage of multiple CPU cores.
-If the browser does not meet these requirements,
-the `skwasm` renderer runs in a single-threaded configuration.
+若要利用多執行緒的優勢，
+Web 伺服器必須符合 [SharedArrayBuffer 安全性要求][SharedArrayBuffer security requirements]。
+在此模式下，
+Flutter 會使用專屬的 [web worker][]，將部分渲染工作負載分派到獨立執行緒，
+以善用多核心 CPU。
+如果瀏覽器不符合這些要求，
+`skwasm` 渲染器則會以單執行緒模式運作。
 
-This renderer includes a more compact version of Skia compiled to WebAssembly,
-adding about 1.1MB in download size.
+此渲染器包含以 WebAssembly 編譯的 Skia 精簡版本，
+會增加約 1.1MB 的下載大小。
 
-## Choosing a renderer at runtime
+## 執行階段選擇渲染器
 
-By default, when building in WebAssembly mode, Flutter will decide when to
-use `skwasm`, and when to fallback to `canvaskit`. This can be overridden by
-passing a configuration object to the loader, as follows:
+預設情況下，當以 WebAssembly 模式建置時，Flutter 會自動決定何時使用 `skwasm`，
+以及何時回退至 `canvaskit`。你可以透過傳遞設定物件給載入器來覆寫此行為，方法如下：
 
- 1. Build the app with the `--wasm` flag to make both `skwasm` and `canvaskit`
-    renderers available to the app.
- 1. Set up custom web app initialization as described in
-    [Write a custom `flutter_bootstrap.js`][custom-bootstrap].
- 1. Prepare a configuration object with the `renderer` property set to
-    `"canvaskit"` or `"skwasm"`.
- 1. Pass your prepared config object as the `config` property of
-    a new object to the `_flutter.loader.load` method that is
-    provided by the earlier injected code.
+ 1. 使用 `--wasm` 旗標建置應用程式，讓 `skwasm` 和 `canvaskit`
+    兩種渲染器都可供應用程式使用。
+ 1. 依照[撰寫自訂 `flutter_bootstrap.js`][custom-bootstrap] 的說明，設定自訂 web 應用程式初始化流程。
+ 1. 準備一個設定物件，並將 `renderer` 屬性設為
+    `"canvaskit"` 或 `"skwasm"`。
+ 1. 將你準備好的設定物件，作為新物件的 `config` 屬性，
+    傳遞給先前注入的程式碼所提供的 `_flutter.loader.load` 方法。
 
-Example:
+範例：
 
 ```html highlightLines=9-14
 <body>
@@ -135,41 +122,27 @@ Example:
 </body>
 ```
 
-The web renderer can't be changed after calling the `load` method. Therefore,
-any decisions about which renderer to use, must be made prior to calling
-`_flutter.loader.load`.
+在呼叫 `load` 方法後，網頁渲染器將無法變更。因此，任何關於選擇使用哪一種渲染器的決策，都必須在呼叫 `_flutter.loader.load` 之前完成。
 
 [custom-bootstrap]: /platform-integration/web/initialization#custom-bootstrap-js
 [customizing-web-init]: /platform-integration/web/initialization
 
-## Choosing which build mode to use
+## 選擇建置模式
 
-To compile Dart to WebAssembly,
-your app and its plugins / packages must meet the following requirements:
+若要將 Dart 編譯為 WebAssembly，您的應用程式及其插件／套件必須符合以下要求：
 
-- **Use new JS Interop** -
-  The code must only use the new JS interop library `dart:js_interop`. Old-style
-  `dart:js`, `dart:js_util`, and `package:js` are no longer supported.
-- **Use new Web APIs** -
-  Code using Web APIs must use the new `package:web` instead of `dart:html`.
-- **Number compatibility** -
-  WebAssembly implements Dart's numeric types `int` and `double` exactly the
-  same as the Dart VM. In JavaScript these types are emulated using the JS
-  `Number` type. It is possible that your code accidentally or purposefully
-  relies on the JS behavior for numbers. If so, such code needs to be updated to
-  behave correctly with the Dart VM behavior.
+- **使用新版 JS Interop** -
+  程式碼必須僅使用新版 JS interop 函式庫 `dart:js_interop`。舊式的 `dart:js`、`dart:js_util` 和 `package:js` 已不再支援。
+- **使用新版 Web API** -
+  使用 Web API 的程式碼必須改用新版 `package:web`，而非 `dart:html`。
+- **數值型別相容性** -
+  WebAssembly 對 Dart 的數值型別 `int` 和 `double` 的實作方式與 Dart VM 完全相同。在 JavaScript 中，這些型別則是以 JS `Number` 型別進行模擬。您的程式碼有可能無意間或刻意依賴了 JavaScript 處理數值的行為。如果有這種情況，則必須更新相關程式碼，以確保其行為與 Dart VM 一致。
 
-Use these tips to decide which mode to use:
+您可以依據以下建議來決定使用哪一種模式：
 
-* **Package support** - Choose the default mode if your app relies on plugins and packages that do
-  not yet support WebAssembly.
-* **Performance** -
-  Choose the WebAssembly mode if your app's code and packages are compatible
-  with WebAssembly and app performance is important. `skwasm` has noticeably
-  better app start-up time and frame performance compared to `canvaskit`.
-  `skwasm` is particularly effective in multi-threaded mode, so consider
-  configuring the server such that it meets the
-  [SharedArrayBuffer security requirements][].
+* **套件支援度** - 如果您的應用程式依賴尚未支援 WebAssembly 的插件或套件，請選擇預設模式。
+* **效能** -
+  如果您的應用程式程式碼及套件皆相容於 WebAssembly，且效能表現很重要，請選擇 WebAssembly 模式。`skwasm` 相較於 `canvaskit`，在應用程式啟動速度與畫面效能上有明顯提升。`skwasm` 在多執行緒模式下特別有效，因此建議您設定伺服器以符合 [SharedArrayBuffer 安全性需求][SharedArrayBuffer security requirements]。
 
 [canvaskit]: https://skia.org/docs/user/modules/canvaskit/
 [file an issue]: {{site.repo.flutter}}/issues/new?title=[web]:+%3Cdescribe+issue+here%3E&labels=%E2%98%B8+platform-web&body=Describe+your+issue+and+include+the+command+you%27re+running,+flutter_web%20version,+browser+version

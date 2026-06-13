@@ -1,6 +1,6 @@
 ---
-title: Flutter effects cookbook
+title: Flutter 效果 (Effects) 食譜
 shortTitle: Effects
-description: A catalog of recipes for adding effects to your Flutter app.
+description: 為您的 Flutter 應用程式新增效果的食譜目錄。
 layout: toc
 ---

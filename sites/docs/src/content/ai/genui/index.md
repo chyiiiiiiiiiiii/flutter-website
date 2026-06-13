@@ -1,61 +1,52 @@
 ---
-title: GenUI SDK for Flutter
+title: 適用於 Flutter 的 GenUI SDK
 sidenav: ai
 shortTitle: GenUI SDK
 description: >-
-  Learn how to use GenUI SDK for Flutter to build more
-  interactive experiences for applications and chatbots.
+  了解如何使用適用於 Flutter 的 GenUI SDK，為應用程式與聊天機器人打造更豐富的互動體驗。
 next:
   title: GenUI SDK main components & concepts
   path: /ai/genui/components
 ---
 
-## What is GenUI?
+## 什麼是 GenUI？ {:#what-is-genui}
 
-At its core, the GenUI SDK for Flutter is an orchestration layer.
-This suite of packages coordinates the flow of information between your user,
-your Flutter widgets, and an AI agent,
-transforming text-based conversations into rich, interactive experiences.
+適用於 Flutter 的 GenUI SDK 本質上是一個協調層 (orchestration layer)。
+這套套件組合協調使用者、Flutter 元件 (Widget) 與 AI 代理之間的資訊流，
+將以文字為基礎的對話轉化為豐富的互動體驗。
 
-Imagine that, instead of presenting your user with a wall of text,
-they are presented with a graphical UI consisting of (for example),
-a row of labeled buttons and a date picker.
+想像一下，您不再讓使用者面對一大段文字，
+而是呈現一個圖形化 UI，例如一排帶有標籤的按鈕和一個日期選擇器。
 
-The GenUI SDK for Flutter uses a JSON-based format to
-compose a UI from your existing
-widget catalog. As a user interacts with the UI,
-state changes are fed back to the agent,
-creating a high-bandwidth loop and turning
-an agent interaction into a rich, intuitive experience.
+適用於 Flutter 的 GenUI SDK 使用以 JSON 為基礎的格式，
+從您現有的元件目錄組合出 UI。
+當使用者與 UI 互動時，狀態變更會回傳給代理，
+形成高效的雙向循環，讓代理互動成為豐富且直觀的體驗。
 
-The GenUI SDK for Flutter is designed to easily integrate
-into your Flutter application.
+適用於 Flutter 的 GenUI SDK 設計成可輕鬆整合至您的 Flutter 應用程式。
 
-## When would you use it?
+## 何時使用？ {:#when-would-you-use-it}
 
-Use GenUI SDK for Flutter to incorporate graphical UI
-into your app.  For example:
+使用適用於 Flutter 的 GenUI SDK，可在您的應用程式中加入圖形化 UI。例如：
 
-* Instead of describing a list of products in text,
-  use it to render a clickable carousel of product widgets.
-* When a user asks to plan a trip, use it to generate a
-  complete form with sliders, date pickers, and text fields.
+* 不必用文字描述產品清單，
+  而是用它來渲染可點擊的產品元件輪播。
+* 當使用者詢問旅行規劃時，用它來產生
+  包含滑桿、日期選擇器和文字欄位的完整表單。
 
-For more context about GenUI SDK for Flutter,
-check out the [Getting started with GenUI video][]:
+若想進一步了解適用於 Flutter 的 GenUI SDK，
+請參考 [GenUI 入門影片][Getting started with GenUI video]：
 
 <YouTubeEmbed id="nWr6eZKM6no"
     title="Getting started with GenUI"></YouTubeEmbed>
 
-Also, check out the Flutter + A2UI = GenUI video from
-Google I/O 2026!
+另外，也歡迎觀看 Google I/O 2026 的 Flutter + A2UI = GenUI 影片！
 
 <YouTubeEmbed id="tXeyaV1gVJk"
     title="Flutter + A2UI = GenUI"></YouTubeEmbed>
 
 :::experimental
-The `genui` package is in
-alpha and is likely to change.
+`genui` 套件目前處於 alpha 階段，內容可能會有所變動。
 :::
 
 [Getting started with GenUI video]: https://www.youtube.com/watch?v=nWr6eZKM6no

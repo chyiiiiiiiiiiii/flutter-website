@@ -1,16 +1,9 @@
-The concept of an initial route is available when configuring a
-`FlutterActivity` or a `FlutterFragment` with a new `FlutterEngine`.
-However, `FlutterActivity` and `FlutterFragment` don't offer the
-concept of an initial route when using a cached engine.
-This is because a cached engine is expected to already be
-running Dart code, which means it's too late to configure the
-initial route.
+當你在設定 `FlutterActivity` 或 `FlutterFragment` 並搭配新的 `FlutterEngine` 時，可以使用初始路由 (initial route) 的概念。
+然而，`FlutterActivity` 與 `FlutterFragment` 在使用快取引擎 (cached engine) 時，並不支援初始路由的設定。
+這是因為快取引擎預期已經在執行 Dart 程式碼，也就是說，此時再設定初始路由已經太晚了。
 
-Developers that would like their cached engine to begin
-with a custom initial route can configure their cached
-`FlutterEngine` to use a custom initial route just before
-executing the Dart entrypoint. The following example
-demonstrates the use of an initial route with a cached engine:
+如果開發者希望他們的快取引擎能以自訂的初始路由啟動，可以在執行 Dart 進入點 (Dart entrypoint) 之前，設定他們的快取 `FlutterEngine` 使用自訂的初始路由。
+以下範例展示如何在快取引擎中使用初始路由：
 
 <Tabs key="android-language">
 <Tab name="Kotlin">
@@ -63,13 +56,8 @@ public class MyApplication extends Application {
 </Tab>
 </Tabs>
 
-By setting the initial route of the navigation channel, the associated
-`FlutterEngine` displays the desired route upon initial execution of the
-`runApp()` Dart function.
+透過設定 navigation channel 的初始路由，相關的
+`FlutterEngine` 在首次執行 `runApp()` Dart 函式時，會顯示指定的路由。
 
-Changing the initial route property of the navigation channel
-after the initial execution of `runApp()` has no effect.
-Developers who would like to use the same `FlutterEngine`
-between different `Activity`s and `Fragment`s and switch
-the route between those displays need to set up a method channel and
-explicitly instruct their Dart code to change `Navigator` routes.
+在首次執行 `runApp()` 之後，再變更 navigation channel 的初始路由屬性將不會產生任何效果。
+如果開發者希望在不同的 `Activity` 和 `Fragment` 之間共用同一個 `FlutterEngine`，並在這些顯示之間切換路由，則需要建立 method channel，並明確指示 Dart 程式碼切換 `Navigator` 路由。

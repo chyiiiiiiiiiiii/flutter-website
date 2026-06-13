@@ -1,30 +1,26 @@
 ---
-title: AI Evaluations
+title: AI 評估
 sidenav: ai
 description: >
-  Learn about Dart and Flutter's evaluation frameworks for measuring AI tooling
-  reliability.
+  了解 Dart 和 Flutter 用於衡量 AI 工具可靠性的評估框架。
 ---
 
 :::experimental
-Evaluation tooling and benchmarks are experimental and likely to change.
+評估工具和基準測試目前為實驗性功能，可能隨時變更。
 :::
 
-To explore the evaluation strategy,
-view the open-source dataset and scoring rubrics,
-or get involved with community benchmark datasets,
-visit the [Flutter Evals repository](https://github.com/flutter/evals).
+若要探索評估策略、查看開源資料集與評分準則，或參與社群基準測試資料集，
+請造訪 [Flutter Evals 程式碼庫](https://github.com/flutter/evals)。
 
-Evaluating the capabilities and reliability of AI agents requires testing
-approaches that model actual developer tasks.
-Because LLMs are non-deterministic,
-standard unit testing is insufficient for verifying agentic behaviors like
-codebase navigation, plan execution, and code synthesis.
+評估 AI 代理程式 (AI agents) 的能力與可靠性，需要採用能模擬實際開發者任務的測試方法。
+由於大型語言模型 (LLMs) 具有非確定性，
+標準單元測試不足以驗證代理行為，例如
+程式碼庫導覽、計畫執行與程式碼合成。
 
-To build developer confidence in AI tooling,
-Dart and Flutter use an evaluation system ("evals")
-to test critical user journeys (CUJs).
-Evals measure both deterministic code correctness
-(compilation, lints, automated tests) and qualitative performance
-(reasoning, safety, and conciseness) using automated model judges
-and expert human grading.
+為了建立開發者對 AI 工具的信心，
+Dart 和 Flutter 採用評估系統（以下簡稱「evals」）
+來測試關鍵使用者旅程 (CUJs)。
+Evals 透過自動化模型評判和專家人工評分，
+同時衡量確定性的程式碼正確性
+（編譯、靜態分析、自動化測試）與質化效能
+（推理能力、安全性與簡潔性）。

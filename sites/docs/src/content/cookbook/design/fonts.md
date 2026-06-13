@@ -1,140 +1,134 @@
 ---
-title: Use a custom font
-description: How to use custom fonts.
+title: 使用自訂字型
+description: 如何使用自訂字型。
 ---
 
 <?code-excerpt path-base="cookbook/design/fonts/"?>
 
-:::secondary What you'll learn
-* How to choose a font.
-* How to import font files.
-* How to set a font as a default.
-* How to use a font in a given widget.
+:::secondary 你將學到什麼
+* 如何選擇字型。
+* 如何匯入字型檔案。
+* 如何將字型設為預設。
+* 如何在特定元件（Widget）中使用字型。
 :::
 
-Although Android and iOS offer high quality system fonts,
-designers want support for custom fonts.
-You might have a custom-built font from a designer,
-or perhaps you downloaded a font from [Google Fonts][].
+雖然 Android 和 iOS 都提供高品質的系統字型，
+但設計師通常希望能支援自訂字型。
+你可能有設計師專門設計的自訂字型，
+或者你從 [Google Fonts][] 下載了字型。
 
-A typeface is the collection of glyphs or shapes that comprise
-a given style of lettering.
-A font is one representation of that typeface at a given weight or variation.
-Roboto is a typeface and Roboto Bold is a font.
+字體（typeface）是由一組字形（glyphs）或形狀組成的特定字母樣式集合。
+字型（font）則是在特定字重或變化下的字體表現形式。
+Roboto 是一種字體（typeface），而 Roboto Bold 則是一種字型（font）。
 
-Flutter lets you apply a custom font across an entire app or to individual widgets.
-This recipe creates an app that uses custom fonts with the following steps.
+Flutter 允許你將自訂字型套用到整個應用程式，或僅套用到個別元件 (Widget)。
+本教學將透過以下步驟建立一個使用自訂字型的應用程式：
 
-1. Choose your fonts.
-1. Import the font files.
-1. Declare the font in the pubspec.
-1. Set a font as the default.
-1. Use a font in a specific widget.
+1. 選擇你的字型。
+1. 匯入字型檔案。
+1. 在 pubspec 中宣告字型。
+1. 將字型設為預設。
+1. 在特定元件中使用字型。
 
-You don't need to follow each step as you go.
-The guide offers completed example files at the end.
+你不需要逐步跟著每個步驟操作，
+本指南在最後會提供完整的範例檔案。
 
 :::note
-This guide makes the following presumptions:
+本指南假設你已經完成以下事項：
 
-1. You've [set up your Flutter environment][].
-1. You've [created a new Flutter app][new-flutter-app] named `custom_fonts`.
-   If you haven't completed these steps yet, do so before continuing
-   with this guide.
-1. You're performing the provided commands in a macOS or Linux shell
-   and using `vi`. You can substitute any text editor for `vi`.
-   Windows users should use the appropriate commands and paths when
-   performing the steps.
-1. You're adding the Raleway and RobotoMono fonts to your Flutter app.
+1. 你已經[設定好你的 Flutter 開發環境][set up your Flutter environment]。
+1. 你已經[建立了一個新的 Flutter 應用程式][new-flutter-app]，名稱為 `custom_fonts`。
+   如果你還沒完成這些步驟，請先完成再繼續本指南。
+1. 你是在 macOS 或 Linux shell 中執行指令，並使用 `vi`。
+   你可以將任何文字編輯器替換為 `vi`。
+   Windows 使用者在執行步驟時，請使用適合的指令與路徑。
+1. 你要將 Raleway 和 RobotoMono 字型加入你的 Flutter 應用程式。
 :::
 
 [set up your Flutter environment]: /install
 [new-flutter-app]: /reference/create-new-app
 
-## Choose a font
+## 選擇字型
 
-Your choice of font should be more than a preference.
-Consider which file formats work with Flutter and
-how the font could affect design options and app performance.
+你對字型的選擇不僅僅是個人偏好。
+請考慮哪些檔案格式與 Flutter 相容，
+以及字型如何影響設計選項與應用程式效能。
 
-#### Pick a supported font format
+#### 選擇支援的字型格式
 
-Flutter supports the following font formats:
+Flutter 支援以下字型格式：
 
-* OpenType font collections: `.ttc`
-* TrueType fonts: `.ttf`
-* OpenType fonts: `.otf`
+* OpenType 字型集合：`.ttc`
+* TrueType 字型：`.ttf`
+* OpenType 字型：`.otf`
 
-Flutter does not support fonts in the Web Open Font Format,
-`.woff` and `.woff2`, on desktop platforms.
+Flutter 在桌面平台上不支援 Web Open Font Format，
+`.woff` 和 `.woff2`。
 
-#### Choose fonts for their specific benefits
+#### 根據特定優勢選擇字型
 
-Few sources agree on what a font file type is or which uses less space.
-The key difference between font file types involves how the format
-encodes the glyphs in the file.
-Most TrueType and OpenType font files have similar capabilities as they
-borrowed from each other as the formats and fonts improved over time.
+很少有資料來源對於什麼是字型檔案類型或哪種較省空間有一致看法。
+不同字型檔案類型的關鍵差異在於格式如何在檔案中編碼字形（glyphs）。
+大多數 TrueType 與 OpenType 字型檔案功能相似，
+因為隨著格式與字型的演進，彼此互相借鑑。
 
-Which font you should use depends on the following considerations.
+你該選擇哪種字型，需根據以下考量：
 
-* How much variation you need for fonts in your app?
-* How much file size you can accept fonts using in your app?
-* How many languages you need to support in your app?
+* 你的應用程式需要多少字型變化？
+* 你能接受字型在應用程式中佔用多少檔案大小？
+* 你的應用程式需要支援多少種語言？
 
-Research what options a given font offers,
-like more than one weight or style per font file,
-[variable font capability][variable-fonts],
-the availability of multiple font files for a multiple font weights,
-or more than one width per font.
+請研究每種字型所提供的選項，
+例如每個字型檔案是否支援多種字重或樣式、
+[可變字型功能][variable-fonts]、
+是否有多個字型檔案對應多種字重，
+或是否支援多種字寬。
 
-Choose the typeface or font family that meets the design needs of your app.
+請選擇能滿足你應用程式設計需求的字體（typeface）或字型家族（font family）。
 
 :::secondary
-To learn how to get direct access to over 1,000 open-sourced font families,
-check out the [google_fonts][] package.
+若想了解如何直接取得超過 1,000 種開源字型家族，
+請參考 [google_fonts][] 套件。
 
 <YouTubeEmbed id="8Vzv2CdbEY0"
   title="google_fonts | Flutter package of the week"></YouTubeEmbed>
 
-To learn about another approach to using custom fonts that allows you to
-re-use one font over multiple projects,
-check out [Export fonts from a package][].
+若想了解另一種可讓你在多個專案間重複使用同一字型的自訂字型用法，
+請參考[從套件匯出字型][Export fonts from a package]。
 :::
 
-## Import the font files
+## 匯入字型檔案
 
-To work with a font, import its font files into your Flutter project.
+要在 Flutter 專案中使用字型，需先將其字型檔案匯入專案。
 
-To import font files, perform the following steps.
+請依照以下步驟匯入字型檔案：
 
-1. If necessary, to match the remaining steps in this guide,
-   change the name of your Flutter app to `custom_fonts`.
+1. 若有需要，為了與本指南後續步驟一致，
+   請將你的 Flutter 應用程式名稱更改為 `custom_fonts`。
 
    ```console
    $ mv /path/to/my_app /path/to/custom_fonts
    ```
 
-1. Navigate to the root of your Flutter project.
+1. 前往你的 Flutter 專案根目錄。
 
    ```console
    $ cd /path/to/custom_fonts
    ```
 
-1. Create a `fonts` directory at the root of your Flutter project.
+1. 在你的 Flutter 專案根目錄下建立一個 `fonts` 目錄。
 
    ```console
    $ mkdir fonts
    ```
 
-1. Move or copy the font files in a `fonts` or `assets`
-   folder at the root of your Flutter project.
+1. 將字型檔案移動或複製到 Flutter 專案根目錄下的 `fonts` 或 `assets` 目錄中。
 
    ```console
    $ cp ~/Downloads/*.ttf ./fonts
    ```
 
-The resulting folder structure should resemble the following:
+最終的資料夾結構應該如下所示：
 
 ```plaintext
 custom_fonts/
@@ -145,24 +139,24 @@ custom_fonts/
   |- RobotoMono-Bold.ttf
 ```
 
-## Declare the font in the pubspec.yaml file
+## 在 pubspec.yaml（設定檔）中宣告字型
 
-After you've downloaded a font,
-include a font definition in the `pubspec.yaml` file.
-This font definition also specifies which font file should be used to
-render a given weight or style in your app.
+下載字型後，
+請在 `pubspec.yaml` 檔案中加入字型定義。
+這個字型定義同時指定了在你的應用程式中，
+針對不同字重或樣式應該使用哪個字型檔案來呈現。
 
-### Define fonts in the `pubspec.yaml` file
+### 在 `pubspec.yaml` 檔案中定義字型
 
-To add font files to your Flutter app, complete the following steps.
+若要將字型檔案加入你的 Flutter 應用程式，請依照以下步驟操作。
 
-1. Open the `pubspec.yaml` file at the root of your Flutter project.
+1. 在你的 Flutter 專案根目錄下，開啟 `pubspec.yaml` 檔案。
 
    ```console
    $ vi pubspec.yaml
    ```
 
-1. Paste the following YAML block after the `flutter` declaration.
+1. 將以下 YAML 區塊貼在 `flutter` 宣告之後。
 
    ```yaml
      fonts:
@@ -178,93 +172,84 @@ To add font files to your Flutter app, complete the following steps.
              weight: 700
    ```
 
-This `pubspec.yaml` file defines the italic style for the
-`Raleway` font family as the `Raleway-Italic.ttf` font file.
-When you set `style: TextStyle(fontStyle: FontStyle.italic)`,
-Flutter swaps `Raleway-Regular` with `Raleway-Italic`.
+這個 `pubspec.yaml` 檔案定義了 `Raleway` 字型家族的斜體樣式，對應的字型檔案為 `Raleway-Italic.ttf`。
+當你設定 `style: TextStyle(fontStyle: FontStyle.italic)` 時，
+Flutter 會將 `Raleway-Regular` 替換為 `Raleway-Italic`。
 
-The `family` value sets the name of the typeface.
-You use this name in the [`fontFamily`][] property of a [`TextStyle`][] object.
+`family` 值設定了字型的名稱。
+你可以在 [`fontFamily`][] 屬性中，於 [`TextStyle`][] 物件使用這個名稱。
 
-The value of an `asset` is a relative path from the `pubspec.yaml` file
-to the font file.
-These files contain the outlines for the glyphs in the font.
-When building the app,
-Flutter includes these files in the app's asset bundle.
+`asset` 的值是從 `pubspec.yaml` 檔案到字型檔案的相對路徑。
+這些檔案包含了字型中字形（glyphs）的輪廓。
+在建置應用程式時，
+Flutter 會將這些檔案包含在應用程式的資源包（asset bundle）中。
 
-### Include font files for each font
+### 為每種字型包含字型檔案
 
-Different typefaces implement font files in different ways.
-If you need a typeface with a variety of font weights and styles,
-choose and import font files that represent that variety.
+不同的字型設計會以不同方式實作字型檔案。
+如果你需要一個有多種字重與樣式的字型，
+請選擇並匯入能代表這些變化的字型檔案。
 
-When you import a font file that doesn't include either multiple fonts
-within it or variable font capabilities,
-don't use the `style` or `weight` property to adjust how they display.
-If you use those properties on a regular font file,
-Flutter attempts to _simulate_ the look.
-The visual result will look quite different from using the correct font file.
+當你匯入的字型檔案本身不包含多種字型或可變字型（variable font）功能時，
+請不要使用 `style` 或 `weight` 屬性來調整顯示方式。
+如果你在一般字型檔案上使用這些屬性，
+Flutter 會嘗試_模擬_該外觀。
+這樣的視覺效果會與使用正確字型檔案時有明顯差異。
 
-### Declare styles and weights
+### 宣告樣式與字重
 
-Flutter doesn't infer a font's weight or style from its file name.
-To use a specific weight or style, you must explicitly declare the `weight`
-or `style` property for that font file in your `pubspec.yaml`.
+Flutter 不會從字型檔名推斷字型的字重或樣式。
+若要使用特定字重或樣式，你必須在 `pubspec.yaml` 中為該字型檔案明確宣告 `weight` 或 `style` 屬性。
 
-#### Set font weight
+#### 設定字型粗細（weight）
 
-The `weight` property specifies the weight of the outlines in
-the file as an integer multiple of 100, between 100 and 900.
-These values correspond to the [`FontWeight`][] and can be used in the
-[`fontWeight`][fontWeight property] property of a [`TextStyle`][] object.
+`weight` 屬性以 100 到 900 之間、100 的整數倍指定檔案中字形輪廓的粗細。
+這些值對應到 [`FontWeight`][]，並可用於
+[`fontWeight`][fontWeight property] 屬性，於 [`TextStyle`][] 物件中。
 
-In the `pubspec.yaml` shown in this guide,
-you defined `RobotoMono-Bold` as the `700` weight of the font family.
-To use the `RobotoMono-Bold` font that you added to your app,
-set `fontWeight` to `FontWeight.w700` in your `TextStyle` widget.
+在本指南中展示的 `pubspec.yaml`，
+你已將 `RobotoMono-Bold` 定義為該字型家族的 `700` 粗細。
+若要使用你加入應用程式的 `RobotoMono-Bold` 字型，
+請在 `TextStyle` 元件中將 `fontWeight` 設為 `FontWeight.w700`。
 
-If you hadn't added `RobotoMono-Bold` to your app and declared its weight,
-Flutter attempts to make the regular font _look_ bold.
-The text then might appear to be somewhat darker.
+如果你沒有將 `RobotoMono-Bold` 加入應用程式並宣告其字重，
+Flutter 會嘗試讓字型看起來較粗（bold）。
+這樣文字可能會顯得較深色。
 
-You can't use the `weight` property to override the weight of the font.
-You can't set `RobotoMono-Bold` to any other weight than `700`.
-If you set `TextStyle(fontFamily: 'RobotoMono', fontWeight: FontWeight.w900)`,
-the displayed font would still render as however bold `RobotoMono-Bold` looks.
+你無法使用 `weight` 屬性來覆蓋字型的粗細。
+你不能將 `RobotoMono-Bold` 設為 `700` 以外的其他粗細。
+即使你設定了 `TextStyle(fontFamily: 'RobotoMono', fontWeight: FontWeight.w900)`，
+實際顯示的字型仍會以 `RobotoMono-Bold` 的粗細呈現。
 
-#### Set font style
+#### 設定字型樣式（style）
 
-The `style` property specifies whether the glyphs in the font file display as
-either `italic` or `normal`.
-These values correspond to the [`FontStyle`][].
-You can use these styles in the [`fontStyle`][fontStyle property] property
-of a [`TextStyle`][] object.
+`style` 屬性用來指定字型檔案中的字形顯示為 `italic` 或 `normal`。
+這些值對應到 [`FontStyle`][]。
+你可以在 [`TextStyle`][] 物件的 [`fontStyle`][fontStyle property] 屬性中使用這些樣式。
 
-In the `pubspec.yaml` shown in this guide,
-you defined `Raleway-Italic` as being in the `italic` style.
-To use the `Raleway-Italic` font that you added to your app,
-set `style: TextStyle(fontStyle: FontStyle.italic)`.
-Flutter swaps `Raleway-Regular` with `Raleway-Italic` when rendering.
+在本指南展示的 `pubspec.yaml` 中，
+你已將 `Raleway-Italic` 定義為 `italic` 樣式。
+若要使用你加入應用程式的 `Raleway-Italic` 字型，
+請設定 `style: TextStyle(fontStyle: FontStyle.italic)`。
+Flutter 在渲染時會將 `Raleway-Regular` 替換為 `Raleway-Italic`。
 
-If you hadn't added `Raleway-Italic` to your app and declared its style,
-Flutter attempts to make the regular font _look_ italic.
-The text then might appear to be leaning to the right.
+如果你沒有將 `Raleway-Italic` 加入應用程式，
+Flutter 會嘗試讓字型_看起來_像斜體。
+這樣的文字可能會向右傾斜。
 
-You can't use the `style` property to override the glyphs of a font.
-If you set `TextStyle(fontFamily: 'Raleway', fontStyle: FontStyle.normal)`,
-the displayed font would still render as italic.
-The `regular` style of an italic font _is_ italic.
+你無法使用 `style` 屬性來覆蓋字型的字形。
+即使你設定了 `TextStyle(fontFamily: 'Raleway', fontStyle: FontStyle.normal)`，
+實際顯示的字型仍會以斜體方式呈現。
+斜體字型的 `regular` 樣式本身就是斜體。
 
-## Set a font as the default
+## 設定預設字型
 
-To apply a font to text, you can set the font as the app's default font
-in its `theme`.
+若要將字型套用於文字，你可以在應用程式的 `theme` 中將其設為預設字型。
 
-To set a default font, set the `fontFamily` property in the app's `theme`.
-Match the `fontFamily` value to the `family` name declared in the
-`pubspec.yaml` file.
+要設定預設字型，請在應用程式的 `theme` 中設定 `fontFamily` 屬性。
+`fontFamily` 的值需與 `pubspec.yaml` 檔案中宣告的 `family` 名稱相符。
 
-The result would resemble the following code.
+其結果會類似以下程式碼。
 
 <?code-excerpt "lib/main.dart (MaterialApp)"?>
 ```dart
@@ -276,20 +261,20 @@ return MaterialApp(
 );
 ```
 
-To learn more about themes,
-check out the [Using Themes to share colors and font styles][] recipe.
+想進一步了解主題化（theming），
+請參考[使用主題共享顏色和字型樣式][Using Themes to share colors and font styles]教學。
 
-## Set the font in a specific widget
+## 在特定元件（Widget）中設定字型
 
-To apply the font to a specific widget like a `Text` widget,
-provide a [`TextStyle`][] to the widget.
+若要將字型應用於特定元件（Widget），如 `Text` 元件，
+請為該元件提供一個 [`TextStyle`][]。
 
-For this guide,
-try to apply the `RobotoMono` font to a single `Text` widget.
-Match the `fontFamily` value to the `family` name declared in the
-`pubspec.yaml` file.
+在本指南中，
+請嘗試將 `RobotoMono` 字型應用於單一 `Text` 元件。
+請將 `fontFamily` 的值設定為在
+`pubspec.yaml` 檔案中宣告的 `family` 名稱。
 
-The result would resemble the following code.
+最終效果會類似下方的程式碼。
 
 <?code-excerpt "lib/main.dart (Text)"?>
 ```dart
@@ -300,28 +285,26 @@ child: Text(
 ```
 
 :::important
-If a [`TextStyle`][] object specifies a weight or style without a
-corresponding font file, the engine uses a generic file for the font
-and attempts to extrapolate outlines for the requested weight and style.
+如果一個 [`TextStyle`][] 物件指定了字重（weight）或字型樣式（style），但沒有對應的字型檔案，Flutter 引擎會使用通用的字型檔案，並嘗試推算出所要求的字重和樣式的輪廓。
 
-Avoid relying on this capability. Import the proper font file instead.
+請避免依賴這項功能。建議直接匯入正確的字型檔案。
 :::
 
-## Try the complete example
+## 嘗試完整範例
 
-### Download fonts
+### 下載字型
 
-Download the Raleway and RobotoMono font files from [Google Fonts][].
+從 [Google Fonts][] 下載 Raleway 和 RobotoMono 字型檔案。
 
-### Update the `pubspec.yaml` file
+### 更新 `pubspec.yaml` 檔案
 
-1. Open the `pubspec.yaml` file at the root of your Flutter project.
+1. 開啟你 Flutter 專案根目錄下的 `pubspec.yaml` 檔案。
 
    ```console
    $ vi pubspec.yaml
    ```
 
-1. Replace its contents with the following YAML.
+1. 將其內容替換為以下 YAML。
 
    ```yaml
    name: custom_fonts
@@ -350,15 +333,15 @@ Download the Raleway and RobotoMono font files from [Google Fonts][].
      uses-material-design: true
    ```
 
-### Use this `main.dart` file
+### 使用這個 `main.dart` 檔案
 
-1. Open the `main.dart` file in the `lib/` directory of your Flutter project.
+1. 在你的 Flutter 專案中的 `lib/` 目錄下，打開 `main.dart` 檔案。
 
    ```console
    $ vi lib/main.dart
    ```
 
-1. Replace its contents with the following Dart code.
+1. 將其內容替換為以下 Dart 程式碼。
 
    <?code-excerpt "lib/main.dart"?>
    ```dart
@@ -400,9 +383,9 @@ Download the Raleway and RobotoMono font files from [Google Fonts][].
    }
    ```
 
-The resulting Flutter app should display the following screen.
+最終的 Flutter 應用程式應該會顯示以下螢幕畫面。
 
-![Custom Fonts Demo](/assets/images/docs/cookbook/fonts.png){:.site-mobile-screenshot}
+![自訂字型示範](/assets/images/docs/cookbook/fonts.png){:.site-mobile-screenshot}
 
 [variable-fonts]: https://fonts.google.com/knowledge/introducing_type/introducing_variable_fonts
 [Export fonts from a package]: /cookbook/design/package-fonts

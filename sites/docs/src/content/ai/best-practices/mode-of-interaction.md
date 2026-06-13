@@ -1,9 +1,8 @@
 ---
-title: Mode of interaction
+title: 互動模式
 sidenav: ai
 description: >
-  Learn to balance LLM capabilities with traditional code and implement 
-  guardrails to manage nondeterministic AI behavior.
+  學習如何平衡 LLM 能力與傳統程式碼，並實作防護機制來管理 AI 的非確定性行為。
 prev:
   title: Tool calls (aka function calls)
   path: /ai/best-practices/tool-calls
@@ -13,97 +12,51 @@ next:
 ---
 
 
-It's a mistake to think of a request to an LLM in the same way as calling a
-function. Given the same set of inputs in the same order, a function acts
-predictably. We can write tests and inject faults and harden a function for a
-wide variety of inputs.
+將向 LLM 發出請求的方式，與呼叫一個函式等同看待，是一種常見的錯誤。給定相同順序的相同輸入，函式的行為是可預測的。我們可以撰寫測試、注入錯誤，並針對各種輸入對函式進行強化。
 
-An LLM is not like that. A better way to think about it is as if the LLM were a
-user and to treat the data we get from them as such. Like a user, an LLM is
-nondeterministic, often wrong (partially or wholly) and sometimes plain random.
-To guard our apps under these conditions, we need to build the same guardrails
-around LLM input as we do around user input.
+LLM 並非如此。更好的思考方式是把 LLM 當作一位使用者，並以對待使用者資料的方式來處理從 LLM 取得的資料。就像使用者一樣，LLM 是非確定性 (nondeterministic) 的，常常出錯（部分或完全錯誤），有時甚至完全隨機。為了在這些條件下保護我們的應用程式，我們需要在 LLM 輸入周圍建立與使用者輸入相同的防護機制 (guardrails)。
 
-If we can do that successfully, then we can bring extraordinary abilities to
-apps in the form of problem solving and creativity that can rival that of a
-human.
+如果我們能夠成功做到這一點，就能以媲美人類的問題解決能力與創造力，為應用程式帶來非凡的能力。
 
-### Separation of concerns
+### 關注點分離
 
-LLMs are good at some things and bad at others; the key is to bring them into
-your apps for the good while mitigating the bad. As an example, let's consider
-the task list in the Crossword Companion:
+LLM 在某些事情上表現出色，在另一些事情上則較弱；關鍵在於引入它們擅長的部分，同時降低其不足之處的影響。以 Crossword Companion 中的任務列表為例：
 
 <img
 src="/assets/images/docs/ai-best-practices/crossword-task-list-showing-solved-clues.png"
 alt="Crossword task list showing solved clues in green with confidence
 percentages and unsolved clues in red">
 
-The task list is the set of clues that need solving. The goal is to use colors
-and solutions in the task list to show progress during the solving process. The
-initial implementation provided the model with a tool for managing the task
-list, asking it to provide updates on progress as it went. Flash could not solve
-the puzzle this way, but Pro could. Unfortunately, it solved it in big chunks,
-only remembering to update the task list once or twice with a big delay in
-between. No amount of prompting could convince it to update the tasks as it
-went. You'll see the same behavior with modern AI agents managing their own task
-lists; that's just where we are in the evolution of LLMs at the moment.
+任務列表是需要求解的線索集合。目標是在解題過程中，利用任務列表中的顏色與解答來顯示進度。最初的實作方式是為模型提供一個管理任務列表的工具，並要求它在解題過程中持續更新進度。Flash 無法用這種方式解開謎題，但 Pro 可以。不幸的是，它是以大片段的方式解題，只偶爾更新任務列表一兩次，且中間存在較長的延遲。無論如何調整提示 (prompt)，都無法讓它在解題過程中持續更新任務。你在現代 AI 代理人 (AI agents) 管理自己任務列表時也會看到相同的行為；這就是 LLM 目前演進所處的階段。
 
-So how do we get consistent, deterministic updates of the task list? Take task
-management out of the LLM's hands and handle it in the code.
+那麼，如何才能獲得一致且確定性的任務列表更新呢？答案是把任務管理從 LLM 手中取出，改由程式碼處理。
 
-To generalize, before applying an LLM solution to a problem you're facing, ask yourself whether an LLM is the best tool for the job. Is human-like problem solving and creativity worth the tradeoff in unpredictability?
+更概括地說，在將 LLM 解決方案應用於所面臨的問題之前，請先問問自己：LLM 是否是完成這項工作的最佳工具？類似人類的問題解決能力與創造力，是否值得換取不可預測性的代價？
 
-The answer to that question comes with experimentation. Here are some examples
-from the sample:
+這個問題的答案需要透過實驗來取得。以下是範例中的一些例子：
 
-| Task                                              | LLM Suitability                                              | Code Suitability                                                                  |
-| ------------------------------------------------- | ------------------------------------------------------------ | --------------------------------------------------------------------------------- |
-| **Parsing the grid for size, contents and clues** | Great for an LLM by using  vision and language understanding | Difficult to write the code to do this                                            |
-| **Validating grid contents**                      | Possible to do with another LLM checking the work            | Easier for a human to glance at and adjust                                        |
-| **Handling the task list**                        | An LLM is unlikely to do this consistently                   | Easy to write the code to loop through a task list, updating as it goes           |
-| **Solving each clue**                             | Great for an LLM using language understanding and generation | Difficult to do given real world clues that depend on word play, names, and slang |
-| **Resolving conflicts**                           | An LLM is inconsistent on this kind of looping               | Easy for a human to glance at and adjust                                          |
+| 任務                             | LLM 適用性                                              | 程式碼適用性                                                                  |
+| -------------------------------- | ------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| **解析網格的大小、內容與線索**   | 非常適合 LLM，利用視覺與語言理解能力                    | 撰寫相應程式碼的難度較高                                                      |
+| **驗證網格內容**                 | 可透過另一個 LLM 進行檢查                               | 讓人類瀏覽並調整更為容易                                                      |
+| **處理任務列表**                 | LLM 不太可能一致地完成此任務                            | 撰寫迴圈遍歷任務列表並持續更新的程式碼很容易                                  |
+| **求解每個線索**                 | 非常適合 LLM，利用語言理解與生成能力                    | 在涉及文字遊戲、人名和俚語的真實世界線索中，以程式碼實作相當困難              |
+| **解決衝突**                     | LLM 在這類迴圈處理上表現不一致                          | 讓人類瀏覽並調整更為容易                                                      |
 
-It's a judgement call for sure, but if you can reasonably write the code to do
-it, your results will be predictable. However, if writing the code would be
-unreasonably difficult, then consider an LLM, knowing you'll have to build the
-guardrails like we did in the sample.
+這確實需要判斷力，但如果你能合理地撰寫程式碼來完成，結果將是可預測的。然而，如果撰寫程式碼的難度過高，則可以考慮使用 LLM，同時了解你需要像範例中一樣建立防護機制。
 
-### Ask vs agent
+### 詢問模式 vs. 代理人模式
 
-There's more than just one pivot to consider besides code vs. LLM. Models
-operate in roughly two modes: "ask" and "agent".
+除了程式碼與 LLM 的選擇之外，還有另一個維度需要考量。模型大致上以兩種模式運作：「詢問 (ask)」模式與「代理人 (agent)」模式。
 
-A LLM is in "ask" mode when we prompt it without giving it tools to affect
-change in the world, for example, no tools at all or tools just for looking up
-data. Both the crossword interference model and clue solver models run in ask
-mode, using tools only for additional data.
+當我們在沒有提供工具來影響外部世界的情況下對 LLM 進行提示時，LLM 處於「詢問」模式，例如完全不提供工具，或只提供用於查詢資料的工具。Crossword Companion 中的干擾模型與線索求解模型都以詢問模式運作，僅使用工具來獲取額外資料。
 
-On the other hand, when we give an LLM a set of tools that allow it to operate
-on our behalf in the world – like reading and writing files, executing bash
-commands, loading web pages, calling web APIs, and so on – that LLM is in
-"agent" mode.
+另一方面，當我們為 LLM 提供一組允許它代替我們在外部世界操作的工具時——例如讀寫檔案、執行 bash 指令、載入網頁、呼叫 Web API 等——該 LLM 就處於「代理人」模式。
 
-### Guardrails
+### 防護機制
 
-The difference between ask and agent mode is not the model you choose or the
-prompts you give it, but the tools you supply. The combination of the tools and
-the agentic loop described in the Tool calls section allow an LLM to call any
-number of those tools as often as it decides. Giving it that power puts the
-responsibility on you to make sure you treat it as unpredictable; more like a
-person than a program.
+詢問模式與代理人模式之間的差異，不在於你選擇的模型或給予的提示，而在於你提供的工具。工具的組合，以及在工具呼叫 (Tool calls) 章節中描述的代理迴圈 (agentic loop)，允許 LLM 按其判斷隨時呼叫任意數量的工具。賦予它這種能力，就把責任轉移到你身上——你必須確保將它視為不可預測的對象；更像一個人，而不是一個程式。
 
-You do that the same way that you validate user input, by building up a suite of
-tests to see how your app works against LLM responses. Give real LLMs a wide
-variety of prompts and mock the tools to evaluate how the LLM is using them.
-Like your first user testing experience, your first LLM testing results might
-surprise you. Use that data to build the guardrails you need to harden your app.
+你可以用與驗證使用者輸入相同的方式來做到這一點：建立一套測試，以評估應用程式在面對 LLM 回應時的表現。向真實的 LLM 提供各種各樣的提示，並模擬 (mock) 工具來評估 LLM 使用它們的方式。就像你第一次使用者測試的經驗一樣，第一次的 LLM 測試結果可能會讓你大吃一驚。利用這些資料來建立你所需的防護機制，以強化你的應用程式。
 
-In the sample, we didn't have to guard against harm, but we did have to guard
-against imperfect results. It was extensive testing against real-world data that
-led to the institution of human-in-the-loop guards against attempting to solve
-an invalid puzzle or conflicting solutions. In this way, Flutter and Firebase AI
-Logic make the perfect combination to harness the power of an LLM and bring
-unique capabilities to your apps.
-
+在範例中，我們不需要防範惡意行為，但確實需要防範不完美的結果。正是透過針對真實世界資料的大量測試，才促成了人在迴路 (human-in-the-loop) 防護機制的建立，以防止嘗試解開無效謎題或出現衝突解答。透過這種方式，Flutter 與 Firebase AI Logic 形成了完美的組合，能夠駕馭 LLM 的力量，並為你的應用程式帶來獨特的能力。

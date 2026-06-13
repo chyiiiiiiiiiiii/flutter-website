@@ -1,236 +1,130 @@
 ---
-title: Best practices for adaptive design
+title: 自適應設計最佳實踐
 description: >-
-  Summary of some of the best practices for adaptive design.
-shortTitle: Best practices
+  自適應設計的一些最佳實踐總結。
+shortTitle: 最佳實踐
 ---
 
-Recommended best practices for adaptive design include:
+自適應設計的推薦最佳實踐包括：
 
-## Design considerations
+## 設計考量
 
-### Break down your widgets
+### 拆解你的元件 (Widgets)
 
-While designing your app, try to break down large,
-complex widgets into smaller, simpler ones.
+在設計應用程式時，盡量將大型、複雜的元件 (Widgets) 拆解為更小、更簡單的元件。
 
-Refactoring widgets can reduce the complexity of
-adopting an adaptive UI by sharing core pieces of code.
-There are other benefits as well:
+重構元件 (Widgets) 可以透過共用核心程式碼片段，降低採用自適應 UI 的複雜度。這麼做還有其他好處：
 
-* On the performance side, having lots of small `const`
-  widgets improves rebuild times over having large,
-  complex widgets.
-* Flutter can reuse `const` widget instances,
-  while a larger complex widget has to be set up
-  for every rebuild.
-* From a code health perspective, organizing your UI
-  into smaller bite sized pieces helps keep the complexity
-  of each `Widget` down. A less-complex `Widget` is more readable,
-  easier to refactor, and less likely to have surprising behavior.
+* 就效能而言，擁有大量小型 `const` 元件 (Widgets) 比起大型、複雜的元件 (Widgets) 能提升重建速度。
+* Flutter 可以重複使用 `const` 元件 (Widget) 實例，而大型複雜元件在每次重建時都必須重新建立。
+* 從程式碼健康性的角度來看，將 UI 組織成小型、易於管理的片段，有助於降低每個 `Widget` 的複雜度。較不複雜的 `Widget` 更易於閱讀、重構，也較不容易出現意外行為。
 
-To learn more, check out the 3 steps of
-adaptive design in [General approach][].
+想進一步了解，請參考 [General approach][General approach] 中的自適應設計三步驟。
 
 [General approach]: /ui/adaptive-responsive/general
 
-### Design to the strengths of each form factor
+### 針對各種裝置型態發揮優勢設計
 
-Beyond screen size, you should also spend time
-considering the unique strengths and weaknesses
-of different form factors. It isn't always ideal
-for your multiplatform app to offer identical
-functionality everywhere. Consider whether it makes
-sense to focus on specific capabilities,
-or even remove certain features, on some device categories.
+除了螢幕尺寸外，你也應該花時間考慮不同裝置型態的獨特優勢與限制。多平台應用程式不一定要在所有平台都提供完全相同的功能。請思考在某些裝置類別上，是否更適合聚焦於特定功能，甚至移除某些功能。
 
-For example, mobile devices are portable and have cameras,
-but they aren't well suited for detailed creative work.
-With this in mind, you might focus more on capturing content
-and tagging it with location data for a mobile UI,
-but focus on organizing or manipulating that content
-for a tablet or desktop UI.
+舉例來說，行動裝置具備可攜性且有相機，但不適合進行細緻的創意工作。有鑑於此，你可以在行動裝置 UI 上著重於內容擷取與地點標記，而在平板或桌面 UI 上則專注於內容的整理與操作。
 
-Another example is leveraging the web's extremely low barrier
-for sharing. If you're deploying a web app,
-decide which [deep links][] to support,
-and design your navigation routes with those in mind.
+另一個例子是善用網頁平台極低的分享門檻。如果你要部署網頁應用程式，請決定要支援哪些[深層連結 (deep links)][deep links]，並以此設計你的導覽路由。
 
-The key takeaway here is to think about what each
-platform does best and see if there are unique capabilities
-you can leverage.
+這裡的重點是思考每個平台最擅長的地方，並尋找是否有獨特的能力可以加以利用。
 
 [deep links]: /ui/navigation/deep-linking
 
-### Solve touch first
+### 先解決觸控體驗
 
-Building a great touch UI can often be more difficult
-than a traditional desktop UI due, in part,
-to the lack of input accelerators like right-click,
-scroll wheel, or keyboard shortcuts.
+打造優秀的觸控 UI 往往比傳統桌面 UI 更具挑戰性，部分原因在於缺乏右鍵、滾輪或鍵盤快捷鍵等輸入加速器。
 
-One way to approach this challenge is to focus initially
-on a great touch-oriented UI. You can still do most of
-your testing using the desktop target for its iteration speed.
-But, remember to switch frequently to a mobile device to
-verify that everything feels right.
+面對這個挑戰，一個方法是先專注於設計出優良的觸控導向 UI。你仍然可以利用桌面目標平台進行大部分測試，以加快迭代速度。但請記得經常切換到行動裝置，確認一切操作體驗都正確。
 
-After you have the touch interface polished, you can tweak
-the visual density for mouse users, and then layer on all
-the additional inputs. Approach these other inputs as
-accelerator—alternatives that make a task faster.
-The important thing to consider is what a user expects
-when using a particular input device,
-and work to reflect that in your app.
+當觸控介面打磨完善後，你可以針對滑鼠使用者調整視覺密度，並逐步加入其他輸入方式。將這些輸入方式視為加速器——讓任務執行更快的替代方案。最重要的是，考慮使用者在使用特定輸入裝置時的預期，並在你的應用程式中體現這些預期。
 
-## Implementation details
+## 實作細節
 
-### Don't lock the orientation of your app.
+### 不要鎖定應用程式的螢幕方向
 
-An adaptive app should look good on windows of
-different sizes and shapes. While locking an app
-to portrait mode on phones can help narrow the scope
-of a minimum viable product, it can increase the
-effort required to make the app adaptive in the future.
+自適應應用程式應該能在不同尺寸與形狀的視窗下有良好表現。雖然在手機上將應用程式鎖定為直向模式有助於縮小最小可行產品（MVP）的範圍，但這會增加日後讓應用程式自適應的難度。
 
-For example, the assumption that phones will only
-render your app in a full screen portrait mode is
-not a guarantee. Multi window app support is becoming common,
-and foldables have many use cases that work best with
-multiple apps running side by side.
+例如，假設手機只會以全螢幕直向模式顯示你的應用程式，這並非保證。多視窗應用程式支援已越來越普遍，摺疊裝置也有許多最佳使用情境是多個應用程式並排運作。
 
-If you absolutely must lock your app in portrait mode (but don't),
-use the `Display` API instead of something like `MediaQuery`
-to get the physical dimensions of the screen.
+如果你真的必須將應用程式鎖定為直向模式（但不建議這麼做），請使用 `Display` API，而非像 `MediaQuery` 這類方法來取得螢幕的實體尺寸。
 
-To summarize:
+總結如下：
 
-  * Locked screens can be [an accessibility issue][] for some users
-  * Android large format tiers require portrait and landscape
-    support at the [lowest level][].
-  * Android devices can [override a locked screen][]
-  * Apple guidelines say [aim to support both orientations][]
+  * 鎖定螢幕方向可能對某些使用者造成[無障礙問題][an accessibility issue]
+  * Android 大尺寸裝置分級在[最低層級][lowest level]就要求支援直向與橫向
+  * Android 裝置可以[覆寫鎖定螢幕][override a locked screen]
+  * Apple 指南建議[盡量同時支援兩種方向][aim to support both orientations]
 
 [an accessibility issue]: https://www.w3.org/WAI/WCAG21/Understanding/orientation.html
 [aim to support both orientations]: https://www.w3.org/WAI/WCAG21/Understanding/orientation.html
 [lowest level]:  {{site.android-dev}}/docs/quality-guidelines/large-screen-app-quality#T3-8
 [override a locked screen]: {{site.android-dev}}/guide/topics/large-screens/large-screen-compatibility-mode#per-app_overrides
 
-### Avoid device orientation-based layouts
+### 避免以裝置方向為基礎的版面配置
 
-Avoid using `MediaQuery`'s orientation field
-or `OrientationBuilder` near the top of your widget tree
-to switch between different app layouts. This is
-similar to the guidance of not checking device types
-to determine screen size. The device's orientation also
-doesn't necessarily inform you of how much space your
-app window has.
+避免使用 `MediaQuery` 的 orientation 欄位，或在元件樹頂層附近使用 `OrientationBuilder` 來切換不同的應用程式版面配置。這與不建議檢查裝置類型來判斷螢幕尺寸的原則類似。裝置的方向並不一定能告訴你應用程式視窗實際擁有多少空間。
 
-Instead, use `MediaQuery`'s `sizeOf` or `LayoutBuilder`,
-as discussed in the [General approach][] page.
-Then use adaptive breakpoints like the ones that
-[Material][] recommends.
+請改用 `MediaQuery` 的 `sizeOf` 或 `LayoutBuilder`，如 [General approach][General approach] 頁面所述。然後使用像 [Material][Material] 推薦的自適應斷點。
 
 [General approach]: /ui/adaptive-responsive/general#
 [Material]: https://m3.material.io/foundations/layout/applying-layout/window-size-classes
 
-### Don't gobble up all of the horizontal space
+### 不要佔滿所有水平空間
 
-Apps that use the full width of the window to
-display boxes or text fields don't play well
-when these apps run on large screens.
+應用程式若將視窗的全部寬度用於顯示方塊或文字欄位，在大螢幕上體驗會很差。
 
-To learn how to avoid this,
-check out [Layout with GridView][].
+想了解如何避免這種情況，請參考 [Layout with GridView][Layout with GridView]。
 
 [Layout with GridView]: /ui/adaptive-responsive/large-screens#layout-with-gridview
 
-### Avoid checking for hardware types
+### 避免檢查硬體類型
 
-Avoid writing code that checks whether the device you're
-running on is a "phone" or a "tablet", or any other type
-of device when making layout decisions.
+在做版面配置決策時，避免撰寫檢查當前裝置是「手機」還是「平板」或其他類型裝置的程式碼。
 
-What space your app is actually given to render in
-isn't always tied to the full screen size of the device.
-Flutter can run on many different platforms,
-and your app might be running in a resizeable window on ChromeOS,
-side by side with another app on tablets in a multi-window mode,
-or even in a picture-in-picture on phones.
-Therefore, device type and app window size aren't
-really strongly connected.
+你的應用程式實際獲得的顯示空間，並不一定等於裝置的全螢幕尺寸。Flutter 可以在許多不同平台上執行，你的應用程式可能在 ChromeOS 上的可調整大小視窗中執行，也可能在平板的多視窗模式下與其他應用程式並排，甚至在手機上的子母畫面（picture-in-picture）中。因此，裝置類型與應用程式視窗大小並沒有強烈的關聯。
 
-Instead, use `MediaQuery` to get the size of the window
-your app is currently running in.
+請改用 `MediaQuery` 來取得應用程式目前運行視窗的尺寸。
 
-This isn't only helpful for UI code.
-To learn how abstracting out device
-capabilities can help your business logic code,
-check out the 2022 Google I/O talk,
-[Flutter lessons for federated plugin development][].
+這不僅對 UI 程式碼有幫助。想了解如何將裝置能力抽象化，有助於你的業務邏輯程式碼，請參考 2022 年 Google I/O 的演講：[Flutter lessons for federated plugin development][Flutter lessons for federated plugin development]。
 
 [Flutter lessons for federated plugin development]: {{site.youtube-site}}/watch?v=GAnSNplNpCA
 
-### Support a variety of input devices
+### 支援多種輸入裝置
 
-Apps should support basic mice, trackpads,
-and keyboard shortcuts. The most common user
-flows should support keyboard navigation
-to ensure accessibility. In particular,
-your app follow accessible best practices
-for keyboards on large devices.
+應用程式應該支援基本的滑鼠、觸控板與鍵盤快捷鍵。最常見的使用流程應支援鍵盤導覽，以確保無障礙性。特別是在大型裝置上，你的應用程式應遵循鍵盤無障礙最佳實踐。
 
-The Material library provides widgets with
-excellent default behavior for touch, mouse,
-and keyboard interaction.
+Material 函式庫提供了對觸控、滑鼠與鍵盤互動的優異預設行為元件 (Widgets)。
 
-To learn how to add this support to custom widgets,
-check out [User input & accessibility][].
+想了解如何為自訂元件 (Widgets) 加入這些支援，請參考 [User input & accessibility][User input & accessibility]。
 
 [User input & accessibility]: /ui/adaptive-responsive/input
 
-### Restore List state
+### 還原清單狀態
 
-To maintain the scroll position in a list
-that doesn't change its layout when the
-device's orientation changes,
-use the [`PageStorageKey`][] class.
-[`PageStorageKey`][] persists the
-widget state in storage after the widget is
-destroyed and restores state when recreated.
+若要在裝置方向改變時，維持清單的捲動位置（前提是清單版面配置未改變），請使用 [`PageStorageKey`][] 類別。[`PageStorageKey`][] 會在元件 (Widget) 被銷毀後將元件狀態持久化到儲存空間，並在重新建立時還原狀態。
 
-You can see an example of this in the [Wonderous app][],
-where it stores the list's state in the
-`SingleChildScrollView` widget.
+你可以在 [Wonderous app][Wonderous app] 中看到這個用法的範例，其將清單狀態儲存在 `SingleChildScrollView` 元件 (Widget) 中。
 
-If the `List` widget changes its layout
-when the device's orientation changes,
-you might have to do a bit of math ([example][])
-to change the scroll position on screen rotation.
+如果 `List` 元件 (Widget) 在裝置方向改變時會改變版面配置，你可能需要做一些運算（[範例][example]）來在螢幕旋轉時調整捲動位置。
 
 [example]: {{site.github}}/gskinnerTeam/flutter-wonderous-app/blob/34e49a08084fbbe69ed67be948ab00ef23819313/lib/ui/screens/collection/widgets/_collection_list.dart#L39
 [`PageStorageKey`]: {{site.api}}/flutter/widgets/PageStorageKey-class.html
 [Wonderous app]: {{site.github}}/gskinnerTeam/flutter-wonderous-app/blob/8a29d6709668980340b1b59c3d3588f123edd4d8/lib/ui/screens/wonder_events/widgets/_events_list.dart#L64
 
-## Save app state
+## 儲存應用程式狀態
 
-Apps should retain or restore [app state][]
-as the device rotates, changes window size,
-or folds and unfolds.
-By default, an app should maintain state.
+當裝置旋轉、改變視窗大小，或摺疊/展開時，應用程式應保留或還原[應用程式狀態][app state]。
+預設情況下，應用程式應維持狀態。
 
-If your app loses state during device configuration,
-verify that the plugins and native extensions
-that your app uses support the
-device type, such as a large screen.
-Some native extensions might lose state when the
-device changes position.
+如果你的應用程式在裝置設定變更時遺失狀態，請確認你所使用的插件與原生擴充元件支援該裝置類型，例如大型螢幕。有些原生擴充元件在裝置位置變更時可能會遺失狀態。
 
-For more information on a real-world case
-where this occurred, check out
-[Problem: Folding/unfolding causes state loss][state-loss]
-in [Developing Flutter apps for Large screens][article],
-a free article on Medium.
+想了解實際案例，請參考 Medium 免費文章 [Developing Flutter apps for Large screens][article] 中的
+[Problem: Folding/unfolding causes state loss][state-loss]。
 
 [app state]: {{site.android-dev}}/jetpack/compose/state#store-state
 [article]: {{site.flutter-blog}}/developing-flutter-apps-for-large-screens-53b7b0e17f10

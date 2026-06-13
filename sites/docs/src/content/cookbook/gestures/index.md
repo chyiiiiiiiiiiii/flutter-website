@@ -1,6 +1,6 @@
 ---
-title: Flutter gestures cookbook
-shortTitle: Gestures
-description: A catalog of Flutter recipes for supporting gestures.
+title: Flutter 手勢操作食譜
+shortTitle: 手勢操作
+description: 支援手勢的 Flutter 技巧目錄。
 layout: toc
 ---

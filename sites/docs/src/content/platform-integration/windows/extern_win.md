@@ -1,36 +1,29 @@
 ---
-title: External windows in Flutter Windows apps
-description: >-
-  Special considerations for adding external windows to Flutter apps
+title: 在 Flutter Windows 應用程式中使用外部視窗
+description: 在 Flutter 應用程式中新增外部視窗的特殊注意事項
 ---
 
-# Windows lifecycle
+# Windows 生命週期
 
-## Who is affected
+## 影響對象
 
-Windows applications built against Flutter versions after 3.13
-that open non-Flutter windows.
+使用 Flutter 3.13 之後版本建置，並且會開啟非 Flutter 視窗的 Windows 應用程式。
 
 
-## Overview
+## 概述
 
-When adding a non-Flutter window to a Flutter Windows app, it will not be part
-of the logic for application lifecycle state updates by default. For example,
-this means that when the external window is shown or hidden, the app lifecycle
-state won't appropriately update to inactive or hidden. As a result, the app
-might receive incorrect lifecycle state changes through
-[WidgetsBindingObserver.didChangeAppLifecycle][].
+當你在 Flutter Windows 應用程式中新增非 Flutter 視窗時，預設情況下該視窗不會被納入應用程式生命週期狀態更新的邏輯中。例如，這代表當外部視窗顯示或隱藏時，應用程式的生命週期狀態不會正確地更新為 inactive（非活動）或 hidden（隱藏）。因此，應用程式可能會透過
+[WidgetsBindingObserver.didChangeAppLifecycle][] 收到錯誤的生命週期狀態變更。
 
-# What do I need to do?
+# 我需要做什麼？
 
-To add the external window to this application logic,
-the window's `WndProc` procedure
-must invoke `FlutterEngine::ProcessExternalWindowMessage`.
+若要將外部視窗納入應用程式的這項邏輯中，
+該視窗的 `WndProc` 程序
+必須呼叫 `FlutterEngine::ProcessExternalWindowMessage`。
 
-To achieve this, add the following code to the message handler function
-of your custom external window. In C++ wrappers for the Win32 API,
-this is often a class method called from the window's `WndProc`.
-The exact file and class name depend on your app's implementation.
+為達成此目的，請將以下程式碼加入自訂外部視窗的訊息處理函式中。在 Win32 API 的 C++ 包裝器中，
+這通常是從視窗 `WndProc` 呼叫的類別方法。
+確切的檔案名稱與類別名稱取決於你的應用程式實作。
 
 ```cpp diff
   LRESULT MyExternalWindow::MessageHandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {

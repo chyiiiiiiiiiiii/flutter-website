@@ -1,27 +1,27 @@
 ---
-title: Configuring the URL strategy on the web
-description: Use hash or path URL strategies on the web
+title: 在網頁上設定 URL 策略
+description: 在網頁上使用 hash 或 path URL 策略
 ---
 
-Flutter web apps support two ways of configuring
-URL-based navigation on the web:
+Flutter 網頁應用程式支援兩種在網頁上設定
+基於 URL 的導覽方式：
 
-**Hash (default)**
-: Paths are read and written to the [hash fragment][].
-For example, `flutterexample.dev/#/path/to/screen`.
+**Hash（預設）**
+: 路徑會讀寫於 [hash fragment][hash fragment]。
+例如：`flutterexample.dev/#/path/to/screen`。
 
 **Path**
-:  Paths are read and written without a hash. For example,
-`flutterexample.dev/path/to/screen`.
+: 路徑會在沒有 hash 的情況下讀寫。例如：
+`flutterexample.dev/path/to/screen`。
 
-## Configuring the URL strategy
+## 設定 URL 策略
 
-To configure Flutter to use the path instead, use the
-[usePathUrlStrategy][] function provided by the [flutter_web_plugins][] library,
-which is part of the Flutter SDK.
+若要將 Flutter 設定為改用 path，請使用
+[usePathUrlStrategy][usePathUrlStrategy] 函式，該函式由 [flutter_web_plugins][flutter_web_plugins]（函式庫）提供，
+此函式庫是 Flutter SDK（Flutter 軟體開發套件）的一部分。
 
-You can't directly add `flutter_web_plugins` using `pub add`.
-Include it as a Flutter [SDK dependency][] in your `pubspec.yaml` file:
+你無法直接透過 `pub add` 新增 `flutter_web_plugins`。
+請在你的 `pubspec.yaml` 檔案中，將其作為 Flutter [SDK 相依性][SDK dependency] 引入：
 
 ```yaml highlightLines=4-5
 dependencies:
@@ -31,7 +31,7 @@ dependencies:
     sdk: flutter
 ```
 
-Then call the `usePathUrlStrategy` function before `runApp`:
+然後在`runApp`之前呼叫`usePathUrlStrategy`函式：
 
 ```dart highlightLines=4
 import 'package:flutter_web_plugins/url_strategy.dart';
@@ -44,35 +44,28 @@ void main() {
 
 [SDK dependency]: {{site.dart-site}}/tools/pub/dependencies#sdk
 
-## Configuring your web server
+## 設定你的網頁伺服器
 
-PathUrlStrategy uses the [History API][], which requires additional
-configuration for web servers.
+PathUrlStrategy 會使用 [History API][History API]，這需要對網頁伺服器進行額外設定。
 
-To configure your web server to support PathUrlStrategy, check your web server's
-documentation to rewrite requests to `index.html`. Check your web server's
-documentation for details on how to configure single-page apps.
+若要讓你的網頁伺服器支援 PathUrlStrategy，請參考你的網頁伺服器文件，將請求重新導向至 `index.html`。請查閱你的網頁伺服器文件，了解如何設定單頁應用程式（single-page app）。
 
-If you are using Firebase Hosting, choose the "Configure as a single-page app"
-option when initializing your project. For more information see Firebase's
-[Configure rewrites][] documentation.
+如果你使用的是 Firebase Hosting，初始化專案時請選擇「Configure as a single-page app」選項。更多資訊請參考 Firebase 的 [Configure rewrites][Configure rewrites] 文件。
 
-The local dev server created by running `flutter run -d chrome` is configured to
-handle any path gracefully and fallback to your app's `index.html` file.
+透過執行 `flutter run -d chrome` 建立的本地開發伺服器，已預設設定為能夠優雅處理任何路徑，並回退至你的應用程式的 `index.html` 檔案。
 
-## Hosting a Flutter app at a non-root location
+## 將 Flutter 應用程式部署於非根目錄
 
-Update the `<base href="/">` tag in `web/index.html`
-to the path where your app is hosted.
-For example, to host your Flutter app at
-`my_app.dev/flutter_app`, change
-this tag to `<base href="/flutter_app/">`.
+請將 `<base href="/">` 標籤於 `web/index.html`
+更新為你的應用程式所部署的路徑。
+例如，若要將你的 Flutter 應用程式部署於
+`my_app.dev/flutter_app`，請將
+此標籤改為 `<base href="/flutter_app/">`。
 
-Relative `base href` tags are supported for release builds but they must take
-into account the full URL where the page was served from.
-This means a relative `base href` for a request to `/flutter_app/`,
-`/flutter_app/nested/route`, and `/flutter_app/nested/route/` will be different
-(for example `"."`, `".."`, and `"../.."` respectively).
+發佈版本支援相對 `base href` 標籤，但必須考量到頁面實際服務的完整 URL。
+這代表針對 `/flutter_app/`、
+`/flutter_app/nested/route` 和 `/flutter_app/nested/route/` 的請求，其相對 `base href`
+會有所不同（例如分別為 `"."`、`".."` 和 `"../.."`）。
 
 [hash fragment]: https://en.wikipedia.org/wiki/Uniform_Resource_Locator#Syntax
 [`HashUrlStrategy`]: {{site.api}}/flutter/flutter_web_plugins/HashUrlStrategy-class.html

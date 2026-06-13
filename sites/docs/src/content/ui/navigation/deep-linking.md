@@ -1,43 +1,28 @@
 ---
-title: Deep linking
-description: Navigate to routes when the app receives a new URL.
+title: 深度連結
+description: 當應用程式收到新的 URL 時，導向至對應的路由。
 ---
 
-Deep links are links that not only open an app, but also take the
-user to a specific location "deep" inside the app. For example,
-a deep link from an advertisement for a pair of sneakers might open
-a shopping app and display the product page for those particular shoes.
+深層連結（deep links）是指不僅能開啟應用程式，還能將使用者導向應用程式內部特定位置的連結。例如，來自一則運動鞋廣告的深層連結可能會開啟購物應用程式，並直接顯示該雙鞋子的商品頁面。
 
-Flutter supports deep linking on iOS, Android, and the web.
-Opening a URL displays that screen in your app.
-With the following steps,
-you can launch and display routes by using named routes
-(either with the [`routes`][routes] parameter or
-[`onGenerateRoute`][onGenerateRoute]), or by
-using the [`Router`][Router] widget.
+Flutter 在 iOS、Android 以及網頁上皆支援深度連結。開啟一個 URL 會在你的應用程式中顯示對應的螢幕。透過以下步驟，你可以使用命名路由（named routes）（可透過 [`routes`][routes] 參數或 [`onGenerateRoute`][onGenerateRoute]），或是使用 [`Router`][Router] 元件（Widget）來啟動並顯示路由。
 
 :::note
-Named routes are no longer recommended for most
-applications. For more information, see
-[Limitations][] in the [navigation overview][] page.
+大多數應用程式已不再建議使用命名路由（named routes）。詳情請參閱 [navigation overview][navigation overview] 頁面中的 [Limitations][]。
 :::
 
 [Limitations]: /ui/navigation#limitations
 [navigation overview]: /ui/navigation
 
-If you're running the app in a web browser, there's no additional setup
-required. Route paths are handled in the same way as an iOS or Android deep
-link. By default, web apps read the deep link path from the url fragment using
-the pattern: `/#/path/to/app/screen`, but this can be changed by
-[configuring the URL strategy][] for your app.
+如果你在網頁瀏覽器中執行應用程式，則無需額外設定。路由路徑的處理方式與 iOS 或 Android 的深層連結相同。預設情況下，網頁應用程式會從 URL 的 hash fragment（雜湊片段）讀取深層連結路徑，使用的模式為：`/#/path/to/app/screen`，但你可以透過[設定 URL 策略][configuring the URL strategy]來變更此行為。
 
-If you are a visual learner, check out the following video:
+如果你偏好視覺化學習，歡迎觀看以下影片：
 
 <YouTubeEmbed id="KNAb2XL7k2g" title="Deep linking in Flutter"></YouTubeEmbed>
 
-## Get started
+## 開始使用 {:#get-started}
 
-To get started, see our cookbooks for Android and iOS:
+請參考我們針對 Android 與 iOS 的教學：
 
 <div class="card-grid">
   <a class="card outlined-card" href="/cookbook/navigation/set-up-app-links">
@@ -52,41 +37,30 @@ To get started, see our cookbooks for Android and iOS:
   </a>
 </div>
 
-## Migrating from plugin-based deep linking
+## 從基於插件的深度連結遷移
 
-If you have written a plugin to handle deep links, as described in
-[Deep Links and Flutter applications][plugin-linking]
-(a free article on Medium),
-you should opt out the Flutter's default deep link handler.
-To do this, set `FlutterDeepLinkingEnabled` to false in `Info.plist` _or_
-`flutter_deeplinking_enabled` to false in `AndroidManifest.xml`.
+如果你曾經依照 [Deep Links and Flutter applications][plugin-linking]（Medium 上的免費文章）撰寫插件來處理深層連結，則應該停用 Flutter 預設的深層連結處理器。你可以在 `Info.plist` 中將 `FlutterDeepLinkingEnabled` 設為 false，_或_ 在 `AndroidManifest.xml` 中將 `flutter_deeplinking_enabled` 設為 false。
 
-## Behavior
+## 行為說明
 
-The behavior varies slightly based on the platform and whether the app is
-launched and running.
+根據平台以及應用程式是否已啟動，行為會略有不同。
 
-| Platform / Scenario      | Using Navigator                                                     | Using Router                                                                                                                                                                                               |
-|--------------------------|---------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| iOS (not launched)       | App gets initialRoute ("/") and a short time after gets a pushRoute | App gets initialRoute ("/") and a short time after uses the RouteInformationParser to parse the route and call RouterDelegate.setNewRoutePath, which configures the Navigator with the corresponding Page. |
-| Android - (not launched) | App gets initialRoute containing the route ("/deeplink")            | App gets initialRoute ("/deeplink") and passes it to the RouteInformationParser to parse the route and call RouterDelegate.setNewRoutePath, which configures the Navigator with the corresponding Pages.   |
-| iOS (launched)           | pushRoute is called                                                 | Path is parsed, and the Navigator is configured with a new set of Pages.                                                                                                                                   |
-| Android (launched)       | pushRoute is called                                                 | Path is parsed, and the Navigator is configured with a new set of Pages.                                                                                                                                   |
+| 平台 / 情境                | 使用 Navigator                                                      | 使用 Router                                                                                                                                                                                                     |
+|----------------------------|---------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| iOS（未啟動）              | 應用程式會取得 initialRoute（"/"），並在短時間後收到 pushRoute        | 應用程式會取得 initialRoute（"/"），並在短時間後使用 RouteInformationParser 解析路由，然後呼叫 RouterDelegate.setNewRoutePath，將對應的 Page 設定給 Navigator。                                                 |
+| Android（未啟動）          | 應用程式會取得包含路由（"/deeplink"）的 initialRoute                | 應用程式會取得 initialRoute（"/deeplink"），並傳遞給 RouteInformationParser 解析路由，然後呼叫 RouterDelegate.setNewRoutePath，將對應的 Pages 設定給 Navigator。                                               |
+| iOS（已啟動）              | 會呼叫 pushRoute                                                    | 路徑會被解析，並以新的 Pages 集合設定 Navigator。                                                                                                                         |
+| Android（已啟動）          | 會呼叫 pushRoute                                                    | 路徑會被解析，並以新的 Pages 集合設定 Navigator。                                                                                                                         |
 
 {:.table .table-striped}
 
-When using the [`Router`][Router] widget,
-your app has the ability to replace the
-current set of pages when a new deep link
-is opened while the app is running.
+當你使用 [`Router`][Router] 元件（Widget）時，應用程式在執行期間若開啟新的深層連結，可以直接替換目前的 Pages 集合。
 
-## To learn more
+## 深入瞭解
 
-* [Learning Flutter's new navigation and routing system][] provides an
-introduction to the Router system.
-* [Deep dive into Flutter deep linking][io-dl] video from Google I/O 2023
-* [Flutter Deep Linking: The Ultimate Guide][],
-   a step-by-step tutorial showing how to implement deep links in Flutter.
+* [Learning Flutter's new navigation and routing system][] 介紹 Router 系統的基礎。
+* [Deep dive into Flutter deep linking][io-dl] —— 來自 Google I/O 2023 的影片
+* [Flutter Deep Linking: The Ultimate Guide][]，逐步教學如何在 Flutter 中實作深層連結。
 
 [io-dl]: {{site.yt.watch}}?v=6RxuDcs6jVw&t=3s
 [Learning Flutter's new navigation and routing system]: {{site.flutter-blog}}/learning-flutters-new-navigation-and-routing-system-7c9068155ade

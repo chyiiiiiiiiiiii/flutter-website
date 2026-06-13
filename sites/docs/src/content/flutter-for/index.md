@@ -1,10 +1,9 @@
 ---
-title: Learn Flutter when coming from another platform
+title: 從其他平台學習 Flutter
 shortTitle: Flutter for
 sitemap: false
 description: >-
-  Utilize your background developing for another platform
-  to learn the basics of Flutter!
-# This is a placeholder page (Firebase redirects this page's URL to another);
-# it is necessary to allow breadcrumbs to work.
+  善用你在其他平台開發的背景，快速學習 Flutter 的基礎知識！
+# 這是一個佔位頁面（Firebase 會將此頁面的 URL 重新導向至其他頁面）；
+# 這個頁面是為了讓導覽路徑（breadcrumbs）能正常運作而存在。
 ---

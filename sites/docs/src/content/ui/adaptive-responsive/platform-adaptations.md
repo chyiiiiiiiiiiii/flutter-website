@@ -1,36 +1,34 @@
 ---
-title: Automatic platform adaptations
-description: Learn more about Flutter's platform adaptiveness.
+title: 自動平台調適
+description: 進一步了解 Flutter 的平台適應性。
 ---
 
-## Adaptation philosophy
+## 調適理念
 
-In general, two cases of platform adaptiveness exist:
+一般來說，平台適應性有兩種情境：
 
-1. Things that are behaviors of the OS environment
-   (such as text editing and scrolling) and that
-   would be 'wrong' if a different behavior took place.
-2. Things that are conventionally implemented in apps using
-   the OEM's SDKs (such as using parallel tabs on iOS or
-   showing an [`android.app.AlertDialog`][] on Android).
+1. 屬於作業系統環境行為的事項
+   （例如文字編輯與滾動），
+   若出現不同行為會被視為「錯誤」。
+2. 傳統上在應用程式中，會依照 OEM 的 SDK
+   實作的事項（例如在 iOS 使用平行分頁標籤，
+   或在 Android 顯示 [`android.app.AlertDialog`][]）。
 
-This article mainly covers the automatic adaptations
-provided by Flutter in case 1 on Android and iOS.
+本文主要說明 Flutter 在 Android 與 iOS 上針對第一種情境所提供的自動調適。
 
-For case 2, Flutter bundles the means to produce the
-appropriate effects of the platform conventions but doesn't
-adapt automatically when app design choices are needed.
-For a discussion, see [issue #8410][] and the
-[Material/Cupertino adaptive widget problem definition][].
+針對第二種情境，Flutter 提供產生符合平台慣例效果的方式，
+但當需要應用程式設計決策時，則不會自動調適。
+相關討論請參見 [issue #8410][] 及
+[Material/Cupertino 適應元件問題定義][Material/Cupertino adaptive widget problem definition]。
 
-For an example of an app using different information
-architecture structures on Android and iOS but sharing
-the same content code, see the [platform_design code samples][].
+若需參考同一份內容程式碼，
+但在 Android 與 iOS 採用不同資訊架構結構的應用程式範例，
+請參見 [platform_design 程式碼範例][platform_design code samples]。
 
 :::secondary
-Preliminary guides addressing case 2
-are being added to the UI components section.
-You can request additional guides by commenting on [issue #8427][8427].
+針對第二種情境的初步指引，
+正陸續新增至 UI 元件區段。
+你可以在 [issue #8427][8427] 留言，提出額外指引的需求。
 :::
 
 [`android.app.AlertDialog`]: {{site.android-dev}}/reference/android/app/AlertDialog.html
@@ -38,337 +36,319 @@ You can request additional guides by commenting on [issue #8427][8427].
 [Material/Cupertino adaptive widget problem definition]: https://bit.ly/flutter-adaptive-widget-problem
 [platform_design code samples]: {{site.repo.samples}}/tree/main/platform_design
 
-## Page navigation
+## 頁面導覽
 
-Flutter provides the navigation patterns seen on Android
-and iOS and also automatically adapts the navigation animation
-to the current platform.
+Flutter 提供 Android 與 iOS 常見的導覽模式，
+並會自動依據目前平台調整導覽動畫。
 
-### Navigation transitions
+### 導覽轉場動畫
 
-On **Android**, the default [`Navigator.push()`][] transition
-is modeled after [`startActivity()`][],
-which generally has one bottom-up animation variant.
+在 **Android** 上，預設的 [`Navigator.push()`][] 轉場動畫
+仿照 [`startActivity()`][]，
+通常只有一種自底向上的動畫變體。
 
-On **iOS**:
+在 **iOS** 上：
 
-* The default [`Navigator.push()`][] API produces an
-  iOS Show/Push style transition that animates from
-  end-to-start depending on the locale's RTL setting.
-  The page behind the new route also parallax-slides
-  in the same direction as in iOS.
-* A separate bottom-up transition style exists when
-  pushing a page route where [`PageRoute.fullscreenDialog`][]
-  is true. This represents iOS's Present/Modal style
-  transition and is typically used on fullscreen modal pages.
+* 預設的 [`Navigator.push()`][] API 產生 iOS 的 Show/Push 風格轉場，
+  會依據語系的 RTL 設定，從結束端到起始端進行動畫。
+  新路由背後的頁面也會如 iOS 一樣進行視差滑動。
+* 當推送一個 [`PageRoute.fullscreenDialog`][] 為 true 的頁面路由時，
+  會有一種自底向上的獨立轉場風格。
+  這對應 iOS 的 Present/Modal 風格轉場，
+  通常用於全螢幕的模態頁面。
 
 <div class="wrapping-row">
-  <DashImage figure image="platform-adaptations/navigation-android.webp" img-style="border-radius: 12px;" caption="Android page transition" alt="An animation of the bottom-up page transition on Android" />
-  <DashImage figure image="platform-adaptations/navigation-ios.webp" img-style="border-radius: 22px;" caption="iOS push transition" alt="An animation of the end-start style push page transition on iOS" />
-  <DashImage figure image="platform-adaptations/navigation-ios-modal.webp" img-style="border-radius: 22px;" caption="iOS present transition" alt="An animation of the bottom-up style present page transition on iOS" />
+  <DashImage figure image="platform-adaptations/navigation-android.webp" img-style="border-radius: 12px;" caption="Android 頁面轉場" alt="An animation of the bottom-up page transition on Android" />
+  <DashImage figure image="platform-adaptations/navigation-ios.webp" img-style="border-radius: 22px;" caption="iOS push 轉場" alt="An animation of the end-start style push page transition on iOS" />
+  <DashImage figure image="platform-adaptations/navigation-ios-modal.webp" img-style="border-radius: 22px;" caption="iOS present 轉場" alt="An animation of the bottom-up style present page transition on iOS" />
 </div>
 
 [`Navigator.push()`]: {{site.api}}/flutter/widgets/Navigator/push.html
 [`startActivity()`]: {{site.android-dev}}/reference/kotlin/android/app/Activity#startactivity
 [`PageRoute.fullscreenDialog`]: {{site.api}}/flutter/widgets/PageRoute-class.html
 
-### Platform-specific transition details
+### 平台專屬轉場細節
 
-On **Android**, Flutter uses the [`ZoomPageTransitionsBuilder`][] animation.
-When the user taps on an item, the UI zooms in to a screen that features that item.
-When the user taps to go back, the UI zooms out to the previous screen.
+在 **Android** 上，Flutter 採用 [`ZoomPageTransitionsBuilder`][] 動畫。
+當使用者點擊某個項目時，UI 會放大進入包含該項目的畫面。
+當使用者返回時，UI 會縮小回到前一個畫面。
 
-On **iOS** when the push style transition is used,
-Flutter's bundled [`CupertinoNavigationBar`][]
-and [`CupertinoSliverNavigationBar`][] nav bars
-automatically animate each subcomponent to its corresponding
-subcomponent on the next or previous page's
-`CupertinoNavigationBar` or `CupertinoSliverNavigationBar`.
+在 **iOS** 上，當使用 push 風格轉場時，
+Flutter 內建的 [`CupertinoNavigationBar`][]
+與 [`CupertinoSliverNavigationBar`][] 導覽列
+會自動將每個子元件動畫過渡到下一頁或前一頁對應的
+`CupertinoNavigationBar` 或 `CupertinoSliverNavigationBar`。
 
 <div class="wrapping-row">
   <DashImage figure image="platform-adaptations/android-zoom-animation.png" img-style="border-radius: 12px;" caption="Android" alt="An animation of the page transition on Android" />
-  <DashImage figure image="platform-adaptations/navigation-ios-nav-bar.webp" img-style="border-radius: 22px;" caption="iOS Nav Bar" alt="An animation of the nav bar transitions during a page transition on iOS" />
+  <DashImage figure image="platform-adaptations/navigation-ios-nav-bar.webp" img-style="border-radius: 22px;" caption="iOS 導覽列" alt="An animation of the nav bar transitions during a page transition on iOS" />
 </div>
 
 [`ZoomPageTransitionsBuilder`]: {{site.api}}/flutter/material/ZoomPageTransitionsBuilder-class.html
 [`CupertinoNavigationBar`]: {{site.api}}/flutter/cupertino/CupertinoNavigationBar-class.html
 [`CupertinoSliverNavigationBar`]: {{site.api}}/flutter/cupertino/CupertinoSliverNavigationBar-class.html
 
-### Back navigation
+### 返回導覽
 
-On **Android**,
-the OS back button, by default, is sent to Flutter
-and pops the top route of the [`WidgetsApp`][]'s Navigator.
+在 **Android** 上，
+作業系統的返回按鈕預設會傳送給 Flutter，
+並彈出 [`WidgetsApp`][] 的 Navigator 最上層路由。
 
-On **iOS**,
-an edge swipe gesture can be used to pop the top route.
+在 **iOS** 上，
+可以使用螢幕邊緣滑動手勢來彈出最上層路由。
 
 <div class="wrapping-row">
-  <DashImage figure image="platform-adaptations/navigation-android-back.webp" img-style="border-radius: 12px;" caption="Android back button" alt="A page transition triggered by the Android back button" />
-  <DashImage figure image="platform-adaptations/navigation-ios-back.webp" img-style="border-radius: 22px;" caption="iOS back swipe gesture" alt="A page transition triggered by an iOS back swipe gesture" />
+  <DashImage figure image="platform-adaptations/navigation-android-back.webp" img-style="border-radius: 12px;" caption="Android 返回按鈕" alt="A page transition triggered by the Android back button" />
+  <DashImage figure image="platform-adaptations/navigation-ios-back.webp" img-style="border-radius: 22px;" caption="iOS 返回滑動手勢" alt="A page transition triggered by an iOS back swipe gesture" />
 </div>
 
 [`WidgetsApp`]: {{site.api}}/flutter/widgets/WidgetsApp-class.html
 
-## Scrolling
+## 滾動行為
 
-Scrolling is an important part of the platform's
-look and feel, and Flutter automatically adjusts
-the scrolling behavior to match the current platform.
+滾動是平台視覺與操作體驗的重要部分，
+Flutter 會自動調整滾動行為以符合當前平台。
 
-### Physics simulation
+### 物理模擬
 
-Android and iOS both have complex scrolling physics
-simulations that are difficult to describe verbally.
-Generally, iOS's scrollable has more weight and
-dynamic friction but Android has more static friction.
-Therefore iOS gains high speed more gradually but stops
-less abruptly and is more slippery at slow speeds.
+Android 與 iOS 都有複雜的滾動物理模擬，
+難以用文字完整描述。
+一般來說，iOS 的可滾動區塊具有較大的重量與動態摩擦力，
+而 Android 則有較高的靜態摩擦力。
+因此 iOS 在加速時速度提升較慢，但停止時較不突然，
+且在低速時較為滑順。
 
 <div class="wrapping-row">
-  <DashImage figure image="platform-adaptations/scroll-soft.webp" caption="Soft fling comparison" alt="A soft fling where the iOS scrollable slid longer at lower speed than Android" />
-  <DashImage figure image="platform-adaptations/scroll-medium.webp" caption="Medium fling comparison" alt="A medium force fling where the Android scrollable reaches speed faster and stopped more abruptly after reaching a longer distance" />
-  <DashImage figure image="platform-adaptations/scroll-strong.webp" caption="Strong fling comparison" alt="A strong fling where the Android scrollable reaches speed faster and covered significantly more distance" />
+  <DashImage figure image="platform-adaptations/scroll-soft.webp" caption="輕拋比較" alt="A soft fling where the iOS scrollable slid longer at lower speed than Android" />
+  <DashImage figure image="platform-adaptations/scroll-medium.webp" caption="中等拋比較" alt="A medium force fling where the Android scrollable reaches speed faster and stopped more abruptly after reaching a longer distance" />
+  <DashImage figure image="platform-adaptations/scroll-strong.webp" caption="強拋比較" alt="A strong fling where the Android scrollable reaches speed faster and covered significantly more distance" />
 </div>
 
-### Overscroll behavior
+### 超出滾動範圍的行為
 
-On **Android**,
-scrolling past the edge of a scrollable shows an
-[overscroll glow indicator][] (based on the color
-of the current Material theme).
+在 **Android** 上，
+滾動超出可滾動區塊邊緣時會顯示
+[超出滾動光暈指示器][overscroll glow indicator]（顏色根據當前 Material 主題）。
 
-On **iOS**, scrolling past the edge of a scrollable
-[overscrolls][] with increasing resistance and snaps back.
+在 **iOS** 上，滾動超出可滾動區塊邊緣時
+會[超出滾動範圍][overscrolls]，阻力逐漸增加並彈回原位。
 
 <div class="wrapping-row">
-  <DashImage figure image="platform-adaptations/scroll-overscroll.webp" caption="Dynamic overscroll comparison" alt="Android and iOS scrollables being flung past their edge and exhibiting platform specific overscroll behavior" />
-  <DashImage figure image="platform-adaptations/scroll-static-overscroll.webp" caption="Static overscroll comparison" alt="Android and iOS scrollables being overscrolled from a resting position and exhibiting platform specific overscroll behavior" />
+  <DashImage figure image="platform-adaptations/scroll-overscroll.webp" caption="動態超出滾動比較" alt="Android and iOS scrollables being flung past their edge and exhibiting platform specific overscroll behavior" />
+  <DashImage figure image="platform-adaptations/scroll-static-overscroll.webp" caption="靜態超出滾動比較" alt="Android and iOS scrollables being overscrolled from a resting position and exhibiting platform specific overscroll behavior" />
 </div>
 
 [overscroll glow indicator]: {{site.api}}/flutter/widgets/GlowingOverscrollIndicator-class.html
 [overscrolls]: {{site.api}}/flutter/widgets/BouncingScrollPhysics-class.html
 
-### Scrollbars
+### 捲軸（Scrollbars）
 
-On **Material-based platforms** (such as Android and web),
-scrollbars are typically visible during scrolling
-and may remain visible depending on the platform and theme.
+在 **Material 類平台**（例如 Android 與 Web）上，
+捲軸通常在滾動時可見，並可能根據平台與主題設定持續顯示。
 
-On **Cupertino-based platforms** (such as iOS),
-scrollbars are more minimal and generally only appear briefly
-while the user is actively scrolling, fading out when interaction stops.
+在 **Cupertino 類平台**（例如 iOS）上，
+捲軸較為精簡，通常只在使用者主動滾動時短暫出現，
+停止互動後便會淡出。
 
-This difference reflects each platform’s visual conventions
-and helps maintain a native look and feel across devices.
+此差異反映各平台的視覺慣例，
+有助於在各裝置上維持原生的視覺與操作體驗。
 
-### Momentum
+### 動量
 
-On **iOS**,
-repeated flings in the same direction stacks momentum
-and builds more speed with each successive fling.
-There is no equivalent behavior on Android.
+在 **iOS** 上，
+連續向同一方向拋動會疊加動量，
+每次拋動都會累積更高速度。
+Android 上則沒有這種行為。
 
 <div class="wrapping-row">
-  <DashImage figure image="platform-adaptations/scroll-momentum-ios.webp" caption="iOS scroll momentum" alt="Repeated scroll flings building momentum on iOS" />
+  <DashImage figure image="platform-adaptations/scroll-momentum-ios.webp" caption="iOS 滾動動量" alt="Repeated scroll flings building momentum on iOS" />
 </div>
 
-### Return to top
+### 回到頂部
 
-On **iOS**,
-tapping the OS status bar scrolls the primary
-scroll controller to the top position.
-There is no equivalent behavior on Android.
+在 **iOS** 上，
+點擊作業系統狀態列會將主要
+滾動控制器滾動回頂部。
+Android 上則沒有這種行為。
 
 <div class="wrapping-row">
-  <DashImage figure image="platform-adaptations/scroll-tap-to-top-ios.webp" img-style="border-radius: 22px;" caption="iOS status bar tap to top" alt="Tapping the status bar scrolls the primary scrollable back to the top" />
+  <DashImage figure image="platform-adaptations/scroll-tap-to-top-ios.webp" img-style="border-radius: 22px;" caption="iOS 狀態列點擊回頂部" alt="Tapping the status bar scrolls the primary scrollable back to the top" />
 </div>
 
-## Typography
+## 字體排印（Typography）
 
-When using the Material package,
-the typography automatically defaults to the
-font family appropriate for the platform.
-Android uses the Roboto font.
-iOS uses the San Francisco font.
+當使用 Material 套件時，
+字體會自動預設為符合平台的字型。
+Android 使用 Roboto 字型。
+iOS 使用 San Francisco 字型。
 
-When using the Cupertino package, the [default theme][]
-uses the San Francisco font.
+當使用 Cupertino 套件時，[預設主題][default theme]
+會使用 San Francisco 字型。
 
-The San Francisco font license limits its usage to
-software running on iOS, macOS, or tvOS only.
-Therefore a fallback font is used when running on Android
-if the platform is debug-overridden to iOS or the
-default Cupertino theme is used.
+San Francisco 字型授權僅限於
+執行於 iOS、macOS 或 tvOS 的軟體。
+因此，若在 Android 上執行時平台被偵錯覆寫為 iOS，
+或使用預設 Cupertino 主題時，會使用備用字型。
 
-You might choose to adapt the text styling of Material
-widgets to match the default text styling on iOS.
-You can see widget-specific examples in the
-[UI Component section](#ui-components).
+你也可以選擇讓 Material 元件 (Widget) 的文字樣式
+更貼近 iOS 的預設文字樣式。
+你可以在 [UI 元件區段](#ui-components) 看到針對元件的具體範例。
 
 <div class="wrapping-row">
-  <DashImage figure image="platform-adaptations/typography-android.png" img-style="border-radius: 12px;" caption="Roboto on Android" alt="Roboto font typography scale on Android" />
-  <DashImage figure image="platform-adaptations/typography-ios.png" img-style="border-radius: 22px;" caption="San Francisco on iOS" alt="San Francisco typography scale on iOS" />
+  <DashImage figure image="platform-adaptations/typography-android.png" img-style="border-radius: 12px;" caption="Android 上的 Roboto" alt="Roboto font typography scale on Android" />
+  <DashImage figure image="platform-adaptations/typography-ios.png" img-style="border-radius: 22px;" caption="iOS 上的 San Francisco" alt="San Francisco typography scale on iOS" />
 </div>
 
 [default theme]: {{site.repo.flutter}}/blob/main/packages/flutter/lib/src/cupertino/text_theme.dart
 
-## Iconography
+## 圖示設計（Iconography）
 
-When using the Material package,
-certain icons automatically show different
-graphics depending on the platform.
-For instance, the overflow button's three dots
-are horizontal on iOS and vertical on Android.
-The back button is a simple chevron on iOS and
-has a stem/shaft on Android.
+當使用 Material 套件時，
+部分圖示會依據平台自動顯示不同圖形。
+例如，溢出選單按鈕的三個點在 iOS 上是水平排列，
+在 Android 上則是垂直排列。
+返回按鈕在 iOS 上是簡單的山形符號（chevron），
+在 Android 上則有桿身（stem/shaft）。
 
 <div class="wrapping-row">
-  <DashImage figure image="platform-adaptations/iconography-android.png" caption="Icons on Android" alt="Android appropriate icons" />
-  <DashImage figure image="platform-adaptations/iconography-ios.png" caption="Icons on iOS" alt="iOS appropriate icons" />
+  <DashImage figure image="platform-adaptations/iconography-android.png" caption="Android 上的圖示" alt="Android appropriate icons" />
+  <DashImage figure image="platform-adaptations/iconography-ios.png" caption="iOS 上的圖示" alt="iOS appropriate icons" />
 </div>
 
-The material library also provides a set of
-platform-adaptive icons through [`Icons.adaptive`][].
+Material 函式庫也透過 [`Icons.adaptive`][]
+提供一組平台適應性圖示。
 
 [`Icons.adaptive`]: {{site.api}}/flutter/material/PlatformAdaptiveIcons-class.html
 
-## Haptic feedback
+## 觸覺回饋（Haptic feedback）
 
-The Material and Cupertino packages automatically
-trigger the platform appropriate haptic feedback in
-certain scenarios.
+Material 與 Cupertino 套件會在
+特定情境下自動觸發符合平台的觸覺回饋。
 
-For instance,
-a word selection via text field long-press triggers a 'buzz'
-vibrate on Android and not on iOS.
+例如，
+在文字欄位長按選字時，
+Android 會有「嗡嗡」震動，iOS 則沒有。
 
-Scrolling through picker items on iOS triggers a
-'light impact' knock and no feedback on Android.
+在 iOS 上捲動選擇器（picker）項目時會有
+「輕敲」的觸覺回饋，Android 則無回饋。
 
-## Text editing
+## 文字編輯
 
-Both the Material and Cupertino Text Input fields
-support spellcheck and adapt to use the proper
-spellcheck configuration for the platform,
-and the proper spell check menu and highlight colors.
+Material 與 Cupertino 的文字輸入欄位
+皆支援拼字檢查，並會依平台調整
+拼字檢查設定、拼字選單與高亮顏色。
 
-Flutter also makes the below adaptations while editing
-the content of text fields to match the current platform.
+Flutter 也會在編輯文字欄位內容時，
+根據當前平台進行下列調適。
 
-### Keyboard gesture navigation
+### 鍵盤手勢導覽
 
-On **Android**,
-horizontal swipes can be made on the soft keyboard's <kbd>space</kbd> key
-to move the cursor in Material and Cupertino text fields.
+在 **Android** 上，
+可在軟體鍵盤的 <kbd>space</kbd> 鍵上左右滑動
+以移動 Material 與 Cupertino 文字欄位的游標。
 
-On **iOS** devices with 3D Touch capabilities,
-a force-press-drag gesture could be made on the soft
-keyboard to move the cursor in 2D via a floating cursor.
-This works on both Material and Cupertino text fields.
+在具備 3D Touch 功能的 **iOS** 裝置上，
+可在軟體鍵盤上用重壓拖曳手勢，
+以浮動游標在二維空間移動游標。
+此功能同時適用於 Material 與 Cupertino 文字欄位。
 
 <div class="wrapping-row">
-  <DashImage figure image="platform-adaptations/text-keyboard-move-android.webp" caption="Android space key cursor move" alt="Moving the cursor via the space key on Android" />
-  <DashImage figure image="platform-adaptations/text-keyboard-move-ios.webp" caption="iOS 3D Touch drag cursor move" alt="Moving the cursor via 3D Touch drag on the keyboard on iOS" />
+  <DashImage figure image="platform-adaptations/text-keyboard-move-android.webp" caption="Android 空白鍵游標移動" alt="Moving the cursor via the space key on Android" />
+  <DashImage figure image="platform-adaptations/text-keyboard-move-ios.webp" caption="iOS 3D Touch 拖曳游標移動" alt="Moving the cursor via 3D Touch drag on the keyboard on iOS" />
 </div>
 
-### Text selection toolbar
+### 文字選取工具列
 
-With **Material on Android**,
-the Android style selection toolbar is shown when
-a text selection is made in a text field.
+在 **Android** 上使用 **Material** 時，
+於文字欄位選取文字時會顯示 Android 風格的選取工具列。
 
-With **Material on iOS** or when using **Cupertino**,
-the iOS style selection toolbar is shown when a text
-selection is made in a text field.
+在 **iOS** 上使用 **Material** 或使用 **Cupertino** 時，
+於文字欄位選取文字時會顯示 iOS 風格的選取工具列。
 
 <div class="wrapping-row">
-  <DashImage figure image="platform-adaptations/text-toolbar-android.png" caption="Android text selection toolbar" alt="Android appropriate text toolbar" />
-  <DashImage figure image="platform-adaptations/text-toolbar-ios.png" caption="iOS text selection toolbar" alt="iOS appropriate text toolbar" />
+  <DashImage figure image="platform-adaptations/text-toolbar-android.png" caption="Android 文字選取工具列" alt="Android appropriate text toolbar" />
+  <DashImage figure image="platform-adaptations/text-toolbar-ios.png" caption="iOS 文字選取工具列" alt="iOS appropriate text toolbar" />
 </div>
 
-### Single tap gesture
+### 單點擊手勢
 
-With **Material on Android**,
-a single tap in a text field puts the cursor at the
-location of the tap.
+在 **Android** 上使用 **Material** 時，
+於文字欄位單點會將游標移至點擊位置。
 
-A collapsed text selection also shows a draggable
-handle to subsequently move the cursor.
+當文字選取為收合狀態時，也會顯示可拖曳的
+控制柄以移動游標。
 
-With **Material on iOS** or when using **Cupertino**,
-a single tap in a text field puts the cursor at the
-nearest edge of the word tapped.
+在 **iOS** 上使用 **Material** 或使用 **Cupertino** 時，
+於文字欄位單點會將游標移至所點單字的最近邊緣。
 
-Collapsed text selections don't have draggable handles on iOS.
+iOS 上收合狀態的文字選取不會有可拖曳的控制柄。
 
 <div class="wrapping-row">
-  <DashImage figure image="platform-adaptations/text-single-tap-android.webp" caption="Android tap" alt="Moving the cursor to the tapped position on Android" />
-  <DashImage figure image="platform-adaptations/text-single-tap-ios.webp" caption="iOS tap" alt="Moving the cursor to the nearest edge of the tapped word on iOS" />
+  <DashImage figure image="platform-adaptations/text-single-tap-android.webp" caption="Android 點擊" alt="Moving the cursor to the tapped position on Android" />
+  <DashImage figure image="platform-adaptations/text-single-tap-ios.webp" caption="iOS 點擊" alt="Moving the cursor to the nearest edge of the tapped word on iOS" />
 </div>
 
-### Long-press gesture
+### 長按手勢
 
-With **Material on Android**,
-a long press selects the word under the long press.
-The selection toolbar is shown upon release.
+在 **Android** 上使用 **Material** 時，
+長按會選取長按下的單字。
+放開時會顯示選取工具列。
 
-With **Material on iOS** or when using **Cupertino**,
-a long press places the cursor at the location of the
-long press. The selection toolbar is shown upon release.
+在 **iOS** 上使用 **Material** 或使用 **Cupertino** 時，
+長按會將游標移至長按位置。
+放開時會顯示選取工具列。
 
 <div class="wrapping-row">
-  <DashImage figure image="platform-adaptations/text-long-press-android.webp" caption="Android long press" alt="Selecting a word with long press on Android" />
-  <DashImage figure image="platform-adaptations/text-long-press-ios.webp" caption="iOS long press" alt="Selecting a position with long press on iOS" />
+  <DashImage figure image="platform-adaptations/text-long-press-android.webp" caption="Android 長按" alt="Selecting a word with long press on Android" />
+  <DashImage figure image="platform-adaptations/text-long-press-ios.webp" caption="iOS 長按" alt="Selecting a position with long press on iOS" />
 </div>
 
-### Long-press drag gesture
+### 長按拖曳手勢
 
-With **Material on Android**,
-dragging while holding the long press expands the words selected.
+在 **Android** 上使用 **Material** 時，
+長按後拖曳會擴展所選取的單字範圍。
 
-With **Material on iOS** or when using **Cupertino**,
-dragging while holding the long press moves the cursor.
+在 **iOS** 上使用 **Material** 或使用 **Cupertino** 時，
+長按後拖曳會移動游標。
 
 <div class="wrapping-row">
-  <DashImage figure image="platform-adaptations/text-long-press-drag-android.webp" caption="Android long-press drag" alt="Expanding word selection with a long-press drag on Android" />
-  <DashImage figure image="platform-adaptations/text-long-press-drag-ios.webp" caption="iOS long-press drag" alt="Moving the cursor with a long-press drag on iOS" />
+  <DashImage figure image="platform-adaptations/text-long-press-drag-android.webp" caption="Android 長按拖曳" alt="Expanding word selection with a long-press drag on Android" />
+  <DashImage figure image="platform-adaptations/text-long-press-drag-ios.webp" caption="iOS 長按拖曳" alt="Moving the cursor with a long-press drag on iOS" />
 </div>
 
-### Double tap gesture
+### 雙擊手勢
 
-On both Android and iOS,
-a double tap selects the word receiving the
-double tap and shows the selection toolbar.
+在 Android 與 iOS 上，
+雙擊會選取接收雙擊的單字，
+並顯示選取工具列。
 
 <div class="wrapping-row">
-  <DashImage figure image="platform-adaptations/text-double-tap-android.webp" caption="Android double tap" alt="Selecting a word via double tap on Android" />
-  <DashImage figure image="platform-adaptations/text-double-tap-ios.webp" caption="iOS double tap" alt="Selecting a word via double tap on iOS" />
+  <DashImage figure image="platform-adaptations/text-double-tap-android.webp" caption="Android 雙擊" alt="Selecting a word via double tap on Android" />
+  <DashImage figure image="platform-adaptations/text-double-tap-ios.webp" caption="iOS 雙擊" alt="Selecting a word via double tap on iOS" />
 </div>
 
-## UI components
+## UI 元件
 
-This section includes preliminary recommendations on how to adapt
-Material widgets to deliver a natural and compelling experience on iOS.
-Your feedback is welcomed on [issue #8427][8427].
+本節提供初步建議，說明如何調適 Material 元件 (Widget)，
+以在 iOS 上提供自然且吸引人的使用體驗。
+歡迎在 [issue #8427][8427] 提供回饋。
 
 [8427]: {{site.repo.this}}/issues/8427
 
-### Widgets with .adaptive() constructors
+### 具備 .adaptive() 建構函式的元件
 
-Several widgets support `.adaptive()` constructors.
-The following table lists these widgets.
-Adaptive constructors substitute the corresponding Cupertino components
-when the app is run on an iOS device.
+多個元件支援 `.adaptive()` 建構函式。
+下表列出這些元件。
+當應用程式在 iOS 裝置上執行時，
+適應性建構函式會替換為對應的 Cupertino 元件。
 
-Widgets in the following table are used primarily for input,
-selection, and to display system information.
-Because these controls are tightly integrated with the operating system,
-users have been trained to recognize and respond to them.
-Therefore, we recommend that you follow platform conventions.
+下表中的元件主要用於輸入、選取，以及顯示系統資訊。
+由於這些控制項與作業系統緊密整合，
+使用者已習慣辨識並回應這些控制項。
+因此，我們建議遵循各平台的慣例。
 
 
-| Material widget | Cupertino widget | Adaptive constructor |
+| Material 元件 | Cupertino 元件 | 適應性建構函式 |
 |---|---|---|
 |<img width=160 src="/assets/images/docs/platform-adaptations/m3-switch.png" alt="Switch in Material 3" /><br/>`Switch`|<img src="/assets/images/docs/platform-adaptations/hig-switch.png" alt="Switch in HIG" /><br/>`CupertinoSwitch`|[`Switch.adaptive()`][]|
 |<img src="/assets/images/docs/platform-adaptations/m3-slider.png" width =160 alt="Slider in Material 3" /><br/>`Slider`|<img src="/assets/images/docs/platform-adaptations/hig-slider.png"  width =160  alt="Slider in HIG" /><br/>`CupertinoSlider`|[`Slider.adaptive()`][]|
@@ -386,24 +366,24 @@ Therefore, we recommend that you follow platform conventions.
 [`CircularProgressIndicator.adaptive()`]: {{site.api}}/flutter/material/CircularProgressIndicator/CircularProgressIndicator.adaptive.html
 [`RefreshIndicator.adaptive()`]: {{site.api}}/flutter/material/RefreshIndicator/RefreshIndicator.adaptive.html
 
-### Top app bar and navigation bar
+### 頂部應用程式列與導覽列
 
-Since Android 12, the default UI for top app
-bars follows the design guidelines defined in [Material 3][mat-appbar].
-On iOS, an equivalent component called "Navigation Bars"
-is defined in [Apple's Human Interface Guidelines][hig-appbar] (HIG).
+自 Android 12 起，頂部應用程式列的預設 UI
+遵循 [Material 3][mat-appbar] 所定義的設計指引。
+在 iOS 上，對應的元件稱為「導覽列（Navigation Bars）」，
+其設計定義於 [Apple 的人機介面指引（Human Interface Guidelines）][hig-appbar] (HIG)。
 
 <div class="wrapping-row">
-  <DashImage figure image="platform-adaptations/mat-appbar.png" caption="Top App Bar in Material 3" alt="Top App Bar in Material 3" height="240px" />
-  <DashImage figure image="platform-adaptations/hig-appbar.png" caption="Navigation Bar in Human Interface Guidelines" alt="Navigation Bar in Human Interface Guidelines" height="240px" />
+  <DashImage figure image="platform-adaptations/mat-appbar.png" caption="Material 3 中的頂部應用程式列" alt="Top App Bar in Material 3" height="240px" />
+  <DashImage figure image="platform-adaptations/hig-appbar.png" caption="人機介面指引中的導覽列" alt="Navigation Bar in Human Interface Guidelines" height="240px" />
 </div>
 
-Certain properties of app bars in Flutter apps should be adapted,
-like system icons and page transitions.
-These are already automatically adapted when using
-the Material `AppBar` and `SliverAppBar` widgets.
-You can also further customize the properties of these widgets to better
-match iOS platform styles, as shown below.
+Flutter 應用程式中應用程式列的某些屬性需要調適，
+例如系統圖示與頁面轉場。
+使用 Material 的 `AppBar` 與 `SliverAppBar` 元件時，
+這些屬性已會自動調適。
+你也可以進一步自訂這些元件的屬性，
+以更貼近 iOS 平台風格，如下所示。
 
 ```dart
 // Map the text theme to iOS styles
@@ -433,38 +413,37 @@ AppBar(
       ),
 ```
 
-But, because app bars are displayed alongside
-other content in your page, it's only recommended to adapt the styling
-so long as it's cohesive with the rest of your application. You can see
-additional code samples and a further explanation in
-[the GitHub discussion on app bar adaptations][appbar-post].
+不過，由於應用程式列會與頁面中的其他內容一起顯示，
+建議僅在與應用程式整體風格一致的情況下調整其樣式。
+你可以在 [GitHub 討論區關於應用程式列調適的討論][appbar-post] 中，
+查看更多程式碼範例與進一步說明。
 
 [mat-appbar]: {{site.material}}/components/top-app-bar/overview
 [hig-appbar]: {{site.apple-dev}}/design/human-interface-guidelines/components/navigation-and-search/navigation-bars/
 [appbar-post]: {{site.repo.uxr}}/discussions/93
 
-### Bottom navigation bars
+### 底部導覽列
 
-Since Android 12, the default UI for bottom navigation
-bars follow the design guidelines defined in [Material 3][mat-navbar].
-On iOS, an equivalent component called "Tab Bars"
-is defined in [Apple's Human Interface Guidelines][hig-tabbar] (HIG).
+自 Android 12 起，底部導覽列的預設 UI
+遵循 [Material 3][mat-navbar] 所定義的設計指引。
+在 iOS 上，對應的元件稱為「Tab Bars（分頁列）」，
+其設計定義於 [Apple 的人機介面指引（Human Interface Guidelines）][hig-tabbar] (HIG)。
 
 <div class="wrapping-row">
-  <DashImage figure image="platform-adaptations/mat-navbar.png" caption="Bottom Navigation Bar in Material 3" alt="Bottom Navigation Bar in Material 3" height="160px" />
-  <DashImage figure image="platform-adaptations/hig-tabbar.png" caption="Tab Bar in Human Interface Guidelines" alt="Tab Bar in Human Interface Guidelines" height="160px" />
+  <DashImage figure image="platform-adaptations/mat-navbar.png" caption="Material 3 的底部導覽列" alt="Bottom Navigation Bar in Material 3" height="160px" />
+  <DashImage figure image="platform-adaptations/hig-tabbar.png" caption="人機介面指引中的 Tab Bar" alt="Tab Bar in Human Interface Guidelines" height="160px" />
 </div>
 
-Since tab bars are persistent across your app, they should match your
-own branding. However, if you choose to use Material's default
-styling on Android, you might consider adapting to the default iOS
-tab bars.
+由於分頁列會在應用程式中持續顯示，
+因此應該與你的品牌風格相符。
+不過，如果你選擇在 Android 上使用 Material 的預設樣式，
+也可以考慮在 iOS 上採用預設的分頁列樣式。
 
-To implement platform-specific bottom navigation bars,
-you can use Flutter's `NavigationBar` widget on Android
-and the `CupertinoTabBar` widget on iOS.
-Below is a code snippet you can
-adapt to show a platform-specific navigation bars.
+若要實作平台特定的底部導覽列，
+你可以在 Android 上使用 Flutter 的 `NavigationBar` 元件，
+在 iOS 上則使用 `CupertinoTabBar` 元件。
+以下是一段你可以參考並調整的程式碼片段，
+用於顯示平台特定的導覽列。
 
 ```dart
 final Map<String, Icon> _navigationItems = {
@@ -509,24 +488,23 @@ Scaffold(
 [mat-navbar]: {{site.material}}/components/navigation-bar/overview
 [hig-tabbar]: {{site.apple-dev}}/design/human-interface-guidelines/components/navigation-and-search/tab-bars/
 
-### Text fields
+### 文字欄位
 
-Since Android 12, text fields follow the
-[Material 3][m3-text-field] (M3) design guidelines.
-On iOS, Apple's [Human Interface Guidelines][hig-text-field] (HIG) define
-an equivalent component.
+自 Android 12 起，文字欄位遵循
+[Material 3][m3-text-field] (M3) 設計指引。
+在 iOS 上，Apple 的[人機介面指引（Human Interface Guidelines）][hig-text-field] (HIG)
+則定義了對應的元件。
 
 <div class="wrapping-row">
-  <DashImage figure image="platform-adaptations/m3-text-field.png" caption="Text Field in Material 3" alt="Text Field in Material 3" width="320px" height="100px" />
-  <DashImage figure image="platform-adaptations/hig-text-field.png" caption="Text Field in HIG" alt="Text Field in Human Interface Guidelines" width="320px" height="100px" />
+  <DashImage figure image="platform-adaptations/m3-text-field.png" caption="Material 3 中的文字欄位" alt="Text Field in Material 3" width="320px" height="100px" />
+  <DashImage figure image="platform-adaptations/hig-text-field.png" caption="HIG 中的文字欄位" alt="Text Field in Human Interface Guidelines" width="320px" height="100px" />
 </div>
 
-Since text fields require user input,
-their design should follow platform conventions.
+由於文字欄位需要使用者輸入，
+其設計應遵循各平台的慣例。
 
-To implement a platform-specific `TextField`
-in Flutter, you can adapt the styling of the
-Material `TextField`.
+若要在 Flutter 中實作平台專屬的 `TextField`，
+可以調整 Material `TextField` 的樣式來達成。
 
 ```dart
 Widget _createAdaptiveTextField() {
@@ -555,9 +533,9 @@ Widget _createAdaptiveTextField() {
 }
 ```
 
-To learn more about adapting text fields, check out
-[the GitHub discussion on text fields][text-field-post].
-You can leave feedback or ask questions in the discussion.
+想進一步了解如何調整文字欄位，請參閱
+[GitHub 上關於文字欄位的討論][text-field-post]。
+你可以在該討論中留下回饋或提出問題。
 
 [text-field-post]: {{site.repo.uxr}}/discussions/95
 [m3-text-field]: {{site.material}}/components/text-fields/overview

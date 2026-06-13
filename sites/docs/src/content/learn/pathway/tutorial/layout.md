@@ -1,71 +1,71 @@
 ---
-title: Layout
-description: Learn about common layout widgets in Flutter.
+title: 版面配置
+description: 了解 Flutter 中常見的版面配置元件。
 layout: tutorial
 ---
 
-Learn how to build layouts with common widgets like Scaffold, AppBar, Column, and Row.
+了解如何使用 Scaffold、AppBar、Column 及 Row 等常見元件 (Widget) 建置版面配置。
 
 <YouTubeEmbed id="z8bY3XVAzgI" title="Flutter layout and constraints" fullWidth="true"></YouTubeEmbed>
 
 <SummaryCard>
-title: What you'll accomplish
+title: 你將完成的事項
 items:
-  - title: Structure an app with Scaffold and AppBar
+  - title: 使用 Scaffold 和 AppBar 建構應用程式結構
     icon: web_asset
-  - title: Arrange widgets using Column and Row
+  - title: 使用 Column 和 Row 排列元件
     icon: view_column
-  - title: Generate widgets dynamically from data
+  - title: 從資料動態產生元件
     icon: repeat
-  - title: Build a grid layout for the game board
+  - title: 為遊戲棋盤建置格狀版面配置
     icon: grid_view
 </SummaryCard>
 
 ---
 
-### Introduction
+### 簡介
 
-Given that Flutter is a UI toolkit,
-you'll spend a lot of time creating layouts with Flutter widgets.
+由於 Flutter 是一套 UI 工具包，
+你會花大量時間使用 Flutter 元件建置版面配置。
 
-In this section, you'll learn how to build layouts with
-some of the most common layout widgets.
-This includes high-level widgets like
-[`Scaffold`][] and [`AppBar`][], which lay out the structure of a screen,
-as well as lower-level widgets like [`Column`][] or [`Row`][] that
-lay out widgets vertically or horizontally.
+在本章節中，你將學習如何使用
+一些最常見的版面配置元件建置版面配置。
+這包含高階元件，例如
+[`Scaffold`][] 和 [`AppBar`][]，它們負責畫面的結構排版，
+以及低階元件，例如 [`Column`][] 或 [`Row`][]，
+可將元件垂直或水平排列。
 
 [`Scaffold`]: {{site.api}}/flutter/material/Scaffold-class.html
 [`AppBar`]: {{site.api}}/flutter/material/AppBar-class.html
 [`Column`]:  {{site.api}}/flutter/widgets/Column-class.html
 [`Row`]: {{site.api}}/flutter/widgets/Row-class.html
 
-### `Scaffold` and `AppBar`
+### `Scaffold` 與 `AppBar`
 
-Mobile applications often have a bar at the top called an "app bar" that can
-display a title, navigation controls, and/or actions.
+行動應用程式通常在頂端有一條稱為「應用程式列 (app bar)」的橫列，
+可顯示標題、導覽控制項及/或操作按鈕。
 
 <img src='/assets/images/docs/tutorial/appbar.png' width="320px" alt="A screenshot of a simple application with a bar across the top that has a title and settings button.">
 
-The simplest way to add an app bar to your app is by using two widgets:
-`Scaffold` and `AppBar`.
+在應用程式中新增應用程式列最簡單的方式，
+是使用兩個元件：`Scaffold` 和 `AppBar`。
 
-`Scaffold` is a convenience widget that provides a Material-style page layout,
-making it simple to add an app bar, drawer, navigation bar, and more to a page of
-your app. `AppBar` is, of course, the app bar.
+`Scaffold` 是一個便利元件，提供 Material 風格的頁面版面配置，
+讓你可以輕鬆地在應用程式頁面中加入應用程式列、抽屜式導覽、
+導覽列等。`AppBar` 當然就是應用程式列本身。
 
-The code generated from the `flutter create --empty` command already
-contains an `AppBar` widget and a `Scaffold` widget.
-The following code updates it to use an additional layout widget: [`Align`][].
-This positions the title to the left, which would be centered by default.
-The `Text` widget contains the title itself.
+由 `flutter create --empty` 指令產生的程式碼已包含
+`AppBar` 元件和 `Scaffold` 元件。
+以下程式碼將其更新為使用額外的版面配置元件：[`Align`][]。
+這會將標題定位到左側，否則預設會置中。
+`Text` 元件包含標題本身的文字。
 
-Modify the `Scaffold` within your `MainApp` widget's `build` method.
+在你的 `MainApp` 元件的 `build` 方法中修改 `Scaffold`。
 
-Passing an enum or static property directly (like `Alignment.centerLeft`)
-can also be shortened using [Dart's dot shorthands][] syntax,
-which you can read more about on both the official Dart documentation
-and the [Flutter shorthands overview][].
+直接傳入列舉或靜態屬性（例如 `Alignment.centerLeft`）
+也可以使用 [Dart 的點號簡寫][Dart's dot shorthands] 語法縮短，
+你可以在 Dart 官方文件及
+[Flutter 簡寫概覽][Flutter shorthands overview] 中進一步了解。
 
 [Dart's dot shorthands]: https://dart.dev/language/dot-shorthands
 [Flutter shorthands overview]: /ui/dot-shorthands
@@ -93,20 +93,20 @@ class MainApp extends StatelessWidget {
 
 [`Align`]: {{site.api}}/flutter/widgets/Align-class.html
 
-#### An updated widget tree
+#### 更新後的元件樹
 
-Considering your app's widget tree gets more important as your app grows.
-At this point, there's a "branch" in the widget tree for the first time,
-and it now looks like the following figure:
+隨著應用程式成長，考量元件樹的結構變得越來越重要。
+在此階段，元件樹首次出現了「分支」，
+現在的結構如下圖所示：
 
 <img src='/assets/images/docs/tutorial/widget_tree_with_app_bar.png' width="320px" alt="A screenshot that resembles the popular game Wordle.">
 
 
-### Create a widget for the game page layout
+### 為遊戲頁面建立版面配置元件
 
-Add the following code for a new widget,
-called `GamePage`, to your `main.dart` file.
-This widget will eventually display the UI elements needed for the game itself.
+在你的 `main.dart` 檔案中加入以下程式碼，
+新增一個名為 `GamePage` 的元件。
+此元件最終將顯示遊戲本身所需的 UI 元素。
 
 <?code-excerpt "fwe/birdle/lib/step3a_main.dart (GamePage)"?>
 ```dart title="lib/main.dart"
@@ -124,8 +124,8 @@ class GamePage extends StatelessWidget {
 }
 ```
 
-Then update your `MainPage` widget to create and
-display a `GamePage` widget instead of "Hello World!".
+接著更新你的 `MainPage` 元件，改為建立並
+顯示 `GamePage` 元件，而非「Hello World!」。
 
 <?code-excerpt "fwe/birdle/lib/step3_main.dart (MainApp)"?>
 ```dart highlightLines=14
@@ -149,21 +149,21 @@ class MainApp extends StatelessWidget {
 }
 ```
 
-### Arrange widgets with `Column` and `Row`
+### 使用 `Column` 和 `Row` 排列元件
 
-The `GamePage` layout contains the grid of tiles that display a user's guesses.
+`GamePage` 的版面配置包含顯示使用者猜測結果的方格。
 
 <img src='/assets/images/docs/tutorial/birdle.png' width="320px" alt="A screenshot that resembles the popular game Wordle.">
 
-There are a number of ways you can build this layout.
-The simplest is with the `Column` and `Row` widgets.
-Each row contains five tiles that represent the five letters in a guess,
-with five rows total.
-So you'll need a single `Column` with five `Row` widgets as children,
-where each row contains five children.
+建置此版面配置有多種方式。
+最簡單的是使用 `Column` 和 `Row` 元件。
+每列包含五個代表猜測中五個字母的方格，
+共有五列。
+因此你需要一個 `Column`，其中包含五個 `Row` 元件作為子元件，
+而每列各包含五個子元件。
 
-To get started, replace the `Container` in `GamePage.build` with a
-`Padding` widget with a `Column` widget as its child:
+首先，將 `GamePage.build` 中的 `Container` 替換為
+一個以 `Column` 元件為子元件的 `Padding` 元件：
 
 <?code-excerpt "fwe/birdle/lib/step3b_main.dart (GamePage)"?>
 ```dart
@@ -187,16 +187,16 @@ class GamePage extends StatelessWidget {
 }
 ```
 
-The `spacing` property puts five pixels between each element on the main axis.
+`spacing` 屬性會在主軸上的每個元素之間加入五個像素的間距。
 
-Within `Column.children`, for each element in the `_game.guesses` list,
-add a `Row` widget as a child.
+在 `Column.children` 中，針對 `_game.guesses` 清單中的每個元素，
+新增一個 `Row` 元件作為子元件。
 
 :::note
-This `guesses` list is a **fixed-size** list, starting with five
-elements, one for each *potential* guess.
-The list will always contain exactly five elements,
-and therefore will always render five rows.
+這個 `guesses` 清單是一個**固定大小**的清單，初始包含五個
+元素，每個元素對應一次*可能的*猜測。
+此清單始終包含恰好五個元素，
+因此永遠會渲染五列。
 :::
 
 <?code-excerpt "fwe/birdle/lib/step3c_main.dart (GamePage)"?>
@@ -227,38 +227,37 @@ class GamePage extends StatelessWidget {
 }
 ```
 
-The `for` loop in the `children` list is called a [collection for element][],
-a Dart syntax that allows you to iteratively add items to a collection
-when it is built at runtime.
-This syntactic sugar makes it easier for you to work
-with collections of widgets,
-providing a declarative alternative to the following:
+`children` 清單中的 `for` 迴圈稱為[集合 for 元素 (collection for element)][collection for element]，
+這是一種 Dart 語法，可讓你在集合於執行時期建置時
+以迭代方式加入項目。
+這種語法糖讓你更輕鬆地處理
+元件集合，提供了以下寫法的宣告式替代方案：
 
 ```dart
 [..._game.guesses.map((guess) => Row(/* ... */))],
 ```
 
-In this case, it adds five `Row` widgets to the column,
-one for each guess on the `Game` object.
+在此範例中，它會為 `Game` 物件上的每個猜測，
+向欄中新增五個 `Row` 元件。
 
 [collection for element]: {{site.dart-site}}/language/collections#for-element
 
-#### An updated widget tree
+#### 更新後的元件樹
 
-The widget tree for this app has expanded significantly in this lesson.
-Now, it looks more like the following (abridged) figure:
+本課程中，應用程式的元件樹大幅擴展。
+現在，其結構更像以下（簡化後的）圖示：
 
 <img src='/assets/images/docs/tutorial/widget_tree_rows_columns.png' width="320px" alt="A diagram showing a tree like structure with a node for each widget in the app.">
 
 :::note Challenge
 
-Add a `Tile` to each row for each letter allowed in the guess.
-Each element in `guess` is a [record][] with the type
-`({String char, HitType type})`.
+為每列中猜測允許的每個字母新增一個 `Tile`。
+`guess` 中的每個元素都是一個型別為
+`({String char, HitType type})` 的 [record][]。
 
-Use a nested loop to iterate over the letters in each guess.
+使用巢狀迴圈迭代每次猜測中的字母。
 
-**Solution:**
+**解答：**
 
 <?code-excerpt "fwe/birdle/lib/step3_main.dart (GamePage)"?>
 ```dart title="lib/main.dart" collapsed
@@ -291,75 +290,75 @@ class GamePage extends StatelessWidget {
 
 :::
 
-When you reload your app, you should see a 5x5 grid of white squares.
+重新載入應用程式後，你應該會看到一個 5x5 的白色方格陣列。
 
 <img src='/assets/images/docs/tutorial/grid_of_tiles.png' width="320px" alt="A screenshot that resembles the popular game Wordle.">
 
 [record]: {{site.dart-site}}/language/records
 
-### Review
+### 回顧
 
 <SummaryCard>
-title: What you accomplished
-subtitle: Here's a summary of what you built and learned in this lesson.
+title: 你完成的事項
+subtitle: 以下是本課程中你所建置及學習內容的摘要。
 completed: true
 items:
-  - title: Structured your app with Scaffold and AppBar
+  - title: 使用 Scaffold 和 AppBar 建構應用程式結構
     icon: web_asset
     details: >-
-      You used `Scaffold` to provide a Material-style page layout and
-      `AppBar` to add a title bar at the top of your app.
-      These high-level widgets give your app a standard, yet polished structure.
-  - title: Arranged widgets using Column and Row
+      你使用 `Scaffold` 提供 Material 風格的頁面版面配置，並使用
+      `AppBar` 在應用程式頂端加入標題列。
+      這些高階元件為你的應用程式提供了標準且精緻的結構。
+  - title: 使用 Column 和 Row 排列元件
     icon: view_column
     details: >-
-      `Column` arranges widgets vertically and `Row` arranges them horizontally.
-      These are fundamental layout widgets you'll use constantly in Flutter.
-      The `spacing` property adds consistent gaps between children.
-  - title: Generated widgets dynamically from data
+      `Column` 垂直排列元件，`Row` 水平排列元件。
+      這些是你在 Flutter 開發中會不斷使用的基本版面配置元件。
+      `spacing` 屬性可在子元件之間加入一致的間距。
+  - title: 從資料動態產生元件
     icon: repeat
     details: >-
-      You used a collection for element to build widgets from a list.
-      This declarative approach lets you build user interfaces that
-      automatically and visually reflect your data,
-      a pattern central to Flutter development.
-  - title: Built the game board grid
+      你使用集合 for 元素從清單建置元件。
+      這種宣告式方法讓你能建置自動且直觀地
+      反映資料的使用者介面，
+      這是 Flutter 開發的核心模式。
+  - title: 建置遊戲棋盤格狀版面配置
     icon: grid_view
     details: >-
-      By nesting `Row` widgets inside a `Column` and using nested loops,
-      you created a 5x5 grid of `Tile` widgets.
-      Your app now displays the complete game board layout!
+      透過在 `Column` 中巢狀嵌入 `Row` 元件並使用巢狀迴圈，
+      你建立了一個 5x5 的 `Tile` 元件格狀版面。
+      你的應用程式現在已顯示完整的遊戲棋盤版面配置！
 </SummaryCard>
 
-### Test yourself
+### 自我測驗
 
-<Quiz title="Layout Quiz">
-- question: What is the primary difference between a Column and a Row widget?
+<Quiz title="版面配置小測驗">
+- question: Column 和 Row 元件的主要差異是什麼？
   options:
-    - text: Column is for scrolling content; Row is for static content.
+    - text: Column 用於可捲動內容；Row 用於靜態內容。
       correct: false
-      explanation: Both Column and Row are for layout, not scrolling. Use ListView or SingleChildScrollView for scrolling.
-    - text: Column arranges children vertically; Row arranges children horizontally.
+      explanation: Column 和 Row 都用於版面配置，而非捲動。捲動請使用 ListView 或 SingleChildScrollView。
+    - text: Column 垂直排列子元件；Row 水平排列子元件。
       correct: true
-      explanation: Column lays out its children along the vertical axis, while Row uses the horizontal axis.
-    - text: Column can have unlimited children; Row is limited to two.
+      explanation: Column 沿垂直軸排列子元件，而 Row 則使用水平軸。
+    - text: Column 可有無限個子元件；Row 限制為兩個。
       correct: false
-      explanation: Both widgets can have any number of children.
-    - text: Column requires a Scaffold parent; Row does not.
+      explanation: 兩個元件都可以有任意數量的子元件。
+    - text: Column 需要 Scaffold 作為父元件；Row 則不需要。
       correct: false
-      explanation: Neither widget requires a Scaffold as a parent.
-- question: What does the Scaffold widget provide in a Flutter app?
+      explanation: 這兩個元件都不需要以 Scaffold 作為父元件。
+- question: Scaffold 元件在 Flutter 應用程式中提供什麼功能？
   options:
-    - text: Only a background color for the page.
+    - text: 僅為頁面提供背景顏色。
       correct: false
-      explanation: Scaffold provides much more, including structure for app bars, drawers, and more.
-    - text: A Material-style page layout with slots for app bar, body, drawer, and more.
+      explanation: Scaffold 提供的功能遠不止這些，包含應用程式列、抽屜式導覽等結構。
+    - text: 一個 Material 風格的頁面版面配置，包含應用程式列、主體、抽屜式導覽等插槽。
       correct: true
-      explanation: Scaffold is a convenience widget that provides a standard Material page structure.
-    - text: A way to navigate between different pages.
+      explanation: Scaffold 是一個便利元件，提供標準的 Material 頁面結構。
+    - text: 一種在不同頁面之間導覽的方式。
       correct: false
-      explanation: Navigation is handled by Navigator, not Scaffold.
-    - text: Automatic state management for the page.
+      explanation: 導覽由 Navigator 處理，而非 Scaffold。
+    - text: 頁面的自動狀態管理。
       correct: false
-      explanation: Scaffold doesn't manage state; you use StatefulWidget or state management solutions for that.
+      explanation: Scaffold 不管理狀態；你需要使用 StatefulWidget 或狀態管理解決方案來處理這個問題。
 </Quiz>

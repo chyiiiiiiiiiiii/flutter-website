@@ -1,28 +1,26 @@
 ---
-title: Animate a widget using a physics simulation
-description: How to implement a physics animation.
+title: 使用物理模擬為元件 (Widget) 建立動畫
+description: 如何實作物理動畫。
 ---
 
 <?code-excerpt path-base="cookbook/animation/physics_simulation/"?>
 
-Physics simulations can make app interactions feel realistic and interactive.
-For example, you might want to animate a widget to act as if it were attached to
-a spring or falling with gravity.
+物理模擬可以讓應用程式的互動感覺更真實且具互動性。
+舉例來說，你可能會希望動畫化一個元件 (Widget)，讓它看起來像是被彈簧連接，或是在重力作用下下落。
 
-This recipe demonstrates how to move a widget from a dragged point back to the
-center using a spring simulation.
+本教學將示範如何將一個元件從拖曳的位置移動回中心，並使用彈簧模擬來實現。
 
-This recipe uses these steps:
+本教學包含以下步驟：
 
-1. Set up an animation controller
-2. Move the widget using gestures
-3. Animate the widget
-4. Calculate the velocity to simulate a springing motion
+1. 建立動畫控制器
+2. 透過手勢移動元件
+3. 動畫化元件
+4. 計算速度以模擬彈簧運動
 
 
-## Step 1: Set up an animation controller
+## 步驟 1：建立動畫控制器
 
-Start with a stateful widget called `DraggableCard`:
+首先建立一個名為 `DraggableCard` 的 stateful 元件 (StatefulWidget)：
 
 <?code-excerpt "lib/starter.dart"?>
 ```dart
@@ -71,15 +69,14 @@ class _DraggableCardState extends State<DraggableCard> {
 }
 ```
 
-Make the `_DraggableCardState` class extend from
-[SingleTickerProviderStateMixin][].
-Then construct an [AnimationController][] in
-`initState` and set `vsync` to `this`.
+讓 `_DraggableCardState` 類別繼承自
+[SingleTickerProviderStateMixin][]。
+然後在 `initState` 中建立一個 [AnimationController][]，
+並將 `vsync` 設為 `this`。
 
 :::note
-Extending `SingleTickerProviderStateMixin` allows the state object to be a
-`TickerProvider` for the `AnimationController`. For more information, see the
-documentation for [TickerProvider][].
+繼承 `SingleTickerProviderStateMixin` 可以讓狀態 (state) 物件成為
+`AnimationController` 的 `TickerProvider`。如需更多資訊，請參閱 [TickerProvider][] 的文件。
 :::
 
 ```dart diff
@@ -102,10 +99,9 @@ documentation for [TickerProvider][].
     }
 ```
 
-## Step 2: Move the widget using gestures
+## 步驟 2：使用手勢移動元件
 
-Make the widget move when it's dragged, and add an [Alignment][] field to the
-`_DraggableCardState` class:
+讓元件在被拖曳時能夠移動，並在 `_DraggableCardState` 類別中新增一個 [Alignment][] 欄位：
 
 ```dart diff
   class _DraggableCardState extends State<DraggableCard>
@@ -114,11 +110,7 @@ Make the widget move when it's dragged, and add an [Alignment][] field to the
 +   Alignment _dragAlignment = Alignment.center;
 ```
 
-Add a [GestureDetector][] that handles the `onPanDown`, `onPanUpdate`, and
-`onPanEnd` callbacks. To adjust the alignment, use a [MediaQuery][] to get the
-size of the widget, and divide by 2. (This converts units of "pixels dragged" to
-coordinates that [Align][] uses.) Then, set the `Align` widget's `alignment` to
-`_dragAlignment`:
+新增一個 [GestureDetector][]，用來處理 `onPanDown`、`onPanUpdate` 和 `onPanEnd` 回呼（callback）。為了調整對齊方式，可以使用 [MediaQuery][] 來取得元件的尺寸，並除以 2。（這會將「拖曳的像素」單位轉換為 [Align][] 使用的座標。）然後，將 `Align` 元件的 `alignment` 設為 `_dragAlignment`：
 
 ```dart diff
   @override
@@ -148,13 +140,11 @@ coordinates that [Align][] uses.) Then, set the `Align` widget's `alignment` to
   }
 ```
 
-## Step 3: Animate the widget
+## 步驟 3：為元件加入動畫
 
-When the widget is released, it should spring back to the center.
+當元件被釋放時，應該會以彈簧效果回到中心位置。
 
-Add an `Animation<Alignment>` field and an `_runAnimation` method. This
-method defines a `Tween` that interpolates between the point the widget was
-dragged to, to the point in the center.
+新增一個 `Animation<Alignment>` 欄位和一個 `_runAnimation` 方法。這個方法會定義一個 `Tween`，用來在元件被拖曳到的位置與中心點之間進行插值（interpolate）。
 
 ```dart diff
   class _DraggableCardState extends State<DraggableCard>
@@ -175,8 +165,7 @@ void _runAnimation() {
 }
 ```
 
-Next, update `_dragAlignment` when the `AnimationController` produces a
-value:
+接下來，當 `AnimationController` 產生數值時，請更新 `_dragAlignment`：
 
 ```dart diff
   @override
@@ -192,7 +181,7 @@ value:
   }
 ```
 
-Next, make the `Align` widget use the `_dragAlignment` field:
+接下來，讓 `Align` 元件使用 `_dragAlignment` 欄位：
 
 <?code-excerpt "lib/step3.dart (align)"?>
 ```dart
@@ -202,7 +191,7 @@ child: Align(
 ),
 ```
 
-Finally, update the `GestureDetector` to manage the animation controller:
+最後，更新 `GestureDetector` 以管理動畫控制器（AnimationController）：
 
 ```dart diff
   return GestureDetector(
@@ -220,29 +209,20 @@ Finally, update the `GestureDetector` to manage the animation controller:
     child: Align(
 ```
 
-## Step 4: Calculate the velocity to simulate a springing motion
+## 步驟 4：計算速度以模擬彈簧運動
 
-The last step is to do a little math, to calculate the velocity of the widget
-after it's finished being dragged. This is so that the widget realistically
-continues at that speed before being snapped back. (The `_runAnimation` method
-already sets the direction by setting the animation's start and end alignment.)
+最後一步需要進行一些數學運算，以計算元件在拖曳結束後的速度。這樣可以讓元件以更真實的方式，先依照該速度繼續移動，然後再被拉回來。（`_runAnimation` 方法已經透過設定動畫的起始與結束對齊方式來決定方向。）
 
-First, import the `physics` package:
+首先，匯入 `physics` 套件：
 
 <?code-excerpt "lib/main.dart (import)"?>
 ```dart
 import 'package:flutter/physics.dart';
 ```
 
-The `onPanEnd` callback provides a [DragEndDetails][] object. This object
-provides the velocity of the pointer when it stopped contacting the screen. The
-velocity is in pixels per second, but the `Align` widget doesn't use pixels. It
-uses coordinate values between [-1.0, -1.0] and [1.0, 1.0], where [0.0, 0.0]
-represents the center. The `size` calculated in step 2 is used to convert pixels
-to coordinate values in this range.
+`onPanEnd` 回呼會提供一個 [DragEndDetails][] 物件。這個物件會提供指標停止接觸螢幕時的速度。該速度的單位是每秒像素（pixels per second），但 `Align` 元件並不是以像素為單位，而是使用介於 [-1.0, -1.0] 到 [1.0, 1.0] 的座標值，其中 [0.0, 0.0] 代表中心點。在步驟 2 計算出的 `size`，則用來將像素轉換為這個範圍內的座標值。
 
-Finally, `AnimationController` has an `animateWith()` method that can be given a
-[SpringSimulation][]:
+最後，`AnimationController` 有一個 `animateWith()` 方法，可以傳入一個 [SpringSimulation][]：
 
 <?code-excerpt "lib/main.dart (runAnimation)"?>
 ```dart
@@ -266,7 +246,7 @@ void _runAnimation(Offset pixelsPerSecond, Size size) {
 }
 ```
 
-Don't forget to call `_runAnimation()`  with the velocity and size:
+別忘了以 velocity（速度）和 size（大小）來呼叫 `_runAnimation()`：
 
 <?code-excerpt "lib/main.dart (onPanEnd)"?>
 ```dart
@@ -276,11 +256,10 @@ onPanEnd: (details) {
 ```
 
 :::note
-Now that the animation controller uses a simulation, its `duration` argument
-is no longer required.
+現在動畫控制器（AnimationController）已經使用模擬（simulation），其 `duration` 參數已不再需要。
 :::
 
-## Interactive Example
+## 互動範例
 
 <?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter physics simulation hands-on example in DartPad" run="true"
@@ -392,7 +371,7 @@ class _DraggableCardState extends State<DraggableCard>
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/animation-physics-card-drag.webp" alt="Demo showing a widget being dragged and snapped back to the center" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/animation-physics-card-drag.webp" alt="展示一個元件被拖曳並自動回彈至中央的示範" class="site-mobile-screenshot" />
 </noscript>
 
 [Align]: {{site.api}}/flutter/widgets/Align-class.html

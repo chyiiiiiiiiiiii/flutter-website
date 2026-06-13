@@ -1,56 +1,49 @@
 ---
-title: Testing Flutter apps
+title: 測試 Flutter 應用程式
 description: >-
-  Learn more about the different types of testing and how to write them.
+  進一步了解不同類型的測試以及如何撰寫這些測試。
 ---
 
-The more features your app has, the harder it is to test manually.
-Automated tests help ensure that your app performs correctly before
-you publish it, while retaining your feature and bug fix velocity.
+隨著您的應用程式功能越來越多，手動測試也會變得更加困難。
+自動化測試有助於在您發布應用程式之前，確保其行為正確，同時維持您的功能開發與錯誤修正速度。
 
-Automated testing falls into a few categories:
+自動化測試主要分為幾種類型：
 
-* A [_unit test_](#unit-tests) tests a single function, method, or class.
-* A [_widget test_](#widget-tests) (in other UI frameworks referred to
-  as _component test_) tests a single widget.
-* An [_integration test_](#integration-tests)
-  tests a complete app or a large part of an app.
+* [_單元測試（unit test）_](#unit-tests) 用於測試單一函式、方法或類別。
+* [_元件測試（widget test）_](#widget-tests)（在其他 UI 框架中稱為 _component test_）用於測試單一元件 (Widget)。
+* [_整合測試（integration test）_](#integration-tests)
+  用於測試完整的應用程式或應用程式中的大部分功能。
 
-Generally speaking, a well-tested app has many unit and widget tests,
-tracked by [code coverage][], plus enough integration tests
-to cover all the important use cases. This advice is based on
-the fact that there are trade-offs between different kinds of testing,
-seen below.
+一般來說，一個測試完善的應用程式會有大量的單元測試與元件測試，
+並透過 [程式碼覆蓋率（code coverage）][code coverage] 進行追蹤，
+同時也會有足夠的整合測試來涵蓋所有重要的使用案例。
+這樣的建議是基於不同測試類型之間的權衡，如下表所示。
 
-| Tradeoff             | Unit   | Widget | Integration |
-|----------------------|--------|--------|-------------|
-| **Confidence**       | Low    | Higher | Highest     |
-| **Maintenance cost** | Low    | Higher | Highest     |
-| **Dependencies**     | Few    | More   | Most        |
-| **Execution speed**  | Quick  | Quick  | Slow        |
+| 權衡項目              | 單元測試 | 元件測試 | 整合測試   |
+|----------------------|----------|----------|------------|
+| **信心程度**          | 低       | 較高     | 最高       |
+| **維護成本**          | 低       | 較高     | 最高       |
+| **相依性**            | 少       | 較多     | 最多       |
+| **執行速度**          | 快速     | 快速     | 較慢       |
 
 {:.table .table-striped}
 
 ## Unit tests
 
-A _unit test_ tests a single function, method, or class.
-The goal of a unit test is to verify the correctness of a
-unit of logic under a variety of conditions.
-External dependencies of the unit under test are generally
-[mocked out](/cookbook/testing/unit/mocking).
-Unit tests generally don't read from or write
-to disk, render to screen, or receive user actions from
-outside the process running the test.
-For more information regarding unit tests,
-you can view the following recipes
-or run `flutter test --help` in your terminal.
+_單元測試（unit test）_ 用於測試單一函式、方法或類別。
+單元測試的目標是在各種情境下驗證邏輯單元的正確性。
+被測單元的外部相依性通常會被 [mock（模擬）](/cookbook/testing/unit/mocking)。
+單元測試通常不會從磁碟讀取或寫入資料、不會渲染 (render) 到螢幕，
+也不會接收來自執行測試程序外部的使用者操作。
+如需更多關於單元測試的資訊，
+您可以參考以下教學範例，
+或在終端機執行 `flutter test --help`。
 
 :::note
-If you're writing unit tests for code that
-uses plugins and you want to avoid crashes,
-check out [Plugins in Flutter tests][].
-If you want to test your Flutter plugin,
-check out [Testing plugins][].
+如果您正在為使用插件 (plugin) 的程式碼撰寫單元測試，並希望避免當機，
+請參考 [Flutter 測試中的插件][Plugins in Flutter tests]。
+若您想測試自己的 Flutter 插件，
+請參考 [插件測試][Testing plugins]。
 :::
 
 [Plugins in Flutter tests]: /testing/plugins-in-tests
@@ -58,80 +51,69 @@ check out [Testing plugins][].
 
 ### Recipes {:.no_toc}
 
-- [Introduction to unit testing](/cookbook/testing/unit/introduction)
-- [Mock dependencies using Mockito](/cookbook/testing/unit/mocking)
+- [單元測試簡介](/cookbook/testing/unit/introduction)
+- [使用 Mockito 模擬相依套件](/cookbook/testing/unit/mocking)
 
 ## Widget tests
 
-A _widget test_ (in other UI frameworks referred to as _component test_)
-tests a single widget. The goal of a widget test is to verify that the
-widget's UI looks and interacts as expected. Testing a widget involves
-multiple classes and requires a test environment that provides the
-appropriate widget lifecycle context.
+_元件測試（widget test）_（在其他 UI 框架中稱為 _component test_）
+用於測試單一元件 (Widget)。元件測試的目標是驗證元件的 UI 外觀與互動是否如預期。
+測試元件時會涉及多個類別，並需要一個提供適當元件生命週期上下文的測試環境。
 
-For example, the Widget being tested should be able to receive and
-respond to user actions and events, perform layout, and instantiate child
-widgets. A widget test is therefore more comprehensive than a unit test.
-However, like a unit test, a widget test's environment is replaced with
-an implementation much simpler than a full-blown UI system.
+例如，被測試的元件 (Widget) 應能夠接收並回應使用者操作與事件、
+執行版面配置 (layout)，以及建立子元件。
+元件測試因此比單元測試更為全面。
+不過，與單元測試類似，元件測試的環境會被替換為比完整 UI 系統簡化許多的實作。
 
 ### Recipes {:.no_toc}
 
-- [Introduction to widget testing](/cookbook/testing/widget/introduction)
-- [Find widgets using finders](/cookbook/testing/widget/finders)
-- [Handling scrolling in widget tests](/cookbook/testing/widget/scrolling)
-- [Tap, drag, and enter text in widget tests](/cookbook/testing/widget/tap-drag)
-- [Test different orientations](/cookbook/testing/widget/orientation)
+- [元件測試簡介](/cookbook/testing/widget/introduction)
+- [使用 finder 尋找元件](/cookbook/testing/widget/finders)
+- [在元件測試中處理捲動](/cookbook/testing/widget/scrolling)
+- [在元件測試中點擊、拖曳和輸入文字](/cookbook/testing/widget/tap-drag)
+- [測試不同螢幕方向](/cookbook/testing/widget/orientation)
 
 ## Integration tests
 
-An _integration test_ tests a complete app or a large part of an app.
-The goal of an integration test is to verify that all the widgets
-and services being tested work together as expected.
-Furthermore, you can use integration
-tests to verify your app's performance.
+_整合測試（integration test）_ 用於測試完整的應用程式或應用程式中的大部分功能。
+整合測試的目標是驗證所有被測試的元件 (Widgets) 與服務能否如預期協同運作。
+此外，您也可以利用整合測試來驗證應用程式的效能。
 
-Generally, an _integration test_ runs on a real device or an OS emulator,
-such as iOS Simulator or Android Emulator.
-The app under test is typically isolated
-from the test driver code to avoid skewing the results.
+一般來說，_整合測試_ 會在真實裝置或作業系統模擬器（如 iOS Simulator 或 Android Emulator）上執行。
+被測試的應用程式通常會與測試驅動程式碼隔離，以避免影響測試結果。
 
-The Flutter SDK includes the [`integration_test`][] package.
-However, this package can't interact with native platform UI,
-such as permission dialogs, notifications, or platform views.
-For apps that need native interactions, you can use the 
-[`patrol`][] package, an open-source framework that extends
-Flutter's testing capabilities with native platform support.
+Flutter SDK 內含 [`integration_test`][] 套件。
+然而，此套件無法與原生平台 UI 互動，
+例如權限對話框、通知或平台視圖 (platform views)。
+對於需要原生互動的應用程式，您可以使用
+[`patrol`][] 套件，這是一個開源框架，
+能以原生平台支援擴充 Flutter 的測試能力。
 
-For more information on how to write integration tests, see the [integration
-testing page][].
+如需撰寫整合測試的詳細資訊，請參考 [整合測試頁面][]。
 
 [`integration_test`]: {{site.repo.flutter}}/tree/main/packages/integration_test
 [`patrol`]: {{site.pub-pkg}}/patrol
 
 ### Recipes {:.no_toc}
 
-- [Integration testing concepts](/cookbook/testing/integration/introduction)
-- [Write and run a Flutter integration test](/testing/integration-tests)
-- [Write and run a Patrol integration test](https://patrol.leancode.co/documentation/write-your-first-test)
-- [Measure performance with an integration test](/cookbook/testing/integration/profiling)
+- [整合測試概念](/cookbook/testing/integration/introduction)
+- [撰寫並執行 Flutter 整合測試](/testing/integration-tests)
+- [撰寫並執行 Patrol 整合測試](https://patrol.leancode.co/documentation/write-your-first-test)
+- [使用整合測試測量效能](/cookbook/testing/integration/profiling)
 
 ## Continuous integration services
 
-Continuous integration (CI) services allow you to run your
-tests automatically when pushing new code changes.
-This provides timely feedback on whether the code
-changes work as expected and do not introduce bugs.
+持續整合 (CI，Continuous Integration) 服務可讓您在推送新程式碼變更時，自動執行測試。
+這能及時回饋程式碼變更是否如預期運作，且未引入新的錯誤。
 
-For information on running tests on various continuous
-integration services, see the following:
+如需在各種持續整合服務上執行測試的資訊，請參考以下內容：
 
-* [Continuous delivery using fastlane with Flutter][]
-* [Test Flutter apps on Appcircle][]
-* [Test Flutter apps on Travis][]
-* [Test Flutter apps on Cirrus][]
+* [使用 fastlane 進行 Flutter 持續交付][Continuous delivery using fastlane with Flutter]
+* [在 Appcircle 測試 Flutter 應用程式][Test Flutter apps on Appcircle]
+* [在 Travis 測試 Flutter 應用程式][Test Flutter apps on Travis]
+* [在 Cirrus 測試 Flutter 應用程式][Test Flutter apps on Cirrus]
 * [Codemagic CI/CD for Flutter][]
-* [Codemagic CI/CD for Patrol][] 
+* [Codemagic CI/CD for Patrol][]
 * [Flutter CI/CD with Bitrise][]
 
 [code coverage]: https://en.wikipedia.org/wiki/Code_coverage
@@ -143,3 +125,4 @@ integration services, see the following:
 [Test Flutter apps on Cirrus]: https://cirrus-ci.org/examples/#flutter
 [Test Flutter apps on Travis]: {{site.flutter-blog}}/test-flutter-apps-on-travis-3fd5142ecd8c
 [integration testing page]: /cookbook/testing/integration/introduction
+[整合測試頁面]: /cookbook/testing/integration/introduction

@@ -1,28 +1,27 @@
 ---
-title: Record or stream audio input
+title: 錄製或串流音訊輸入
 description: >-
-  Learn how to record or stream audio input in
-  your Flutter app using the record package.
+  了解如何在 Flutter 應用程式中使用 record 套件
+  錄製或串流音訊輸入。
 ---
 
-This recipe demonstrates how to use the [`record` package][] to add
-audio recording and streaming capabilities to your Flutter app.
-To get started using the package, follow these steps:
+本教學示範如何使用 [`record` 套件][] 為你的 Flutter 應用程式新增
+音訊錄製與串流功能。
+請依照下列步驟開始使用此套件：
 
-[`record` package]: {{site.pub-pkg}}/record
+[`record` 套件]: {{site.pub-pkg}}/record
 
-## 1. Add the package dependency
+## 1. 新增套件相依性
 
-To add `package:record` as a dependency, use `flutter pub add`:
+若要將 `package:record` 新增為相依套件，請使用 `flutter pub add`：
 
 ```console
 $ flutter pub add record
 ```
 
-## 2. Initialize an `AudioRecorder`
+## 2. 初始化 `AudioRecorder`
 
-Initialize an `AudioRecorder` object. This is the primary object
-that controls the recording process.
+初始化一個 `AudioRecorder` 物件。這是控制錄製流程的主要物件。
 
 ```dart
 import 'package:record/record.dart';
@@ -30,11 +29,11 @@ import 'package:record/record.dart';
 final recorder = AudioRecorder();
 ```
 
-## 3. Request user permission
+## 3. 請求使用者權限
 
-Before recording, you need to request user permission.
-You might also need to add platform-specific permission configurations.
-Refer to the [`record` package][] documentation for details.
+錄製前，你必須請求使用者授權。
+你可能還需要新增特定平台的權限設定。
+詳情請參閱 [`record` 套件][] 文件。
 
 ```dart
 final recorder = AudioRecorder();
@@ -45,12 +44,12 @@ if (await recorder.hasPermission()) {
 }
 ```
 
-## 4. Create a recording configuration
+## 4. 建立錄製設定
 
-Create and configure a `RecordConfig` object to specify the record settings,
-such as the encoder, sample rate, and channel number.
-You can also enable features like auto gain, echo cancellation,
-and noise suppression.
+建立並設定一個 `RecordConfig` 物件，以指定錄製參數，
+例如編碼器、取樣率與聲道數量。
+你也可以啟用自動增益、回音消除及
+噪音抑制等功能。
 
 ```dart
 final recordConfig = RecordConfig(
@@ -63,12 +62,12 @@ final recordConfig = RecordConfig(
 );
 ```
 
-## 5. Start recording to a file
+## 5. 開始錄製至檔案
 
-To start recording to a file,
-call the `start` method on the `AudioRecorder`,
-passing in the `recordConfig` you defined
-and the path where the file should be stored.
+若要開始錄製至檔案，
+請呼叫 `AudioRecorder` 的 `start` 方法，
+並傳入你定義的 `recordConfig`
+以及檔案的儲存路徑。
 
 ```dart
 // TODO: Specify the path where the audio file should be saved.
@@ -76,10 +75,10 @@ final audioFilePath = 'myRecording.wav';
 await recorder.start(recordConfig, path: audioFilePath);
 ```
 
-## 6. Control an ongoing recording
+## 6. 控制進行中的錄製
 
-You can control an ongoing recording using the
-`pause`, `resume`, and `stop` methods on the `AudioRecorder`.
+你可以透過 `AudioRecorder` 的
+`pause`、`resume` 和 `stop` 方法來控制進行中的錄製。
 
 ```dart
 await recorder.pause();
@@ -87,10 +86,10 @@ await recorder.resume();
 await recorder.stop();
 ```
 
-## 7. [Optional] Record to an audio stream
+## 7. [選用] 錄製至音訊串流
 
-To stream audio, use the `startStream` method.
-This returns a [stream][] of audio data.
+若要串流音訊，請使用 `startStream` 方法。
+這會回傳一個音訊資料的[串流 (stream)][stream]。
 
 ```dart
 final stream = await recorder.startStream(recordConfig);
@@ -101,35 +100,35 @@ stream.listen((audioChunk) {
 
 [stream]: {{site.api}}/flutter/dart-async/Stream-class.html
 
-## 8. Stop recording
+## 8. 停止錄製
 
-To stop the recording and get the path to the saved file,
-call the asynchronous `stop` method on the `AudioRecorder`.
+若要停止錄製並取得已儲存檔案的路徑，
+請呼叫 `AudioRecorder` 的非同步 `stop` 方法。
 
 ```dart
 final path = await recorder.stop();
 print('Recording stopped. File saved to: $path');
 ```
 
-## 9. Dispose of the recorder
+## 9. 釋放錄音器資源
 
-When you are finished using the `AudioRecorder`,
-remember to call its `dispose` method to release its resources.
+當你使用完 `AudioRecorder` 後，
+請記得呼叫其 `dispose` 方法以釋放資源。
 
 ```dart
 await recorder.dispose();
 ```
 
-## Supported formats and encodings
+## 支援的格式與編碼
 
-The `record` package supports various encoders and file formats,
-but support varies by platform.
-For the full list of supported encoders per platform,
-check out the package's [encoding support table][].
+`record` 套件支援多種編碼器與檔案格式，
+但各平台的支援程度不同。
+若要查看各平台完整的支援編碼器清單，
+請查閱套件的[編碼支援表][encoding support table]。
 
-For more detailed information and examples,
-visit the [`record` package][] page on pub.dev or
-check out the `record` Package of the Week video.
+如需更詳細的資訊與範例，
+請造訪 pub.dev 上的 [`record` 套件][] 頁面，或
+觀看 `record` 套件本週精選影片。
 
 <div class="video-wrapper">
   <YouTubeEmbed id="Vv2A_nUL1tw" title="record - Package of the Week"></YouTubeEmbed>

@@ -1,83 +1,72 @@
 ---
-title: Architecture recommendations and resources
-shortTitle: Architecture recommendations
+title: 架構建議與資源
+shortTitle: 架構建議
 description: >
-  Recommendations for building scalable Flutter applications.
+  建立可擴展 Flutter 應用程式的建議。
 prev:
-  title: Architecture case study
+  title: 架構案例研究
   path: /app-architecture/case-study
 next:
-  title: Design patterns
+  title: 設計模式
   path: /app-architecture/design-patterns
 ---
 
-This page presents architecture best practices, why they matter, and
-whether we recommend them for your Flutter application.
-You should treat these recommendations as recommendations,
-and not steadfast rules, and you should
-adapt them to your app's unique requirements.
+本頁介紹架構最佳實踐、其重要性，以及我們是否建議你在 Flutter 應用程式中採用這些做法。
+你應將這些建議視為參考，而非絕對規則，並根據你應用程式的獨特需求進行調整。
 
-The best practices on this page have a priority,
-which reflects how strongly the Flutter team recommends it.
+本頁的最佳實踐會標註優先級，這反映了 Flutter 團隊對該建議的推薦程度。
 
-* **Strongly recommend:** You should always implement this recommendation if
-  you're starting to build a new application. You should strongly consider
-  refactoring an existing app to implement this practice unless doing so would
-  fundamentally clash with your current approach.
-* **Recommend**: This practice will likely improve your app.
-* **Conditional**: This practice can improve your app in certain circumstances.
+* **強烈建議：** 如果你正在開始建立新應用程式，應始終實作此建議。除非與你現有的架構方式根本衝突，否則也應強烈考慮將現有應用程式重構以實現此做法。
+* **建議：** 採用此做法很可能會提升你的應用程式品質。
+* **視情況而定：** 在特定情境下，此做法可以改善你的應用程式。
 
-## Separation of concerns
+## 關注點分離 {#separation-of-concerns}
 
-You should separate your app into a UI layer and a data layer. Within those layers, 
-you should further separate logic into classes by responsibility.
+你應將應用程式分為 UI 層與資料層。在這些層中，
+你應進一步依職責將邏輯拆分為不同類別。
 
 <ArchitectureRecommendations category="separation-of-concerns" />
 
-## Handling data
+## 資料處理 {#handling-data}
 
-Handling data with care makes your code easier to understand, less error prone, and
-prevents malformed or unexpected data from being created.
+謹慎處理資料能讓程式碼更易於理解、降低錯誤發生機率，
+並防止產生格式錯誤或非預期的資料。
 
 <ArchitectureRecommendations category="handling-data" />
 
-## App structure
+## 應用程式結構 {#app-structure}
 
-Well organized code benefits both the health of the app itself, and the team working on the code.
+組織良好的程式碼對應用程式本身的健全性及開發團隊都有所助益。
 
 <ArchitectureRecommendations category="app-structure" />
 
-## Testing
+## 測試 {#testing}
 
-Good testing practices makes your app flexible. 
-It also makes it straightforward and low risk to add new logic and new UI.
+良好的測試實踐讓你的應用程式更具彈性。
+同時也能讓新增邏輯與 UI 的過程更簡單、風險更低。
 
 <ArchitectureRecommendations category="testing" />
 
 <a id="recommended-resources" aria-hidden="true"></a>
 
-## Recommended resources {:#resources}
+## 推薦資源 {:#resources}
 
-* Code and templates
+* 程式碼與範本
   * [Compass app source code][] -
-    Source code of a full-featured, robust Flutter application that
-    implements many of these recommendations.
+    一個功能完整且健壯的 Flutter 應用程式原始碼，實作了許多本頁建議。
   * [very_good_cli][] -
-    A Flutter application template made by
-    the Flutter experts Very Good Ventures.
-    This template generates a similar app structure.
-* Documentation
+    由 Flutter 專家 Very Good Ventures 製作的 Flutter 應用程式範本。
+    此範本會產生類似的應用程式結構。
+* 文件
   * [Very Good Engineering architecture documentation][] -
-    Very Good Engineering is a documentation site by VGV that has
-    technical articles, demos, and open-sourced projects.
-    It includes documentation on architecting Flutter applications.
-* Tooling
+    Very Good Engineering 是 VGV 經營的文件網站，包含技術文章、展示與開源專案。
+    其中也有關於 Flutter 應用程式架構的文件。
+* 工具
   * [Flutter developer tools][] -
-    DevTools is a suite of performance and debugging tools for Dart and Flutter.
+    DevTools 是一套針對 Dart 與 Flutter 的效能與除錯工具。
   * [flutter_lints][] -
-    A package that contains the lints for
-    Flutter apps recommended by the Flutter team.
-    Use this package to encourage good coding practices across a team.
+    由 Flutter 團隊推薦的 Flutter 應用程式檢查規則套件。
+    使用此套件可促進團隊間良好的程式撰寫習慣。
 
 
 [Compass app source code]: https://github.com/flutter/samples/tree/main/compass_app
@@ -86,9 +75,9 @@ It also makes it straightforward and low risk to add new logic and new UI.
 [Flutter developer tools]: /tools/devtools
 [flutter_lints]: https://pub.dev/packages/flutter_lints
 
-## Feedback
+## 意見回饋
 
-As this section of the website is evolving,
-we [welcome your feedback][]!
+由於本網站此區塊仍在持續演進中，
+我們[歡迎你的意見回饋][welcome your feedback]！
 
 [welcome your feedback]: https://google.qualtrics.com/jfe/form/SV_4T0XuR9Ts29acw6?page="recommendations"

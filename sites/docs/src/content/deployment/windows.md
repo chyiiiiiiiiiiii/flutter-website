@@ -1,146 +1,80 @@
 ---
-title: Build and release a Windows desktop app
-description: How to release a Flutter app to the Microsoft Store.
+title: 建置並發佈 Windows 桌面應用程式
+description: 如何將 Flutter 應用程式發佈到 Microsoft Store。
 shortTitle: windows
 ---
 
-One convenient approach to distributing Windows apps
-is the [Microsoft Store][microsoftstore].
-This guide provides a step-by-step walkthrough
-of packaging and deploying a Flutter app in this way.
+分發 Windows 應用程式的一個便利方式是透過 [Microsoft Store][microsoftstore]。
+本指南將逐步說明如何以這種方式封裝並部署 Flutter 應用程式。
 
 :::note
-You are not required to publish Windows apps through the
-Microsoft Store, particularly if you prefer more control
-over the distribution experience or don't want to deal
-with the certification process. The Microsoft documentation
-includes more information about traditional installation
-approaches, including [Windows Installer][msidocs].
+你並不一定要透過 Microsoft Store 發佈 Windows 應用程式，特別是當你希望對分發體驗有更多控制權，或不想處理認證流程時。Microsoft 的文件中有關於傳統安裝方式的更多資訊，包括 [Windows Installer][msidocs]。
 :::
 
-## Preliminaries
+## 前置作業
 
-Before beginning the process of releasing
-a Flutter Windows desktop app to the Microsoft Store,
-first confirm that it satisfies [Microsoft Store Policies][storepolicies].
+在開始將 Flutter Windows 桌面應用程式發佈到 Microsoft Store 之前，請先確認你的應用程式符合 [Microsoft Store 政策][storepolicies]。
 
-Also, you must join the
-[Microsoft Partner Network][microsoftpartner] to be able to submit apps.
+此外，你必須加入 [Microsoft Partner Network][microsoftpartner]，才能提交應用程式。
 
-## Set up your application in the Partner Center
+## 在 Partner Center 設定你的應用程式
 
-Manage an application's life cycle in the
-[Microsoft Partner Center][microsoftpartner].
+你可以在 [Microsoft Partner Center][microsoftpartner] 管理應用程式的生命週期。
 
-First, reserve the application name and
-ensure that the required rights to the name exist.
-Once the name is reserved, the application
-will be provisioned for services (such as
-push notifications), and you can start adding add-ons.
+首先，預留應用程式名稱，並確保你擁有該名稱的必要權利。名稱預留後，應用程式將會啟用相關服務（例如推播通知），你也可以開始新增附加元件。
 
-Options such as pricing, availability,
-age ratings, and category have to be
-configured together with the first submission
-and are automatically retained
-for the subsequent submissions.
+像是定價、可用性、年齡分級與分類等選項，必須在首次提交時一併設定，這些設定會自動保留給後續的提交。
 
-## Packaging and deployment
+## 封裝與部署
 
-In order to publish an application to Microsoft Store,
-you must first package it.
-The valid formats are **.msix**, **.msixbundle**,
-**.msixupload**, **.appx**, **.appxbundle**,
-**.appxupload**, and **.xap**.
+若要將應用程式發佈到 Microsoft Store，必須先進行封裝。
+有效的格式包括 **.msix**、**.msixbundle**、**.msixupload**、**.appx**、**.appxbundle**、**.appxupload** 以及 **.xap**。
 
-### Manual packaging and deployment for the Microsoft Store
+### 手動封裝與部署到 Microsoft Store
 
-Check out [MSIX packaging][msix packaging]
-to learn about packaging
-Flutter Windows desktop applications.
+請參考 [MSIX 封裝][msix packaging]，以瞭解如何封裝 Flutter Windows 桌面應用程式。
 
-Note that each product has a unique identity,
-which the Store assigns.
+請注意，每個產品都有唯一的識別資訊，由 Store 指派。
 
-If the package is being built manually,
-you have to include its identity details
-manually during the packaging.
-The essential information can be retrieved
-from the Partner Center using the following instructions:
+如果你是手動建立封裝，則必須在封裝過程中手動加入其識別資訊。這些必要資訊可以依下列步驟從 Partner Center 取得：
 
-1. In the Partner Center, navigate to the application.
-2. Select **Product management**.
-3. Retrieve the package identity name, publisher,
-   and publisher display name by clicking **Product identity**.
+1. 在 Partner Center 中，前往你的應用程式。
+2. 選擇 **產品管理**（Product management）。
+3. 點擊 **產品識別**（Product identity）以取得封裝識別名稱、發行者及發行者顯示名稱。
 
-After manually packaging the application,
-manually submit it to the
-[Microsoft Partner Center][microsoftpartner].
-You can do this by creating a new submission,
-navigating to **Packages**,
-and uploading the created application package.
+手動封裝應用程式後，請手動將其提交到 [Microsoft Partner Center][microsoftpartner]。
+你可以建立新的提交，前往 **Packages**，並上傳你建立的應用程式封裝。
 
-### Continuous deployment
+### 持續部署（Continuous deployment）
 
-In addition to manually creating and deploying the package,
-you can automate the build, package, versioning,
-and deployment process using CI/CD tooling after having submitted
-the application to the Microsoft Store for the first time.
+除了手動建立與部署封裝之外，在首次將應用程式提交到 Microsoft Store 後，你也可以利用 CI/CD 工具自動化建置、封裝、版本管理與部署流程。
 
 #### Codemagic CI/CD
 
-[Codemagic CI/CD][codemagic] uses the
-[`msix` pub package][msix package] to package
-Flutter Windows desktop applications.
+[Codemagic CI/CD][codemagic] 使用 [`msix` pub 套件][msix package] 來封裝 Flutter Windows 桌面應用程式。
 
-For Flutter applications, use either the
-[Codemagic Workflow Editor][cmworkfloweditor]
-or [codemagic.yaml][cmyaml]
-to package the application and deploy it
-to the Microsoft Partner Center.
-Additional options (such as the list of
-capabilities and language resources
-contained in the package)
-can be configured using this package.
+對於 Flutter 應用程式，可以使用 [Codemagic Workflow Editor][cmworkfloweditor] 或 [codemagic.yaml][cmyaml] 來封裝應用程式並部署到 Microsoft Partner Center。
+你也可以透過此套件設定其他選項（如封裝內包含的功能清單與語言資源）。
 
-For publishing, Codemagic uses the
-[Partner Center submission API][partnercenterapi];
-so, Codemagic requires
-[associating the Azure Active Directory
-and Partner Center accounts][azureadassociation].
+在發佈時，Codemagic 會使用 [Partner Center submission API][partnercenterapi]；
+因此，Codemagic 需要 [將 Azure Active Directory 與 Partner Center 帳號關聯][azureadassociation]。
 
 #### GitHub Actions CI/CD
 
-GitHub Actions can use the
-[Microsoft Dev Store CLI](https://learn.microsoft.com/windows/apps/publish/msstore-dev-cli/overview)
-to package applications into an MSIX and publish them to the Microsoft Store.
-The [setup-msstore-cli](https://github.com/microsoft/setup-msstore-cli)
-GitHub Action installs the cli so that the Action can use it for packaging
-and publishing.
+GitHub Actions 可利用 [Microsoft Dev Store CLI](https://learn.microsoft.com/windows/apps/publish/msstore-dev-cli/overview) 將應用程式封裝為 MSIX 並發佈到 Microsoft Store。
+[setup-msstore-cli](https://github.com/microsoft/setup-msstore-cli) GitHub Action 會安裝此 CLI，讓 Action 能用於封裝與發佈。
 
-As packaging the MSIX uses the
-[`msix` pub package][msix package], the project's `pubspec.yaml`
-must contain an appropriate `msix_config` node.
+由於 MSIX 封裝會使用 [`msix` pub 套件][msix package]，專案的 `pubspec.yaml` 必須包含正確的 `msix_config` 節點。
 
-You must create an Azure AD directory from the Dev Center with
-[global administrator permission](https://azure.microsoft.com/documentation/articles/active-directory-assign-admin-roles/).
+你必須在 Dev Center 建立一個具有 [全域管理員權限](https://azure.microsoft.com/documentation/articles/active-directory-assign-admin-roles/) 的 Azure AD 目錄。
 
-The GitHub Action requires environment secrets from the partner center.
-`AZURE_AD_TENANT_ID`, `AZURE_AD_ClIENT_ID`, and `AZURE_AD_CLIENT_SECRET`
-are visible on the Dev Center following the instructions for the
-[Windows Store Publish Action](https://github.com/marketplace/actions/windows-store-publish#obtaining-your-credentials).
-You also need the `SELLER_ID` secret, which can be found in the Dev Center
-under **Account Settings** > **Organization Profile** > **Legal Info**.
+GitHub Action 需要來自 Partner Center 的環境機密（environment secrets）。
+`AZURE_AD_TENANT_ID`、`AZURE_AD_ClIENT_ID` 與 `AZURE_AD_CLIENT_SECRET` 可依照 [Windows Store Publish Action](https://github.com/marketplace/actions/windows-store-publish#obtaining-your-credentials) 的指示，在 Dev Center 看到。
+你還需要 `SELLER_ID` 機密，可在 Dev Center 的 **Account Settings** > **Organization Profile** > **Legal Info** 找到。
 
-The application must already be present in the Microsoft Dev Center with at
-least one complete submission, and `msstore init` must be run once within
-the repository before the Action can be performed. Once complete, running
-[`msstore package .`](https://learn.microsoft.com/windows/apps/publish/msstore-dev-cli/package-command)
-and
-[`msstore publish`](https://learn.microsoft.com/windows/apps/publish/msstore-dev-cli/publish-command)
-in a GitHub Action packages the
-application into an MSIX and uploads it to a new submission on the dev center.
+應用程式必須已經存在於 Microsoft Dev Center，且至少有一次完整的提交，並且必須在執行 Action 前於儲存庫內執行過 `msstore init`。完成後，在 GitHub Action 中執行 [`msstore package .`](https://learn.microsoft.com/windows/apps/publish/msstore-dev-cli/package-command) 和 [`msstore publish`](https://learn.microsoft.com/windows/apps/publish/msstore-dev-cli/publish-command)，即可將應用程式封裝為 MSIX 並上傳至 Dev Center 的新提交。
 
-The steps necessary for MSIX publishing resemble the following
+MSIX 發佈所需步驟大致如下：
 
 ```yaml
 - uses: microsoft/setup-msstore-cli@v1
@@ -158,89 +92,80 @@ The steps necessary for MSIX publishing resemble the following
   run: msstore publish -v
 ```
 
-## Updating the app's version number
+## 更新應用程式的版本號
 
-For apps published to the Microsoft Store,
-the version number must be set during the
-packaging process.
+對於發佈到 Microsoft Store 的應用程式，
+必須在封裝（packaging）過程中設定版本號。
 
-The default version number of the app is `1.0.0.0`.
+應用程式的預設版本號為 `1.0.0.0`。
 
 :::note
-Microsoft Store apps are not allowed to have a
-Version with a revision number other than zero.
-Therefore, the last number of the version must
-remain zero for all releases.
-Ensure that you follow Microsoft's
-[versioning guidelines][windowspackageversioning].
+Microsoft Store 的應用程式不允許
+版本號中的修訂號（revision number）為非零值。
+因此，版本號的最後一位必須在所有發行版本中維持為零。
+請務必遵循 Microsoft 的
+[版本管理指引][windowspackageversioning]。
 :::
 
-For apps not published to the Microsoft Store, you
-can set the app's executable's file and product versions.
-The executable's default file version is `1.0.0.1`,
-and its default product version is `1.0.0+1`. To update these,
-navigate to the `pubspec.yaml` file and update the
-following line:
+如果應用程式沒有發佈到 Microsoft Store，
+你可以設定應用程式執行檔的檔案版本（file version）與產品版本（product version）。
+執行檔的預設檔案版本為 `1.0.0.1`，
+預設產品版本為 `1.0.0+1`。若要更新這些設定，
+請前往 `pubspec.yaml` 檔案並更新下列這一行：
 
 ```yaml
 version: 1.0.0+1
 ```
 
-The build name is three numbers separated by dots,
-followed by an optional build number that is separated
-by a `+`. In the example above, the build name is `1.0.0`
-and the build number is `1`.
+建置名稱由三個以點號分隔的數字組成，
+後面可選擇性地加上一個以 `+` 分隔的建置號碼。
+在上面的範例中，建置名稱是 `1.0.0`，
+建置號碼則是 `1`。
 
-The build name becomes the first three numbers of the
-file and product versions, while the build number becomes
-the fourth number of the file and product versions.
+建置名稱會成為檔案和產品版本的前三個數字，
+而建置號碼則會成為檔案和產品版本的第四個數字。
 
-Both the build name and number can be overridden in
-`flutter build windows` by specifying `--build-name` and
-`--build-number`, respectively.
+你可以在 `flutter build windows` 中分別透過指定 `--build-name` 和
+`--build-number` 來覆寫建置名稱與建置號碼。
 
-## Add app icons
+## 新增應用程式圖示
 
-To update the icon of a Flutter Windows
-desktop application before packaging use the
-following instructions:
+若要在打包前更新 Flutter Windows
+桌面應用程式的圖示，請依照以下步驟操作：
 
-1. In the Flutter project, navigate to
-   **windows\runner\resources**.
-2. Replace the **app_icon.ico** with the desired icon.
-3. If the name of the icon is other than **app_icon.ico**,
-   proceed to change the **IDI_APP_ICON** value in the
-   **windows\runner\Runner.rc** file to point to the new path.
+1. 在 Flutter 專案中，前往
+   **windows\runner\resources**。
+2. 將 **app_icon.ico** 替換為你想要的圖示。
+3. 如果圖示名稱不是 **app_icon.ico**，
+   請到 **windows\runner\Runner.rc** 檔案中
+   修改 **IDI_APP_ICON** 的值，指向新的路徑。
 
-When packaging with the [`msix` pub package][msix package],
-the logo path can also be configured inside the `pubspec.yaml` file.
+使用 [`msix` pub 套件][msix package] 進行打包時，
+也可以在 `pubspec.yaml` 檔案中設定 logo 路徑。
 
-To update the application image in the Store listing,
-navigate to the Store listing step of the submission
-and select Store logos.
-From there, you can upload the logo with
-the size of 300 x 300 pixels.
+若要更新應用程式在 Store 上架頁面的圖片，
+請前往送出流程中的 Store listing 步驟，
+選擇 Store logos。
+在此你可以上傳 300 x 300 像素大小的 logo。
 
-All uploaded images are retained for subsequent submissions.
+所有上傳過的圖片都會保留，供後續送出時使用。
 
-## Validating the application package
+## 驗證應用程式套件
 
-Before publication to the Microsoft Store,
-first validate the application package locally.
+在發佈到 Microsoft Store 之前，
+請先在本機驗證應用程式套件。
 
 [Windows App Certification Kit][windowsappcertification]
-is a tool included in the
-Windows Software Development Kit (SDK).
+是包含在 Windows 軟體開發套件（SDK）中的工具。
 
-To validate the application:
+驗證應用程式的步驟如下：
 
-1. Launch Windows App Cert Kit.
-2. Select the Flutter Windows desktop package
-   (**.msix**, **.msixbundle**, etc.).
-3. Choose a destination for the test report.
+1. 啟動 Windows App Cert Kit。
+2. 選擇 Flutter Windows 桌面套件
+   （如 **.msix**、**.msixbundle** 等）。
+3. 選擇測試報告的儲存位置。
 
-The report might contain important warnings and information,
-even if the certification passes.
+即使驗證通過，報告中仍可能包含重要的警告與資訊。
 
 [azureadassociation]: https://docs.microsoft.com/windows/uwp/publish/associate-azure-ad-with-partner-center
 [cmworkfloweditor]: https://docs.codemagic.io/flutter-publishing/publishing-to-microsoft-store/

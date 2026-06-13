@@ -1,28 +1,23 @@
 ---
-title: "Dot shorthands in Flutter"
-description: "Learn how to use Dart's dot shorthands to write cleaner, concise Flutter code."
+title: "Flutter 中的點縮寫語法"
+description: "學習如何使用 Dart 的點縮寫語法（dot shorthands），撰寫更簡潔的 Flutter 程式碼。"
 ---
 
-The **dot shorthands** feature allows you to omit the explicit type when
-accessing static members, constructors, or enum values, provided the compiler
-can infer the type from the surrounding context.
+**點縮寫語法 (dot shorthands)** 功能讓你在存取靜態成員、建構子或列舉值時，可以省略明確的型別名稱，前提是編譯器能從周圍的上下文中推斷出型別。
 
 :::note
-For a technical overview of this feature, refer to the
-[Dot Shorthands guide](https://dart.dev/language/dot-shorthand) in the Dart
-documentation.
+關於此功能的技術概觀，請參閱 Dart 文件中的
+[Dot Shorthands guide](https://dart.dev/language/dot-shorthand)。
 :::
 
-## Why dot shorthands matter
+## 點縮寫語法的重要性 {:#why-dot-shorthands-matter}
 
-Building layouts in Flutter often involves deeply nested widget trees.
-Historically, this meant repeatedly typing explicit class and enum names for
-properties like colors, typography, and alignment. Dot shorthands reduces this
-boilerplate, making your code easier to read and faster to write.
+在 Flutter 中建置版面配置時，通常會涉及深度巢狀的元件 (Widget) 樹狀結構。
+過去，這意味著要為顏色、字體排版和對齊等屬性反覆輸入明確的類別名稱和列舉名稱。點縮寫語法減少了這類樣板程式碼，讓程式碼更易於閱讀、撰寫也更快速。
 
-Here is a side-by-side comparison of building a simple `Container`:
+以下是建置一個簡單 `Container` 的對照比較：
 
-### Without dot shorthands
+### 不使用點縮寫語法
 ```dart
 Container(
   alignment: Alignment.center,
@@ -42,7 +37,7 @@ Container(
 );
 ```
 
-### With dot shorthands
+### 使用點縮寫語法
 ```dart
 Container(
   alignment: .center, // Instead of Alignment.center,
@@ -62,22 +57,19 @@ Container(
 );
 ```
 
-## Where to use dot shorthands
+## 適用場合 {:#where-to-use-dot-shorthands}
 
-Dot shorthands work anywhere the Dart compiler has a clear "context type",
-meaning it knows exactly what type it expects. In Flutter, this is almost
-everywhere inside a widget's property list. 
+只要 Dart 編譯器有明確的「上下文型別 (context type)」，也就是確切知道它所期望的型別，就可以使用點縮寫語法。在 Flutter 中，這幾乎涵蓋了元件屬性列表內的所有位置。
 
-The most common targets for dot shorthands in Flutter are:
+Flutter 中最常見的點縮寫語法使用目標為：
 
-*   **Enums**: `MainAxisAlignment`, `CrossAxisAlignment`, `BoxFit`, `TextDirection`.
-*   **Static properties and methods**: `FontWeight` (constants like `.bold`). 
-*   **Constructors**: `EdgeInsets.all()`, `BorderRadius.circular()`.
+*   **列舉 (Enums)**：`MainAxisAlignment`、`CrossAxisAlignment`、`BoxFit`、`TextDirection`。
+*   **靜態屬性與方法**：`FontWeight`（如 `.bold` 等常數）。
+*   **建構子**：`EdgeInsets.all()`、`BorderRadius.circular()`。
 
-### Example: enums
+### 範例：列舉
 
-When a property expects an `enum`, such as `mainAxisAlignment`, you can omit the
-enum's name and just provide the value preceded by a dot (`.`):
+當屬性期望一個列舉 (enum) 值（例如 `mainAxisAlignment`）時，你可以省略列舉的名稱，只需在值前加上點（`.`）：
 
 ```dart
 Row(
@@ -86,9 +78,9 @@ Row(
 )
 ```
 
-### Example: static properties
+### 範例：靜態屬性
 
-Static properties work when the context type is exactly the class that defines the property. A common example is text styling with `FontWeight`:
+當上下文型別恰好是定義該屬性的類別時，靜態屬性就能使用點縮寫語法。常見的範例是使用 `FontWeight` 設定文字樣式：
 
 ```dart
 Text(
@@ -99,9 +91,9 @@ Text(
 )
 ```
 
-### Example: constructors
+### 範例：建構子
 
-You can also use dot shorthands for named constructors. Many Flutter layout properties accept a base class like `EdgeInsetsGeometry`. To support dot shorthands, Flutter adds redirecting constructors to these base classes that point to the appropriate subclasses.
+你也可以對具名建構子使用點縮寫語法。許多 Flutter 版面配置屬性接受 `EdgeInsetsGeometry` 等基底類別。為了支援點縮寫語法，Flutter 在這些基底類別中新增了重新導向建構子，並指向適當的子類別。
 
 ```dart
 Padding(
@@ -110,8 +102,7 @@ Padding(
 )
 ```
 
-You can even use `.new` to call an unnamed constructor, though this is less
-common in standard widget trees:
+你甚至可以使用 `.new` 呼叫未具名建構子，不過這在標準元件樹中較為少見：
 
 ```dart
 class _MyState extends State<MyWidget> {

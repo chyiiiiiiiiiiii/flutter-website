@@ -1,101 +1,97 @@
 ---
-title: Advanced UI features
+title: 進階 UI 功能
 description: >-
-  A gentle introduction into advanced UI features:
-  adaptive layouts, slivers, scrolling, navigation.
+  進階 UI 功能的溫和入門：
+  自適應版面配置、sliver、滾動、導覽。
 layout: tutorial
 ---
 
-Preview the Rolodex app you'll build and set up a Cupertino-based project with data models.
+預覽你將建置的 Rolodex 應用程式，並設定一個以 Cupertino 為基礎的專案與資料模型。
 
 <SummaryCard>
-title: What you'll accomplish
+title: 你將完成的事項
 items:
-  - title: Preview the Rolodex app you'll build
+  - title: 預覽你將建置的 Rolodex 應用程式
     icon: preview
-  - title: Set up a project with Cupertino widgets
+  - title: 設定含有 Cupertino 元件的專案
     icon: phone_iphone
-  - title: Create data models for contacts and groups
+  - title: 建立聯絡人與群組的資料模型
     icon: data_object
 </SummaryCard>
 
 ---
 
-### Introduction
+### 簡介
 
-In this third installment of the Flutter tutorial series,
-you'll use Flutter's Cupertino library to build a
-partial clone of the iOS Contacts app.
+在這個 Flutter 教學系列的第三部分，
+你將使用 Flutter 的 Cupertino 函式庫，打造一個 iOS
+聯絡人 (Contacts) 應用程式的部分複製版。
 
 <img src='/assets/images/docs/tutorial/rolodex_complete.png' class="diagram-wrap"
-width="320px" alt="A screenshot of the completed Rolodex contact
-management app showing a list of contacts organized alphabetically.">
+width="320px" alt="完成的 Rolodex 聯絡人管理應用程式截圖，顯示依字母順序排列的聯絡人清單。">
 
-By the end of this tutorial, you'll have learned how to create
-adaptive layouts, implement comprehensive theming, build navigation
-patterns, and use advanced scrolling techniques.
+完成本教學後，你將學會如何建立自適應版面配置、實作完整的主題化、
+建構導覽模式，以及運用進階的滾動技術。
 
-#### What you'll learn
+#### 你將學到什麼
 
-This tutorial explores the following topics:
+本教學將探討以下主題：
 
-* Building responsive layouts with `LayoutBuilder`.
-* Using advanced scrolling with slivers and search.
-* Implementing stack-based navigation patterns.
-* Creating comprehensive themes with `CupertinoThemeData`.
-* Supporting both light and dark themes.
-* Creating an iOS-style UI using Cupertino widgets.
+* 使用 `LayoutBuilder` 建立響應式版面配置。
+* 運用 sliver 和搜尋實現進階滾動效果。
+* 實作基於堆疊的導覽模式。
+* 透過 `CupertinoThemeData` 建立完整的主題。
+* 同時支援淺色與深色主題。
+* 使用 Cupertino 元件 (Widget) 打造 iOS 風格的 UI。
 
-This tutorial assumes that you've completed the previous Flutter tutorials
-and are comfortable with basic widget composition, state management,
-and the Flutter project structure.
+本教學假設你已完成前面的 Flutter 教學，
+並且熟悉基本的元件 (Widget) 組合、狀態管理，
+以及 Flutter 專案結構。
 
 
-### Create a new Flutter project
+### 建立新的 Flutter 專案
 
-To build a Flutter app, you first need a Flutter project.
-You can create a new app with the [Flutter CLI tool][],
-which is installed as part of the Flutter SDK.
+要開發 Flutter 應用程式，首先需要一個 Flutter 專案。
+你可以使用 [Flutter CLI 工具][Flutter CLI tool]
+（隨 Flutter SDK 一併安裝）來建立新的應用程式。
 
-Open your preferred terminal and run
-the following command to create a new Flutter project:
+請開啟你偏好的終端機，執行以下指令來建立新的 Flutter 專案：
 
 ```console
 $ flutter create rolodex --empty
 $ cd rolodex
 ```
 
-This command creates a new Flutter project that
-uses the minimal "empty" template.
+此指令會建立一個使用最小化「空白」範本的新 Flutter 專案。
 
 [Flutter CLI tool]: /reference/flutter-cli
 
-### Add the Cupertino Icons dependency
+### 新增 Cupertino Icons 相依套件
 
-This project uses the [`cupertino_icons` package][],
-an official Flutter package.
-Add it as a dependency by running the following command:
+此專案會使用 [`cupertino_icons` 套件][`cupertino_icons` package]，
+這是一個官方的 Flutter 套件。
+請透過執行下列指令，將其加入為相依套件：
 
 ```console
 $ flutter pub add cupertino_icons
 ```
 
-### Set up the project structure
+### 建立專案結構
 
-First, create the basic directory structure for your app.
-In your project's `lib` directory, create the following folders:
+首先，請為你的應用程式建立基本的目錄結構。
+在你的專案 `lib` 目錄下，建立以下資料夾：
 
 ```console
 $ mkdir lib/data lib/screens lib/theme
 ```
 
-This command creates folders to organize your code into logical sections:
-data models, screen widgets, and theme configuration.
+此指令會建立資料夾，將你的程式碼依照邏輯區塊進行組織：
+資料模型 (data models)、螢幕元件 (screen widgets)，以及主題設定 (theme configuration)。
 
-### Replace the starter code
+### 取代起始程式碼
 
-In your IDE, open the `lib/main.dart` file, and replace its entire
-contents with the following starter code:
+在你的 IDE 中，開啟 `lib/main.dart` 檔案，並將其全部內容
+替換為以下的起始程式碼：
 
 <?code-excerpt "fwe/rolodex/lib/step1_advanced_ui/main_starter.dart"?>
 ```dart
@@ -124,31 +120,30 @@ class RolodexApp extends StatelessWidget {
 }
 ```
 
-Unlike the previous two tutorials,
-this app uses `CupertinoApp` instead of `MaterialApp`.
-The Cupertino design system provides iOS-style widgets and styling,
-which is perfect for building apps that feel native on Apple devices.
+與前兩個教學不同，這個應用程式使用 `CupertinoApp`，而不是 `MaterialApp`。
+Cupertino 設計系統提供 iOS 風格的元件與樣式，
+非常適合打造在 Apple 裝置上具有原生體驗的應用程式。
 
-### Run your app
+### 執行你的應用程式
 
-In your terminal at the root of your Flutter app, run the following command:
+在終端機中，於你的 Flutter 應用程式根目錄下執行以下指令：
 
 ```console
 $ flutter run -d chrome
 ```
 
-The app builds and launches in a new instance of Chrome.
-It displays "Hello Rolodex!" in the center of the screen.
+應用程式會在一個新的 Chrome 實例中建置並啟動。
+它會在螢幕中央顯示「Hello Rolodex!」。
 
-### Create the data models
+### 建立資料模型
 
-Before building the UI,
-create the data structures and sample data that the app will use.
-This section is lightly explained because it's not the focus of this tutorial.
+在開始建立 UI 之前，
+請先建立應用程式將會使用的資料結構與範例資料。
+本節僅做簡要說明，因為這不是本教學的重點。
 
-#### Contact data
+#### Contact 資料
 
-Create a new file, `lib/data/contact.dart`, and add the basic `Contact` class:
+請建立一個新檔案 `lib/data/contact.dart`，並加入基本的 `Contact` 類別：
 
 <?code-excerpt "fwe/rolodex/lib/step1_advanced_ui/data/contact.dart" replace="/\/\/ openFold/[* -/g; /\/\/ closeFold/*]/g;"?>
 ```dart foldable
@@ -343,14 +338,13 @@ final Set<Contact> allContacts = {
 *]
 ```
 
-This sample data includes contacts with and without middle names and suffixes.
-This gives you a variety of data to work with as you build the UI.
+這份範例資料包含了有中間名和字尾，以及沒有中間名和字尾的聯絡人。
+這讓你在建立 UI 時，可以操作多樣化的資料。
 
-#### ContactGroup data
+#### ContactGroup 資料
 
-Now, create the contact groups that organize your contacts into lists.
-Create a new `lib/data/contact_group.dart` file and
-add the `ContactGroup` class:
+現在，請建立聯絡人群組，將你的聯絡人組織成清單。
+請建立一個新檔案 `lib/data/contact_group.dart`，並加入 `ContactGroup` 類別：
 
 <?code-excerpt "fwe/rolodex/lib/step1_advanced_ui/data/contact_group.dart (contact_group_class)"?>
 ```dart
@@ -411,10 +405,9 @@ class ContactGroup {
 }
 ```
 
-A `ContactGroup` represents a collection of contacts,
-such as "All Contacts" or "Favorites".
+`ContactGroup` 代表一組聯絡人，例如「所有聯絡人」或「我的最愛」。
 
-Add the following helper code and sample data to `lib/data/contact_group.dart`:
+請將以下輔助程式碼與範例資料加入 `lib/data/contact_group.dart`：
 
 <?code-excerpt "fwe/rolodex/lib/step1_advanced_ui/data/contact_group.dart (helper_code)"?>
 ```dart
@@ -468,10 +461,9 @@ List<ContactGroup> generateSeedData() {
 }
 ```
 
-This code creates three sample groups and a function to
-generate the initial data for the app.
+這段程式碼建立了三個範例群組 (sample groups) 以及一個用於產生應用程式初始資料的函式。
 
-Finally, add a class that manages state changes to `lib/data/contact_group.dart`:
+最後，將一個管理狀態變化的類別加入 `lib/data/contact_group.dart`：
 
 <?code-excerpt "fwe/rolodex/lib/step1_advanced_ui/data/contact_group.dart (model_class)"?>
 ```dart
@@ -494,16 +486,14 @@ class ContactGroupsModel {
 }
 ```
 
-If you aren't familiar with `ValueNotifier`,
-you should complete the [previous tutorial covering state][] before continuing,
-which covers state management.
+如果你尚未熟悉 `ValueNotifier`，
+建議你在繼續之前先完成[前一個涵蓋狀態管理的教學][previous tutorial covering state]。
 
 [previous tutorial covering state]: /learn/pathway/tutorial/set-up-state-project
 
-### Connect the data to your app
+### 將資料連接到你的應用程式
 
-Update your `main.dart` to include the global state and
-import the new data file:
+請更新你的 `main.dart`，以納入全域狀態並匯入新的資料檔案：
 
 <?code-excerpt "fwe/rolodex/lib/step1_advanced_ui/main.dart"?>
 ```dart
@@ -536,68 +526,68 @@ class RolodexApp extends StatelessWidget {
 }
 ```
 
-With all the extraneous code out of the way, in the next lesson,
-you'll start building the app in earnest.
+現在所有多餘的程式碼都已經清除，在下一課中，
+你將正式開始建置這個應用程式。
 
 [`cupertino_icons` package]: {{site.pub-pkg}}/cupertino_icons
 
-### Review
+### 回顧
 
 <SummaryCard>
-title: What you accomplished
-subtitle: Here's a summary of what you built and learned in this lesson.
+title: 你完成的事項
+subtitle: 以下是你在本課中建置和學習的摘要。
 completed: true
 items:
-  - title: Previewed the Rolodex app
+  - title: 預覽了 Rolodex 應用程式
     icon: preview
     details: >-
-      You're starting a new tutorial section focused on advanced UI features.
-      To make your app feel polished and native on any device,
-      you'll learn adaptive layouts, slivers, navigation, and theming.
-  - title: Set up a project with Cupertino widgets
+      你正在開始一個專注於進階 UI 功能的新教學單元。
+      為了讓你的應用程式在任何裝置上都能感覺精緻且原生，
+      你將學習自適應版面配置、sliver、導覽和主題化。
+  - title: 設定了含有 Cupertino 元件的專案
     icon: phone_iphone
     details: >-
-      Unlike the previous lessons,
-      this app uses `CupertinoApp` instead of `MaterialApp`.
-      The Cupertino design system provides iOS-style widgets that
-      feel native on Apple devices.
-  - title: Created data models for contacts and groups
+      與前面的課程不同，
+      這個應用程式使用 `CupertinoApp` 而不是 `MaterialApp`。
+      Cupertino 設計系統提供 iOS 風格的元件，
+      在 Apple 裝置上具有原生體驗。
+  - title: 建立了聯絡人與群組的資料模型
     icon: data_object
     details: >-
-      You created `Contact` and `ContactGroup` classes with sample data,
-      plus a `ContactGroupsModel` for state management.
-      This foundation supports the UI you'll build in the coming lessons.
+      你建立了含有範例資料的 `Contact` 和 `ContactGroup` 類別，
+      以及用於狀態管理的 `ContactGroupsModel`。
+      這個基礎支撐了你在後續課程中將建置的 UI。
 </SummaryCard>
 
-### Test yourself
+### 自我測驗
 
-<Quiz title="Advanced UI Setup Quiz">
-- question: What is the main difference between CupertinoApp and MaterialApp?
+<Quiz title="進階 UI 設定測驗">
+- question: CupertinoApp 和 MaterialApp 的主要差異是什麼？
   options:
-    - text: CupertinoApp only works on iOS devices.
+    - text: CupertinoApp 只能在 iOS 裝置上運作。
       correct: false
-      explanation: CupertinoApp can run on any platform; it just provides iOS-style widgets.
-    - text: CupertinoApp provides iOS-style widgets and styling, while MaterialApp provides Material Design widgets.
+      explanation: CupertinoApp 可以在任何平台上執行；它只是提供 iOS 風格的元件。
+    - text: CupertinoApp 提供 iOS 風格的元件與樣式，而 MaterialApp 提供 Material Design 元件。
       correct: true
-      explanation: CupertinoApp uses Cupertino design system widgets that match the iOS look and feel.
-    - text: CupertinoApp is lighter and has better performance.
+      explanation: CupertinoApp 使用符合 iOS 外觀與體驗的 Cupertino 設計系統元件。
+    - text: CupertinoApp 更輕量且效能更好。
       correct: false
-      explanation: Both have similar performance; they differ in visual style, not speed.
-    - text: MaterialApp requires more configuration to set up.
+      explanation: 兩者效能相近；它們的差異在於視覺風格，而不是速度。
+    - text: MaterialApp 需要更多設定才能完成配置。
       correct: false
-      explanation: Both have similar setup requirements; they just use different design systems.
-- question: What is the purpose of a ValueNotifier in state management?
+      explanation: 兩者的設定需求相近；它們只是使用不同的設計系統。
+- question: ValueNotifier 在狀態管理中的用途是什麼？
   options:
-    - text: To validate user input values.
+    - text: 用來驗證使用者輸入的值。
       correct: false
-      explanation: ValueNotifier holds and notifies about value changes, not validation.
-    - text: To hold a single value and notify listeners when that value changes.
+      explanation: ValueNotifier 用於持有值並在值變更時通知監聽者，而不是驗證。
+    - text: 持有單一值，並在該值變更時通知監聽者。
       correct: true
-      explanation: ValueNotifier is a simple ChangeNotifier that wraps a single value and notifies listeners on change.
-    - text: To convert values between different data types.
+      explanation: ValueNotifier 是一個簡單的 ChangeNotifier，它包裝單一值，並在值變更時通知監聽者。
+    - text: 在不同資料型別之間轉換值。
       correct: false
-      explanation: Type conversion is not the purpose of ValueNotifier.
-    - text: To store values permanently in local storage.
+      explanation: 型別轉換不是 ValueNotifier 的用途。
+    - text: 將值永久儲存在本機儲存空間中。
       correct: false
-      explanation: ValueNotifier holds values in memory; persistence requires separate implementation.
+      explanation: ValueNotifier 將值保存在記憶體中；持久化需要另外實作。
 </Quiz>

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 我要找的是 Flutter 官方英文文件
+    url: https://github.com/flutter/website/issues
+    about: 本 repo 是 docs.flutter.tw 的繁中翻譯版。Flutter 框架本身的問題、英文原文的錯誤，請到上游 flutter/website 回報
+  - name: Flutter 框架 bug 或功能請求
+    url: https://github.com/flutter/flutter/issues
+    about: API 行為、SDK bug、功能請求請到 flutter/flutter 回報

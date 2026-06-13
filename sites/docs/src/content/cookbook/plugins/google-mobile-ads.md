@@ -1,86 +1,84 @@
 ---
-title: Add ads to your mobile Flutter app or game
-shortTitle: Show ads
-description: How to use the google_mobile_ads package to show ads in Flutter.
+title: 在你的 Flutter 行動應用程式或遊戲中加入廣告
+shortTitle: 顯示廣告
+description: 如何使用 google_mobile_ads 套件在 Flutter 中顯示廣告。
 ---
 
 <?code-excerpt path-base="cookbook/plugins/google_mobile_ads"?>
 
 {% comment %}
-  This partly duplicates the AdMob documentation
-  here: https://developers.google.com/admob/flutter/quick-start
+  這部分內容與 AdMob 文件有部分重複
+  參見：https://developers.google.com/admob/flutter/quick-start
 
-  The added value of this page is that it's more straightforward for
-  someone who just has a Flutter app or game and wants to add
-  monetization to it.
+  本頁的附加價值在於，它對於只擁有 Flutter 應用程式或遊戲並希望加入
+  營利化的開發者來說更加直接易懂。
 
-  In short, this is a friendlier --- though not as comprehensive ---
-  introduction to ads in Flutter.
+  簡而言之，這是一個更友善（但不如官方文件全面）的
+  Flutter 廣告入門介紹。
 {% endcomment %}
 
 
-Many developers use advertising to monetize their mobile apps and games.
-This allows their app to be downloaded free of charge,
-which improves the app's popularity.
+許多開發者會利用廣告來為他們的行動應用程式或遊戲營利。
+這讓他們的應用程式可以免費下載，
+進而提升應用程式的普及度。
 
-![An illustration of a smartphone showing an ad](/assets/images/docs/cookbook/ads-device.jpg){:.site-illustration}
+![一個顯示廣告的智慧型手機插圖](/assets/images/docs/cookbook/ads-device.jpg){:.site-illustration}
 
-To add ads to your Flutter project, use
-[AdMob](https://admob.google.com/home/),
-Google's mobile advertising platform.
-This recipe demonstrates how to use the
+若要在你的 Flutter 專案中加入廣告，請使用
+[AdMob](https://admob.google.com/home/)，
+Google 的行動廣告平台。
+本教學將示範如何使用
 [`google_mobile_ads`]({{site.pub-pkg}}/google_mobile_ads)
-package to add a banner ad to your app or game.
+套件，將橫幅廣告（banner ad）加入你的應用程式或遊戲中。
 
 :::note
-Apart from AdMob, the `google_mobile_ads` package also supports
-Ad Manager, a platform intended for large publishers. Integrating Ad
-Manager resembles integrating AdMob, but it won't be covered in this
-cookbook recipe. To use Ad Manager, follow the
-[Ad Manager documentation]({{site.developers}}/ad-manager/mobile-ads-sdk/flutter/quick-start).
+除了 AdMob 之外，`google_mobile_ads` 套件也支援
+Ad Manager，一個專為大型出版商設計的平台。整合 Ad
+Manager 的方式與整合 AdMob 類似，但本教學不會涵蓋相關內容。
+若要使用 Ad Manager，請參考
+[Ad Manager 文件]({{site.developers}}/ad-manager/mobile-ads-sdk/flutter/quick-start)。
 :::
 
-## 1. Get AdMob App IDs
+## 1. 取得 AdMob App ID
 
-1.  Go to [AdMob](https://admob.google.com/) and set up an
-    account. This could take some time because you need to provide
-    banking information, sign contracts, and so on.
+1.  前往 [AdMob](https://admob.google.com/) 並建立一個帳戶。
+    這個過程可能需要一些時間，因為你需要提供
+    銀行資訊、簽署合約等等。
 
-2.  With the AdMob account ready, create two *Apps* in AdMob: one for
-    Android and one for iOS.
+2.  帳戶建立完成後，在 AdMob 中建立兩個 *應用程式*：一個給
+    Android，一個給 iOS。
 
-3.  Open the **App settings** section.
+3.  開啟 **App 設定** 區段。
 
-4.  Get the AdMob *App IDs* for both the Android app and the iOS app.
-    They resemble `ca-app-pub-1234567890123456~1234567890`. Note the
-    tilde (`~`) between the two numbers.
-    {% comment %} https://support.google.com/admob/answer/7356431 for future reference {% endcomment %}
+4.  取得 Android 應用程式與 iOS 應用程式的 AdMob *App ID*。
+    它們的格式類似 `ca-app-pub-1234567890123456~1234567890`。請注意
+    兩組數字之間的波浪號（`~`）。
+    {% comment %} https://support.google.com/admob/answer/7356431 供日後參考 {% endcomment %}
 
-    ![Screenshot from AdMob showing the location of the App ID](/assets/images/docs/cookbook/ads-app-id.png)
+    ![AdMob 螢幕截圖，顯示 App ID 位置](/assets/images/docs/cookbook/ads-app-id.png)
 
-## 2. Platform-specific setup
+## 2. 平台專屬設定
 
-Update your Android and iOS configurations to include your App IDs.
+請更新你的 Android 與 iOS 設定，將你的 App ID 加入其中。
 
 {% comment %}
-    Content below is more or less a copypaste from devsite:
+    以下內容大致上為 devsite 的複製貼上：
     https://developers.google.com/admob/flutter/quick-start#platform_specific_setup
 {% endcomment %}
 
 ### Android
 
-Add your AdMob app ID to your Android app.
+將你的 AdMob App ID 加入 Android 應用程式。
 
-1.  Open the app's `android/app/src/main/AndroidManifest.xml` file.
+1.  開啟應用程式的 `android/app/src/main/AndroidManifest.xml` 檔案。
 
-2.  Add a new `<meta-data>` tag.
+2.  新增一個 `<meta-data>` 標籤。
 
-3.  Set the `android:name` element with a value of
-    `com.google.android.gms.ads.APPLICATION_ID`.
+3.  設定 `android:name` 元素，其值為
+    `com.google.android.gms.ads.APPLICATION_ID`。
 
-4.  Set the `android:value` element with the value to your own AdMob app
-    ID that you got in the previous step.
-    Include them in quotes as shown:
+4.  設定 `android:value` 元素，其值為你在前一步取得的 AdMob App ID。
+    如下所示，請將其包含在引號內：
 
     ```xml
     <manifest>
@@ -97,52 +95,47 @@ Add your AdMob app ID to your Android app.
 
 ### iOS
 
-Add your AdMob app ID to your iOS app.
+將你的 AdMob App ID 加入到你的 iOS 應用程式中。
 
-1.  Open your app's `ios/Runner/Info.plist` file.
+1.  開啟你的 `ios/Runner/Info.plist` 檔案。
 
-2.  Enclose `GADApplicationIdentifier` with a `key` tag.
+2.  使用 `key` 標籤包住 `GADApplicationIdentifier`。
 
-3.  Enclose your AdMob app ID with a `string` tag. You created this AdMob
-    App ID in [step 1](#1-get-admob-app-ids).
+3.  使用 `string` 標籤包住你的 AdMob App ID。你已在[步驟 1](#1-取得-admob-app-id)建立此 AdMob App ID。
 
     ```xml
     <key>GADApplicationIdentifier</key>
     <string>ca-app-pub-################~##########</string>
     ```
 
-## 3. Add the `google_mobile_ads` plugin
+## 3. 新增 `google_mobile_ads` 插件
 
-To add the `google_mobile_ads` plugin as a dependency, run
-`flutter pub add`:
+若要將 `google_mobile_ads` 插件加入為相依套件，請執行
+`flutter pub add`：
 
 ```console
 $ flutter pub add google_mobile_ads
 ```
 
 :::note
-Once you add the plugin, your Android app might fail to build with a
-`DexArchiveMergerException`:
+當你加入這個插件後，你的 Android 應用程式可能會在建置時出現
+`DexArchiveMergerException`：
 
 ```plaintext
 Error while merging dex archives:
 The number of method references in a .dex file cannot exceed 64K.
 ```
 
-To resolve this, execute the `flutter run` command in the terminal, not
-through an IDE plugin. The `flutter` tool can detect the issue and ask
-whether it should try to solve it. Answer `y`, and the problem goes away.
-You can return to running your app from an IDE after that.
+為了解決這個問題，請在終端機中執行 `flutter run` 指令，而不是透過 IDE 外掛程式執行。`flutter` 工具可以偵測到這個問題，並詢問是否要嘗試解決。請回答 `y`，問題就會消失。之後你可以繼續從 IDE 執行你的應用程式。
 
-![Screenshot of the `flutter` tool asking about multidex support](/assets/images/docs/cookbook/ads-multidex.png)
+![`flutter` 工具詢問是否啟用 multidex 支援的螢幕截圖](/assets/images/docs/cookbook/ads-multidex.png)
 :::
 
-## 4. Initialize the Mobile Ads SDK
+## 4. 初始化 Mobile Ads SDK
 
-You need to initialize the Mobile Ads SDK before loading ads.
+在載入廣告之前，你需要先初始化 Mobile Ads SDK。
 
-1.  Call `MobileAds.instance.initialize()` to initialize the Mobile Ads
-    SDK.
+1.  呼叫 `MobileAds.instance.initialize()` 來初始化 Mobile Ads SDK。
 
     <?code-excerpt "lib/main.dart (main)"?>
     ```dart
@@ -154,28 +147,27 @@ You need to initialize the Mobile Ads SDK before loading ads.
     }
     ```
 
-Run the initialization step at startup, as shown above,
-so that the AdMob SDK has enough time to initialize before it is needed.
+請在應用啟動時執行初始化步驟，如上所示，
+以確保 AdMob SDK 有足夠的時間在需要使用前完成初始化。
 
 :::note
-`MobileAds.instance.initialize()` returns a `Future` but, the
-way the SDK is built, you don't need to `await` it.
-If you try to load an ad before that `Future` is completed,
-the SDK will gracefully wait until the initialization, and _then_ load the ad.
-You can await the `Future`
-if you want to know the exact time when the AdMob SDK is ready.
+`MobileAds.instance.initialize()` 會回傳一個 `Future`，但由於
+SDK 的設計方式，你不需要對它進行 `await`。
+如果你在 `Future` 尚未完成前嘗試載入廣告，
+SDK 會自動等待初始化完成後，_再_ 載入廣告。
+如果你想要知道 AdMob SDK 何時準備就緒，也可以等待該 `Future`。
 :::
 
-## 5. Load a banner ad
+## 5. 載入橫幅廣告（banner ad）
 
-To show an ad, you need to request it from AdMob.
+若要顯示廣告，你需要從 AdMob 請求廣告。
 
-To load a banner ad, construct a `BannerAd` instance, and
-call `load()` on it.
+要載入橫幅廣告，請建立一個 `BannerAd` 實例，然後
+對其呼叫 `load()`。
 
 :::note
-The following code snippet refers to fields such a `adSize`, `adUnitId`
-and `_bannerAd`. This will all make more sense in a later step.
+以下程式碼片段會提及 `adSize`、`adUnitId`
+以及 `_bannerAd` 等欄位。這些內容會在後續步驟中說明。
 :::
 
 <?code-excerpt "lib/my_banner_ad.dart (loadAd)"?>
@@ -210,20 +202,18 @@ void _loadAd() {
 }
 ```
 
-To view a complete example, check out the last step of this recipe.
+要查看完整範例，請參考本教學最後一步。
 
 
-## 6. Show banner ad
+## 6. 顯示橫幅廣告（banner ad）
 
-Once you have a loaded instance of `BannerAd`, use `AdWidget` to show it.
+當你已經有一個已載入的 `BannerAd` 實例時，請使用 `AdWidget` 來顯示它。
 
 ```dart
 AdWidget(ad: _bannerAd)
 ```
 
-It's a good idea to wrap the widget in a `SafeArea` (so that no part of
-the ad is obstructed by device notches) and a `SizedBox` (so that it has
-its specified, constant size before and after loading).
+建議將該元件 (Widget) 包裹在 `SafeArea`（以避免廣告的任何部分被裝置的瀏海遮擋）以及 `SizedBox`（這樣在載入前後都能保持其指定的固定尺寸）中。
 
 <?code-excerpt "lib/my_banner_ad.dart (build)"?>
 ```dart
@@ -243,10 +233,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-You must dispose of an ad when you no longer need to access it. The best
-practice for when to call `dispose()` is either after the `AdWidget` is
-removed from the widget tree or in the
-`BannerAdListener.onAdFailedToLoad()` callback.
+當你不再需要存取某個廣告時，必須釋放（dispose）該廣告。最佳實踐是在 `dispose()` 的呼叫時機，通常是在 `AdWidget` 從元件樹（widget tree）移除之後，或是在 `BannerAdListener.onAdFailedToLoad()` 回呼（callback）中。
 
 <?code-excerpt "lib/my_banner_ad.dart (dispose)"?>
 ```dart
@@ -254,36 +241,31 @@ _bannerAd?.dispose();
 ```
 
 
-## 7. Configure ads
+## 7. 設定廣告
 
-To show anything beyond test ads, you have to register ad units.
+若要顯示測試廣告以外的內容，你必須註冊廣告單元（Ad unit）。
 
-1.  Open [AdMob](https://admob.google.com/).
+1.  開啟 [AdMob](https://admob.google.com/)。
 
-2.  Create an *Ad unit* for each of the AdMob apps.
+2.  為每個 AdMob 應用程式建立一個 *廣告單元（Ad unit）*。
 
-    ![Screenshot of the location of Ad Units in AdMob web UI](/assets/images/docs/cookbook/ads-ad-unit.png)
+    ![AdMob 網頁介面中 Ad Units 位置的螢幕截圖](/assets/images/docs/cookbook/ads-ad-unit.png)
 
-    This asks for the Ad unit's format. AdMob provides many formats
-    beyond banner ads --- interstitials, rewarded ads, app open ads, and
-    so on.
-    The API for those is similar, and documented in the
-    [AdMob documentation]({{site.developers}}/admob/flutter/quick-start)
-    and through
-    [official samples](https://github.com/googleads/googleads-mobile-flutter/tree/main/samples/admob).
+    這會要求你選擇廣告單元的格式。AdMob 提供多種格式，
+    除了橫幅廣告（banner ads）之外，還有插頁式廣告（interstitials）、獎勵廣告（rewarded ads）、應用程式開啟廣告（app open ads）等。
+    這些格式的 API 類似，相關說明可參考
+    [AdMob 文件]({{site.developers}}/admob/flutter/quick-start)
+    以及
+    [官方範例](https://github.com/googleads/googleads-mobile-flutter/tree/main/samples/admob)。
 
-3.  Choose banner ads.
+3.  選擇橫幅廣告（banner ads）。
 
-4.  Get the *Ad unit IDs* for both the Android app and the iOS app.
-    You can find these in the **Ad units** section. They look something
-    like `ca-app-pub-1234567890123456/1234567890`. The format resembles
-    the *App ID* but with a slash (`/`) between the two numbers. This
-    distinguishes an *Ad unit ID* from an *App ID*.
+4.  取得 Android 應用程式與 iOS 應用程式的 *廣告單元 ID（Ad unit ID）*。
+    你可以在 **Ad units** 區段找到這些 ID。它們看起來像 `ca-app-pub-1234567890123456/1234567890`。格式類似於 *App ID*，但中間多了一個斜線（`/`）分隔兩組數字。這樣可以區分 *廣告單元 ID（Ad unit ID）* 與 *App ID*。
 
-    ![Screenshot of an Ad Unit ID in AdMob web UI](/assets/images/docs/cookbook/ads-ad-unit-id.png)
+    ![AdMob 網頁介面中 Ad Unit ID 的螢幕截圖](/assets/images/docs/cookbook/ads-ad-unit-id.png)
 
-5.  Add these *Ad unit IDs* to the constructor of `BannerAd`,
-    depending on the target app platform.
+5.  根據目標應用程式平台，將這些 *廣告單元 ID（Ad unit ID）* 加入 `BannerAd` 的建構子中。
 
     <?code-excerpt "lib/my_banner_ad.dart (adUnitId)"?>
     ```dart
@@ -294,32 +276,27 @@ To show anything beyond test ads, you have to register ad units.
         : 'ca-app-pub-3940256099942544/2934735716';
     ```
 
-## 8. Final touches
+## 8. 最後修飾
 
-To display the ads in a published app or game (as opposed to debug or
-testing scenarios), your app must meet additional requirements:
+若要在已發佈的應用程式或遊戲中顯示廣告（而非除錯或測試情境），你的應用程式必須符合額外的要求：
 
-1.  Your app must be reviewed and approved before it can fully serve
-    ads.
-    Follow AdMob's [app readiness guidelines](https://support.google.com/admob/answer/10564477).
-    For example, your app must be listed on at least one of the
-    supported stores such as Google Play Store or Apple App Store.
+1.  你的應用程式必須經過審查並獲得核准後，才能完整投放廣告。
+    請遵循 AdMob 的[應用程式準備度指引](https://support.google.com/admob/answer/10564477)。
+    例如，你的應用程式必須至少上架於一個支援的應用程式商店，如 Google Play Store 或 Apple App Store。
 
-2.  You must [create an `app-ads.txt`](https://support.google.com/admob/answer/9363762)
-    file and publish it on your developer website.
+2.  你必須[建立 `app-ads.txt`](https://support.google.com/admob/answer/9363762)
+    檔案並將其發佈於你的開發者網站上。
 
-![An illustration of a smartphone showing an ad](/assets/images/docs/cookbook/ads-device.jpg){:.site-illustration}
+![一個顯示廣告的智慧型手機插圖](/assets/images/docs/cookbook/ads-device.jpg){:.site-illustration}
 
-To learn more about app and game monetization,
-visit the official sites
-of [AdMob](https://admob.google.com/)
-and [Ad Manager](https://admanager.google.com/).
+若想進一步了解應用程式與遊戲的獲利方式，
+請造訪 [AdMob](https://admob.google.com/)
+與 [Ad Manager](https://admanager.google.com/) 的官方網站。
 
 
-## 9. Complete example
+## 9. 完整範例
 
-The following code implements a simple stateful widget that loads a
-banner ad and shows it.
+以下程式碼實作了一個簡單的 StatefulWidget（有狀態元件），用於載入並顯示橫幅廣告（banner ad）。
 
 <?code-excerpt "lib/my_banner_ad.dart"?>
 ```dart
@@ -411,14 +388,9 @@ class _MyBannerAdWidgetState extends State<MyBannerAdWidget> {
 ```
 
 :::tip
-In many cases, you will want to load the ad _outside_ a widget.
+在許多情況下，你會希望在元件 (Widget) _之外_載入廣告。
 
-For example, you can load it in a `ChangeNotifier`, a BLoC, a controller,
-or whatever else you are using for app-level state. This way, you can
-preload a banner ad in advance, and have it ready to show for when the
-user navigates to a new screen.
+例如，你可以在 `ChangeNotifier`、BLoC、控制器（controller），或你用來管理應用程式層級狀態管理的其他地方載入。這樣，你就能事先預載一個橫幅廣告（banner ad），並在使用者導覽到新螢幕時立即顯示。
 
-Verify that you have loaded the `BannerAd` instance before showing it with
-an `AdWidget`, and that you dispose of the instance when it is no longer
-needed.
+請確認在使用 `AdWidget` 顯示 `BannerAd` 實例前，該實例已經載入完成，並且在不再需要時妥善釋放（dispose）該實例。
 :::

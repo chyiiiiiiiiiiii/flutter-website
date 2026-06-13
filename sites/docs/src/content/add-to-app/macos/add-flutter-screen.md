@@ -1,51 +1,50 @@
 ---
-title: Add a Flutter screen to an macOS app
-shortTitle: Add a Flutter screen
-description: Learn how to add a single Flutter screen to your existing macOS app.
+title: 將 Flutter 畫面加入 macOS 應用程式
+shortTitle: 加入 Flutter 畫面
+description: 學習如何將單一 Flutter 畫面加入現有的 macOS 應用程式。
 ---
 
-This guide describes how to add a single Flutter screen to an existing macOS app.
+本指南說明如何將單一 Flutter 畫面加入現有的 macOS 應用程式。
 
-## Start a FlutterEngine and FlutterViewController
+## 啟動 FlutterEngine 與 FlutterViewController
 
-To launch a Flutter screen from an existing macOS app,
-you start a [`FlutterEngine`][] and a [`FlutterViewController`][].
+要從現有的 macOS 應用程式啟動 Flutter 畫面，
+你需要啟動 [`FlutterEngine`][] 與 [`FlutterViewController`][]。
 
 :::note
-The `FlutterEngine` serves as a host to the Dart VM and your Flutter runtime,
-and the `FlutterViewController` attaches to a `FlutterEngine`
-to pass input events into Flutter
-and to display frames rendered by the `FlutterEngine`.
+`FlutterEngine` 作為 Dart VM 及 Flutter 執行環境 (runtime) 的宿主，
+而 `FlutterViewController` 會附接到 `FlutterEngine`，
+以將輸入事件傳入 Flutter，
+並顯示由 `FlutterEngine` 渲染的畫面。
 :::
 
-The `FlutterEngine` might have the same lifespan
-as your `FlutterViewController` or outlive your `FlutterViewController`.
+`FlutterEngine` 的生命週期可能與 `FlutterViewController` 相同，
+也可能比 `FlutterViewController` 更長。
 
 :::tip
-It's generally recommended to pre-warm a long-lived
-`FlutterEngine` for your application because:
+通常建議為應用程式預先暖機 (pre-warm) 一個長生命週期的
+`FlutterEngine`，原因如下：
 
-* The first frame appears faster when showing the `FlutterViewController`.
-* Your Flutter and Dart state will outlive one `FlutterViewController`.
-* Your application and your plugins can interact with Flutter
-  and your Dart logic before showing the UI.
+* 顯示 `FlutterViewController` 時，第一幀畫面出現得更快。
+* Flutter 與 Dart 的狀態將不受單一 `FlutterViewController` 的生命週期限制。
+* 在顯示 UI 前，應用程式與插件 (plugin) 可與 Flutter
+  及 Dart 邏輯進行互動。
 :::
 
-See [Loading sequence and performance][]
-for more analysis on the latency and memory
-trade-offs of pre-warming an engine.
+請參閱[載入順序與效能][Loading sequence and performance]，
+進一步分析預先暖機引擎的延遲與記憶體取捨。
 
-### Create a FlutterEngine
+### 建立 FlutterEngine
 
-Where you create a `FlutterEngine` depends on your host app.
+建立 `FlutterEngine` 的位置取決於你的宿主應用程式。
 
 <Tabs key="macos-framework">
 <Tab name="SwiftUI">
 
-In this example, we create a `FlutterEngine` object
-inside a SwiftUI [`Observable`][] object called `FlutterDependencies`.
-Pre-warm the engine by calling `run()`, and then inject this object
-into a `ContentView` using the `environment()` view modifier.
+在此範例中，我們在名為 `FlutterDependencies` 的 SwiftUI [`Observable`][] 物件內
+建立 `FlutterEngine` 物件。
+透過呼叫 `run()` 預先暖機引擎，然後使用 `environment()` 視圖修飾器
+將此物件注入 `ContentView`。
 
  ```swift title="MyApp.swift"
 import SwiftUI
@@ -80,8 +79,8 @@ struct MyApp: App {
 </Tab>
 <Tab name="AppKit-Swift">
 
-As an example, we demonstrate creating a `FlutterEngine`,
-exposed as a property, on app startup in the app delegate.
+以下範例示範在 app delegate 中於應用程式啟動時
+建立 `FlutterEngine`，並以屬性形式公開。
 
 ```swift title="AppDelegate.swift"
 import Cocoa
@@ -103,18 +102,18 @@ class AppDelegate: FlutterAppDelegate {
 </Tab>
 </Tabs>
 
-### Show a FlutterViewController with your FlutterEngine
+### 使用 FlutterEngine 顯示 FlutterViewController
 
 <Tabs key="macos-framework">
 <Tab name="SwiftUI">
 
-The following example shows a generic `ContentView` with a
-[`NavigationLink`][] hooked to a flutter screen.
-First, create a `FlutterViewControllerRepresentable`
-to represent the `FlutterViewController`.
-The `FlutterViewController` constructor takes
-the pre-warmed `FlutterEngine` as an argument,
-which is injected through the view environment.
+以下範例展示一個通用的 `ContentView`，其中
+[`NavigationLink`][] 連結到 Flutter 畫面。
+首先，建立 `FlutterViewControllerRepresentable`
+以代表 `FlutterViewController`。
+`FlutterViewController` 建構子接受
+預先暖機的 `FlutterEngine` 作為參數，
+該參數透過視圖環境注入。
 
 ```swift title="ContentView.swift"
 import SwiftUI
@@ -146,20 +145,20 @@ struct ContentView: View {
 }
 ```
 
-Now, you have a Flutter screen embedded in your macOS app.
+現在，你的 macOS 應用程式中已嵌入了 Flutter 畫面。
 
 :::note
-In this example, your Dart `main()` entrypoint function runs
-when the `FlutterDependencies` observable is initialized.
+在此範例中，你的 Dart `main()` 進入點函式
+會在 `FlutterDependencies` observable 初始化時執行。
 :::
 
 </Tab>
 <Tab name="AppKit-Swift">
 
-The following example shows a generic `ViewController` with an
-`NSButton` hooked to present a [`FlutterViewController`][].
-The `FlutterViewController` uses the `FlutterEngine` instance
-created in the `AppDelegate`.
+以下範例展示一個通用的 `ViewController`，其中
+`NSButton` 連結以呈現 [`FlutterViewController`][]。
+`FlutterViewController` 使用在 `AppDelegate` 中建立的
+`FlutterEngine` 實例。
 
 ```swift title="ViewController.swift"
 import Cocoa
@@ -187,35 +186,34 @@ class ViewController: NSViewController {
 }
 ```
 
-Now, you have a Flutter screen embedded in your macOS app.
+現在，你的 macOS 應用程式中已嵌入了 Flutter 畫面。
 
 :::note
-Using the previous example, the default `main()` entrypoint function
-of your default Dart library runs
-when calling `run` on the `FlutterEngine` created in the `AppDelegate`.
+使用前述範例時，預設 Dart 程式庫的預設 `main()` 進入點函式
+會在 `AppDelegate` 中建立的 `FlutterEngine` 呼叫 `run` 時執行。
 :::
 
 </Tab>
 </Tabs>
 
-### _Alternatively_ - Create a FlutterViewController with an implicit FlutterEngine
+### _或者_ — 使用隱含的 FlutterEngine 建立 FlutterViewController
 
-As an alternative to the previous example,
-you can let the `FlutterViewController` implicitly create
-its own `FlutterEngine` without pre-warming one ahead of time.
+作為前述範例的替代方案，
+你可以讓 `FlutterViewController` 隱含地建立
+自己的 `FlutterEngine`，而不需要事先預先暖機。
 
-This is not usually recommended
-because creating a `FlutterEngine` on-demand could introduce a noticeable
-latency between when the `FlutterViewController` is presented
-and when it renders its first frame.
-This could, however, be useful if the Flutter screen is rarely shown,
-when there are no good heuristics
-to determine when the Dart VM should be started,
-and when Flutter doesn't need to persist state between view controllers.
+通常不建議這樣做，
+因為按需建立 `FlutterEngine` 可能會在
+呈現 `FlutterViewController` 至渲染第一幀之間
+引入明顯的延遲。
+但在 Flutter 畫面極少顯示、
+沒有良好的啟發式方法來決定 Dart VM 應何時啟動，
+以及 Flutter 不需要在視圖控制器之間保持狀態時，
+這種方式可能有其用途。
 
-To let the `FlutterViewController` present without an existing `FlutterEngine`,
-omit the `FlutterEngine` construction,
-and create the `FlutterViewController` without an engine reference.
+若要讓 `FlutterViewController` 在沒有現有 `FlutterEngine` 的情況下呈現，
+請省略 `FlutterEngine` 的建構，
+並在建立 `FlutterViewController` 時不傳入引擎參考。
 
 <Tabs key="macos-framework">
 <Tab name="SwiftUI">
@@ -243,25 +241,25 @@ func showFlutter() {
 </Tab>
 </Tabs>
 
-See [Loading sequence and performance][]
-for more explorations on latency and memory usage.
+請參閱[載入順序與效能][Loading sequence and performance]
+以進一步探討延遲與記憶體使用量。
 
-## Using the FlutterAppDelegate
+## 使用 FlutterAppDelegate
 
-Letting your application's `UIApplicationDelegate` subclass
-`FlutterAppDelegate` is recommended but not required.
+建議讓應用程式的 `UIApplicationDelegate` 子類別
+繼承 `FlutterAppDelegate`，但這並非必要。
 
-The `FlutterAppDelegate` performs functions such as:
+`FlutterAppDelegate` 執行的功能包括：
 
-* Forwarding application callbacks such as [`openURLs`][]
-  to plugins such as [google_sign_in][].
+* 將 [`openURLs`][] 等應用程式回呼（callback）
+  轉送給 [google_sign_in][] 等插件。
 
-### Creating a FlutterAppDelegate subclass
+### 建立 FlutterAppDelegate 子類別
 
-Creating a subclass of the `FlutterAppDelegate` in UIKit apps was shown
-in the [Start a FlutterEngine and FlutterViewController section][].
-In a SwiftUI app, you can create a subclass of the `FlutterAppDelegate`
-and annotate it with the [`Observable()`][] macro as follows:
+在 UIKit 應用程式中建立 `FlutterAppDelegate` 子類別的方式
+已在[啟動 FlutterEngine 與 FlutterViewController 章節][Start a FlutterEngine and FlutterViewController section]中說明。
+在 SwiftUI 應用程式中，你可以建立 `FlutterAppDelegate` 的子類別
+並以 [`Observable()`][] 巨集標註，如下所示：
 
 ```swift title="MyApp.swift"
 import SwiftUI
@@ -294,8 +292,7 @@ struct MyApp: App {
 }
 ```
 
-Then, in your view, the `AppDelegate` is accessible
-through the view environment.
+接著，在你的視圖中，可透過視圖環境存取 `AppDelegate`。
 
 ```swift title="ContentView.swift"
 import SwiftUI

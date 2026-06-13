@@ -1,106 +1,87 @@
 ---
-title: Upgrade Flutter
-shortTitle: Upgrade
-description: Learn how to upgrade Flutter and switch to another channel.
+title: 升級 Flutter
+shortTitle: 升級
+description: 學習如何升級 Flutter 以及切換至其他頻道。
 ---
 
-No matter which one of the Flutter release channels
-you follow, you can use the `flutter` command to upgrade your
-Flutter SDK or the packages that your app depends on.
+無論你追蹤哪一個 Flutter 發行頻道（release channel），你都可以使用 `flutter` 指令來升級你的 Flutter SDK 或應用程式所依賴的套件。
 
 <a id="upgrading-the-flutter-sdk" aria-hidden="true"></a>
 
-## Upgrade the Flutter SDK
+## 升級 Flutter SDK
 
-To update the Flutter SDK use the `flutter upgrade` command:
+若要更新 Flutter SDK，請使用 `flutter upgrade` 指令：
 
 ```console
 $ flutter upgrade
 ```
 
-This command gets the most recent version of the Flutter SDK
-that's available on your current Flutter channel.
+此指令會取得目前 Flutter channel 上可用的最新 Flutter SDK（Flutter 軟體開發套件）版本。
 
-If you are using the **stable** channel
-and want an even more recent version of the Flutter SDK,
-switch to the **beta** channel using `flutter channel beta`,
-and then run `flutter upgrade`.
+如果你正在使用 **stable** channel，並希望獲得更近期的 Flutter SDK 版本，請使用 `flutter channel beta` 切換到 **beta** channel，然後執行 `flutter upgrade`。
 
 <a id="keep-informed" aria-hidden="true"></a>
 
-### Keep informed
+### 保持資訊更新
 
-We publish [migration guides][] for known breaking changes.
+我們會針對已知的重大變更發布 [遷移指南][migration guides]。
 
-We send announcements regarding these changes to the
-[Flutter announcements mailing list][flutter-announce].
+我們也會將這些變更的公告寄送到
+[Flutter 公告郵件清單][flutter-announce]。
 
-To avoid being broken by future versions of Flutter,
-consider submitting your tests to our [test registry][].
+為了避免未來 Flutter 版本造成破壞，建議你將測試提交到我們的 [測試登錄中心][test registry]。
 
 
-## Switching Flutter channels
+## 切換 Flutter channel
 
-Flutter has two release channels:
-**stable** and **beta**.
+Flutter 目前有兩個發行 channel：
+**stable** 與 **beta**。
 
-### The **stable** channel
+### **stable** channel
 
-We recommend the **stable** channel for new users
-and for production app releases.
-The team updates this channel about every three months.
-The channel might receive occasional hot fixes
-for high-severity or high-impact issues.
+我們建議新手或正式上線的應用程式使用 **stable** channel。
+團隊大約每三個月會更新一次這個 channel。
+若遇到高嚴重性或高影響性的問題，這個 channel 也可能會收到臨時修復（hot fix）。
 
-The continuous integration for the Flutter team's plugins and packages
-includes testing against the latest **stable** release.
+Flutter 團隊的插件與套件在持續整合（CI）時，會針對最新的 **stable** 版本進行測試。
 
-The latest documentation for the **stable** branch
-is at: <https://api.flutter.dev>
+**stable** 分支的最新文件在：<https://api.flutter.dev>
 
-### The **beta** channel
+### **beta** channel
 
-The **beta** channel has the latest stable release.
-This is the most recent version of Flutter that we have heavily tested.
-This channel has passed all our public testing,
-has been verified against test suites for Google products that use Flutter,
-and has been vetted against [contributed private test suites][test registry].
-The **beta** channel receives regular hot fixes
-to address newly discovered important issues.
+**beta** channel 擁有最新的穩定版本。
+這是我們經過大量測試的 Flutter 最新版本。
+此 channel 已通過我們所有公開測試，並經過使用 Flutter 的 Google 產品測試套件驗證，也經過 [社群貢獻的私有測試套件][test registry] 驗證。
+**beta** channel 會定期收到 hot fix，以解決新發現的重要問題。
 
-The **beta** channel is essentially the same as the **stable** channel
-but updated monthly instead of quarterly.
-Indeed, when the **stable** channel is updated,
-it is updated to the latest **beta** release.
+**beta** channel 基本上與 **stable** channel 相同，但每月更新，而非每季更新。
+事實上，當 **stable** channel 更新時，會直接升級到最新的 **beta** 版本。
 
-### Other channels
+### 其他 channel
 
-We currently have one other channel, **main** (previously known as **master**).
-People who [contribute to Flutter][] use this channel.
+目前我們還有一個 channel，**main**（先前稱為 **master**）。
+[貢獻 Flutter 的開發者][contribute to Flutter] 會使用這個 channel。
 
-This channel is not as thoroughly tested as
-the **beta** and **stable** channels.
+這個 channel 的測試不如 **beta** 與 **stable** channel 完善。
 
-We do not recommend using this channel as
-it is more likely to contain serious regressions.
+我們不建議使用這個 channel，因為它更有可能包含嚴重的回歸問題。
 
-The latest documentation for the **main** branch
-is at: <https://main-api.flutter.dev>
+**main** 分支的最新文件在：<https://main-api.flutter.dev>
 
 <a id="changing-channels" aria-hidden="true"></a>
 
-### Change channels
+### 切換 channel
 
-To view your current channel, use the following command:
+要查看你目前所使用的 channel，請使用以下指令：
 
 ```console
 $ flutter channel
 ```
 
-To change to another channel, use `flutter channel <channel-name>`.
-Once you've changed your channel, use `flutter upgrade`
-to download the latest Flutter SDK and dependent packages for that channel.
-For example:
+若要切換至其他頻道，請使用 `flutter channel <channel-name>`。
+切換頻道後，請使用 `flutter upgrade`
+以下載該頻道的最新 Flutter SDK 及其相依套件。
+例如：
 
 ```console
 $ flutter channel beta
@@ -109,23 +90,23 @@ $ flutter upgrade
 
 <a id="switching-to-a-specific-flutter-version" aria-hidden="true"></a>
 
-## Switch to a specific Flutter version
+## 切換至特定 Flutter 版本
 
-To switch to a specific Flutter version:
+若要切換至特定的 Flutter 版本，請依照下列步驟操作：
 
-1. Find your desired **Flutter version** on the [Flutter SDK archive][].
+1. 在 [Flutter SDK archive][Flutter SDK archive] 上找到你想要的 **Flutter 版本**。
 
-1. Navigate to the Flutter SDK:
+1. 前往 Flutter SDK：
 
    ```console
    $ cd /path/to/flutter
    ```
 
    :::tip
-   You can find the Flutter SDK's path using `flutter doctor --verbose`.
+   你可以使用 `flutter doctor --verbose` 來查找 Flutter SDK 的路徑。
    :::
 
-1. Use `git checkout` to switch to your desired **Flutter version**:
+1. 使用 `git checkout` 切換到你想要的 **Flutter 版本**：
 
    ```console
    $ git checkout <Flutter version>
@@ -133,77 +114,62 @@ To switch to a specific Flutter version:
 
 <a id="upgrading-packages" aria-hidden="true"></a>
 
-## Upgrade packages
+## 升級套件
 
-If you've modified your `pubspec.yaml` file, or you want to update
-only the packages that your app depends upon
-(instead of both the packages and Flutter itself),
-then use one of the `flutter pub` commands.
+如果你已經修改了 `pubspec.yaml` 檔案，或是你只想更新應用程式所依賴的套件（而不是同時更新套件和 Flutter 本身），那麼請使用其中一個 `flutter pub` 指令。
 
-To update to the _latest compatible versions_ of
-all the dependencies listed in the `pubspec.yaml` file,
-use the `upgrade` command:
+若要將 `pubspec.yaml` 檔案中列出的所有相依套件，升級到_最新相容版本_，請使用 `upgrade` 指令：
 
 ```console
 $ flutter pub upgrade
 ```
 
-To update to the _latest possible version_ of
-all the dependencies listed in the `pubspec.yaml` file,
-use the `upgrade --major-versions` command:
+若要將 `pubspec.yaml` 檔案中列出的所有相依套件（dependencies）更新至_最新可用版本_，請使用 `upgrade --major-versions` 指令：
 
 ```console
 $ flutter pub upgrade --major-versions
 ```
 
-This also automatically update the constraints
-in the `pubspec.yaml` file.
+這也會自動更新 `pubspec.yaml` 檔案中的約束條件（constraints）。
 
-To identify out-of-date package dependencies and get advice
-on how to update them, use the `outdated` command. For details, see
-the Dart [`pub outdated` documentation]({{site.dart-site}}/tools/pub/cmd/pub-outdated).
+若要識別過時的套件相依性並取得如何更新的建議，請使用 `outdated` 指令。詳情請參閱 Dart [`pub outdated` 文件]({{site.dart-site}}/tools/pub/cmd/pub-outdated)。
 
 ```console
 $ flutter pub outdated
 ```
 
-## Troubleshooting
+## 疑難排解
 
-### Windows: "Filename too long" error
+### Windows：「檔案名稱過長」錯誤
 
-When running `flutter upgrade` on Windows,
-you might encounter an error like the following:
+在 Windows 上執行 `flutter upgrade` 時，你可能會遇到如下錯誤：
 
 ```text
 error: unable to create file ...: Filename too long
 ```
 
-This occurs because the path to a file in the Flutter SDK exceeds the default
-maximum path length limit on Windows.
+這是因為 Flutter SDK 中某個檔案的路徑超過了 Windows 預設的最大路徑長度限制。
 
-To resolve this issue, consider installing the Flutter SDK
-at a shorter path. For example, install Flutter at
-`C:\Flutter` instead of something longer like
-`C:\Users\<user name>\Documents\flutter`.
+若要解決此問題，建議將 Flutter SDK 安裝至較短的路徑。例如，將 Flutter 安裝至
+`C:\Flutter`，而非像 `C:\Users\<user name>\Documents\flutter` 這樣較長的路徑。
 
-Otherwise, do the following:
+若無法縮短路徑，請依照下列步驟操作：
 
-1. Enable long paths support in Git:
+1. 在 Git 中啟用長路徑支援：
 
    ```console
    $ git config --system core.longpaths true
    ```
-   
-   If the command fails with a permission error,
-   try running your terminal as an administrator.
 
-1. Enable long paths in Windows:
-   
+   若指令因權限錯誤而失敗，請嘗試以系統管理員身份執行終端機。
+
+1. 在 Windows 中啟用長路徑：
+
    ```console
    New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
    ```
-   
-   This command requires administrator privileges.
+
+   此指令需要系統管理員權限。
 
 [Flutter SDK archive]: /install/archive
 [flutter-announce]: {{site.groups}}/forum/#!forum/flutter-announce

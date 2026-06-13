@@ -1,94 +1,85 @@
 ---
-title: Building a web application with Flutter
-description: Instructions for creating a Flutter app for the web.
-shortTitle: Web development
+title: 使用 Flutter 建置 Web 應用程式
+description: 建立 Flutter Web 應用程式的操作說明。
+shortTitle: Web 開發
 ---
 
-This page provides an overview of how to configure, run, and build a web
-application using Flutter.
+本頁將概述如何使用 Flutter 設定、執行及建置 Web 應用程式。
 
-## Requirements
+## 系統需求
 
-Before you can build a web application with Flutter,
-make sure that you have the [Flutter SDK][] and a web browser installed.
-Visit [Set up web development for Flutter][Setup-web] instructions
-for details.
+在你開始使用 Flutter 建置 Web 應用程式之前，
+請確保已安裝 [Flutter SDK][Flutter SDK] 以及一個網頁瀏覽器。
+詳細步驟請參考 [Set up web development for Flutter][Setup-web] 指南。
 
-## Set up a Flutter project
+## 建立 Flutter 專案
 
-To set up your project, you can create a
-new Flutter project or add web support
-to an existing project.
+你可以建立一個新的 Flutter 專案，或是在現有專案中加入 Web 支援。
 
-### Create a new project
+### 建立新專案
 
-To create a new app that includes web support, run the following command:
+若要建立一個包含 Web 支援的新應用程式，請執行以下指令：
 
 ```console
 $ flutter create my_app
 ```
 
-### Add web support to an existing project
+### 為現有專案新增 Web 支援
 
-If you already have a project,
-run the `flutter create` command in your project directory:
+如果你已經有一個專案，請在你的專案目錄下執行 `flutter create` 指令：
 
 ```console
 $ flutter create . --platforms web
 ```
 
-This creates a `web/` directory containing the web assets used to bootstrap
-and run your Flutter app.
+這會建立一個 `web/` 目錄，內含用於啟動與執行你的 Flutter 應用程式的網頁資源。
 
-## Run your app
+## 執行你的應用程式
 
-Check out the following sections to run your app.
+請參閱以下章節以執行你的應用程式。
 
-### Run your app from the command line
+### 透過命令列執行你的應用程式
 
-Select [Chrome][] as your app's target device to run and debug
-a Flutter web app:
+選擇 [Chrome][Chrome] 作為你的應用程式目標裝置，以執行和除錯 Flutter Web 應用程式：
 
 ```console
 $ flutter run -d chrome
 ```
 
-You can also choose Chrome as a target device in your IDE.
+你也可以在你的 IDE 中選擇 Chrome 作為目標裝置。
 
-If you prefer, you can use the `edge` device type on Windows,
-or use `web-server` to
-navigate to a local URL in the browser of your choice.
+如果你願意，也可以在 Windows 上使用 `edge` 裝置類型，
+或是使用 `web-server`
+在你選擇的瀏覽器中導覽至本機 URL。
 
 <a id="hot-reload-web" aria-hidden="true" ></a>
 
-:::note Hot reload on the web
-As of the Flutter 3.35 release,
-hot reload is enabled by default on the web.
-[Hot restart][] is still available as well.
+:::note Web 上的熱重載（Hot reload）
+自 Flutter 3.35 版本起，
+Web 平台預設啟用熱重載（hot reload）。
+[熱重啟（Hot restart）][Hot restart] 依然可用。
 
-If you discover any issues we ask that you file a bug
-using our [Web Hot Reload issue template][].
-Note this is in the Dart SDK repository where it's easier
-for us to track issues. Known issues can be seen in the
-associated [GitHub project][].
+如果你發現任何問題，請使用我們的 [Web Hot Reload issue template][Web Hot Reload issue template] 回報錯誤。
+請注意，這是在 Dart SDK 儲存庫中，方便我們追蹤問題。已知問題可在
+相關的 [GitHub project][GitHub project] 查看。
 :::
 
-### Run your app using WebAssembly
+### 使用 WebAssembly 執行你的應用程式
 
-You can pass the `--wasm` flag to run your app using WebAssembly:
+你可以傳遞 `--wasm` 旗標，以使用 WebAssembly 執行你的應用程式：
 
 ```console
 $ flutter run -d chrome --wasm
 ```
 
-Flutter web offers multiple build modes and renderers.
-For more information, check out [Web renderers][].
+Flutter Web 提供多種建置模式與渲染器。
+如需更多資訊，請參閱 [Web renderers][Web renderers]。
 
-### Disable hot reload in VS Code
+### 在 VS Code 中停用 hot reload
 
-To temporarily disable hot reload support from VS Code,
-update your [`launch.json` file][] file with
-the flag `--no-web-experimental-hot-reload`.
+若要暫時停用 VS Code 的 hot reload 支援，
+請在你的 [`launch.json` file][`launch.json` file] 檔案中加入
+旗標 `--no-web-experimental-hot-reload`。
 
 ```plaintext
 "configurations": [
@@ -107,22 +98,19 @@ the flag `--no-web-experimental-hot-reload`.
   ]
 ```
 
-### Disable hot reload from the command line
+### 從命令列暫時停用熱重載
 
-If you use `flutter run` from the command line,
-you can temporarily disable hot reload on the web with the
-following command:
+如果你從命令列使用 `flutter run`，可以透過以下指令暫時停用網頁端的熱重載（hot reload）：
 
 ```console
 flutter run -d chrome --no-web-experimental-hot-reload
 ```
 
-### Use hot reload in DartPad
+### 在 DartPad 中使用熱重載（hot reload）
 
-Hot reload is also enabled in DartPad with a new "Reload" button.
-The feature is only available if Flutter is detected
-in the running application. You can begin a hot reloadable
-session by selecting a sample app provided by DartPad.
+DartPad 現已支援熱重載功能，並新增了「Reload」按鈕。
+此功能僅在執行中的應用程式偵測到 Flutter 時才可用。
+你可以透過選擇 DartPad 提供的範例應用程式，開始一個可進行熱重載的工作階段。
 
 [Hot restart]: /tools/hot-reload
 [How to switch channels]: /install/upgrade#switching-flutter-channels
@@ -130,52 +118,52 @@ session by selecting a sample app provided by DartPad.
 [Web Hot Reload issue template]: {{site.github}}/dart-lang/sdk/issues/new?template=5_web_hot_reload.yml
 [GitHub project]: {{site.github}}/orgs/dart-lang/projects/107/views/1
 
-## Build your app
+## 建置你的應用程式
 
-See the following sections to build your app.
+請參閱以下章節來建置你的應用程式。
 
-### Build your app from the command line
+### 透過命令列建置你的應用程式
 
-Run the following command to generate a release build:
+執行以下指令以產生 release（發布）版本的建置檔案：
 
 ```console
 $ flutter build web
 ```
 
-### Build your app using WebAssembly
+### 使用 WebAssembly 建置你的應用程式
 
-You can also pass the `--wasm` flag to build your app using WebAssembly:
+你也可以傳遞 `--wasm` 旗標，以使用 WebAssembly 來建置你的應用程式：
 
 ```console
 $ flutter build web --wasm
 ```
 
-This populates a `build/web` directory
-with built files, including an `assets` directory,
-which need to be served together.
+這會將建置後的檔案放入 `build/web` 目錄中，
+其中包含 `assets` 目錄，
+這些檔案需要一起提供服務。
 
-To learn more about how to deploy these assets to the web,
-visit [Build and release a web app][].
-For answers to other common questions, visit the [Web FAQ][].
+如需瞭解如何將這些資源部署到網頁，請參閱
+[建置與發布網頁應用程式][Build and release a web app]。
+其他常見問題的解答，請參閱 [Web FAQ][Web FAQ]。
 
-## Debugging
+## 除錯（Debugging）
 
-Use [Flutter DevTools][] for the following tasks:
+請使用 [Flutter DevTools][Flutter DevTools] 來執行以下工作：
 
-* [Debugging][]
-* [Logging][]
-* [Running Flutter inspector][]
+* [除錯（Debugging）][Debugging]
+* [日誌紀錄（Logging）][Logging]
+* [執行 Flutter inspector][Running Flutter inspector]
 
-Use [Chrome DevTools][] for the following tasks:
+請使用 [Chrome DevTools][Chrome DevTools] 來執行以下工作：
 
-* [Generating event timeline][]
-* [Analyzing performance][]&mdash;make sure to use a
+* [產生事件時間軸（Generating event timeline）][Generating event timeline]
+* [效能分析（Analyzing performance）][Analyzing performance]&mdash;請務必使用
   profile build
 
-## Testing
+## 測試（Testing）
 
-Use [widget tests][Widget tests] or integration tests. To learn more about
-running integration tests in a browser, check out the [Integration testing][] page.
+請使用 [元件測試（widget tests）][Widget tests] 或整合測試（integration tests）。如需瞭解
+如何在瀏覽器中執行整合測試，請參閱 [整合測試（Integration testing）][Integration testing] 頁面。
 
 [Analyzing performance]: {{site.developers}}/web/tools/chrome-devtools/evaluate-performance
 [Build and release a web app]: /deployment/web

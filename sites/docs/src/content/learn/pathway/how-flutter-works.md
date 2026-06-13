@@ -1,127 +1,126 @@
 ---
-title: How Flutter works
+title: Flutter 的運作原理
 description: >-
-  Dive deeper into how Flutter works through a six-part video series.
+  透過六集影片系列，深入了解 Flutter 的運作原理。
 layout: tutorial
 ---
 
 <Stepper level="2">
 
-## Flutter's architecture {:#architecture}
+## Flutter 的架構 {:#architecture}
 
 
 <div class="video-wrapper">
   <YouTubeEmbed id="0Xn1QhNtPkQ" title="How Flutter Works" fullWidth />
 </div>
 
-Welcome to the first episode of "How Flutter Works,"
-a six-part series designed to explore what happens to
-your Dart code after you hand it off to the Flutter framework.
-This episode takes a high-level look at Flutter's architecture,
-covering declarative code, multi-platform frameworks, and
-the role of Dart.
-This video is perfect for anyone beginning to
-research Flutter who wants to understand the big picture.
+歡迎收看「Flutter 的運作原理」第一集。
+這是一個六集系列，旨在探索你將 Dart 程式碼交付給 Flutter 框架後，
+背後究竟發生了什麼事。
+本集從高層次角度介紹 Flutter 的架構，
+涵蓋宣告式程式碼、跨平台框架，
+以及 Dart 在其中扮演的角色。
+這支影片非常適合剛開始研究 Flutter、
+想要了解整體架構的開發者。
 
-## Widgets and the three trees {:#three-trees}
+## 元件 (Widget) 與三棵樹 {:#three-trees}
 
 <div class="video-wrapper">
   <YouTubeEmbed id="xiW3ahr4CRU" title="The three trees" fullWidth />
 </div>
 
-Dive into Flutter's architecture by exploring its
-three primary trees: `Widget`, `Element`, and `RenderObject`.
-Discover how widgets provide the declarative API for Flutter developers and
-see how elements glue widgets to the rendering layer.
-You'll also learn about the role of render objects in
-translating widget values into painting calls.
+深入探索 Flutter 架構中的三棵主要樹狀結構：`Widget`、`Element` 與 `RenderObject`。
+了解元件如何為 Flutter 開發者提供宣告式 API，
+並觀察 Element 如何將元件與渲染層串接在一起。
+你也將學到 RenderObject 在將元件屬性值轉換為繪製呼叫時所扮演的角色。
 
-## State objects and their lifecycle {:#state}
+## State 物件與其生命週期 {:#state}
 
 <div class="video-wrapper">
   <YouTubeEmbed id="FP737UMx7ss" title="The state class" fullWidth />
 </div>
 
-Episode 3 of "How Flutter Works" dives deep into the `State` class,
-a critical piece behind every `StatefulWidget`.
-Follow the full lifecycle of a `State` object—from `initState`,
-where you initialize resources, to `dispose`, where you clean up.
-Along the way, explore important methods including `didChangeDependencies`,
-`didUpdateWidget`, and the all-important `build` method.
-By the end of the episode, you'll understand how `State` objects
-track, respond to, and manage changes in your Flutter apps—and
-how the `State` lifecycle enables efficient UI updates.
+「Flutter 的運作原理」第三集深入探討 `State` 類別——
+每個 `StatefulWidget` 背後的核心機制。
+跟著我們走過 `State` 物件的完整生命週期，
+從初始化資源的 `initState`，
+到清理資源的 `dispose`。
+途中，我們還會探索重要方法，
+包括 `didChangeDependencies`、`didUpdateWidget`，
+以及至關重要的 `build` 方法。
+看完本集後，你將理解 `State` 物件如何追蹤、
+回應並管理 Flutter 應用程式中的變更，
+以及 `State` 生命週期如何實現高效的 UI 更新。
 
-This episode also peels back the curtain on how Flutter
-recurses down the widget tree after a `setState` call,
-building out only the parts of your app that need to change.
-You'll learn why `const` constructors matter for performance,
-why `setState` closures must be synchronous, and how
-elements (not widgets themselves) manage the actual rebuild process.
-If you're curious how Flutter keeps apps fast and responsive, or
-you just want to really understand what happens behind the scenes,
-this episode is packed with the essential foundations.
+本集也揭開了 Flutter 在 `setState` 呼叫後
+如何遞迴遍歷元件樹的神秘面紗，
+僅重新建置應用程式中需要變更的部分。
+你將了解為何 `const` 建構函式對效能很重要、
+為何 `setState` 的閉包必須是同步的，
+以及 Element（而非元件本身）如何管理實際的重建流程。
+如果你好奇 Flutter 如何讓應用程式保持快速流暢，
+或者只是想真正了解幕後發生了什麼，
+本集涵蓋了所有不可或缺的基礎知識。
 
-## The widgets that actually render {:#render-object-widgets}
+## 真正負責渲染的元件 {:#render-object-widgets}
 
 <div class="video-wrapper">
   <YouTubeEmbed id="zcJlHVVM84I" title="The RenderObjectWidget" fullWidth />
 </div>
 
-Ever wonder how your Flutter app actually renders to the screen?
-This video dives into `RenderObjectWidget`—the only type of
-widget in Flutter that creates something visual.
-While stateless and stateful widgets help structure your app,
-it's render object widgets that turn your UI code into real pixels.
+你是否曾好奇 Flutter 應用程式究竟是如何渲染到螢幕上的？
+本集深入介紹 `RenderObjectWidget`——Flutter 中唯一
+會實際建立視覺內容的元件類型。
+無狀態元件與有狀態元件幫助你建構應用程式的結構，
+但真正將 UI 程式碼轉換為實際像素的，
+卻是 RenderObject 元件。
 
-You'll learn how Flutter builds the
-`Widget`, `Element`, and `RenderObject` trees,
-why many common widgets don't directly render anything, and
-how Flutter uses `RenderObjectWidget` to create and
-update render objects that power your UI.
+你將了解 Flutter 如何建置
+`Widget`、`Element` 與 `RenderObject` 三棵樹，
+為何許多常見元件不會直接渲染任何東西，
+以及 Flutter 如何使用 `RenderObjectWidget`
+來建立並更新驅動 UI 的 RenderObject。
 
-## A day in the life of a render object {:#render-objects}
+## RenderObject 的一天 {:#render-objects}
 
 <div class="video-wrapper">
   <YouTubeEmbed id="EuG12bebwac" title="A day in the life of a RenderObject" fullWidth />
 </div>
 
-In Episode 5 of "How Flutter Works," Craig walks through
-a full day in the life of a `RenderObject`.
-Building on the concepts from Episode 4,
-this video explains the core responsibilities of render objects:
-layout, painting, hit testing, and accessibility. Craig demystifies how
-constraints flow down the render tree, how sizes come back up, and
-how parent render objects set their children's positions.
-He also breaks down key methods like
-`layout`, `paint`, and `describeSemanticsConfiguration`,
-showing how they fit together to keep your UI responsive and accurate.
+在「Flutter 的運作原理」第五集中，Craig 帶我們走過
+`RenderObject` 的完整一天。
+延續第四集的概念，
+本集說明 RenderObject 的核心職責：
+版面配置、繪製、命中測試與無障礙功能。Craig 揭示了
+約束條件如何沿著渲染樹向下傳遞、尺寸如何向上回傳，
+以及父 RenderObject 如何設定子項的位置。
+他也拆解了 `layout`、`paint` 與 `describeSemanticsConfiguration`
+等關鍵方法，
+說明它們如何協同運作，讓 UI 保持回應靈敏且精準。
 
-## The Flutter engine and embedders {:#engine}
+## Flutter 引擎與嵌入器 {:#engine}
 
 <div class="video-wrapper">
   <YouTubeEmbed id="Y2aBMjWVv2Y" title="The Flutter Engine and Embedders" fullWidth />
 </div>
 
-In Episode 6 of "How Flutter Works," Craig takes us
-beneath the Dart code to explore the Flutter engine and embedders.
-This episode explains how Flutter mobile apps rely on
-native Android and iOS code to launch and operate,
-how the Flutter engine connects your Dart code to the host platform, and
-how embedders facilitate communication between the two.
-Craig also highlights the structure of a newly generated Flutter project,
-dives into how threads are managed in a Flutter app, and
-explains the roles of platform channels and the [Pigeon][] package.
+在「Flutter 的運作原理」第六集中，Craig 帶我們
+深入 Dart 程式碼之下，探索 Flutter 引擎與嵌入器。
+本集說明 Flutter 行動應用程式如何依賴
+原生 Android 與 iOS 程式碼來啟動與運作，
+Flutter 引擎如何將你的 Dart 程式碼與宿主平台連接，
+以及嵌入器如何促進兩者之間的溝通。
+Craig 也介紹了新建 Flutter 專案的結構，
+深入探討 Flutter 應用程式中的執行緒管理，
+並說明平台通道與 [Pigeon][] 套件的角色。
 
-You'll also learn why the Flutter engine is
-written in C++ rather than Dart,
-how it evolved from a fork of Chrome, and
-how it uses Skia or Impeller to render each frame.
-The episode wraps up by looking ahead to
-Flutter's future architecture improvements,
-which aim to simplify native interop even further.
-If you want a clear mental model of how Flutter apps work under the hood,
-this is the perfect way to connect all the layers together.
+你還將了解 Flutter 引擎為何以 C++ 而非 Dart 撰寫、
+它如何從 Chrome 的分支演進而來，
+以及它如何使用 Skia 或 Impeller 來渲染每一幀。
+本集最後展望 Flutter 未來的架構改進，
+目標是進一步簡化原生互通機制。
+如果你想對 Flutter 應用程式的底層運作建立清晰的心智模型，
+這是將所有層次串連起來的最佳方式。
 
 [Pigeon]: {{site.pub-pkg}}/pigeon
 

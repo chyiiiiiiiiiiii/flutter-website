@@ -1,29 +1,27 @@
 ---
-title: Delete data on the internet
-description: How to use the http package to delete data on the internet.
+title: 在網路上刪除資料
+description: 如何使用 `http` 套件在網路上刪除資料。
 ---
 
 <?code-excerpt path-base="cookbook/networking/delete_data/"?>
 
-This recipe covers how to delete data over
-the internet using the `http` package.
+本教學將說明如何使用 `http` 套件，透過網路刪除資料。
 
-This recipe uses the following steps:
+本教學包含以下步驟：
 
-  1. Add the `http` package.
-  2. Delete data on the server.
-  3. Update the screen.
+  1. 新增 `http` 套件。
+  2. 在伺服器上刪除資料。
+  3. 更新螢幕。
 
-## 1. Add the `http` package
+## 1. 新增 `http` 套件
 
-To add the `http` package as a dependency,
-run `flutter pub add`:
+若要將 `http` 套件加入為相依套件，請執行 `flutter pub add`：
 
 ```console
 $ flutter pub add http
 ```
 
-Import the `http` package.
+匯入 `http` 套件。
 
 <?code-excerpt "lib/main.dart (Http)"?>
 ```dart
@@ -32,13 +30,11 @@ import 'package:http/http.dart' as http;
 
 {% render "docs/cookbook/networking/internet-permission.md" %}
 
-## 2. Delete data on the server
+## 2. 刪除伺服器上的資料
 
-This recipe covers how to delete an album from the
-[JSONPlaceholder][] using the `http.delete()` method.
-Note that this requires the `id` of the album that
-you want to delete. For this example,
-use something you already know, for example `id = 1`.
+本教學將說明如何使用 `http.delete()` 方法，從 [JSONPlaceholder][] 刪除一個相簿（album）。
+請注意，這需要你想要刪除的相簿的 `id`。在這個範例中，
+可以使用你已經知道的內容，例如 `id = 1`。
 
 <?code-excerpt "lib/main_step1.dart (deleteAlbum)"?>
 ```dart
@@ -54,24 +50,17 @@ Future<http.Response> deleteAlbum(String id) async {
 }
 ```
 
-The `http.delete()` method returns a `Future` that contains a `Response`.
+`http.delete()` 方法會回傳一個包含 `Response` 的 `Future`。
 
-* [`Future`][] is a core Dart class for working with
-  async operations. A Future object represents a potential
-  value or error that will be available at some time in the future.
-* The `http.Response` class contains the data received from a successful
-  http call.
-* The `deleteAlbum()` method takes an `id` argument that
-  is needed to identify the data to be deleted from the server.
+* [`Future`][] 是 Dart 的核心類別，用於處理非同步（async）操作。Future 物件代表一個未來某個時間點可能可用的值或錯誤。
+* `http.Response` 類別包含從成功的 HTTP 呼叫中接收到的資料。
+* `deleteAlbum()` 方法需要一個 `id` 參數，用來識別要從伺服器刪除的資料。
 
-## 3. Update the screen
+## 3. 更新螢幕
 
-In order to check whether the data has been deleted or not,
-first fetch the data from the [JSONPlaceholder][]
-using the `http.get()` method, and display it in the screen.
-(See the [Fetch Data][] recipe for a complete example.)
-You should now have a **Delete Data** button that,
-when pressed, calls the `deleteAlbum()` method.
+為了檢查資料是否已被刪除，首先請使用 `http.get()` 方法從 [JSONPlaceholder][]
+取得資料，並顯示在螢幕上。（完整範例請參考 [Fetch Data][] 教學。）
+現在你應該有一個 **Delete Data** 按鈕，當按下時會呼叫 `deleteAlbum()` 方法。
 
 <?code-excerpt "lib/main.dart (Column)" replace="/return //g"?>
 ```dart
@@ -92,16 +81,15 @@ Column(
   ],
 );
 ```
-Now, when you click on the ***Delete Data*** button,
-the `deleteAlbum()` method is called and the id
-you are passing is the id of the data that you retrieved
-from the internet. This means you are going to delete
-the same data that you fetched from the internet.
+現在，當你點擊 ***Delete Data*** 按鈕時，
+會呼叫 `deleteAlbum()` 方法，並且你所傳遞的 id
+就是你從網路取得的資料的 id。這代表你將會刪除
+與你從網路擷取的相同資料。
 
-### Returning a response from the deleteAlbum() method
-Once the delete request has been made,
-you can return a response from the `deleteAlbum()`
-method to notify our screen that the data has been deleted.
+### 從 deleteAlbum() 方法回傳回應
+當刪除請求發送後，
+你可以從 `deleteAlbum()` 方法回傳一個回應，
+以通知螢幕資料已經被刪除。
 
 <?code-excerpt "lib/main.dart (deleteAlbum)"?>
 ```dart
@@ -128,17 +116,15 @@ Future<Album> deleteAlbum(String id) async {
 }
 ```
 
-`FutureBuilder()` now rebuilds when it receives a response.
-Since the response won't have any data in its body
-if the request was successful,
-the `Album.fromJson()` method creates an instance of the
-`Album` object with a default value (`null` in our case).
-This behavior can be altered in any way you wish.
+`FutureBuilder()` 現在會在收到回應時重新建構。
+由於如果請求成功，回應的主體通常不會有任何資料，
+所以 `Album.fromJson()` 方法會以預設值（在我們的範例中是 `null`）建立一個 `Album` 物件的實例。
+你可以根據需求，隨意調整這個行為。
 
-That's all!
-Now you've got a function that deletes the data from the internet.
+就是這樣！
+現在你已經擁有一個能從網路上刪除資料的函式了。
 
-## Complete example
+## 完整範例
 
 <?code-excerpt "lib/main.dart"?>
 ```dart

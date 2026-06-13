@@ -1,53 +1,49 @@
 ---
-title: Animations tutorial
-shortTitle: Tutorial
-description: A tutorial showing how to build explicit animations in Flutter.
+title: 動畫（Animation）教學
+shortTitle: 教學
+description: 一個展示如何在 Flutter 中建立明確動畫（explicit animations）的教學。
 ---
 
 <?code-excerpt path-base="animation"?>
 
-:::secondary What you'll learn
-* How to use the fundamental classes from the
-  animation library to add animation to a widget.
-* When to use `AnimatedWidget` vs. `AnimatedBuilder`.
+:::secondary 你將學到什麼
+* 如何使用動畫（animation）函式庫中的基礎類別，為元件 (Widget) 加入動畫效果。
+* 何時該使用 `AnimatedWidget` 與 `AnimatedBuilder`。
 :::
 
-This tutorial shows you how to build explicit animations in Flutter.
-The examples build on each other, introducing you to different aspects of the
-animation library. The tutorial is built on essential concepts, classes,
-and methods in the animation library that you can learn about in
-[Introduction to animations][].
+本教學將帶你學習如何在 Flutter 中建立明確動畫（explicit animations）。
+範例將循序漸進，帶你認識動畫（animation）函式庫的不同面向。
+本教學基於動畫函式庫中的基本概念、類別與方法，相關內容可參考
+[動畫簡介][Introduction to animations]。
 
-The Flutter SDK also provides built-in explicit animations,
-such as [`FadeTransition`][], [`SizeTransition`][],
-and [`SlideTransition`][]. These simple animations are
-triggered by setting a beginning and ending point.
-They are simpler to implement
-than custom explicit animations, which are described here.
+Flutter SDK 也提供了內建的明確動畫（explicit animations），
+如 [`FadeTransition`][]、[`SizeTransition`][]，
+以及 [`SlideTransition`][]。這些簡單動畫
+只需設定起點與終點即可觸發。
+它們比自訂明確動畫（custom explicit animations）更容易實作，
+而本教學將說明如何建立自訂明確動畫。
 
-The following sections walks you through several animation examples.
-Each section provides a link to the source code for that example.
+以下章節將引導你實作多個動畫範例。
+每個章節都會提供該範例的原始碼連結。
 
-## Rendering animations
+## 動畫的渲染（Rendering animations）
 
-:::secondary What's the point?
-* How to add basic animation to a widget using `addListener()` and
-  `setState()`.
-* Every time the Animation generates a new number, the `addListener()`
-  function calls `setState()`.
-* How to define an `AnimationController` with the required
-  `vsync` parameter.
-* Understanding the "`..`" syntax in "`..addListener`",
-  also known as Dart's _cascade notation_.
-* To make a class private, start its name with an underscore (`_`).
+:::secondary 重點提示
+* 如何使用 `addListener()` 與 `setState()`，為元件（Widget）加入基本動畫效果。
+* 每當 Animation 產生新數值時，`addListener()`
+  函式會呼叫 `setState()`。
+* 如何定義一個帶有必要 `vsync` 參數的 `AnimationController`。
+* 理解 "`..addListener`" 中的 "`..`" 語法，
+  也就是 Dart 的 _串接符號（cascade notation）_。
+* 若要讓類別變為私有，請以底線（`_`）作為開頭。
 :::
 
-So far you've learned how to generate a sequence of numbers over time.
-Nothing has been rendered to the screen. To render with an
-`Animation` object, store the `Animation` object as a
-member of your widget, then use its value to decide how to draw.
+目前為止，你已學會如何隨時間產生一串數字。
+但尚未將任何內容渲染到螢幕上。若要使用
+`Animation` 物件進行渲染，請將 `Animation` 物件
+儲存為元件（Widget）的成員，並根據其值決定如何繪製畫面。
 
-Consider the following app that draws the Flutter logo without animation:
+請參考下方這個不帶動畫的 Flutter 標誌（logo）繪製範例：
 
 <?code-excerpt "animate0/lib/main.dart"?>
 ```dart
@@ -77,15 +73,12 @@ class _LogoAppState extends State<LogoApp> {
 }
 ```
 
-**App source:** [animate0][]
+**App 原始碼：** [animate0][]
 
-The following shows the same code modified to animate the
-logo to grow from nothing to full size.
-When defining an `AnimationController`, you must pass in a
-`vsync` object. The `vsync` parameter is described in the
-[`AnimationController` section][].
+以下展示了相同的程式碼，經過修改後，讓 logo 從無到有逐漸放大至完整尺寸。
+在定義 `AnimationController` 時，必須傳入一個 `vsync` 物件。`vsync` 參數的說明請參考 [`AnimationController` 章節][`AnimationController` section]。
 
-The changes from the non-animated example are highlighted:
+與未加入動畫（Animation）的範例相比，變更之處已特別標示：
 
 ```dart diff
 - class _LogoAppState extends State<LogoApp> {
@@ -131,23 +124,22 @@ The changes from the non-animated example are highlighted:
 
 **App source:** [animate1][]
 
-The `addListener()` function calls `setState()`,
-so every time the `Animation` generates a new number,
-the current frame is marked dirty, which forces
-`build()` to be called again. In `build()`,
-the container changes size because its height and
-width now use `animation.value` instead of a hardcoded value.
-Dispose of the controller when the `State` object is
-discarded to prevent memory leaks.
+`addListener()` 函式會呼叫 `setState()`，
+因此每當 `Animation` 產生新數字時，
+目前的畫面（frame）就會被標記為 dirty，這會強制
+再次呼叫 `build()`。在 `build()` 中，
+容器（container）的大小會改變，因為它的高度與
+寬度現在使用 `animation.value`，而不是硬編碼的數值。
+當 `State` 物件被丟棄時，請記得釋放 controller，
+以避免記憶體洩漏。
 
-With these few changes,
-you've created your first animation in Flutter!
+只要做這幾個小改動，
+你就完成了在 Flutter 中的第一個動畫（Animation）！
 
-:::tip Dart language trick
-You might not be familiar with Dart's cascade notation&mdash;the two
-dots in `..addListener()`. This syntax means that the `addListener()`
-method is called with the return value from `animate()`.
-Consider the following example:
+:::tip Dart 語言小技巧
+你可能還不熟悉 Dart 的 cascade notation（串接運算子）&mdash;也就是 `..addListener()` 中的兩個點。
+這個語法代表會以 `animate()` 的回傳值來呼叫 `addListener()` 方法。
+請參考以下範例：
 
 <?code-excerpt "animate1/lib/main.dart (add-listener)"?>
 ```dart highlightLines=2
@@ -157,7 +149,7 @@ animation = Tween<double>(begin: 0, end: 300).animate(controller)
   });
 ```
 
-This code is equivalent to:
+這段程式碼等同於：
 
 <?code-excerpt "animate1/lib/main.dart (add-listener)" replace="/animation.*/$&;/g; /  \./animation/g;"?>
 ```dart highlightLines=2
@@ -167,34 +159,33 @@ animation.addListener(() {
   });
 ```
 
-To learn more about cascades,
-check out [Cascade notation][]
-in the [Dart language documentation][].
+想了解更多關於級聯（cascade），
+請參閱 [Cascade notation][]
+於 [Dart language documentation][]。
 :::
 
-## Simplifying with AnimatedWidget
+## 使用 AnimatedWidget 簡化
 
-:::secondary What's the point?
-* How to use the [`AnimatedWidget`][] helper class
-  (instead of `addListener()`
-  and `setState()`) to create a widget that animates.
-* Use `AnimatedWidget` to create a widget that performs
-  a reusable animation.
-  To separate the transition from the widget, use an
-  `AnimatedBuilder`, as shown in the
-  [Refactoring with AnimatedBuilder][] section.
-* Examples of `AnimatedWidget`s in the Flutter API:
-  `AnimatedBuilder`, `AnimatedModalBarrier`,
-  `DecoratedBoxTransition`, `FadeTransition`,
-  `PositionedTransition`, `RelativePositionedTransition`,
-  `RotationTransition`, `ScaleTransition`,
-  `SizeTransition`, `SlideTransition`.
+:::secondary 重點提示
+* 如何使用 [`AnimatedWidget`][] 輔助類別
+  （取代 `addListener()`
+  和 `setState()`）來建立可動畫的元件（Widget）。
+* 使用 `AnimatedWidget` 建立可重複使用動畫的元件（Widget）。
+  若要將動畫過渡與元件分離，請使用
+  `AnimatedBuilder`，如
+  [Refactoring with AnimatedBuilder][] 章節所示。
+* Flutter API 中 `AnimatedWidget` 的範例：
+  `AnimatedBuilder`、`AnimatedModalBarrier`、
+  `DecoratedBoxTransition`、`FadeTransition`、
+  `PositionedTransition`、`RelativePositionedTransition`、
+  `RotationTransition`、`ScaleTransition`、
+  `SizeTransition`、`SlideTransition`。
 :::
 
-The `AnimatedWidget` base class allows you to separate out
-the core widget code from the animation code.
-`AnimatedWidget` doesn't need to maintain a `State`
-object to hold the animation. Add the following `AnimatedLogo` class:
+`AnimatedWidget` 基底類別可讓你將
+核心元件（Widget）程式碼與動畫程式碼分離。
+`AnimatedWidget` 不需要維護一個 `State`
+物件來保存動畫。請新增以下 `AnimatedLogo` 類別：
 
 <?code-excerpt path-base="animation/animate2"?>
 <?code-excerpt "lib/main.dart (AnimatedLogo)"?>
@@ -219,11 +210,10 @@ class AnimatedLogo extends AnimatedWidget {
 ```
 <?code-excerpt path-base="animation"?>
 
-`AnimatedLogo` uses the current value of the `animation`
-when drawing itself.
+`AnimatedLogo` 在繪製自身時，會使用 `animation` 的當前值。
 
-The `LogoApp` still manages the `AnimationController` and the `Tween`,
-and it passes the `Animation` object to `AnimatedLogo`:
+`LogoApp` 仍然負責管理 `AnimationController` 和 `Tween`，
+並且會將 `Animation` 物件傳遞給 `AnimatedLogo`：
 
 ```dart diff
   void main() => runApp(const LogoApp());
@@ -285,22 +275,17 @@ and it passes the `Animation` object to `AnimatedLogo`:
 
 <a id="monitoring"></a>
 
-## Monitoring the progress of the animation
+## 監控動畫（Animation）的進度
 
-:::secondary What's the point?
-* Use `addStatusListener()` for notifications of changes
-  to the animation's state, such as starting, stopping,
-  or reversing direction.
-* Run an animation in an infinite loop by reversing direction when
-  the animation has either completed or returned to its starting state.
+:::secondary 重點提示
+* 使用 `addStatusListener()` 來接收動畫（Animation）狀態變化的通知，例如開始、停止或反向。
+* 當動畫（Animation）完成或回到起始狀態時，透過反向播放讓動畫（Animation）無限循環執行。
 :::
 
-It's often helpful to know when an animation changes state,
-such as finishing, moving forward, or reversing.
-You can get notifications for this with `addStatusListener()`.
-The following code modifies the previous example so that
-it listens for a state change and prints an update.
-The highlighted line shows the change:
+了解動畫（Animation）狀態變化的時機（例如結束、向前移動或反向）通常很有幫助。
+你可以透過 `addStatusListener()` 來接收這些通知。
+以下程式碼修改了前一個範例，使其能夠監聽狀態變化並列印更新訊息。
+高亮的那一行顯示了這個變更：
 
 <?code-excerpt "animate3/lib/main.dart (print-state)" plaster="none" replace="/\/\/ (\.\..*)/$1;/g; /\n  }/$&\n  \/\/ .../g"?>
 ```dart highlightLines=13
@@ -323,15 +308,14 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
 }
 ```
 
-Running this code produces this output:
+執行此程式碼會產生以下輸出：
 
 ```console
 AnimationStatus.forward
 AnimationStatus.completed
 ```
 
-Next, use `addStatusListener()` to reverse the animation
-at the beginning or the end. This creates a "breathing" effect:
+接下來，使用 `addStatusListener()` 在動畫（Animation）的開始或結束時反轉動畫，這樣可以產生「呼吸」效果：
 
 ```dart diff
   void initState() {
@@ -354,46 +338,43 @@ at the beginning or the end. This creates a "breathing" effect:
 
 **App source:** [animate3][]
 
-## Refactoring with AnimatedBuilder
+## 使用 AnimatedBuilder 進行重構
 
-:::secondary What's the point?
-* An [`AnimatedBuilder`][] understands how to render the transition.
-* An `AnimatedBuilder` doesn't know how to render the widget,
-  nor does it manage the `Animation` object.
-* Use `AnimatedBuilder` to describe an animation as
-  part of a build method for another widget.
-  If you simply want to define a widget with a reusable
-  animation, use an `AnimatedWidget`, as shown in
-  the [Simplifying with AnimatedWidget][] section.
-* Examples of `AnimatedBuilders` in the Flutter API: `BottomSheet`,
-  `ExpansionTile`, `PopupMenu`, `ProgressIndicator`,
-  `RefreshIndicator`, `Scaffold`, `SnackBar`, `TabBar`,
-  `TextField`.
+:::secondary 重點提示
+* 一個 [`AnimatedBuilder`][] 了解如何渲染轉場效果。
+* `AnimatedBuilder` 不知道如何渲染元件（Widget），
+  也不會管理 `Animation` 物件。
+* 使用 `AnimatedBuilder` 可以在其他元件（Widget）的 build 方法中
+  描述動畫（Animation）。
+  如果你只是想定義一個帶有可重複使用動畫的元件（Widget），
+  請使用 `AnimatedWidget`，如
+  [Simplifying with AnimatedWidget][] 一節所示。
+* Flutter API 中 `AnimatedBuilders` 的範例有：`BottomSheet`、
+  `ExpansionTile`、`PopupMenu`、`ProgressIndicator`、
+  `RefreshIndicator`、`Scaffold`、`SnackBar`、`TabBar`、
+  `TextField`。
 :::
 
-One problem with the code in the [animate3][] example,
-is that changing the animation required changing the widget
-that renders the logo. A better solution
-is to separate responsibilities into different classes:
+在 [animate3][] 範例的程式碼中有一個問題，
+那就是每當動畫（Animation）變更時，就必須修改渲染 logo 的元件（Widget）。
+更好的做法是將不同的職責拆分到不同的類別中：
 
-* Render the logo
-* Define the `Animation` object
-* Render the transition
+* 負責渲染 logo
+* 定義 `Animation` 物件
+* 負責渲染轉場效果
 
-You can accomplish this separation with the help of the
-`AnimatedBuilder` class. An `AnimatedBuilder` is a
-separate class in the render tree. Like `AnimatedWidget`,
-`AnimatedBuilder` automatically listens to notifications
-from the `Animation` object, and marks the widget tree
-dirty as necessary, so you don't need to call `addListener()`.
+你可以藉由 `AnimatedBuilder` 類別來達成這樣的職責分離。
+`AnimatedBuilder` 是渲染樹中的一個獨立類別。
+就像 `AnimatedWidget` 一樣，
+`AnimatedBuilder` 會自動監聽來自 `Animation` 物件的通知，
+並在需要時將元件樹（Widget tree）標記為 dirty，
+因此你不需要手動呼叫 `addListener()`。
 
-The widget tree for the [animate4][]
-example looks like this:
+[animate4][] 範例的元件樹（Widget tree）如下所示：
 
 <DashImage figure image="ui/AnimatedBuilder-WidgetTree.png" alt="AnimatedBuilder widget tree" />
 
-Starting from the bottom of the widget tree, the code for rendering
-the logo is straightforward:
+從元件樹（Widget tree）底部開始，渲染 logo 的程式碼非常簡單明瞭：
 
 <?code-excerpt "animate4/lib/main.dart (logo-widget)"?>
 ```dart
@@ -411,24 +392,12 @@ class LogoWidget extends StatelessWidget {
 }
 ```
 
-The middle three blocks in the diagram are all created in the
-`build()` method in `GrowTransition`, shown below.
-The `GrowTransition` widget itself is stateless and holds
-the set of final variables necessary to define the transition animation.
-The build() function creates and returns the `AnimatedBuilder`,
-which takes the (`Anonymous` builder) method and the
-`LogoWidget` object as parameters. The work of rendering the
-transition actually happens in the (`Anonymous` builder)
-method, which creates a `Container` of the appropriate size
-to force the `LogoWidget` to shrink to fit.
+圖中中間的三個區塊，都是在 `GrowTransition` 的 `build()` 方法中建立的，如下所示。
+`GrowTransition` 元件（Widget）本身是無狀態元件（stateless），並持有定義轉場動畫（transition animation）所需的一組 final 變數。
+build() 函式會建立並回傳 `AnimatedBuilder`，它會將（`Anonymous` builder）方法和 `LogoWidget` 物件作為參數。
+實際負責渲染轉場動畫的工作，是在（`Anonymous` builder）方法中完成的，該方法會建立一個適當大小的 `Container`，以強制 `LogoWidget` 縮小以適應。
 
-One tricky point in the code below is that the child looks
-like it's specified twice. What's happening is that the
-outer reference of child is passed to `AnimatedBuilder`,
-which passes it to the anonymous closure, which then uses
-that object as its child. The net result is that the
-`AnimatedBuilder` is inserted in between the two widgets
-in the render tree.
+以下程式碼中有一個較為棘手的地方，就是 child 看起來像是被指定了兩次。實際上，外層的 child 參考會傳遞給 `AnimatedBuilder`，再傳遞給匿名閉包，最後該閉包會將該物件作為其 child 使用。最終的結果是，`AnimatedBuilder` 會插入在這兩個元件（Widgets）之間的渲染樹（render tree）中。
 
 <?code-excerpt "animate4/lib/main.dart (grow-transition)"?>
 ```dart
@@ -461,14 +430,11 @@ class GrowTransition extends StatelessWidget {
 }
 ```
 
-Finally, the code to initialize the animation looks very
-similar to the [animate2][] example. The `initState()`
-method creates an `AnimationController` and a `Tween`,
-then binds them with `animate()`. The magic happens in
-the `build()` method, which returns a `GrowTransition`
-object with a `LogoWidget` as a child, and an animation object to
-drive the transition. These are the three elements listed
-in the bullet points above.
+最後，用於初始化動畫的程式碼看起來與 [animate2][] 範例非常相似。
+`initState()` 方法會建立一個 `AnimationController` 和一個 `Tween`，
+然後用 `animate()` 將它們綁定在一起。關鍵在於 `build()` 方法，
+它會回傳一個 `GrowTransition` 物件，以 `LogoWidget` 作為子元件，
+並以動畫物件驅動轉場。這正是上方項目符號所列出的三個元素。
 
 ```dart diff
   void main() => runApp(const LogoApp());
@@ -532,31 +498,24 @@ in the bullet points above.
 
 **App source:** [animate4][]
 
-## Simultaneous animations
+## 同步動畫（Simultaneous animations）
 
-:::secondary What's the point?
-* The [`Curves`][] class defines an array of
-  commonly used curves that you can
-  use with a [`CurvedAnimation`][].
+:::secondary 重點提示
+* [`Curves`][] 類別定義了一組常用的曲線（curves）陣列，
+  你可以搭配 [`CurvedAnimation`][] 一起使用。
 :::
 
-In this section, you'll build on the example from
-[monitoring the progress of the animation][]
-([animate3][]), which used `AnimatedWidget`
-to animate in and out continuously. Consider the case
-where you want to animate in and out while the
-opacity animates from transparent to opaque.
+在本節中，你將延續
+[監控動畫進度][Monitoring the progress of the animation]
+（[animate3][]）的範例，該範例使用 `AnimatedWidget`
+來持續地進行進入與退出的動畫。假設你想要在進行進入與退出動畫的同時，讓透明度從全透明變化到不透明。
 
 :::note
-This example shows how to use multiple tweens on the same animation
-controller, where each tween manages a different effect in
-the animation. It is for illustrative purposes only.
-If you were tweening opacity and size in production code,
-you'd probably use [`FadeTransition`][] and [`SizeTransition`][]
-instead.
+這個範例展示了如何在同一個動畫控制器（animation controller）上使用多個 Tween，每個 Tween 負責動畫中的不同效果。這僅供說明用途。
+如果你在正式專案中要同時對透明度與尺寸進行 Tween 動畫，建議改用 [`FadeTransition`][] 和 [`SizeTransition`][]。
 :::
 
-Each tween manages an aspect of the animation. For example:
+每個 Tween 管理動畫中的一個面向。例如：
 
 <?code-excerpt "animate5/lib/main.dart (tweens)" plaster="none"?>
 ```dart
@@ -568,17 +527,14 @@ sizeAnimation = Tween<double>(begin: 0, end: 300).animate(controller);
 opacityAnimation = Tween<double>(begin: 0.1, end: 1).animate(controller);
 ```
 
-You can get the size with `sizeAnimation.value` and the opacity
-with `opacityAnimation.value`, but the constructor for `AnimatedWidget`
-only takes a single `Animation` object. To solve this problem,
-the example creates its own `Tween` objects and explicitly calculates the
-values.
+你可以透過 `sizeAnimation.value` 取得尺寸，並透過 `opacityAnimation.value` 取得透明度，
+但 `AnimatedWidget` 的建構函式只接受單一的 `Animation` 物件。為了解決這個問題，
+範例會自行建立 `Tween` 物件，並明確計算這些數值。
 
-Change `AnimatedLogo` to encapsulate its own `Tween` objects,
-and its `build()` method calls `Tween.evaluate()`
-on the parent's animation object to calculate
-the required size and opacity values.
-The following code shows the changes with highlights:
+請將 `AnimatedLogo` 修改為封裝其自身的 `Tween` 物件，
+而其 `build()` 方法則會在父層的動畫物件上呼叫 `Tween.evaluate()`，
+以計算所需的尺寸與透明度數值。
+以下程式碼以重點標示顯示了這些變更：
 
 <?code-excerpt "animate5/lib/main.dart (diff)" replace="/(static final|child: Opacity|opacity:|_sizeTween\.|CurvedAnimation).*/[!$&!]/g"?>
 ```dart
@@ -647,23 +603,21 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
 }
 ```
 
-**App source:** [animate5][] object knows the current state of an animation
-  (for example, whether it's started, stopped,
-  or moving forward or in reverse),
-  but doesn't know anything about what appears onscreen.
-* An [`AnimationController`][] manages the `Animation`.
-* A [`CurvedAnimation`][] defines progression as a non-linear curve.
-* A [`Tween`][] interpolates between a beginning and ending value
-  for a property being animated.
+**App source:** [animate5][] 物件知道動畫（Animation）的當前狀態
+  （例如：是否已啟動、已停止，
+  或是正在正向或反向移動），
+  但不會知道螢幕上實際顯示的內容。
+* 一個 [`AnimationController`][] 負責管理 `Animation`。
+* 一個 [`CurvedAnimation`][] 以非線性曲線定義動畫進度。
+* 一個 [`Tween`][] 負責在動畫屬性的起始值與結束值之間進行插值。
 
-## Next steps
+## 下一步
 
-This tutorial gives you a foundation for creating animations in
-Flutter using `Tweens`, but there are many other classes to explore.
-You might investigate the specialized `Tween` classes,
-animations specific to your design system type, `ReverseAnimation`,
-shared element transitions (also known as Hero animations),
-physics simulations and `fling()` methods.
+本教學為你奠定了使用 `Tweens` 在 Flutter 中建立動畫（Animation）的基礎，但還有許多其他類別值得探索。
+你可以進一步研究專門的 `Tween` 類別、
+針對你設計系統類型的專屬動畫、`ReverseAnimation`、
+共享元素轉場（也稱為 Hero 動畫）、
+物理模擬以及 `fling()` 方法。
 
 [animate0]: {{site.repo.this}}/tree/main/examples/animation/animate0
 [animate1]: {{site.repo.this}}/tree/main/examples/animation/animate1

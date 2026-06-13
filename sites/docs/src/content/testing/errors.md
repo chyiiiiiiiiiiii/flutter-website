@@ -1,57 +1,43 @@
 ---
-title: Handling errors in Flutter
-description: How to control error messages and logging of errors
+title: 在 Flutter 中處理錯誤
+description: 如何控制錯誤訊息與錯誤日誌的紀錄
 ---
 
 <?code-excerpt path-base="testing/errors"?>
 
-The Flutter framework catches errors that occur during callbacks
-triggered by the framework itself, including errors encountered
-during the build, layout, and paint phases. Errors that don't occur
-within Flutter's callbacks can't be caught by the framework,
-but you can handle them by setting up an error handler on the
-[`PlatformDispatcher`][].
+Flutter 框架會攔截在框架自身觸發的回呼（callback）期間發生的錯誤，包括在建構（build）、版面配置（layout）與繪製（paint）階段遇到的錯誤。不在 Flutter 回呼內發生的錯誤，框架無法攔截，但你可以透過在 [`PlatformDispatcher`][`PlatformDispatcher`] 上設置錯誤處理器來處理這些錯誤。
 
-All errors caught by Flutter are routed to the
-[`FlutterError.onError`][] handler. By default,
-this calls [`FlutterError.presentError`][],
-which dumps the error to the device logs.
-When running from an IDE, the inspector overrides this
-behavior so that errors can also be routed to the IDE's
-console, allowing you to inspect the
-objects mentioned in the message.
+所有被 Flutter 攔截的錯誤都會導向 [`FlutterError.onError`][`FlutterError.onError`] 處理器。預設情況下，
+這會呼叫 [`FlutterError.presentError`][`FlutterError.presentError`]，
+將錯誤資訊輸出到裝置日誌中。
+當你從 IDE 執行時，檢查器（inspector）會覆寫這個行為，讓錯誤同時也能導向 IDE 的主控台，方便你檢查訊息中提及的物件。
 
 :::note
-Consider calling [`FlutterError.presentError`][]
-from your custom error handler in order to see
-the logs in the console as well.
+建議你在自訂錯誤處理器中呼叫 [`FlutterError.presentError`][`FlutterError.presentError`]，
+以便同時在主控台看到日誌。
 :::
 
-When an error occurs during the build phase,
-the [`ErrorWidget.builder`][] callback is
-invoked to build the widget that is used
-instead of the one that failed. By default,
-in debug mode this shows an error message in red,
-and in release mode this shows a gray background.
+當錯誤發生在建構（build）階段時，
+會呼叫 [`ErrorWidget.builder`][`ErrorWidget.builder`] 回呼，
+用來建構取代原本失敗元件（Widget）的元件。
+預設情況下，在 debug 模式下會顯示紅色錯誤訊息，
+而在 release 模式下則顯示灰色背景。
 
-When errors occur without a Flutter callback on the call stack,
-they are handled by the `PlatformDispatcher`'s error callback. By default,
-this only prints errors and does nothing else.
+當錯誤發生時，呼叫堆疊中沒有 Flutter 回呼時，
+這些錯誤會由 `PlatformDispatcher` 的錯誤回呼處理。預設情況下，
+這只會列印錯誤，不會做其他處理。
 
-You can customize these behaviors,
-typically by setting them to values in
-your `void main()` function.
+你可以自訂這些行為，
+通常是在你的 `void main()` 函式中設定。
 
-Below each error type handling is explained. At the bottom
-there's a code snippet which handles all types of errors. Even
-though you can just copy-paste the snippet, we recommend you
-to first get acquainted with each of the error types.
+下方會分別說明每種錯誤類型的處理方式。最下方
+有一個可以處理所有錯誤類型的程式碼片段。雖然
+你可以直接複製貼上該程式碼，但我們建議你
+先熟悉各種錯誤類型的處理方式。
 
-## Errors caught by Flutter
+## Flutter 攔截的錯誤
 
-For example, to make your application quit immediately any time an
-error is caught by Flutter in release mode, you could use the
-following handler:
+例如，若你希望在 release 模式下，只要 Flutter 攔截到錯誤就讓應用程式立即結束，可以使用以下的處理器：
 
 <?code-excerpt "lib/quit_immediate.dart (on-error-main)"?>
 ```dart
@@ -72,18 +58,15 @@ void main() {
 ```
 
 :::note
-The top-level [`kReleaseMode`][] constant indicates
-whether the app was compiled in release mode.
+最上層的 [`kReleaseMode`][`kReleaseMode`] 常數用來指示應用程式是否以 release 模式編譯。
 :::
 
-This handler can also be used to report errors to a logging service.
-For more details, see our cookbook chapter for
-[reporting errors to a service][].
+這個處理器也可以用來回報錯誤至日誌服務（logging service）。
+如需更多細節，請參閱我們的食譜章節：[reporting errors to a service][reporting errors to a service]。
 
-## Define a custom error widget for build phase errors
+## 為建構階段錯誤定義自訂錯誤元件（Widget）
 
-To define a customized error widget that displays whenever
-the builder fails to build a widget, use [`MaterialApp.builder`][].
+若要定義一個自訂的錯誤元件（Widget），當 builder 無法建構元件時顯示，請使用 [`MaterialApp.builder`][`MaterialApp.builder`]。
 
 <?code-excerpt "lib/excerpts.dart (custom-error)"?>
 ```dart
@@ -107,11 +90,11 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-## Errors not caught by Flutter
+## Flutter 無法捕捉的錯誤
 
-Consider an `onPressed` callback that invokes an asynchronous function,
-such as `MethodChannel.invokeMethod` (or pretty much any plugin).
-For example:
+請考慮一個 `onPressed` 回呼（callback），它會呼叫一個非同步函式，
+例如 `MethodChannel.invokeMethod`（或幾乎任何 plugin）。
+例如：
 
 <?code-excerpt "lib/excerpts.dart (on-pressed)" replace="/return //g;/^\);$/)/g"?>
 ```dart
@@ -124,10 +107,10 @@ OutlinedButton(
 )
 ```
 
-If `invokeMethod` throws an error, it won't be forwarded to `FlutterError.onError`.
-Instead, it's forwarded to the `PlatformDispatcher`.
+如果 `invokeMethod` 拋出錯誤，該錯誤不會被轉發到 `FlutterError.onError`。
+相反地，錯誤會被轉發到 `PlatformDispatcher`。
 
-To catch such an error, use [`PlatformDispatcher.instance.onError`][].
+若要攔截這類錯誤，請使用 [`PlatformDispatcher.instance.onError`][`PlatformDispatcher.instance.onError`]。
 
 <?code-excerpt "lib/excerpts.dart (catch-error)"?>
 ```dart
@@ -144,11 +127,9 @@ void main() {
 }
 ```
 
-## Handling all types of errors
+## 處理所有類型的錯誤
 
-Say you want to exit application on any exception and to display
-a custom error widget whenever a widget building fails - you can base
-your errors handling on next code snippet:
+假設你希望在發生任何例外時結束應用程式，並且當元件（Widget）建構失敗時顯示自訂的錯誤元件（Widget）——你可以根據以下程式碼片段來處理錯誤：
 
 <?code-excerpt "lib/main.dart (all-errors)"?>
 ```dart
@@ -188,11 +169,11 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-[`ErrorWidget.builder`]: {{site.api}}/flutter/widgets/ErrorWidget/builder.html
-[`FlutterError.onError`]: {{site.api}}/flutter/foundation/FlutterError/onError.html
-[`FlutterError.presentError`]: {{site.api}}/flutter/foundation/FlutterError/presentError.html
-[`kReleaseMode`]:  {{site.api}}/flutter/foundation/kReleaseMode-constant.html
-[`MaterialApp.builder`]: {{site.api}}/flutter/material/MaterialApp/builder.html
-[reporting errors to a service]: /cookbook/maintenance/error-reporting
-[`PlatformDispatcher.instance.onError`]: {{site.api}}/flutter/dart-ui/PlatformDispatcher/onError.html
+[`ErrorWidget.builder`]: {{site.api}}/flutter/widgets/ErrorWidget/builder.html  
+[`FlutterError.onError`]: {{site.api}}/flutter/foundation/FlutterError/onError.html  
+[`FlutterError.presentError`]: {{site.api}}/flutter/foundation/FlutterError/presentError.html  
+[`kReleaseMode`]:  {{site.api}}/flutter/foundation/kReleaseMode-constant.html  
+[`MaterialApp.builder`]: {{site.api}}/flutter/material/MaterialApp/builder.html  
+[reporting errors to a service]: /cookbook/maintenance/error-reporting  
+[`PlatformDispatcher.instance.onError`]: {{site.api}}/flutter/dart-ui/PlatformDispatcher/onError.html  
 [`PlatformDispatcher`]: {{site.api}}/flutter/dart-ui/PlatformDispatcher-class.html

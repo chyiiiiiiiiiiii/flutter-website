@@ -1,34 +1,25 @@
 ---
-title: Export fonts from a package
-description: How to export fonts from a package.
+title: 從套件匯出字型
+description: 如何從套件匯出字型。
 ---
 
 <?code-excerpt path-base="cookbook/design/package_fonts"?>
 
-Rather than declaring a font as part of an app,
-you can declare a font as part of a separate package.
-This is a convenient way to share the same font across
-several different projects,
-or for coders publishing their packages to [pub.dev][].
-This recipe uses the following steps:
+與其將字型宣告為應用程式（app）的一部分，你也可以將字型宣告為獨立套件（package）的一部分。這是一種方便的方式，可以在多個不同專案間共用相同的字型，或是讓開發者將套件發佈到 [pub.dev][pub.dev] 上時使用。本教學包含以下步驟：
 
-  1. Add a font to a package.
-  2. Add the package and font to the app.
-  3. Use the font.
+  1. 將字型新增到套件中。
+  2. 將套件與字型加入應用程式。
+  3. 使用該字型。
 
 :::note
-Check out the [google_fonts][] package for direct access
-to almost 1000 open-sourced font families.
+你也可以參考 [google_fonts][google_fonts] 套件，直接存取近 1000 種開源字型家族。
 :::
 
-## 1. Add a font to a package
+## 1. 將字型新增到套件中
 
-To export a font from a package, you need to import the font files into the
-`lib` folder of the package project. You can place font files directly in the
-`lib` folder or in a subdirectory, such as `lib/fonts`.
+若要從套件匯出字型，你需要將字型檔案匯入套件專案的 `lib` 資料夾。你可以將字型檔案直接放在 `lib` 資料夾，或是放在像 `lib/fonts` 這樣的子目錄中。
 
-In this example, assume you've got a Flutter library called
-`awesome_package` with fonts living in a `lib/fonts` folder.
+在這個範例中，假設你有一個名為 `awesome_package` 的 Flutter 函式庫，字型檔案放在 `lib/fonts` 資料夾中。
 
 ```plaintext
 awesome_package/
@@ -39,29 +30,24 @@ awesome_package/
       Raleway-Italic.ttf
 ```
 
-## 2. Add the package and fonts to the app
+## 2. 將套件與字型加入應用程式
 
-Now you can use the fonts in the package by
-updating the `pubspec.yaml` in the *app's* root directory.
+現在，你可以透過更新*應用程式*根目錄下的`pubspec.yaml`，在套件中使用字型。
 
-### Add the package to the app
+### 將套件加入應用程式
 
-To add the `awesome_package` package as a dependency,
-run `flutter pub add`:
+若要將`awesome_package`套件作為相依套件加入，請執行`flutter pub add`：
 
 ```console
 $ flutter pub add awesome_package
 ```
 
-### Declare the font assets
+### 宣告字型資源
 
-Now that you've imported the package, tell Flutter where to
-find the fonts from the `awesome_package`.
+現在你已經匯入了套件，接下來要告訴 Flutter 從`awesome_package`哪裡找到這些字型。
 
-To declare package fonts, prefix the path to the font with
-`packages/awesome_package`.
-This tells Flutter to look in the `lib` folder
-of the package for the font.
+要宣告套件字型時，請在字型路徑前加上`packages/awesome_package`。
+這樣做會讓 Flutter 從該套件的`lib`資料夾中尋找字型。
 
 ```yaml
 flutter:
@@ -75,11 +61,10 @@ flutter:
 
 <a id="use" aria-hidden="true"></a>
 
-## 3. Use the font
+## 3. 使用字型
 
-Use a [`TextStyle`][] to change the appearance of text.
-To use package fonts, declare which font you'd like to use and
-which package the font belongs to.
+使用 [`TextStyle`][`TextStyle`] 來改變文字的外觀。
+若要使用套件字型（package fonts），請宣告你想使用的字型名稱，以及該字型所屬的套件。
 
 <?code-excerpt "lib/main.dart (TextStyle)"?>
 ```dart
@@ -89,12 +74,11 @@ child: Text(
 ),
 ```
 
-## Complete example
+## 完整範例
 
-### Fonts
+### 字型
 
-The Raleway and RobotoMono fonts were downloaded from
-[Google Fonts][].
+Raleway 與 RobotoMono 字型是從 [Google Fonts][Google Fonts] 下載的。
 
 ### `pubspec.yaml`
 

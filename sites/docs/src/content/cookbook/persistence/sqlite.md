@@ -1,61 +1,49 @@
 ---
-title: Persist data with SQLite
-description: How to use SQLite to store and retrieve data.
+title: 使用 SQLite 儲存資料
+description: 如何使用 SQLite 來儲存與擷取資料。
 ---
 
 <?code-excerpt path-base="cookbook/persistence/sqlite/"?>
 
 :::note
-This guide uses the [sqflite package][].
-This package only supports apps that run on
-macOS, iOS, or Android.
+本指南使用 [sqflite 套件][sqflite package]。
+此套件僅支援運行於 macOS、iOS 或 Android 的應用程式。
 :::
 
 [sqflite package]: {{site.pub-pkg}}/sqflite
 
-If you are writing an app that needs to persist and query large amounts of data on
-the local device, consider using a database instead of a local file or
-key-value store. In general, databases provide faster inserts, updates,
-and queries compared to other local persistence solutions.
+如果你正在開發一個需要在本地裝置上儲存與查詢大量資料的應用程式，建議使用資料庫來取代本地檔案或 key-value 儲存方式。一般來說，資料庫在插入、更新與查詢資料時，效能會優於其他本地持久化解決方案。
 
-Flutter apps can make use of the SQLite databases via the
-[`sqflite`][] plugin available on pub.dev.
-This recipe demonstrates the basics of using `sqflite`
-to insert, read, update, and remove data about various Dogs.
+Flutter 應用程式可以透過 [`sqflite`][] 插件（可於 pub.dev 取得）來使用 SQLite 資料庫。
+本教學將示範如何使用 `sqflite` 進行新增、讀取、更新與刪除各種狗狗（Dogs）資料的基本操作。
 
-If you are new to SQLite and SQL statements, review the
-[SQLite Tutorial][] to learn the basics before
-completing this recipe.
+如果你是第一次接觸 SQLite 與 SQL 語句，建議先參考 [SQLite Tutorial][]，學習基礎知識後再完成本教學。
 
-This recipe uses the following steps:
+本教學包含以下步驟：
 
-  1. Add the dependencies.
-  2. Define the `Dog` data model.
-  3. Open the database.
-  4. Create the `dogs` table.
-  5. Insert a `Dog` into the database.
-  6. Retrieve the list of dogs.
-  7. Update a `Dog` in the database.
-  7. Delete a `Dog` from the database.
+  1. 新增相依套件。
+  2. 定義 `Dog` 資料模型。
+  3. 開啟資料庫。
+  4. 建立 `dogs` 資料表。
+  5. 將 `Dog` 插入資料庫。
+  6. 取得狗狗清單。
+  7. 更新資料庫中的 `Dog`。
+  7. 從資料庫刪除 `Dog`。
 
-## 1. Add the dependencies
+## 1. 新增相依套件
 
-To work with SQLite databases, import the `sqflite` and
-`path` packages.
+要操作 SQLite 資料庫，請匯入 `sqflite` 與 `path` 套件。
 
-  * The `sqflite` package provides classes and functions to
-    interact with a SQLite database.
-  * The `path` package provides functions to
-    define the location for storing the database on disk.
+  * `sqflite` 套件提供與 SQLite 資料庫互動的類別與函式。
+  * `path` 套件則提供定義資料庫儲存位置於磁碟上的相關函式。
 
-To add the packages as a dependency,
-run `flutter pub add`:
+要將這些套件加入為相依套件，請執行 `flutter pub add`：
 
 ```console
 $ flutter pub add sqflite path
 ```
 
-Make sure to import the packages in the file you'll be working in.
+請確保在你要編輯的檔案中匯入相關套件。
 
 <?code-excerpt "lib/main.dart (imports)"?>
 ```dart
@@ -66,12 +54,10 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 ```
 
-## 2. Define the Dog data model
+## 2. 定義 Dog 資料模型
 
-Before creating the table to store information on Dogs, take a few moments to
-define the data that needs to be stored. For this example, define a Dog class
-that contains three pieces of data:
-A unique `id`, the `name`, and the `age` of each dog.
+在建立用來儲存 Dog（狗狗）資訊的資料表之前，請先花點時間定義需要儲存的資料。以本範例來說，請定義一個 Dog 類別，其中包含三個資料欄位：
+每隻狗的唯一 `id`、`name`，以及 `age`。
 
 <?code-excerpt "lib/step2.dart"?>
 ```dart
@@ -84,19 +70,15 @@ class Dog {
 }
 ```
 
-## 3. Open the database
+## 3. 開啟資料庫
 
-Before reading and writing data to the database, open a connection
-to the database. This involves two steps:
+在讀取與寫入資料到資料庫之前，需要先開啟與資料庫的連線。這包含兩個步驟：
 
-  1. Define the path to the database file using `getDatabasesPath()` from the
-  `sqflite` package, combined with the `join` function from the `path` package.
-  2. Open the database with the `openDatabase()` function from `sqflite`.
+  1. 使用 `sqflite` 套件中的 `getDatabasesPath()`，結合 `path` 套件中的 `join` 函式，定義資料庫檔案的路徑。
+  2. 使用 `sqflite` 中的 `openDatabase()` 函式來開啟資料庫。
 
 :::note
-In order to use the keyword `await`, the code must be placed
-inside an `async` function. You should place all the following
-table functions inside `void main() async {}`.
+為了能夠使用關鍵字 `await`，程式碼必須寫在 `async` 函式內。你應該將下列所有的資料表函式都放在 `void main() async {}` 中。
 :::
 
 <?code-excerpt "lib/step3.dart (openDatabase)"?>
@@ -113,23 +95,18 @@ final database = openDatabase(
 );
 ```
 
-## 4. Create the `dogs` table
+## 4. 建立 `dogs` 資料表
 
-Next, create a table to store information about various Dogs.
-For this example, create a table called `dogs` that defines the data
-that can be stored. Each `Dog` contains an `id`, `name`, and `age`.
-Therefore, these are represented as three columns in the `dogs` table.
+接下來，建立一個資料表來儲存各種狗（Dogs）的資訊。
+在這個範例中，建立一個名為 `dogs` 的資料表，定義可儲存的資料內容。
+每個 `Dog` 包含 `id`、`name` 和 `age`。
+因此，這三個欄位會作為 `dogs` 資料表中的三個欄位來表示。
 
-  1. The `id` is a Dart `int`, and is stored as an `INTEGER` SQLite
-     Datatype. It is also good practice to use an `id` as the primary
-     key for the table to improve query and update times.
-  2. The `name` is a Dart `String`, and is stored as a `TEXT` SQLite
-     Datatype.
-  3. The `age` is also a Dart `int`, and is stored as an `INTEGER`
-     Datatype.
+  1. `id` 是 Dart `int`，在 SQLite 中以 `INTEGER` 資料型別（Datatype）儲存。通常建議使用 `id` 作為資料表的主鍵（primary key），以提升查詢與更新的效率。
+  2. `name` 是 Dart `String`，在 SQLite 中以 `TEXT` 資料型別儲存。
+  3. `age` 也是 Dart `int`，在 SQLite 中以 `INTEGER` 資料型別儲存。
 
-For more information about the available Datatypes that can be stored in a
-SQLite database, see the [official SQLite Datatypes documentation][].
+如需更多關於 SQLite 資料庫可儲存資料型別的資訊，請參閱 [官方 SQLite 資料型別文件][official SQLite Datatypes documentation]。
 
 <?code-excerpt "lib/main.dart (openDatabase)"?>
 ```dart
@@ -151,16 +128,14 @@ final database = openDatabase(
 );
 ```
 
-## 5. Insert a Dog into the database
+## 5. 將 Dog 插入資料庫
 
-Now that you have a database with a table suitable for storing information
-about various dogs, it's time to read and write data.
+現在你已經擁有一個適合儲存多種狗狗資訊的資料庫與資料表，是時候來讀寫資料了。
 
-First, insert a `Dog` into the `dogs` table. This involves two steps:
+首先，將一個 `Dog` 插入到 `dogs` 資料表中。這包含兩個步驟：
 
-1. Convert the `Dog` into a `Map`
-2. Use the [`insert()`][] method to store the
-   `Map` in the `dogs` table.
+1. 將 `Dog` 轉換為 `Map`
+2. 使用 [`insert()`][] 方法，將 `Map` 儲存到 `dogs` 資料表中。
 
 <?code-excerpt "lib/main.dart (Dog)"?>
 ```dart
@@ -213,13 +188,12 @@ var fido = Dog(id: 0, name: 'Fido', age: 35);
 await insertDog(fido);
 ```
 
-## 6. Retrieve the list of Dogs
+## 6. 取得 Dogs 的清單
 
-Now that a `Dog` is stored in the database, query the database
-for a specific dog or a list of all dogs. This involves two steps:
+現在已經將 `Dog` 儲存到資料庫中，可以查詢資料庫以取得特定的 dog 或所有 dogs 的清單。這包含兩個步驟：
 
-  1. Run a `query` against the `dogs` table. This returns a `List<Map>`.
-  2. Convert the `List<Map>` into a `List<Dog>`.
+  1. 對 `dogs` 資料表執行 `query`。這會回傳 `List<Map>`。
+  2. 將 `List<Map>` 轉換為 `List<Dog>`。
 
 <?code-excerpt "lib/main.dart (dogs)"?>
 ```dart
@@ -246,17 +220,17 @@ Future<List<Dog>> dogs() async {
 print(await dogs()); // Prints a list that include Fido.
 ```
 
-## 7. Update a `Dog` in the database
+## 7. 更新資料庫中的 `Dog`
 
-After inserting information into the database,
-you might want to update that information at a later time.
-You can do this by using the [`update()`][]
-method from the `sqflite` library.
+在將資訊插入資料庫之後，
+你可能會希望在之後的某個時間點更新這些資訊。
+你可以透過 `sqflite` 函式庫中的 [`update()`][]
+方法來完成這件事。
 
-This involves two steps:
+這個流程包含兩個步驟：
 
-  1. Convert the Dog into a Map.
-  2. Use a `where` clause to ensure you update the correct Dog.
+  1. 將 Dog 轉換為 Map。
+  2. 使用 `where` 子句來確保你更新的是正確的 Dog。
 
 <?code-excerpt "lib/main.dart (update)"?>
 ```dart
@@ -287,22 +261,21 @@ print(await dogs()); // Prints Fido with age 42.
 ```
 
 :::warning
-Always use `whereArgs` to pass arguments to a `where` statement.
-This helps safeguard against SQL injection attacks.
+請務必使用 `whereArgs` 來傳遞參數給 `where` 陳述式。
+這有助於防範 SQL 注入攻擊。
 
-Do not use string interpolation, such as `where: "id = ${dog.id}"`!
+請勿使用字串插值，例如 `where: "id = ${dog.id}"`！
 :::
 
 
-## 8. Delete a `Dog` from the database
+## 8. 從資料庫中刪除 `Dog`
 
-In addition to inserting and updating information about Dogs,
-you can also remove dogs from the database. To delete data,
-use the [`delete()`][] method from the `sqflite` library.
+除了插入與更新有關 Dogs 的資訊之外，
+你也可以從資料庫中移除 dog。若要刪除資料，
+請使用 [`delete()`][] 方法，該方法來自 `sqflite` 函式庫。
 
-In this section, create a function that takes an id and deletes the dog with
-a matching id from the database. To make this work, you must provide a `where`
-clause to limit the records being deleted.
+在本節中，將建立一個函式，該函式會接收一個 id，並從資料庫中刪除 id 相符的 dog。
+為了讓這個操作生效，你必須提供 `where` 子句，以限制被刪除的紀錄。
 
 <?code-excerpt "lib/main.dart (deleteDog)"?>
 ```dart
@@ -321,14 +294,14 @@ Future<void> deleteDog(int id) async {
 }
 ```
 
-## Example
+## 範例
 
-To run the example:
+執行此範例步驟如下：
 
-  1. Create a new Flutter project.
-  2. Add the `sqflite` and `path` packages to your `pubspec.yaml`.
-  3. Paste the following code into a new file called `lib/db_test.dart`.
-  4. Run the code with `flutter run lib/db_test.dart`.
+  1. 建立一個新的 Flutter 專案。
+  2. 將 `sqflite` 和 `path` 套件加入你的 `pubspec.yaml`。
+  3. 將下方程式碼貼到一個名為 `lib/db_test.dart` 的新檔案中。
+  4. 使用 `flutter run lib/db_test.dart` 執行程式碼。
 
 <?code-excerpt "lib/main.dart"?>
 ```dart
@@ -465,16 +438,15 @@ class Dog {
 }
 ```
 
-## Use relationships between tables
+## 使用資料表之間的關聯
 
 :::note
-This is a more advanced use case and not required for basic usage.
+這是較進階的使用情境，基本使用不需要這個步驟。
 :::
 
-In real-world applications, you often need to model relationships between tables.
+在實際應用程式中，你通常需要為資料表之間的關聯建立模型。
 
-For example, instead of storing all data in a single table, you can separate
-related data into multiple tables and connect them using foreign keys.
+例如，你可以將資料分散存放到多個資料表，而不是將所有資料儲存在單一資料表中，並使用外鍵（foreign key）將它們連接起來。
 
 ```sql
 CREATE TABLE breeds(
@@ -493,8 +465,8 @@ CREATE TABLE dogs(
 );
 ```
 
-In this example, each dog is associated with a breed using the `breed_id` field.
-This allows you to organize data more efficiently and avoid duplication.
+在這個範例中，每隻狗透過 `breed_id` 欄位與一個品種建立關聯。
+這讓你能夠更有效率地組織資料，並避免重複。
 
 
 

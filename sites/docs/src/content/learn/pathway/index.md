@@ -1,8 +1,8 @@
 ---
-title: Flutter learning pathway
-shortTitle: Learning pathway
+title: Flutter 學習路徑
+shortTitle: 學習路徑
 description: >-
-  This learning pathway walks you through the basics of both Dart and Flutter.
+  本學習路徑將引導你了解 Dart 與 Flutter 的基礎知識。
 layout: tutorial
 ---
 
@@ -10,57 +10,55 @@ layout: tutorial
   <YouTubeEmbed id="2kjp9yAKpT4" title="Welcome to the Dart and Flutter Getting Started tutorial" fullWidth="true" />
 </div>
 
-Welcome to the Dart and Flutter Getting Started pathway.
-In it, you'll set up your development environment,
-learn how to write Dart code, and
-build three small Flutter apps step-by-step.
-This learning pathway spans
-the Dart and Flutter websites, YouTube, and your IDE.
-By the end, you'll have a solid foundation in both Dart and Flutter.
+歡迎來到 Dart 與 Flutter 入門學習路徑。
+在這裡，你將設定開發環境、
+學習如何撰寫 Dart 程式碼，並
+逐步建置三個小型 Flutter 應用程式。
+本學習路徑橫跨 Dart 與 Flutter 官方網站、YouTube 以及你的 IDE。
+完成後，你將對 Dart 與 Flutter 兩者都具備扎實的基礎。
 
 <Stepper level="3" collapsible="false" actions="none">
 
-### Set up your development environment
+### 設定開發環境
 
-Before you can start building Flutter apps,
-you'll need to set up your development environment.
-Follow the installation guide to get Flutter and
-all required dependencies installed on your machine.
+在開始建置 Flutter 應用程式之前，
+你需要先設定好開發環境。
+請依照安裝指南，在你的機器上安裝 Flutter 及
+所有必要的相依套件。
 
-[Get Started →](/learn/pathway/quick-install)
+[開始使用 →](/learn/pathway/quick-install)
 
-### Complete the Dart Getting Started tutorial
+### 完成 Dart 入門教學
 
-Flutter uses the Dart programming language.
-If you're new to Dart, complete this interactive tutorial to
-learn the fundamentals—variables, functions, classes, and more.
+Flutter 使用 Dart 程式語言。
+如果你是 Dart 新手，請完成這份互動式教學，
+學習基礎知識——變數、函式、類別等等。
 
-If you're in a hurry and already familiar with
-modern, object-oriented programming languages,
-you can safely skip this step.
+如果你時間有限且已熟悉
+現代物件導向程式語言，
+可以安心跳過此步驟。
 
 <a href="{{site.dart-site}}/learn/tutorial" target="_blank">
-Dart Getting Started tutorial →
+Dart 入門教學 →
 </a>
 
-### Complete the Flutter Getting Started tutorial
+### 完成 Flutter 入門教學
 
-Now that you have Dart skills under your belt, dive into Flutter!
-This hands-on tutorial walks you through
-building three small Flutter apps step-by-step.
+現在你已掌握 Dart 技能，讓我們深入 Flutter！
+這份實作教學將引導你
+逐步建置三個小型 Flutter 應用程式。
 
-[Flutter Getting Started tutorial →](/learn/pathway/tutorial)
+[Flutter 入門教學 →](/learn/pathway/tutorial)
 
-### Understand how Flutter works
+### 了解 Flutter 的運作原理
 
-Deepen your understanding of how Flutter works
-under the hood by watching this video series.
-Learn about the widget tree, rendering pipeline, and what makes Flutter unique.
-This series provides the knowledge you need to know to
-take full advantage of the framework.
+透過觀看這個系列影片，深入理解 Flutter
+底層的運作方式。
+學習元件 (Widget) 樹、渲染管線，以及 Flutter 的獨特之處。
+這個系列將提供你充分運用此框架所需的知識。
 
 
-[Watch: How Flutter Works →](/learn/pathway/how-flutter-works)
+[觀看：Flutter 運作原理 →](/learn/pathway/how-flutter-works)
 
 </Stepper>
 
@@ -68,14 +66,14 @@ take full advantage of the framework.
 
 
 
-<Card title="Feedback" additional-classes="display-card">
+<Card title="意見回饋" additional-classes="display-card">
 
-We're always looking for ways to improve the Getting Started experience.
-Moving forward, we plan to add more resources to this section of the website.
-We'd love to know what you think and what you'd like to see.
+我們持續尋求改善入門體驗的方式。
+未來，我們計畫在網站的這個區塊加入更多資源。
+我們很想知道你的想法，以及你希望看到哪些內容。
 
-Please take a moment to share your feedback with us.
+請花一點時間與我們分享你的意見。
 
-<a href="https://google.qualtrics.com/jfe/form/SV_6A9KxXR7XmMrNsy?page='index'" class="outlined-button">Leave feedback</a>
+<a href="https://google.qualtrics.com/jfe/form/SV_6A9KxXR7XmMrNsy?page='index'" class="outlined-button">留下意見</a>
 
 </Card>

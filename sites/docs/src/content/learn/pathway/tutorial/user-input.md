@@ -1,45 +1,45 @@
 ---
-title: User input
-description: Accept input from the user with buttons and text fields.
+title: 使用者輸入
+description: 使用按鈕和文字欄位接收使用者輸入。
 layout: tutorial
 ---
 
-Learn to build text inputs, manage text with controllers, and handle user actions with buttons.
+學習建置文字輸入欄位、使用控制器管理文字，以及使用按鈕處理使用者動作。
 
 <SummaryCard>
-title: What you'll accomplish
+title: 你將完成的事項
 items:
-  - title: Build a text input widget with TextField
+  - title: 使用 TextField 建置文字輸入元件
     icon: text_fields
-  - title: Manage text with TextEditingController
+  - title: 使用 TextEditingController 管理文字
     icon: edit_note
-  - title: Control input focus for a better user experience
+  - title: 控制輸入焦點以提升使用者體驗
     icon: center_focus_strong
-  - title: Handle user actions with callbacks and buttons
+  - title: 使用回呼（callback）和按鈕處理使用者動作
     icon: touch_app
 </SummaryCard>
 
 ---
 
-### Introduction
+### 簡介
 
-The app will display the user's guesses in the `Tile` widgets,
-but it needs a way for the user to input those guesses.
-In this lesson, build that functionality with two interaction widgets:
-[`TextField`][] and [`IconButton`][].
+應用程式將在 `Tile` 元件 (Widget) 中顯示使用者的猜測，
+但它需要一種方式讓使用者輸入猜測內容。
+在本課中，使用兩個互動元件來建置此功能：
+[`TextField`][] 和 [`IconButton`][]。
 
 [`TextField`]: {{site.api}}/flutter/material/TextField-class.html
 [`IconButton`]: {{site.api}}/flutter/material/IconButton-class.html
 
-### Implement callback functions
+### 實作回呼（callback）函式
 
-To allow users to type in their guesses,
-you'll create a dedicated widget named `GuessInput`.
-First, create the basic structure for your `GuessInput` widget that
-requires a callback function as an argument.
-Name the callback function `onSubmitGuess`.
+為了讓使用者能夠輸入猜測內容，
+你將建立一個名為 `GuessInput` 的專用元件。
+首先，為你的 `GuessInput` 元件建立基本結構，
+該結構需要一個回呼函式作為引數。
+將此回呼函式命名為 `onSubmitGuess`。
 
-Add the following code to your `main.dart` file.
+將以下程式碼新增到你的 `main.dart` 檔案中。
 
 <?code-excerpt "fwe/birdle/lib/step4a_main.dart (GuessInput)"?>
 ```dart
@@ -56,31 +56,30 @@ class GuessInput extends StatelessWidget {
 }
 ```
 
-The line `final void Function(String) onSubmitGuess;`
-declares a `final` member of the class called `onSubmitGuess`
-that has the type `void Function(String)`.
-This function takes a  single `String` argument (the user's guess) and
-doesn't return any value (denoted by `void`).
+`final void Function(String) onSubmitGuess;` 這行
+宣告了類別中一個名為 `onSubmitGuess` 的 `final` 成員，
+其型別為 `void Function(String)`。
+此函式接受一個 `String` 引數（使用者的猜測），
+且不回傳任何值（以 `void` 表示）。
 
-This callback tells us that the logic that
-actually handles the user's guess will be written elsewhere.
-It's a good practice for interactive widgets to
-use callback functions to keep the widget that handles interactions reusable and
-decoupled from any specific functionality.
+此回呼告訴我們，實際處理使用者猜測的邏輯將在其他地方撰寫。
+對互動元件而言，使用回呼函式是一種良好的實踐，
+可讓處理互動的元件保持可重複使用，
+並與任何特定功能解耦。
 
-By the end of this lesson, the passed-in `onSubmitGuess` function
-is called when a user enters a guess.
-First, you'll need to build the visual parts of this widget.
-This is what the widget will look like.
+在本課結束時，當使用者輸入猜測時，
+傳入的 `onSubmitGuess` 函式將被呼叫。
+首先，你需要建置此元件的視覺部分。
+以下是元件完成後的外觀。
 
 <img src='/assets/images/docs/tutorial/app_with_input.png' width="320px" alt="A screenshot of the Flutter property editor tool.">
 
-### The `TextField` widget
+### `TextField` 元件
 
-Given that the text field and button are displayed side-by-side,
-create them as a `Row` widget.
-Replace the `Container` placeholder in your `build` method with
-a `Row` containing an `Expanded` `TextField`:
+由於文字欄位和按鈕並排顯示，
+請將它們建立為一個 `Row` 元件。
+將 `build` 方法中的 `Container` 佔位符替換為
+包含 `Expanded` 的 `TextField` 的 `Row`：
 
 <?code-excerpt "fwe/birdle/lib/step4b_main.dart (GuessInput)"?>
 ```dart
@@ -112,38 +111,38 @@ class GuessInput extends StatelessWidget {
 }
 ```
 
-You have seen some of these widgets in previous lessons:
-`Row` and `Padding`. New, though, is the [`Expanded`][] widget.
-When a child of a `Row` (or `Column`) is wrapped in `Expanded`,
-it tells that child to fill all the available space along the main axis
-(horizontal for`Row`, vertical for `Column`) that
-hasn't been taken by other children.
-This makes the `TextField` stretch to take up all the space *except*
-what's taken by other widgets in the row.
+你在前幾課中已見過其中一些元件：
+`Row` 和 `Padding`。不過 [`Expanded`][] 元件是新的。
+當 `Row`（或 `Column`）的子元件被 `Expanded` 包裹時，
+它會告訴該子元件填滿主軸方向上的所有可用空間
+（`Row` 為水平方向，`Column` 為垂直方向），
+即其他子元件未佔用的部分。
+這使 `TextField` 延伸以佔用所有空間，*除了*
+同一列中其他元件所佔用的空間。
 
 :::tip
-`Expanded` is often the solution to "[unbounded width/height][]" exceptions.
+`Expanded` 通常是解決「[unbounded width/height][]」例外的方案。
 :::
 
-The `TextField` widget is also new in this lesson and is the star of the show.
-This is the basic Flutter widget for text input.
+`TextField` 元件在本課中也是新的，它是主角。
+這是 Flutter 中用於文字輸入的基本元件。
 
-Thus far, `TextField` has the following configuration.
+目前，`TextField` 有以下設定。
 
-- It's decorated with a rounded border.
-  Notice that the decoration configuration is
-  very similar to how a `Container` and boxes are decorated.
-- Its `maxLength` property is set to 5 because the game
-  only allows guesses of 5-letter words.
+- 它帶有圓角邊框裝飾。
+  請注意，裝飾設定與
+  `Container` 和方塊的裝飾方式非常相似。
+- 其 `maxLength` 屬性設為 5，因為遊戲
+  只允許猜測 5 個字母的單詞。
 
 [`Expanded`]: {{site.api}}/flutter/widgets/Expanded-class.html
 [unbounded width/height]: https://www.youtube.com/watch?v=jckqXR5CrPI
 
-### Handle text with `TextEditingController`
+### 使用 `TextEditingController` 處理文字
 
-Next, you need a way to manage the text that
-the user types into the input field.
-For this, use a [`TextEditingController`][].
+接下來，你需要一種方式來管理
+使用者在輸入欄位中輸入的文字。
+為此，請使用 [`TextEditingController`][]。
 
 <?code-excerpt "fwe/birdle/lib/step4c_main.dart (GuessInput)"?>
 ```dart
@@ -179,9 +178,9 @@ class GuessInput extends StatelessWidget {
 }
 ```
 
-A `TextEditingController` is used to
-read, clear, and modify the text in a `TextField`.
-To use it, pass it into the `TextField`.
+`TextEditingController` 用於
+讀取、清除和修改 `TextField` 中的文字。
+要使用它，請將其傳入 `TextField`。
 
 <?code-excerpt "fwe/birdle/lib/step4d_main.dart (GuessInput)"?>
 ```dart
@@ -216,16 +215,15 @@ class GuessInput extends StatelessWidget {
 }
 ```
 
-Now, when a user inputs text, you can
-capture it with the `_textEditingController`, but
-you'll need to know _when_ to capture it.
-The simplest way to react to input is by
-using the `TextField.onSubmitted` argument.
-This argument accepts a callback, and the callback is triggered whenever
-the user presses the "Enter" key on the keyboard while the text field has focus.
+現在，當使用者輸入文字時，你可以
+用 `_textEditingController` 擷取它，但
+你需要知道 _何時_ 擷取。
+對輸入做出反應最簡單的方式是
+使用 `TextField.onSubmitted` 引數。
+此引數接受一個回呼，當使用者在文字欄位有焦點時
+按下鍵盤上的 "Enter" 鍵，該回呼便會被觸發。
 
-For now, ensure that this works by
-adding the following callback to `TextField.onSubmitted`:
+目前，請將以下回呼新增到 `TextField.onSubmitted` 來確認其正常運作：
 
 <?code-excerpt "fwe/birdle/lib/step4e_main.dart (GuessInput)"?>
 ```dart
@@ -264,10 +262,10 @@ class GuessInput extends StatelessWidget {
 }
 ```
 
-In this case,
-you could print the `input` passed to the `onSubmitted` callback directly,
-but a better user experience clears the text after each guess:
-You need a `TextEditingController` to do that. Update the code as follows:
+在這個情況下，
+你可以直接印出傳給 `onSubmitted` 回呼的 `input`，
+但更好的使用者體驗是在每次猜測後清除文字：
+你需要 `TextEditingController` 來完成這件事。請如下更新程式碼：
 
 <?code-excerpt "fwe/birdle/lib/step4f_main.dart (GuessInput)"?>
 ```dart
@@ -308,25 +306,25 @@ class GuessInput extends StatelessWidget {
 ```
 
 :::note
-In Dart, it's good practice to use the `_` [wildcard][] to
-hide the input to a function that'll never be used.
-The preceding example does so.
+在 Dart 中，使用 `_` [萬用字元][wildcard] 來
+隱藏永遠不會被使用的函式輸入是良好的實踐。
+上述範例就是這樣做的。
 :::
 
 [`TextEditingController`]: {{site.api}}/flutter/widgets/TextEditingController-class.html
 [wildcard]: {{site.dart-site}}/language/variables#wildcard-variables
 
-### Gain input focus
+### 取得輸入焦點
 
-Often, you want a specific input or widget to
-automatically gain focus without the user taking action.
-In this app, for example, the only thing a user can do is enter a guess,
-so the `TextField` should be focused automatically when the app launches.
-And after the user enters a guess, the focus should stay
-in the `TextField` so they can enter their next guess.
+通常，你希望某個特定的輸入或元件
+能夠自動取得焦點，而無需使用者採取任何動作。
+例如在這個應用程式中，使用者唯一能做的事就是輸入猜測，
+因此 `TextField` 應在應用程式啟動時自動取得焦點。
+而在使用者輸入猜測後，焦點應留在
+`TextField` 中，以便他們輸入下一個猜測。
 
-To resolve the first focus issue,
-set up the `autofocus` property on the `TextField`.
+要解決第一個焦點問題，
+請在 `TextField` 上設定 `autofocus` 屬性。
 
 <?code-excerpt "fwe/birdle/lib/step4g_main.dart (GuessInput)"?>
 ```dart
@@ -366,13 +364,13 @@ class GuessInput extends StatelessWidget {
 }
 ```
 
-The second issue requires you to
-use a [`FocusNode`][] to manage the keyboard focus.
-You can use `FocusNode` to request that a `TextField` gain focus,
-(making the keyboard appear on mobile),
-or to know when a field has focus.
+第二個問題需要你
+使用 [`FocusNode`][] 來管理鍵盤焦點。
+你可以使用 `FocusNode` 請求 `TextField` 取得焦點
+（在行動裝置上會使鍵盤彈出），
+或得知某個欄位是否擁有焦點。
 
-First, create a `FocusNode` in the `GuessInput` class:
+首先，在 `GuessInput` 類別中建立一個 `FocusNode`：
 
 <?code-excerpt "fwe/birdle/lib/step4h_main.dart (GuessInput)"?>
 ```dart
@@ -393,8 +391,8 @@ class GuessInput extends StatelessWidget {
 }
 ```
 
-Then, use the `FocusNode` to request focus whenever
-the `TextField` is submitted after the controller is cleared:
+然後，在控制器清除後每當 `TextField` 被提交時，
+使用 `FocusNode` 請求焦點：
 
 <?code-excerpt "fwe/birdle/lib/step4i_main.dart (GuessInput)"?>
 ```dart
@@ -438,18 +436,18 @@ class GuessInput extends StatelessWidget {
 }
 ```
 
-Now, when you press <kbd>Enter</kbd> after inputting text,
-you can continue typing.
+現在，當你輸入文字後按下 <kbd>Enter</kbd> 鍵，
+你可以繼續輸入。
 
 [`FocusNode`]: {{site.api}}/flutter/widgets/FocusNode-class.html
 
-### Use the input
+### 使用輸入內容
 
-Finally, you need to handle the text that the user enters.
-Recall that the constructor for `GuessInput` requires a
-callback called `onSubmitGuess`.
-In `GuessInput`, you need to use that callback.
-Replace the `print` statement with a call to that function.
+最後，你需要處理使用者輸入的文字。
+回想一下，`GuessInput` 的建構函式需要
+一個名為 `onSubmitGuess` 的回呼。
+在 `GuessInput` 中，你需要使用該回呼。
+將 `print` 陳述式替換為對該函式的呼叫。
 
 <?code-excerpt "fwe/birdle/lib/step4j_main.dart (GuessInput)"?>
 ```dart
@@ -494,14 +492,14 @@ class GuessInput extends StatelessWidget {
 ```
 
 :::note
-The `trim` function prevents whitespace from being entered;
-otherwise, the user could enter a four-letter word plus a space character.
+`trim` 函式可防止輸入空白字元；
+否則使用者可能會輸入四個字母的單詞加上一個空格字元。
 :::
 
-The remaining functionality is handled in the parent widget, `GamePage`.
-In the `build` method of that class,
-under the `Row` widgets in the `Column` widget's children,
-add the `GuessInput` widget:
+其餘功能由父元件 `GamePage` 處理。
+在該類別的 `build` 方法中，
+在 `Column` 元件子元件清單的 `Row` 元件之後，
+新增 `GuessInput` 元件：
 
 <?code-excerpt "fwe/birdle/lib/step4k_main.dart (GamePage)"?>
 ```dart
@@ -537,30 +535,29 @@ class GamePage extends StatelessWidget {
 }
 ```
 
-For the moment, this only prints the guess to
-prove that it's wired up correctly.
-Submitting the guess requires using the functionality of a `StatefulWidget`,
-which you'll do in the next lesson.
+目前，這只會印出猜測內容，
+以證明連線已正確設定。
+提交猜測需要使用 `StatefulWidget` 的功能，
+你將在下一課中完成這部分。
 
-### Buttons
+### 按鈕
 
-To improve the UX on mobile and reflect well-known UI practices,
-there should also be a button that can submit the guess.
+為了改善行動裝置上的使用者體驗（UX）並符合常見的 UI 慣例，
+還應該提供一個可以提交猜測的按鈕。
 
-There are many button widgets built into Flutter, like [`TextButton`][],
-[`ElevatedButton`][], and the button you'll use now: [`IconButton`][].
-All of these buttons (and many other interaction widgets) require two
-arguments (in addition to their optional arguments):
+Flutter 內建了許多按鈕元件，例如 [`TextButton`][]、
+[`ElevatedButton`][]，以及你現在將使用的：[`IconButton`][]。
+所有這些按鈕（以及許多其他互動元件）需要兩個
+引數（除了其可選引數之外）：
 
-- A callback function passed to `onPressed`.
-- A widget that makes up the content of the button (often `Text` or an `Icon`).
+- 傳遞給 `onPressed` 的回呼函式。
+- 組成按鈕內容的元件（通常為 `Text` 或 `Icon`）。
 
-Add an icon button to the row widget's children list in the `GuessInput` widget,
-and give it an [`Icon`][] widget to display.
-The `Icon` widget requires configuration; in this case,
-the `padding` property sets the padding between the
-edge of the button and the icon it wraps to zero.
-This removes the default padding and makes the button smaller.
+在 `GuessInput` 元件的 `Row` 元件子元件清單中新增一個圖示按鈕，
+並為其提供一個 [`Icon`][] 元件來顯示。
+`Icon` 元件需要設定；在這個情況下，
+`padding` 屬性將按鈕邊緣與其包裹的圖示之間的內距設為零。
+這樣可以移除預設內距，使按鈕更小。
 
 <?code-excerpt "fwe/birdle/lib/step4l_main.dart (GuessInput)"?>
 ```dart
@@ -588,7 +585,7 @@ class GuessInput extends StatelessWidget {
 }
 ```
 
-The `IconButton.onPressed` callback should look familiar:
+`IconButton.onPressed` 回呼應該看起來很熟悉：
 
 <?code-excerpt "fwe/birdle/lib/step4m_main.dart (GuessInput)"?>
 ```dart
@@ -620,7 +617,7 @@ class GuessInput extends StatelessWidget {
 }
 ```
 
-This method does the same as the `onSubmitted` callback on the `TextField`.
+此方法與 `TextField` 上的 `onSubmitted` 回呼功能相同。
 
 [`Icon`]: {{site.api}}/flutter/material/Icons-class.html
 [`TextButton`]: {{site.api}}/flutter/material/TextButton-class.html
@@ -629,15 +626,15 @@ This method does the same as the `onSubmitted` callback on the `TextField`.
 
 :::note Challenge - Share "on submitted" logic.
 
-You might be thinking, "Shouldn't we abstract these methods into one
-function and pass it to both inputs?"
-You could, and as your app grows in complexity, you probably should.
-That said, the callbacks `IconButton.onPressed` and `TextField.onSubmitted` have
-different signatures, so it's not completely straight-forward.
+你可能在想：「我們不應該把這些方法抽象成一個
+函式，並將它傳遞給兩個輸入嗎？」
+你可以這樣做，隨著應用程式複雜度增加，你可能也應該這樣做。
+話雖如此，回呼 `IconButton.onPressed` 和 `TextField.onSubmitted` 有
+不同的函式簽章，所以這並不是完全直接了當的事。
 
-Refactor the code such that the logic inside this method isn't repeated.
+請重構程式碼，使此方法內的邏輯不重複出現。
 
-**Solution:**
+**解答：**
 
 <?code-excerpt "fwe/birdle/lib/step4_main.dart (GuessInput)"?>
 ```dart title="solution.dart" collapsed
@@ -692,70 +689,70 @@ class GuessInput extends StatelessWidget {
 
 :::
 
-### Review
+### 回顧
 
 
 <SummaryCard>
-title: What you accomplished
-subtitle: Here's a summary of what you built and learned in this lesson.
+title: 你完成的事項
+subtitle: 以下是你在本課中建置和學習的內容摘要。
 completed: true
 items:
-  - title: Built a text input widget with TextField
+  - title: 使用 TextField 建置文字輸入元件
     icon: text_fields
     details: >-
-      You created a `GuessInput` widget with a `TextField` for text entry.
-      You configured it with a rounded border, character limit, and
-      used `Expanded` to make it fill available space in the row.
-  - title: Managed text with TextEditingController
+      你建立了一個帶有 `TextField` 的 `GuessInput` 元件用於文字輸入。
+      你為其設定了圓角邊框、字元限制，並
+      使用 `Expanded` 使其填滿列中的可用空間。
+  - title: 使用 TextEditingController 管理文字
     icon: edit_note
     details: >-
-      `TextEditingController` lets you read and modify text field content.
-      You used it to capture the user's input with `.text` and clear the
-      field after submission with `.clear()`.
-  - title: Controlled input focus for a polished UX
+      `TextEditingController` 讓你可以讀取和修改文字欄位的內容。
+      你使用它透過 `.text` 擷取使用者的輸入，並在
+      提交後透過 `.clear()` 清除欄位。
+  - title: 控制輸入焦點以提升使用者體驗
     icon: center_focus_strong
     details: >-
-      You used `autofocus` to focus the text field on launch and `FocusNode`
-      with `requestFocus()` to maintain focus after each guess.
-      These details make your app feel responsive and well-built.
-  - title: Handled user actions with callbacks and buttons
+      你使用 `autofocus` 在啟動時聚焦文字欄位，並使用帶有
+      `requestFocus()` 的 `FocusNode` 在每次猜測後維持焦點。
+      這些細節讓你的應用程式感覺更靈敏且完善。
+  - title: 使用回呼和按鈕處理使用者動作
     icon: touch_app
     details: >-
-      To respond to user input,
-      you specified callback functions like `onSubmitted` and `onPressed`.
-      Passing callback functions as constructor arguments keeps your
-      widgets reusable and decoupled from specific logic.
+      為了回應使用者的輸入，
+      你指定了 `onSubmitted` 和 `onPressed` 等回呼函式。
+      將回呼函式作為建構函式引數傳遞，可讓你的
+      元件保持可重複使用，並與特定邏輯解耦。
 </SummaryCard>
 
-### Test yourself
+### 自我測驗
 
-<Quiz title="User Input Quiz">
-- question: How do you programmatically read or clear the text in a TextField?
+<Quiz title="使用者輸入測驗">
+- question: 如何以程式方式讀取或清除 TextField 中的文字？
   options:
-    - text: Access the TextField's text property directly.
+    - text: 直接存取 TextField 的 text 屬性。
       correct: false
-      explanation: TextField doesn't expose a text property; you need a controller.
-    - text: Use the TextEditingController attached to the TextField.
+      explanation: TextField 沒有公開 text 屬性；你需要一個控制器。
+    - text: 使用附加到 TextField 的 TextEditingController。
       correct: true
-      explanation: TextEditingController provides the text property to read the value and clear() method to reset it.
-    - text: Listen to the onChanged callback and store the value in a variable.
+      explanation: TextEditingController 提供 text 屬性來讀取值，以及 clear() 方法來重置它。
+    - text: 監聽 onChanged 回呼並將值儲存在變數中。
       correct: false
-      explanation: While onChanged works for reading, clearing requires a TextEditingController.
-    - text: Call TextField.getText() method.
+      explanation: 雖然 onChanged 可用於讀取，但清除需要 TextEditingController。
+    - text: 呼叫 TextField.getText() 方法。
       correct: false
-      explanation: TextField doesn't have a getText method; use TextEditingController instead.
-- question: How do you programmatically move focus to a specific TextField?
+      explanation: TextField 沒有 getText 方法；請改用 TextEditingController。
+- question: 如何以程式方式將焦點移到特定的 TextField？
   options:
-    - text: "Call `TextField.focus()` directly."
+    - text: "直接呼叫 `TextField.focus()`。"
       correct: false
-      explanation: TextField doesn't have a focus method; you use a FocusNode.
-    - text: "Set the `autofocus` property to true at runtime."
+      explanation: TextField 沒有 focus 方法；你需要使用 FocusNode。
+    - text: "在執行時將 `autofocus` 屬性設為 true。"
       correct: false
-      explanation: The 'autofocus' property only works on initial build, not for moving focus later.
-    - text: "Use a FocusNode and call `requestFocus()` on it."
+      explanation: "'autofocus' 屬性只在初始建置時有效，無法用於之後移動焦點。"
+    - text: "使用 FocusNode 並對其呼叫 `requestFocus()`。"
       correct: true
-      explanation: "A FocusNode gives you control over focus, and calling `requestFocus()` moves focus to its associated widget."
-    - text: Wrap the TextField in a GestureDetector and tap programmatically.
+      explanation: "FocusNode 讓你控制焦點，呼叫 `requestFocus()` 可將焦點移到其關聯的元件。"
+    - text: 將 TextField 包裹在 GestureDetector 中並以程式方式點擊。
       correct: false
-      explanation: This is not how focus is managed; FocusNode is the proper approach.
+      explanation: 這不是管理焦點的方式；FocusNode 才是正確的方法。
 </Quiz>

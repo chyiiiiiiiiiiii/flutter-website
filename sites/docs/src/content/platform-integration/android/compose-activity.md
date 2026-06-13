@@ -1,45 +1,44 @@
 ---
-title: Launching a Jetpack Compose activity from your Flutter application
-shortTitle: Native Android activities
+title: 從你的 Flutter 應用程式啟動 Jetpack Compose Activity
+shortTitle: 原生 Android 活動 (activities)
 description: >-
-  Learn how to launch native Android activities in your Flutter app.
+  了解如何在 Flutter 應用程式中啟動原生 Android 活動 (activities)。
 ---
 
 <?code-excerpt path-base="platform_integration/compose_activities"?>
 
-Native Android activities allow you to launch
-fullscreen UIs that are entirely run by and on the Android platform.
-You will only write Kotlin code in those views (though they might
-pass messages to and receive messages from your Dart code) and
-you will have access to the full breadth of native Android functionality.
+原生 Android 活動 (activities) 允許你啟動
+完全由 Android 平台執行的全螢幕 UI。
+在這些視圖中你只會撰寫 Kotlin 程式碼（雖然它們可以
+與 Dart 程式碼互相傳遞訊息），
+並且你可以存取完整的原生 Android 功能。
 
-Adding this functionality requires making several changes to
-your Flutter app and its internal, generated Android app.
-On the Flutter side, you will need to create a new
-platform method channel and call its `invokeMethod` method.
-On the Android side, you will need to register a matching native `MethodChannel`
-to receive the signal from Dart and then launch a new activity.
-Recall that all Flutter apps (when running on Android) exist within
-an Android activity that is completely consumed by the Flutter app.
-Thus, as you will see in the code sample, the job of the
-native `MethodChannel` callback is to launch a second activity.
+要加入這個功能，需要對你的 Flutter 應用程式
+以及其內部自動產生的 Android 應用程式進行多項修改。
+在 Flutter 端，你需要建立一個新的
+平台方法通道，並呼叫它的 `invokeMethod` 方法。
+在 Android 端，你需要註冊一個對應的原生 `MethodChannel`，
+以接收來自 Dart 的訊號，然後啟動新的活動 (activity)。
+請記住，所有 Flutter 應用程式（在 Android 上執行時）都存在於
+一個被 Flutter 應用程式完全佔用的 Android 活動 (activity) 中。
+因此，如你在程式碼範例中所見，
+原生 `MethodChannel` 回呼（callback）的工作就是啟動第二個活動 (activity)。
 
 :::note
-This page discusses how to launch native Android activities
-within a Flutter app.
-If you'd like to host native Android views in your Flutter app,
-check out [Hosting native Android views][].
+本頁說明如何在 Flutter 應用程式中啟動原生 Android 活動 (activities)。
+如果你想在 Flutter 應用程式中嵌入原生 Android 視圖，
+請參考 [Hosting native Android views][Hosting native Android views]。
 :::
 
 [Hosting native Android views]: /platform-integration/android/platform-views
 
-Not all Android activities use Jetpack Compose, but
-this tutorial assumes you want to use Compose.
+並非所有 Android 活動 (activities) 都使用 Jetpack Compose，
+但本教學假設你希望使用 Compose。
 
-## On the Dart side
+## Dart 端
 
-On the Dart side, create a method channel and invoke it from
-a specific user interaction, like tapping a button.
+在 Dart 端，請建立一個方法通道，並在
+特定的使用者互動（例如點擊按鈕）時呼叫它。
 
 <?code-excerpt "lib/launch_compose_activity_example_1.dart"?>
 ```dart
@@ -95,24 +94,22 @@ class MainApp extends StatelessWidget {
 }
 ```
 
-There are 3 important values that must match across your Dart and Kotlin code:
+有三個重要的值，必須在你的 Dart 與 Kotlin 程式碼中保持一致：
 
- 1. The channel name (in this sample, the value is
-    `"com.example.flutter_android_activity"`).
- 2. The method name (in this sample, the value is `"launchActivity"`).
- 3. The structure of the data which Dart passes and
-    the structure of the data which Kotlin expects to receive.
-    In this case, the data is a map with a single `"message"` key.
+ 1. Channel 名稱（在本範例中，值為 `"com.example.flutter_android_activity"`）。
+ 2. 方法名稱（在本範例中，值為 `"launchActivity"`）。
+ 3. Dart 傳遞的資料結構，以及 Kotlin 預期接收的資料結構。
+    在這個案例中，資料是一個帶有單一 `"message"` key 的 map。
 
 
-## On the Android side
+## 在 Android 端
 
-You must make changes to 4 files in the generated Android app to
-ready it for launching fresh Compose activities.
+你必須修改產生的 Android 應用程式中的 4 個檔案，
+以便能夠啟動全新的 Compose activities。
 
-The first file requiring modifications is `android/app/build.gradle`.
+第一個需要修改的檔案是 `android/app/build.gradle`。
 
- 1. Add the following to the existing `android` block:
+ 1. 在現有的 `android` 區塊中加入以下內容：
 
     <Tabs key="android-build-features">
     <Tab name="Kotlin">
@@ -151,15 +148,12 @@ The first file requiring modifications is `android/app/build.gradle`.
     </Tab>
     </Tabs>
 
-    Visit the [developer.android.com][] link in the code snippet and
-    adjust `kotlinCompilerExtensionVersion`, as necessary.
-    You should only need to do this if you
-    receive errors during `flutter run` and those errors tell you
-    which versions are installed on your machine.
+    請造訪程式碼片段中的 [developer.android.com][developer.android.com] 連結，並視需要調整 `kotlinCompilerExtensionVersion`。
+    只有在你於 `flutter run` 過程中遇到錯誤，且這些錯誤告訴你機器上安裝了哪些版本時，才需要這麼做。
 
     [developer.android.com]: {{site.android-dev}}/jetpack/androidx/releases/compose-kotlin
 
- 2. Next, add the following block at the bottom of the file, at the root level:
+ 2. 接下來，請在檔案底部（根層級）新增以下區塊：
 
     <Tabs key="android-dependencies">
     <Tab name="Kotlin">
@@ -213,9 +207,9 @@ The first file requiring modifications is `android/app/build.gradle`.
     </Tab>
     </Tabs>
 
-    The second file requiring modifications is `android/build.gradle`.
+    第二個需要修改的檔案是 `android/build.gradle`。
 
- 1. Add the following buildscript block at the top of the file:
+ 1. 請在檔案最上方加入以下 buildscript 區塊：
 
     <Tabs key="android-buildscript">
     <Tab name="Kotlin">
@@ -252,10 +246,10 @@ The first file requiring modifications is `android/app/build.gradle`.
     </Tab>
     </Tabs>
 
-    The third file requiring modifications is
-    `android/app/src/main/AndroidManifest.xml`.
+    第三個需要修改的檔案是
+    `android/app/src/main/AndroidManifest.xml`。
 
- 1. In the root application block, add the following `<activity>` declaration:
+ 1. 在根 application 區塊中，新增以下 `<activity>` 宣告：
 
     ```xml title="android/app/src/main/AndroidManifest.xml"
     <manifest xmlns:android="http://schemas.android.com/apk/res/android">
@@ -273,17 +267,15 @@ The first file requiring modifications is `android/app/build.gradle`.
     </manifest>
     ```
 
-    The fourth and final code requiring modifications is
-    `android/app/src/main/kotlin/com/example/flutter_android_activity/MainActivity.kt`.
-    Here you'll write Kotlin code for your desired Android functionality.
+    第四個也是最後一個需要修改的程式碼是
+    `android/app/src/main/kotlin/com/example/flutter_android_activity/MainActivity.kt`。
+    在這裡，你將撰寫 Kotlin 程式碼，以實現你想要的 Android 功能。
 
- 1. Add the necessary imports at the top of the file:
+ 1. 在檔案頂部加入必要的 import：
 
     :::note
-    Your imports might vary if library versions have changed or
-    if you introduce different Compose classes when
-    you write your own Kotlin code.
-    Follow your IDE's hints for the correct imports you require.
+    如果函式庫版本有變動，或你在撰寫自己的 Kotlin 程式碼時引入了不同的 Compose 類別，你的 import 可能會有所不同。
+    請依照 IDE 的提示，導入你所需的正確 import。
     :::
 
     ```kotlin title="MainActivity.kt"
@@ -308,8 +300,7 @@ The first file requiring modifications is `android/app/build.gradle`.
     import io.flutter.plugins.GeneratedPluginRegistrant
     ```
 
- 1. Modify the generated `MainActivity` class by adding a
-    `CHANNEL` field and a `configureFlutterEngine` method:
+ 1. 修改產生的 `MainActivity` 類別，新增一個 `CHANNEL` 欄位以及一個 `configureFlutterEngine` 方法：
 
      ```kotlin  title="MainActivity.kt"
      class MainActivity: FlutterActivity() {
@@ -341,8 +332,7 @@ The first file requiring modifications is `android/app/build.gradle`.
      }
      ```
 
- 1. Add a second `Activity` to the bottom of the file, which you
-    referenced in the previous changes to `AndroidManifest.xml`:
+ 1. 在檔案底部新增第二個 `Activity`，這個元件 (Widget) 你已在先前對 `AndroidManifest.xml` 的修改中參考過：
 
     ```kotlin  title="MainActivity.kt"
     class SecondActivity : ComponentActivity() {
@@ -365,5 +355,4 @@ The first file requiring modifications is `android/app/build.gradle`.
     }
     ```
 
-These steps show how to launch a native Android activity from a Flutter app,
-which can sometimes be an easy way to connect to specific Android functionality.
+以上步驟說明如何從 Flutter 應用程式啟動原生 Android activity，有時這是一種簡單的方法，可用來連接特定的 Android 功能。
