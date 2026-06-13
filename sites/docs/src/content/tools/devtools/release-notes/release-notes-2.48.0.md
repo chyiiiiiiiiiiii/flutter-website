@@ -1,35 +1,35 @@
 ---
-title: DevTools 2.48.0 release notes
-shortTitle: 2.48.0 release notes
+title: DevTools 2.48.0 發行說明
+shortTitle: 2.48.0 發行說明
 breadcrumb: 2.48.0
-description: Release notes for Dart and Flutter DevTools version 2.48.0.
+description: Dart 與 Flutter DevTools 2.48.0 版本的發行說明。
 showToc: false
 ---
 
-The 2.48.0 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](/tools/devtools/overview).
+Dart 與 Flutter DevTools 2.48.0 版本
+包含以下變更以及其他一般性改進。
+想進一步了解 DevTools，請參閱
+[DevTools overview](/tools/devtools/overview)。
 
-## Network profiler updates
+## 網路分析工具（Network profiler）更新
 
-* Fixed network logging after a hot restart. -
-  [#9271](https://github.com/flutter/devtools/pull/9271).
+* 修正熱重啟（hot restart）後的網路日誌記錄問題。-
+  [#9271](https://github.com/flutter/devtools/pull/9271)。
 
-## Logging updates
+## 日誌（Logging）更新
 
-* Started displaying events related to timers in the Logging View. -
-  [#9238](https://github.com/flutter/devtools/pull/9238).
+* Logging View 現已開始顯示與計時器（timers）相關的事件。-
+  [#9238](https://github.com/flutter/devtools/pull/9238)。
 
-## Advanced developer mode updates
+## 進階開發者模式（Advanced developer mode）更新
 
-* Added a Queued Microtasks tab to the VM Tools screen, which allows a user to
-  see details about the microtasks scheduled in an isolate's microtask queue.
-  This tab currently only appears when DevTools is connected to a Flutter or
-  Dart app started with `--profile-microtasks`. -
-  [#9239](https://github.com/flutter/devtools/pull/9239).
+* 在 VM Tools 螢幕中新增了 Queued Microtasks 分頁，使用者可以
+  查看隔離區（isolate）中 microtask queue 已排程的 microtasks 詳細資訊。
+  目前此分頁僅在 DevTools 連接到以 `--profile-microtasks` 啟動的 Flutter 或
+  Dart 應用程式時顯示。-
+  [#9239](https://github.com/flutter/devtools/pull/9239)。
 
-## Full commit history
+## 完整提交記錄
 
-To find a complete list of changes in this release, check out the
-[DevTools git log](https://github.com/flutter/devtools/tree/v2.48.0).
+如需本次發行的完整變更清單，請參閱
+[DevTools git log](https://github.com/flutter/devtools/tree/v2.48.0)。

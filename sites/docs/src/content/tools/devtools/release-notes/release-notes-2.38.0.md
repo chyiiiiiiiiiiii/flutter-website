@@ -1,38 +1,37 @@
 ---
-title: DevTools 2.38.0 release notes
-shortTitle: 2.38.0 release notes
+title: DevTools 2.38.0 發行說明
+shortTitle: 2.38.0 發行說明
 breadcrumb: 2.38.0
-description: Release notes for Dart and Flutter DevTools version 2.38.0.
+description: Dart 與 Flutter DevTools 2.38.0 版的發行說明。
 showToc: false
 ---
 
-The 2.38.0 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](/tools/devtools/overview).
+Dart 與 Flutter DevTools 2.38.0 版本
+包含以下變更及其他一般性改進。
+想進一步了解 DevTools，請參閱
+[DevTools 總覽](/tools/devtools/overview)。
 
-## Performance updates
+## 效能更新
 
-* Renamed the "Track" builds, paints, and layouts settings to "Trace"
-  builds, paints, and layouts. - [#8084](https://github.com/flutter/devtools/pull/8084)
-* Renamed the "Track widget build counts" setting to "Count widget builds". - [#8084](https://github.com/flutter/devtools/pull/8084)
+* 將「Track」builds、paints 和 layouts 設定重新命名為「Trace」
+  builds、paints 和 layouts。- [#8084](https://github.com/flutter/devtools/pull/8084)
+* 將「Track widget build counts」設定重新命名為「Count widget builds」。- [#8084](https://github.com/flutter/devtools/pull/8084)
 
-## Debugger updates
+## 除錯器（Debugger）更新
 
-* Added recommendation to debug code from an IDE, with links to IDE instructions. - [#8085](https://github.com/flutter/devtools/pull/8085)
+* 新增建議從 IDE 進行程式碼除錯，並提供 IDE 操作說明連結。- [#8085](https://github.com/flutter/devtools/pull/8085)
 
-## Network profiler updates
+## 網路分析器（Network profiler）更新
 
-* Added support to export network requests as a HAR file (thanks to @hrajwade96!). - [#7970](https://github.com/flutter/devtools/pull/7970)
+* 新增支援將網路請求匯出為 HAR 檔案（感謝 @hrajwade96！）。- [#7970](https://github.com/flutter/devtools/pull/7970)
 
-## DevTools Extension updates
+## DevTools 擴充功能（Extension）更新
 
-* Fixed an issue where extensions did not load with the proper theme when
-  embedded in an IDE. - [#8034](https://github.com/flutter/devtools/pull/8034)
-* Added an API for copying text to clipboard by proxy of the parent DevTools web app, which has
-  workarounds for copy issues when embedded inside an IDE. - [#8130](https://github.com/flutter/devtools/pull/8130)
+* 修正當 DevTools 擴充功能嵌入於 IDE 時，未能正確載入主題的問題。- [#8034](https://github.com/flutter/devtools/pull/8034)
+* 新增 API，可透過父層 DevTools Web 應用程式代理複製文字到剪貼簿，
+  以解決嵌入於 IDE 時複製問題的相關因應措施。- [#8130](https://github.com/flutter/devtools/pull/8130)
 
-## Full commit history
+## 完整提交紀錄
 
-To find a complete list of changes in this release, check out the
-[DevTools git log](https://github.com/flutter/devtools/tree/v2.38.0).
+如需本次發行的完整變更列表，請參閱
+[DevTools git log](https://github.com/flutter/devtools/tree/v2.38.0)。

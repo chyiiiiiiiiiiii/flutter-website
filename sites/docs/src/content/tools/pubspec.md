@@ -1,59 +1,35 @@
 ---
-title: "Flutter pubspec options"
-description: "Describes the Flutter-only fields in the pubspec file."
+title: "Flutter pubspec 選項"
+description: "說明 pubspec 檔案中僅限 Flutter 使用的欄位。"
 ---
 
-This page is primarily aimed at folks who write
-Flutter apps. If you write packages or plugins,
-(perhaps you want to create a federated plugin),
-you should check out the
-[Developing packages and plugins][] page.
+本頁面主要針對開發 Flutter 應用程式（Flutter apps）的人員。如果你正在撰寫套件（package）或外掛（plugin），（例如你想建立一個聯邦式外掛），請參考 [開發套件與外掛][Developing packages and plugins] 頁面。
 
-## Overview
+## 概覽
 
-Every Flutter project includes a `pubspec.yaml` file,
-often referred to as _the pubspec_.
-A basic pubspec is generated when you create
-a new Flutter project. It's located at the top
-of the project tree and contains metadata about
-the project that the Dart and Flutter tooling
-needs to know. The pubspec is written in
-[YAML][], which is human readable, but be aware
-that _white space (tabs v spaces) matters_.
+每個 Flutter 專案都包含一個 `pubspec.yaml` 檔案，通常稱為 _pubspec_。當你建立新的 Flutter 專案時，系統會自動產生一個基本的 pubspec。它位於專案樹的最上層，並包含 Dart 與 Flutter 工具所需的專案中繼資料。pubspec 採用 [YAML][YAML] 格式編寫，這是一種易於閱讀的格式，但請注意，_空白字元（Tab 與空格）很重要_。
 
-The pubspec specifies dependencies
-that the project requires, such as:
+pubspec 會指定專案所需的相依項目，例如：
 
-+ Particular packages and their versions
-+ Fonts
-+ Images
-+ Developer packages (like testing or mocking packages)
-+ Particular constraints on the version of the Flutter SDK
++ 特定套件及其版本
++ 字型
++ 圖片
++ 開發用套件（如測試或模擬用套件）
++ 對 Flutter SDK 版本的特定限制
 
-Fields common to both Dart and Flutter projects
-are described in [the pubspec file][] on [dart.dev][].
-This page lists _Flutter-specific_ fields and packages
-that are only valid for a Flutter project.
+Dart 與 Flutter 專案都通用的欄位，請參考 [pubspec 檔案][the pubspec file]（位於 [dart.dev][dart.dev]）。本頁將列出僅適用於 Flutter 專案的 _Flutter 專屬_ 欄位與套件。
 
 [YAML]: https://yaml.org/
 [the pubspec file]: {{site.dart-site}}/tools/pub/pubspec
 [dart.dev]: {{site.dart-site}}
 
-## Example
+## 範例
 
-When you create a new project with the
-`flutter create` command (or by using the
-equivalent button in your IDE), it creates
-a pubspec for a basic Flutter app.
+當你使用 `flutter create` 指令（或在你的 IDE 中使用對應的按鈕）建立新專案時，系統會為基本的 Flutter 應用程式建立一個 pubspec。
 
-The first time you build your project, it
-also creates a `pubspec.lock` file that contains
-specific versions of the included packages.
-This ensures that you get the same version
-the next time the project is built.
+第一次建置專案時，系統也會建立一個 `pubspec.lock` 檔案，裡面記錄了所包含套件的特定版本。這可確保下次建置專案時，取得相同的套件版本。
 
-Here is an example of a Flutter project pubspec file.
-The Flutter-only fields and packages are highlighted.
+以下是一個 Flutter 專案 pubspec 檔案的範例。已特別標示出僅限 Flutter 使用的欄位與套件。
 
 ```yaml title="pubspec.yaml"
 name: <project name>
@@ -108,39 +84,24 @@ dev_dependencies:
           [!weight: 700!]
 ```
 
-## Fields
+## 欄位
 
-Flutter-specific and Dart-specific fields can be added to
-the Flutter pubspec. To learn more about Flutter-specific
-fields, see the following sections. To learn more about
-Dart-specific fields, see [Dart's pubspec supported fields][].
+Flutter 專屬與 Dart 專屬的欄位都可以加入到 Flutter 的 pubspec 中。若想進一步了解 Flutter 專屬欄位，請參考下方各節。若想了解 Dart 專屬欄位，請參閱 [Dart's pubspec supported fields][Dart's pubspec supported fields]。
 
 :::note
-The pubspec can have additional auto-generated Flutter
-fields that are not listed here.
+pubspec 可能會包含這裡未列出的其他自動產生的 Flutter 欄位。
 :::
 
 [Dart's pubspec supported fields]: {{site.dart-site}}/tools/pub/pubspec#supported-fields
 
-### assets field {: #assets }
+### assets 欄位 {: #assets }
 
-A list of asset paths that your app uses. These assets are
-bundled with your application. Common types of assets
-include static data (for example, `JSON`),
-configuration files, icons, and images (`JPEG`, `WebP`,
-`GIF`, animated `WebP/GIF`, `PNG`, `BMP`, and `WBMP`).
+您的應用程式所使用的資源（assets）路徑清單。這些資源會與您的應用程式一起打包。常見的資源類型包括靜態資料（例如：`JSON`）、設定檔、圖示，以及圖片（`JPEG`、`WebP`、`GIF`、動畫 `WebP/GIF`、`PNG`、`BMP` 及 `WBMP`）。
 
-Besides listing the images that are included in the
-app package, an image asset can also refer to one or more
-resolution-specific "variants". For more information,
-see the [resolution aware][] section of the
-[Assets and images][] page.
-For information on adding assets from package
-dependencies, see the
-[asset images in package dependencies][]
-section in the same page.
+除了列出包含於應用程式套件中的圖片外，圖片資源也可以指向一個或多個針對不同解析度的「變體」。如需更多資訊，請參閱 [resolution aware][resolution aware] 章節以及 [Assets and images][Assets and images] 頁面。
+若要了解如何從套件相依性中加入資源，請參考同一頁的 [asset images in package dependencies][asset images in package dependencies] 章節。
 
-The `asset` field has this structure:
+`asset` 欄位的結構如下：
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -174,26 +135,17 @@ flutter:
     - platform_name
 ```
 
-Subfields of `assets`:
+`assets` 的子欄位：
 
-* `path_to_file`: A string that represents the path to
-  a file.
-* `path_to_directory`: A string that represents the path to
-  a directory.
-* `flavor_path_field`: A path field and its flavor
-  subfields.
-* `platform_path_field`: A path field and its platform
-  subfields.
-* `path`: The path to an asset file or directory.
-* `flavors`: A list of flutter flavors to use with assets
-  at a specific path. To learn more about
-  flavors, see [Set up flavors for iOS and macOS] and
-  [Set up flavors for Android].
-* `platforms`: A list of platforms to use with assets at a
-  specific path. Valid values are `android`, `ios`, `web`, `linux`,
-  `macos`, and `windows`.
+* `path_to_file`：代表檔案路徑的字串。
+* `path_to_directory`：代表目錄路徑的字串。
+* `flavor_path_field`：一個路徑欄位及其 flavor 子欄位。
+* `platform_path_field`：一個路徑欄位及其平台子欄位。
+* `path`：資源檔案或目錄的路徑。
+* `flavors`：在特定路徑下要搭配資源（assets）使用的 Flutter flavor 清單。若要進一步了解 flavor，請參閱 [Set up flavors for iOS and macOS] 以及 [Set up flavors for Android]。
+* `platforms`：在特定路徑下要搭配資源使用的平台清單。有效值為 `android`、`ios`、`web`、`linux`、`macos` 及 `windows`。
 
-You can pass in a path to a file:
+你可以傳入檔案的路徑：
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -202,7 +154,7 @@ flutter:
     - assets/images/my_image_b.png
 ```
 
-You can pass in a path to a directory:
+你可以傳入一個目錄的路徑：
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -211,8 +163,7 @@ flutter:
     - assets/icons/
 ```
 
-You can pass in a path to a directory for specific
-flavors:
+你可以針對特定的 flavor 傳入一個目錄的路徑：
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -226,7 +177,7 @@ flutter:
       - flavor_c
 ```
 
-You can pass in a path to a file for specific platforms:
+你可以針對特定平台傳入一個檔案的路徑：
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -247,16 +198,15 @@ flutter:
 [asset images in package dependencies]: /ui/assets/assets-and-images#from-packages
 [resolution aware]: /ui/assets/assets-and-images#resolution-aware
 
-### config field {: #config }
+### config 欄位 {: #config }
 
-A map of keys to flags (`true` or `false`) that influences how the `flutter` CLI
-is executed.
+這是一個鍵值對應的 map，將鍵對應到旗標（`true` 或 `false`），用來影響 `flutter` 命令列介面（Command Line Interface）的執行方式。
 
-> NOTE: This feature is only available as of
-> [#167953]({{site.github}}/flutter/flutter/pull/167953) on the `main`
-> channel.
+> 注意：此功能僅自
+> [#167953]({{site.github}}/flutter/flutter/pull/167953) 起於 `main`
+> 頻道提供。
 
-The available keys mirror those available in `flutter config --list`.
+可用的鍵與 `flutter config --list` 中可用的鍵相同。
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -265,26 +215,21 @@ flutter:
     enable-swift-package-manager: true
 ```
 
-Use `flutter config --help` for a description of each flag.
+使用 `flutter config --help` 來查看每個 flag 的說明。
 
-Flags are only read from the current _application_ package, and have no effect
-in the context of a package or dependency.
+flag 只會從目前的 _應用程式_ 套件中讀取，在套件或相依套件的情境下不會產生任何效果。
 
-### default-flavor field
+### default-flavor 欄位
 
-Assign a default Flutter flavor for an app.
-When used, you don't need to include the name of this
-flavor in Flutter launch command.
+為應用程式指定預設的 Flutter flavor。
+當設定此欄位後，在啟動 Flutter 時就不需要在指令中額外包含這個 flavor 的名稱。
 
 ```yaml title="pubspec.yaml"
 flutter:
   default-flavor: flavor_name
 ```
 
-In the following example, an Android Flutter app has a
-flavor called `staging` and `production`. The `production`
-flavor is the default flavor. When that flavor is run,
-you don't need to include it in the launch command.
+在以下範例中，一個 Android Flutter 應用程式有名為 `staging` 和 `production` 的 flavor。`production` flavor 是預設的 flavor。當執行該 flavor 時，你不需要在啟動指令中額外指定它。
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -299,20 +244,16 @@ flutter run
 flutter run --flavor staging
 ```
 
-To learn how to create Flutter flavors,
-see [Set up Flutter flavors for Android][] and
-[Set up Flutter flavors for iOS and macOS][].
+若要學習如何建立 Flutter flavors，請參閱 [Set up Flutter flavors for Android][Set up Flutter flavors for Android] 以及 [Set up Flutter flavors for iOS and macOS][Set up Flutter flavors for iOS and macOS]。
 
 [Set up Flutter flavors for Android]: /deployment/flavors
 [Set up Flutter flavors for iOS and macOS]: /deployment/flavors-ios
 
-### deferred-components field
+### deferred-components 欄位
 
-Defer initial the download size of an Android app. Most
-often used with large applications, modularized applications,
-and applications with on-demand features.
+延後 Android 應用程式的初始下載大小。這通常用於大型應用程式、模組化應用程式，以及具有隨需功能的應用程式。
 
-The `deferred-components` field has this structure:
+`deferred-components` 欄位的結構如下：
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -327,16 +268,13 @@ flutter:
     [...]
 ```
 
-Deferred component subfields:
+延遲元件（deferred component）子欄位：
 
-* `name`: The unique identifier for a specific deferred
-  component.
-* `libraries`: A list of Dart libraries that are part of
-  the deferred component.
-* `assets`: A list of asset paths that are associated with
-  the deferred component.
+* `name`：特定延遲元件的唯一識別碼。
+* `libraries`：屬於該延遲元件的 Dart 程式庫清單。
+* `assets`：與該延遲元件相關聯的資源（assets）路徑清單。
 
-Example:
+範例：
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -351,25 +289,21 @@ flutter:
         - assets/gallery_images/gallery_feature.png
 ```
 
-To learn more about how you can use deferred components with
-a Flutter Android app, see
-[Deferred components for Android].
+若要進一步了解如何在 Flutter Android 應用程式中使用延遲元件（deferred components），請參閱
+[Deferred components for Android]。
 
 [Deferred components for Android]: /perf/deferred-components
 
-### disable-swift-package-manager field
+### disable-swift-package-manager 欄位
 
-Disable the use of the Swift Package Manager (SPM) so that
-it no longer manages dependencies in your iOS and macOS
-Flutter projects.
+停用 Swift Package Manager（SPM）的使用，讓其不再管理您的 iOS 和 macOS Flutter 專案中的相依性。
 
 ```yaml title="pubspec.yaml"
 flutter:
   disable-swift-package-manager: true
 ```
 
-> NOTE: As of [#168433]({{site.github}}/flutter/flutter/pull/168433) on the
-> `main` channel, this property has moved to the [`config`](#config) section:
+> 注意：自從 [#168433]({{site.github}}/flutter/flutter/pull/168433) 在 `main` 頻道之後，此屬性已移至 [`config`](#config) 區段：
 >
 > ```yaml title="pubspec.yaml"
 > flutter:
@@ -377,10 +311,9 @@ flutter:
 >     enable-swift-package-manager: false
 > ```
 
-### flutter field
+### flutter 欄位
 
-A field that contains Flutter-specific settings for your
-app.
+一個包含 Flutter 專屬設定的欄位，適用於您的應用程式。
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -388,17 +321,13 @@ flutter:
   [...]
 ```
 
-### fonts field {: #fonts }
+### fonts 欄位 {: #fonts }
 
-Configure and include custom fonts in your Flutter
-application.
+在你的 Flutter 應用程式中設定並加入自訂字型（custom fonts）。
 
-For examples of using fonts
-see the [Use a custom font][] and
-[Export fonts from a package][] recipes in the
-Flutter cookbook.
+關於使用字型的範例，請參考 Flutter cookbook 中的 [Use a custom font][Use a custom font] 以及 [Export fonts from a package][Export fonts from a package] 教學。
 
-The `fonts` field has this structure:
+`fonts` 欄位的結構如下：
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -422,18 +351,14 @@ flutter:
   style: string_expression # Optional
 ```
 
-Subfields of `fonts`:
+`fonts` 的子欄位：
 
-+ `family`: Optional. The font family name. Can have
-  multiple font assets.
-+ `asset`: The font to use.
-+ `weight`: Optional. The weight of the font. This can be
-  `100`, `200`, `300`, `400`, `500`, `600`, `700`, `800` or
-  `900`.
-+ `style`: Optional. The style of the font. This can be
-  `italic`.
++ `family`：選填。字型家族名稱。可以包含多個字型資源。
++ `asset`：要使用的字型。
++ `weight`：選填。字型的粗細。可以是 `100`、`200`、`300`、`400`、`500`、`600`、`700`、`800` 或 `900`。
++ `style`：選填。字型的樣式。可以是 `italic`。
 
-Use a font that is not part of a font family:
+使用不屬於字型家族的字型：
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -443,7 +368,7 @@ flutter:
       style: italic # Optional
 ```
 
-Use a font family:
+使用字型家族（font family）：
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -456,9 +381,7 @@ flutter:
             style: italic # Optional
 ```
 
-Alternatively, if you have a font that requires no family,
-weight or style requirements, you can declare it as a simple
-asset:
+或者，如果你有一個字型（font）不需要指定 family、weight 或 style，你可以將它作為一個簡單的資源（asset）宣告：
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -469,25 +392,22 @@ flutter:
 [Export fonts from a package]: /cookbook/design/package-fonts
 [Use a custom font]: /cookbook/design/fonts
 
-### generate field
+### generate 欄位
 
-Handles localization tasks. This field can appear as a
-subfield of `flutter` and `material`.
+負責處理在地化（localization）相關任務。此欄位可以作為 `flutter` 和 `material` 的子欄位出現。
 
-Enable general localization:
+啟用一般在地化功能：
 
 ```yaml title="pubspec.yaml"
 flutter:
   generate: true
 ```
 
-### licenses field {: #licenses}
+### licenses 欄位 {: #licenses}
 
-A list of additional license file paths that should be bundled with your
-application. These files are typically found within your project's `assets`
-directory.
+一個額外授權檔案路徑的清單，這些檔案會與您的應用程式一起打包。這些檔案通常位於您專案的 `assets` 目錄中。
 
-The `licenses` field has this structure:
+`licenses` 欄位的結構如下：
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -495,11 +415,11 @@ flutter:
     - [path_to_file]
 ```
 
-### plugin field
+### plugin 欄位
 
-Configure settings specifically for Flutter plugins.
+專門用於設定 Flutter 外掛（plugin）的相關設定。
 
-The `plugin` field has this structure:
+`plugin` 欄位的結構如下：
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -546,50 +466,29 @@ flutter:
       - example_platform_interface
 ```
 
-Subfields of `plugin`:
+`plugin` 的子欄位：
 
-* `platforms`: A list of platforms that will have
-  configuration settings.
-* `package`: The Android package name of the plugin. This
-  can be used with the Android platform and is required.
-* `pluginClass`: The name of the plugin class. Optional if
-  `dartPluginClass` is used for the same platform. This
-  can be used with the Android, iOS, Linux macOS, and
-  Windows platforms.
-* `default_package`: Optional. The package that should be
-  used as the default implementation of a platform
-  interface. Only applicable to federated plugins, where the
-  plugin's implementation is split into multiple
-  platform-specific packages.
-* `dartPluginClass`: Optional. The Dart class that serves
-  as the entry point for a Flutter plugin. This
-  can be used with the Android, iOS, Linux macOS, and
-  Windows platforms.
-* `sharedDarwinSource`: Optional. Indicates that the plugin
-  shares native code between iOS and macOS. This
-  can be used with the iOS and macOS platforms.
-* `fileName`: Optional. The file that contains the plugin
-  class.
-* `ffiPlugin`: Optional. True if the plugin uses a
-  Foreign Function Interface (FFI).
-* `implements`: Optional. The platform interfaces that a
-  Flutter plugin implements.
+* `platforms`：將會有設定值的平台清單。
+* `package`：外掛的 Android 套件名稱。這可用於 Android 平台，且為必填欄位。
+* `pluginClass`：外掛類別名稱。如果同一平台有使用 `dartPluginClass`，則為選填。這可用於 Android、iOS、Linux、macOS 和 Windows 平台。
+* `default_package`：選填。指定作為平台介面預設實作的套件。僅適用於聯邦式外掛（federated plugins），即外掛的實作分為多個特定平台的套件時。
+* `dartPluginClass`：選填。作為 Flutter 外掛進入點的 Dart 類別。這可用於 Android、iOS、Linux、macOS 和 Windows 平台。
+* `sharedDarwinSource`：選填。表示該外掛在 iOS 與 macOS 之間共用原生程式碼。這可用於 iOS 和 macOS 平台。
+* `fileName`：選填。包含外掛類別的檔案。
+* `ffiPlugin`：選填。如果外掛使用 Foreign Function Interface (FFI)，則為 true。
+* `implements`：選填。Flutter 外掛所實作的平台介面。
 
-To learn more about plugins, see
-[Developing packages & plugins][].
+如需進一步了解外掛，請參閱
+[Developing packages & plugins][Developing packages & plugins]。
 
 [Developing packages & plugins]: /packages-and-plugins/developing-packages
 
-### shaders field
+### shaders 欄位
 
-GLSL Shaders with the `FRAG` extension, must be declared in
-the shaders section of your project's `pubspec.yaml` file.
-The Flutter command-line tool compiles the shader to its
-appropriate backend format, and generates its necessary
-runtime metadata. The compiled shader is then included in
-the application just like an asset.
+具有 `FRAG` 副檔名的 GLSL 著色器（shaders），必須在專案的 `pubspec.yaml` 檔案的 shaders 區段中宣告。
+Flutter 命令列工具會將著色器編譯為對應後端格式，並產生必要的執行時中繼資料。編譯後的著色器會像資源（asset）一樣被包含在應用程式中。
 
-The `shaders` field has this structure:
+`shaders` 欄位的結構如下：
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -608,7 +507,7 @@ flutter:
 - assets/shaders/
 ```
 
-Add specific shaders:
+新增特定著色器（shaders）：
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -617,7 +516,7 @@ flutter:
     - assets/shaders/shader_b.frag
 ```
 
-Add a directory of shaders:
+新增一個著色器（shaders）目錄：
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -625,8 +524,7 @@ flutter:
     - assets/shaders/
 ```
 
-Alternatively, you can add your shader directory to the
-`assets` field:
+或者，您也可以將您的著色器（shader）目錄加入到 `assets` 欄位中：
 
 ```yaml title="pubspec.yaml"
 flutter:
@@ -634,27 +532,22 @@ flutter:
     - assets/shaders/my_shader.frag
 ```
 
-### uses-material-design field
+### uses-material-design 欄位
 
-Use Material Design components in your Flutter app.
+在您的 Flutter 應用程式中使用 Material Design 元件 (Material components)。
 
 ```yaml title="pubspec.yaml"
 flutter:
   uses-material-design: true
 ```
 
-## Packages
+## 套件（Packages）
 
-The following Flutter-specific packages can be added to the
-pubspec. If you add a package, run `flutter pub get` in your
-terminal to install the package.
+以下這些 Flutter 專用套件可以加入到 pubspec 中。如果你新增了套件，請在終端機執行 `flutter pub get` 來安裝該套件。
 
-### flutter package
+### flutter 套件
 
-A package that represents the Flutter SDK itself and
-can be added to the `dependencies` field. Use this if
-your project relies on the Flutter SDK, not a regular
-package from pub.dev.
+這是一個代表 Flutter SDK（Flutter 軟體開發套件）本身的套件，可以加入到 `dependencies` 欄位。如果你的專案依賴於 Flutter SDK，而不是來自 pub.dev 的一般套件，請使用這個設定。
 
 ```yaml title="pubspec.yaml"
 dependencies:
@@ -662,12 +555,9 @@ dependencies:
     sdk: flutter
 ```
 
-### flutter_localizations package
+### flutter_localizations 套件
 
-A package that represents the Flutter SDK itself and
-can be added to the `dependencies` field. Use this to
-enable the localization of `ARB` files. Often used with
-the `intl` package.
+這是一個代表 Flutter SDK（Flutter 軟體開發套件）本身的套件，可以加入到 `dependencies` 欄位中。使用此套件可啟用 `ARB` 檔案的在地化功能。通常會與 `intl` 套件搭配使用。
 
 ```yaml title="pubspec.yaml"
 dependencies:
@@ -676,12 +566,9 @@ dependencies:
   intl: any
 ```
 
-### flutter_test package
+### flutter_test 套件
 
-A package that represents the Flutter SDK itself and
-can be added to the `dependencies` field. Use this if you
-have unit, widget, or integration tests for your Flutter
-app.
+這是一個代表 Flutter SDK（Flutter 軟體開發套件）本身的套件，可以加入到 `dependencies` 欄位中。如果你的 Flutter 應用程式有單元測試、元件（Widgets）測試或整合測試，請使用這個套件。
 
 ```yaml title="pubspec.yaml"
 dependencies:
@@ -689,11 +576,9 @@ dependencies:
     sdk: flutter
 ```
 
-### flutter_lints package
+### flutter_lints 套件
 
-A package that that provides a set of recommended lints for
-Flutter projects. This package can be added to the
-`dev_dependency` field in the pubspec.
+一個為 Flutter 專案提供建議檢查規則（lints）集合的套件。你可以將此套件加入 pubspec 的 `dev_dependency` 欄位中。
 
 ```yaml title="pubspec.yaml"
 dev_dependencies:
@@ -702,25 +587,22 @@ dev_dependencies:
 
 ### cupertino_icons
 
-A package that provides a set of Apple's Cupertino icons
-for use in Flutter applications. This package can be added
-to the `dependency` field in the pubspec.
+這是一個提供 Apple 的 Cupertino 圖示（icons）套件，可用於 Flutter 應用程式中。你可以將此套件加入到 pubspec 的 `dependency` 欄位中。
 
 ```yaml title="pubspec.yaml"
 dependencies:
   cupertino_icons: ^1.0.0
 ```
 
-## More information
+## 更多資訊
 
-For more information on packages, plugins,
-and pubspec files, see the following:
+若需瞭解有關套件（packages）、外掛（plugins）及 pubspec 檔案的更多資訊，請參考以下內容：
 
-* [Creating packages][] on dart.dev
-* [Glossary of package terms][] on dart.dev
-* [Package dependencies][] on dart.dev
-* [Using packages][]
-* [What not to commit][] on dart.dev
+* [Creating packages][Creating packages]（在 dart.dev 上）
+* [Glossary of package terms][Glossary of package terms]（在 dart.dev 上）
+* [Package dependencies][Package dependencies]（在 dart.dev 上）
+* [Using packages][Using packages]
+* [What not to commit][What not to commit]（在 dart.dev 上）
 
 [Creating packages]: {{site.dart-site}}/guides/libraries/create-library-packages
 [Developing packages and plugins]: /packages-and-plugins/developing-packages

@@ -1,22 +1,21 @@
 ---
-title: DevTools 2.47.0 release notes
-shortTitle: 2.47.0 release notes
+title: DevTools 2.47.0 版本發佈說明
+shortTitle: 2.47.0 版本發佈說明
 breadcrumb: 2.47.0
-description: Release notes for Dart and Flutter DevTools version 2.47.0.
+description: Dart 與 Flutter DevTools 2.47.0 版本的發佈說明。
 showToc: false
 ---
 
-The 2.47.0 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](/tools/devtools/overview).
+Dart 與 Flutter DevTools 2.47.0 版本
+除了其他一般性改進外，包含以下變更。
+想進一步了解 DevTools，請參閱
+[DevTools 總覽](/tools/devtools/overview)。
 
-## General updates
+## 一般更新 {:#general-updates}
 
-- Fixed an issue where copying all logs in the console would show `null` for
-  any inspected widgets. - [#9204](https://github.com/flutter/devtools/pull/9204)
+- 修正了在主控台複製所有日誌時，任何被檢查的元件 (Widget) 會顯示為 `null` 的問題。 - [#9204](https://github.com/flutter/devtools/pull/9204)
 
-## Full commit history
+## 完整提交紀錄 {:#full-commit-history}
 
-To find a complete list of changes in this release, check out the
-[DevTools git log](https://github.com/flutter/devtools/tree/v2.47.0).
+如需本次發佈的完整變更清單，請參閱
+[DevTools git log](https://github.com/flutter/devtools/tree/v2.47.0)。

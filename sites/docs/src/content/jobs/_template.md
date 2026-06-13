@@ -4,65 +4,53 @@ showToc: false
 ---
 
 {% comment %}
-1. Make a copy of this document within the `src/jobs` directory
-2. Name it something representative of the role
-3. Remove the leading underscore (_) to allow the document to be published
-4. Specify the full job title in the front matter
-5. Update the sections with a TODO, removing the TODO when complete
+1. 請在`src/jobs`目錄內複製此文件
+2. 以能代表職位的名稱命名
+3. 移除前綴底線（_），以便發布此文件
+4. 在前置資料區（front matter）中指定完整職稱
+5. 更新所有標有 TODO 的區段，完成後移除 TODO
 {% endcomment %}
 
-## About the team
+## 關於團隊
 
-<TODO: Area description>
+<TODO: 區域描述>
 
-## About the position
+## 關於此職位
 
-<TODO: Role description>
+<TODO: 職位描述>
 
-## Our values
+## 我們的價值觀
 
-### Mentorship
+### 指導與導師制度
 
-Upon joining Google, you will be paired with a formal mentor,
-who will help guide you in the process of ramping up, forging relationships,
-and learning the systems you'll need to do your job.
-Your manager can also help you find mentors who can coach you
-as you navigate your career at Google. In addition to formal mentors,
-we work and train together so that we are always learning from one another,
-and we celebrate and support the career progression of our team members.
+加入 Google 後，您將會被分配一位正式的導師，協助您熟悉環境、建立人脈關係，以及學習完成工作所需的各項系統。您的經理也能協助您尋找能在 Google 職涯發展過程中指導您的導師。除了正式導師外，我們也會共同工作與訓練，讓大家能彼此學習，並且我們會慶祝並支持團隊成員的職涯成長。
 
-### Inclusion
+### 多元共融
 
-Here on the Flutter team and at Google, we embrace our differences
-and are [committed to furthering our culture of inclusion](https://flutter.dev/culture).
+在 Flutter 團隊以及 Google，我們擁抱彼此的差異，並[致力於推動我們的多元共融文化](https://flutter.dev/culture)。
 
-### Work-life balance
+### 工作與生活平衡
 
-Our team also puts a high value on work-life balance.
-Striking a healthy balance between your personal and professional life
-is crucial to your happiness and success here, which is why we aren't focused
-on how many hours you spend at work or online. Instead,
-we're happy to offer a flexible schedule so you can have a more productive and
-well-balanced life—both in and outside of work.
+我們團隊非常重視工作與生活的平衡。維持個人與職業生活的健康平衡，對於您的幸福與在這裡的成功至關重要。因此，我們並不在意您花多少時間在工作或線上，而是樂於提供彈性的工作時間安排，讓您能在工作內外都擁有更高的生產力與更均衡的生活。
 
-## Job location
+## 工作地點
 
-<TODO: Location>
+<TODO: 地點>
 
-## Job responsibilities
+## 工作職責
 
-<TODO: Responsibilities>
+<TODO: 職責>
 
-## Qualifications
+## 資格條件
 
-### Minimum qualifications
+### 基本資格
 
-<TODO: Minimum qualifications>
+<TODO: 基本資格>
 
-### Preferred qualifications
+### 其他加分資格
 
-<TODO: Preferred qualifications>
+<TODO: 加分資格>
 
-## To apply
+## 申請方式
 
-Please apply via [this Google Careers page](<TODO: Link>).
+請透過 [Google 招募頁面](<TODO: Link>) 進行申請。

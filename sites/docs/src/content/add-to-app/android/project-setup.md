@@ -276,13 +276,13 @@ flutter build aar
             - flutter_release-1.0.pom
             - flutter_release-1.0.pom.md5
             - flutter_release-1.0.pom.sha1
-          - maven-metadata.xml
-          - maven-metadata.xml.md5
-          - maven-metadata.xml.sha1
-        - flutter_profile
-            - ...
-        - flutter_debug
-            - ...
+        - maven-metadata.xml
+        - maven-metadata.xml.md5
+        - maven-metadata.xml.sha1
+    - flutter_profile
+        - ...
+    - flutter_debug
+        - ...
 
 </FileTree>
 

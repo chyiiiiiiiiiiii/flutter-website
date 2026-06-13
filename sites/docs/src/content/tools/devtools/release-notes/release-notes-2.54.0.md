@@ -1,41 +1,37 @@
 ---
-title: DevTools 2.54.0 release notes
-shortTitle: 2.54.0 release notes
+title: DevTools 2.54.0 版本說明
+shortTitle: 2.54.0 版本說明
 breadcrumb: 2.54.0
 showToc: false
 ---
 
-The 2.54.0 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](/tools/devtools/overview).
+Dart 和 Flutter DevTools 2.54.0 版本包含以下變更及其他一般性改善。
+若要進一步了解 DevTools，請參閱
+[DevTools 總覽](/tools/devtools/overview)。
 
-## General updates
+## 一般更新
 
-- Dropped connections to DTD will now automatically be retried to improve the
-  experience when your machine is resumed from sleep. -
+- 與 DTD 中斷的連線現在會自動重試，以改善電腦從睡眠恢復後的使用體驗。-
   [#9587](https://github.com/flutter/devtools/pull/9587)
 
-## Inspector updates
+## Inspector 更新
 
-- Added a warning banner that the legacy inspector
-  will be removed in a future release. -
+- 新增警告橫幅，提示舊版 Inspector 將於未來版本中移除。-
   [#9572](https://github.com/flutter/devtools/pull/9572)
 
-## Memory updates
+## Memory 更新
 
-- Fixed an error preventing users from changing the zoom duration. -
+- 修正了使用者無法變更縮放時間範圍的錯誤。-
   [#9573](https://github.com/flutter/devtools/pull/9573)
 
-## Deep links tool updates
+## 深層連結工具更新
 
-- Added a more informative dialog if the Deep Links tool is
-  unable to find build options for the iOS or Android app. -
+- 當深層連結工具無法找到 iOS 或 Android 應用程式的建置選項時，新增更具說明性的對話框。-
   [#9571](https://github.com/flutter/devtools/pull/9571)
-- Fixed null error when parsing universal link settings. -
+- 修正了解析通用連結設定時的 null 錯誤。-
   [#9581](https://github.com/flutter/devtools/pull/9581)
 
-## Full commit history
+## 完整提交記錄
 
-To find a complete list of changes in this release, check out the
-[DevTools git log](https://github.com/flutter/devtools/tree/v2.54.0).
+若要查看本次版本的完整變更清單，請參閱
+[DevTools git 記錄](https://github.com/flutter/devtools/tree/v2.54.0)。

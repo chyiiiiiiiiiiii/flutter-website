@@ -1,193 +1,186 @@
 ---
-title: Videos
+title: 影片
 description: >
-  Available videos on various aspects of developing in Flutter.
+  關於 Flutter 開發各個面向的可用影片資源。
 showBreadcrumbs: false
 ---
 
-These Flutter videos, produced both internally
-at Google and by the Flutter community,
-might help if you are a visual learner.
+這些 Flutter 影片由 Google 內部團隊及 Flutter 社群製作，
+如果你是視覺型學習者，這些內容可能會對你有所幫助。
 
-Note that many people make Flutter videos.
-This page shows some that we like,
-but there are many others, including
-some in different languages.
+請注意，許多人都在製作 Flutter 相關影片。
+本頁僅列出我們推薦的一些影片，
+但還有許多其他選擇，包括不同語言的影片。
 
 ---
 
-## Series
+## 系列影片
 
 ### Flutter Forward
 
-Even if you couldn't make it to Nairobi for the in-person
-event, you can enjoy the content created for Flutter Forward!
+即使你無法親臨奈洛比參加現場活動，
+你仍可欣賞 Flutter Forward 所製作的精彩內容！
 
 <YouTubeEmbed id="zKQYGKAe5W8?start=2778" title="Flutter Forward 2023 Livestream"></YouTubeEmbed>
 
-[Flutter Forward playlist][]
+[Flutter Forward 播放清單][Flutter Forward playlist]
 
 [Flutter Forward playlist]: {{site.yt.playlist}}PLjxrf2q8roU3LvrdR8Hv_phLrTj0xmjnD
 
-### Get ready for Flutter Forward
+### 為 Flutter Forward 做好準備
 
-Flutter Forward occurred on Jan 25th, 2023 in Nairobi, Kenya.
-Before the event, the Flutter team provided 17 days of Flutter
-featuring new content and activities leading up to the event.
-This playlist contains these and other pre-event videos relating to
-Flutter Forward.
+Flutter Forward 於 2023 年 1 月 25 日在肯亞奈洛比舉行。
+在活動開始前，Flutter 團隊提供了為期 17 天的 Flutter 系列活動，
+帶來全新內容與互動，為活動暖身。
+本播放清單收錄了這些以及其他與 Flutter Forward 有關的活動前影片。
 
 <YouTubeEmbed id="hpgkrUPRBjc?start=6" title="Prepare for Flutter Forward 2023 - 17 days of Flutter"></YouTubeEmbed>
 
-**17 Days of Flutter!**
+**17 天的 Flutter！**
 
-[Get ready for Flutter Forward playlist][]
+[為 Flutter Forward 做好準備播放清單][Get ready for Flutter Forward playlist]
 
 [Get ready for Flutter Forward playlist]: {{site.yt.playlist}}PLjxrf2q8roU3PUEaM4yYXqvFMEwOluBNl
 
 ### Learning to Fly
 
 :::note
-Season 2 of Learning to Fly has been released as part
-of the 17 Days of Flutter, leading up to the 3.7
-release! [Season 2][] centers around creating a platform
-game, DoodleDash, using the Flame engine.
+Learning to Fly 第二季已作為 17 天 Flutter 系列的一部分推出，
+並迎來 3.7 版本釋出！[第二季][Season 2] 以使用 Flame 引擎打造平台遊戲 DoodleDash 為主軸。
 :::
 
 [Season 2]: {{site.yt.watch}}?v=ILTx1Wa33Z0
 
-Follow along with Khanh's journey as she learns Flutter.
-From ideation down to the moments of confusion,
-learn alongside her as she asks important questions like:
-"What is the best way to build out a theme? How to approach using fonts?"
-And more!
+跟隨 Khanh 的學習旅程，一起探索她學習 Flutter 的過程。
+從發想、遇到困惑的時刻，到提出重要問題，
+你可以與她一同學習，例如：
+「建立主題的最佳方式是什麼？該如何使用字型？」
+以及更多內容！
 
 <YouTubeEmbed id="CkcvVZZEsJE" title="Building my first Flutter app | Learning to Fly"></YouTubeEmbed>
 
-[Learning to Fly playlist][]
+[Learning to Fly 播放清單][Learning to Fly playlist]
 
 [Learning to Fly playlist]: {{site.yt.playlist}}PLjxrf2q8roU3X18pAQWLyCJaa79RpqWnn
 
-Here are some of the series offered on the
-[flutterdev YouTube channel][].
-For more information, check out _all_
-of the [Flutter channel's playlists][].
+以下是 [flutterdev YouTube 頻道][flutterdev YouTube channel]
+所提供的一些系列影片。
+如需更多資訊，請參考
+[Flutter 頻道的所有播放清單][Flutter channel's playlists]。
 
 [Flutter channel's playlists]: {{site.social.youtube}}/playlists
 [flutterdev YouTube channel]: {{site.social.youtube}}
 
 ### Decoding Flutter
 
-This series focuses on tips, tricks, best practices,
-and general advice on getting the most out of Flutter.
-In the comments section for this series,
-you can submit suggestions future episodes.
+本系列聚焦於 Flutter 的技巧、訣竅、最佳實踐，
+以及如何充分發揮 Flutter 的建議。
+你可以在本系列的留言區提出未來集數的主題建議。
 
 <YouTubeEmbed id="QIW35-vcA2o" title="Introducing Decoding Flutter - Flutter best practices"></YouTubeEmbed>
 
-[Decoding Flutter playlist][]
+[Decoding Flutter 播放清單][Decoding Flutter playlist]
 
 [Decoding Flutter playlist]: {{site.yt.playlist}}PLjxrf2q8roU1fRV40Ec8200rX6OuQkmnl
 
 ### Flutter widget of the week
 
-Do you have 60 seconds?
-Each one-minute video highlights a Flutter widget.
+你有 60 秒嗎？
+每支一分鐘的影片都會介紹一個 Flutter 元件 (Widget)。
 
 <YouTubeEmbed id="b_sQ9bMltGU" title="Introducing Flutter widget of the week"></YouTubeEmbed>
 
-[Flutter widget of the week playlist][]
+[Flutter widget of the week 播放清單][Flutter widget of the week playlist]
 
 [Flutter widget of the week playlist]: {{site.yt.playlist}}PLjxrf2q8roU23XGwz3Km7sQZFTdB996iG
 
 ### Flutter package of the week
 
-If you have another minute (or two),
-each of these videos highlights a Flutter package.
+如果你還有一兩分鐘，
+這些影片將為你介紹一個 Flutter 套件。
 
 <YouTubeEmbed id="QFcFEpFmNJ8" title="Introducing Flutter package of the week"></YouTubeEmbed>
 
-[Flutter package of the week playlist][]
+[Flutter package of the week 播放清單][Flutter package of the week playlist]
 
 [Flutter package of the week playlist]: {{site.yt.playlist}}PLjxrf2q8roU1quF6ny8oFHJ2gBdrYN_AK
 
 ### The Boring Flutter show
 
-This series features Flutter programmers coding,
-unscripted and in real time. Mistakes, solutions
-(some of them correct), and snazzy intro music included.
+本系列邀請 Flutter 工程師現場即時編寫程式碼，
+全程無腳本、實況呈現。過程中會有錯誤、解決方案
+（有些是正確的），還有炫酷的開場音樂。
 
 <YouTubeEmbed id="vqPG1tU6-c0" title="Introducing The Boring Show - Flutter live coding"></YouTubeEmbed>
 
-[The Boring Flutter show playlist][]
+[The Boring Flutter show 播放清單][The Boring Flutter show playlist]
 
 [The Boring Flutter show playlist]: {{site.yt.playlist}}PLjxrf2q8roU3ahJVrSgAnPjzkpGmL9Czl
 
 ### Flutter at Google I/O 2022
 
-Google I/O 2022 is over, but you can still catch
-the great Flutter content!
+Google I/O 2022 已經結束，但你仍可欣賞
+精彩的 Flutter 內容！
 
 <YouTubeEmbed id="w_ezWG1yKQQ" title="What's new in Flutter at Google I/O 2022"></YouTubeEmbed>
 
-[Flutter at Google I/O playlist][]
+[Flutter at Google I/O 播放清單][Flutter at Google I/O playlist]
 
 [Flutter at Google I/O playlist]: {{site.yt.playlist}}PLjxrf2q8roU1kHjuHoFGBLCxjy4h2WOcP
 
 ### Flutter Engage 2021
 
-[Flutter Engage 2021][] was a day-long event that
-officially launched Flutter 2.
+[Flutter Engage 2021][] 是一場為期一天的活動，
+正式發表了 Flutter 2。
 
 [Flutter Engage 2021]: https://events.flutter.dev/
 
-Check out the Flutter Engage 2021 highlights reel.
+來看看 Flutter Engage 2021 的精彩片段集錦。
 
 <YouTubeEmbed id="IdrCyS7EF8M" title="Top 10 highlights from Flutter Engage 2021"></YouTubeEmbed>
 
-Watch recordings of the sessions on the Flutter YouTube channel.
+可在 Flutter YouTube 頻道觀看各場次的錄影。
 
 <YouTubeEmbed id="zSbsIiluixw" title="Flutter Engage 2021 keynote"></YouTubeEmbed>
 
-[Flutter Engage 2021 playlist][]
+[Flutter Engage 2021 播放清單][Flutter Engage 2021 playlist]
 
-Watch recordings of the sessions offered by the Flutter community.
+也可以觀看 Flutter 社群提供的各場次錄影。
 
 <YouTubeEmbed id="-_de6IfY2RU" title="Choreographing transitions with Flutter's animation framework"></YouTubeEmbed>
 
-[Flutter Engage community talks playlist][]
+[Flutter Engage 社群講座播放清單][Flutter Engage community talks playlist]
 
 [Flutter Engage 2021 playlist]: {{site.yt.playlist}}PLjxrf2q8roU21cXt24HLm-ZODXmr4Jw0C
 [Flutter Engage community talks playlist]: {{site.yt.playlist}}PLjxrf2q8roU1ln3WoiGTUvLr7ZrPPFvXv
 
 ### Flutter in focus
 
-Five-to-ten minute tutorials (more or less) on using Flutter.
+每集約五到十分鐘（或多或少）的 Flutter 教學影片。
 
 <YouTubeEmbed id="wgTBLj7rMPM" title="Introducing Flutter in Focus - Flutter tutorials"></YouTubeEmbed>
 
-[Flutter in focus playlist][]
+[Flutter in focus 播放清單][Flutter in focus playlist]
 
 [Flutter in focus playlist]: {{site.yt.playlist}}PLjxrf2q8roU2HdJQDjJzOeO6J3FoFLWr2
 
-## Conference talks
+## 會議演講
 
-Here are a some Flutter talks given at various conferences.
+以下是一些在各大會議上發表的 Flutter 主題演講。
 
 <YouTubeEmbed id="d_m5csmrf7I" title="Pragmatic state management in Flutter"></YouTubeEmbed>
 
-[Conference talks playlist][]
+[會議演講播放清單][Conference talks playlist]
 
 [Conference talks playlist]: {{site.yt.playlist}}PLjxrf2q8roU1UJ0OEpANodVMVm1GeE7Ti
 
-## Flutter developer stories
+## Flutter 開發者故事
 
-Videos showing how various customers, such as Abbey Road Studio, Hamilton,
-and Alibaba, have used Flutter to create beautiful compelling apps with
-millions of downloads.
+這些影片展示了 Abbey Road Studio、Hamilton、阿里巴巴等客戶，
+如何利用 Flutter 打造美觀且吸引人的應用程式，並獲得數百萬次下載。
 
 <YouTubeEmbed id="_ACWeGGBP4E" title="Flutter developer stories"></YouTubeEmbed>
 
-[Flutter developer stories playlist][]
+[Flutter 開發者故事播放清單][Flutter developer stories playlist]
 
 [Flutter developer stories playlist]: {{site.yt.playlist}}PLjxrf2q8roU33POuWi4bK0zvDpAHK6759

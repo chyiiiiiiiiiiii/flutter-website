@@ -1,34 +1,31 @@
 ---
-title: DevTools 2.53.0 release notes
-shortTitle: 2.53.0 release notes
+title: DevTools 2.53.0 發布說明
+shortTitle: 2.53.0 發布說明
 breadcrumb: 2.53.0
 showToc: false
 ---
 
-# DevTools 2.53.0 release notes
+# DevTools 2.53.0 發布說明
 
-The 2.53.0 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](/tools/devtools/overview).
+Dart 和 Flutter DevTools 的 2.53.0 版本包含以下變更及其他一般性改進。
+若要深入瞭解 DevTools，請參閱
+[DevTools 概覽](/tools/devtools/overview)。
 
-## General updates
+## 一般更新
 
-- Switched default compiler for DevTools to `dart2wasm`. -
+- 將 DevTools 的預設編譯器切換為 `dart2wasm`。-
   [#9530](https://github.com/flutter/devtools/pull/9530)
 
-## Performance updates
+## 效能更新
 
-- Increased profile data limit from 64MB to 2GB, fixing issue where panel
-  wouldn't load for large profiles. -
+- 將分析資料上限從 64MB 提升至 2GB，修復大型分析檔案導致面板無法載入的問題。-
   [#9540](https://github.com/flutter/devtools/pull/9540)
 
-## Advanced developer mode updates
+## 進階開發者模式更新
 
-- Fixed issue preventing CPU profiles from loading when "advanced developer
-  mode" was enabled. - [#9528](https://github.com/flutter/devtools/pull/9528)
+- 修復啟用「進階開發者模式」時 CPU 分析檔無法載入的問題。- [#9528](https://github.com/flutter/devtools/pull/9528)
 
-## Full commit history
+## 完整提交記錄
 
-To find a complete list of changes in this release, check out the
-[DevTools git log](https://github.com/flutter/devtools/tree/v2.53.0).
+若要查看本次發布的完整變更清單，請參閱
+[DevTools git 記錄](https://github.com/flutter/devtools/tree/v2.53.0)。

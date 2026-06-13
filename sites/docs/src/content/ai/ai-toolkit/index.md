@@ -115,7 +115,7 @@ class ChatPage extends StatelessWidget {
 
 `FirebaseProvider` 類別將 Firebase AI Logic SDK 暴露給 `LlmChatView`。請注意，您提供的是模型名稱（您有[多個選項][options]可供選擇），而無需提供 API 金鑰，這些都由 Firebase 專案統一處理。
 
-若要用於正式環境的工作負載，可以輕鬆切換至 Firebase Logic AI 端點：
+若要用於正式環境的工作負載，可以輕鬆切換至 Firebase AI Logic 端點：
 
 ```dart
 class ChatPage extends StatelessWidget {

@@ -1,50 +1,49 @@
 ---
-title: DevTools 2.17.0 release notes
-shortTitle: 2.17.0 release notes
+title: DevTools 2.17.0 版本發行說明
+shortTitle: 2.17.0 版本發行說明
 breadcrumb: 2.17.0
-description: Release notes for Dart and Flutter DevTools version 2.17.0.
+description: Dart 與 Flutter DevTools 2.17.0 版本的發行說明。
 showToc: false
 ---
 
-The 2.17.0 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](https://docs.flutter.dev/tools/devtools).
+Dart 與 Flutter DevTools 2.17.0 版本
+包含以下變更及其他一般性改進。
+想進一步了解 DevTools，請參閱
+[DevTools overview](https://docs.flutter.dev/tools/devtools)。
 
-## Inspector updates
+## Inspector 更新
 
-* Added support for manually setting the package directories for your app.
-  If you've ever loaded the Inspector and noticed that
-  some of your widgets aren't present in the widget tree, this might
-  indicate that the package directories for your app
-  haven't been set or detected properly.
-  Your package directories determine which widgets
-  the Inspector considers to be from _your_ application.
-  If you see an empty Inspector widget tree,
-  or if you develop widgets across multiple packages,
-  and want widgets from all these locations to show up in your tree,
-  check the **Inspector Settings** dialog to ensure that your package
-  directories are properly configured -
+* 新增手動設定應用程式套件目錄（package directories）的支援。
+  如果你曾經在載入 Inspector（檢查器）時發現
+  有些元件 (Widget) 沒有顯示在元件樹中，這可能
+  表示你的應用程式套件目錄
+  沒有正確設定或偵測到。
+  套件目錄會決定 Inspector 視哪些元件
+  屬於_你的_應用程式。
+  如果你看到 Inspector 元件樹為空，
+  或者你在多個套件中開發元件，
+  並希望所有這些位置的元件都能顯示在元件樹中，
+  請檢查 **Inspector Settings**（檢查器設定）對話框，確保你的套件
+  目錄已正確設定 -
   [#4306](https://github.com/flutter/devtools/pull/4306)
 
   ![frame_analysis](/assets/images/docs/tools/devtools/release-notes/images-2.17.0/package_directories.png "package directories")
 
-## Performance updates
+## 效能（Performance）更新
 
-* Added a **Frame Analysis** tab to the Performance page.
-  When analyzing a janky Flutter frame,
-  this view provides hints for how to diagnose the jank and
-  detects expensive operations that might have
-  contributed to the slow frame time.
-  This view also shows a breakdown of your Flutter frame time
-  per phase (**Build**, **Layout**, **Paint**, and **Raster**)
-  to try to guide you in the right direction -
+* 在 Performance（效能）頁面新增 **Frame Analysis**（畫格分析）分頁。
+  當你分析一個 Flutter 畫格出現卡頓時，
+  此檢視會提供診斷卡頓的提示，並
+  偵測可能導致畫格時間過長的高耗費操作。
+  此檢視也會依階段（**Build**、**Layout**、**Paint**、**Raster**）
+  顯示 Flutter 畫格時間的細項分布，
+  幫助你朝正確方向進行調整 -
   [#4339](https://github.com/flutter/devtools/pull/4339)
 
   ![frame_analysis](/assets/images/docs/tools/devtools/release-notes/images-2.17.0/frame_analysis.png "frame analysis")
 
-## Full commit history
+## 完整提交紀錄
 
-To find a complete list of changes since the previous release,
-check out
-[the diff on GitHub](https://github.com/flutter/devtools/compare/v2.16.0...v2.17.0).
+若要查詢自前一版本以來的完整變更清單，
+請參閱
+[the diff on GitHub](https://github.com/flutter/devtools/compare/v2.16.0...v2.17.0)。

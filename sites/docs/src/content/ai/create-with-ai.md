@@ -1,5 +1,5 @@
 ---
-title: 使用 AI 進行開發
+title: 使用 AI 建置
 sidenav: ai
 description: >
   了解如何使用 AI 建置 Flutter 應用程式，從將 AI 功能直接整合至應用程式的強大 SDK，到加速開發工作流程的工具，一應俱全。

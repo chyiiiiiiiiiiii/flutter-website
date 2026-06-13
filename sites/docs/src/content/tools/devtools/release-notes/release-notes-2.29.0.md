@@ -1,58 +1,57 @@
 ---
-title: DevTools 2.29.0 release notes
-shortTitle: 2.29.0 release notes
+title: DevTools 2.29.0 發行說明
+shortTitle: 2.29.0 發行說明
 breadcrumb: 2.29.0
-description: Release notes for Dart and Flutter DevTools version 2.29.0.
+description: Dart 與 Flutter DevTools 2.29.0 版本的發行說明。
 showToc: false
 ---
 
-The 2.29.0 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](https://docs.flutter.dev/tools/devtools).
+Dart 與 Flutter DevTools 2.29.0 版本
+包含以下變更及其他一般性改進。
+想進一步了解 DevTools，請參考
+[DevTools overview](https://docs.flutter.dev/tools/devtools)。
 
-## General updates
+## 一般更新
 
-* Fix a bug with service extension states not
-  being cleared on app disconnect. - [#6547](https://github.com/flutter/devtools/pull/6547)
+* 修正服務擴充（service extension）狀態在應用程式斷線時
+  未正確清除的錯誤。- [#6547](https://github.com/flutter/devtools/pull/6547)
 
-* Improved styling of bottom status bar when connected to an app. - [#6525](https://github.com/flutter/devtools/pull/6525)
+* 改善連線至應用程式時底部狀態列的樣式。- [#6525](https://github.com/flutter/devtools/pull/6525)
 
-* Added a workaround to fix copy button functionality in VSCode. - [#6598](https://github.com/flutter/devtools/pull/6598)
+* 新增解決方案，修正 VSCode 中複製按鈕的功能。- [#6598](https://github.com/flutter/devtools/pull/6598)
 
-## Performance updates
+## 效能相關更新
 
-* Added an option in the "Enhance Tracing" menu for tracking platform channel
-  activity. This is useful for apps with plugins. - [#6515](https://github.com/flutter/devtools/pull/6515)
+* 在「Enhance Tracing」選單中新增追蹤平台通道（platform channel）
+  活動的選項。這對於有使用插件的應用程式特別有用。- [#6515](https://github.com/flutter/devtools/pull/6515)
 
   ![Track platform channels setting](/assets/images/docs/tools/devtools/release-notes/images-2.29.0/track_platform_channels.png "Track platform channels setting")
 
-* Made the Performance screen available when there is no connected app.
-  Performance data that was previously saved from DevTools can be
-  reloaded for viewing from this screen. - [#6567](https://github.com/flutter/devtools/pull/6567)
+* 當沒有連線至應用程式時，Performance 螢幕現在也可使用。
+  先前從 DevTools 儲存的效能資料
+  可以在此螢幕重新載入並檢視。- [#6567](https://github.com/flutter/devtools/pull/6567)
 
-* Added an "Open" button to the Performance controls for
-  loading data that was previously saved from DevTools. - [#6567](https://github.com/flutter/devtools/pull/6567)
+* 在 Performance 控制區新增「Open」按鈕，
+  方便載入先前從 DevTools 儲存的資料。- [#6567](https://github.com/flutter/devtools/pull/6567)
 
   ![Open file button on the performance screen](/assets/images/docs/tools/devtools/release-notes/images-2.29.0/open_file_performance_screen.png "Open file button on the performance screen")
 
-## CPU profiler updates
+## CPU 分析器更新
 
-* Tree guidelines are now always enabled for the
-  "Bottom Up" and "Call Tree" tabs. - [#6534](https://github.com/flutter/devtools/pull/6534)
+* 「Bottom Up」與「Call Tree」分頁現在一律啟用樹狀指引線（tree guidelines）。- [#6534](https://github.com/flutter/devtools/pull/6534)
 
-* Made the CPU profiler screen available when there is no connected app.
-  CPU profiles that were previously saved from DevTools can be
-  reloaded for viewing from this screen. - [#6567](https://github.com/flutter/devtools/pull/6567)
+* 當沒有連線至應用程式時，CPU 分析器螢幕現在也可使用。
+  先前從 DevTools 儲存的 CPU 剖析資料
+  可以在此螢幕重新載入並檢視。- [#6567](https://github.com/flutter/devtools/pull/6567)
 
-* Added an "Open" button to the CPU profiler controls for loading data that
-  was previously saved from DevTools. - [#6567](https://github.com/flutter/devtools/pull/6567)
+* 在 CPU 分析器控制區新增「Open」按鈕，
+  方便載入先前從 DevTools 儲存的資料。- [#6567](https://github.com/flutter/devtools/pull/6567)
 
-## Network profiler updates
+## 網路分析器更新
 
-* Network statuses now show with an error color when the request failed. - [#6527](https://github.com/flutter/devtools/pull/6527)
+* 當網路請求失敗時，網路狀態現在會以錯誤顏色顯示。- [#6527](https://github.com/flutter/devtools/pull/6527)
 
-## Full commit history
+## 完整提交紀錄
 
-To find a complete list of changes in this release, check out the
-[DevTools git log](https://github.com/flutter/devtools/tree/v2.29.0).
+如需本次發行的完整變更清單，請參閱
+[DevTools git log](https://github.com/flutter/devtools/tree/v2.29.0)。

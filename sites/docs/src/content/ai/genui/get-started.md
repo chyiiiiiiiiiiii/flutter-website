@@ -64,8 +64,7 @@ SDK 的主要元件 (Widget) 說明請參閱[主要元件][]頁面。
     $ dart pub add genui firebase_vertex_ai
     ```
 
- 5. 在應用程式的 `main` 方法中，確保已初始化元件 (Widget)
-    繫結，然後初始化 Firebase：
+ 5. 在應用程式的 `main` 方法中，確保已初始化 Widget 框架繫結（WidgetsFlutterBinding），然後初始化 Firebase：
 
     ```dart
     import 'package:flutter/material.dart';
@@ -801,5 +800,4 @@ Firebase 對 Apple 平台有[最低版本需求][]，
 [範例]: {{site.repo.organization}}/genui/blob/main/examples
 [Firebase 的 Flutter 設定指南]: https://firebase.google.com/docs/flutter/setup
 [`genui`]: {{site.pub-pkg}}/genui
-[Key components]: /ai/genui/components
 [最低版本需求]: https://firebase.google.com/support/release-notes/ios

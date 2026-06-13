@@ -1,42 +1,40 @@
 ---
-title: DevTools 2.28.3 release notes
-shortTitle: 2.28.3 release notes
+title: DevTools 2.28.3 發行說明
+shortTitle: 2.28.3 發行說明
 breadcrumb: 2.28.3
-description: Release notes for Dart and Flutter DevTools version 2.28.3.
+description: Dart 和 Flutter DevTools 2.28.3 版本的發行說明。
 showToc: false
 ---
 
-The 2.28.3 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](https://docs.flutter.dev/tools/devtools).
+Dart 和 Flutter DevTools 2.28.3 版本
+包含以下變更及其他一般性改進。
+若想進一步了解 DevTools，請參閱
+[DevTools overview](https://docs.flutter.dev/tools/devtools)。
 
-This was a cherry-pick release on top of DevTools 2.28.2.
-To learn about the improvements included in DevTools 2.28.2, please read the
-[release notes](/tools/devtools/release-notes/release-notes-2.28.2).
+這是基於 DevTools 2.28.2 的 cherry-pick 發行版本。
+若想了解 DevTools 2.28.2 所包含的改進，請閱讀
+[發行說明](/tools/devtools/release-notes/release-notes-2.28.2)。
 
-## General updates
+## 一般更新
 
-* Added a link to the new "Dive in to DevTools" YouTube
-  [video](https://www.youtube.com/watch?v=_EYk-E29edo) in the bottom status bar.
-  This video provides a brief tutorial for each DevTools screen.
+* 在底部狀態列新增了「Dive in to DevTools」YouTube
+  [影片](https://www.youtube.com/watch?v=_EYk-E29edo)的連結。
+  此影片為每個 DevTools 螢幕提供簡短教學 (tutorial)。
   [#6554](https://github.com/flutter/devtools/pull/6554)
 
-  ![Link to watch a DevTools tutorial video](/assets/images/docs/tools/devtools/release-notes/images-2.28.3/watch_tutorial_link.png "Link to watch a DevTools tutorial video")
+  ![連結至 DevTools 教學影片](/assets/images/docs/tools/devtools/release-notes/images-2.28.3/watch_tutorial_link.png "Link to watch a DevTools tutorial video")
 
-* Added a workaround to fix copy button functionality in VSCode. - [#6598](https://github.com/flutter/devtools/pull/6598)
+* 新增修正方式以解決 VSCode 中複製按鈕的功能問題。- [#6598](https://github.com/flutter/devtools/pull/6598)
 
-## Performance updates
+## 效能更新
 
-* Disable the Raster Stats tool for the Impeller backend
-  since it is not supported. - [#6616](https://github.com/flutter/devtools/pull/6616)
+* 因不支援 Impeller 後端，已停用 Raster Stats 工具。- [#6616](https://github.com/flutter/devtools/pull/6616)
 
-## VS Code Sidebar updates
+## VS Code 側邊欄更新
 
-* When using VS Code with a light theme, the embedded sidebar provided by
-  DevTools will now also show in the light theme. - [#6581](https://github.com/flutter/devtools/pull/6581)
+* 當在 VS Code 使用淺色主題時，DevTools 所提供的內嵌側邊欄現在也會顯示為淺色主題。- [#6581](https://github.com/flutter/devtools/pull/6581)
 
-## Full commit history
+## 完整提交紀錄
 
-To find a complete list of changes in this release, check out the
-[DevTools git log](https://github.com/flutter/devtools/tree/v2.28.3).
+如需本次發行的完整變更清單，請參閱
+[DevTools git log](https://github.com/flutter/devtools/tree/v2.28.3)。

@@ -1,19 +1,19 @@
 ---
-title: Flutter learning resources
+title: Flutter 學習資源
 description: >-
-  A catalog of Flutter tutorials, sample code, workshops, and recipes.
-shortTitle: Learning resources
+  Flutter 教學、範例程式碼、工作坊與實用技巧的目錄。
+shortTitle: 學習資源
 showBreadcrumbs: false
 bodyClass: wide-site-content
 showToc: false
 ---
 
 :::secondary
-This page lists all of our additional learning resources:
-* Tutorials and guided Codelabs that walk you through building features and applications.
-* Sample code and feature-rich demo applications.
-* Workshops, instructor-led sessions that provide hands-on learning experiences.
-* Recipes that demonstrate how to solve common problems with Flutter.
+本頁列出所有額外學習資源：
+* 教學（Tutorial）與引導式 Codelab，帶您逐步建置功能與應用程式。
+* 範例程式碼與功能完整的展示應用程式。
+* 工作坊（Workshop）：由講師帶領的課程，提供實作學習體驗。
+* 實用技巧（Recipe），示範如何使用 Flutter 解決常見問題。
 :::
 
 <LearningResourceIndex />

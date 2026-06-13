@@ -1,22 +1,20 @@
 ---
-title: Docs command-line tool
-shortTitle: Tool
+title: 文件命令列工具
+shortTitle: 工具
 description: >-
-  Learn about the dash_site CLI tool that is used to
-  develop, test, and serve the Dart and Flutter documentation sites.
+  了解用於開發、測試與服務 Dart 及 Flutter 文件網站的 dash_site 命令列介面 (Command Line Interface, CLI) 工具。
 sitemap: false
 noindex: true
 showBreadcrumbs: true
 ---
 
 :::warning
-This document is a work in progress.
+本文件仍在撰寫中。
 :::
 
-The site's CLI tool can be accessed by running
-`dart run dash_site` in the repository's root directory.
+本網站的命令列介面 (Command Line Interface, CLI) 工具可透過在儲存庫根目錄執行 `dart run dash_site` 來存取。
 
-## Commands
+## 指令
 
 ### `analyze-dart`
 

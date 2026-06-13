@@ -152,7 +152,7 @@ compass app 中還有一些與架構無關的額外程式碼。
 不論你的答案為何，
 本指南中的原則都能幫助你撰寫可擴展的 Flutter 應用程式。
 
-而且如果你仔細觀察，其實所有架構本質上不都是 MVVM 嗎？
+而且如果你不那麼較真地看，其實所有架構本質上不都是 MVVM 嗎？
 
 [Compass sample application]: https://github.com/flutter/samples/tree/main/compass_app
 [MVVM architectural pattern]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel

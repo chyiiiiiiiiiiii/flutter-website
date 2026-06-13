@@ -1,79 +1,79 @@
 ---
-title: DevTools 2.18.0 release notes
-shortTitle: 2.18.0 release notes
+title: DevTools 2.18.0 發行說明
+shortTitle: 2.18.0 發行說明
 breadcrumb: 2.18.0
-description: Release notes for Dart and Flutter DevTools version 2.18.0.
+description: Dart 與 Flutter DevTools 2.18.0 版本的發行說明。
 showToc: false
 ---
 
-The 2.18.0 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](https://docs.flutter.dev/tools/devtools).
+Dart 與 Flutter DevTools 2.18.0 版本
+包含以下變更及其他一般性改進。
+想進一步了解 DevTools，請參閱
+[DevTools overview](https://docs.flutter.dev/tools/devtools)。
 
-## Inspector updates
+## Inspector 更新
 
-- Auto scrolling behavior improved when snapping a widget into focus -
+- 改善自動捲動行為，當將元件 (Widget) 對齊焦點時表現更佳 -
   [#4283](https://github.com/flutter/devtools/pull/4283)
-- Fix issue where widget inspector wouldn't load when
-  connecting to a paused app -
+- 修正當連接到暫停中的應用程式時，
+  元件檢查器 (Widget Inspector) 無法載入的問題 -
   [#4527](https://github.com/flutter/devtools/pull/4527)
-- Improve widget inspector hover cards to show progress while waiting for data -
+- 改善元件檢查器的懸停卡片，等待資料時會顯示進度 -
   [#4488](https://github.com/flutter/devtools/pull/4488)
 
-## Performance updates
+## 效能 (Performance) 更新
 
-- Fix issue where scrollbar would go out of sync with the frame content -
+- 修正捲軸與畫面內容不同步的問題 -
   [#4503](https://github.com/flutter/devtools/pull/4503)
-- Add offline support for raster stats -
+- 新增離線模式下的 raster 統計支援 -
   [#4491](https://github.com/flutter/devtools/pull/4491)
-- Add 'Rendering time' column to Raster Metrics tab -
+- 在 Raster Metrics 分頁新增「Rendering time」欄位 -
   [#4474](https://github.com/flutter/devtools/pull/4474)
 
   ![render-time-column](/assets/images/docs/tools/devtools/release-notes/images-2.18.0/render-time-column.png "Rendering time column in the Raster Metrics tab")
 
-## CPU profiler updates
+## CPU 分析器 (Profiler) 更新
 
-- Fix crash when an empty frame is filtered -
+- 修正過濾空 frame 時發生崩潰的問題 -
   [#4502](https://github.com/flutter/devtools/pull/4502)
-- Fix bugs in CPU profile trees -
+- 修正 CPU profile 樹狀結構中的錯誤 -
   [#4413](https://github.com/flutter/devtools/pull/4413)
-- UI Cleanup - [#4404](https://github.com/flutter/devtools/pull/4404)
+- UI 清理 - [#4404](https://github.com/flutter/devtools/pull/4404)
 
-## Memory updates
+## 記憶體 (Memory) 更新
 
-- Add Profile and Allocation Tracing sub-tabs -
+- 新增 Profile 與 Allocation Tracing 子分頁 -
   [#4523](https://github.com/flutter/devtools/pull/4523)
 
   ![profile](/assets/images/docs/tools/devtools/release-notes/images-2.18.0/profile.png "Profile in Memory tab")
 
   ![allocation-tracing](/assets/images/docs/tools/devtools/release-notes/images-2.18.0/allocation-tracing.png "Allocation Tracing in Memory tab")
 
-- Implement snapshot visualization -
+- 實作快照視覺化功能 -
   [#4473](https://github.com/flutter/devtools/pull/4473)
 
-## Debugger updates
+## 除錯器 (Debugger) 更新
 
-- Fix bug for file opener and search -
+- 修正檔案開啟器與搜尋的錯誤 -
   [#4525](https://github.com/flutter/devtools/pull/4525)
-- Fix the code view's scrollable area -
+- 修正程式碼檢視區的可捲動區域 -
   [#4448](https://github.com/flutter/devtools/pull/4448)
-- Allow syntax highlighting on nested captures in parser -
+- 支援語法高亮於剖析器中的巢狀擷取 -
   [#4427](https://github.com/flutter/devtools/pull/4427)
 
-## Network profiler updates
+## 網路分析器 (Network Profiler) 更新
 
-- When on the Network tab, network recordings now continue working
-  after the app hot restarts -
+- 當位於 Network 分頁時，應用程式熱重啟後
+  網路錄製功能現在會持續運作 -
   [#4438](https://github.com/flutter/devtools/pull/4438)
 
-## Logging updates
+## 日誌 (Logging) 更新
 
-- Log messages from non-stdout sources are now shown -
+- 現在會顯示來自非 stdout 來源的日誌訊息 -
   [#4487](https://github.com/flutter/devtools/pull/4487)
 
-## Full commit history
+## 完整提交紀錄
 
-To find a complete list of changes since the previous release,
-check out
-[the diff on GitHub](https://github.com/flutter/devtools/compare/v2.17.0...v2.18.0).
+若要查詢自上個版本以來的完整變更清單，
+請參閱
+[the diff on GitHub](https://github.com/flutter/devtools/compare/v2.17.0...v2.18.0)。

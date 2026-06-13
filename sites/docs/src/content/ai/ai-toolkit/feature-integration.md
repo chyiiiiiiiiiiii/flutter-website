@@ -267,7 +267,7 @@ abstract class LlmProvider implements Listenable {
     {{site.pub-api}}/flutter_ai_toolkit/latest/flutter_ai_toolkit/LlmProvider-class.html
 
 當 provider 的歷史紀錄發生變化時，
-它會呼叫由 `Listenable` 基底類別所公開的 `notifyListener` 方法。這表示你可以手動
+它會呼叫由 `Listenable` 基底類別所公開的 `notifyListeners` 方法。這表示你可以手動
 透過 `add` 和 `remove` 方法來訂閱/取消訂閱，
 或用來建立 `ListenableBuilder` 類別的實例。
 

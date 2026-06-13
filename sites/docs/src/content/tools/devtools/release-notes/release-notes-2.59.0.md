@@ -1,30 +1,27 @@
 ---
-title: DevTools 2.59.0 release notes
-shortTitle: 2.59.0 release notes
+title: DevTools 2.59.0 版本發行說明
+shortTitle: 2.59.0 版本發行說明
 breadcrumb: 2.59.0
-description: Release notes for Dart and Flutter DevTools version 2.59.0.
+description: Dart 與 Flutter DevTools 2.59.0 版本的發行說明。
 showToc: false
 ---
 
-The 2.59.0 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](/tools/devtools).
+Dart 與 Flutter DevTools 2.59.0 版本包含以下變更及其他一般性改善。
+若要深入了解 DevTools，請參閱
+[DevTools 總覽](/tools/devtools)。
 
-## General updates
+## 一般更新
 
-- Fixed a `RangeError` thrown by `SplitPane` when the parent
-  rebuilt the widget with a different number of children.
-  For example, when toggling a panel in or out of the layout. -
+- 修正了當父層以不同子元件數量重建元件 (Widget) 時，`SplitPane` 拋出 `RangeError` 的問題。
+  例如切換某個面板進入或離開版面配置時。 -
   [#9822](https://github.com/flutter/devtools/pull/9822)
 
-## Inspector updates
+## Inspector 更新
 
-- Fixed an issue where hover tooltips in the widget tree were
-  being clipped by the window boundaries. -
+- 修正了元件樹中懸停提示框（hover tooltip）被視窗邊界裁切的問題。 -
   [#9823](https://github.com/flutter/devtools/pull/9823)
 
-## Full commit history
+## 完整提交記錄
 
-To find a complete list of changes in this release, check out the
-[DevTools git log](https://github.com/flutter/devtools/tree/v2.59.0).
+若要查看本次發行的完整變更清單，請參閱
+[DevTools git 記錄](https://github.com/flutter/devtools/tree/v2.59.0)。

@@ -1,63 +1,62 @@
 ---
-title: DevTools 2.13.1 release notes
-shortTitle: 2.13.1 release notes
+title: DevTools 2.13.1 發行說明
+shortTitle: 2.13.1 發行說明
 breadcrumb: 2.13.1
-description: Release notes for Dart and Flutter DevTools version 2.13.1.
+description: Dart 與 Flutter DevTools 2.13.1 版本的發行說明。
 showToc: false
 ---
 
-The 2.13.1 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](https://docs.flutter.dev/tools/devtools).
+Dart 與 Flutter DevTools 2.13.1 版本
+包含以下變更，以及其他一般性改進。
+想進一步了解 DevTools，請參閱
+[DevTools overview](https://docs.flutter.dev/tools/devtools)。
 
-## General updates
+## 一般更新
 
-* This release included a lot of cleanup and reduction in technical debt.
-  The most notable is the completion of our migration to sound null safety.
-* Show release notes in IDE embedded versions of DevTools -
+* 此版本進行了大量的程式碼清理與技術債減少。
+  最顯著的更新是我們已完成遷移至 sound null safety。
+* 在 IDE 內嵌版本的 DevTools 中顯示發行說明 -
   [#4053](https://github.com/flutter/devtools/pull/4053)
-* Polish to the DevTools footer -
+* DevTools 頁尾的細節優化 -
   [#3989](https://github.com/flutter/devtools/pull/3989),
   [#4026](https://github.com/flutter/devtools/pull/4026),
   [#4041](https://github.com/flutter/devtools/pull/4041),
   [#4076](https://github.com/flutter/devtools/pull/4076)
 
-## Performance updates
+## 效能相關更新
 
-* Added a new feature to help you debug raster jank in your Flutter app.
-  This feature allows you to take a snapshot of the
-  current screen shown in your app, and then
-  break down rendering time for that scene by layer.
-  This can help you identify parts of a scene that are expensive to rasterize -
+* 新增協助你偵錯 Flutter 應用程式中 raster jank 的功能。
+  此功能允許你對應用程式目前顯示的螢幕進行快照，
+  並依圖層分解該場景的渲染時間。
+  這有助於你找出場景中耗費大量 rasterize 成本的部分 -
   [#4046](https://github.com/flutter/devtools/pull/4046)
 
   ![raster-metrics-feature](/assets/images/docs/tools/devtools/release-notes/images-2.13.1/image1.png "raster metrics feature")
 
-* Added a scope setting for "Track Widget Builds", allowing
-  you to specify whether widget builds should be tracked in
-  your code only or in all code -
+* 為「Track Widget Builds」新增範圍設定，
+  讓你可以指定是否僅追蹤你自己的程式碼中的元件 (Widget) 建立，
+  或是追蹤所有程式碼中的元件建立 -
   [#4010](https://github.com/flutter/devtools/pull/4010)
 
   ![track-widget-builds-scope-setting](/assets/images/docs/tools/devtools/release-notes/images-2.13.1/image2.png "track widget builds scope setting")
 
-## CPU profiler updates
+## CPU 分析器更新
 
-* Use package uris instead of file uris in the CPU profiler "Source" column -
+* 在 CPU 分析器的「Source」欄位中，改用 package URI 取代 file URI -
   [#3932](https://github.com/flutter/devtools/pull/3932)
 
-## Debugger updates
+## 除錯器更新
 
-* Fix scrolling bug with debugger breakpoints -
+* 修正除錯器中斷點的捲動錯誤 -
   [#4074](https://github.com/flutter/devtools/pull/4074)
 
-## Flutter inspector updates
+## Flutter 檢查器更新
 
-* Add support for displaying flex values larger than 5 in the Layout Explorer -
+* 在 Layout Explorer 中新增支援顯示大於 5 的 flex 值 -
   [#4055](https://github.com/flutter/devtools/pull/4055)
 
-## Full commit history
+## 完整提交紀錄
 
-To find a complete list of changes since the previous release,
-check out
-[the diff on GitHub](https://github.com/flutter/devtools/compare/v2.12.2...v2.13.1).
+若要查看自前一版本以來的完整變更清單，
+請參閱
+[the diff on GitHub](https://github.com/flutter/devtools/compare/v2.12.2...v2.13.1)。

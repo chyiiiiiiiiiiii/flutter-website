@@ -8,7 +8,7 @@ prev:
   path: /ai/ai-toolkit/custom-llm-providers
 ---
 
-AI Chat 範例旨在提供一個完整的聊天應用程式，使用 Flutter AI Toolkit 與 Firebase AI Logic SDK 建置而成。除了從 AI Toolkit 獲得的多輪對話、多媒體、串流等功能之外，AI Chat 範例還展示了如何在自己的應用程式中同時儲存及管理多個聊天記錄。在桌面裝置上，AI Chat 範例的外觀如下所示：
+AI Chat 範例旨在提供一個完整的聊天應用程式，使用 Flutter AI Toolkit 與 Firebase AI Logic SDK 建置而成。除了從 AI Toolkit 獲得的多範例 (multi-shot)、多媒體、串流等功能之外，AI Chat 範例還展示了如何在自己的應用程式中同時儲存及管理多個聊天記錄。在桌面裝置上，AI Chat 範例的外觀如下所示：
 
 ![Desktop app UI](/assets/images/docs/ai-toolkit/desktop-pluto-convo.png)
 

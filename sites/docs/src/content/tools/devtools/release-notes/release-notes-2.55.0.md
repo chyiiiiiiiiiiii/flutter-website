@@ -1,16 +1,15 @@
 ---
-title: DevTools 2.55.0 release notes
-shortTitle: 2.55.0 release notes
+title: DevTools 2.55.0 版本發行說明
+shortTitle: 2.55.0 版本發行說明
 breadcrumb: 2.55.0
 showToc: false
 ---
 
-The 2.55.0 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](/tools/devtools).
+Dart 與 Flutter DevTools 的 2.55.0 版本包含以下變更及其他一般改善。
+若要進一步瞭解 DevTools，請參閱
+[DevTools 概覽](/tools/devtools)。
 
-## Full commit history
+## 完整提交紀錄
 
-To find a complete list of changes in this release, check out the
-[DevTools git log](https://github.com/flutter/devtools/tree/v2.55.0).
+若要查看此版本的完整變更清單，請參閱
+[DevTools git log](https://github.com/flutter/devtools/tree/v2.55.0)。

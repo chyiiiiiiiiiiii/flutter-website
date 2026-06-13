@@ -1,62 +1,52 @@
 ---
-title: DevTools 2.33.0 release notes
-shortTitle: 2.33.0 release notes
+title: DevTools 2.33.0 發行說明
+shortTitle: 2.33.0 發行說明
 breadcrumb: 2.33.0
-description: Release notes for Dart and Flutter DevTools version 2.33.0.
+description: Dart 與 Flutter DevTools 2.33.0 版本的發行說明。
 showToc: false
 ---
 
-The 2.33.0 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](/tools/devtools).
+Dart 與 Flutter DevTools 2.33.0 版本
+包含以下變更及其他一般性改進。
+想進一步了解 DevTools，請參閱
+[DevTools 總覽](/tools/devtools)。
 
-## General updates
+## 一般更新
 
-* Improved overall usability by making the DevTools UI more dense.
-  This significantly improves the user experience when using
-  DevTools embedded in an IDE. - [#7030](https://github.com/flutter/devtools/pull/7030)
-* Removed the "Dense mode" setting. - [#7086](https://github.com/flutter/devtools/pull/7086)
-* Added support for filtering with regular expressions in
-  the Logging, Network, and CPU profiler pages. - [#7027](https://github.com/flutter/devtools/pull/7027)
-* Add a DevTools server interaction for getting the DTD URI. - [#7054](https://github.com/flutter/devtools/pull/7054), [#7164](https://github.com/flutter/devtools/pull/7164)
-* Enabled expression evaluation with scope for the web,
-  allowing evaluation of inspected widgets. - [#7144](https://github.com/flutter/devtools/pull/7144)
-* Update `package:vm_service` constraint to `^14.0.0`. - [#6953](https://github.com/flutter/devtools/pull/6953)
-* Onboarding DevTools to [`package:unified_analytics`](https://pub.dev/packages/unified_analytics) for
-  unified telemetry logging across Flutter and Dart tooling. - [#7084](https://github.com/flutter/devtools/pull/7084)
+* 透過讓 DevTools UI 更為緊湊，提升整體可用性。
+  這大幅改善了在 IDE 內嵌使用 DevTools 時的使用體驗。- [#7030](https://github.com/flutter/devtools/pull/7030)
+* 移除了「緊湊模式」設定。- [#7086](https://github.com/flutter/devtools/pull/7086)
+* 在 Logging、Network 與 CPU profiler 頁面新增了正規表示式過濾功能。- [#7027](https://github.com/flutter/devtools/pull/7027)
+* 新增 DevTools 伺服器互動以取得 DTD URI。- [#7054](https://github.com/flutter/devtools/pull/7054), [#7164](https://github.com/flutter/devtools/pull/7164)
+* 啟用網頁端具作用域的運算式評估，允許對檢查中的元件 (Widget) 進行評估。- [#7144](https://github.com/flutter/devtools/pull/7144)
+* 更新 `package:vm_service` 約束至 `^14.0.0`。- [#6953](https://github.com/flutter/devtools/pull/6953)
+* 將 DevTools 導入 [`package:unified_analytics`](https://pub.dev/packages/unified_analytics)，
+  以實現 Flutter 與 Dart 工具的統一遙測日誌記錄。- [#7084](https://github.com/flutter/devtools/pull/7084)
 
-## Debugger updates
+## 除錯器 (Debugger) 更新
 
-* Fixed off by one error causing profiler hits to be
-  rendered on the wrong lines. - [#7178](https://github.com/flutter/devtools/pull/7178)
-* Improved contrast of line numbers when
-  displaying code coverage hits in dark mode. - [#7178](https://github.com/flutter/devtools/pull/7178)
-* Improved contrast of profiling details when
-  displaying profiler hits in dark mode. - [#7178](https://github.com/flutter/devtools/pull/7178)
-* Fixed syntax highlighting for comments when
-  the source file uses `\r\n` line endings [#7190](https://github.com/flutter/devtools/pull/7190)
-* Re-establish breakpoints after a hot-restart. - [#7205](https://github.com/flutter/devtools/pull/7205)
+* 修正導致 profiler 命中點顯示在錯誤行數的差一錯誤 (off by one error)。- [#7178](https://github.com/flutter/devtools/pull/7178)
+* 改善在深色模式下顯示程式碼覆蓋率命中時的行號對比度。- [#7178](https://github.com/flutter/devtools/pull/7178)
+* 改善在深色模式下顯示 profiler 命中時的詳細資訊對比度。- [#7178](https://github.com/flutter/devtools/pull/7178)
+* 修正當原始檔案使用 `\r\n` 行結尾時，註解的語法高亮顯示問題。[#7190](https://github.com/flutter/devtools/pull/7190)
+* 熱重啟 (hot-restart) 後重新建立中斷點。- [#7205](https://github.com/flutter/devtools/pull/7205)
 
-## VS Code Sidebar updates
+## VS Code 側邊欄更新
 
-* Do not show DevTools release notes in the Flutter sidebar. - [#7166](https://github.com/flutter/devtools/pull/7166)
+* 不再於 Flutter 側邊欄顯示 DevTools 發行說明。- [#7166](https://github.com/flutter/devtools/pull/7166)
 
-## DevTools Extension updates
+## DevTools 擴充功能 (Extension) 更新
 
-* Added support for connecting to the Dart Tooling Daemon from
-  the simulated DevTools environment. - [#7133](https://github.com/flutter/devtools/pull/7133)
-* Added help buttons to the VM Service and DTD connection text fields in
-  the simulated DevTools environment. - [#7133](https://github.com/flutter/devtools/pull/7133)
-* Fixed an issue with not detecting extensions for
-  test files in subdirectories. - [#7174](https://github.com/flutter/devtools/pull/7174)
-* Added an example of creating an extension for a pure Dart package. - [#7196](https://github.com/flutter/devtools/pull/7196)
-* Updated the `README.md` and `example/README.md` with
-  more complete documentation. - [#7237](https://github.com/flutter/devtools/pull/7237), [#7261](https://github.com/flutter/devtools/pull/7261)
-* Added a `devtools_extensions validate` command to
-  validate extension requirements during development. - [#7257](https://github.com/flutter/devtools/pull/7257)
+* 新增從模擬 DevTools 環境連接 Dart Tooling Daemon 的支援。- [#7133](https://github.com/flutter/devtools/pull/7133)
+* 在模擬 DevTools 環境的 VM Service 與 DTD 連線文字欄位中新增說明按鈕。- [#7133](https://github.com/flutter/devtools/pull/7133)
+* 修正無法偵測子目錄下測試檔案擴充功能的問題。- [#7174](https://github.com/flutter/devtools/pull/7174)
+* 新增建立純 Dart 套件擴充功能的範例。- [#7196](https://github.com/flutter/devtools/pull/7196)
+* 更新 `README.md` 與 `example/README.md`，
+  提供更完整的文件說明。- [#7237](https://github.com/flutter/devtools/pull/7237), [#7261](https://github.com/flutter/devtools/pull/7261)
+* 新增 `devtools_extensions validate` 指令，
+  於開發期間驗證擴充功能需求。- [#7257](https://github.com/flutter/devtools/pull/7257)
 
-## Full commit history
+## 完整提交紀錄
 
-To find a complete list of changes in this release, check out the
-[DevTools git log](https://github.com/flutter/devtools/tree/v2.33.0).
+如需本次發行的完整變更清單，請參閱
+[DevTools git log](https://github.com/flutter/devtools/tree/v2.33.0)。

@@ -1,99 +1,92 @@
 ---
-title: DevTools 2.8.0 release notes
-shortTitle: 2.8.0 release notes
+title: DevTools 2.8.0 發行說明
+shortTitle: 2.8.0 發行說明
 breadcrumb: 2.8.0
-description: Release notes for Dart and Flutter DevTools version 2.8.0.
+description: Dart 與 Flutter DevTools 2.8.0 版的發行說明。
 showToc: false
 ---
 
-The 2.8.0 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](https://docs.flutter.dev/tools/devtools).
+Dart 與 Flutter DevTools 2.8.0 版本
+帶來了以下變更及其他一般性改進。
+如需進一步了解 DevTools，請參閱
+[DevTools 總覽](https://docs.flutter.dev/tools/devtools)。
 
-## General updates
+## 一般更新
 
-* Improvements for initial page load time -
+* 初始頁面載入時間優化 -
   [#3325](https://github.com/flutter/devtools/pull/3325)
-* Performance improvements for connecting DevTools to a device,
-  particularly impactful for low-memory devices -
+* 連接 DevTools 至裝置的效能提升，
+  對於記憶體較低的裝置特別有感 -
   [#3468](https://github.com/flutter/devtools/pull/3468)
-* For users on Flutter 2.8.0 or greater (or Dart 2.15.0 or greater),
-  DevTools should now be launched via the `dart devtools` command
-  instead of running `pub global activate devtools`.
-  DevTools 2.8.0 will be the last version of DevTools shipped on pub,
-  and all future versions of DevTools will be shipped as part of the Dart SDK.
-  If you see this warning,
-  be sure to open DevTools via `dart devtools` instead of from pub:
+* 對於使用 Flutter 2.8.0 或更高版本（或 Dart 2.15.0 或更高版本）的使用者，
+  現在應透過 `dart devtools` 指令啟動 DevTools，
+  而非執行 `pub global activate devtools`。
+  DevTools 2.8.0 將是最後一個於 pub 發佈的 DevTools 版本，
+  未來所有 DevTools 版本都將隨 Dart SDK 一同發佈。
+  若您看到此警告，
+  請務必透過 `dart devtools` 開啟 DevTools，而非從 pub 啟動：
 
   ![dart devtools warning dialog](/assets/images/docs/tools/devtools/release-notes/images-2.8.0/image1.png "dart devtools warning dialog")
 
-## Performance updates
+## 效能更新
 
-* Added a new "Enhance Tracing" feature to help users diagnose UI jank
-  stemming from expensive Build, Layout, and Paint operations.
+* 新增「Enhance Tracing（增強追蹤）」功能，協助使用者診斷由於 Build、Layout 與 Paint 操作過於耗時所導致的 UI 卡頓。
 
   ![Enhance tracing](/assets/images/docs/tools/devtools/release-notes/images-2.8.0/image2.png "Enhance tracing")
 
-  The expected workflow is as such:
+  預期的操作流程如下：
 
-  1. User is investigating UI jank in the performance page
-  2. User notices a long Build, Layout, and/or Paint event
-  3. User turns on the respective tracking toggle in the "Enhance Tracing" feature
-  4. User reproduces the UI jank in their app
-  5. User looks at the new set of Timeline events, which should now have
-     additional child events for widgets built, render objects laid out,
-     and/or render objects painted
+  1. 使用者於效能頁面調查 UI 卡頓問題
+  2. 使用者發現 Build、Layout 和/或 Paint 事件耗時過長
+  3. 使用者於「Enhance Tracing」功能中開啟對應的追蹤開關
+  4. 使用者於應用程式中重現 UI 卡頓
+  5. 使用者查看新的 Timeline 事件集，現在應該會有
+     額外的子事件，顯示哪些元件 (Widget) 被建立、哪些 render objects 被版面配置，
+     以及/或哪些 render objects 被渲染
 
   ![Timeline events](/assets/images/docs/tools/devtools/release-notes/images-2.8.0/image3.png "Timeline events")
 
-* Added new "More debugging options" feature to allow for disabling
-  rendering layers for Clip, Opacity, and Physical Shapes.
+* 新增「More debugging options（更多除錯選項）」功能，可用來停用 Clip、Opacity 與 Physical Shapes 的渲染層。
 
   ![More debugging options](/assets/images/docs/tools/devtools/release-notes/images-2.8.0/image4.png "More debugging options")
 
-  The expected workflow is as such:
+  預期的操作流程如下：
 
-  1. User is investigating UI jank in the performance page
-  2. User notices a lot of janky frames and suspects it could be due to
-     excessive use of clipping, opacity, or physical shapes.
-  3. User turns off the respective render layer toggle in the "More
-     debugging options" feature
-  4. User reproduces the UI jank in their app
-  5. If the UI jank is reduced with a rendering layer turned off,
-     the user should try to optimize their app to use
-     less clipping/opacity/physical shape effects.
-     If the UI jank is not reduced,
-     the user now knows that the performance problem
-     is not due to these UI effects.
+  1. 使用者於效能頁面調查 UI 卡頓問題
+  2. 使用者發現有許多卡頓畫格，並懷疑可能與過度使用裁剪（clipping）、透明度（opacity）或物理形狀（physical shapes）有關
+  3. 使用者於「More debugging options」功能中關閉對應的渲染層開關
+  4. 使用者於應用程式中重現 UI 卡頓
+  5. 若關閉某個渲染層後 UI 卡頓減少，
+     使用者應嘗試優化應用程式，減少裁剪/透明度/物理形狀效果的使用。
+     若 UI 卡頓未減少，
+     則可確認效能問題並非由這些 UI 效果所致。
 
-## Debugger updates
+## 除錯器更新
 
-* Replaced the "Libraries" pane with a "File Explorer" pane -
-  [#3448](https://github.com/flutter/devtools/pull/3448).
-  The "File Explorer" pane has two components:
+* 將「Libraries」窗格更換為「File Explorer（檔案總管）」窗格 -
+  [#3448](https://github.com/flutter/devtools/pull/3448)。
+  「File Explorer」窗格包含兩個部分：
 
-  1. A tree view of the libraries present in your application.
-     You can use the File Explorer to find and open a library,
-     or you can use the existing <kbd>Ctrl</kbd> / <kbd>Cmd</kbd> +
-     <kbd>P</kbd> keyboard shortcut to search for a file.
-  1. A new "Outline" view that shows the structure of the selected library.
-     This view will show classes, members, methods, etc.,
-     and when an item is selected,
-     the source view will jump to the respective line of code
-     for the selected item.
+  1. 應用程式中所有函式庫的樹狀檢視。
+     您可以使用 File Explorer 來尋找並開啟函式庫，
+     或使用現有的 <kbd>Ctrl</kbd> / <kbd>Cmd</kbd> +
+     <kbd>P</kbd> 鍵盤快速鍵來搜尋檔案。
+  1. 新增的「Outline（大綱）」檢視，顯示所選函式庫的結構。
+     此檢視會顯示類別、成員、方法等，
+     當選取某個項目時，
+     原始碼檢視會自動跳至該項目對應的程式碼行。
 
   ![Outline view selected library](/assets/images/docs/tools/devtools/release-notes/images-2.8.0/image5.png "Outline view selected library")
 
-* Performance improvements to expression evaluation auto complete -
+* 表達式評估自動完成效能提升 -
   [#3463](https://github.com/flutter/devtools/pull/3463)
-* Fixed a bug with keyboard shortcuts -
+* 修正鍵盤快速鍵相關的錯誤 -
   [#3458](https://github.com/flutter/devtools/pull/3458)
-* UI polish - [#3421](https://github.com/flutter/devtools/pull/3421),
+* UI 優化 - [#3421](https://github.com/flutter/devtools/pull/3421),
   [#3449](https://github.com/flutter/devtools/pull/3449)
 
-## Full commit history
+## 完整提交紀錄
 
-To find a complete list of changes since the previous release,
-check out
-[the diff on GitHub](https://github.com/flutter/devtools/compare/v2.7.0...v2.8.0).
+如需查詢自上個版本以來的所有變更，
+請參閱
+[GitHub 上的差異比較](https://github.com/flutter/devtools/compare/v2.7.0...v2.8.0)。

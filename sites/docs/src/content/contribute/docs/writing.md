@@ -1,94 +1,92 @@
 ---
-title: Writing for the docs sites
-short-tile: Writing
+title: 為文件網站撰寫內容
+short-tile: 撰寫
 description: >-
-  Learn about the writing style guide and processes followed when writing
-  for the Dart and Flutter documentation sites.
+  了解 Dart 與 Flutter 文件網站在撰寫時所遵循的寫作風格指南與流程。
 sitemap: false
 noindex: true
 showBreadcrumbs: true
 ---
 
 :::warning
-This document is a work in progress.
+本文檔仍在撰寫中。
 :::
 
-## Writing guidelines
+## 撰寫指引
 
-When writing for the documentation sites,
-follow the [Google developer documentation style guide][],
-except in the cases where the [Dash docs guidelines][] conflict with it.
+在為文件網站撰寫內容時，
+請遵循 [Google 開發者文件風格指南][Google developer documentation style guide]，
+但若 [Dash docs 指南][Dash docs guidelines] 與其有衝突時，請以 Dash docs 指南為準。
 
 [Google developer documentation style guide]: https://developers.google.com/style
-[Dash docs guidelines]: #dash-docs-styles
+[Dash docs guidelines]: #dash-docs-風格
 
-### Dash docs styles
+### Dash docs 風格
 
 :::warning
-This section is a work in progress.
-It will be added to over time.
+本節內容仍在撰寫中。
+未來將持續補充。
 :::
 
-## Semantic breaks
+## 語意斷行（Semantic breaks）
 
-To make PR review, diff resolution, and history tracking easier,
-use [semantic breaks][] when writing Markdown.
-Reference the [full specification][sembr-spec] for helps,
-but roughly follow these guidelines:
+為了讓 PR 審查、差異比對與歷史追蹤更加容易，
+在撰寫 Markdown 時請使用 [語意斷行（semantic breaks）][semantic breaks]。
+可參考[完整規範][sembr-spec]，
+但大致上請遵循以下原則：
 
-- Keep each line 80 characters or fewer.
-- Break lines at sentences and, unless the sentence is very short,
-  on phrases within sentences.
-- When it's necessary to split a sentence across lines,
-  try to pick a break that makes it clear that
-  the line continues on the next line.
-  That way future editors and reviewers are more likely to
-  notice that the edit might affect another line.
+- 每行請保持在 80 個字元以內。
+- 於句子結尾處換行，除非句子非常短，也可在句內片語處換行。
+- 若必須將一句話拆成多行，
+  請盡量選擇讓人一眼看出
+  下一行是同一句話延續的位置斷行。
+  這樣未來的編輯者或審查者較容易
+  注意到這次的修改可能會影響到其他行。
 
-Incorporating semantic breaks in your writing might feel tedious at first,
-but quickly proves helpful and becomes natural.
-Don't worry about getting the breaks perfect or completely consistent,
-any effort towards their semantic nature is extremely helpful.
+一開始在寫作時加入語意斷行可能會覺得繁瑣，
+但很快就會發現這樣做非常有幫助，並且會變得自然。
+不需要擔心斷行是否完美或完全一致，
+只要有朝語意斷行努力就非常有幫助。
 
-For some more discussion about the origin of this technique,
-also check out Brandon Rhode's [Semantic Linefeeds][] post.
+若想進一步了解這個技巧的由來，
+也可以參考 Brandon Rhode 的 [Semantic Linefeeds][Semantic Linefeeds] 文章。
 
 [semantic breaks]: https://sembr.org/
 [sembr-spec]: https://sembr.org/#:~:text=seen%20by%20readers.-,Semantic%20Line%20Breaks%20Specification,-(SemBr)
 [Semantic Linefeeds]: https://rhodesmill.org/brandon/2012/one-sentence-per-line/
 
-## Links
+## 連結
 
-### Write link text
+### 撰寫連結文字
 
-Use descriptive link text that follows the
-Google guidelines on [Cross-references and linking][].
+請使用具描述性的連結文字，並遵循
+Google 關於[交叉參照與連結][Cross-references and linking]的指引。
 
 [Cross-references and linking]: https://developers.google.com/style/cross-references
 
-### Configure link destinations
+### 設定連結目標
 
-For easier editing, shorter lines, and reduced duplication,
-prefer using Markdown link references instead of inline links.
+為了讓編輯更容易、行數更短且減少重複，
+建議優先使用 Markdown 連結參照方式，而非行內連結。
 
-Place the link definitions at the end of the
-current section where they're used, before the next header.
+請將連結定義放在
+當前區段結尾處、下一個標題之前。
 
-If a link definition is used multiple times across a page,
-you can place it at the bottom of the document.
+若某個連結定義在同一頁多次使用，
+可以將其放在文件最底部。
 
-### Open the link in a new tab
+### 讓連結於新分頁開啟
 
-If you want a link to open in a new tab by default,
-add the `target="_blank"` and `rel="noopener"` attributes.
+如果你希望連結預設於新分頁開啟，
+請加上 `target="_blank"` 與 `rel="noopener"` 屬性。
 
-For Markdown links:
+Markdown 連結範例如下：
 
 ```md
 [Link text][link-ref]{: target="_blank" rel="noopener"}
 ```
 
-For HTML links:
+針對 HTML 連結：
 
 ```html
 <a href="#link-ref" target="_blank" rel="noopener">Link text</a>

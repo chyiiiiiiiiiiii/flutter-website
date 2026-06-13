@@ -152,7 +152,7 @@ class HomeViewModel [!extends ChangeNotifier!] {
 ![A screenshot of the booking screen of the compass app.](/assets/images/docs/app-architecture/case-study/mvvm-case-study-update-ui-steps.png)
 
     <figcaption>
-下圖從高層次說明了當 Repository 中有新資料時，
+此圖從高層次說明了當 Repository 中有新資料時，
 這些資料如何向上傳遞到 UI 層，並觸發 Flutter 元件的重新建構。
     </figcaption>
 </figure>

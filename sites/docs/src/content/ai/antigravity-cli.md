@@ -8,7 +8,7 @@ description: 了解如何在 Dart 和 Flutter 中使用 Antigravity CLI。
 ## 簡介
 
 [Antigravity CLI][]（使用可執行指令 `agy`）
-是 **Antigravity 2.0** 智能程式碼助理的終端機介面 (TUI)。
+是 **Antigravity 2.0** 代理式 (agentic) 程式碼助理的終端機介面 (TUI)。
 它可直接連線至你的工作區，
 並運用 **Dart 與 Flutter MCP 伺服器**，
 協助你從命令列建置、修改、測試及發佈 Flutter 應用程式。

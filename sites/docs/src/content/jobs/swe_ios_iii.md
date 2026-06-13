@@ -1,94 +1,60 @@
 ---
-title: Software Engineer III, Flutter (iOS)
+title: 軟體工程師 III，Flutter (iOS)
 showToc: false
 ---
 
-## About the team
+## 關於團隊
 
-This full time position is on the Flutter iOS team.
+此全職職位隸屬於 Flutter iOS 團隊。
 
-## About the position
+## 關於職位
 
-Google's software engineers develop the next-generation technologies that
-change how billions of users connect, explore, and interact with information
-and one another. Our products need to handle information at massive scale,
-and extend well beyond web search. We're looking for engineers who bring
-fresh ideas from all areas, including information retrieval, distributed computing,
-large-scale system design, networking and data storage, security, artificial
-intelligence, natural language processing, UI design and mobile; the list goes on
-and is growing every day. As a software engineer, you will work on a specific
-project critical to Google’s needs with opportunities to switch teams and projects
-as you and our fast-paced business grow and evolve. We need our engineers to be
-versatile, display leadership qualities and be enthusiastic to take on new problems
-across the full-stack as we continue to push technology forward.
+Google 的軟體工程師致力於開發新一代技術，改變數十億使用者連結、探索與互動資訊的方式。我們的產品必須能夠處理大規模的資料，且應用範疇遠超過網路搜尋。我們正在尋找能帶來跨領域嶄新想法的工程師，涵蓋資訊檢索、分散式運算、大規模系統設計、網路與資料儲存、資安、人工智慧、自然語言處理、UI 設計與行動裝置開發等，而且這份清單每天都在持續擴增。身為軟體工程師，您將負責對 Google 至關重要的特定專案，並隨著您個人與公司業務的快速成長與演進，有機會轉換團隊與專案。我們需要多才多藝、具備領導特質且熱衷於在整個技術堆疊中迎接新挑戰的工程師，持續推動技術前進。
 
-The US base salary range for this full-time position is $141,000-$202,000 + bonus +
-equity + benefits. Our salary ranges are determined by role, level, and location. Within
-the range, individual pay is determined by work location and additional factors,
-including job-related skills, experience, and relevant education or training. Your
-recruiter can share more about the specific salary range for your preferred location
-during the hiring process.
+此全職職位在美國的基本薪資範圍為 $141,000–$202,000，另有獎金、股票及福利。薪資範圍由職位、級別與地點決定。範圍內的個人薪資由工作地點及其他因素（包括工作相關技能、經驗及相關學歷或訓練）共同決定。您的招募專員可在招募過程中，就您偏好的地點分享更詳細的薪資範圍資訊。
 
-Please note that the compensation details listed in US role postings reflect the
-base salary only, and do not include bonus, equity, or benefits.
-Learn more about
-[benefits at Google](https://www.google.com/about/careers/applications/benefits/).
+請注意，美國職位說明中列出的薪酬細節僅反映基本薪資，不包含獎金、股票或福利。
+了解更多
+[Google 福利相關資訊](https://www.google.com/about/careers/applications/benefits/)。
 
-## Our values
+## 我們的價值觀
 
-### Mentorship
+### 導師制
 
-Upon joining Google, you will be paired with a formal mentor,
-who will help guide you in the process of ramping up, forging relationships,
-and learning the systems you'll need to do your job.
-Your manager can also help you find mentors who can coach you
-as you navigate your career at Google. In addition to formal mentors,
-we work and train together so that we are always learning from one another,
-and we celebrate and support the career progression of our team members.
+加入 Google 後，您將與一位正式導師配對，協助引導您完成上手流程、建立人脈，並學習完成工作所需的系統。您的主管也可協助您找到能在您規劃 Google 職涯時提供建議的導師。除了正式導師之外，我們也一同工作與訓練，讓彼此持續相互學習，並慶祝及支持團隊成員的職涯成長。
 
-### Inclusion
+### 多元共融
 
-Here on the Flutter team and at Google, we embrace our differences
-and are [committed to furthering our culture of inclusion](https://flutter.dev/culture).
+在 Flutter 團隊和 Google，我們擁抱彼此的差異，並[致力於深化我們的共融文化](https://flutter.dev/culture)。
 
-### Work-life balance
+### 工作與生活的平衡
 
-Our team also puts a high value on work-life balance.
-Striking a healthy balance between your personal and professional life
-is crucial to your happiness and success here, which is why we aren't focused
-on how many hours you spend at work or online. Instead,
-we're happy to offer a flexible schedule so you can have a more productive and
-well-balanced life—both in and outside of work.
+我們的團隊也非常重視工作與生活的平衡。在個人生活與職業生活之間取得健康的平衡，對您在這裡的幸福感與成就至關重要，因此我們不會著重在意您花多少時間在工作或線上。相反地，我們樂於提供彈性的工作排程，讓您在工作內外都能享有更高效且均衡的生活。
 
-## Job location
+## 工作地點
 
-Sunnyvale, CA, USA
+美國加州桑尼維爾（Sunnyvale, CA, USA）
 
-## Job responsibilities
+## 工作職責
 
-* Implement complex native integrations (for example, text input,
-accessibility) to achieve fidelity and responsiveness for Flutter on iOS.
-* Analyze WWDC announcements and beta releases to proactively ensure day-zero
-compatibility with emerging technologies like new versions of Swift.
-* Profile to improve Flutter startup latency, memory usage, and frame rates,
-ensuring platform parity with native applications.
+* 實作複雜的原生整合功能（例如文字輸入、無障礙功能），以在 iOS 上的 Flutter 達到高保真度與高響應性。
+* 分析 WWDC 公告與測試版發佈，主動確保與新興技術（例如新版 Swift）的零日相容性。
+* 進行效能分析以改善 Flutter 的啟動延遲、記憶體使用量與幀率，確保與原生應用程式的平台同等性。
 
-## Qualifications
+## 資格條件
 
-### Minimum qualifications
+### 基本資格
 
-* Bachelor’s degree or equivalent practical experience.
-* 2 years of experience with software development in Objective-C or Swift
-programming languages.
-* 2 years of experience with iOS application development.
+* 學士學位或同等實務經驗。
+* 2 年以上使用 Objective-C 或 Swift 程式語言進行軟體開發的經驗。
+* 2 年以上 iOS 應用程式開發經驗。
 
-### Preferred qualifications
+### 優先資格
 
-* Master's degree or PhD in Computer Science, or a related technical field.
-* Experience building SDKs, frameworks, or contributing to open-source projects
-used by other developers.
-* Experience with iOS performance and memory profiling.
+* 電腦科學或相關技術領域的碩士學位或博士學位。
+* 具備建置 SDK、框架，或為其他開發者使用的開源專案貢獻的經驗。
+* 具備 iOS 效能與記憶體分析的經驗。
 
-## To apply
+## 申請方式
 
-Please apply via [this Google Careers page](https://www.google.com/about/careers/applications/jobs/results/136240555007845062).
+請透過 [Google 職缺頁面](https://www.google.com/about/careers/applications/jobs/results/136240555007845062) 申請。

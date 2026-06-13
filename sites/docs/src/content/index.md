@@ -1,67 +1,65 @@
 ---
-title: Flutter documentation
-shortTitle: Docs
+title: Flutter 文件
+shortTitle: 文件
 description: >-
-  Get started with Flutter. Widgets, examples, updates, and API docs to
-  help you write your first Flutter app.
+  開始使用 Flutter。元件、範例、更新及 API 文件，
+  協助您撰寫第一個 Flutter 應用程式。
 ---
 
 <div class="card-grid">
-  <Card title="Install Flutter" link="/install" outlined="true">
-    Set up your environment and start building.
+  <Card title="安裝 Flutter" link="/install" outlined="true">
+    設定您的開發環境並開始建置。
   </Card>
-  <Card title="Widget catalog" link="/ui/widgets" outlined="true">
-    Dip into the rich set of Flutter widgets available in the SDK.
+  <Card title="元件目錄" link="/ui/widgets" outlined="true">
+    探索 SDK 中豐富的 Flutter 元件 (Widget) 集合。
   </Card>
-  <Card title="API docs" link="{{site.api}}" outlined="true">
-    Bookmark the API reference docs for the Flutter framework.
+  <Card title="API 文件" link="{{site.api}}" outlined="true">
+    將 Flutter 框架的 API 參考文件加入書籤。
   </Card>
-  <Card title="Learning resources" link="/learn" outlined="true">
-    Browse tutorials, sample code, workshops, and recipes.
+  <Card title="學習資源" link="/learn" outlined="true">
+    瀏覽教學、範例程式碼、工作坊與食譜。
   </Card>
-  <Card title="Videos" link="https://www.youtube.com/@flutterdev" outlined="true">
-    View the many videos on the Flutter YouTube channel.
+  <Card title="影片" link="https://www.youtube.com/@flutterdev" outlined="true">
+    觀看 Flutter YouTube 頻道上的眾多影片。
   </Card>
-  <Card title="Create with AI" link="/ai/create-with-ai" outlined="true">
-    Learn how to build with and integrate powerful AI tools.
+  <Card title="以 AI 創作" link="/ai/create-with-ai" outlined="true">
+    了解如何建置並整合強大的 AI 工具。
   </Card>
 </div>
 
-**To see changes to the site since our last release,
-see [What's new][].**
+**若要查看自上次發佈以來的網站變更，
+請參閱[最新動態][]。**
 
-[What's new]: /release/whats-new
+[最新動態]: /release/whats-new
 
-## New to Flutter?
+## 初次使用 Flutter？
 
-Ready to build beautiful, multiplatform apps from a single codebase?
-First, [set up your Flutter environment][],
-then follow the [Flutter learning pathway][].
+準備好從單一程式碼庫建置精美的跨平台應用程式了嗎？
+首先，[設定您的 Flutter 開發環境][set up your Flutter environment]，
+再跟著 [Flutter 學習路徑][Flutter learning pathway] 開始學習。
 
 [set up your Flutter environment]: /install/quick
 [Flutter learning pathway]: /learn/pathway
 
-### Docs
+### 文件
 
-Coming from another platform? Check out Flutter for:
-[Android][], [SwiftUI][], [UIKit][], [React Native][], and
-[Xamarin.Forms][] developers.
+從其他平台轉過來的開發者？請查看 Flutter 針對以下開發者的說明：
+[Android][]、[SwiftUI][]、[UIKit][]、[React Native][] 以及
+[Xamarin.Forms][] 開發者。
 
-[Building layouts][]
-: Learn how to create layouts in Flutter,
-  where everything is a [widget](/resources/glossary#widget).
+[版面配置建置][Building layouts]
+: 學習如何在 Flutter 中建立版面配置，
+  在 Flutter 中一切皆為[元件](/resources/glossary#widget)。
 
-[Understanding constraints][]
-: Once you understand that "Constraints
-  flow down. Sizes flow up. Parents set
-  positions", then you are well on your
-  way to understanding Flutter's layout model.
+[了解約束條件][Understanding constraints]
+: 一旦您理解「約束條件向下傳遞、尺寸向上回傳、父元件設定位置」的概念，
+  您就能掌握 Flutter 版面配置模型的精髓。
 
-[Adding interactivity to your Flutter app][interactivity]
-: Learn how to add a stateful widget to your app.
+[為您的 Flutter 應用程式新增互動性][interactivity]
+: 學習如何為應用程式新增具狀態的元件 (Widget)。
 
-[FAQ][]
-: Get the answers to frequently asked questions.
+[常見問題][FAQ]
+: 取得常見問題的解答。
 
 [Android]: /flutter-for/android-devs
 [Building layouts]: /ui/layout
@@ -73,17 +71,17 @@ Coming from another platform? Check out Flutter for:
 [Understanding constraints]: /ui/layout/constraints
 [Xamarin.Forms]: /flutter-for/xamarin-forms-devs
 
-### Videos
+### 影片
 
 <div class="video-wrapper">
-  <span class="video-intro">Check out the latest in Dart and Flutter</span>
+  <span class="video-intro">查看 Dart 與 Flutter 的最新資訊</span>
   <YouTubeEmbed id="I1uIbGh1dGE" title="What's New in Dart and Flutter 3.44" fullWidth></YouTubeEmbed>
 </div>
 <br>
 
-For more of the latest on Dart and Flutter, check out
-the technical sessions from [Google I/O][io-wrap-up],
-like these!
+若想了解更多 Dart 與 Flutter 的最新消息，請查看
+來自 [Google I/O][io-wrap-up] 的技術議程，
+例如以下這些！
 
 <div class="card-grid">
   <div class="card wrapped-card outlined-card">
@@ -98,23 +96,21 @@ like these!
   </div>
 </div>
 
-Also, we launched a new 4-video series at Google I/O called
-the Full-stack developer guide:
+此外，我們在 Google I/O 發佈了名為「全端開發者指南」的 4 部影片系列：
 
 <div class="video-wrapper">
   <YouTubeEmbed id="hNbY3Bmgojg" title="The Full-stack developer guide" fullWidth></YouTubeEmbed>
 </div>
 
-You can find the 4 videos in this series, as well as a wrap-up video,
-on the [Google I/O wrap-up][io-wrap-up] blog post.
+您可以在 [Google I/O 總結][io-wrap-up] 部落格文章中找到本系列的 4 部影片及一部總結影片。
 
 [io-wrap-up]: {{site.flutter-blog}}/thats-a-wrap-everything-flutter-at-google-i-o-2026-f316e57186e3
 
-To learn about all of the Flutter video series,
-visit our [videos][] page.
+若要了解所有 Flutter 影片系列，
+請造訪我們的[影片][videos]頁面。
 
-We release new videos almost every week!
+我們幾乎每週都會發佈新影片！
 
-<a class="filled-button" target="_blank" href="https://www.youtube.com/@flutterdev">Check out the Flutter YouTube channel</a>
+<a class="filled-button" target="_blank" href="https://www.youtube.com/@flutterdev">前往 Flutter YouTube 頻道</a>
 
 [videos]: /resources/videos

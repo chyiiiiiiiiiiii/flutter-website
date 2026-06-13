@@ -1,7 +1,7 @@
 ---
-title: Resources
+title: 資源
 layout: toc
 showBreadcrumbs: false
 description: >-
-  Discover helpful resources covering the Flutter framework.
+  探索涵蓋 Flutter 框架的實用資源。
 ---

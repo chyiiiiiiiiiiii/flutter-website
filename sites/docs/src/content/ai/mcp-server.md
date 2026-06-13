@@ -197,7 +197,7 @@ Gemini CLI，可在您的 IDE 中直接提供強大的 AI 代理程式。
 
 預設情況下，Dart 擴充功能會使用
 [VS Code MCP API][] 來註冊 Dart 與 Flutter MCP 伺服器，
-以及提供作用中 Dart 工具精靈 URI 的工具。
+以及提供作用中 Dart Tooling Daemon URI 的工具。
 
 透過在 VS Code 設定中設定 `dart.mcpServer` 來
 明確啟用或停用 Dart 與 Flutter MCP 伺服器。

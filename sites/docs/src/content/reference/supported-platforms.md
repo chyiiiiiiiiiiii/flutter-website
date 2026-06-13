@@ -1,25 +1,24 @@
 ---
-title: Supported deployment platforms
-shortTitle: Supported platforms
-description: The platforms that Flutter supports by platform version.
+title: 支援的部署平台
+shortTitle: 支援的平台
+description: Flutter 依平台版本支援的各目標平台。
 showBreadcrumbs: false
 ---
 
-As of Flutter {{site.currentFlutterVersion}},
-Flutter supports deploying apps on the following combinations of
-hardware architectures and operating system versions.
-These combinations are called _platforms_.
+從 Flutter {{site.currentFlutterVersion}} 開始，
+Flutter 支援在以下硬體架構與作業系統版本組合上部署應用程式。
+這些組合統稱為 _平台 (platforms)_。
 
-Flutter categorizes platforms as follows:
+Flutter 將平台分為以下幾類：
 
-* **Supported**: The platforms and versions that the Flutter team supports.
-* **CI-tested**: The Flutter team tests these platforms on every commit.
-* **Unsupported**: The Flutter team doesn't test or support these platforms.
+* **已支援 (Supported)**：Flutter 團隊提供支援的平台與版本。
+* **CI 測試 (CI-tested)**：Flutter 團隊在每次提交時都會測試這些平台。
+* **不支援 (Unsupported)**：Flutter 團隊不測試也不支援這些平台。
 
-Based on these categories,
-Flutter supports deploying to the following platforms.
+根據這些分類，
+Flutter 支援部署至以下平台。
 
-## Mobile platforms
+## 行動裝置平台 {:#mobile-platforms}
 
 <PlatformsGrid>
   <PlatformCard
@@ -42,7 +41,7 @@ Flutter supports deploying to the following platforms.
   />
 </PlatformsGrid>
 
-## Desktop platforms
+## 桌面平台 {:#desktop-platforms}
 
 <PlatformsGrid>
   <PlatformCard
@@ -85,7 +84,7 @@ Flutter supports deploying to the following platforms.
   />
 </PlatformsGrid>
 
-## Web platforms
+## Web 平台 {:#web-platforms}
 
 <PlatformsGrid>
   <PlatformCard

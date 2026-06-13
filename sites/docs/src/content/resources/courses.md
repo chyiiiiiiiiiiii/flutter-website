@@ -1,53 +1,52 @@
 ---
-title: Online courses
-description: An index of online courses teaching Flutter development.
+title: 線上課程
+description: 教學 Flutter 開發的線上課程索引。
 showBreadcrumbs: false
 ---
 
-Learn how to build Flutter apps with these video courses.
-Before signing up for a course, verify that it includes
-up-to-date information, such as null-safe Dart code.
+透過這些影音課程學習如何開發 Flutter 應用程式。
+在報名課程前，請確認課程內容是否包含最新資訊，例如支援 null safety 的 Dart 程式碼。
 
-These courses are grouped by language and listed alphabetically.
-To include your course, [submit a PR][]:
+本清單依語言分類並按字母順序排列。
+若您希望將您的課程納入，請[提交 PR][submit a PR]：
 
-## English
+## 英語
 
-* [20 Hour Dart & Flutter YT Course For Beginners][] by Rivaan Ranawat
-* [Best Dart Course][] by Tadas Petra & Robert Brunhage
-* [Best Flutter Course][] by Tadas Petra & Robert Brunhage
-* [Dart & Flutter - Zero to Mastery 2023 + Clean Architecture][] by Max Berktold & Max Steffen
-* [Dart & Flutter - Zero to Mastery 2023 - Keiko Corp. Food Reviews App][] by Marco Napoli
+* [20 Hour Dart & Flutter YT Course For Beginners][]，作者：Rivaan Ranawat
+* [Best Dart Course][]，作者：Tadas Petra & Robert Brunhage
+* [Best Flutter Course][]，作者：Tadas Petra & Robert Brunhage
+* [Dart & Flutter - Zero to Mastery 2023 + Clean Architecture][]，作者：Max Berktold & Max Steffen
+* [Dart & Flutter - Zero to Mastery 2023 - Keiko Corp. Food Reviews App][]，作者：Marco Napoli
 * [Flutter & Dart - The Complete Guide, 2023 Edition][]
-* [Flutter & Firebase Masterclass][] by Andrea Bizzotto
-* [Flutter Animations Masterclass][] by Andrea Bizzotto
+* [Flutter & Firebase Masterclass][]，作者：Andrea Bizzotto
+* [Flutter Animations Masterclass][]，作者：Andrea Bizzotto
 * [Flutter Crash Course][]
-* [Flutter Foundations][] by Andrea Bizzotto
-* [Flutter in Production][] by Andrea Bizzotto
-* [Sticky Grouped Headers in Flutter][] by Marco Napoli
-* [The Complete 2021 Flutter Development Bootcamp Using Dart][] by App Brewery
-* [The Complete Dart Developer Guide][] by Andrea Bizzotto
+* [Flutter Foundations][]，作者：Andrea Bizzotto
+* [Flutter in Production][]，作者：Andrea Bizzotto
+* [Sticky Grouped Headers in Flutter][]，作者：Marco Napoli
+* [The Complete 2021 Flutter Development Bootcamp Using Dart][]，作者：App Brewery
+* [The Complete Dart Developer Guide][]，作者：Andrea Bizzotto
 
-## German
+## 德語
 
-* [Flutter leicht gemacht 2022 - Zero to Mastery!][] by Max Berktold
+* [Flutter leicht gemacht 2022 - Zero to Mastery!][]，作者：Max Berktold
 
-## Italian
+## 義大利語
 
-* [Flutter University - From Zero to Mastery][] by Fudeo
+* [Flutter University - From Zero to Mastery][]，作者：Fudeo
 
-## Portuguese
+## 葡萄牙語
 
-* [Flutter Bootcamp][] by Rubens de Melo
-* [Flutter para iniciantes][] by Rubens de Melo
+* [Flutter Bootcamp][]，作者：Rubens de Melo
+* [Flutter para iniciantes][]，作者：Rubens de Melo
 
-## Turkish
+## 土耳其語
 
-* [Flutter Zero to Hero][] by Veli Bacik
+* [Flutter Zero to Hero][]，作者：Veli Bacik
 
-## Urdu
+## 烏爾都語
 
-* [Tech Idara - Flutter from Basic to Advanced][] by Ishaq Hassan
+* [Tech Idara - Flutter from Basic to Advanced][]，作者：Ishaq Hassan
 
 [20 Hour Dart & Flutter YT Course For Beginners]: https://youtu.be/CzRQ9mnmh44
 [Best Dart Course]: https://www.hungrimind.com/learn/dart

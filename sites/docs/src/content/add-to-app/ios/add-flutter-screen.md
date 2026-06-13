@@ -709,7 +709,7 @@ FlutterViewController* flutterViewController =
 
 :::tip
 如果你想在 `FlutterEngine` 已經執行後，從平台端以命令式方式變更目前的 Flutter Route，請在 `FlutterViewController` 上使用 [`pushRoute()`][]
-或 [`popRoute()`]。
+或 [`popRoute()`][]。
 
 若要從 Flutter 端 pop 掉 iOS 的 Route，請呼叫 [`SystemNavigator.pop()`][]。
 :::

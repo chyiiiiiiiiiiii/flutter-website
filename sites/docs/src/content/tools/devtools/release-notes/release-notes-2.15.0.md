@@ -1,56 +1,55 @@
 ---
-title: DevTools 2.15.0 release notes
-shortTitle: 2.15.0 release notes
+title: DevTools 2.15.0 發行說明
+shortTitle: 2.15.0 發行說明
 breadcrumb: 2.15.0
-description: Release notes for Dart and Flutter DevTools version 2.15.0.
+description: Dart 與 Flutter DevTools 2.15.0 版本的發行說明。
 showToc: false
 ---
 
-The 2.15.0 release of the Dart and Flutter DevTools
-includes the following changes among other general improvements.
-To learn more about DevTools, check out the
-[DevTools overview](https://docs.flutter.dev/tools/devtools).
+Dart 與 Flutter DevTools 2.15.0 版本
+除了其他一般性改進外，還包含以下變更。
+如需進一步了解 DevTools，請參閱
+[DevTools overview](https://docs.flutter.dev/tools/devtools)。
 
-## General updates
+## 一般更新
 
-* The DevTools 2.15 release includes improvements to all tables in
-  DevTools (logging view, network profiler, CPU profiler, and so on) -
+* DevTools 2.15 版本針對所有 DevTools 中的表格（記錄檢視、網路分析器、CPU 分析器等）進行了改進 -
   [#4175](https://github.com/flutter/devtools/pull/4175)
 
-## Performance updates
+## 效能更新
 
-* Added outlines to each layer displayed in the Raster Metrics tool -
+* 在 Raster Metrics 工具中，為每個顯示的圖層新增了外框 -
   [#4192](https://github.com/flutter/devtools/pull/4192)
 
   ![raster-metrics-layer-outlines](/assets/images/docs/tools/devtools/release-notes/images-2.15.0/image1.png "raster metrics layer outlines")
 
-* Fix a bug with loading offline data -
+* 修正載入離線資料時的錯誤 -
   [#4189](https://github.com/flutter/devtools/pull/4189)
 
-## Network updates
+## 網路相關更新
 
-* Added a Json viewer with syntax highlighting for network responses -
+* 為網路回應新增了具備語法高亮的 JSON 檢視器 -
   [#4167](https://github.com/flutter/devtools/pull/4167)
 
   ![network-response-json-viewer](/assets/images/docs/tools/devtools/release-notes/images-2.15.0/image2.png "network response json viewer")
 
-* Added the ability to copy network responses -
+* 新增複製網路回應的功能 -
   [#4190](https://github.com/flutter/devtools/pull/4190)
 
-## Memory updates
+## 記憶體相關更新
 
-* Added the ability to select a different isolate from the DevTools footer -
+* 可從 DevTools 頁腳選擇不同的 isolate -
   [#4173](https://github.com/flutter/devtools/pull/4173)
-* Made the automatic snapshotting feature a configurable setting -
+* 自動快照功能現可作為可設定選項 -
   [#4200](https://github.com/flutter/devtools/pull/4200)
 
-## CPU profiler
+## CPU 分析器
 
-* Stop manually truncating source URIs in the profiler tables -
+* 停止在分析器表格中手動截斷來源 URI -
   [#4166](https://github.com/flutter/devtools/pull/4166)
 
-## Full commit history
+## 完整提交記錄
 
-To find a complete list of changes since the previous release,
-check out
-[the diff on GitHub](https://github.com/flutter/devtools/compare/v2.14.0...v2.15.0).
+如需查閱自上個版本以來的完整變更清單，
+請參閱
+[the diff on GitHub](https://github.com/flutter/devtools/compare/v2.14.0...v2.15.0)。

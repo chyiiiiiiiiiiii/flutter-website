@@ -186,7 +186,7 @@ Flutter 會在 `/path/to/my_flutter/` 下建立模組專案。
 
 ## 下一步
 
-你現在可以[將 Flutter 螢幕][add a Flutter screen] 加入到你現有的 iOS 應用程式中。
+你現在可以[將 Flutter 畫面][add a Flutter screen] 加入到你現有的 iOS 應用程式中。
 
 [add_to_app code samples]: {{site.repo.samples}}/tree/main/add_to_app
 [add a Flutter screen]: /add-to-app/ios/add-flutter-screen
