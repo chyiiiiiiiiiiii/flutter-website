@@ -1,0 +1,1 @@
+{"elements":[{"name":"SummaryCardModel","decoder":"fromMap","encoder":"toJson","rawType":"Map<Object?, Object?>","import":"package:docs_flutter_dev_site/src/models/summary_card_model.dart"},{"name":"SummaryCardItem","decoder":"fromMap","encoder":"toJson","rawType":"Map<Object?, Object?>","import":"package:docs_flutter_dev_site/src/models/summary_card_model.dart"}]}

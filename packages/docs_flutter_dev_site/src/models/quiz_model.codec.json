@@ -1,0 +1,1 @@
+{"elements":[{"name":"Question","decoder":"fromMap","encoder":"toJson","rawType":"Map<Object?, Object?>","import":"package:docs_flutter_dev_site/src/models/quiz_model.dart"},{"name":"AnswerOption","decoder":"fromJson","encoder":"toJson","rawType":"Map<Object?, Object?>","import":"package:docs_flutter_dev_site/src/models/quiz_model.dart"}]}

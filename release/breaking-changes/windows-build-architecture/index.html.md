@@ -1,0 +1,69 @@
+# Windows 建置路徑已變更，新增目標架構
+
+> 為了支援 Windows on Arm64， Windows 的建置路徑已更新，現在會包含目標架構。
+
+
+
+
+:::important
+這些重大變更文件在其發布的版本時是準確的。隨著時間推移，這裡描述的
+因應措施可能會變得不準確。一般而言，我們不會在每個版本發布時同步更新這些重大變更文件。
+
+[重大變更索引檔案](/release/breaking-changes)列出了每個版本所建立的文件。
+:::
+
+
+## 摘要
+
+Flutter Windows 應用程式所建置出的可執行檔，現在會依照架構放置於不同的資料夾中。
+
+## 背景說明
+
+為了支援 Windows on Arm64，Windows 的建置路徑已更新，現在會加入建置時的目標架構。
+
+過去，Flutter 在 Windows 上建置時，預設目標架構為 x64。
+
+## 移轉指南
+
+你可能需要更新你的基礎設施，以使用新的 Flutter Windows 建置路徑。
+
+遷移前的建置路徑範例：
+
+```plaintext
+build\windows\runner\Release\hello_world.exe
+```
+
+遷移後，若目標為 x64，則範例建置路徑如下：
+
+```plaintext
+build\windows\x64\runner\Release\hello_world.exe
+```
+
+如果遷移後以 Arm64 為目標，範例建置路徑如下：
+
+```plaintext
+build\windows\arm64\runner\Release\hello_world.exe
+```
+
+如果你使用 [`package:msix`][]，請更新至 3.16.7 或更新版本。
+
+[`package:msix`]: https://pub.dev/packages/msix
+
+## 時程
+
+合併於版本：3.15.0-0.0.pre<br>
+正式版本：3.16
+
+## 參考資料
+
+設計文件：
+
+* [flutter.dev/go/windows-arm64][]
+
+相關的 pull request：
+
+* [Introduce architecture subdirectory for Windows build][]
+
+[flutter.dev/go/windows-arm64]: https://flutter.dev/go/windows-arm64
+[Introduce architecture subdirectory for Windows build]: https://github.com/flutter/flutter/pull/131843
+

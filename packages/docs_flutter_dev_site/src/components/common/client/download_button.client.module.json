@@ -1,0 +1,1 @@
+{"name":"DownloadButton","id":["docs_flutter_dev_site","lib/src/components/common/client/download_button.dart"],"import":"package:docs_flutter_dev_site/src/components/common/client/download_button.dart","params":[{"name":"name","isNamed":true,"decoder":"p['name'] as String","encoder":"c.name"}]}

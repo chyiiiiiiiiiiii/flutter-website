@@ -1,0 +1,1 @@
+{"elements":[{"name":"ComponentRef","decoder":"fromId","encoder":"toId","rawType":"String","import":"package:docs_flutter_dev_site/src/components/util/component_ref.dart"}]}
