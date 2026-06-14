@@ -1,13 +1,13 @@
 ---
-title: Flutter 3.41.0 release notes
-shortTitle: 3.41.0 release notes
-description: Release notes for Flutter 3.41.0.
+title: Flutter 3.41.0 發行說明
+shortTitle: 3.41.0 發行說明
+description: Flutter 3.41.0 的發行說明。
 skipTemplateRendering: true
 ---
 
-This page has release notes for Flutter 3.41.
+本頁包含 Flutter 3.41 的發行說明。
 
-## What's changed
+## 變更內容
 
 ### Framework
 
@@ -860,7 +860,7 @@ This page has release notes for Flutter 3.41.
 * [CP-beta]Roll libpng to version 1.6.53 by @flutteractionsbot in [181543](https://github.com/flutter/flutter/pull/181543)
 * Bump engine.version for 3.41.0-0.2.pre by @eyebrowsoffire in [181615](https://github.com/flutter/flutter/pull/181615)
 
-## New contributors
+## 新貢獻者
 
 * @jwlilly made their first contribution in [174374](https://github.com/flutter/flutter/pull/174374)
 * @progamax made their first contribution in [174497](https://github.com/flutter/flutter/pull/174497)

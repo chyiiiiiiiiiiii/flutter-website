@@ -1,72 +1,70 @@
 ---
-title: What's new in the docs
+title: 文件最新動態
 description: >-
-  A list of what's new on docs.flutter.dev and related documentation sites.
+  docs.flutter.dev 及相關文件網站的最新內容列表。
 ---
 
-This page contains current and recent announcements
-of what's new on the Flutter website and blog.
-Find past what's new information on the
-[what's new archive][] page.
-You might also check out the
-Flutter SDK [release notes][].
+本頁列出 Flutter 網站與部落格的最新及近期公告。
+過去的最新動態資訊請參閱
+[最新動態彙整][what's new archive]頁面。
+您也可以查閱
+Flutter SDK [發行說明][release notes]。
 
-To stay on top of Flutter announcements including breaking changes,
-join the [flutter-announce][] Google group.
+若要掌握 Flutter 公告（包含破壞性變更），
+請加入 [flutter-announce][] Google 群組。
 
-For Dart, you can join the [Dart Announce][] Google group,
-and review the [Dart changelog][].
+Dart 方面，您可以加入 [Dart Announce][] Google 群組，
+並查閱 [Dart 變更記錄][Dart changelog]。
 
 [Dart Announce]: {{site.groups}}/a/dartlang.org/g/announce
 [Dart changelog]: {{site.github}}/dart-lang/sdk/blob/main/CHANGELOG.md
 [flutter-announce]: {{site.groups}}/forum/#!forum/flutter-announce
 [release notes]: /release/release-notes
 
-## 18 May 2026: Google I/O Release 3.44
+## 2026 年 5 月 18 日：Google I/O 發行 3.44
 
-Flutter 3.44 is live! This release is jam packed.
-For details, check out the [Flutter 3.44 blog post][3.44-blog-post]
-and [watch the video][3.44-whats-new]:
+Flutter 3.44 正式上線！本次發行內容相當豐富。
+詳情請參閱 [Flutter 3.44 部落格文章][3.44-blog-post]，
+並[觀看影片][3.44-whats-new]：
 
 <div class="video-wrapper">
-<span class="video-intro">Check out the latest in Dart and Flutter</span>
+<span class="video-intro">探索 Dart 與 Flutter 的最新動態</span>
 <YouTubeEmbed id="I1uIbGh1dGE" title="What's New in Dart and Flutter 3.44" fullWidth></YouTubeEmbed>
 </div>
 
 [3.44-blog-post]: {{site.flutter-blog}}/whats-new-in-flutter-3-44-b0cc1ad3c527
 [3.44-whats-new]: https://www.youtube.com/watch?v=I1uIbGh1dGE&t=451s
 
-More on the site updates to come.
+更多網站更新內容即將公布。
 
-## 11 February 2026: "Year of the Fire Horse" Release 3.41
+## 2026 年 2 月 11 日：「火馬年」發行 3.41
 
-Flutter 3.41 is live! For details,
-check out the [Flutter 3.41 blog post][3.41-blog-post].
+Flutter 3.41 正式上線！詳情請參閱
+[Flutter 3.41 部落格文章][3.41-blog-post]。
 
 [3.41-blog-post]: {{site.flutter-blog}}/whats-new-in-flutter-3-41-302ec140e632
 
 
-**Docs updated or added since the 3.38 release**
+**自 3.38 發行後更新或新增的文件**
 
-In addition to many smaller updates, here are some of the more
-significant changes:
+除了許多較小幅度的更新外，以下是一些較重要的變更：
 
-* We have introduced a new getting started experience for
-  both Flutter and Dart, as announced in a recent [blog post][few].
-  You can find the Flutter [learning pathway][] under the **Learn**
-  tab at the top of [docs.flutter.dev][]. To return to the rest of the site,
-  select the **Guides** tab. As always, the **Reference**
-  tab takes you to the [Flutter API docs][].
+* 我們引入了全新的入門體驗，適用於
+  Flutter 和 Dart，已於近期[部落格文章][few]中宣布。
+  您可以在 [docs.flutter.dev][] 頂部的 **Learn**
+  索引標籤下找到 Flutter [學習路徑][learning pathway]。若要返回網站其他部分，
+  請選擇 **Guides** 索引標籤。一如既往，**Reference**
+  索引標籤會帶您前往 [Flutter API 文件][Flutter API docs]。
 
-* Flutter and Dart now have an [official glossary][].
-  As part of the recent migration of the websites to Jaspr,
-  a glossary has been added to the Flutter website.
-  Expect to see it grow in the fullness of time.
+* Flutter 和 Dart 現在擁有[官方詞彙表][official glossary]。
+  作為近期網站遷移至 Jaspr 的一部分，
+  詞彙表已新增至 Flutter 網站。
+  預計隨著時間推移，內容將持續擴充。
 
-* As always, check out the [breaking changes][bc-3-41] page for this release,
-  which includes links to migration guides and other vital information.
-  A special thank you to [navaronbracke][], who wrote a migration
-  guide for the [deprecation of the `onReorder` callback][onReorder].
+* 如往常一樣，請查閱本次發行的[破壞性變更][bc-3-41]頁面，
+  其中包含遷移指南連結及其他重要資訊。
+  特別感謝 [navaronbracke][]，他撰寫了
+  [`onReorder` 回呼（callback）棄用][onReorder]的遷移指南。
 
 [bc-3-41]: /release/breaking-changes#released-in-flutter-3-41
 [docs.flutter.dev]: /
@@ -79,72 +77,69 @@ significant changes:
 
 ---
 
-## 12 November 2025: Release 3.38
+## 2025 年 11 月 12 日：發行 3.38
 
-Flutter 3.38 is live! For details,
-check out the [Flutter 3.38 technical blog post][3.38-tech].
+Flutter 3.38 正式上線！詳情請參閱
+[Flutter 3.38 技術部落格文章][3.38-tech]。
 
 [3.38-tech]: {{site.flutter-blog}}/whats-new-in-flutter-3-38-3f7b258f7228
 
-**Website update**
+**網站更新**
 
-A significant update to the website has recently landed!
-As with the update to the dart.dev website that landed
-earlier this year, the docs.flutter.dev website has been
-reimplemented to use [Jaspr][], a Dart web framework.
+網站近期已完成一次重大更新！
+如同今年稍早 dart.dev 網站的更新，
+docs.flutter.dev 網站已重新以 [Jaspr][]（一個 Dart 網頁框架）實作。
 
-Let us know what you think!
+歡迎告訴我們您的想法！
 
 [Jaspr]: https://jaspr.site/
 
-**Docs updated or added since the 3.35 release**
+**自 3.35 發行後更新或新增的文件**
 
-* The Dart language now supports _dot shorthands_ syntax
-  (aka _shorthands_), which allows you to write more
-  concise code. For more information, visit the
-  [Dart dot shorthands][] page on dart.dev. Over time,
-  the samples on this website will be updated
-  to take advantage of this new feature.
+* Dart 語言現在支援「_點簡寫（dot shorthands）_」語法
+  （又稱 _shorthands_），讓您可以撰寫更
+  簡潔的程式碼。詳情請造訪
+  dart.dev 上的 [Dart 點簡寫][Dart dot shorthands]頁面。隨著時間推移，
+  本網站上的範例將陸續更新，
+  以善用這項新功能。
 
-* The `flutter run` command now supports a configuration file
-  that allows you to specify web settings like host, port,
-  certification, and header.
-  The web dev config file also supports proxy settings,
-  making it possible to forward specific path requests
-  to another server. This makes it easier to develop a
-  web client that connects to dynamic endpoints on the same host. 
-  For more information, visit
-  [setting up a web development configuration file][web-config-file].
+* `flutter run` 指令現在支援設定檔，
+  讓您可以指定網頁設定，例如主機、連接埠、
+  憑證及標頭。
+  網頁開發設定檔也支援代理設定，
+  可將特定路徑請求轉送至另一台伺服器。這讓開發連接至同一主機上動態端點的
+  網頁客戶端變得更加容易。
+  詳情請造訪
+  [設定網頁開發設定檔][web-config-file]。
 
-* Development continues on the Flutter Widget Previewer tool,
-  introduced as an experimental feature in the 3.35 release.
-  For this release, the previewer better integrates with the VS Code
-  and IntelliJ IDEs (including Android Studio).
-  It's still an experimental feature.
-  For more info about the latest version, 
-  check out the [Widget Previewer tool page][].
+* 元件 (Widget) 預覽工具的開發持續進行，
+  該工具於 3.35 發行版本中作為實驗性功能推出。
+  本次發行，預覽工具更好地整合了 VS Code
+  和 IntelliJ IDE（包含 Android Studio）。
+  目前仍屬實驗性功能。
+  如需最新版本的詳細資訊，
+  請查閱[元件 (Widget) 預覽工具頁面][Widget Previewer tool page]。
 
-* The Flutter 3.38 release fully supports the platform releases
-  for iOS 26, Xcode 26, and macOS 26, all of which were released in September. 
-  For the most recent info on Flutter's support for iOS,
-  visit [Flutter on latest iOS][].
+* Flutter 3.38 版本完整支援
+  iOS 26、Xcode 26 和 macOS 26 的平台發行，這些版本均於九月發布。
+  如需 Flutter 對 iOS 支援的最新資訊，
+  請造訪 [Flutter 在最新 iOS 上][Flutter on latest iOS]。
 
-* Flutter 3.38 supports the new Apple-mandated [UIScene lifecycle][].
-  To support this, code migration is required.
-  For more information, visit the [UIScene migration guide][].
+* Flutter 3.38 支援 Apple 強制要求的新 [UIScene 生命週期][UIScene lifecycle]。
+  為支援此功能，需要進行程式碼遷移。
+  詳情請造訪 [UIScene 遷移指南][UIScene migration guide]。
 
-* With a focus on improving Flutter's accessibility,
-  the [accessibility docs][] have also been completely reworked. 
+* 著眼於改善 Flutter 的無障礙功能，
+  [無障礙文件][accessibility docs]也已全面重新整理。
 
-* Also, don't forget to check out the [breaking changes][bc-3.38]
-  page for this release. That's where you'll find information
-  about breaking changes, code deprecations, and migration guides.
+* 另外，別忘了查閱本次發行的[破壞性變更][bc-3.38]
+  頁面，在那裡您可以找到破壞性變更、程式碼棄用及遷移指南的相關資訊。
 
-Other relevant resources:
+其他相關資源：
 
-* [3.38 release notes and changelog][]
-* [DevTools 2.51.1 release notes][]
-* [Dart 3.10 release][] blog post
+* [3.38 發行說明與變更記錄][3.38 release notes and changelog]
+* [DevTools 2.51.1 發行說明][DevTools 2.51.1 release notes]
+* [Dart 3.10 發行][Dart 3.10 release]部落格文章
 
 [3.38 release notes and changelog]: /release/release-notes/release-notes-3.38.0
 [accessibility docs]: /ui/accessibility
@@ -160,42 +155,40 @@ Other relevant resources:
 
 --- 
 
-## 13 August 2025: Release 3.35
+## 2025 年 8 月 13 日：發行 3.35
 
-Flutter 3.35 is live! For more information,
-check out the [Flutter 3.35 technical blog post][3.35-tech].
-You might also check out the [Dart 3.9 release][] blog post.
+Flutter 3.35 正式上線！詳情請參閱
+[Flutter 3.35 技術部落格文章][3.35-tech]。
+您也可以查閱 [Dart 3.9 發行][Dart 3.9 release]部落格文章。
 
 [3.35-tech]: {{site.flutter-blog}}/whats-new-in-flutter-3-35-c58ef72e3766
 [Dart 3.9 release]: {{site.medium}}/dartlang/announcing-dart-3-9-ba49e8f38298
 
-**Docs updated or added since the 3.32 release**
+**自 3.32 發行後更新或新增的文件**
 
-* Hot reload is now available on the web and no longer
-  requires an experimental flag. For more information,
-  check out [hot reload][].
+* 熱重載現已在網頁平台上可用，不再
+  需要實驗性旗標。詳情請查閱
+  [熱重載][hot reload]。
 
-* There is a new [Create with AI][] guide which covers
-  how you can leverage AI tools like Gemini Code Assist,
-  GeminiCLI, and the Dart and Flutter MCP Server to build
-  AI-powered features for your Flutter apps.
+* 新增了[使用 AI 建立][Create with AI]指南，涵蓋
+  如何善用 Gemini Code Assist、
+  GeminiCLI 及 Dart 和 Flutter MCP Server 等 AI 工具，
+  為您的 Flutter 應用程式建置 AI 驅動的功能。
 
-* You can now use the [Flutter Widget Previewer][] guide
-  to help you view a preview of your Flutter widgets in
-  Chrome.
+* 您現在可以使用 [Flutter 元件 (Widget) 預覽工具][Flutter Widget Previewer]指南，
+  在 Chrome 中預覽您的 Flutter 元件。
 
-* Each stable release affects which versions of
-  deployed platforms that Flutter supports.
-  For more information, visit the updated
-  [supported platforms][] page.
+* 每次穩定版（stable）通道發行都會影響
+  Flutter 支援的已部署平台版本。
+  詳情請造訪更新後的
+  [支援的平台][supported platforms]頁面。
 
-* On Android, you can now protect sensitive content,
-  such as customer information, when you share your screen.
-  Learn more by visiting [Protect your app's sensitive content][].
+* 在 Android 上，您現在可以在分享螢幕時
+  保護敏感內容，例如客戶資訊。
+  請造訪[保護應用程式的敏感內容][Protect your app's sensitive content]以了解更多。
 
-* Also, don't forget to check out the [breaking changes][bc-3.35]
-  page for this release. That's also where you'll find useful
-  migration info.
+* 另外，別忘了查閱本次發行的[破壞性變更][bc-3.35]
+  頁面，那裡同樣有實用的遷移資訊。
 
 [Flutter Widget Previewer]: /tools/widget-previewer
 [Create with AI]: /ai/create-with-ai
@@ -206,7 +199,7 @@ You might also check out the [Dart 3.9 release][] blog post.
 
 ---
 
-For past releases, check out the
-[What's new archive][] page.
+如需過去的發行資訊，請查閱
+[最新動態彙整][What's new archive]頁面。
 
 [What's new archive]: /release/archive-whats-new

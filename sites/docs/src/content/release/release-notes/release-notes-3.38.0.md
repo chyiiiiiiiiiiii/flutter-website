@@ -1,13 +1,13 @@
 ---
-title: Flutter 3.38.0 release notes
-shortTitle: 3.38.0 release notes
-description: Release notes for Flutter 3.38.0.
+title: Flutter 3.38.0 發行說明
+shortTitle: 3.38.0 發行說明
+description: Flutter 3.38.0 的發行說明。
 skipTemplateRendering: true
 ---
 
-This page has release notes for Flutter 3.38.
+本頁面包含 Flutter 3.38 的發行說明。
 
-## What's changed
+## 變更內容
 
 ### Framework
 
@@ -810,7 +810,7 @@ This page has release notes for Flutter 3.38.
 * [CP-beta] Fix crash when NSAttributedString is passed to insertText on macOS by @flutteractionsbot in [177401](https://github.com/flutter/flutter/pull/177401)
 * Update `engine.version` for 3.38.1 hotfix release by @camsim99 in [177675](https://github.com/flutter/flutter/pull/177675)
 
-## New contributors
+## 新貢獻者
 
 * @MohiuddinM made their first contribution in [170223](https://github.com/flutter/flutter/pull/170223)
 * @iamtoricool made their first contribution in [171054](https://github.com/flutter/flutter/pull/171054)

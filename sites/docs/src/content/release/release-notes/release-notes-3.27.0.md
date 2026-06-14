@@ -1,17 +1,17 @@
 ---
-title: Flutter 3.27.0 release notes
-shortTitle: 3.27.0 release notes
-description: Release notes for Flutter 3.27.0.
+title: Flutter 3.27.0 發行說明
+shortTitle: 3.27.0 發行說明
+description: Flutter 3.27.0 的發行說明。
 skipTemplateRendering: true
 ---
 
-This page has release notes for 3.27.0.
-For information about subsequent bug-fix releases,
-check out the Flutter [CHANGELOG][].
+本頁面包含 3.27.0 的發行說明。
+關於後續錯誤修正版本的資訊，
+請參閱 Flutter [CHANGELOG][]。
 
 [CHANGELOG]: https://github.com/flutter/flutter/blob/main/CHANGELOG.md
 
-## Flutter framework
+## Flutter 框架
 
 ### Framework
 
@@ -767,7 +767,7 @@ check out the Flutter [CHANGELOG][].
 * Started handling duplicate validation layer messages by @gaaclarke in [156375](https://github.com/flutter/flutter/pull/156375)
 * [flutter_releases] Flutter beta 3.27.0-0.1.pre Framework Cherrypicks by @reidbaker in [157268](https://github.com/flutter/flutter/pull/157268)
 
-## New contributors
+## 新貢獻者
 
 * @xiaoxianBoy made their first contribution in [150402](https://github.com/flutter/flutter/pull/150402)
 * @veloce made their first contribution in [149102](https://github.com/flutter/flutter/pull/149102)
@@ -817,7 +817,7 @@ check out the Flutter [CHANGELOG][].
 
 **Full Changelog**: https://github.com/flutter/flutter/compare/3.24.0...3.27.0-0.1.pre
 
-## Flutter engine
+## Flutter 引擎
 
 ### Impeller
 
@@ -1438,7 +1438,7 @@ check out the Flutter [CHANGELOG][].
 * Refactor multi-file build parsing into a single `BuildPlan` class. by @matanlurey in [55720](https://github.com/flutter/engine/pull/55720)
 * Update Dart to 3.6.0-334.3.beta by @zanderso in [55826](https://github.com/flutter/engine/pull/55826)
 
-## New contributors
+## 新貢獻者
 
 * @darkwater made their first contribution in [54053](https://github.com/flutter/engine/pull/54053)
 * @charafau made their first contribution in [54173](https://github.com/flutter/engine/pull/54173)

@@ -1,17 +1,17 @@
 ---
-title: Flutter 3.32.0 release notes
-shortTitle: 3.32.0 release notes
-description: Release notes for Flutter 3.32.0.
+title: Flutter 3.32.0 發行說明
+shortTitle: 3.32.0 發行說明
+description: Flutter 3.32.0 的發行說明。
 skipTemplateRendering: true
 ---
 
-This page has release notes for 3.32.0.
-For information about subsequent bug-fix releases,
-check out the Flutter [CHANGELOG][].
+本頁面包含 3.32.0 的發行說明。
+如需後續錯誤修正版本的資訊，
+請參閱 Flutter [CHANGELOG][]。
 
 [CHANGELOG]: https://github.com/flutter/flutter/blob/main/CHANGELOG.md
 
-## Flutter framework
+## Flutter 框架
 
 ### Framework
 
@@ -998,7 +998,7 @@ check out the Flutter [CHANGELOG][].
 * Update `engine.version` by @matanlurey in [167295](https://github.com/flutter/flutter/pull/167295)
 * Make a NOP edit to (re)-trigger postsubmits by @matanlurey in [167407](https://github.com/flutter/flutter/pull/167407)
 
-## New contributors
+## 新貢獻者
 
 * @lukepighetti made their first contribution in [161803](https://github.com/flutter/flutter/pull/161803)
 * @mernen made their first contribution in [161863](https://github.com/flutter/flutter/pull/161863)

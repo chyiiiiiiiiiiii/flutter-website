@@ -1,13 +1,13 @@
 ---
-title: Change log for Flutter 1.9.1
-shortTitle: 1.9.1 change log
-description: Change log for Flutter 1.9.1 containing a list of all PRs merged for this release.
+title: Flutter 1.9.1 變更記錄
+shortTitle: 1.9.1 變更記錄
+description: Flutter 1.9.1 的變更記錄，包含此版本所有已合併 PR 的清單。
 skipTemplateRendering: true
 ---
 
 
 
-## PRs closed in this release of flutter/flutter
+## 此版本於 flutter/flutter 已關閉的 PR
 
 From Fri Jun 21 22:31:55 2019 -0400 to Sun Aug 18 12:22:00 2019 -0700
 
@@ -1046,7 +1046,7 @@ From Fri Jun 21 22:31:55 2019 -0400 to Sun Aug 18 12:22:00 2019 -0700
 
 
 
-## PRs closed in this release of `flutter/engine`
+## 此版本於 `flutter/engine` 已關閉的 PR
 
 From Fri Jun 21 22:31:55 2019 -0400 to Sun Aug 18 12:22:00 2019 -0700
 

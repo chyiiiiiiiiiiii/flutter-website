@@ -1,13 +1,13 @@
 ---
-title: Flutter 3.10.0 release notes
-shortTitle: 3.10.0 release notes
-description: Release notes for Flutter 3.10.0.
+title: Flutter 3.10.0 發行說明
+shortTitle: 3.10.0 發行說明
+description: Flutter 3.10.0 的發行說明。
 skipTemplateRendering: true
 ---
 
-This page has release notes for 3.10.0.
-For information about subsequent bug-fix releases,
-see our [CHANGELOG][].
+本頁包含 3.10.0 的發行說明。
+若要瞭解後續錯誤修復版本的資訊，
+請參閱 [CHANGELOG][]。
 
 [CHANGELOG]: https://github.com/flutter/flutter/blob/main/CHANGELOG.md
 

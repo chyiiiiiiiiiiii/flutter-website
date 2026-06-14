@@ -1,13 +1,13 @@
 ---
-title: Flutter 3.44.0 release notes
-shortTitle: 3.44.0 release notes
-description: Release notes for Flutter 3.44.0.
+title: Flutter 3.44.0 發行說明
+shortTitle: 3.44.0 發行說明
+description: Flutter 3.44.0 的發行說明。
 skipTemplateRendering: true
 ---
 
-This page has release notes for Flutter 3.44.
+本頁包含 Flutter 3.44 的發行說明。
 
-## What's changed
+## 本版本的變更內容
 
 ### Framework
 
@@ -939,7 +939,7 @@ This page has release notes for Flutter 3.44.
 * [flutter-3.44-candidate.0] Update Flutter DEPS to Dart 9dc12969f5526d1bf1c2b48197d1608a68075866 by @flutteractionsbot in [185757](https://github.com/flutter/flutter/pull/185757)
 * [flutter-3.44-candidate.0] Sync engine.version to 73dc1ccd62aec198da4aefde1dae20b1167b131d by @flutteractionsbot in [185771](https://github.com/flutter/flutter/pull/185771)
 
-## New contributors
+## 新貢獻者
 
 * @Koichi5 made their first contribution in [180172](https://github.com/flutter/flutter/pull/180172)
 * @vhaudiquet made their first contribution in [178711](https://github.com/flutter/flutter/pull/178711)

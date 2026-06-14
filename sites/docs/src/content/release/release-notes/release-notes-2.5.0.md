@@ -1,16 +1,16 @@
 ---
-title: Flutter 2.5.0 release notes
-shortTitle: 2.5.0 release notes
-description: Release notes for Flutter 2.5.0.
+title: Flutter 2.5.0 發行說明
+shortTitle: 2.5.0 發行說明
+description: Flutter 2.5.0 的發行說明。
 skipTemplateRendering: true
 ---
 
-This page has release notes for 2.5.0.
-For information about subsequent bug-fix releases, see our [CHANGELOG][]
+本頁包含 2.5.0 的發行說明。
+關於後續錯誤修正版本的資訊，請參閱 [CHANGELOG][]
 
 [CHANGELOG]: https://github.com/flutter/flutter/blob/master/CHANGELOG.md
 
-## Merged PRs by labels for `flutter/flutter`
+## flutter/flutter 依標籤分類的已合併 PR
 
 ### framework - 530 pull request(s)
 

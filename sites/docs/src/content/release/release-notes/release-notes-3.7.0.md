@@ -1,19 +1,19 @@
 ---
-title: Flutter 3.7.0 release notes
-shortTitle: 3.7.0 release notes
-description: Release notes for Flutter 3.7.0.
+title: Flutter 3.7.0 發行說明
+shortTitle: 3.7.0 發行說明
+description: Flutter 3.7.0 的發行說明。
 skipTemplateRendering: true
 ---
 
-This page has release notes for 3.7.0.
-For information about subsequent bug-fix releases,
-see our [CHANGELOG][].
+本頁包含 3.7.0 的發行說明。
+如需後續錯誤修復版本的資訊，
+請參閱我們的 [CHANGELOG][]。
 
 [CHANGELOG]: https://github.com/flutter/flutter/blob/main/CHANGELOG.md
 
-## What's changed
+## 此版本的變更內容
 
-The following changes happened in this release:
+此版本包含以下變更：
 
 ### Framework
 * Add a matcher for Matrix4 that includes epsilon by @jonahwilliams in https://github.com/flutter/flutter/pull/107326
@@ -876,7 +876,7 @@ The following changes happened in this release:
 * Remove Apple Silicon workarounds from plugin lint test by @jmagman in https://github.com/flutter/flutter/pull/111432
 * Update macOS gallery display name by @jmagman in https://github.com/flutter/flutter/pull/113658
 
-## New Contributors
+## 新貢獻者
 * @talisk made their first contribution in https://github.com/flutter/flutter/pull/107221
 * @0xba1 made their first contribution in https://github.com/flutter/flutter/pull/107836
 * @foongsq made their first contribution in https://github.com/flutter/flutter/pull/107201

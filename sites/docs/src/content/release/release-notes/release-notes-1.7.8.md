@@ -1,13 +1,13 @@
 ---
-title: Flutter 1.7.8 release notes
-shortTitle: 1.7.8 release notes
-description: Release notes for Flutter 1.7.8.
+title: Flutter 1.7.8 發行說明
+shortTitle: 1.7.8 發行說明
+description: Flutter 1.7.8 的發行說明。
 skipTemplateRendering: true
 ---
 
-The 1.7.8 release is a follow-on to the 1.5.4 stable release in May,
-providing 1289 merged PRs and closing 184 issues.
-The major themes of this release are:
+1.7.8 版本是 5 月份 1.5.4 穩定版（stable）的後續發行，
+包含 1289 個已合併 PR 並關閉 184 個問題。
+此版本的主要主題為：
 
 *   Support for 32-bit and 64-bit bundles on Android
 *   Large number of iOS features and fixes,
@@ -17,23 +17,21 @@ The major themes of this release are:
 *   A new widget: the
     [RangeSlider](https://api.flutter.dev/flutter/material/RangeSlider-class.html)
 
-As detailed in our
-[roadmap](https://github.com/flutter/flutter/blob/master/docs/roadmap/Roadmap.md),
-we're also continuing the ongoing work in the Flutter engine
-and framework to support turning on web and desktop targets;
-however, this is not yet ready for general usage.
+如我們的[開發藍圖](https://github.com/flutter/flutter/blob/master/docs/roadmap/Roadmap.md)所述，
+我們也持續在 Flutter 引擎與框架中推進支援啟用 Web 與桌面目標的工作；
+但這尚未準備好供一般用途使用。
 
 
-## Support for 32-bit and 64-bit Android Bundles
+## 支援 32 位元與 64 位元 Android Bundle
 
-From August 1st, 2019, Android apps that use native code and target Android 9 Pie will[ be required to provide a 64-bit version](https://android-developers.googleblog.com/2019/01/get-your-apps-ready-for-64-bit.html) in addition to the 32-bit version when publishing to the Google Play Store. Since all Flutter apps include native code, this requirement will affect new Flutter apps submitted to the store, as well as updates to existing Flutter apps. This does not affect existing app versions published to the store.
+自 2019 年 8 月 1 日起，使用原生程式碼並以 Android 9 Pie 為目標的 Android 應用程式，在發佈至 Google Play 商店時，將[需要提供 64 位元版本](https://android-developers.googleblog.com/2019/01/get-your-apps-ready-for-64-bit.html)，以及 32 位元版本。由於所有 Flutter 應用程式都包含原生程式碼，此要求將影響提交至商店的新 Flutter 應用程式，以及現有 Flutter 應用程式的更新。這不影響已發佈至商店的現有應用程式版本。
 
-This release includes support for building app bundles and APKs that support both 32-bit and 64-bit binaries, completing our work on [https://github.com/flutter/flutter/issues/31922](https://github.com/flutter/flutter/issues/31922). By using this release when building an Android application, your App Bundle or APK now supports both 32-bit and 64-bit CPU architectures by default.
+此版本包含建置同時支援 32 位元與 64 位元二進位檔的 app bundle 與 APK 的支援，完成了我們在 [https://github.com/flutter/flutter/issues/31922](https://github.com/flutter/flutter/issues/31922) 上的工作。使用此版本建置 Android 應用程式時，您的 App Bundle 或 APK 現在預設支援 32 位元與 64 位元 CPU 架構。
 
 
-## Breaking Changes
+## 破壞性變更
 
-The following are the list of breaking changes in this release along with descriptions of each change and how to handle it in your Flutter code.
+以下是此版本中的破壞性變更清單，包含每項變更的說明以及如何在您的 Flutter 程式碼中處理的方式。
 
 *   [#29188](https://github.com/flutter/flutter/pull/29188) Fix 25807: implement move in sliver multibox widget
 *   [#29683](https://github.com/flutter/flutter/pull/29683) [Show/hide toolbar and handles based on device kind](https://groups.google.com/d/msgid/flutter-announce/CAAzQ467mb_7ZC4-djDeWLiYEmAH815-R5eums2cWmo2ND%3Dz%3DOw%40mail.gmail.com.)
@@ -53,9 +51,9 @@ The following are the list of breaking changes in this release along with descri
 *   [#33946](https://github.com/flutter/flutter/pull/33946) Reland "Text inline widgets, TextSpan rework"
 
 
-## Severe Crash Changes
+## 嚴重當機問題修復
 
-We've also fixed several crashing issues in this release.
+我們在此版本中也修復了數個當機問題。
 
 *   [#31228](https://github.com/flutter/flutter/pull/31228) Fix ExpansionPanelList Duplicate Global Keys Exception
 *   [#31581](https://github.com/flutter/flutter/pull/31581) Fix Exception on Nested TabBarView disposal
@@ -64,7 +62,7 @@ We've also fixed several crashing issues in this release.
 
 ## iOS
 
-We continue to focus heavily on the iOS support in Flutter, including enhanced text editing and localization in this release.
+我們持續大力專注於 Flutter 的 iOS 支援，本版本包含強化的文字編輯與本地化功能。
 
 *   [#29809](https://github.com/flutter/flutter/pull/29809) Fix text selection toolbar appearing under obstructions
 *   [#29824](https://github.com/flutter/flutter/pull/29824) Cupertino localization step 8: create a gen_cupertino_localizations and generate one for cupertino english and french
@@ -101,7 +99,7 @@ We continue to focus heavily on the iOS support in Flutter, including enhanced t
 
 ## Android
 
-In this release, we've improved support for Android with new support for AndroidX from an external contributor (Thanks, [Josh](https://github.com/athornz)!) and supporting 64-bit and 32-bit APK bundles in compliance with [the Google Play Store's updated policy](https://developer.android.com/distribute/best-practices/develop/64-bit).
+在此版本中，我們改善了對 Android 的支援，加入了來自外部貢獻者的 AndroidX 支援（感謝 [Josh](https://github.com/athornz)！），並依照 [Google Play 商店更新政策](https://developer.android.com/distribute/best-practices/develop/64-bit) 支援 64 位元與 32 位元 APK bundle。
 
 
 
@@ -122,7 +120,7 @@ In this release, we've improved support for Android with new support for Android
 
 ## Material
 
-This release includes a number of improvements to existing Material components, including the DatePicker, SnackBar and TimePicker, as well as a new component: the [RangeSlider](https://api.flutter.dev/flutter/material/RangeSlider-class.html).
+此版本包含對現有 Material 元件的多項改進，包括 DatePicker、SnackBar 與 TimePicker，以及一個新元件：[RangeSlider](https://api.flutter.dev/flutter/material/RangeSlider-class.html)。
 
 
 
@@ -153,11 +151,9 @@ This release includes a number of improvements to existing Material components, 
 
 ## Web
 
-The work on web functionality continues with merging of the code from the flutter_web repo
-into the main flutter repo, providing a simpler developer experience for this pre-release
-technology. We've already
-[compiled many of the existing Flutter samples for web]({{site.github}}/flutter/samples/).
-Enjoy!
+Web 功能的工作持續推進，flutter_web 儲存庫的程式碼已合併進主要 flutter 儲存庫，為這項預覽技術提供更簡單的開發體驗。我們已
+[將許多現有的 Flutter 範例編譯為 Web 版本]({{site.github}}/flutter/samples/)。
+歡迎體驗！
 
 
 
@@ -181,7 +177,7 @@ Enjoy!
 
 ## Desktop
 
-The experimental support for desktop in Flutter continues as well, with many improvements to the basics needed on desktop like hover, focus traversal, shortcuts, actions and even game controllers! We've also continued to simplify the developer experience, which you can read about [here](http://github.com/google/flutter-desktop-embedding). This is very early, but if you are trying desktop support in Flutter, please [log issues](https://github.com/google/flutter-desktop-embedding/issues) when you find them!
+Flutter 對桌面的實驗性支援也持續進行，對桌面所需的基礎功能進行了許多改進，例如懸停、焦點遍歷、快捷鍵、動作甚至遊戲控制器！我們也持續簡化開發體驗，詳情請參閱[此處](http://github.com/google/flutter-desktop-embedding)。目前仍處於非常早期的階段，但如果您正在嘗試 Flutter 的桌面支援，請在發現問題時[回報問題](https://github.com/google/flutter-desktop-embedding/issues)！
 
 
 
@@ -222,9 +218,9 @@ The experimental support for desktop in Flutter continues as well, with many imp
 *   [#34755](https://github.com/flutter/flutter/pull/34755) Add linux doctor implementation
 
 
-## Animation, Scrolling & Images
+## 動畫、捲動與圖片
 
-In this release, we continue to polish animations, scrolling and image support.
+在此版本中，我們持續打磨動畫、捲動與圖片支援。
 
 
 
@@ -241,9 +237,9 @@ In this release, we continue to polish animations, scrolling and image support.
 *   [#33369](https://github.com/flutter/flutter/pull/33369) Add loading support to Image
 
 
-## Typography & Accessibility
+## 字體排印與無障礙功能
 
-We're also continuing to push towards excellent typography and accessibility, including support for accessing OpenType font-specific features, as demonstrated in [this sample](https://github.com/timsneath/typography).
+我們也持續推進卓越的字體排印與無障礙功能，包括支援存取 OpenType 字型特定功能，如[此範例](https://github.com/timsneath/typography)所示。
 
 
 
@@ -254,9 +250,9 @@ We're also continuing to push towards excellent typography and accessibility, in
 *   [#34434](https://github.com/flutter/flutter/pull/34434) Semantics fixes
 
 
-## Fundamentals
+## 基礎功能
 
-As always, we continue to polish the fundamentals.
+一如既往，我們持續打磨基礎功能。
 
 
 
@@ -318,9 +314,9 @@ As always, we continue to polish the fundamentals.
 *   [#33628](https://github.com/flutter/flutter/pull/33628) DataTable Custom Horizontal Padding
 
 
-## Tooling
+## 工具鏈
 
-Last but not least, we continue to polish and simplify our tooling as well, including providing a much clearer error message when the flutter tooling finds itself in a read-only directory (a common problem for Flutter developers that we're hoping this helps address).
+最後同樣重要的是，我們也持續打磨並簡化工具鏈，包括當 flutter 工具發現自己處於唯讀目錄時提供更清晰的錯誤訊息（這是 Flutter 開發者常見的問題，我們希望此改進有所幫助）。
 
 
 
@@ -362,6 +358,6 @@ Last but not least, we continue to polish and simplify our tooling as well, incl
 *   [#33283](https://github.com/flutter/flutter/pull/33283) Fix relative paths and snapshot logic in tool
 
 
-## Full Issue List
+## 完整問題清單
 
-You can see the full list of issues addressed in this release [here](/release/release-notes/changelogs/changelog-1.7.8).
+您可以在[此處](/release/release-notes/changelogs/changelog-1.7.8)查看此版本中已處理的完整問題清單。

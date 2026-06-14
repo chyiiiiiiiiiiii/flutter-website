@@ -1,17 +1,17 @@
 ---
-title: Flutter 3.24.0 release notes
-shortTitle: 3.24.0 release notes
-description: Release notes for Flutter 3.24.0.
+title: Flutter 3.24.0 發行說明
+shortTitle: 3.24.0 發行說明
+description: Flutter 3.24.0 的發行說明。
 skipTemplateRendering: true
 ---
 
-This page has release notes for 3.24.0.
-For information about subsequent bug-fix releases,
-check out the Flutter [CHANGELOG][].
+本頁面包含 3.24.0 的發行說明。
+如需後續錯誤修正版本的資訊，
+請參閱 Flutter [CHANGELOG][]。
 
 [CHANGELOG]: https://github.com/flutter/flutter/blob/main/CHANGELOG.md
 
-## Flutter framework
+## Flutter 框架
 
 ### Framework
 
@@ -830,7 +830,7 @@ check out the Flutter [CHANGELOG][].
 * Bump dartdoc to 8.0.10 by @goderbauer in [151107](https://github.com/flutter/flutter/pull/151107)
 * Roll pub packages by @flutter-pub-roller-bot in [151129](https://github.com/flutter/flutter/pull/151129)
 
-## New contributors
+## 新貢獻者
 
 * @Dimilkalathiya made their first contribution in [146072](https://github.com/flutter/flutter/pull/146072)
 * @leoafarias made their first contribution in [145666](https://github.com/flutter/flutter/pull/145666)
@@ -877,7 +877,7 @@ check out the Flutter [CHANGELOG][].
 
 **Full Changelog**: https://github.com/flutter/flutter/compare/3.22.0...3.24.0
 
-## Flutter engine
+## Flutter 引擎
 
 ### Impeller
 
@@ -1489,7 +1489,7 @@ check out the Flutter [CHANGELOG][].
 * Restore creation of engine before Linux widget is realized. by @robert-ancell in [53604](https://github.com/flutter/engine/pull/53604)
 * [skia] Use more GNI file lists by @kjlubick in [53685](https://github.com/flutter/engine/pull/53685)
 
-## New contributors
+## 新貢獻者
 
 * @brianquinlan made their first contribution in [52239](https://github.com/flutter/engine/pull/52239)
 * @PurplePolyhedron made their first contribution in [52156](https://github.com/flutter/engine/pull/52156)

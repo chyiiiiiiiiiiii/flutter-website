@@ -1,13 +1,13 @@
 ---
-title: Flutter 3.19.0 release notes
-shortTitle: 3.19.0 release notes
-description: Release notes for Flutter 3.19.0.
+title: Flutter 3.19.0 發行說明
+shortTitle: 3.19.0 發行說明
+description: Flutter 3.19.0 的發行說明。
 skipTemplateRendering: true
 ---
 
-This page has release notes for 3.19.0.
-For information about subsequent bug-fix releases,
-see our [CHANGELOG][].
+本頁面包含 3.19.0 的發行說明。
+如需後續錯誤修正版本的資訊，
+請參閱我們的 [CHANGELOG][]。
 
 [CHANGELOG]: https://github.com/flutter/flutter/blob/main/CHANGELOG.md
 
@@ -713,7 +713,7 @@ see our [CHANGELOG][].
 * [CP] Update tests to Xcode 15 by @vashworth in [142320](https://github.com/flutter/flutter/pull/142320)
 * [flutter_releases] Flutter beta 3.19.0-0.4.pre Framework Cherrypicks by @itsjustkevin in [142777](https://github.com/flutter/flutter/pull/142777)
 
-## New Contributors
+## 新貢獻者
 * @Pante made their first contribution in [135897](https://github.com/flutter/flutter/pull/135897)
 * @droidbg made their first contribution in [136169](https://github.com/flutter/flutter/pull/136169)
 * @fischerscode made their first contribution in [135823](https://github.com/flutter/flutter/pull/135823)
@@ -1430,7 +1430,7 @@ see our [CHANGELOG][].
 * Rolls dart sdk to 42b177d9f by @godofredoc in [50008](https://github.com/flutter/engine/pull/50008)
 * [flutter_releases] Flutter beta 3.19.0-0.4.pre Engine Cherrypicks by @itsjustkevin in [50209](https://github.com/flutter/engine/pull/50209)
 
-## New Contributors
+## 新貢獻者
 * @CoderDake made their first contribution in [46720](https://github.com/flutter/engine/pull/46720)
 * @eriko13 made their first contribution in [46429](https://github.com/flutter/engine/pull/46429)
 * @natebosch made their first contribution in [46592](https://github.com/flutter/engine/pull/46592)

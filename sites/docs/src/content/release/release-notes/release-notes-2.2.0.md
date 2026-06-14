@@ -1,16 +1,16 @@
 ---
-title: Flutter 2.2.0 release notes
-shortTitle: 2.2.0 release notes
-description: Release notes for Flutter 2.2.0.
+title: Flutter 2.2.0 發行說明
+shortTitle: 2.2.0 發行說明
+description: Flutter 2.2.0 的發行說明。
 skipTemplateRendering: true
 ---
 
-This page has release notes for 2.2.0.
-For information about subsequent bug-fix releases, see our [CHANGELOG][]
+本頁包含 2.2.0 的發行說明。
+如需後續錯誤修正版本的資訊，請參閱我們的 [CHANGELOG][]
 
 [CHANGELOG]: https://github.com/flutter/flutter/blob/master/CHANGELOG.md
 
-## Merged PRs by labels for `flutter/flutter`
+## flutter/flutter 依標籤分類的已合併 PR
 
 ### framework - 397 pull request(s)
 
@@ -5324,7 +5324,7 @@ For information about subsequent bug-fix releases, see our [CHANGELOG][]
 
 
 
-## Merged PRs by labels for `flutter/engine`
+## flutter/engine 依標籤分類的已合併 PR
 
 
 
@@ -11181,7 +11181,7 @@ For information about subsequent bug-fix releases, see our [CHANGELOG][]
 
 
 
-## Merged PRs by labels for `flutter/plugins`
+## flutter/plugins 依標籤分類的已合併 PR
 
 
 
@@ -14552,7 +14552,7 @@ For information about subsequent bug-fix releases, see our [CHANGELOG][]
 
 [3300](https://github.com/flutter/plugins/pull/3300) [share] Update README.md (cla: yes, p: share, submit queue)
 
-## Merged PRs in `flutter/flutter` from 2021-01-26T18:58:00.000Z to 2021-04-07T15:28:00.000
+## 此版本於 flutter/flutter 已合併的 PR（2021-01-26T18:58:00.000Z 至 2021-04-07T15:28:00.000）
 There were 1197 pull requests.
 
 [61221](https://github.com/flutter/flutter/pull/61221) [flutter_tools] Add ARM64 Linux host and cross-building option support (a: desktop, cla: yes, platform-linux, tool)
@@ -16383,7 +16383,7 @@ There were 1197 pull requests.
 
 [79973](https://github.com/flutter/flutter/pull/79973) Support block delete with word and line modifiers (cla: yes, framework)
 
-## Merged PRs in `flutter/engine` from 2021-01-26T18:58:00.000Z to 2021-04-07T15:28:00.000
+## 此版本於 flutter/engine 已合併的 PR（2021-01-26T18:58:00.000Z 至 2021-04-07T15:28:00.000）
 There were 985 pull requests.
 
 [21824](https://github.com/flutter/engine/pull/21824) Add DiffContext (cla: yes, waiting for tree to go green)
@@ -17052,7 +17052,7 @@ There were 985 pull requests.
 
 [25462](https://github.com/flutter/engine/pull/25462) Revert "Reland: Call Dart plugin registrant if available (#23813)" (cla: yes, waiting for tree to go green)
 
-## Merged PRs in `flutter/plugins` from 2021-01-26T18:58:00.000Z to 2021-04-07T15:28:00.000
+## 此版本於 flutter/plugins 已合併的 PR（2021-01-26T18:58:00.000Z 至 2021-04-07T15:28:00.000）
 There were 274 pull requests.
 
 [2031](https://github.com/flutter/plugins/pull/2031) [url_launcher] Added a note to the README (cla: yes, in review, p: url_launcher)

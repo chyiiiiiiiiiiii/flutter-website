@@ -1,16 +1,16 @@
 ---
-title: Flutter 2.8.0 release notes
-shortTitle: 2.8.0 release notes
-description: Release notes for Flutter 2.8.0.
+title: Flutter 2.8.0 發行說明
+shortTitle: 2.8.0 發行說明
+description: Flutter 2.8.0 的發行說明。
 skipTemplateRendering: true
 ---
 
-This page has release notes for 2.8.0.
-For information about subsequent bug-fix releases, see our [CHANGELOG][]
+本頁包含 2.8.0 的發行說明。
+有關後續錯誤修復版本的資訊，請參閱我們的 [CHANGELOG][]
 
 [CHANGELOG]: https://github.com/flutter/flutter/blob/master/CHANGELOG.md
 
-## Merged PRs by labels for `flutter/flutter`
+## flutter/flutter 依標籤分類的已合併 PR
 
 
 
@@ -9961,7 +9961,7 @@ For information about subsequent bug-fix releases, see our [CHANGELOG][]
 
 
 
-## Merged PRs by labels for `flutter/engine`
+## flutter/engine 依標籤分類的已合併 PR
 
 
 
@@ -17530,7 +17530,7 @@ For information about subsequent bug-fix releases, see our [CHANGELOG][]
 
 
 
-## Merged PRs by labels for `flutter/plugins`
+## flutter/plugins 依標籤分類的已合併 PR
 
 
 

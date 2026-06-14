@@ -1,16 +1,16 @@
 ---
-title: Flutter 2.0.0 release notes
-shortTitle: 2.0.0 release notes
-description: Release notes for Flutter 2.0.0.
+title: Flutter 2.0.0 發行說明
+shortTitle: 2.0.0 發行說明
+description: Flutter 2.0.0 的發行說明。
 skipTemplateRendering: true
 ---
 
-This page has release notes for 2.0.0.
-For information about subsequent bug-fix releases, see our [CHANGELOG][]
+本頁包含 2.0.0 的發行說明。
+若需後續錯誤修正版本的相關資訊，請參閱 [CHANGELOG][]
 
 [CHANGELOG]: https://github.com/flutter/flutter/blob/master/CHANGELOG.md
 
-## Merged PRs by labels for `flutter/flutter`
+## flutter/flutter 依標籤分類的已合併 PR
 
 ### framework - 793 pull request(s)
 
@@ -9380,7 +9380,7 @@ For information about subsequent bug-fix releases, see our [CHANGELOG][]
 
 
 
-## Merged PRs by labels for `flutter/engine`
+## flutter/engine 依標籤分類的已合併 PR
 
 
 
@@ -20255,7 +20255,7 @@ For information about subsequent bug-fix releases, see our [CHANGELOG][]
 
 
 
-## Merged PRs by labels for `flutter/plugins`
+## flutter/plugins 依標籤分類的已合併 PR
 
 
 
@@ -21159,7 +21159,7 @@ For information about subsequent bug-fix releases, see our [CHANGELOG][]
 [3463](https://github.com/flutter/plugins/pull/3463) bump vmservice (cla: yes, p: integration_test)
 
 
-## All merged pull requests
+## 所有已合併的 pull request
 
 ### Merged PRs in `flutter/flutter` from 2020-09-11T02:17:00.000Z to 2021-01-26T18:58:00.000Z
 There were 1974 pull requests.

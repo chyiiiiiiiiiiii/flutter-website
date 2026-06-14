@@ -1,7 +1,7 @@
 ---
-title: Flutter 1.12.13 release notes
-shortTitle: 1.12.13 release notes
-description: Release notes for Flutter 1.12.13.
+title: Flutter 1.12.13 發行說明
+shortTitle: 1.12.13 發行說明
+description: Flutter 1.12.13 的發行說明。
 skipTemplateRendering: true
 ---
 
@@ -37,7 +37,7 @@ release, including:
 *   And more!
 
 
-## Breaking changes
+## 破壞性變更
 
 In general, we want to avoid introducing breaking changes to Flutter,
 our plugins, or our packages. However, sometimes it is inevitable
@@ -89,7 +89,7 @@ forward with your code.
 [45135]({{site.repo.flutter}}/pull/45135) [Add option to delay rendering the first frame](https://groups.google.com/g/flutter-announce/c/kBf4cXjD2y4/m/lg19fDnaAgAJ)
 
 
-## Severe crash & performance bugs
+## 嚴重當機與效能問題
 
 In every stable release, we make an effort to improve the quality of Flutter. In 1.12, we fixed several severe issues; this includes the following  crashes and performance issues.
 
@@ -116,7 +116,7 @@ In every stable release, we make an effort to improve the quality of Flutter. In
 [45050]({{site.repo.flutter}}/pull/45050) Add a perf test for picture raster cache
 
 
-## New features
+## 新功能
 
 Flutter 1.12 introduces several new features including the
 [SliverOpacity]({{site.api}}/flutter/widgets/SliverOpacity-class.html)
@@ -149,7 +149,7 @@ and the ability to configure a stretch effect for a SliverAppBar.
 [45432]({{site.repo.flutter}}/pull/45432) Use RenderSliverPadding to inset SliverFillViewport
 
 
-## iOS support
+## iOS 支援
 
 iOS continues to be a big investment area for Flutter.
 With this release, we've made a visual refresh to our
@@ -328,7 +328,7 @@ and [CupertinoDatePicker]({{site.api}}/flutter/cupertino/CupertinoDatePicker-cla
 [2281]({{site.github}}/flutter/plugins/pull/2281) [connectivity] Fix reachability stream for iOS
 
 
-## Android
+## Android 支援
 
 In this release, we've merged a list of changes to support Android 10, including a new activity zoom transition.
 
@@ -397,7 +397,7 @@ In this release, we've merged a list of changes to support Android 10, including
 [2239]({{site.github}}/flutter/plugins/pull/2239) [camera] Android: Improve image streaming by creating a request suita…
 
 
-## Add to App feature
+## 加入現有應用程式功能
 
 We've made a significant upgrade to Add-to-App, the feature that allows you to integrate a Flutter module into your Android or iOS app. Can't wait to try it? Check out the [Add-to-App documentation](/add-to-app).
 
@@ -952,7 +952,7 @@ We've made a significant upgrade to Add-to-App, the feature that allows you to i
 [13403]({{site.repo.engine}}/pull/13403) Use DartExecutor.getBinaryMessenger in FlutterNativeView instead of deprecated send methods
 
 
-## Material
+## Material 元件
 
 Material continues to a focus for the Flutter team.
 In this release, we refreshed all Material widgets
@@ -1101,7 +1101,7 @@ the app bar, which was contributed by a community member!
 [45362]({{site.repo.flutter}}/pull/45362) Add widget of the week video embeddings
 
 
-## Text & Accessibility
+## 文字與無障礙功能
 
 In Text and Accessibility, we have several enhancements in ButtonBar and AlertDialog to prevent text overflow.
 
@@ -1124,7 +1124,7 @@ In Text and Accessibility, we have several enhancements in ButtonBar and AlertDi
 [44605]({{site.repo.flutter}}/pull/44605) Changing RenderEditable.textAlign doesn't break hot reload anymore
 
 
-## Animation & Scroll
+## 動畫與捲動
 
 For animation, we released the
 [TweenAnimationBuilder]({{site.api}}/flutter/widgets/TweenAnimationBuilder-class.html)
@@ -1142,7 +1142,7 @@ check out this [TweenAnimationBuilder video](https://www.youtube.com/watch?reloa
 [44965]({{site.repo.flutter}}/pull/44965) Scroll scrollable to keep focused control visible.
 
 
-## Web
+## Web 支援
 
 We increased our support for web, moving it from the dev channel to the beta channel. For more details, please check [web support blog post](https://blog.flutter.dev/web-support-for-flutter-goes-beta-35b64a1217c0).
 
@@ -1357,7 +1357,7 @@ We increased our support for web, moving it from the dev channel to the beta cha
 [2119]({{site.github}}/flutter/plugins/pull/2119) Add web url launcher
 
 
-## Desktop
+## 桌面支援
 
 We are also moving macOS support from tech preview to alpha,
 enabling it in the dev channel.
@@ -1473,7 +1473,7 @@ enabling it in the dev channel.
 [13702]({{site.repo.engine}}/pull/13702) Fix editing selection and deletion on macOS
 
 
-## Framework
+## 框架
 
 We've fixed many bugs in this release to improve the quality and stability of our framework.
 
@@ -1610,7 +1610,7 @@ We've fixed many bugs in this release to improve the quality and stability of ou
 [45249]({{site.repo.flutter}}/pull/45249) implicit-casts:false in flutter_goldens and flutter_goldens_client
 
 
-## Engine
+## 引擎
 
 In this update, the core engine continues to see many improvements, including a fix that solves the long-requested scrolling performance issue on iPhoneX/Xs.
 
@@ -2333,7 +2333,7 @@ In this update, the core engine continues to see many improvements, including a 
 [14082]({{site.repo.engine}}/pull/14082) add pointer data santizing in flutter web engine
 
 
-## Plugins
+## 插件
 
 We have made significant improvements in our plugins.
 We upgraded a set of plugins to support web development.
@@ -2630,7 +2630,7 @@ and made some bug fixes.
 [2257]({{site.github}}/flutter/plugins/pull/2257) [webview_flutter] Add async NavigationDelegates
 
 
-## Tooling
+## 工具
 
 Flutter tooling is another big investment in this release. We launched a new version of [DartPad](http://dartpad.dev) that allows you to play with Flutter directly in your browser without installing anything, released a new feature "Hot UI" (in preview) that allows you to interact with widgets directly in the IDE, enhanced Dart DevTools with a new visual layout view, enabled simultaneous multi-device debugging in Visual Studio Code, and added support for "golden" image testing.
 
@@ -3006,7 +3006,7 @@ In addition to the PRs listed below, please also check out the following release
 [46011]({{site.repo.flutter}}/pull/46011) [flutter_tool] Do not continue with a no-op 'upgrade'
 
 
-## Full PR List
+## 完整 PR 清單
 
  See the [full list](/release/release-notes/changelogs/changelog-1.12.13) of merged PRs for the 1.12 release.
 

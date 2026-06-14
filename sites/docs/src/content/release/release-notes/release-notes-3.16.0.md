@@ -1,13 +1,13 @@
 ---
-title: Flutter 3.16.0 release notes
-shortTitle: 3.16.0 release notes
-description: Release notes for Flutter 3.16.0.
+title: Flutter 3.16.0 發行說明
+shortTitle: 3.16.0 發行說明
+description: Flutter 3.16.0 的發行說明。
 skipTemplateRendering: true
 ---
 
-This page has release notes for 3.16.0.
-For information about subsequent bug-fix releases,
-see our [CHANGELOG][].
+本頁為 3.16.0 的發行說明。
+如需後續錯誤修正版本的資訊，
+請參閱 [CHANGELOG][]。
 
 [CHANGELOG]: https://github.com/flutter/flutter/blob/main/CHANGELOG.md
 
@@ -630,7 +630,7 @@ see our [CHANGELOG][].
 * [flutter_tools] handle ERROR_INVALID_FUNCTION when trying to symlink across drives by @christopherfujino in [136681](https://github.com/flutter/flutter/pull/136681)
 * [CP][Android] Update Java/AGP/Gradle warning compatible Java range by @camsim99 in [136766](https://github.com/flutter/flutter/pull/136766)
 
-## New Contributors
+## 新貢獻者
 
 * @CaiqueR made their first contribution in [129795](https://github.com/flutter/flutter/pull/129795)
 * @cychiang made their first contribution in [129030](https://github.com/flutter/flutter/pull/129030)
@@ -933,7 +933,7 @@ see our [CHANGELOG][].
 * [macOS] TextInputPlugin should mark navigation events in IME popover as handled by @knopp in [46141](https://github.com/flutter/engine/pull/46141)
 * Reland: [macOS] performKeyEquivalent cleanup by @knopp in [46377](https://github.com/flutter/engine/pull/46377)
 
-## New Contributors
+## 新貢獻者
 
 * @dballard made their first contribution in [42555](https://github.com/flutter/engine/pull/42555)
 * @gmittert made their first contribution in [43567](https://github.com/flutter/engine/pull/43567)

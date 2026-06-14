@@ -1,13 +1,13 @@
 ---
-title: Flutter 3.22.0 release notes
-shortTitle: 3.22.0 release notes
-description: Release notes for Flutter 3.22.0.
+title: Flutter 3.22.0 發行說明
+shortTitle: 3.22.0 發行說明
+description: Flutter 3.22.0 的發行說明。
 skipTemplateRendering: true
 ---
 
-This page has release notes for 3.22.0.
-For information about subsequent bug-fix releases,
-see our [CHANGELOG][].
+本頁面包含 3.22.0 的發行說明。
+關於後續錯誤修正版本的資訊，
+請參閱我們的 [CHANGELOG][]。
 
 [CHANGELOG]: https://github.com/flutter/flutter/blob/main/CHANGELOG.md
 
@@ -757,7 +757,7 @@ see our [CHANGELOG][].
 * Refactor skp_generator_tests by @sealesj in [145871](https://github.com/flutter/flutter/pull/145871)
 * [flutter_releases] Flutter beta 3.22.0-0.0.pre Framework Cherrypicks by @itsjustkevin in [146239](https://github.com/flutter/flutter/pull/146239)
 
-## New Contributors
+## 新貢獻者
 * @asci-00 made their first contribution in [140015](https://github.com/flutter/flutter/pull/140015)
 * @nikkivirtuoso made their first contribution in [140947](https://github.com/flutter/flutter/pull/140947)
 * @SharbelOkzan made their first contribution in [135578](https://github.com/flutter/flutter/pull/135578)
@@ -1594,7 +1594,7 @@ see our [CHANGELOG][].
 * Remove Impeller/OpenGLES from CI branch for Android e2e tests. by @matanlurey in [51734](https://github.com/flutter/engine/pull/51734)
 * [flutter_releases] Flutter beta 3.22.0-0.0.pre Engine Cherrypicks by @itsjustkevin in [51851](https://github.com/flutter/engine/pull/51851)
 
-## New Contributors
+## 新貢獻者
 * @zijiehe-google-com made their first contribution in [49650](https://github.com/flutter/engine/pull/49650)
 * @iinozemtsev made their first contribution in [49598](https://github.com/flutter/engine/pull/49598)
 * @hasali19 made their first contribution in [49784](https://github.com/flutter/engine/pull/49784)

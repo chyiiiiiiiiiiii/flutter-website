@@ -1,13 +1,13 @@
 ---
-title: Flutter 3.0.0 release notes
-shortTitle: 3.0.0 release notes
-description: Release notes for Flutter 3.0.0.
+title: Flutter 3.0.0 發行說明
+shortTitle: 3.0.0 發行說明
+description: Flutter 3.0.0 的發行說明。
 skipTemplateRendering: true
 ---
 
-This page has release notes for 3.0.0.
-For information about subsequent bug-fix releases,
-see our [CHANGELOG][].
+本頁包含 3.0.0 的發行說明。
+若需了解後續錯誤修正版本的資訊，
+請參閱我們的 [CHANGELOG][]。
 
 [CHANGELOG]: https://github.com/flutter/flutter/blob/main/CHANGELOG.md
 
@@ -90,9 +90,9 @@ or if the warnings are fatal
 (for example, your application refuses to run), please
 [file a bug]({{site.repo.flutter}}/issues/new/choose).
 
-## What's Changed
+## 變更內容
 
-The following changes happened in this release:
+以下是本版本發生的變更：
 
 ### Framework
 
@@ -619,9 +619,9 @@ The following changes happened in this release:
 
 * [macOS] Add run release test in devicelab by @cbracken in https://github.com/flutter/flutter/pull/100526
 
-## New Contributors
+## 新貢獻者
 
-Thanks to the following contributors in this release:
+感謝以下在本版本中貢獻的人員：
 
 * @willlockwood made their first contribution in https://github.com/flutter/flutter/pull/95537
 * @utibeabasi6 made their first contribution in https://github.com/flutter/flutter/pull/96058

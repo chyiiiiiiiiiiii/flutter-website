@@ -1,7 +1,7 @@
 ---
-title: Flutter 1.5.4 release notes
-shortTitle: 1.5.4 release notes
-description: Release notes for Flutter 1.5.4.
+title: Flutter 1.5.4 發行說明
+shortTitle: 1.5.4 發行說明
+description: Flutter 1.5.4 的發行說明。
 skipTemplateRendering: true
 ---
 
@@ -15,7 +15,7 @@ Also, this build sees fixes for the two regressions we saw in Flutter 1.2:
 Finally, for details about other fixes and new features, read on.
 
 
-## Breaking Changes
+## 破壞性變更
 
 Our recent survey showed that Flutter developers prefer a breaking change if it means that it improves the API and behavior of Flutter. Of course, we still make breaking changes sparingly. The following are the list of breaking changes in this release along with links to a full description of each change and how to handle it in your Flutter code.
 
@@ -42,7 +42,7 @@ Our recent survey showed that Flutter developers prefer a breaking change if it 
 *   [engine#8274](https://github.com/flutter/engine/pull/8274): [ui] Add null check in FontWeight.lerp
 
 
-## Severe Performance and Crash Changes
+## 嚴重效能與崩潰修正
 
 In this release, we fixed several severe performance and crash issues.
 
@@ -53,7 +53,7 @@ In this release, we fixed several severe performance and crash issues.
 *   [flutter#28651](https://github.com/flutter/flutter/pull/28651): Cannot execute operation because FlutterJNI is not attached to native.
 
 
-## iOS Changes
+## iOS 變更
 
 Supporting iOS is just as important to the Flutter team as support Android, which you can see in the huge volume of changes we've made in this release to make the iOS experience even better.
 
@@ -88,7 +88,7 @@ Supporting iOS is just as important to the Flutter team as support Android, whic
 *   [flutter#30475](https://github.com/flutter/flutter/pull/30475): Trackpad mode crash fix
 
 
-## Material Changes
+## Material 變更
 
 Of course, Material continues to be a priority for the Flutter team as well.
 
@@ -115,7 +115,7 @@ Of course, Material continues to be a priority for the Flutter team as well.
 *   [flutter#29413](https://github.com/flutter/flutter/pull/29413): Fix MaterialApp's _navigatorObserver when only builder used
 
 
-## Desktop Changes
+## 桌面版變更
 
 Flutter has been making progress on expanding support for desktop-class input mechanisms with keyboard mappings, text selection, mouse wheels and hover along with the beginnings of desktop support in our tooling.
 
@@ -137,7 +137,7 @@ Flutter has been making progress on expanding support for desktop-class input me
 *   [flutter#30670](https://github.com/flutter/flutter/issues/30670): Implement StandardMethodCodec for C++ shells
 
 
-## Framework Changes
+## 框架變更
 
 In addition to platform specifics, we continue to push on the core of the Flutter framework.
 
@@ -167,7 +167,7 @@ In addition to platform specifics, we continue to push on the core of the Flutte
 *   [flutter#30468](https://github.com/flutter/flutter/pull/30468): Embedding diagram for BottomNavigationBar.
 
 
-## Plugin Changes
+## 插件變更
 
 In this release, we also have a number of changes in the Flutter plugins, including camera, Google Maps, the Web View, the image picker, the Firebase plugins and, now for use in your apps, [the In-App Purchase plugin beta](https://pub.dartlang.org/packages/in_app_purchase).
 
@@ -213,7 +213,7 @@ In this release, we also have a number of changes in the Flutter plugins, includ
 *   [flutter#25329](https://github.com/flutter/flutter/pull/25329): [WebView] Allow the webview to take control when a URL is about to be loaded
 
 
-## Tool Changes
+## 工具變更
 
 Last but certainly not least, we made a number of tooling changes in the core Flutter repos to improve the developer experience, particularly when it comes to improving hot reload performance (and you thought it was fast before!).
 
@@ -247,11 +247,11 @@ Further, the IDE plugins for Flutter have had a number of updates since the last
 *   Visual Studio Code: [May 1, 2019 (2.26.1)](https://dartcode.org/releases/v2-26/ )
 
 
-## Dynamic Update (aka Code Push)
+## 動態更新（即 Code Push）
 
 As a final note, we're nearly at the midpoint of the year, when it's time to reassess the areas where we can have the most important, we've decided to drop plans for dynamic updates (aka code push) from our 2019 roadmap. If you're interested in the reasons why, you can read [the detailed explanation](https://github.com/flutter/flutter/issues/14330#issuecomment-485565194). Dropping this work allows us to increase our focus on quality as well as our experiments in Flutter for web and Flutter for desktop.
 
 
-## Full Issue List
+## 完整問題清單
 
 You can see [the full list of PRs committed in this release](/release/release-notes/changelogs/changelog-1.5.4).

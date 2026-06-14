@@ -1,17 +1,17 @@
 ---
-title: Flutter 3.35.0 release notes
-shortTitle: 3.35.0 release notes
-description: Release notes for Flutter 3.35.0.
+title: Flutter 3.35.0 發行說明
+shortTitle: 3.35.0 發行說明
+description: Flutter 3.35.0 的發行說明。
 skipTemplateRendering: true
 ---
 
-This page has release notes for 3.35.0.
-For information about subsequent bug-fix releases,
-check out the Flutter [CHANGELOG][].
+本頁面包含 3.35.0 的發行說明。
+如需後續錯誤修正版本的資訊，
+請查閱 Flutter [CHANGELOG][]。
 
 [CHANGELOG]: https://github.com/flutter/flutter/blob/main/CHANGELOG.md
 
-## What's changed
+## 異動內容
 
 ### Framework
 
@@ -1089,7 +1089,7 @@ check out the Flutter [CHANGELOG][].
 * Update engine version for 3.35-0.2.pre by @eyebrowsoffire in [172987](https://github.com/flutter/flutter/pull/172987)
 * Update engine.version again for 3.35-0.2 by @eyebrowsoffire in [173116](https://github.com/flutter/flutter/pull/173116)
 
-## New contributors
+## 新貢獻者
 
 * @vially made their first contribution in [164455](https://github.com/flutter/flutter/pull/164455)
 * @whopavan made their first contribution in [164966](https://github.com/flutter/flutter/pull/164966)

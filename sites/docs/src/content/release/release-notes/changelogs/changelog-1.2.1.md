@@ -1,12 +1,12 @@
 ---
-title: Change log for Flutter 1.2.2
-shortTitle: 1.2.2 change log
-description: Change log for Flutter 1.2.2 containing a list of all PRs merged for this release.
+title: Flutter 1.2.2 變更記錄
+shortTitle: 1.2.2 變更記錄
+description: Flutter 1.2.2 的變更記錄，包含此版本所有已合併的 PR 清單。
 skipTemplateRendering: true
 ---
 
 
-## PRs closed in this release of flutter/flutter
+## 此版本於 flutter/flutter 已關閉的 PR
 
 From Fri Nov 29 19:41:00 2018 -0800 to Thu Feb 21 20:22:00 2019 -0800
 
@@ -1128,7 +1128,7 @@ From Fri Nov 29 19:41:00 2018 -0800 to Thu Feb 21 20:22:00 2019 -0800
 [28272](https://github.com/flutter/flutter/pull/28272) Make logcat less chatty on perf tests (cla: yes, team)
 
 
-## PRs closed in this release of flutter/engine
+## 此版本於 flutter/engine 已關閉的 PR
 
 From Fri Nov 29 19:41:00 2018 -0800 to Thu Feb 21 20:22:00 2019 -0800
 
@@ -1715,7 +1715,7 @@ From Fri Nov 29 19:41:00 2018 -0800 to Thu Feb 21 20:22:00 2019 -0800
 
 
 
-## PRs closed in this release of flutter/plugins
+## 此版本於 flutter/plugins 已關閉的 PR
 
 From Fri Nov 29 19:41:00 2018 -0800 to Thu Feb 21 20:22:00 2019 -0800
 

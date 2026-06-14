@@ -1,22 +1,21 @@
 ---
-title: Archived release notes
-shortTitle: Archived release notes
-description: Archived release notes for Flutter for prior releases.
+title: 已封存的發行說明
+shortTitle: 已封存的發行說明
+description: Flutter 先前版本的已封存發行說明。
 ---
 
-This page preserves the links to older release notes for
-releases to the stable channel and
-the old GitHub _Changelog_ wiki page before that,
-which documented changes up through and including 1.0.0.
+本頁保存舊版發行說明的連結，涵蓋穩定版（stable）通道的各次發行，
+以及在此之前的舊 GitHub _Changelog_ wiki 頁面，
+該頁面記錄了 1.0.0 及以前的所有變更。
 
-## Archived release notes
+## 已封存的發行說明
 
 * [Flutter 1.9.1 release notes][1.9.1]
 * [Flutter 1.7.8 release notes][1.7.8]
 * [Flutter 1.5.4 release notes][1.5.4]
 * [Flutter 1.2.1 release notes][1.2.1]
 
-## Old changelog
+## 舊版變更記錄
 
 * [Flutter Changelog 0.0.21 through 1.0.0][0.0.21]
 
