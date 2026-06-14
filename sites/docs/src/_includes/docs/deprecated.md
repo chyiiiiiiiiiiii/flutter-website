@@ -1,4 +1,3 @@
-:::note Deprecation notice
-This document is deprecated and will be removed from
-a future website update.
+::: note 棄用通知
+本文件已棄用，將於未來的網站更新中移除。
 :::

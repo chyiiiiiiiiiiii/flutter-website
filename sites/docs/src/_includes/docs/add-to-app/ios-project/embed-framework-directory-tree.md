@@ -1,13 +1,12 @@
-The following example assumes that you want to generate the
-frameworks to `/path/to/MyApp/Flutter/`.
+以下範例假設你想將框架輸出至 `/path/to/MyApp/Flutter/`。
 
 ```console
 $ flutter build ios-framework --output=/path/to/MyApp/Flutter/
 ```
 
-Run this _every time_ you change code in your Flutter module.
+每次在 Flutter 模組中修改程式碼後，都需重新執行此指令。
 
-The resulting project structure should resemble this directory tree.
+產生的專案結構應類似以下目錄樹。
 
 <FileTree>
 
@@ -32,9 +31,8 @@ The resulting project structure should resemble this directory tree.
 </FileTree>
 
 :::warning
-Always use `Flutter.xcframework` and `App.xcframework` bundles
-located in the same directory.
-Mixing `.xcframework` imports from different directories
-(like `Profile/Flutter.xcframework` with `Debug/App.xcframework`)
-causes runtime crashes.
+請務必使用位於同一目錄下的 `Flutter.xcframework` 與 `App.xcframework` 套件。
+混用來自不同目錄的 `.xcframework` 匯入
+（例如以 `Profile/Flutter.xcframework` 搭配 `Debug/App.xcframework`）
+會導致執行階段崩潰。
 :::

@@ -1,19 +1,19 @@
-1. To open the Flutter app directory, go to
+1. 若要開啟 Flutter 應用程式目錄，請前往
    **File** <span aria-label="and then">></span>
-   **Open...** and choose the `my_app` directory.
+   **Open...**，並選擇 `my_app` 目錄。
 
-1. Open the `lib/main.dart` file.
+1. 開啟 `lib/main.dart` 檔案。
 
-1. Choose a virtual Android device.
-   Go to the toolbar, open the leftmost dropdown menu, and click on
-   **Open Android Emulator: \<device\>**.
+1. 選擇一個 Android 虛擬裝置。
+   前往工具列，開啟最左側的下拉選單，然後點擊
+   **Open Android Emulator: \<device\>**。
 
-   You can choose any installed emulator that's doesn't include `arm64`.
+   你可以選擇任何已安裝且名稱不含 `arm64` 的模擬器。
 
-1. From that same menu, select the virtual Android device.
+1. 在同一選單中，選取該 Android 虛擬裝置。
 
-1. From the toolbar, click **Run 'main.dart'**.
+1. 在工具列中，點擊 **Run 'main.dart'**。
 
-   You can also press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd>.
+   你也可以按下 <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd>。
 
-   After the app displays in the emulator, continue to the next step.
+   應用程式在模擬器中顯示後，繼續進行下一步。

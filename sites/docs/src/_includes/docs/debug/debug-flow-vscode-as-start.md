@@ -1,36 +1,34 @@
-1. To open the Flutter app directory, go to
+1. 若要開啟 Flutter 應用程式目錄，請前往
    **File** <span aria-label="and then">></span>
-   **Open Folder...** and choose the `my_app` directory.
+   **Open Folder...** 並選擇 `my_app` 目錄。
 
-1. Open the `lib/main.dart` file.
+1. 開啟 `lib/main.dart` 檔案。
 
-1. If you can build an app for more than one device,
-   you must select the device first.
+1. 如果你可以為多部裝置建置應用程式，
+   則必須先選擇裝置。
 
-   Go to
+   前往
    **View** <span aria-label="and then">></span>
    **Command Palette...**
 
-   You can also press <kbd>Ctrl</kbd> / <kbd>Cmd</kbd> +
-   <kbd>Shift</kbd> + <kbd>P</kbd>.
+   你也可以按下 <kbd>Ctrl</kbd> / <kbd>Cmd</kbd> +
+   <kbd>Shift</kbd> + <kbd>P</kbd>。
 
-1. Type `flutter select`.
+1. 輸入 `flutter select`。
 
-1. Click the **Flutter: Select Device** command.
+1. 點擊 **Flutter: Select Device** 指令。
 
-1. Choose your target device.
+1. 選擇你的目標裝置。
 
-1. Click the debug icon
-   (![VS Code's bug icon to trigger the debugging mode of a Flutter app](/assets/images/docs/testing/debugging/vscode-ui/icons/debug.png)).
-   This opens the **Debug** pane and launches the app.
-   Wait for the app to launch on the device and for the debug pane to
-   indicate **Connected**.
-   The debugger takes longer to launch the first time.
-   Subsequent launches start faster.
+1. 點擊除錯圖示
+   (![VS Code 的蟲形圖示，用於啟動 Flutter 應用程式的除錯模式](/assets/images/docs/testing/debugging/vscode-ui/icons/debug.png))。
+   這會開啟 **Debug** 面板並啟動應用程式。
+   請等待應用程式在裝置上啟動，並等待除錯面板顯示 **Connected**。
+   除錯器第一次啟動需要較長時間，
+   後續啟動速度會加快。
 
-   This Flutter app contains two buttons:
+   這個 Flutter 應用程式包含兩個按鈕：
 
-   - **Launch in browser**: This button opens this page in the
-     default browser of your device.
-   - **Launch in app**: This button opens this page within your app.
-     This button only works for iOS or Android. Desktop apps launch a browser.
+   - **Launch in browser**：此按鈕會在你裝置的預設瀏覽器中開啟此頁面。
+   - **Launch in app**：此按鈕會在你的應用程式中開啟此頁面。
+     此按鈕僅適用於 iOS 或 Android，桌面應用程式會啟動瀏覽器。

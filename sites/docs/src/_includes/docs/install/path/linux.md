@@ -1,38 +1,36 @@
- 1. <h3>Determine your Flutter SDK installation location</h3>
+ 1. <h3>確認 Flutter SDK 安裝位置</h3>
 
-    Copy the absolute path to the directory that you
-    downloaded and extracted the Flutter SDK into.
+    複製你下載並解壓縮 Flutter SDK 的目錄之絕對路徑。
 
- 1. <h3>Determine your default shell</h3>
+ 1. <h3>確認預設 shell</h3>
 
-    If you don't know what shell you use,
-    check which shell starts when you open a new console window.
+    如果你不確定使用哪種 shell，
+    請開啟新的終端機視窗，確認啟動的是哪種 shell。
 
     ```console
     $ echo $SHELL
     ```
 
- 1. <h3>Add the Flutter SDK bin to your path</h3>
+ 1. <h3>將 Flutter SDK bin 加入 PATH</h3>
 
-    To add the `bin` directory of your Flutter installation to your `PATH`:
+    要將 Flutter 安裝目錄下的 `bin` 目錄加入 `PATH`：
 
-    1. Expand the instructions for your default shell.
-    1. Copy the provided command.
-    1. Replace `<path-to-sdk>` with the path to your Flutter SDK install.
-    1. Run the edited command in your preferred terminal with that shell.
+    1. 展開符合你預設 shell 的說明。
+    1. 複製所提供的指令。
+    1. 將 `<path-to-sdk>` 替換成你的 Flutter SDK 安裝路徑。
+    1. 在你偏好的終端機中，以該 shell 執行修改後的指令。
 
     <hr>
 
     <details>
-    <summary>Expand for <code>bash</code> instructions</summary>
+    <summary>展開 <code>bash</code> 說明</summary>
 
     ```console
     $ echo 'export PATH="<path-to-sdk>/bin:$PATH"' >> ~/.bashrc
     ```
 
-    For example, if you downloaded Flutter into a
-    `develop/flutter` folder inside your user directory,
-    you'd run the following:
+    舉例來說，如果你將 Flutter 下載到使用者目錄下的
+    `develop/flutter` 資料夾，請執行以下指令：
 
     ```console
     $ echo 'export PATH="$HOME/develop/flutter/bin:$PATH"' >> ~/.bashrc
@@ -41,15 +39,14 @@
     </details>
 
     <details>
-    <summary>Expand for <code>zsh</code> instructions</summary>
+    <summary>展開 <code>zsh</code> 說明</summary>
 
     ```console
     $ echo 'export PATH="<path-to-sdk>/bin:$PATH"' >> ~/.zshenv
     ```
 
-    For example, if you downloaded Flutter into a
-    `develop/flutter` folder inside your user directory,
-    you'd run the following:
+    舉例來說，如果你將 Flutter 下載到使用者目錄下的
+    `develop/flutter` 資料夾，請執行以下指令：
 
     ```console
     $ echo 'export PATH="$HOME/develop/flutter/bin:$PATH"' >> ~/.zshenv
@@ -58,15 +55,14 @@
     </details>
 
     <details>
-    <summary>Expand for <code>fish</code> instructions</summary>
+    <summary>展開 <code>fish</code> 說明</summary>
 
     ```console
     $ fish_add_path -g -p <path-to-sdk>/bin
     ```
 
-    For example, if you downloaded Flutter into a
-    `develop/flutter` folder inside your user directory,
-    you'd run the following:
+    舉例來說，如果你將 Flutter 下載到使用者目錄下的
+    `develop/flutter` 資料夾，請執行以下指令：
 
     ```console
     $ fish_add_path -g -p ~/develop/flutter/bin
@@ -75,15 +71,14 @@
     </details>
 
     <details>
-    <summary>Expand for <code>csh</code> instructions</summary>
+    <summary>展開 <code>csh</code> 說明</summary>
 
     ```console
     $ echo 'setenv PATH "<path-to-sdk>/bin:$PATH"' >> ~/.cshrc
     ```
 
-    For example, if you downloaded Flutter into a
-    `develop/flutter` folder inside your user directory,
-    you'd run the following:
+    舉例來說，如果你將 Flutter 下載到使用者目錄下的
+    `develop/flutter` 資料夾，請執行以下指令：
 
     ```console
     $ echo 'setenv PATH "$HOME/develop/flutter/bin:$PATH"' >> ~/.cshrc
@@ -92,15 +87,14 @@
     </details>
 
     <details>
-    <summary>Expand for <code>tcsh</code> instructions</summary>
+    <summary>展開 <code>tcsh</code> 說明</summary>
 
     ```console
     $ echo 'setenv PATH "<path-to-sdk>/bin:$PATH"' >> ~/.tcshrc
     ```
 
-    For example, if you downloaded Flutter into a
-    `develop/flutter` folder inside your user directory,
-    you'd run the following:
+    舉例來說，如果你將 Flutter 下載到使用者目錄下的
+    `develop/flutter` 資料夾，請執行以下指令：
 
     ```console
     $ echo 'setenv PATH "$HOME/develop/flutter/bin:$PATH"' >> ~/.tcshrc
@@ -109,15 +103,14 @@
     </details>
 
     <details>
-    <summary>Expand for <code>ksh</code> instructions</summary>
+    <summary>展開 <code>ksh</code> 說明</summary>
 
     ```console
     $ echo 'export PATH="<path-to-sdk>/bin:$PATH"' >> ~/.profile
     ```
 
-    For example, if you downloaded Flutter into a
-    `develop/flutter` folder inside your user directory,
-    you'd run the following:
+    舉例來說，如果你將 Flutter 下載到使用者目錄下的
+    `develop/flutter` 資料夾，請執行以下指令：
 
     ```console
     $ echo 'export PATH="$HOME/develop/flutter/bin:$PATH"' >> ~/.profile
@@ -126,15 +119,14 @@
     </details>
 
     <details>
-    <summary>Expand for <code>sh</code> instructions</summary>
+    <summary>展開 <code>sh</code> 說明</summary>
 
     ```console
     $ echo 'export PATH="<path-to-sdk>/bin:$PATH"' >> ~/.profile
     ```
 
-    For example, if you downloaded Flutter into a
-    `develop/flutter` folder inside your user directory,
-    you'd run the following:
+    舉例來說，如果你將 Flutter 下載到使用者目錄下的
+    `develop/flutter` 資料夾，請執行以下指令：
 
     ```console
     $ echo 'export PATH="$HOME/develop/flutter/bin:$PATH"' >> ~/.profile
@@ -142,24 +134,24 @@
 
     </details>
 
- 1. <h3>Apply your changes</h3>
+ 1. <h3>套用變更</h3>
 
-    To apply this change and get access to the `flutter` tool,
-    close and reopen all open shell sessions in your terminal apps and IDEs.
+    要套用此變更並存取 `flutter` 工具，
+    請關閉並重新開啟終端機應用程式和 IDE 中所有已開啟的 shell 工作階段。
 
- 1. <h3>Validate your setup</h3>
+ 1. <h3>驗證設定</h3>
 
-    To ensure you successfully added the SDK to your `PATH`,
-    open your preferred terminal with your default shell,
-    then try running the `flutter` and `dart` tools.
+    為確認你已成功將 SDK 加入 `PATH`，
+    請以預設 shell 開啟你偏好的終端機，
+    然後嘗試執行 `flutter` 和 `dart` 工具。
 
     ```console
     $ flutter --version
     $ dart --version
     ```
 
-    If either command isn't found,
-    check out [Flutter installation troubleshooting][troubleshoot].
+    如果其中任一指令找不到，
+    請參閱 [Flutter 安裝疑難排解][troubleshoot]。
 
 {: .steps}
 

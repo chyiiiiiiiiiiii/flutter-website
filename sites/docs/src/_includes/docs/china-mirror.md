@@ -2,31 +2,30 @@
 
 ### {{group}}
 
-[{{group}}][] maintains the `{{url}}` mirror.
-It includes the Flutter SDK and pub packages.
+[{{group}}][] 維護了 `{{url}}` 鏡像站。
+其中包含 Flutter SDK 及 pub 套件。
 
-#### Configure your machine to use this mirror
+#### 設定您的機器使用此鏡像站
 
-To set your machine to use this mirror, use these commands.
+如要將您的機器設定為使用此鏡像站，請執行以下指令。
 
-On macOS, Linux, or ChromeOS:
+在 macOS、Linux 或 ChromeOS 上：
 
 ```console
 export PUB_HOSTED_URL={{pubHosted}}
 export FLUTTER_STORAGE_BASE_URL={{flutterStorage}}
 ```
 
-On Windows:
+在 Windows 上：
 
 ```console
 $env:PUB_HOSTED_URL="{{pubHosted}}"
 $env:FLUTTER_STORAGE_BASE_URL="{{flutterStorage}}"
 ```
 
-#### Get support for this mirror
+#### 取得此鏡像站的支援
 
-If you're running into issues that only occur when
-using the `{{url}}` mirror, report the issue to their
-[issue tracker]({{issueLink}}).
+若您遇到僅在使用 `{{url}}` 鏡像站時才發生的問題，請向其
+[問題追蹤器]({{issueLink}}) 回報。
 
 [{{group}}]: {{groupLink}}

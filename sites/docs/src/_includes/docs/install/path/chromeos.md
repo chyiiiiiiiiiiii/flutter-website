@@ -1,55 +1,52 @@
 :::note
-The following steps assume
-you've already [turned on Linux support][chromeos-linux] and that
-you're using Bash or the default shell on ChromeOS.
+以下步驟假設你已[開啟 Linux 支援][chromeos-linux]，
+並且使用的是 Bash 或 ChromeOS 的預設 shell。
 
-If you're using a different shell besides the default or Bash, follow the
-[add to path instructions for Linux][linux-path]{: target="_blank"} instead.
+若你使用的不是預設 shell 或 Bash，請改依照
+[Linux 的新增路徑說明][linux-path]{: target="_blank"} 操作。
 :::
 
- 1. <h3>Determine your Flutter SDK installation location</h3>
+ 1. <h3>確認你的 Flutter SDK 安裝位置</h3>
 
-    Copy the absolute path to the directory that you
-    downloaded and extracted the Flutter SDK into.
+    複製你下載並解壓縮 Flutter SDK 的目錄絕對路徑。
 
- 1. <h3>Add the Flutter SDK bin to your path</h3>
+ 1. <h3>將 Flutter SDK 的 bin 目錄加入路徑</h3>
 
-    To add the `bin` directory of your Flutter installation to your `PATH`:
+    若要將 Flutter 安裝目錄的 `bin` 資料夾加入 `PATH`：
 
-    1. Copy the following command.
-    1. Replace `<path-to-sdk>` with the path to your Flutter SDK install.
-    1. Run the edited command in your preferred terminal.
+    1. 複製以下指令。
+    1. 將 `<path-to-sdk>` 替換為你的 Flutter SDK 安裝路徑。
+    1. 在慣用的終端機中執行修改後的指令。
 
     ```console
     $ echo 'export PATH="<path-to-sdk>:$PATH"' >> ~/.bash_profile
     ```
 
-    For example, if you downloaded Flutter into a
-    `develop/flutter` folder inside your user directory,
-    you'd run the following:
+    例如，若你將 Flutter 下載至使用者目錄下的
+    `develop/flutter` 資料夾，則需執行以下指令：
 
     ```console
     $ echo 'export PATH="$HOME/develop/flutter/bin:$PATH"' >> ~/.bash_profile
     ```
 
- 1. <h3>Apply your changes</h3>
+ 1. <h3>套用變更</h3>
 
-    To apply this change and get access to the `flutter` tool,
-    close and reopen all open Zsh sessions in your terminal apps and IDEs.
+    若要套用此變更並取得 `flutter` 工具的存取權，
+    請關閉並重新開啟終端機應用程式與 IDE 中所有已開啟的 Zsh 工作階段。
 
- 1. <h3>Validate your setup</h3>
+ 1. <h3>驗證設定</h3>
 
-    To ensure you successfully added the SDK to your `PATH`,
-    open a Zsh session in your preferred terminal,
-    then try running the `flutter` and `dart` tools.
+    若要確認你已成功將 SDK 加入 `PATH`，
+    請在慣用的終端機中開啟 Zsh 工作階段，
+    然後嘗試執行 `flutter` 與 `dart` 工具。
 
     ```console
     $ flutter --version
     $ dart --version
     ```
 
-    If either command isn't found,
-    check out [Flutter installation troubleshooting][troubleshoot].
+    若找不到上述任一指令，
+    請參閱 [Flutter 安裝疑難排解][troubleshoot]。
 
 {: .steps}
 

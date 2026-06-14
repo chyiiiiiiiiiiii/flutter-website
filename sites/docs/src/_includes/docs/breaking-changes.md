@@ -1,11 +1,7 @@
 
 :::important
-These breaking change docs are accurate, as of the release
-under which they are published. Over time, the
-workarounds described here might become inaccurate.
-We don't, in general, keep these breaking change docs up
-to date as of each release.
+這些重大變更文件在其發布的版本時是準確的。隨著時間推移，這裡描述的
+因應措施可能會變得不準確。一般而言，我們不會在每個版本發布時同步更新這些重大變更文件。
 
-The [breaking change index file](/release/breaking-changes)
-lists the docs created for each release.
+[重大變更索引檔案](/release/breaking-changes)列出了每個版本所建立的文件。
 :::

@@ -1,37 +1,20 @@
-## Performance
+## 效能
 
-Platform views in Flutter come with performance trade-offs.
+Flutter 中的平台視圖涉及效能上的取捨。
 
-For example, in a typical Flutter app, the Flutter UI is composed
-on a dedicated raster thread. This allows Flutter apps to be fast,
-as the main platform thread is rarely blocked.
+舉例來說，在典型的 Flutter 應用程式中，Flutter UI 是在專屬的光柵執行緒上進行合成的。這讓 Flutter 應用程式能夠保持高效能，因為主平台執行緒鮮少被阻塞。
 
-While a platform view is rendered with hybrid composition,
-the Flutter UI is composed from the platform thread,
-which competes with other tasks like handling OS or plugin messages.
+當平台視圖以混合合成方式渲染時，Flutter UI 會改由平台執行緒進行合成，這會與其他工作（例如處理作業系統或插件訊息）競爭資源。
 
-Prior to Android 10, hybrid composition copied each Flutter frame
-out of the graphic memory into main memory, and then copied it back
-to a GPU texture. As this copy happens per frame, the performance of
-the entire Flutter UI might be impacted. In Android 10 or above, the
-graphics memory is copied only once.
+在 Android 10 以前，混合合成會將每個 Flutter 畫面從顯示記憶體複製到主記憶體，再複製回 GPU 紋理。由於這個複製動作會逐幀發生，整個 Flutter UI 的效能可能因此受到影響。在 Android 10 及以上版本中，顯示記憶體僅會複製一次。
 
-Virtual display, on the other hand,
-makes each pixel of the native view
-flow through additional intermediate graphic buffers,
-which cost graphic memory and drawing performance.
+另一方面，虛擬顯示會讓原生視圖的每個像素流經額外的中間圖形緩衝區，這會消耗顯示記憶體並影響繪製效能。
 
-For complex cases, there are some techniques that
-can be used to mitigate these issues.
+針對複雜情境，有一些技術可以用來緩解這些問題。
 
-For example, you could use a placeholder texture
-while an animation is happening in Dart.
-In other words, if an animation is slow while a
-platform view is rendered,
-then consider taking a screenshot of the
-native view and rendering it as a texture.
+舉例來說，你可以在 Dart 中執行動畫時使用佔位紋理。換句話說，如果在渲染平台視圖時動畫變得緩慢，可以考慮對原生視圖截圖，並以紋理方式渲染。
 
-For more information, see:
+更多資訊，請參閱：
 
 * [`TextureLayer`][]
 * [`TextureRegistry`][]

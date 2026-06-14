@@ -1,94 +1,91 @@
 
- 1. <h3>Determine your Flutter SDK installation location</h3>
+ 1. <h3>確認 Flutter SDK 安裝位置</h3>
 
-    Copy the absolute path to the directory that you
-    downloaded and extracted the Flutter SDK into.
+    複製您下載並解壓縮 Flutter SDK 的目錄之絕對路徑。
 
- 1. <h3>Navigate to the environment variables settings</h3>
+ 1. <h3>前往環境變數設定</h3>
 
-    1. Press <kbd>Windows</kbd> + <kbd>Pause</kbd>.
+    1. 按下 <kbd>Windows</kbd> + <kbd>Pause</kbd>。
 
-       If your keyboard lacks a <kbd>Pause</kbd> key,
-       try <kbd>Windows</kbd> + <kbd>Fn</kbd> + <kbd>B</kbd>.
+       若您的鍵盤沒有 <kbd>Pause</kbd> 鍵，
+       請嘗試 <kbd>Windows</kbd> + <kbd>Fn</kbd> + <kbd>B</kbd>。
 
-       The **System > About** dialog opens.
+       **System > About** 對話方塊會開啟。
 
-    1. Click **Advanced System Settings**
+    1. 點擊 **Advanced System Settings**
        <span aria-label="and then">></span> **Advanced**
-       <span aria-label="and then">></span> **Environment Variables...**.
+       <span aria-label="and then">></span> **Environment Variables...**。
 
-       The **Environment Variables** dialog opens.
+       **Environment Variables** 對話方塊會開啟。
 
- 1. <h3>Add the Flutter SDK bin to your path</h3>
+ 1. <h3>將 Flutter SDK bin 加入您的路徑</h3>
 
-    1. In the **User variables for (username)** section
-       of the **Environment Variables** dialog,
-       look for the **Path** entry.
+    1. 在 **Environment Variables** 對話方塊的
+       **User variables for (username)** 區段中，
+       尋找 **Path** 項目。
 
-    1. If the **Path** entry exists, double-click it.
+    1. 若 **Path** 項目已存在，請雙擊它。
 
-       The **Edit Environment Variable** dialog should open.
+       **Edit Environment Variable** 對話方塊應會開啟。
 
-       1. Double-click inside an empty row.
+       1. 雙擊空白列。
 
-       1. Type the path to the `bin` directory of your Flutter installation.
+       1. 輸入 Flutter 安裝目錄中 `bin` 資料夾的路徑。
 
-          For example, if you downloaded Flutter into a
-          `develop\flutter` folder inside your user directory,
-          you'd type the following:
-
-          ```plaintext
-          %USERPROFILE%\develop\flutter\bin
-          ```
-
-       1. Click the Flutter entry you added to select it.
-
-       1. Click **Move Up** until the Flutter entry sits at the top of the list.
-
-       1. To confirm your changes, click **OK** three times.
-
-       {: type="a"}
-
-    1. If the entry doesn't exist, click **New...**.
-
-       The **Edit Environment Variable** dialog should open.
-
-       1. In the **Variable Name** box, type `Path`.
-
-       1. In the **Variable Value** box,
-          type the path to the `bin` directory of your Flutter installation.
-
-          For example, if you downloaded Flutter into a
-          `develop\flutter` folder inside your user directory,
-          you'd type the following:
+          舉例來說，若您將 Flutter 下載到使用者目錄下的
+          `develop\flutter` 資料夾，請輸入以下內容：
 
           ```plaintext
           %USERPROFILE%\develop\flutter\bin
           ```
 
-       1. To confirm your changes, click **OK** three times.
+       1. 點擊您剛新增的 Flutter 項目以選取它。
+
+       1. 點擊 **Move Up**，直到 Flutter 項目移至清單頂端。
+
+       1. 若要確認變更，請點擊 **OK** 三次。
 
        {: type="a"}
 
- 1. <h3>Apply your changes</h3>
+    1. 若項目不存在，請點擊 **New...**。
 
-    To apply this change and get access to the `flutter` tool,
-    close and reopen all open command prompts,
-    sessions in your terminal apps, and IDEs.
+       **Edit Environment Variable** 對話方塊應會開啟。
 
- 1. <h3>Validate your setup</h3>
+       1. 在 **Variable Name** 欄位中輸入 `Path`。
 
-    To ensure you successfully added the SDK to your `PATH`,
-    open command prompt or your preferred terminal app,
-    then try running the `flutter` and `dart` tools.
+       1. 在 **Variable Value** 欄位中，
+          輸入 Flutter 安裝目錄中 `bin` 資料夾的路徑。
+
+          舉例來說，若您將 Flutter 下載到使用者目錄下的
+          `develop\flutter` 資料夾，請輸入以下內容：
+
+          ```plaintext
+          %USERPROFILE%\develop\flutter\bin
+          ```
+
+       1. 若要確認變更，請點擊 **OK** 三次。
+
+       {: type="a"}
+
+ 1. <h3>套用變更</h3>
+
+    若要套用此變更並取得 `flutter` 工具的存取權，
+    請關閉並重新開啟所有已開啟的命令提示字元、
+    終端機應用程式中的工作階段，以及 IDE。
+
+ 1. <h3>驗證設定</h3>
+
+    若要確認您已成功將 SDK 新增至 `PATH`，
+    請開啟命令提示字元或您偏好的終端機應用程式，
+    然後嘗試執行 `flutter` 和 `dart` 工具。
 
     ```console
     $ flutter --version
     $ dart --version
     ```
 
-    If either command isn't found,
-    check out [Flutter installation troubleshooting][troubleshoot].
+    若任一指令找不到，
+    請參閱 [Flutter 安裝疑難排解][troubleshoot]。
 
 {: .steps}
 

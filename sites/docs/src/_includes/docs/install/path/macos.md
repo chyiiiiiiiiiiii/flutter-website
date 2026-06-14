@@ -1,64 +1,62 @@
 :::note
-The following steps assume you're
-using the [default shell][zsh-mac] on macOS, Zsh.
+以下步驟假設你在 macOS 上使用[預設 shell][zsh-mac]，即 Zsh。
 
-If you use another shell besides Zsh,
-check out [this tutorial on setting your PATH][other-path].
+若你使用 Zsh 以外的 shell，
+請參閱[這份設定 PATH 的教學][other-path]。
 :::
 
- 1. <h3>Determine your Flutter SDK installation location</h3>
+ 1. <h3>確認 Flutter SDK 安裝位置</h3>
 
-    Copy the absolute path to the directory that you
-    downloaded and extracted the Flutter SDK into.
+    複製你下載並解壓縮 Flutter SDK 的目錄絕對路徑。
 
- 1. <h3>Open or create the Zsh environment variable file</h3>
+ 1. <h3>開啟或建立 Zsh 環境變數檔</h3>
 
-    If it exists, open the [Zsh environment variable file][zsh-files]
-    `~/.zprofile` in your preferred text editor.
-    If it doesn't exist, create the `~/.zprofile` file.
+    若檔案已存在，請用你慣用的文字編輯器開啟 [Zsh 環境變數檔][zsh-files]
+    `~/.zprofile`。
+    若檔案不存在，請建立 `~/.zprofile` 檔案。
 
- 1. <h3>Add the Flutter SDK bin to your path</h3>
+ 1. <h3>將 Flutter SDK bin 加入你的 PATH</h3>
 
-    At the end of your `~/.zprofile` file,
-    use the built-in `export` command to update the `PATH` variable
-    to include the `bin` directory of your Flutter installation.
+    在 `~/.zprofile` 檔案末尾，
+    使用內建的 `export` 指令更新 `PATH` 變數，
+    將 Flutter 安裝目錄下的 `bin` 目錄包含進來。
 
-    Replace `<path-to-sdk>` with the path to your Flutter SDK installation.
+    請將 `<path-to-sdk>` 替換為你的 Flutter SDK 安裝路徑。
 
     ```bash
     export PATH="<path-to-sdk>/bin:$PATH"
     ```
 
-    For example, if you downloaded Flutter into a
-    `develop/flutter` folder inside your user directory,
-    you'd add the following to the file:
+    例如，若你將 Flutter 下載到使用者目錄內的
+    `develop/flutter` 資料夾，
+    則需在檔案中加入以下內容：
 
     ```bash
     export PATH="$HOME/develop/flutter/bin:$PATH"
     ```
 
- 1. <h3>Save your changes</h3>
+ 1. <h3>儲存變更</h3>
 
-    Save, then close, the `~/.zprofile` file you edited.
+    儲存並關閉你編輯的 `~/.zprofile` 檔案。
 
- 1. <h3>Apply your changes</h3>
+ 1. <h3>套用變更</h3>
 
-    To apply this change and get access to the `flutter` tool,
-    close and reopen all open Zsh sessions in your terminal apps and IDEs.
+    若要套用此變更並取得 `flutter` 工具的存取權，
+    請關閉並重新開啟終端機應用程式及 IDE 中所有已開啟的 Zsh 工作階段。
 
- 1. <h3>Validate your setup</h3>
+ 1. <h3>驗證設定</h3>
 
-    To ensure you successfully added the SDK to your `PATH`,
-    open a Zsh session in your preferred terminal,
-    then try running the `flutter` and `dart` tools.
+    為確認你已成功將 SDK 加入 `PATH`，
+    請在慣用的終端機中開啟一個 Zsh 工作階段，
+    然後嘗試執行 `flutter` 和 `dart` 工具。
 
     ```console
     $ flutter --version
     $ dart --version
     ```
 
-    If either command isn't found,
-    check out [Flutter installation troubleshooting][troubleshoot].
+    若任一指令找不到，
+    請參閱 [Flutter 安裝疑難排解][troubleshoot]。
 
 {: .steps}
 

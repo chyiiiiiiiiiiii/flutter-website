@@ -1,60 +1,60 @@
-Migrating to SwiftPM requires updating the
-`ios/Runner.xcodeproj/project.pbxproj` and
-`ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme` files.
+遷移至 SwiftPM 需要更新
+`ios/Runner.xcodeproj/project.pbxproj` 與
+`ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme` 檔案。
 
-### Step 1: Add FlutterGeneratedPluginSwiftPackage package dependency {:.no_toc}
+### 步驟 1：新增 FlutterGeneratedPluginSwiftPackage 套件相依 {:.no_toc}
 
-1. In Xcode, open `ios/Runner.xcworkspace`.
-1. Navigate to **Package Dependencies** for the project.
+1. 在 Xcode 中開啟 `ios/Runner.xcworkspace`。
+1. 前往專案的 **Package Dependencies**。
 
-   <DashImage image="development/packages-and-plugins/swift-package-manager/package-dependencies.png" caption="The project's package dependencies" />
+   <DashImage image="development/packages-and-plugins/swift-package-manager/package-dependencies.png" caption="專案的套件相依項目" />
 
-1. Click the <Icon id="add" label="add/plus"></Icon> button.
-1. In the dialog that opens, click **Add Local...**.
-1. Navigate to `ios/Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage`
-   and click **Add Package**.
-1. Ensure that it's added to the `Runner` target and click **Add Package**.
+1. 點選 <Icon id="add" label="add/plus"></Icon> 按鈕。
+1. 在開啟的對話框中，點選 **Add Local...**。
+1. 前往 `ios/Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage`
+   並點選 **Add Package**。
+1. 確認已新增至 `Runner` target，然後點選 **Add Package**。
 
-   <DashImage image="development/packages-and-plugins/swift-package-manager/choose-package-products.png" caption="Ensure that the package is added to the `Runner` target" />
+   <DashImage image="development/packages-and-plugins/swift-package-manager/choose-package-products.png" caption="確認套件已新增至 `Runner` target" />
 
-1. Ensure that `FlutterGeneratedPluginSwiftPackage` was added to **Frameworks,
-   Libraries, and Embedded Content**.
+1. 確認 `FlutterGeneratedPluginSwiftPackage` 已新增至 **Frameworks,
+   Libraries, and Embedded Content**。
 
-   <DashImage image="development/packages-and-plugins/swift-package-manager/add-generated-framework.png" caption="Ensure that `FlutterGeneratedPluginSwiftPackage` was added to **Frameworks, Libraries, and Embedded Content**" />
+   <DashImage image="development/packages-and-plugins/swift-package-manager/add-generated-framework.png" caption="確認 `FlutterGeneratedPluginSwiftPackage` 已新增至 **Frameworks, Libraries, and Embedded Content**" />
 
-### Step 2: Add Run Prepare Flutter Framework Script Pre-action {:.no_toc}
+### 步驟 2：新增 Run Prepare Flutter Framework Script 預先動作 {:.no_toc}
 
-**The following steps must be completed for each flavor.**
+**以下步驟必須針對每個 flavor 個別完成。**
 
-1. Go to **Product > Scheme > Edit Scheme**.
-1. Expand the **Build** section in the left sidebar.
-1. Click **Pre-actions**.
-1. Click the <Icon id="add" label="add/plus"></Icon> button and
-   select **New Run Script Action** from the menu.
-1. Click the **Run Script** title and change it to:
+1. 前往 **Product > Scheme > Edit Scheme**。
+1. 展開左側欄的 **Build** 區段。
+1. 點選 **Pre-actions**。
+1. 點選 <Icon id="add" label="add/plus"></Icon> 按鈕，
+   並從選單中選取 **New Run Script Action**。
+1. 點選 **Run Script** 標題並將其更名為：
 
    ```plaintext
    Run Prepare Flutter Framework Script
    ```
 
-1. Change the **Provide build settings from** to the `Runner` app.
-1. Input the following in the text box:
+1. 將 **Provide build settings from** 變更為 `Runner` 應用程式。
+1. 在文字方塊中輸入以下內容：
 
    ```sh
    "$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh" prepare
    ```
 
-   <DashImage image="development/packages-and-plugins/swift-package-manager/add-flutter-pre-action.png" caption="Add **Run Prepare Flutter Framework Script** build pre-action" />
+   <DashImage image="development/packages-and-plugins/swift-package-manager/add-flutter-pre-action.png" caption="新增 **Run Prepare Flutter Framework Script** 建置預先動作" />
 
-### Step 3: Run app {:.no_toc}
+### 步驟 3：執行應用程式 {:.no_toc}
 
-1. In Xcode, run the app.
-1. Ensure that  **Run Prepare Flutter Framework Script** runs as a pre-action
-   and that `FlutterGeneratedPluginSwiftPackage` is a target dependency.
+1. 在 Xcode 中執行應用程式。
+1. 確認 **Run Prepare Flutter Framework Script** 已作為預先動作執行，
+   且 `FlutterGeneratedPluginSwiftPackage` 已列為 target 相依項目。
 
-   <DashImage image="development/packages-and-plugins/swift-package-manager/flutter-pre-action-build-log.png" caption="Ensure **Run Prepare Flutter Framework Script** runs as a pre-action" />
+   <DashImage image="development/packages-and-plugins/swift-package-manager/flutter-pre-action-build-log.png" caption="確認 **Run Prepare Flutter Framework Script** 已作為預先動作執行" />
 
-1. Ensure that the app runs on the command line with `flutter run`.
+1. 確認應用程式可透過命令列以 `flutter run` 正常執行。
 
 [turn on Swift Package Manager]: /packages-and-plugins/swift-package-manager/for-app-developers/#how-to-turn-on-swift-package-manager
 [file an issue]: {{site.github}}/flutter/flutter/issues/new?template=2_bug.yml

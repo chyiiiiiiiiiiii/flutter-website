@@ -1,7 +1,7 @@
-#### Build the Android version of the Flutter app in the Terminal
+#### 在終端機中建置 Flutter 應用程式的 Android 版本
 
-To generate the needed Android platform dependencies,
-run the `flutter build` command.
+若要產生所需的 Android 平台相依套件，
+請執行 `flutter build` 指令。
 
 ```console
 flutter build appbundle --debug
@@ -16,22 +16,22 @@ Running Gradle task 'bundleDebug'...                               27.1s
 <Tabs key="android-debug-flow">
 <Tab name="Start from VS Code">
 
-#### Start debugging with VS Code first {:#from-vscode-to-android-studio}
+#### 先從 VS Code 開始除錯 {:#from-vscode-to-android-studio}
 
-If you use VS Code to debug most of your code, start with this section.
+如果你大多使用 VS Code 來除錯程式碼，請從本節開始。
 
 {% render "docs/debug/debug-flow-vscode-as-start.md" %}
 
-#### Attach to the Flutter process in Android Studio
+#### 在 Android Studio 中附加至 Flutter 程序
 
 {% render "docs/debug/debug-android-attach-process.md" %}
 
 </Tab>
 <Tab name="Start from Android Studio">
 
-#### Start debugging with Android Studio first {:#from-android-studio}
+#### 先從 Android Studio 開始除錯 {:#from-android-studio}
 
-If you use Android Studio to debug most of your code, start with this section.
+如果你大多使用 Android Studio 來除錯程式碼，請從本節開始。
 
 {% render "docs/debug/debug-flow-androidstudio-as-start.md" %}
 

@@ -1,113 +1,109 @@
-On iOS 14 and later, enable the Dart multicast DNS service in the
-**Debug** version of your iOS app.
-This adds [debugging functionalities such as hot-reload and DevTools][]
-using `flutter attach`.
+在 iOS 14 及更新版本中，請在 iOS 應用程式的 **Debug** 版本中啟用 Dart multicast DNS 服務。
+這可透過 `flutter attach` 新增[除錯功能，例如熱重載與 DevTools](/add-to-app/debugging)。
 
 :::warning
-Never enable this service in the **Release** version of your app.
-The Apple App Store might reject your app.
+請勿在應用程式的 **Release** 版本中啟用此服務。
+Apple App Store 可能會拒絕你的應用程式上架。
 :::
 
-To set local network privacy permissions only in the Debug version of your app,
-create a separate `Info.plist` per build configuration.
-SwiftUI projects start without an `Info.plist` file.
-If you need to create a property list,
-you can do so through Xcode or text editor.
-The following instructions assume the default **Debug** and **Release**.
-Adjust the names as needed depending on your app's build configurations.
+若要僅在應用程式的 Debug 版本中設定本機網路隱私權限，
+請為每個建置設定建立獨立的 `Info.plist` 檔案。
+SwiftUI 專案預設不含 `Info.plist` 檔案。
+若需要建立 property list，
+可透過 Xcode 或文字編輯器進行。
+以下說明假設使用預設的 **Debug** 與 **Release** 設定。
+請依照你的應用程式建置設定調整名稱。
 
-1. Create a new property list.
+1. 建立新的 property list。
 
-   1. Open your project in Xcode.
+   1. 在 Xcode 中開啟你的專案。
 
-   1. In the **Project Navigator**, click on the project name.
+   1. 在 **Project Navigator** 中，點擊專案名稱。
 
-   1. From the **Targets** list in the Editor pane, click on your app.
+   1. 在編輯器面板的 **Targets** 清單中，點擊你的應用程式。
 
-   1. Click the **Info** tab.
+   1. 點擊 **Info** 分頁。
 
-   1. Expand **Custom iOS Target Properties**.
+   1. 展開 **Custom iOS Target Properties**。
 
-   1. Right-click on the list and select **Add Row**.
+   1. 在清單上按右鍵，選擇 **Add Row**。
 
-   1. From the dropdown menu, select **Bonjour Services**.
-      This creates a new property list in the project directory
-      called `Info`. This displays as `Info.plist` in the Finder.
+   1. 從下拉選單中選擇 **Bonjour Services**。
+      這會在專案目錄中建立一個名為 `Info` 的新 property list 檔案，
+      在 Finder 中顯示為 `Info.plist`。
 
-1. Rename the `Info.plist` to `Info-Debug.plist`
+1. 將 `Info.plist` 重新命名為 `Info-Debug.plist`。
 
-   1. Click on **Info** file in the project list at the left.
+   1. 在左側專案清單中點擊 **Info** 檔案。
 
-   1. In the **Identity and Type** panel at the right,
-      change the **Name** from `Info.plist` to `Info-Debug.plist`.
+   1. 在右側的 **Identity and Type** 面板中，
+      將 **Name** 從 `Info.plist` 改為 `Info-Debug.plist`。
 
-1. Create a Release property list.
+1. 建立 Release property list。
 
-   1. In the **Project Navigator**, click on `Info-Debug.plist`.
+   1. 在 **Project Navigator** 中，點擊 `Info-Debug.plist`。
 
-   1. Select **File** > **Duplicate...**.
-      You can also press <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>.
+   1. 選擇 **File** > **Duplicate...**。
+      你也可以按下 <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>。
 
-   1. In the dialog box, set the **Save As:** field to
-      `Info-Release.plist` and click **Save**.
+   1. 在對話框中，將 **Save As:** 欄位設為
+      `Info-Release.plist`，然後點擊 **Save**。
 
-1. Add the necessary properties to the **Debug** property list.
+1. 在 **Debug** property list 中新增必要的屬性。
 
-   1. In the **Project Navigator**, click on `Info-Debug.plist`.
+   1. 在 **Project Navigator** 中，點擊 `Info-Debug.plist`。
 
-   1. Add the String value `_dartVmService._tcp`
-      to the **Bonjour Services** array.
+   1. 在 **Bonjour Services** 陣列中新增字串值 `_dartVmService._tcp`。
 
-   1. _(Optional)_ To set your desired customized permission dialog text,
-      add the key **Privacy - Local Network Usage Description**.
+   1. _（選用）_ 若要設定自訂的權限對話框文字，
+      新增鍵值 **Privacy - Local Network Usage Description**。
 
-      <DashImage image="development/add-to-app/ios/project-setup/debug-plist.png" caption="The `Info-Debug` property list with the **Bonjour Services** and **Privacy - Local Network Usage Description** keys added" />
+      <DashImage image="development/add-to-app/ios/project-setup/debug-plist.png" caption="已新增 **Bonjour Services** 與 **Privacy - Local Network Usage Description** 鍵值的 `Info-Debug` property list" />
 
-1. Set the target to use different property lists for different build modes.
+1. 設定目標，讓不同建置模式使用不同的 property list。
 
-   1. In the **Project Navigator**, click on your project.
+   1. 在 **Project Navigator** 中，點擊你的專案。
 
-   1. Click the **Build Settings** tab.
+   1. 點擊 **Build Settings** 分頁。
 
-   1. Click **All** and **Combined** sub-tabs.
+   1. 點擊 **All** 與 **Combined** 子分頁。
 
-   1. In the Search box, type `plist`.
-      This limits the settings to those that include property lists.
+   1. 在搜尋框中輸入 `plist`。
+      這會將設定篩選為包含 property list 的項目。
 
-   1. Scroll through the list until you see **Packaging**.
+   1. 捲動清單直到看見 **Packaging**。
 
-   1. Click on the **Info.plist File** setting.
+   1. 點擊 **Info.plist File** 設定。
 
-   1. Change the **Info.plist File** value
-      from `path/to/Info.plist` to `path/to/Info-$(CONFIGURATION).plist`.
+   1. 將 **Info.plist File** 的值
+      從 `path/to/Info.plist` 改為 `path/to/Info-$(CONFIGURATION).plist`。
 
-      <DashImage image="development/add-to-app/ios/project-setup/set-plist-build-setting.png" caption="Updating the `Info.plist` build setting to use build mode-specific property lists" />
+      <DashImage image="development/add-to-app/ios/project-setup/set-plist-build-setting.png" caption="更新 `Info.plist` 建置設定以使用特定建置模式的 property list" />
 
-      This resolves to the path **Info-Debug.plist** in **Debug** and
-      **Info-Release.plist** in **Release**.
+      這會在 **Debug** 模式下解析為 **Info-Debug.plist**，
+      在 **Release** 模式下解析為 **Info-Release.plist**。
 
-      <DashImage image="development/add-to-app/ios/project-setup/plist-build-setting.png" caption="The updated **Info.plist File** build setting displaying the configuration variations" />
+      <DashImage image="development/add-to-app/ios/project-setup/plist-build-setting.png" caption="顯示各設定變體的更新後 **Info.plist File** 建置設定" />
 
-1. Remove the **Release** property list from the **Build Phases**.
+1. 從 **Build Phases** 中移除 **Release** property list。
 
-   1. In the **Project Navigator**, click on your project.
+   1. 在 **Project Navigator** 中，點擊你的專案。
 
-   1. Click the **Build Phases** tab.
+   1. 點擊 **Build Phases** 分頁。
 
-   1. Expand **Copy Bundle Resources**.
+   1. 展開 **Copy Bundle Resources**。
 
-   1. If this list includes `Info-Release.plist`,
-      click on it and then click the **-** (minus sign) under it
-      to remove the property list from the resources list.
+   1. 若此清單包含 `Info-Release.plist`，
+      點擊該項目，然後點擊其下方的 **-**（減號）
+      以將 property list 從資源清單中移除。
 
-      <DashImage image="development/add-to-app/ios/project-setup/copy-bundle.png" caption="The **Copy Bundle** build phase displaying the **Info-Release.plist** setting. Remove this setting." />
+      <DashImage image="development/add-to-app/ios/project-setup/copy-bundle.png" caption="顯示 **Info-Release.plist** 設定的 **Copy Bundle** 建置階段，請移除此設定。" />
 
-1. The first Flutter screen your Debug app loads prompts
-   for local network permission.
+1. 你的 Debug 應用程式載入的第一個 Flutter 畫面會提示要求本機網路權限。
 
-   Click **OK**.
+   點擊 **OK**。
 
-   _(Optional)_ To grant permission before the app loads, enable
-   **Settings > Privacy > Local Network > Your App**.
+   _（選用）_ 若要在應用程式載入前授予權限，請啟用
+   **Settings > Privacy > Local Network > Your App**。
 
 [debugging functionalities such as hot-reload and DevTools]: /add-to-app/debugging

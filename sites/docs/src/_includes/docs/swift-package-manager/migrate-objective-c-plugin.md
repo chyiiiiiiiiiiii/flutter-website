@@ -1,11 +1,10 @@
-Replace `plugin_name` throughout this guide with the name of your plugin.
-The example below uses `ios`, replace `ios` with `macos` or `darwin`, as applicable.
+在整份指南中，請將 `plugin_name` 替換為你的插件名稱。
+以下範例使用 `ios`，請依實際情況替換為 `macos` 或 `darwin`。
 
-1.  Ensure that you are running Flutter 3.44 or later. This enables SwiftPM by default.
+1.  確認你目前執行的是 Flutter 3.44 或更新版本。此版本預設啟用 SwiftPM。
 
-1. Start by creating a directory under the `ios`, `macos`, and/or `darwin`
-   directories.
-   Name this new directory the name of the platform package.
+1. 首先，在 `ios`、`macos` 和/或 `darwin` 目錄下建立一個子目錄。
+   將這個新目錄命名為平台套件的名稱。
 
    <FileTree>
 
@@ -16,19 +15,18 @@ The example below uses `ios`, replace `ios` with `macos` or `darwin`, as applica
    
    </FileTree>
 
-1. Within this new directory, create the following files/directories:
+1. 在這個新目錄中，建立以下檔案/目錄：
 
-    - `Package.swift` (file)
-    - `Sources` (directory)
-    - `Sources/plugin_name` (directory)
-    - `Sources/plugin_name/include` (directory)
-    - `Sources/plugin_name/include/plugin_name` (directory)
-    - `Sources/plugin_name/include/plugin_name/.gitkeep` (file)
-      - This file ensures the directory is committed.
-        You can remove the `.gitkeep` file if other files are added to the
-        directory.
+    - `Package.swift`（檔案）
+    - `Sources`（目錄）
+    - `Sources/plugin_name`（目錄）
+    - `Sources/plugin_name/include`（目錄）
+    - `Sources/plugin_name/include/plugin_name`（目錄）
+    - `Sources/plugin_name/include/plugin_name/.gitkeep`（檔案）
+      - 此檔案確保該目錄會被提交。
+        若目錄中已新增其他檔案，可移除 `.gitkeep` 檔案。
 
-   Your plugin should look like:
+   你的插件結構應如下所示：
 
    <FileTree>
 
@@ -42,7 +40,7 @@ The example below uses `ios`, replace `ios` with `macos` or `darwin`, as applica
 
    </FileTree>
 
-1. Use the following template in the `Package.swift` file:
+1. 在 `Package.swift` 檔案中使用以下範本：
 
    ```swift title="Package.swift"
    // swift-tools-version: 5.9
@@ -93,7 +91,7 @@ The example below uses `ios`, replace `ios` with `macos` or `darwin`, as applica
    )
    ```
 
-1. Update the [supported platforms][] in your `Package.swift` file.
+1. 更新 `Package.swift` 檔案中的[支援平台][supported platforms]。
 
    ```swift title="Package.swift"
        platforms: [
@@ -107,7 +105,7 @@ The example below uses `ios`, replace `ios` with `macos` or `darwin`, as applica
 
    [supported platforms]: {{site.apple-dev}}/documentation/packagedescription/supportedplatform
 
-1. Update the package, library, and target names in your `Package.swift` file.
+1. 更新 `Package.swift` 檔案中的套件、程式庫與目標名稱。
 
    ```swift title="Package.swift"
    let package = Package(
@@ -151,13 +149,12 @@ The example below uses `ios`, replace `ios` with `macos` or `darwin`, as applica
    ```
 
    :::note
-   If the plugin name contains `_`, the library name must be a `-` separated
-   version of the plugin name.
+   若插件名稱包含 `_`，程式庫名稱必須改用 `-` 分隔。
    :::
 
-1. If your plugin has a [`PrivacyInfo.xcprivacy` file][], move it to
-   `ios/plugin_name/Sources/plugin_name/PrivacyInfo.xcprivacy` and uncomment
-   the resource in the `Package.swift` file.
+1. 若你的插件有 [`PrivacyInfo.xcprivacy` 檔案][`PrivacyInfo.xcprivacy` file]，
+   請將其移至 `ios/plugin_name/Sources/plugin_name/PrivacyInfo.xcprivacy`，
+   並取消 `Package.swift` 檔案中對應資源的註解。
 
    ```swift title="Package.swift"
                resources: [
@@ -175,37 +172,36 @@ The example below uses `ios`, replace `ios` with `macos` or `darwin`, as applica
                ],
    ```
 
-1. Move any resource files from `ios/Assets` to
-   `ios/plugin_name/Sources/plugin_name` (or a subdirectory).
-   Add the resource files to your `Package.swift` file, if applicable.
-   For more instructions, visit
-   [https://developer.apple.com/documentation/xcode/bundling-resources-with-a-swift-package]({{site.apple-dev}}/documentation/xcode/bundling-resources-with-a-swift-package).
+1. 將 `ios/Assets` 中的資源檔移至
+   `ios/plugin_name/Sources/plugin_name`（或其子目錄）。
+   若適用，請將資源檔加入 `Package.swift` 檔案。
+   更多操作說明請參閱
+   [https://developer.apple.com/documentation/xcode/bundling-resources-with-a-swift-package]({{site.apple-dev}}/documentation/xcode/bundling-resources-with-a-swift-package)。
 
-1. Move any public headers from `ios/Classes` to
-   `ios/plugin_name/Sources/plugin_name/include/plugin_name`.
+1. 將 `ios/Classes` 中的所有公開標頭移至
+   `ios/plugin_name/Sources/plugin_name/include/plugin_name`。
 
-   * If you're unsure which headers are public, check your `podspec` file's
-     [`public_header_files`][] attribute.
-     If this attribute isn't specified, all of your headers were public.
-     You should consider whether you want all of your headers to be public.
+   * 若不確定哪些標頭是公開的，請查看 `podspec` 檔案的
+     [`public_header_files`][] 屬性。
+     若未指定此屬性，則所有標頭均為公開。
+     建議你考慮是否真的需要將所有標頭設為公開。
 
-   * The `pluginClass` defined in your `pubspec.yaml` file must be public and
-     within this directory.
+   * 在 `pubspec.yaml` 中定義的 `pluginClass` 必須為公開，
+     且須位於此目錄中。
 
-1. Handling `modulemap`.
+1. 處理 `modulemap`。
 
-   Skip this step if your plugin does not have a `modulemap`.
+   若你的插件沒有 `modulemap`，請跳過此步驟。
 
-   If you're using a `modulemap` for CocoaPods to create a Test submodule,
-   consider removing it for Swift Package Manager.
-   Note that this makes all public headers available through the module.
+   若你使用 `modulemap` 讓 CocoaPods 建立 Test 子模組，
+   可考慮在 Swift Package Manager 中將其移除。
+   請注意，這會讓所有公開標頭都可透過模組存取。
 
-   To remove the `modulemap` for Swift Package Manager but keep it for
-   CocoaPods, exclude the `modulemap` and umbrella header in the plugin's
-   `Package.swift` file.
+   若要在 Swift Package Manager 中移除 `modulemap` 但保留 CocoaPods 的設定，
+   請在插件的 `Package.swift` 檔案中排除 `modulemap` 和 umbrella header。
 
-   The example below assumes the `modulemap` and umbrella header are located
-   in the `ios/plugin_name/Sources/plugin_name/include` directory.
+   以下範例假設 `modulemap` 和 umbrella header 位於
+   `ios/plugin_name/Sources/plugin_name/include` 目錄中。
 
     ```swift title="Package.swift" diff
       .target(
@@ -214,8 +210,8 @@ The example below uses `ios`, replace `ios` with `macos` or `darwin`, as applica
     +     exclude: ["include/cocoapods_plugin_name.modulemap", "include/plugin_name-umbrella.h"],
     ```
 
-    If you want to keep your unit tests compatible with both CocoaPods and
-    Swift Package Manager, you can try the following:
+    若你希望單元測試同時相容 CocoaPods 和 Swift Package Manager，
+    可嘗試以下做法：
 
     ```objc title="Tests/TestFile.m" diff
       @import plugin_name;
@@ -225,21 +221,21 @@ The example below uses `ios`, replace `ios` with `macos` or `darwin`, as applica
     + #endif
     ```
 
-    If you would like to use a custom `modulemap` with your Swift package,
-    refer to [Swift Package Manager's documentation][].
+    若要在 Swift 套件中使用自訂 `modulemap`，
+    請參閱 [Swift Package Manager 的說明文件][Swift Package Manager's documentation]。
 
-1. Move all remaining files from `ios/Classes` to
-   `ios/plugin_name/Sources/plugin_name`.
+1. 將 `ios/Classes` 中所有剩餘的檔案移至
+   `ios/plugin_name/Sources/plugin_name`。
 
-1. The `ios/Assets`, `ios/Resources`, and `ios/Classes` directories should now
-   be empty and can be deleted.
+1. `ios/Assets`、`ios/Resources` 和 `ios/Classes` 目錄現在應為空，
+   可以刪除。
 
-1. If your header files are no longer in the same directory as your
-   implementation files, you should update your import statements.
+1. 若標頭檔案不再與實作檔案位於同一目錄，
+   請更新你的 import 陳述式。
 
-   For example, imagine the following migration:
+   舉例來說，假設有以下遷移情境：
 
-   * Before:
+   * 遷移前：
 
      ```plaintext
      ios/Classes/
@@ -247,7 +243,7 @@ The example below uses `ios`, replace `ios` with `macos` or `darwin`, as applica
      └── ImplementationFile.m
      ```
 
-   * After:
+   * 遷移後：
 
      ```plaintext highlightLines=2
      ios/plugin_name/Sources/plugin_name/
@@ -256,15 +252,14 @@ The example below uses `ios`, replace `ios` with `macos` or `darwin`, as applica
      └── ImplementationFile.m
      ```
 
-   In this example, the import statements in `ImplementationFile.m`
-   should be updated:
+   在此範例中，`ImplementationFile.m` 中的 import 陳述式應更新為：
 
    ```objc title="Sources/plugin_name/ImplementationFile.m" diff
    - #import "PublicHeaderFile.h"
    + #import "./include/plugin_name/PublicHeaderFile.h"
    ```
 
-1. If your plugin uses [Pigeon][], update your Pigeon input file.
+1. 若你的插件使用 [Pigeon][]，請更新 Pigeon 輸入檔案。
 
    ```dart title="pigeons/messages.dart" diff
      javaOptions: JavaOptions(),
@@ -275,9 +270,8 @@ The example below uses `ios`, replace `ios` with `macos` or `darwin`, as applica
      copyrightHeader: 'pigeons/copyright.txt',
    ```
 
-   If your `objcHeaderOut` file is no longer within the same directory as the
-   `objcSourceOut`, you can change the `#import` using
-   `ObjcOptions.headerIncludePath`:
+   若 `objcHeaderOut` 檔案不再與 `objcSourceOut` 位於同一目錄，
+   可透過 `ObjcOptions.headerIncludePath` 修改 `#import`：
 
    ```dart title="pigeons/messages.dart" diff
      javaOptions: JavaOptions(),
@@ -291,30 +285,27 @@ The example below uses `ios`, replace `ios` with `macos` or `darwin`, as applica
      copyrightHeader: 'pigeons/copyright.txt',
    ```
 
-   Run Pigeon to re-generate its code with the latest configuration.
+   執行 Pigeon 以依最新設定重新產生程式碼。
 
-1. Update your `Package.swift` file with any customizations you might need.
+1. 依需求更新 `Package.swift` 檔案中的自訂設定。
 
-   1. In Xcode, open the `ios/plugin_name/` directory.
+   1. 在 Xcode 中開啟 `ios/plugin_name/` 目錄。
 
-   1. In Xcode, open your `Package.swift` file.
-      Verify that Xcode doesn't produce any warnings or errors for this file.
+   1. 在 Xcode 中開啟 `Package.swift` 檔案。
+      確認 Xcode 對此檔案不會產生任何警告或錯誤。
 
       :::tip
-      If Xcode doesn't show any files, quit Xcode (**Xcode > Quit Xcode**) and
-      reopen.
+      若 Xcode 沒有顯示任何檔案，請退出 Xcode（**Xcode > Quit Xcode**）後重新開啟。
 
-      If Xcode doesn't update after you make a change, try clicking
-      **File > Packages > Reset Package Caches**.
+      若 Xcode 在你修改後沒有更新，請嘗試點擊
+      **File > Packages > Reset Package Caches**。
       :::
 
-   1. If your `ios/plugin_name.podspec` file has [CocoaPods `dependency`][]s,
-      add the corresponding [Swift Package Manager dependencies][] to your
-      `Package.swift` file.
+   1. 若你的 `ios/plugin_name.podspec` 檔案有 [CocoaPods `dependency`][]，
+      請將對應的 [Swift Package Manager dependencies][] 加入 `Package.swift` 檔案。
 
-   1. If your package must be linked explicitly `static` or `dynamic`
-      ([not recommended by Apple][]), update the [Product][] to define the
-      type:
+   1. 若套件必須明確指定連結方式為 `static` 或 `dynamic`
+      （[Apple 不建議此做法][not recommended by Apple]），請更新 [Product][] 以定義類型：
 
       ```swift title="Package.swift"
       products: [
@@ -322,16 +313,15 @@ The example below uses `ios`, replace `ios` with `macos` or `darwin`, as applica
       ],
       ```
 
-   1. Make any other customizations. For more information on how to write a
-      `Package.swift` file, visit
-      [https://developer.apple.com/documentation/packagedescription](https://developer.apple.com/documentation/packagedescription).
+   1. 進行其他自訂設定。如需了解如何撰寫 `Package.swift` 檔案的詳細資訊，請參閱
+      [https://developer.apple.com/documentation/packagedescription](https://developer.apple.com/documentation/packagedescription)。
 
       :::tip
-      If you add targets to your `Package.swift` file, use unique names.
-      This avoids conflicts with targets from other packages.
+      若你在 `Package.swift` 檔案中新增目標，請使用唯一名稱，
+      以避免與其他套件的目標發生衝突。
       :::
 
-1. Update your `ios/plugin_name.podspec` to point to new paths.
+1. 更新 `ios/plugin_name.podspec` 以指向新路徑。
 
    ```ruby title="ios/plugin_name.podspec" diff
    - s.source_files = 'Classes/**/*.{h,m}'
@@ -344,7 +334,7 @@ The example below uses `ios`, replace `ios` with `macos` or `darwin`, as applica
    + s.resource_bundles = {'plugin_name_privacy' => ['plugin_name/Sources/plugin_name/PrivacyInfo.xcprivacy']}
    ```
 
-1. Update loading of resources from bundle to use `SWIFTPM_MODULE_BUNDLE`:
+1. 更新從 bundle 載入資源的方式，改用 `SWIFTPM_MODULE_BUNDLE`：
 
    ```objc
    #if SWIFT_PACKAGE
@@ -356,52 +346,51 @@ The example below uses `ios`, replace `ios` with `macos` or `darwin`, as applica
    ```
 
    :::note
-   `SWIFTPM_MODULE_BUNDLE` only works if there are actual resources
-   (either [defined in the `Package.swift` file][Bundling resources] or
-   [automatically included by Xcode][Xcode resource detection]).
-   Otherwise, using `SWIFTPM_MODULE_BUNDLE` results in an error.
+   `SWIFTPM_MODULE_BUNDLE` 僅在有實際資源時才能使用（無論是
+   [在 `Package.swift` 檔案中明確定義][Bundling resources]，還是
+   [由 Xcode 自動偵測][Xcode resource detection]）。
+   否則使用 `SWIFTPM_MODULE_BUNDLE` 將會產生錯誤。
    :::
 
-1. If your `ios/plugin_name/Sources/plugin_name/include` directory only
-   contains a `.gitkeep`, you'll want to update your `.gitignore` to
-   include the following:
+1. 若 `ios/plugin_name/Sources/plugin_name/include` 目錄中
+   只包含 `.gitkeep`，請更新 `.gitignore` 加入以下內容：
 
     ```text title=".gitignore"
     !.gitkeep
     ```
 
-    Run `flutter pub publish --dry-run` to ensure the `include` directory
-    is published.
+    執行 `flutter pub publish --dry-run` 以確認 `include` 目錄
+    會被發布。
 
-1. Commit your plugin's changes to your version control system.
+1. 將插件的變更提交至版本控制系統。
 
-1. Verify the plugin still works with CocoaPods.
+1. 驗證插件仍可與 CocoaPods 正常運作。
 
-   1. Turn off Swift Package Manager:
+   1. 關閉 Swift Package Manager：
 
       ```sh
       flutter config --no-enable-swift-package-manager
       ```
 
-   1. Navigate to the plugin's example app.
+   1. 切換至插件的範例應用程式目錄。
 
       ```sh
       cd path/to/plugin/example/
       ```
 
-   1. Ensure the plugin's example app builds and runs.
+   1. 確認插件的範例應用程式可正常建置與執行。
 
       ```sh
       flutter run
       ```
 
-   1. Navigate to the plugin's top-level directory.
+   1. 切換至插件的頂層目錄。
 
       ```sh
       cd path/to/plugin/
       ```
 
-   1. Run CocoaPods validation lints:
+   1. 執行 CocoaPods 驗證 lint：
 
       ```sh
       pod lib lint ios/plugin_name.podspec  --configuration=Debug --skip-tests --use-modular-headers --use-libraries
@@ -411,50 +400,47 @@ The example below uses `ios`, replace `ios` with `macos` or `darwin`, as applica
       pod lib lint ios/plugin_name.podspec  --configuration=Debug --skip-tests --use-modular-headers
       ```
 
-1. Verify the plugin works with Swift Package Manager.
+1. 驗證插件可與 Swift Package Manager 正常運作。
 
-   1. Turn on Swift Package Manager:
+   1. 開啟 Swift Package Manager：
 
       ```sh
       flutter config --enable-swift-package-manager
       ```
 
-   1. Navigate to the plugin's example app.
+   1. 切換至插件的範例應用程式目錄。
 
       ```sh
       cd path/to/plugin/example/
       ```
 
-   1. Ensure the plugin's example app builds and runs.
+   1. 確認插件的範例應用程式可正常建置與執行。
 
       ```sh
       flutter run
       ```
 
       :::note
-      Using the Flutter CLI to run the plugin's example app with the
-      Swift Package Manager feature turned on migrates the project to add
-      Swift Package Manager integration.
+      使用 Flutter CLI 在開啟 Swift Package Manager 功能的情況下執行插件的範例應用程式，
+      會將專案遷移以加入 Swift Package Manager 整合。
 
-      This raises the example app's Flutter SDK requirement to version 3.24 or
-      higher.
+      這會將範例應用程式的 Flutter SDK 最低版本需求提升至 3.24 或更高版本。
 
-      If you'd like to run the example app using an older Flutter SDK version,
-      do not commit the migration's changes to your version control system.
-      If needed, you can always
-      [undo the Swift Package Manager migration][removeSPM].
+      若你希望使用較舊的 Flutter SDK 版本執行範例應用程式，
+      請勿將遷移的變更提交至版本控制系統。
+      如有需要，你隨時可以
+      [復原 Swift Package Manager 遷移][removeSPM]。
       :::
 
-   1. In Xcode, open the plugin's example app.
-      Ensure that **Package Dependencies** shows in the left
-      **Project Navigator**.
+   1. 在 Xcode 中開啟插件的範例應用程式。
+      確認左側 **Project Navigator** 中顯示 **Package Dependencies**。
 
-1. Verify tests pass.
+1. 驗證測試通過。
 
-   * **If your plugin has native unit tests (XCTest), make sure you also
-     [update unit tests in the plugin's example app][].**
+   * **若你的插件有原生單元測試（XCTest），請務必同時
+     [更新插件範例應用程式中的單元測試][update unit tests in the plugin's example app]。**
 
-   * Follow instructions for [testing plugins][].
+   * 依照[測試插件][testing plugins]的說明操作。
 
 [`PrivacyInfo.xcprivacy` file]: https://developer.apple.com/documentation/bundleresources/privacy_manifest_files
 [`public_header_files`]: https://guides.cocoapods.org/syntax/podspec.html#public_header_files

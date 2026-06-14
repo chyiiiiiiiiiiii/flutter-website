@@ -8,10 +8,10 @@
 {% endcomment %}
 
 :::note
-The following link(s) take you to the
-[latest docs][] on the master channel.
-You can find the docs for the stable
-channel at [api.flutter.dev][].
+以下連結會帶你前往 master 頻道上的
+[最新文件][latest docs]。
+你可以在 [api.flutter.dev][] 找到
+穩定版頻道的文件。
 :::
 
 [api.flutter.dev]: {{site.api}}

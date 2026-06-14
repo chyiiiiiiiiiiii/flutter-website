@@ -1,52 +1,52 @@
-Flutter plugins might produce [static or dynamic frameworks][].
-Link static frameworks, [_never_ embed them][static-framework].
+Flutter 插件可能會產生[靜態或動態框架][static or dynamic frameworks]。
+請連結靜態框架，[_絕對不要_嵌入它們][static-framework]。
 
-If you embed a static framework into your iOS app,
-you can't publish that app to the App Store.
-Publishing fails with a
-`Found an unexpected Mach-O header code` archive error.
+若你將靜態框架嵌入 iOS 應用程式，
+將無法把該應用程式發布到 App Store。
+發布時會出現
+`Found an unexpected Mach-O header code` 封存錯誤。
 
-##### Link all frameworks
+##### 連結所有框架
 
-To link the necessary frameworks, follow this procedure.
+若要連結必要的框架，請按照以下步驟操作。
 
-1. Choose the frameworks to link.
+1. 選擇要連結的框架。
 
-   1. In the **Project Navigator**, click on your project.
+   1. 在 **Project Navigator** 中，點擊你的專案。
 
-   1. Click the **Build Phases** tab.
+   1. 點擊 **Build Phases** 頁籤。
 
-   1. Expand **Link Binary With Libraries**.
+   1. 展開 **Link Binary With Libraries**。
 
-      <DashImage image="development/add-to-app/ios/project-setup/linked-libraries.png" caption="Expand the **Link Binary With Libraries** build phase in Xcode" />
+      <DashImage image="development/add-to-app/ios/project-setup/linked-libraries.png" caption="在 Xcode 中展開 **Link Binary With Libraries** 建置階段" />
 
-   1. Click **+** (plus sign).
+   1. 點擊 **+**（加號）。
 
-   1. Click **Add Other...** then **Add Files...**.
+   1. 點擊 **Add Other...** 然後 **Add Files...**。
 
-   1. From the **Choose frameworks and libraries to add:** dialog box,
-      navigate to the `/path/to/MyApp/Flutter/Release/` directory.
+   1. 在 **Choose frameworks and libraries to add:** 對話框中，
+      瀏覽至 `/path/to/MyApp/Flutter/Release/` 目錄。
 
-   1. Command-click the frameworks in that directory then click **Open**.
+   1. 按住 Command 鍵點擊該目錄中的框架，然後點擊 **Open**。
 
-      <DashImage image="development/add-to-app/ios/project-setup/choose-libraries.png" caption="Choose frameworks to link from the **Choose frameworks and libraries to add:** dialog box in Xcode" />
+      <DashImage image="development/add-to-app/ios/project-setup/choose-libraries.png" caption="在 Xcode 的 **Choose frameworks and libraries to add:** 對話框中選擇要連結的框架" />
 
-1. Update the paths to the libraries to account for build modes.
+1. 更新函式庫的路徑以對應建置模式。
 
-   1. Launch the Finder.
+   1. 啟動 Finder。
 
-   1. Navigate to the `/path/to/MyApp/` directory.
+   1. 瀏覽至 `/path/to/MyApp/` 目錄。
 
-   1. Right-click on `MyApp.xcodeproj` and select **Show Package
-      Contents**.
+   1. 右鍵點擊 `MyApp.xcodeproj` 並選擇 **Show Package
+      Contents**。
 
-   1. Open `project.pbxproj` with Xcode. The file opens in Xcode's text
-      editor. This also locks **Project Navigator** until you close the text editor.
+   1. 用 Xcode 開啟 `project.pbxproj`。該檔案會在 Xcode 的文字
+      編輯器中開啟。這也會鎖定 **Project Navigator**，直到你關閉文字編輯器。
 
-      <DashImage image="development/add-to-app/ios/project-setup/project-pbxproj.png" caption="The `project-pbxproj` file open in the Xcode text editor" />
+      <DashImage image="development/add-to-app/ios/project-setup/project-pbxproj.png" caption="在 Xcode 文字編輯器中開啟的 `project-pbxproj` 檔案" />
 
-   1. Find the lines that resemble the following text in the
-      `/* Begin PBXFileReference section */`.
+   1. 在 `/* Begin PBXFileReference section */` 中找到
+      類似以下文字的行。
 
       ```text
       312885572C1A441C009F74FF /* Flutter.xcframework */ = {
@@ -66,9 +66,9 @@ To link the necessary frameworks, follow this procedure.
       };
       ```
 
-   1. Change the `Release` text highlighted in the prior step
-      and change it to `$(CONFIGURATION)`. Also wrap the path in
-      quotation marks.
+   1. 將上一步驟中反白的 `Release` 文字
+      改為 `$(CONFIGURATION)`，並在路徑前後加上
+      引號。
 
       ```text
       312885572C1A441C009F74FF /* Flutter.xcframework */ = {
@@ -88,99 +88,99 @@ To link the necessary frameworks, follow this procedure.
       };
       ```
 
-1. Update the search paths.
+1. 更新搜尋路徑。
 
-   1. Click the **Build Settings** tab.
+   1. 點擊 **Build Settings** 頁籤。
 
-   1. Navigate to **Search Paths**
+   1. 瀏覽至 **Search Paths**。
 
-   1. Double-click to the right of **Framework Search Paths**.
+   1. 雙擊 **Framework Search Paths** 右側。
 
-   1. In the combo box, click **+** (plus sign).
+   1. 在組合框中，點擊 **+**（加號）。
 
-   1. Type `$(inherited)`.
-      and press <kbd>Enter</kbd>.
+   1. 輸入 `$(inherited)`
+      並按下 <kbd>Enter</kbd>。
 
-   1. Click **+** (plus sign).
+   1. 點擊 **+**（加號）。
 
-   1. Type `$(PROJECT_DIR)/Flutter/$(CONFIGURATION)/`
-      and press <kbd>Enter</kbd>.
+   1. 輸入 `$(PROJECT_DIR)/Flutter/$(CONFIGURATION)/`
+      並按下 <kbd>Enter</kbd>。
 
-      <DashImage image="development/add-to-app/ios/project-setup/framework-search-paths.png" caption="Update **Framework Search Paths** in Xcode" />
+      <DashImage image="development/add-to-app/ios/project-setup/framework-search-paths.png" caption="在 Xcode 中更新 **Framework Search Paths**" />
 
-After linking the frameworks, they should display in the
+連結框架後，它們應會顯示在
+目標 **General** 設定的
 **Frameworks, Libraries, and Embedded Content**
-section of your target's **General** settings.
+區段中。
 
-##### Embed the dynamic frameworks
+##### 嵌入動態框架
 
-To embed your dynamic frameworks, complete the following procedure.
+若要嵌入動態框架，請完成以下步驟。
 
-1. Navigate to **General** <span aria-label="and then">></span>
-   **Frameworks, Libraries, and Embedded Content**.
+1. 瀏覽至 **General** <span aria-label="and then">></span>
+   **Frameworks, Libraries, and Embedded Content**。
 
-1. Click on each of your dynamic frameworks and select **Embed & Sign**.
+1. 點擊每個動態框架並選擇 **Embed & Sign**。
 
-   <DashImage image="development/add-to-app/ios/project-setup/choose-to-embed.png" caption="Select **Embed & Sign** for each of your frameworks in Xcode" />
+   <DashImage image="development/add-to-app/ios/project-setup/choose-to-embed.png" caption="在 Xcode 中為每個框架選擇 **Embed & Sign**" />
 
-   Don't include any static frameworks,
-   including `FlutterPluginRegistrant.xcframework`.
+   請勿包含任何靜態框架，
+   包括 `FlutterPluginRegistrant.xcframework`。
 
-1. Click the **Build Phases** tab.
+1. 點擊 **Build Phases** 頁籤。
 
-1. Expand **Embed Frameworks**.
-   Your dynamic frameworks should display in that section.
+1. 展開 **Embed Frameworks**。
+   你的動態框架應顯示在該區段中。
 
-   <DashImage image="development/add-to-app/ios/project-setup/embed-xcode.png" caption="The expanded **Embed Frameworks** build phase in Xcode" />
+   <DashImage image="development/add-to-app/ios/project-setup/embed-xcode.png" caption="在 Xcode 中展開的 **Embed Frameworks** 建置階段" />
 
-1. Build the project.
+1. 建置專案。
 
-   1. Open `MyApp.xcworkspace` in Xcode.
+   1. 在 Xcode 中開啟 `MyApp.xcworkspace`。
 
-      Verify that you're opening `MyApp.xcworkspace` and
-      not opening `MyApp.xcodeproj`.
-      The `.xcworkspace` file has the CocoaPod dependencies,
-      the `.xcodeproj` doesn't.
+      請確認你開啟的是 `MyApp.xcworkspace` 而
+      不是 `MyApp.xcodeproj`。
+      `.xcworkspace` 檔案包含 CocoaPod 相依套件，
+      `.xcodeproj` 則沒有。
 
-   1. Select **Product** <span aria-label="and then">></span>
-      **Build** or press <kbd>Cmd</kbd> + <kbd>B</kbd>.
+   1. 選擇 **Product** <span aria-label="and then">></span>
+      **Build** 或按下 <kbd>Cmd</kbd> + <kbd>B</kbd>。
 
-#### Set LLDB Init File
+#### 設定 LLDB Init File
 
 :::warning
-Set your scheme to use Flutter's LLDB Init File. Without this file, debugging
-on an iOS 26 or later device may crash.
+請將你的 Scheme 設定為使用 Flutter 的 LLDB Init File。若缺少此檔案，在
+iOS 26 或更新版本的裝置上進行除錯時可能會崩潰。
 :::
 
-1. Generate Flutter LLDB files.
+1. 產生 Flutter LLDB 檔案。
 
-   1. Within your flutter application, re-run `flutter build ios-framework` if
-      you haven't already:
+   1. 在你的 Flutter 應用程式中，如果尚未執行，請重新執行 `flutter build ios-framework`：
 
    ```console
    $ flutter build ios-framework --output=/path/to/MyApp/Flutter/
    ```
 
-   This will generate the LLDB files in the `/path/to/MyApp/Flutter/` directory.
+   這將在 `/path/to/MyApp/Flutter/` 目錄中產生 LLDB 檔案。
 
-1. Set the LLDB Init File.
+1. 設定 LLDB Init File。
 
-   1. Go to **Product > Scheme > Edit Scheme**.
+   1. 前往 **Product > Scheme > Edit Scheme**。
 
-   1. Select the **Run** section in the left side bar.
+   1. 在左側邊欄選擇 **Run** 區段。
 
-   1. Set the **LLDB Init File** to the following:
+   1. 將 **LLDB Init File** 設定為以下路徑：
 
       ```console
       $(PROJECT_DIR)/Flutter/flutter_lldbinit
       ```
 
-      If your scheme already has an **LLDB Init File**, you can add Flutter's
-      LLDB file to it. The path to Flutter's LLDB Init File must be relative
-      to the location of your project's LLDB Init File.
+      如果你的 Scheme 已有 **LLDB Init File**，可以將 Flutter 的
+      LLDB 檔案加入其中。Flutter 的 LLDB Init File 路徑必須相對於
+      你專案的 LLDB Init File 所在位置。
 
-      For example, if your LLDB file is located at `/path/to/MyApp/.lldbinit`,
-      you would add the following:
+      例如，若你的 LLDB 檔案位於 `/path/to/MyApp/.lldbinit`，
+      請加入以下內容：
 
       ```console
       command source --relative-to-command-file "Flutter/flutter_lldbinit"

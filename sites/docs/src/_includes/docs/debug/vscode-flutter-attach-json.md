@@ -1,27 +1,26 @@
-##### Enable automatic attachment
+##### 啟用自動附加
 
-You can configure VS Code to attach to your Flutter module project
-whenever you start debugging.
-To enable this feature,
-create a `.vscode/launch.json` file in your Flutter module project.
+你可以設定 VS Code 在開始除錯時自動附加到你的 Flutter 模組專案。
+若要啟用此功能，
+請在你的 Flutter 模組專案中建立 `.vscode/launch.json` 檔案。
 
-1. Go to **View** <span aria-label="and then">></span> **Run**.
+1. 前往 **View** <span aria-label="and then">></span> **Run**。
 
-   You can also press
-   <kbd>Ctrl</kbd> / <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>D</kbd>.
+   你也可以按
+   <kbd>Ctrl</kbd> / <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>D</kbd>。
 
-   VS Code displays the **Run and Debug** sidebar.
+   VS Code 會顯示 **Run and Debug** 側邊欄。
 
-1. In this sidebar, click **create a launch.json file**.
+1. 在此側邊欄中，點擊 **create a launch.json file**。
 
-   VS Code displays the **Select debugger** menu at the top.
+   VS Code 會在頂部顯示 **Select debugger** 選單。
 
-1. Select **Dart & Flutter**.
+1. 選取 **Dart & Flutter**。
 
-   VS Code creates then opens the `.vscode/launch.json` file.
+   VS Code 會建立並開啟 `.vscode/launch.json` 檔案。
 
    <details markdown="1">
-   <summary>Expand to see an example launch.json file</summary>
+   <summary>展開以查看 launch.json 檔案範例</summary>
 
     ```json
     {
@@ -53,7 +52,7 @@ create a `.vscode/launch.json` file in your Flutter module project.
 
     </details>
 
-1. To attach, go to **Run** <span aria-label="and then">></span>
-   **Start Debugging**.
+1. 若要附加，前往 **Run** <span aria-label="and then">></span>
+   **Start Debugging**。
 
-   You can also press <kbd>F5</kbd>.
+   你也可以按 <kbd>F5</kbd>。

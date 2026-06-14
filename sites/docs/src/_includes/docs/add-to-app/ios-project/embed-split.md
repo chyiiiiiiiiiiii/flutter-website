@@ -1,48 +1,48 @@
-### Use frameworks in Xcode and Flutter framework as podspec {:#method-c .no_toc}
+### 在 Xcode 中使用框架並以 podspec 方式使用 Flutter 框架 {:#method-c .no_toc}
 
-#### Approach {:#method-c-approach}
+#### 方法說明 {:#method-c-approach}
 
-This method generates Flutter as a CocoaPods podspec instead of
-distributing the large `Flutter.xcframework` to other developers,
-machines, or continuous integration systems.
-Flutter still generates iOS frameworks for your compiled Dart code,
-and for each of your Flutter plugins.
-Embed these frameworks and update your existing application's build settings.
+此方法將 Flutter 產生為 CocoaPods 的 podspec，
+而非將龐大的 `Flutter.xcframework` 分發給其他開發者、
+機器或持續整合系統。
+Flutter 仍會為已編譯的 Dart 程式碼
+以及每個 Flutter 插件產生 iOS 框架。
+嵌入這些框架並更新現有應用程式的建置設定。
 
-#### Requirements {:#method-c-reqs}
+#### 需求 {:#method-c-reqs}
 
-No additional software or hardware requirements are needed for this method.
-Use this method in the following use cases:
+此方法不需要額外的軟體或硬體需求。
+在以下使用情境中採用此方法：
 
-* Members of your team can't install the Flutter SDK and CocoaPods
-* You don't want to use CocoaPods as a dependency manager in existing iOS apps
+* 團隊成員無法安裝 Flutter SDK 與 CocoaPods
+* 你不想在現有的 iOS 應用程式中使用 CocoaPods 作為相依套件管理工具
 
-#### Limitations {:#method-c-limits}
+#### 限制 {:#method-c-limits}
 
 {% render "docs/add-to-app/ios-project/limits-common-deps.md" %}
 
-This method only works with the `beta` or `stable` [release channels][].
+此方法僅適用於 `beta` 或 `stable` [發布頻道][release channels]。
 
 [release channels]: /install/upgrade#switching-flutter-channels
 
-#### Example project structure {:#method-c-structure}
+#### 範例專案結構 {:#method-c-structure}
 
 {% render "docs/add-to-app/ios-project/embed-framework-directory-tree.md" %}
 
-#### Add Flutter engine to your Podfile
+#### 將 Flutter 引擎加入 Podfile
 
-Host apps using CocoaPods can add the Flutter engine to their Podfile.
+使用 CocoaPods 的宿主應用程式可以將 Flutter 引擎加入其 Podfile。
 
 ```ruby title="MyApp/Podfile"
 pod 'Flutter', :podspec => '/path/to/MyApp/Flutter/[![build mode]!]/Flutter.podspec'
 ```
 
 :::note
-You must hard code the `[build mode]` value.
-For example, use `Debug` if you need to use `flutter attach`
-and `Release` when you're ready to ship.
+你必須將 `[build mode]` 的值寫死。
+例如，若需要使用 `flutter attach` 請使用 `Debug`，
+準備好發布時則使用 `Release`。
 :::
 
-#### Link and embed app and plugin frameworks
+#### 連結並嵌入應用程式與插件框架
 
 {% render "docs/add-to-app/ios-project/link-and-embed.md" %}

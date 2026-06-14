@@ -1,36 +1,36 @@
-### Link and Embed frameworks in Xcode {:#method-b .no_toc}
+### 在 Xcode 中連結並嵌入框架 {:#method-b .no_toc}
 
-#### Approach {:#method-b-approach}
+#### 做法 {:#method-b-approach}
 
-In this second method, edit your existing Xcode project,
-generate the necessary frameworks, and embed them in your app.
-Flutter generates iOS frameworks for Flutter itself,
-for your compiled Dart code, and for each of your Flutter plugins.
-Embed these frameworks and update your existing application's build settings.
+在第二種方法中，請編輯現有的 Xcode 專案、
+產生所需的框架，並將其嵌入應用程式中。
+Flutter 會為 Flutter 本身、已編譯的 Dart 程式碼，以及每個 Flutter 插件
+產生對應的 iOS 框架。
+請嵌入這些框架，並更新現有應用程式的建置設定。
 
-#### Requirements {:#method-b-reqs}
+#### 需求 {:#method-b-reqs}
 
-No additional software or hardware requirements are needed for this method.
-Use this method in the following use cases:
+此方法無需額外的軟體或硬體需求。
+在下列情況下請使用此方法：
 
-* Members of your team can't install the Flutter SDK and CocoaPods
-* You don't want to use CocoaPods as a dependency manager in existing iOS apps
+* 團隊成員無法安裝 Flutter SDK 與 CocoaPods
+* 您不想在現有 iOS 應用程式中使用 CocoaPods 作為相依套件管理工具
 
-#### Limitations {:#method-b-limits}
+#### 限制 {:#method-b-limits}
 
 {% render "docs/add-to-app/ios-project/limits-common-deps.md" %}
 
-#### Example project structure {:#method-b-structure}
+#### 範例專案結構 {:#method-b-structure}
 
 {% render "docs/add-to-app/ios-project/embed-framework-directory-tree.md" %}
 
-#### Procedures
+#### 操作步驟
 
-How you link, embed, or both the generated frameworks
-into your existing app in Xcode depends on the type of framework.
+在 Xcode 中，如何將產生的框架連結、嵌入或同時進行兩者，
+取決於框架的類型。
 
-* Link and embed dynamic frameworks.
-* Link static frameworks. [Never embed them][static-framework].
+* 連結並嵌入動態框架。
+* 連結靜態框架。[切勿嵌入靜態框架][static-framework]。
 
 {% render "docs/add-to-app/ios-project/link-and-embed.md" %}
 
