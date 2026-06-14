@@ -44,8 +44,39 @@ abstract class FlutterDocsLayout extends PageLayoutBase {
     final pageTitle = (pageData['title'] ?? siteData['title']) as String;
     final pageDescription = pageData['description'] as String? ?? '';
 
+    final siteUrl = siteData['url'] as String? ?? 'https://docs.flutter.tw';
+    final pageUrl = page.url.startsWith('/') ? page.url : '/${page.url}';
+    final noIndex = pageData['noindex'];
+    final isNoIndex = noIndex == true || noIndex == 'true';
+
+    // Structured data (schema.org TechArticle) so answer engines and search
+    // crawlers get explicit type, language, canonical, and publisher signals.
+    // Skipped on noindex pages. `</` is escaped to prevent script breakout.
+    final jsonLd = <String, Object?>{
+      '@context': 'https://schema.org',
+      '@type': 'TechArticle',
+      'headline': pageTitle,
+      if (pageDescription.isNotEmpty) 'description': pageDescription,
+      'inLanguage': 'zh-Hant-TW',
+      'url': '$siteUrl$pageUrl',
+      'image': '$siteUrl/assets/images/flutter-logo-sharing.png',
+      if (pageData['date'] case final String lastmod when lastmod.isNotEmpty)
+        'dateModified': lastmod,
+      'publisher': const {
+        '@type': 'Organization',
+        'name': 'Flutter',
+        'url': 'https://flutter.dev',
+      },
+    };
+
     return [
       ...super.buildHead(page),
+      if (!isNoIndex)
+        RawText(
+          '<script type="application/ld+json">'
+          '${jsonEncode(jsonLd).replaceAll('</', r'<\/')}'
+          '</script>',
+        ),
       if (pageData['noindex'] case final noIndex?
           when noIndex == true || noIndex == 'true')
         const meta(name: 'robots', content: 'noindex'),
@@ -80,12 +111,7 @@ abstract class FlutterDocsLayout extends PageLayoutBase {
         },
       ),
       meta(
-        attributes: {
-          'property': 'og:url',
-          'content':
-              '${siteData['url'] ?? 'https://docs.flutter.tw'}'
-              '${page.url.startsWith('/') ? page.url : '/${page.url}'}',
-        },
+        attributes: {'property': 'og:url', 'content': '$siteUrl$pageUrl'},
       ),
       const meta(attributes: {'property': 'og:locale', 'content': 'zh_TW'}),
       const meta(
