@@ -1,70 +1,70 @@
-- title: AI with Flutter
+- title: Flutter 與 AI
   permalink: /ai/create-with-ai
 
-- title: Develop with AI
+- title: 使用 AI 開發
   expanded: true
   children:
-    - title: Rules for Flutter and Dart
+    - title: Flutter 與 Dart 規則
       permalink: /ai/ai-rules
-    - title: Agent skills
+    - title: Agent 技能
       permalink: /ai/agent-skills
-    - title: Dart & Flutter MCP server
+    - title: Dart 與 Flutter MCP 伺服器
       permalink: /ai/mcp-server
-    - title: AI coding assistants
+    - title: AI 程式設計助理
       permalink: /ai/coding-assistants
       children:
-        - title: Overview
+        - title: 總覽
           permalink: /ai/coding-assistants
         - title: Antigravity IDE
           permalink: /ai/antigravity
         - title: Antigravity CLI
           permalink: /ai/antigravity-cli
-    - title: Developer experience
+    - title: 開發者體驗
       permalink: /ai/best-practices/developer-experience
-    - title: "AI Evaluations (experimental)"
+    - title: AI 評估（實驗性）
       permalink: /ai/evals
 
-- title: Build AI-powered apps
+- title: 建置 AI 驅動應用程式
   expanded: true
   children:
     - title: Firebase AI Logic
       permalink: https://firebase.google.com/docs/ai-logic/get-started?platform=flutter
     - title: Genkit Dart
       permalink: https://genkit.dev/docs/dart/get-started
-    - title: GenUI SDK for Flutter
+    - title: Flutter 的 GenUI SDK
       permalink: /ai/genui
       children:
-        - title: Overview
+        - title: 總覽
           permalink: /ai/genui
-        - title: Main components & concepts
+        - title: 主要元件與概念
           permalink: /ai/genui/components
-        - title: Get started
+        - title: 開始使用
           permalink: /ai/genui/get-started
-        - title: Input and events
+        - title: 輸入與事件
           permalink: /ai/genui/input-events
     - title: Flutter AI Toolkit
       permalink: /ai/ai-toolkit
       children:
-        - title: Overview
+        - title: 總覽
           permalink: /ai/ai-toolkit
-        - title: User experience
+        - title: 使用者體驗
           permalink: /ai/ai-toolkit/user-experience
-        - title: Feature integration
+        - title: 功能整合
           permalink: /ai/ai-toolkit/feature-integration
-        - title: Custom LLM providers
+        - title: 自訂 LLM 提供商
           permalink: /ai/ai-toolkit/custom-llm-providers
-        - title: Chat client sample
+        - title: 聊天客戶端範例
           permalink: /ai/ai-toolkit/chat-client-sample
-    - title: AI Best Practices
+    - title: AI 最佳實踐
       permalink: /ai/best-practices
       children:
-        - title: Overview
+        - title: 總覽
           permalink: /ai/best-practices
-        - title: Prompting
+        - title: 提示詞
           permalink: /ai/best-practices/prompting
-        - title: Structure & output
+        - title: 結構與輸出
           permalink: /ai/best-practices/structure-output
-        - title: Tool calls (aka function calls)
+        - title: 工具呼叫（即函式呼叫）
           permalink: /ai/best-practices/tool-calls
-        - title: Mode of interaction
+        - title: 互動模式
           permalink: /ai/best-practices/mode-of-interaction
