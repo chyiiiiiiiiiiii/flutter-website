@@ -79,7 +79,15 @@ abstract class FlutterDocsLayout extends PageLayoutBase {
           'content': pageDescription,
         },
       ),
-      meta(attributes: {'property': 'og:url', 'content': page.path}),
+      meta(
+        attributes: {
+          'property': 'og:url',
+          'content':
+              '${siteData['url'] ?? 'https://docs.flutter.tw'}'
+              '${page.url.startsWith('/') ? page.url : '/${page.url}'}',
+        },
+      ),
+      const meta(attributes: {'property': 'og:locale', 'content': 'zh_TW'}),
       const meta(
         attributes: {
           'property': 'og:image',
@@ -183,7 +191,7 @@ ga('send', 'pageview');
       [
         const Document.html(
           attributes: {
-            'lang': 'en',
+            'lang': 'zh-Hant-TW',
             'dir': 'ltr',
           },
         ),

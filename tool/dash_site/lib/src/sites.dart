@@ -9,7 +9,7 @@ import 'package:path/path.dart' as path;
 enum Site {
   /// The Flutter documentation site.
   docs(
-    host: 'docs.flutter.dev',
+    host: 'docs.flutter.tw',
     buildOutputPathSegments: ['_site'],
     contentPathSegments: ['src', 'content'],
     firebaseConfigPathSegments: ['firebase.json'],
