@@ -25,7 +25,9 @@ jobs:
         run: dart pub get
 
       - name: Build site (docs)
-        run: dart run dash_site --site=docs build
+        # --release sets PRODUCTION=true so robots.txt allows search-engine
+        # crawling (staging builds emit `Disallow: /`) and assets are optimized.
+        run: dart run dash_site --site=docs build --release
 
       - name: Copy CNAME file
         run: cp CNAME _site/CNAME
