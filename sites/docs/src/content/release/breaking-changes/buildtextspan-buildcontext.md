@@ -1,49 +1,49 @@
 ---
-title: Added BuildContext parameter to TextEditingController.buildTextSpan
+title: 為 TextEditingController.buildTextSpan 新增 BuildContext 參數
 description: >
-  A BuildContext parameter is added to TextEditingController.buildTextSpan so
-  inheritors that override buildTextSpan can access inherited widgets.
+  為 TextEditingController.buildTextSpan 新增 BuildContext 參數，
+  讓繼承並覆寫 buildTextSpan 的類別可以存取繼承的元件 (Widgets)。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-A `BuildContext` parameter was added to `TextEditingController.buildTextSpan`.
+在 `TextEditingController.buildTextSpan` 中新增了一個 `BuildContext` 參數。
 
-Classes that extend or implement `TextEditingController`
-and override `buildTextSpan` need to add the `BuildContext`
-parameter to the signature to make it a valid override.
+所有繼承或實作 `TextEditingController`
+並覆寫 `buildTextSpan` 的類別，
+都需要在方法簽章中加入 `BuildContext` 參數，
+以符合有效的覆寫（override）。
 
-Callers of `TextEditingController.buildTextSpan`
-need to pass a `BuildContext` to the call.
+呼叫 `TextEditingController.buildTextSpan` 的地方
+必須傳入一個 `BuildContext`。
 
-## Context
+## 背景說明
 
-`TextEditingController.buildTextSpan` is called by `EditableText`
-on its controller to create the `TextSpan` that it renders.
-`buildTextSpan` can be overridden in custom classes that extend
-`TextEditingController`. This allows classes extending
-`TextEditingController` override `buildTextSpan` to change
-the style of parts of the text, for example, for rich text editing.
+`TextEditingController.buildTextSpan` 會由 `EditableText`
+在其 controller 上呼叫，以建立它要渲染的 `TextSpan`。
+`buildTextSpan` 可以在自訂類別中覆寫，
+這些類別需繼承 `TextEditingController`。
+這讓繼承 `TextEditingController` 的類別可以覆寫 `buildTextSpan`，
+例如用於富文字編輯時，改變部分文字的樣式。
 
-Any state that is required by `buildTextSpan`
-(other than the `TextStyle` and `withComposing` arguments)
-needed to be passed into the class that extends
-`TextEditingController`.
+任何 `buildTextSpan` 需要的狀態
+（除了 `TextStyle` 和 `withComposing` 參數之外），
+都必須傳入繼承 `TextEditingController` 的類別中。
 
-## Description of change
+## 變更說明
 
-With the `BuildContext` available, users can access
-`InheritedWidgets` inside `buildTextSpan`
-to retrieve state required to style the text,
-or otherwise manipulate the created `TextSpan`.
+現在有了 `BuildContext` 之後，使用者可以在 `buildTextSpan`
+內部存取 `InheritedWidgets`，
+以取得需要用來設定文字樣式的狀態，
+或以其他方式操作所建立的 `TextSpan`。
 
-Consider the example where we have a
-`HighlightTextEditingController` that wants to
-highlight text by setting its color to `Theme.accentColor`.
+舉例來說，假設我們有一個
+`HighlightTextEditingController`，它希望
+將文字顏色設為 `Theme.accentColor` 來進行高亮顯示。
 
-Before this change the controller implementation would look like this:
+在這項變更之前，controller 的實作會像這樣：
 
 ```dart
 class HighlightTextEditingController extends TextEditingController {
@@ -57,12 +57,11 @@ class HighlightTextEditingController extends TextEditingController {
   }
 ```
 
-And users of the controller would need to pass the color
-when creating the controller.
+而使用該 controller 的使用者，在建立 controller 時需要傳入 color。
 
-With the `BuildContext` parameter available,
-the `HighlightTextEditingController` can directly access
-`Theme.accentColor` using `Theme.of(BuildContext)`:
+有了 `BuildContext` 參數後，
+`HighlightTextEditingController` 可以直接透過 `Theme.of(BuildContext)`
+存取 `Theme.accentColor`：
 
 ```dart
 class HighlightTextEditingController extends TextEditingController {
@@ -74,14 +73,13 @@ class HighlightTextEditingController extends TextEditingController {
 }
 ```
 
-## Migration guide
+## 遷移指南
 
-### Overriding `TextEditingController.buildTextSpan`
+### 覆寫 `TextEditingController.buildTextSpan`
 
-Add a `required BuildContext context` parameter to the
-signature of the `buildTextSpan` override.
+在覆寫 `buildTextSpan` 的方法簽章中，新增一個 `required BuildContext context` 參數。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 class MyTextEditingController {
@@ -92,13 +90,13 @@ class MyTextEditingController {
 }
 ```
 
-Example error message before migration:
+遷移前的範例錯誤訊息：
 
 ```plaintext
 'MyTextEditingController.buildTextSpan' ('TextSpan Function({TextStyle? style, required bool withComposing})') isn't a valid override of 'TextEditingController.buildTextSpan' ('TextSpan Function({required BuildContext context, TextStyle? style, required bool withComposing})').
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 class MyTextEditingController {
@@ -109,26 +107,25 @@ class MyTextEditingController {
 }
 ```
 
-### Calling `TextEditingController.buildTextSpan`
+### 呼叫 `TextEditingController.buildTextSpan`
 
-Pass a named parameter 'context' of type
-`BuildContext` to the call.
+在呼叫時，請傳遞一個具名參數 `context`，其型別為 `BuildContext`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 TextEditingController controller = /* ... */;
 TextSpan span = controller.buildTextSpan(withComposing: false);
 ```
 
-Error message before migration:
+遷移前的錯誤訊息：
 
 ```plaintext
 The named parameter 'context' is required, but there's no corresponding argument.
 Try adding the required argument.
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 BuildContext context = /* ... */;
@@ -136,26 +133,26 @@ TextEditingController controller = /* ... */;
 TextSpan span = controller.buildTextSpan(context: context, withComposing: false);
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 1.26.0<br>
-In stable release: 2.0.0
+合併於版本：1.26.0<br>
+進入穩定版：2.0.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`TextEditingController.buildTextSpan`][]
 
-Relevant issues:
+相關議題：
 
 * [Issue #72343][]
 
-Relevant PRs:
+相關 PR：
 
-* [Reland "Add BuildContext parameter to TextEditingController.buildTextSpan" #73510][]
-* [Revert "Add BuildContext parameter to TextEditingController.buildTextSpan" #73503][]
-* [Add BuildContext parameter to TextEditingController.buildTextSpan #72344][]
+* [重新合併「為 TextEditingController.buildTextSpan 新增 BuildContext 參數」#73510][Reland "Add BuildContext parameter to TextEditingController.buildTextSpan" #73510]
+* [還原「為 TextEditingController.buildTextSpan 新增 BuildContext 參數」#73503][Revert "Add BuildContext parameter to TextEditingController.buildTextSpan" #73503]
+* [為 TextEditingController.buildTextSpan 新增 BuildContext 參數 #72344][Add BuildContext parameter to TextEditingController.buildTextSpan #72344]
 
 [Add BuildContext parameter to TextEditingController.buildTextSpan #72344]: {{site.repo.flutter}}/pull/72344
 [Issue #72343]: {{site.repo.flutter}}/issues/72343

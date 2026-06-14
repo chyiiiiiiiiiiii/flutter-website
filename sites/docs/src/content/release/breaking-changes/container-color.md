@@ -1,50 +1,41 @@
 ---
-title: Container with color optimization
+title: 具有顏色最佳化的 Container
 description: >
-  A container with a color and no other background decoration
-  no longer builds the same child widgets.
+  當 Container 只有顏色且沒有其他背景裝飾時，
+  現在不再建置相同的子元件。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-A new `ColoredBox` widget has been added to the framework,
-and the `Container` widget has been optimized to use it
-if a user specifies a `color` instead of a `decoration`.
+在框架中新增了一個 `ColoredBox` 元件 (Widget)，
+並且對 `Container` 元件進行了最佳化，
+當使用者指定 `color` 而非 `decoration` 時會使用該元件。
 
-## Context
+## 背景
 
-It is very common to use the `Container` widget as follows:
+在實務上，經常會如下使用 `Container` 元件：
 
 ```dart
 return Container(color: Colors.red);
 ```
 
-Previously, this code resulted in a widget hierarchy that used a
-`BoxDecoration` to actually paint the background color.
-The `BoxDecoration` widget covers many cases other than
-just painting a background color,
-and is not as efficient as the new `ColoredBox` widget,
-which only paints a background color.
+過去，這段程式碼會產生一個元件階層，實際上是使用 `BoxDecoration` 來繪製背景顏色。
+`BoxDecoration` 元件除了繪製背景顏色之外，還涵蓋了許多其他情境，
+因此在僅需繪製背景顏色時，效率不如新的 `ColoredBox` 元件，
+`ColoredBox` 元件只負責繪製背景顏色。
 
-Widget tests that wanted to assert based on the color
-of a container in the widget tree would previously have
-to find the `BoxDecoration` to actually get
-the color of the container.
-Now, they are able to check the `color` property
-on the `Container` itself, unless a `BoxDecoration`
-was explicitly provided as the `decoration` property.
-It is still an error to supply both `color` and
-`decoration` to `Container`.
+在元件測試（Widget tests）中，若要根據元件樹中某個容器的顏色進行斷言，
+過去必須找到 `BoxDecoration`，才能實際取得該容器的顏色。
+現在，除非有明確指定 `BoxDecoration` 作為 `decoration` 屬性，否則可以直接檢查 `Container` 本身的 `color` 屬性。
+若同時提供 `color` 和 `decoration` 給 `Container`，仍然會發生錯誤。
 
-## Migration guide
+## 遷移指南
 
-Tests that assert on the color of a `Container`
-or that expected it to create a
-`BoxDecoration` need to be modified.
+針對 `Container` 的顏色進行斷言，或預期其會建立 `BoxDecoration` 的測試程式碼，需要進行修改。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 testWidgets('Container color', (WidgetTester tester) async {
@@ -57,7 +48,7 @@ testWidgets('Container color', (WidgetTester tester) async {
 });
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 testWidgets('Container color', (WidgetTester tester) async {
@@ -72,25 +63,25 @@ testWidgets('Container color', (WidgetTester tester) async {
 });
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 1.15.4<br>
-In stable release: 1.17
+導入版本：1.15.4<br>
+穩定版本：1.17
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`Container`][]
 * [`ColoredBox`][]
 * [`BoxDecoration`][]
 
-Relevant issues:
+相關議題：
 
 * [Issue 9672][]
 * [Issue 28753][]
 
-Relevant PR:
+相關 PR：
 
 * [Colored box and container optimization #50979][]
 

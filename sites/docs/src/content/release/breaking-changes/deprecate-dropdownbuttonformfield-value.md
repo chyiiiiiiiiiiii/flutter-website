@@ -1,40 +1,31 @@
 ---
 title: >-
-  Deprecated the 'value' parameter of
-  the 'DropdownButtonFormField' constructor
+  停用 'DropdownButtonFormField' 建構函式的 'value' 參數
 description: >-
-  The `DropdownButtonFormField` constructor parameter `value` has been
-  replaced by the parameter `initialValue`.
+  `DropdownButtonFormField` 建構函式參數 `value` 已被參數 `initialValue` 取代。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-The `value` parameter of the [`DropdownButtonFormField`][] constructor was
-deprecated in favor of the `initialValue` parameter.
+[`DropdownButtonFormField`][] 建構函式的 `value` 參數已被棄用，建議改用 `initialValue` 參數。
 
-## Context
+## 背景說明
 
-The `value` parameter of the [`DropdownButtonFormField`][] constructor was used
-to initialize [`DropdownButtonFormField.initialValue`][].
-Not using the same name was confusing. For example,
-developers falsely assumed that setting `value` would change
-the current selected value. This was not the case—it
-only set the initial value or when the field is reset.
+[`DropdownButtonFormField`][] 建構函式的 `value` 參數過去用來初始化 [`DropdownButtonFormField.initialValue`][]。
+由於參數名稱不一致，造成了混淆。例如，開發者可能誤以為設定 `value` 會變更目前選取的值，但實際上並非如此——它僅會設定初始值，或在欄位重設時生效。
 
-## Description of change
+## 變更說明
 
-The `value` parameter of the [`DropdownButtonFormField`][] constructor is
-deprecated in favor of the parameter named `initialValue`.
+[`DropdownButtonFormField`][] 建構函式的 `value` 參數現已棄用，請改用名為 `initialValue` 的參數。
 
-## Migration guide
+## 遷移指南
 
-Replace the `value` parameter of the [`DropdownButtonFormField`][] constructor
-with the `initialValue` parameter to initialize
-[`DropdownButtonFormField.initialValue`][].
+請將 [`DropdownButtonFormField`][] 建構函式中的 `value` 參數，替換為 `initialValue` 參數，以初始化
+[`DropdownButtonFormField.initialValue`][]。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart highlightLines=2
 DropdownButtonFormField(
@@ -42,7 +33,7 @@ DropdownButtonFormField(
 ),
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart highlightLines=2
 DropdownButtonFormField(
@@ -50,23 +41,23 @@ DropdownButtonFormField(
 ),
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.35.0-0.0.pre<br>
-In stable release: 3.35
+合併於版本：3.35.0-0.0.pre<br>
+正式版釋出：3.35
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 - [`DropdownButtonFormField`][]
 - [`DropdownButtonFormField.initialValue`][]
 
-Relevant issues:
+相關議題：
 
 - [Issue #169983][]
 
-Relevant PRs:
+相關 PR：
 
 - [Deprecate `DropdownButtonFormField` `value` parameter in favor of `initialValue`][]
 

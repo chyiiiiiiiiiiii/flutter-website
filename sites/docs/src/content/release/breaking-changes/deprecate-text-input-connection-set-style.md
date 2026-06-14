@@ -1,35 +1,35 @@
 ---
-title: Deprecate `TextInputConnection.setStyle`
+title: 棄用 `TextInputConnection.setStyle`
 description: >-
-  The `TextInputConnection.setStyle` method has been deprecated
-  in favor of the `TextInputConnection.updateStyle` method.
+  `TextInputConnection.setStyle` 方法已被棄用，
+  請改用 `TextInputConnection.updateStyle` 方法。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-`TextInputConnection.setStyle` is deprecated in favor of
-`TextInputConnection.updateStyle`, which supports synchronizing
-`letterSpacing`, `wordSpacing`, and `lineHeight` to the engine.
+`TextInputConnection.setStyle` 已被棄用，請改用
+`TextInputConnection.updateStyle`，後者支援將
+`letterSpacing`、`wordSpacing` 與 `lineHeight` 同步至引擎。
 
-## Context
+## 背景
 
-The previous `setStyle` method didn't support `letterSpacing`, `wordSpacing`,
-or `lineHeight`. This caused visual misalignment of the selection highlight
-and IME caret when these properties were used.
+舊版的 `setStyle` 方法不支援 `letterSpacing`、`wordSpacing`
+或 `lineHeight`。當使用這些屬性時，會造成選取醒目提示與
+輸入法 (IME) 游標發生視覺位移錯誤。
 
-The replacement `updateStyle` method uses
-`TextInputStyle` to support these properties,
-ensuring the system input is synchronized with the rendered text.
+替換後的 `updateStyle` 方法使用
+`TextInputStyle` 來支援這些屬性，
+確保系統輸入與渲染後的文字保持同步。
 
-## Migration guide
+## 遷移指南
 
-If you author a custom text input client,
-replace calls to `TextInputConnection.setStyle`
-with `TextInputConnection.updateStyle`.
+若您自行實作了自訂文字輸入客戶端，
+請將 `TextInputConnection.setStyle` 的呼叫
+替換為 `TextInputConnection.updateStyle`。
 
-### Code before migration
+### 遷移前的程式碼
 
 ```dart
 connection.setStyle(
@@ -41,7 +41,7 @@ connection.setStyle(
 );
 ```
 
-### Code after migration
+### 遷移後的程式碼
 
 ```dart
 connection.updateStyle(
@@ -58,18 +58,18 @@ connection.updateStyle(
 );
 ```
 
-## Timeline
+## 時間軸
 
-Landed in version: 3.43.0-0.1.pre<br>
-In stable release: 3.44
+導入版本：3.43.0-0.1.pre<br>
+穩定版發布：3.44
 
-## References
+## 參考資料
 
-Relevant PR:
+相關 PR：
 
 * [Fix IME and selection by syncing more text styles][pr-180436]
 
-Relevant issues:
+相關 issue：
 
 * [Incorrect position of Japanese predictive conversion popup in TextFormField using maxLines on the Web][issue-161592]
 

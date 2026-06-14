@@ -1,62 +1,58 @@
 ---
-title: Migrating from flutter_driver
+title: 從 flutter_driver 遷移
 description: >-
-  Learn how to migrate existing flutter_driver tests to integration_test.
+  學習如何將現有的 flutter_driver 測試遷移至 integration_test。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
 <?code-excerpt path-base="integration_test_migration/"?>
 
-This page describes how to migrate an existing project using
-`flutter_driver` to the `integration_test` package,
-in order to run integration tests.
+本頁說明如何將現有專案從
+`flutter_driver` 遷移至 `integration_test` 套件，
+以便執行整合測試（integration tests）。
 
-Tests with `integration_test` use the same methods that are
-used in [widget testing][].
+使用 `integration_test` 的測試會採用與
+[元件測試][widget testing] 相同的方法。
 
-For an introduction to the `integration_test` package,
-check out the [Integration testing][] guide.
+若想了解 `integration_test` 套件的簡介，
+請參考 [整合測試][Integration testing] 指南。
 
-## Starter example project
+## 入門範例專案
 
-The project in this guide is a small example desktop application with this
-functionality:
+本指南中的專案是一個小型的桌面應用程式範例，具備以下功能：
 
-* On the left, there's a list of plants that the user can scroll,
-  tap and select.
-* On the right, there's a details screen that displays the plant name
-  and species.
-* On app start, when no plant is selected, a text asking the user to select
-  a plant is displayed
-* The list of plants is loaded from a local JSON file located in the
-  `/assets` folder.
+* 左側有一個植物清單，使用者可以捲動、點擊並選取。
+* 右側為詳細資料螢幕，會顯示植物名稱與品種。
+* 應用程式啟動時，若尚未選取植物，會顯示提示使用者選擇植物的文字。
+* 植物清單會從位於
+  `/assets` 資料夾的本地 JSON 檔案載入。
 
 <img src='/assets/images/docs/integration-test/migration-1.png' alt="Starter project screenshot">
 
-You can find the full code example in the [Example Project][] folder.
+完整的程式碼範例可在 [Example Project][Example Project] 資料夾找到。
 
-## Existing tests
+## 現有測試
 
-The project contains the three `flutter_driver` tests
-performing the following checks:
+此專案包含三個 `flutter_driver` 測試，
+進行以下檢查：
 
-* Verifying the initial status of the app.
-* Selecting the first item on the list of plants.
-* Scrolling and selecting the last item on the list of plants.
+* 驗證應用程式的初始狀態。
+* 選取植物清單中的第一個項目。
+* 捲動並選取植物清單中的最後一個項目。
 
-The tests are contained in the `test_driver` folder,
-inside the `main_test.dart` file.
+這些測試存放於 `test_driver` 資料夾內的
+`main_test.dart` 檔案中。
 
-In this folder there's also a file named `main.dart`,
-which contains a call to the method `enableFlutterDriverExtension()`.
-This file won't be necessary anymore when using `integration_test`.
+在此資料夾中還有一個名為 `main.dart` 的檔案，
+其中包含對 `enableFlutterDriverExtension()` 方法的呼叫。
+使用 `integration_test` 時，這個檔案將不再需要。
 
-## Setup
+## 設定
 
-To start using the `integration_test` package,
-add the `integration_test` to
-your `pubspec.yaml` file if you haven't yet:
+若要開始使用 `integration_test` 套件，
+請將 `integration_test`
+加入你的 `pubspec.yaml` 檔案（如果尚未加入）：
 
 ```yaml
 dev_dependencies:
@@ -64,27 +60,23 @@ dev_dependencies:
     sdk: flutter
 ```
 
-Next, in your project, create a new directory
-`integration_test/`, create your tests files there
-with the format: `<name>_test.dart`.
+接下來，在你的專案中建立一個新的目錄 `integration_test/`，並在該處建立你的測試檔案，格式為：`<name>_test.dart`。
 
-## Test migration
+## 測試遷移
 
-This section contains different examples on how to migrate existing
-`flutter_driver` tests to `integration_test` tests.
+本節包含了如何將現有 `flutter_driver` 測試遷移為 `integration_test` 測試的不同範例。
 
-### Example: Verifying a widget is displayed
+### 範例：驗證元件（Widget）是否顯示
 
-When the app starts the screen on the right displays
-a text asking the user to select one of the plants on the list.
+當應用程式啟動時，右側的螢幕會顯示一段文字，提示使用者從清單中選擇一個植物。
 
-This test verifies that the text is displayed.
+此測試會驗證該文字是否有被顯示。
 
 **flutter_driver**
 
-In `flutter_driver`, the test uses `waitFor`,
-which waits until the `finder` can locate the widget.
-The test fail if the widget can't be found.
+在 `flutter_driver` 中，測試使用了 `waitFor`，
+這會等待 `finder` 能夠定位到該元件 (Widget)。
+如果找不到該元件，測試就會失敗。
 
 <?code-excerpt "test_driver/main_test.dart (wait-for)"?>
 ```dart
@@ -99,13 +91,11 @@ test(
 
 **integration_test**
 
-In `integration_test` you have to perform two steps:
+在 `integration_test` 中，你需要執行兩個步驟：
 
-1. First load the main app widget using
-   the `tester.pumpWidget` method.
+1. 首先，使用 `tester.pumpWidget` 方法載入主要的應用程式元件（Widget）。
 
-2. Then, use `expect` with the matcher `findsOneWidget` to verify
-   that the widget is displayed.
+2. 接著，使用 `expect` 搭配比對器 `findsOneWidget`，以驗證該元件（Widget）是否已顯示。
 
 <?code-excerpt "integration_test/main_test.dart (finds-one)"?>
 ```dart
@@ -127,26 +117,24 @@ testWidgets(
 );
 ```
 
-### Example: Tap actions
+### 範例：點擊動作
 
-This test performs a tap action on the first item on the list,
-which is a `ListTile` with the text "Alder".
+此測試會在清單中的第一個項目上執行點擊動作，
+該項目是一個 `ListTile`，其文字為 "Alder"。
 
-After the tap, the test waits for the details to appear.
-In this case, it waits for the widget with the text "Alnus" to
-be displayed.
+點擊後，測試會等待詳細資訊出現。
+在此情境下，測試會等待具有文字 "Alnus" 的元件（Widget）被顯示出來。
 
-Also , the test verifies that the text
+此外，測試也會驗證
 "Please select a plant from the list."
-is no longer displayed.
+這段文字不再顯示。
 
 **flutter_driver**
 
-In `flutter_driver`, use the `driver.tap` method to perform
-a tap over a widget using a finder.
+在 `flutter_driver` 中，使用 `driver.tap` 方法，透過 finder 在元件（Widget）上執行點擊。
 
-To verify that a widget is not displayed,
-use the `waitForAbsent` method.
+若要驗證某個元件（Widget）未被顯示，
+請使用 `waitForAbsent` 方法。
 
 <?code-excerpt "test_driver/main_test.dart (wait-for-absent)"?>
 ```dart
@@ -172,13 +160,11 @@ test('tap on the first item (Alder), verify selected', () async {
 
 **integration_test**
 
-In `integration_test`, use `tester.tap` to perform the tap actions.
+在 `integration_test` 中，請使用 `tester.tap` 來執行點擊（tap）操作。
 
-After the tap action, you must call to `tester.pumpAndSettle` to wait
-until the action has finished, and all the UI changes have happened.
+點擊操作之後，必須呼叫 `tester.pumpAndSettle`，以等待該操作完成，並確保所有 UI 變化都已發生。
 
-To verify that a widget is not displayed, use the same `expect`
-function with the `findsNothing` matcher.
+若要驗證某個元件（Widget）未顯示，請使用相同的 `expect` 函式，搭配 `findsNothing` matcher。
 
 <?code-excerpt "integration_test/main_test.dart (finds-nothing)"?>
 ```dart
@@ -206,20 +192,20 @@ testWidgets('tap on the first item (Alder), verify selected', (tester) async {
 });
 ```
 
-### Example: Scrolling
+### 範例：滾動
 
-This test is similar to the previous test,
-but it scrolls down and taps the last item instead.
+這個測試與前一個測試類似，
+但它改為向下滾動並點擊最後一個項目。
 
 **flutter_driver**
 
-To scroll down with `flutter_driver`,
-use the `driver.scroll` method.
+若要使用 `flutter_driver` 向下滾動，
+請使用 `driver.scroll` 方法。
 
-You must provide the widget to perform the scrolling action,
-as well as a duration for the scroll.
+你必須提供要執行滾動動作的元件（Widget），
+以及滾動所需的持續時間（duration）。
 
-You also have to provide the total offset for the scrolling action.
+你也需要提供這次滾動動作的總位移（offset）。
 
 <?code-excerpt "test_driver/main_test.dart (scroll)"?>
 ```dart
@@ -257,17 +243,17 @@ test('scroll, tap on the last item (Zedoary), verify selected', () async {
 
 **integration_test**
 
-With `integration_test`, can use the method `tester.scrollUntilVisible`.
+有了 `integration_test`，可以使用 `tester.scrollUntilVisible` 方法。
 
-Instead of providing the widget to scroll,
-provide the item that you're searching for.
-In this case, you're searching for the
-item with the text "Zedoary",
-which is the last item on the list.
+現在不需要再提供要滾動的元件（Widget），
+而是直接提供你要搜尋的項目。
+在這個例子中，你正在搜尋
+文字為 "Zedoary" 的項目，
+它是列表中的最後一個項目。
 
-The method searches for any `Scrollable` widget
-and performs the scrolling action using the given offset.
-The action repeats until the item is visible.
+此方法會搜尋任何 `Scrollable` 元件（Widget），
+並使用指定的位移量來執行滾動動作。
+這個動作會重複執行，直到該項目變為可見。
 
 <?code-excerpt "integration_test/main_test.dart (scroll)"?>
 ```dart

@@ -1,49 +1,40 @@
 ---
-title: AnnotatedRegionLayers return local position relative to clipping region
+title: AnnotatedRegionLayers 回傳相對於裁剪區域的區域座標
 description: >
-  Provide annotation searches with reliable and meaningful local positions.
+  為註解搜尋提供更可靠且有意義的區域座標。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-The local position returned by `AnnotatedRegionLayers` in an
-annotation search has been changed to be relative to the clipping
-region instead of the layer. This makes the local position more
-meaningful and reliable, but breaks code that directly performs
-annotation searches and uses the local position.
+在註解搜尋中，`AnnotatedRegionLayers` 回傳的區域座標，現在改為相對於裁剪區域，而非原本的圖層。這讓區域座標更加有意義且可靠，但會影響到直接執行註解搜尋並使用該區域座標的程式碼。
 
-## Context
+## 背景
 
-Annotations are metadata that are assigned during the
-rendering phase to regions on the screen.
-Searching the annotations with a location gives the
-contextual information that contains that location.
-They are used to detect mouse events and the theme of app bars.
+註解（Annotations）是在渲染（render）階段指派給螢幕上特定區域的中繼資料。
+使用位置來搜尋註解時，會取得包含該位置的相關資訊。
+這些註解常用於偵測滑鼠事件，以及應用程式列（app bars）的主題化（theming）。
 
-When `localPosition` was first added to the search result,
-it was defined as relative to the layer that owned the annotation,
-which turned out to be a design mistake.
-The offset from the layer is meaningless and unreliable.
-For example, a `Transform` widget draws on the same layer
-with an offset if the transform matrix is a simple translation,
-or push a dedicated `TransformLayer` if the matrix is non-trivial.
-The former case keeps the previous coordinate origin
-(for example, the top left corner of the app),
-while the latter case moves the position origin since
-it's on a new layer. The two cases might not produce noticeable
-visual differences, since the extra layer might just be a scale of
-99%, despite that the annotation search returns different results.
-In order to make this local position reliable, we have to choose
-one of the results to stick to.
+當初在搜尋結果中加入 `localPosition` 時，
+其定義為相對於擁有該註解的圖層，
+但這被證明是一個設計錯誤。
+相對於圖層的偏移既無意義也不可靠。
+舉例來說，若一個 `Transform` 元件（Widget）在同一個圖層上繪製，
+當轉換矩陣只是簡單的平移時會有一個偏移；
+若矩陣較為複雜，則會推送一個專用的 `TransformLayer`。
+前者會保留原本的座標原點（例如應用程式的左上角），
+而後者則因為在新圖層上而改變了座標原點。
+這兩種情況在視覺上可能沒有明顯差異，
+因為額外的圖層可能僅僅是縮放到 99%，
+但註解搜尋卻會回傳不同的結果。
+為了讓這個區域座標更可靠，我們必須選擇一種結果作為標準。
 
-## Description of change
+## 變更說明
 
-The `localPosition` returned by an `AnnotatedRegionLayer`
-is now the local position it received subtracted by `offset`,
-where `offset` is the location of the clipping area relative
-to the layer.
+現在，`AnnotatedRegionLayer` 回傳的 `localPosition`
+會是其收到的區域座標減去 `offset`，
+其中 `offset` 表示裁剪區域相對於圖層的位置。
 
 ```dart
 class AnnotatedRegionLayer<T> extends ContainerLayer {
@@ -63,38 +54,33 @@ class AnnotatedRegionLayer<T> extends ContainerLayer {
 }
 ```
 
-Conceptually, this has changed how `AnnotatedRegionLayer.offset`
-and `size` are defined. They used to mean
-"the clipping rectangle that restricts the annotation search",
-while they now jointly represent
-"the region of the annotation object".
+從概念上來說，這改變了 `AnnotatedRegionLayer.offset` 和 `size` 的定義。
+它們過去代表「限制註解搜尋的裁剪矩形」，而現在則共同表示「註解物件的區域」。
 
-## Migration guide
+## 遷移指南
 
-Code that is actively using this local position is probably
-directly interacting with layers, since using render objects or
-widgets have already made this result unreliable. In order to
-preserve the previous behavior, you can reimplement
-`AnnotatedRegionLayer` to return a local position without
-subtracting the offset.
+如果你的程式碼有主動使用這個 `localPosition`，本質上很可能是直接與圖層（layer）互動，
+因為若是透過 render objects 或元件（Widgets）取得，這個結果早已不可靠。
+為了維持先前的行為，你可以自行重新實作 `AnnotatedRegionLayer`，
+讓其回傳 `localPosition` 時不再扣除 `offset`。
 
-## Timeline
+## 時程
 
-Landed in version: 1.15.2<br>
-In stable release: 1.17
+合併進版本：1.15.2<br>
+穩定版釋出：1.17
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`AnnotatedRegionLayer`][]
 * [`AnnotationEntry`][]
 
-Relevant issues:
+相關議題：
 
 * [Issue #49568][]
 
-Relevant PR:
+相關 PR：
 
 * [Make Annotation's localPosition relative to object][]
 

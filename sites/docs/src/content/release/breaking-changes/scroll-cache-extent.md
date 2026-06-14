@@ -1,44 +1,40 @@
 ---
-title: Deprecated `cacheExtent` and `cacheExtentStyle`
+title: 已棄用的 `cacheExtent` 與 `cacheExtentStyle`
 description: >-
-  The `cacheExtent` and `cacheExtentStyle` properties are deprecated.
-  They are replaced by `scrollCacheExtent` with a `ScrollCacheExtent` object.
+  `cacheExtent` 與 `cacheExtentStyle` 屬性已被棄用。
+  它們由帶有 `ScrollCacheExtent` 物件的 `scrollCacheExtent` 取代。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-Flutter 3.44 deprecates `cacheExtent` and `cacheExtentStyle`
-in scrolling-related widgets, such as
-`ListView`, `GridView`, `CustomScrollView`, and `Viewport`,
-and their corresponding render objects, such as `RenderViewport`.
-The new `scrollCacheExtent` property encapsulates
-both the value and the caching strategy (pixels or viewport).
+Flutter 3.44 在與捲動相關的元件 (Widget) 中棄用了 `cacheExtent` 與 `cacheExtentStyle`，
+包括 `ListView`、`GridView`、`CustomScrollView` 和 `Viewport`，
+以及其對應的渲染物件，例如 `RenderViewport`。
+新的 `scrollCacheExtent` 屬性將值與快取策略（像素或視口）封裝於一處。
 
-## Background
+## 背景
 
-Previously, `cacheExtent` was a `double` and
-`cacheExtentStyle` determined how that `double` was interpreted
-(either as pixels or as a fraction of the viewport).
-This split made the setting harder to understand.
+過去，`cacheExtent` 是一個 `double`，
+而 `cacheExtentStyle` 決定了該 `double` 的解讀方式
+（可為像素或視口的比例）。
+這種分開設定的方式使設定較難理解。
 
-The new `scrollCacheExtent` property uses a `ScrollCacheExtent` object that
-explicitly encapsulates both the value and
-the caching strategy (pixels or viewport),
-which provides type safety and clearer intent.
+新的 `scrollCacheExtent` 屬性使用 `ScrollCacheExtent` 物件，
+明確地將值與快取策略（像素或視口）封裝在一起，
+從而提供型別安全性與更清晰的意圖。
 
-## Migration guide
+## 遷移指南
 
-### Widget layer
+### 元件層
 
-#### `cacheExtent` (pixels)
+#### `cacheExtent`（像素）
 
-If your code uses `cacheExtent`,
-which defaults to pixels,
-use `scrollCacheExtent` with `ScrollCacheExtent.pixels`.
+若您的程式碼使用預設以像素為單位的 `cacheExtent`，
+請改用帶有 `ScrollCacheExtent.pixels` 的 `scrollCacheExtent`。
 
-**Before:**
+**之前：**
 
 ```dart
 ListView(
@@ -47,7 +43,7 @@ ListView(
 )
 ```
 
-**After:**
+**之後：**
 
 ```dart
 ListView(
@@ -56,13 +52,12 @@ ListView(
 )
 ```
 
-#### `cacheExtentStyle` (viewport)
+#### `cacheExtentStyle`（視口）
 
-If your code uses `cacheExtent` with `CacheExtentStyle.viewport`,
-which is common in `Viewport`,
-use `scrollCacheExtent` with `ScrollCacheExtent.viewport`.
+若您的程式碼在 `Viewport` 中搭配 `CacheExtentStyle.viewport` 使用 `cacheExtent`，
+請改用帶有 `ScrollCacheExtent.viewport` 的 `scrollCacheExtent`。
 
-**Before:**
+**之前：**
 
 ```dart
 Viewport(
@@ -72,7 +67,7 @@ Viewport(
 )
 ```
 
-**After:**
+**之後：**
 
 ```dart
 Viewport(
@@ -81,39 +76,38 @@ Viewport(
 )
 ```
 
-### Render object layer
+### 渲染物件層
 
-If your code manually sets properties on
-`RenderViewport` or a similar render object,
-use `scrollCacheExtent`.
+若您的程式碼直接在 `RenderViewport` 或類似的渲染物件上設定屬性，
+請改用 `scrollCacheExtent`。
 
-**Before:**
+**之前：**
 
 ```dart
 renderViewport.cacheExtent = 500.0;
 renderViewport.cacheExtentStyle = CacheExtentStyle.pixel;
 ```
 
-**After:**
+**之後：**
 
 ```dart
 renderViewport.scrollCacheExtent = const ScrollCacheExtent.pixels(500.0);
 ```
 
-## Timeline
+## 時間表
 
-Landed in version: 3.41.0-0.0.pre<br>
-In stable release: 3.44
+登陸版本：3.41.0-0.0.pre<br>
+穩定版本：3.44
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`ScrollCacheExtent`][]
 * [`ScrollView.scrollCacheExtent`][]
 * [`RenderViewportBase.scrollCacheExtent`][]
 
-Relevant PRs:
+相關 PR：
 
 * [Introduce ScrollCacheExtent][pr-181092]
 

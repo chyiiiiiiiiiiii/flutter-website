@@ -1,58 +1,42 @@
 ---
-title: Removing Notification.visitAncestor
+title: 移除 Notification.visitAncestor
 description: >
-  Notifications only traverse ancestors that are notification listeners.
+  通知（Notification）現在只遍歷作為通知監聽者的祖先元件（Widgets）。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-Notifications are more efficient by traversing only ancestors that
-are notification listeners.
+通知（Notification）現在僅遍歷作為通知監聽者的祖先元件，提升了效率。
 
-## Context
+## 背景
 
-The notification API traversed the element tree in order to locate a
-notification receiver. This led to some unfortunate performance
-characteristics:
+通知 API 會遍歷元件樹（element tree），以尋找通知接收者。這導致了一些不理想的效能表現：
 
-  * If there was no receiver for a given notification type, the entire element
-    tree above the notification dispatch point would be traversed and type
-    checked.
-  * For multiple notifications in a given frame (which is common for scroll
-    views) we ended up traversing the element tree multiple times.
+  * 如果沒有對應通知類型的接收者，則會遍歷並進行型別檢查整個通知發送點以上的元件樹。
+  * 若在同一畫格（frame）中有多個通知（這在滾動元件很常見），則會多次遍歷元件樹。
 
-If there were multiple or nested scroll views on a given page, the situation
-was worsened significantly - each scroll view would dispatch multiple
-notifications per frame. For example, in the Dart/Flutter Devtools flamegraph
-page, we found that about 30% of CPU time was spent dispatching notifications.
+如果在同一頁面上有多個或巢狀的滾動元件（Scrolling Widgets），情況會變得更糟——每個滾動元件每個畫格都會發送多個通知。例如，在 Dart/Flutter Devtools 的 flamegraph 頁面中，我們發現約有 30% 的 CPU 時間花在發送通知上。
 
-In order to reduce the cost of dispatching notifications, we have changed
-notification dispatch so that it only visits ancestors that are notification
-listeners, reducing the number of elements visited per frame.
+為了降低發送通知的成本，我們已將通知發送機制修改為只拜訪作為通知監聽者的祖先元件，從而減少每個畫格需要遍歷的元件數量。
 
-However, the old notification system exposed the fact that it traversed
-each element as part of its API via `Notification.visitAncestor`. This
-method is no longer supported as we no longer visit all ancestor elements.
+然而，舊的通知系統在其 API 中透過 `Notification.visitAncestor` 方法暴露了遍歷每個元件的行為。由於現在不再遍歷所有祖先元件，因此此方法已不再支援。
 
-## Description of change
+## 變更說明
 
-`Notification.visitAncestor` has been removed.
-Any classes that extend `Notification` should
-no longer override this method.
+`Notification.visitAncestor` 已被移除。
+任何繼承自 `Notification` 的類別，都不應再覆寫此方法。
 
-**If you don't implement a custom Notification
-that overrides `Notification.visitAncestor`,
-then no changes are required.**
+**如果你沒有實作自訂 Notification 並覆寫 `Notification.visitAncestor`，
+則無需進行任何更動。**
 
-## Migration guide
+## 遷移指南
 
-If you have a subclass of `Notification` that overrides
-`Notification.visitAncestor`, then you must either delete the override or
-opt-into old style notification dispatch with the following code.
+如果你有繼承自 `Notification` 並覆寫
+`Notification.visitAncestor` 的子類別，則必須刪除該覆寫，或使用以下程式碼選擇性地採用舊式通知發送方式。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 import 'package:flutter/widgets.dart';
@@ -71,7 +55,7 @@ void methodThatSendsNotification(BuildContext? context) {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 import 'package:flutter/widgets.dart';
@@ -95,24 +79,23 @@ void methodThatSendsNotification(BuildContext? context) {
 }
 ```
 
-Note that this performs poorly compared to the
-new default behavior of `Notification.dispatch`.
+請注意，這種做法相較於 `Notification.dispatch` 的新預設行為，效能較差。
 
-## Timeline
+## 時間軸
 
-Landed in version: 2.12.0-4.1<br>
-In stable release: 3.0.0
+合併於版本：2.12.0-4.1<br>
+穩定版釋出：3.0.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`Notification`]({{site.api}}/flutter/widgets/Notification-class.html)
 
-Relevant issues:
+相關議題：
 
 * [Issue 97849]({{site.repo.flutter}}/issues/97849)
 
-Relevant PRs:
+相關 PR：
 
 * [improve Notification API performance]({{site.repo.flutter}}/pull/98451)

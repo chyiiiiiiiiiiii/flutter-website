@@ -1,29 +1,24 @@
 ---
-title: ImageCache large images
+title: ImageCache 大型圖片
 description: >
-  Stop increasing the ImageCache maxByteSize to accommodate large images.
+  停止自動增加 ImageCache 的 maxByteSize 以容納大型圖片。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-The `maxByteSize` of the `ImageCache` is no longer
-automatically made larger to accommodate large images.
+`ImageCache` 的 `maxByteSize` 現在不會再自動變大來容納大型圖片。
 
-## Context
+## 背景說明
 
-Previously, when loading images into the `ImageCache`
-that had larger byte sizes than the `ImageCache`'s `maxByteSize`,
-Flutter permanently increased the `maxByteSize` value
-to accommodate those images.
-This logic sometimes led to bloated `maxByteSize` values that
-made working in memory-limited systems more difficult.
+過去，當將圖片載入 `ImageCache`，且該圖片的位元組大小超過 `ImageCache` 的 `maxByteSize` 時，
+Flutter 會永久增加 `maxByteSize` 的數值以容納這些圖片。
+這樣的邏輯有時會導致 `maxByteSize` 數值膨脹，讓在記憶體有限的系統上運作變得更加困難。
 
-## Description of change
+## 變更說明
 
-The following "before" and "after" pseudocode demonstrates
-the changes made to the `ImageCache` algorithm:
+以下「變更前」與「變更後」的偽程式碼，展示了對 `ImageCache` 演算法所做的調整：
 
 ```dart
 // Old logic pseudocode
@@ -52,47 +47,39 @@ void onLoadImage(Image image) {
 }
 ```
 
-## Migration guide
+## 遷移指南
 
-There might be situations where the `ImageCache`
-is thrashing with the new logic where it wasn't previously,
-specifically if you load images that are larger than your
-`cache.maxByteSize` value.
-This can be remedied by one of the following approaches:
+在某些情況下，`ImageCache` 可能會因為新的邏輯而發生 thrashing（頻繁清除與重建快取），而這在先前版本中並未出現，特別是當你載入的圖片大於你的 `cache.maxByteSize` 值時。
+你可以透過以下其中一種方式來解決這個問題：
 
-1. Increase the `ImageCache.maxByteSize` value
-   to accommodate larger images.
-1. Adjust your image loading logic to guarantee that
-   the images fit nicely into the `ImageCache.maxByteSize`
-   value of your choosing.
-1. Subclass `ImageCache`, implement your desired logic,
-   and create a new binding that serves up your subclass
-   of `ImageCache` (see the [`image_cache.dart`][] source).
+1. 提高 `ImageCache.maxByteSize` 值，以容納更大的圖片。
+1. 調整你的圖片載入邏輯，確保圖片能夠適當地符合你所設定的 `ImageCache.maxByteSize` 值。
+1. 繼承（subclass）`ImageCache`，實作你想要的邏輯，並建立一個新的綁定（binding）來提供你自訂的 `ImageCache` 子類別（詳見 [`image_cache.dart`][] 原始碼）。
 
-## Timeline
+## 時程
 
-The old algorithm is no longer supported.
+舊的演算法已不再支援。
 
-Landed in version: 1.16.3<br>
-In stable release: 1.17
+合併於版本：1.16.3<br>
+穩定版釋出：1.17
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`ImageCache`][]
 
-Relevant issue:
+相關議題：
 
 * [Issue 45643][]
 
-Relevant PR:
+相關 PR：
 
 * [Stopped increasing the cache size to accommodate large images][]
 
-Other:
+其他：
 
-* [`ImageCache` source][]
+* [`ImageCache` 原始碼][`ImageCache` source]
 
 
 [Stopped increasing the cache size to accommodate large images]: {{site.repo.flutter}}/pull/47387

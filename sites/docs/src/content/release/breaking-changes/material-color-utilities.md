@@ -1,27 +1,27 @@
 ---
-title: Material Color Utilities update in Flutter
+title: Flutter 中 Material Color Utilities 更新
 description: >-
-  The latest Material Color Utilities have been
-  applied to the Flutter Material library.
+  最新版 Material Color Utilities 已套用至
+  Flutter Material 函式庫。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-This release updates `package:material_color_utilities` from
-`v0.11.1` to `0.13.0`.
-This updated package includes algorithm changes that
-align with the [Material 3 tokens update][].
+此版本將 `package:material_color_utilities` 從
+`v0.11.1` 升級至 `0.13.0`。
+此更新套件包含與 [Material 3 Token 更新][Material 3 tokens update] 對齊的
+演算法變更。
 
-The algorithm changes affect the same properties:
+演算法變更影響相同的屬性：
 
 * `onPrimaryContainer`
 * `onSecondaryContainer`
 * `onTertiaryContainer`
 * `onErrorContainer`
 
-The changes will be reflected when generating a scheme using
+這些變更將在使用以下方式產生配色方案時反映出來：
 
 * `ColorScheme.fromSeed`
 * `ColorScheme.fromImageProvider`
@@ -29,20 +29,17 @@ The changes will be reflected when generating a scheme using
 
 [Material 3 tokens update]: /release/breaking-changes/material-design-3-token-update
 
-## Migration guide
+## 遷移指南
 
-In general, we believe the colors generated will be more legible and visually
-appealing, but if you want to maintain the previous colors when upgrading,
-you will have to manually set those properties to their desired color after
-generating.
+一般而言，我們相信所產生的顏色將更易讀且在視覺上更吸引人，但若您在升級後希望維持先前的顏色，則需要在產生後手動將這些屬性設定為所需的顏色。
 
-## Timeline
+## 時間軸
 
-Landed in version: 3.39.0-1.0.pre-250<br>
-In stable release: 3.41
+導入版本：3.39.0-1.0.pre-250<br>
+穩定版本：3.41
 
-## References
+## 參考資料
 
-* [Manually roll material_color_utilities][]
+* [手動更換 material_color_utilities][Manually roll material_color_utilities]
 
 [Manually roll material_color_utilities]: {{site.repo.flutter}}/pull/170000

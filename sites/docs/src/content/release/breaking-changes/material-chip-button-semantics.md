@@ -1,82 +1,67 @@
 ---
-title: Material Chip button semantics
-description: Interactive Material Chips are now semantically marked as buttons.
+title: Material Chip 按鈕語意
+description: 互動式 Material Chips 現在會以語意標記為按鈕。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-Flutter now applies the semantic label of `button` to
-all interactive [Material Chips][] for accessibility purposes.
+Flutter 現在會將 `button` 的語意標籤套用到所有互動式 [Material Chips][]，以提升無障礙體驗。
 
-## Context
+## 背景說明
 
-Interactive Material Chips (namely [`ActionChip`][],
-[`ChoiceChip`][], [`FilterChip`][], and [`InputChip`][])
-are now semantically marked as being buttons.
-However, the non-interactive information [`Chip`][] is not.
+互動式 Material Chips（即 [`ActionChip`][]、
+[`ChoiceChip`][]、[`FilterChip`][] 以及 [`InputChip`][]）
+現在都會以語意標記為按鈕。
+然而，非互動式的資訊 [`Chip`][] 則不會如此標記。
 
-Marking Chips as buttons helps accessibility tools,
-search engines, and other semantic analysis software
-understand the meaning of an app. For example, it
-allows screen readers (such as TalkBack on Android
-and VoiceOver on iOS) to announce a tappable Chip
-as a "button", which can assist users in navigating
-your app. Prior to this change, users of accessibility
-tools may have had a subpar experience,
-unless you implemented a workaround by manually adding the
-missing semantics to the Chip widgets in your app.
+將 Chips 標記為按鈕有助於無障礙工具、搜尋引擎及其他語意分析軟體
+理解應用程式的意義。例如，這讓螢幕閱讀器
+（如 Android 的 TalkBack 及 iOS 的 VoiceOver）
+能夠將可點擊的 Chip 宣告為「按鈕」，
+協助使用者更容易瀏覽你的應用程式。
+在這項變更之前，無障礙工具的使用者可能會有較差的體驗，
+除非你已在應用程式中手動為 Chip 元件 (Widget) 補上缺少的語意資訊。
 
-## Description of change
+## 變更說明
 
-The outermost [`Semantics`][] widget that wraps all
-Chip classes to describe their semantic properties
-is modified.
+包裹所有 Chip 類別、用於描述其語意屬性的最外層
+[`Semantics`][] 元件（Widget）已經被修改。
 
-The following changes apply to
-[`ActionChip`][], [`ChoiceChip`][], [`FilterChip`][],
-and [`InputChip`][]:
+以下變更適用於
+[`ActionChip`][]、[`ChoiceChip`][]、[`FilterChip`][]
+以及 [`InputChip`][]：
 
-* The [`button`][`SemanticsProperties.button`] property
-  is set to `true`.
-* The [`enabled`][`SemanticsProperties.enabled`] property
-  reflects whether the Chip is _currently_ tappable
-  (by having a callback set).
+* [`button`][`SemanticsProperties.button`] 屬性會被設為 `true`。
+* [`enabled`][`SemanticsProperties.enabled`] 屬性會反映該 Chip 是否
+  _目前_可點擊（即是否有設定回呼（callback））。
 
-These property changes bring interactive Chips' semantic
-behavior in-line with that of other [Material Buttons][].
+這些屬性變更讓互動式 Chips 的語意行為與其他 [Material Buttons][] 一致。
 
-For the non-interactive information [`Chip`][]:
+對於非互動式資訊 [`Chip`][]：
 
-* The [`button`][`SemanticsProperties.button`] property
-  is set to `false`.
-* The [`enabled`][`SemanticsProperties.enabled`] property
-  is set to `null`.
+* [`button`][`SemanticsProperties.button`] 屬性會被設為 `false`。
+* [`enabled`][`SemanticsProperties.enabled`] 屬性會被設為 `null`。
 
-## Migration guide
+## 遷移指南
 
-**You might not need to perform any migration.**
-This change only affects you if you worked around
-the issue of Material Chips missing `button` semantics by
-wrapping the widget given to the `label` field of a
-`Chip` with a `Semantics` widget marked as
-`button: true`. **In this case, the inner and outer `button`
-semantics conflict, resulting in the tappable area
-of the button shrinking down to the size of the label
-after this change is introduced.** Fix this issue
-either by deleting that `Semantics` widget and replacing
-it with its child, or by removing the `button: true`
-property if other semantic properties still
-need to be applied to the `label` widget of the Chip.
+**你可能不需要進行任何遷移。**
+這項變更僅在你曾經為了解決 Material Chips 缺少 `button` 語意的問題，
+而將傳遞給 `Chip` 的 `label` 欄位的元件（Widget）包裹在一個
+已標記為 `button: true` 的 `Semantics` 元件時才會影響你。
+**在這種情況下，內外層的 `button` 語意會產生衝突，
+導致按鈕的可點擊區域在這項變更後縮小到僅剩標籤的大小。**
+你可以透過刪除該 `Semantics` 元件並直接使用其子元件，
+或是在仍需為 Chip 的 `label` 元件套用其他語意屬性時，
+移除 `button: true` 屬性來解決此問題。
 
-The following snippets use [`InputChip`][] as an example,
-but the same process applies to [`ActionChip`][],
-[`ChoiceChip`][], and [`FilterChip`][] as well.
+以下程式碼片段以 [`InputChip`][] 為例，
+但同樣適用於 [`ActionChip`][]、[`ChoiceChip`][] 以及 [`FilterChip`][]。
 
-**Case 1: Remove the `Semantics` widget.**
+**情境一：移除 `Semantics` 元件。**
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 Widget myInputChip = InputChip(
@@ -88,7 +73,7 @@ Widget myInputChip = InputChip(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 Widget myInputChip = InputChip(
@@ -97,9 +82,9 @@ Widget myInputChip = InputChip(
 );
 ```
 
-**Case 2: Remove `button:true` from the `Semantics` widget.**
+**情境二：從 `Semantics` 元件中移除 `button:true`。**
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 Widget myInputChip = InputChip(
@@ -112,7 +97,7 @@ Widget myInputChip = InputChip(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 Widget myInputChip = InputChip(
@@ -124,14 +109,14 @@ Widget myInputChip = InputChip(
 );
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 1.23.0-7.0.pre<br>
-In stable release: 2.0.0
+合併於版本：1.23.0-7.0.pre<br>
+正式版釋出：2.0.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`ActionChip`][]
 * [`Chip`][]
@@ -144,19 +129,15 @@ API documentation:
 * [`SemanticsProperties.button`][]
 * [`SemanticsProperties.enabled`][]
 
-Relevant issue:
+相關議題：
 
-* [Issue 58010][]: InputChip doesn't announce any
-  action for a11y on iOS
+* [Issue 58010][]：InputChip 在 iOS 上無障礙（a11y）時未宣告任何動作
 
-Relevant PRs:
+相關 PR：
 
-* [PR 60141][]: Tweaking Material Chip a11y semantics
-  to match buttons
-* [PR 60645][]: Revert "Tweaking Material Chip a11y
-  semantics to match buttons" (#60141)
-* [PR 61048][]: Re-land "Tweaking Material Chip a11y
-  semantics to match buttons" (#60141)
+* [PR 60141][]：調整 Material Chip 的無障礙語意（a11y semantics），使其與按鈕一致
+* [PR 60645][]：還原「調整 Material Chip 的無障礙語意以符合按鈕（#60141）」
+* [PR 61048][]：重新合併「調整 Material Chip 的無障礙語意以符合按鈕（#60141）」
 
 [`ActionChip`]: {{site.api}}/flutter/material/ActionChip-class.html
 [`Chip`]: {{site.api}}/flutter/material/Chip-class.html

@@ -1,171 +1,170 @@
 ---
-title: Flutter Changelog 0.0.21 - 1.0.0
-shortTitle: Flutter Changelog up to 1.0.0
-description: Archived Changelog wiki page, containing release information between Flutter 0.0.21 and 1.0.0.
+title: Flutter 更新日誌 0.0.21 - 1.0.0
+shortTitle: Flutter 更新日誌至 1.0.0
+description: 歷史更新日誌 wiki 頁面，包含 Flutter 0.0.21 至 1.0.0 之間的發行資訊。
 skipTemplateRendering: true
 ---
 
-_This page is a dump of the old Changelog page from the Flutter wiki up until
-[Flutter release notes](./) were published in flutter.dev._
+_本頁為 Flutter wiki 舊版更新日誌頁面的匯總，內容涵蓋至 flutter.dev 上正式發佈的 [Flutter release notes](./) 之前。_
 
-## Changes through and including 1.0.0
+## 1.0.0（含）以前的變更
 
-* Skia and engine rolls to address the following:
-  * [video_player image distortion problem after last flutter update 0.11.3](https://github.com/flutter/flutter/issues/24402)
-  * [Green, flickering bar over camera preview](https://github.com/flutter/flutter/issues/24289)
-  * [Image rendering issues on Adreno 3xx devices after upgrade from 0.9.4 to 0.10.2](https://github.com/flutter/flutter/issues/24517)
-* Engine rolls to fix
-  * [Prepend [NSLocale currentLocale] for first locale on iOS to ensure countryCode exists. Allow language-only locales.](https://github.com/flutter/engine/issues/6995)
-  * [Changes to unblock Fuchsia roll](https://github.com/flutter/engine/issues/6949)
-* Various fixes to tooling for documentation, documentation, and documentation accompanying the templates.
+* Skia 與引擎（engine）升級以解決以下問題：
+  * [video_player 在 Flutter 更新至 0.11.3 後出現圖片失真問題](https://github.com/flutter/flutter/issues/24402)
+  * [相機預覽畫面上出現綠色閃爍條](https://github.com/flutter/flutter/issues/24289)
+  * [從 0.9.4 升級到 0.10.2 後，Adreno 3xx 裝置上的圖片渲染問題](https://github.com/flutter/flutter/issues/24517)
+* 引擎升級以修復
+  * [在 iOS 上為第一個 locale 預先加上 [NSLocale currentLocale] 以確保 countryCode 存在，並允許僅語言的 locale。](https://github.com/flutter/engine/issues/6995)
+  * [解除 Fuchsia 升級阻礙的相關變更](https://github.com/flutter/engine/issues/6949)
+* 工具鏈相關的多項修正，針對文件、文件，以及範本所附帶的文件進行改善。
 
-## Changes since v0.10.2
-* [flutter/engine#6883](https://github.com/flutter/engine/pull/6883) - FlutterViewController will no longer load your app's splash screen by default.  The implementation of that has been moved to a new method `loadDefaultSplashScreenView`.
-* [#23755](https://github.com/flutter/flutter/pull/23755) Removed direct dependency of flutter_test on `package:test`. Flutter now requires test version 1.5.1 and mockito version 4.0.0.
+## v0.10.2 之後的變更
+* [flutter/engine#6883](https://github.com/flutter/engine/pull/6883) - FlutterViewController 預設將不再載入您的應用程式啟動畫面。該實作已移至新方法 `loadDefaultSplashScreenView`。
+* [#23755](https://github.com/flutter/flutter/pull/23755) 移除了 flutter_test 對 `package:test` 的直接相依。Flutter 現在需要 test 版本 1.5.1 與 mockito 版本 4.0.0。
 
-  ### Breaking change:
-  This requires adding an explicit dependency to your pubspec.yaml:
+  ### 重大變更：
+  這需要您在 pubspec.yaml（設定檔）中明確新增相依套件：
   ```yaml
   dev_dependencies:
     test: ^1.5.1
   ```
-* [#24024](https://github.com/flutter/flutter/pull/24024) and [flutter/engine#6760](https://github.com/flutter/engine/pull/6760) Upgraded harfbuzz to 2.1.0, Significantly improved text layout, and zero-width-joiner (zwj) support for better emojis on iOS.
-* [#23417](https://github.com/flutter/flutter/pull/23417) provide `null` when locale is unavailable or invalid instead of `_`.
-* [#23583](https://github.com/flutter/flutter/pull/23583) Improved localization algorithm with scriptCodes and full preferred locales list support, breaking changes to callbacks when locales are changed (pass list instead of single locale).
+* [#24024](https://github.com/flutter/flutter/pull/24024) 以及 [flutter/engine#6760](https://github.com/flutter/engine/pull/6760) 將 harfbuzz 升級至 2.1.0，顯著提升文字排版效能，並加強 iOS 上的零寬連字元（zwj）支援，讓表情符號顯示更佳。
+* [#23417](https://github.com/flutter/flutter/pull/23417) 當 locale 不可用或無效時，提供 `null`，而非 `_`。
+* [#23583](https://github.com/flutter/flutter/pull/23583) 改進在地化（localization）演算法，支援 scriptCodes 及完整偏好語系清單，當 locale 變更時，回呼（callback）會有破壞性變更（傳遞清單而非單一 locale）。
 
 ### v0.11.0
-* [#23320](https://github.com/flutter/flutter/pull/23320) Adds back swipe gesture support for Cupertino navigation bars' cross-page transitions.
-* [#23320](https://github.com/flutter/flutter/pull/23322) Adds support for Hero transitions across multiple Navigators.
+* [#23320](https://github.com/flutter/flutter/pull/23320) 為 Cupertino 導航列的跨頁轉場新增回滑手勢支援。
+* [#23320](https://github.com/flutter/flutter/pull/23322) 新增多個 Navigator 之間的 Hero 動畫轉場支援。
 
-## Changes in v0.10.2 (since v0.9.4) - beta 10
+## v0.10.2（自 v0.9.4 起的變更）- beta 10
 
 ### v0.10.2
-* [#23194](https://github.com/flutter/flutter/pull/23194) Adds CupertinoTextField, an iOS styled text entry field.
-* [#23221](https://github.com/flutter/flutter/pull/23221) Adds RTL support for Cupertino navigation bars' cross-page transitions.
+* [#23194](https://github.com/flutter/flutter/pull/23194) 新增 CupertinoTextField，提供 iOS 風格的文字輸入欄位。
+* [#23221](https://github.com/flutter/flutter/pull/23221) 為 Cupertino 導航列的跨頁轉場新增 RTL（由右至左）支援。
 
 ### v0.10.1
-* [#22977](https://github.com/flutter/flutter/pull/22977) replaces most of `Null` by `void`. See [the mail proposing this change](https://groups.google.com/forum/#!topic/flutter-dev/b7TKGqERNTM).
-* [#22985](https://github.com/flutter/flutter/pull/22985) Implement correct orthographic projection
-* [#23104](https://github.com/flutter/flutter/pull/23104) Update wrapping message
-* [#22924](https://github.com/flutter/flutter/pull/22924) Support for disabling interactive TextField caret and selection
-* [#22870](https://github.com/flutter/flutter/pull/22870) Use new `mixin` syntax for super-mixins
-* [#22022](https://github.com/flutter/flutter/pull/22022) allow command line option "--project-name" in flutter create
-* [#23126](https://github.com/flutter/flutter/pull/23126) Dispatch a Flutter.Navigation event each time navigation occurs.
-* [#23183](https://github.com/flutter/flutter/pull/23183) Fix bug where gradle build rule would rerun on switching from
-* [#22394](https://github.com/flutter/flutter/pull/22394) Fix out of range spring simulation in ClampingScrollSimulation
-* [#23174](https://github.com/flutter/flutter/pull/23174) enable lint prefer_void_to_null
-* [#23184](https://github.com/flutter/flutter/pull/23184) TextTheme.apply() should not assume non-null TextStyle fields
-* [#23168](https://github.com/flutter/flutter/pull/23168) Added Mongolian (mn) translations
-* [#23167](https://github.com/flutter/flutter/pull/23167) Fix disabled formfield validation
-* [#23015](https://github.com/flutter/flutter/pull/23015) Finalize editing when hitting the enter key on a single line TextField
-* [#23021](https://github.com/flutter/flutter/pull/23021) Make it easier to use CocoaPods to Add2App for iOS
-* [#22825](https://github.com/flutter/flutter/pull/22825) fix Curves.bounceInOut math
-* [#22977](https://github.com/flutter/flutter/pull/22977) Prefer void to null
-* [#22822](https://github.com/flutter/flutter/pull/22822) Adds callback for Long Press Up
-* [#18770](https://github.com/flutter/flutter/pull/18770) Add `disabledHint` to DropdownButton
-* [#21657](https://github.com/flutter/flutter/pull/21657) Make AndroidView take gesture recognizer factories.
-* [#22449](https://github.com/flutter/flutter/pull/22449) Add support for text shadows
-* [flutter/engine#6644](https://github.com/flutter/engine/pull/6644) Add BoxHeightStyle and BoxWidthStyle as arguments to Paragraph.getBoxesForRange() to obtain various styles of enclosing boxes.
-* Skia update that changes the low level implementation of blurs and anti aliasing, which may break golden tests.
+* [#22977](https://github.com/flutter/flutter/pull/22977) 將大部分 `Null` 替換為 `void`。詳見[提案郵件](https://groups.google.com/forum/#!topic/flutter-dev/b7TKGqERNTM)。
+* [#22985](https://github.com/flutter/flutter/pull/22985) 實作正確的正交投影
+* [#23104](https://github.com/flutter/flutter/pull/23104) 更新換行訊息
+* [#22924](https://github.com/flutter/flutter/pull/22924) 支援停用互動式 TextField 游標及選取功能
+* [#22870](https://github.com/flutter/flutter/pull/22870) 使用新的 `mixin` 語法實作 super-mixins
+* [#22022](https://github.com/flutter/flutter/pull/22022) 允許 flutter create 命令列選項 "--project-name"
+* [#23126](https://github.com/flutter/flutter/pull/23126) 每次導航時派發 Flutter.Navigation 事件。
+* [#23183](https://github.com/flutter/flutter/pull/23183) 修正 gradle build 規則在切換時會重新執行的錯誤
+* [#22394](https://github.com/flutter/flutter/pull/22394) 修正 ClampingScrollSimulation 中 spring 模擬超出範圍的問題
+* [#23174](https://github.com/flutter/flutter/pull/23174) 啟用 lint 規則 prefer_void_to_null
+* [#23184](https://github.com/flutter/flutter/pull/23184) TextTheme.apply() 不應假設 TextStyle 欄位為非 null
+* [#23168](https://github.com/flutter/flutter/pull/23168) 新增蒙古語（mn）翻譯
+* [#23167](https://github.com/flutter/flutter/pull/23167) 修正停用的 formfield 驗證問題
+* [#23015](https://github.com/flutter/flutter/pull/23015) 在單行 TextField 按下 Enter 鍵時結束編輯
+* [#23021](https://github.com/flutter/flutter/pull/23021) 簡化 iOS 使用 CocoaPods 進行 Add2App 的流程
+* [#22825](https://github.com/flutter/flutter/pull/22825) 修正 Curves.bounceInOut 的數學計算
+* [#22977](https://github.com/flutter/flutter/pull/22977) 偏好 void 而非 null
+* [#22822](https://github.com/flutter/flutter/pull/22822) 新增 Long Press Up 的回呼（callback）
+* [#18770](https://github.com/flutter/flutter/pull/18770) 為 DropdownButton 新增 `disabledHint`
+* [#21657](https://github.com/flutter/flutter/pull/21657) 讓 AndroidView 可接受 gesture recognizer factories。
+* [#22449](https://github.com/flutter/flutter/pull/22449) 新增文字陰影支援
+* [flutter/engine#6644](https://github.com/flutter/engine/pull/6644) 為 Paragraph.getBoxesForRange() 新增 BoxHeightStyle 與 BoxWidthStyle 參數，以取得不同樣式的包覆框。
+* Skia 更新，變更了模糊與抗鋸齒的底層實作，可能導致 golden tests 失敗。
 
 ### v0.9.7
-* [flutter/engine#6393](https://github.com/flutter/engine/pull/6393) adds nullability annotations to Android MethodChannel/MethodCall.
+* [flutter/engine#6393](https://github.com/flutter/engine/pull/6393) 為 Android MethodChannel/MethodCall 新增 nullability 標註。
 
 ### v0.9.6
-* [#21251](https://github.com/flutter/flutter/pull/21251) adds CupertinoDatePicker, an iOS-style picker control that supports a date mode and a date + time mode.
+* [#21251](https://github.com/flutter/flutter/pull/21251) 新增 CupertinoDatePicker，提供支援日期模式與日期＋時間模式的 iOS 風格選擇器。
 
-## Changes in v0.9.4 (since v0.8.2 ) - beta 9
+## v0.9.4（自 v0.8.2 起的變更）- beta 9
 
 ### v0.9.4
 
-* [#21715](https://github.com/flutter/flutter/pull/21715), The default MaterialPageRoute transition is now defined by the Theme. Added (optional) support for Android P style page transitions. The MaterialPageRoute support for "hosting" another route to reuse its buildTransitions() method was removed because PageTransitionsBuilders, including CupertinoPageTransitionBuilder, are standalone objects.
+* [#21715](https://github.com/flutter/flutter/pull/21715)，預設的 MaterialPageRoute 動畫轉場現在由 Theme 決定。新增（可選）Android P 風格頁面轉場支援。MaterialPageRoute 不再支援「託管」其他 route 以重用其 buildTransitions() 方法，因為 PageTransitionsBuilders（包含 CupertinoPageTransitionBuilder）現在是獨立物件。
 
 ### v0.9.3
 
-* [#22108](https://github.com/flutter/flutter/pull/22108) changed the output of `flutter doctor` slightly, which may affect automated scripts that depended on the exact output.
+* [#22108](https://github.com/flutter/flutter/pull/22108) 略微更動 `flutter doctor` 的輸出，可能影響依賴精確輸出的自動化腳本。
 
 ### v0.9.2
 
-* [#21540](https://github.com/flutter/flutter/pull/21540) added a `transform()` method to [`Animatable`](https://api.flutter.dev/flutter/animation/Animatable-class.html). It is implemented by `Tween` (the main subclass of `Animatable`) but classes that subclass `Animatable` directly will need to implement it. Typically the existing `evaluate()` method can be changed to implement `transform()` instead, using the value given by the argument to `transform()` rather than the current value of the animation provided to `evaluate()`. `evaluate()` now has a default implementation that defers to `transform()`.
+* [#21540](https://github.com/flutter/flutter/pull/21540) 為 [`Animatable`](https://api.flutter.dev/flutter/animation/Animatable-class.html) 新增 `transform()` 方法。該方法由 `Tween`（`Animatable` 的主要子類別）實作，但直接繼承 `Animatable` 的類別需自行實作。通常可將現有的 `evaluate()` 方法改為實作 `transform()`，並使用傳入 `transform()` 的參數值，而非目前由 `evaluate()` 提供的 animation 值。`evaluate()` 現在有預設實作，會委託給 `transform()`。
 
-## Changes in v0.8.2 (since v0.7.3) - beta 8
+## v0.8.2（自 v0.7.3 起的變更）- beta 8
 
 ### v0.7.4
-* [#20322](https://github.com/flutter/flutter/pull/20322) performs parallax transitions between `CupertinoNavigationBar`s and `CupertinoSliverNavigationBar`s when navigating between pages.
+* [#20322](https://github.com/flutter/flutter/pull/20322) 在不同 `CupertinoNavigationBar` 與 `CupertinoSliverNavigationBar` 之間導覽時執行視差轉場效果。
 
-## Changes in v0.7.3 (since v0.6.0) - beta 7
+## v0.7.3（自 v0.6.0 起的變更）- beta 7
 
 ### v0.7.3
-* [#20966](https://github.com/flutter/flutter/pull/20966) adds `CupertinoTimerPicker`.
+* [#20966](https://github.com/flutter/flutter/pull/20966) 新增 `CupertinoTimerPicker`。
 
 ### v0.7.2
-* [#20929](https://github.com/flutter/flutter/pull/20929) fixes bug where `CupertinoPageScaffold` wasn't insetting its content when the keyboard is shown.
+* [#20929](https://github.com/flutter/flutter/pull/20929) 修正 `CupertinoPageScaffold` 在鍵盤顯示時未正確內縮內容的錯誤。
 
 ### v0.7.1
-* [#19637](https://github.com/flutter/flutter/pull/19637) `CupertinoNavigationBar` and `CupertinoSliverNavigationBar` now auto-populate their title and back button labels based on their `CupertinoPageRoute.title`.
+* [#19637](https://github.com/flutter/flutter/pull/19637) `CupertinoNavigationBar` 與 `CupertinoSliverNavigationBar` 現在會根據其 `CupertinoPageRoute.title` 自動填入標題與返回按鈕標籤。
 
-## Changes in v0.6.0 (since v0.5.1) - beta 6
+## v0.6.0（自 v0.5.1 起的變更）- beta 6
 
 ### v0.6.0
-* Dart SDK updated to a Dart 2 build (2.1.0-dev.0.0). Package and plugin authors should ensure their `pubspec.yaml` files include a Dart SDK constraint with an upper bound of `<3.0.0`. See the [Getting ready for Dart 2 post](https://blog.dart.dev/getting-ready-for-dart-2-and-making-your-packages-look-great-on-the-pub-site-118464d7f59d) for details.
-* [#19025](https://github.com/flutter/flutter/pull/19025) renamed `CupertinoRefreshControl` to `CupertinoSliverRefreshControl` for consistency.
-* [#19317](https://github.com/flutter/flutter/pull/19317) Add cursorWidth and cursorRadius to TextField (Material) cursor.
-* [#20116](https://github.com/flutter/flutter/pull/20116) reduced release binary sizes by ~2MB
-* [#20267](https://github.com/flutter/flutter/pull/20267) adds `CupertinoSegmentedControl'.
-* [#19232](https://github.com/flutter/flutter/pull/19232) adds `CupertinoActionSheet` for iOS-style bottom pop-up sheets.
-* [#20101](https://github.com/flutter/flutter/pull/20101) improves `CupertinoScrollbar` visual fidelity during overscrolls.
-* [#19789](https://github.com/flutter/flutter/pull/19789) adds support for infinite scrolling and looped scrolling for `CupertinoPicker`.
-* [#18381](https://github.com/flutter/flutter/pull/18381) improves visual fidelity of `CupertinoAlertDialog`.
+* Dart SDK 更新至 Dart 2 版本（2.1.0-dev.0.0）。套件與插件作者應確保其 `pubspec.yaml` 檔案包含 Dart SDK 上限為 `<3.0.0` 的約束。詳情請參閱 [Getting ready for Dart 2 post](https://blog.dart.dev/getting-ready-for-dart-2-and-making-your-packages-look-great-on-the-pub-site-118464d7f59d)。
+* [#19025](https://github.com/flutter/flutter/pull/19025) 為一致性將 `CupertinoRefreshControl` 更名為 `CupertinoSliverRefreshControl`。
+* [#19317](https://github.com/flutter/flutter/pull/19317) 為 TextField（Material）游標新增 cursorWidth 與 cursorRadius。
+* [#20116](https://github.com/flutter/flutter/pull/20116) 釋出版二進位檔案大小減少約 2MB
+* [#20267](https://github.com/flutter/flutter/pull/20267) 新增 `CupertinoSegmentedControl`。
+* [#19232](https://github.com/flutter/flutter/pull/19232) 新增 `CupertinoActionSheet`，提供 iOS 風格的底部彈出選單。
+* [#20101](https://github.com/flutter/flutter/pull/20101) 改善過度捲動時 `CupertinoScrollbar` 的視覺保真度。
+* [#19789](https://github.com/flutter/flutter/pull/19789) 為 `CupertinoPicker` 新增無限捲動與循環捲動支援。
+* [#18381](https://github.com/flutter/flutter/pull/18381) 改善 `CupertinoAlertDialog` 的視覺保真度。
 
 ### v0.5.8
-* [#19284](https://github.com/flutter/flutter/pull/19284) adds multi-column `CupertinoPicker` support for off-axis cylindrical projection.
+* [#19284](https://github.com/flutter/flutter/pull/19284) 為 `CupertinoPicker` 新增多欄支援，適用於偏軸圓柱投影。
 
 ### v0.5.7
-* [#18469](https://github.com/flutter/flutter/pull/18469) added a `CupertinoApp` for creating iOS styled apps.
+* [#18469](https://github.com/flutter/flutter/pull/18469) 新增 `CupertinoApp`，用於建立 iOS 風格的應用程式。
 
 ### v0.5.6
-* [#18614](https://github.com/flutter/flutter/pull/18614) added `isInstanceOf` as a function exported from Flutter, because package:matcher has deprecated its implementation of `isInstanceOf`.
-* [flutter/engine#5517](https://github.com/flutter/engine/pull/5517) enabled the `--sync-async` Dart flag.
+* [#18614](https://github.com/flutter/flutter/pull/18614) 將 `isInstanceOf` 作為 Flutter 匯出的函式，因為 package:matcher 已棄用其 `isInstanceOf` 實作。
+* [flutter/engine#5517](https://github.com/flutter/engine/pull/5517) 啟用了 `--sync-async` Dart 旗標。
 
 ### v0.5.5
 
-* [#18488](https://github.com/flutter/flutter/pull/18488) made the `--debug-port` argument to `flutter trace` required, because the previous behaviour was unreliable and caused flaky tests.
+* [#18488](https://github.com/flutter/flutter/pull/18488) 將 `flutter trace` 的 `--debug-port` 參數設為必填，因為先前的行為不穩定且導致測試不穩定。
 
 ### v0.5.2
 
-* [#18096](https://github.com/flutter/flutter/pull/18096) changed the rendering of the character counter in text fields to more closely match the Material design specifications.
+* [#18096](https://github.com/flutter/flutter/pull/18096) 變更了文字欄位中字元計數器的渲染方式，使其更符合 Material 設計規範。
 
-## Changes in v0.5.1 (since v0.3.2) - beta 5
+## v0.5.1（自 v0.3.2 起的變更）- beta 5
 
 ### v0.5.0
 
-* [#17661](https://github.com/flutter/flutter/pull/17661) changed the layout and size of `ListTile` to better conform to the latest Material design specs.
+* [#17661](https://github.com/flutter/flutter/pull/17661) 調整了 `ListTile` 的版面配置與大小，使其更符合最新的 Material 設計規範。
 
-* [#17620](https://github.com/flutter/flutter/pull/17620) slightly reduces the default dimensions of `Checkbox`, `Radio`, and `Switch` to better conform to the latest Material design specs.
+* [#17620](https://github.com/flutter/flutter/pull/17620) 略微縮小了 `Checkbox`、`Radio` 與 `Switch` 的預設尺寸，使其更符合最新的 Material 設計規範。
 
-* [#17637](https://github.com/flutter/flutter/pull/17637) updates `Checkbox`, `Radio`, and `Switch` to use the `ThemeData` `toggleableActiveColor`. If you are using a light theme and are not specifying an `accentColor` in your `ThemeData`, these controls will now use a higher contrast shade from the primary swatch.
+* [#17637](https://github.com/flutter/flutter/pull/17637) 更新 `Checkbox`、`Radio` 與 `Switch`，改為使用 `ThemeData` 的 `toggleableActiveColor`。如果您使用淺色主題且未在 `ThemeData` 中指定 `accentColor`，這些控制項現在將使用主色板（primary swatch）中對比度較高的色階。
 
-* [#17586](https://github.com/flutter/flutter/pull/17586) added a new `background` property to `TextStyle`. Subclasses must ensure that this property is handled in constructors and `copyWith`.
+* [#17586](https://github.com/flutter/flutter/pull/17586) 為 `TextStyle` 新增了 `background` 屬性。子類別必須確保在建構子及 `copyWith` 中處理此屬性。
 
-## Changes in v0.4.4 (since v0.3.2) - beta 4
+## v0.4.4（自 v0.3.2 起的變更）- beta 4
 
 ### v0.4.0
-* [#17021](https://github.com/flutter/flutter/pull/17021) added implicit a11y scrolling for iOS. For this, viewports define a cache extend before the leading as well as after the trailing edge and slivers are expected to provide semantics information if they fall into the cache extent.
+* [#17021](https://github.com/flutter/flutter/pull/17021) 為 iOS 新增了隱含無障礙捲動（implicit a11y scrolling）。為此，視窗（viewport）會在前端與末端邊緣前後各定義一個快取延伸區，而落在快取延伸區內的 sliver 必須提供語意（semantics）資訊。
 
-  ### Breaking change
-  With this change, children of a viewport that are currently not visible in the viewport are now considered off-stage. To find them in a test, specify `skipOffstage: false` on the Finder.
+  ### 重大變更
+  此變更後，目前在視窗中不可見的子元素 (Widget) 現在被視為 off-stage（後台）。若要在測試中找到它們，請在 Finder 上指定 `skipOffstage: false`。
 
 ### v0.3.6
 
-* [#17094](https://github.com/flutter/flutter/pull/17094) introduced the ability to do golden image testing in widget tests.  Within a widget test, you can now use the following matcher to ensure that your widget's rasterized image matches a golden file (e.g. `foo.png`):
+* [#17094](https://github.com/flutter/flutter/pull/17094) 引入了在元件 (Widget) 測試中進行 golden 圖片測試的能力。在元件測試中，現在可以使用下列 matcher 確認元件的光柵化圖片是否符合 golden 檔案（例如 `foo.png`）：
 
   ```dart
   await expectLater(find.byType(MyWidget), matchesGoldenFile('foo.png'));
   ```
 
-  ### Breaking change
+  ### 重大變更
 
-  One of the consequences of this change is that all tests run through `flutter test` now explicitly depend on `package:flutter_test`.  Users of `flutter test` will need to update their `pubspec.yaml` file to include the following if it does not already exist:
+  此變更的一個結果是，所有透過 `flutter test` 執行的測試現在都會明確依賴 `package:flutter_test`。`flutter test` 的使用者如果尚未在 `pubspec.yaml` 檔案中加入下列內容，則需要進行更新：
 
   ```yaml
   dev_dependencies:
@@ -173,7 +172,7 @@ _This page is a dump of the old Changelog page from the Flutter wiki up until
       sdk: flutter
   ```
 
-  If your `pubspec.yaml` does not contain the requisite dependency, and you run `flutter test`, you will see errors of the following form:
+  如果您的 `pubspec.yaml` 未包含必要的相依套件，且您執行 `flutter test`，則會看到如下形式的錯誤訊息：
 
   ```console
   compiler message: Error: Could not resolve the package 'flutter_test' in 'package:flutter_test/flutter_test.dart'.
@@ -181,84 +180,84 @@ _This page is a dump of the old Changelog page from the Flutter wiki up until
 
 ### v0.3.3
 
-* [flutter/engine#5060](https://github.com/flutter/engine/pull/5060) introduced the ability to encode a `dart:ui Image` into a PNG via `Image.toByteData()`.  Callers wishing to get encoded bytes may pass the `format` argument, like so:
+* [flutter/engine#5060](https://github.com/flutter/engine/pull/5060) 新增了透過 `Image.toByteData()` 將 `dart:ui Image` 編碼為 PNG 的能力。呼叫端若希望取得編碼後的位元組，可傳入 `format` 參數，如下所示：
 
   ```dart
   image.toByteData(format: ui.ImageByteFormat.png);
   ```
 
-## Changes in v0.3.2 (since v0.3.1) - beta 3
+## v0.3.2（自 v0.3.1 起的變更）- beta 3
 
-## Changes in v0.3.1 (since v0.2.8) - beta 2 update
+## v0.3.1（自 v0.2.8 起的變更）- beta 2 更新
 
-We are aware of a potential problem with certificate validation in the `HttpClient` implementation.
-To follow our investigation, see [Dart issue 32936](https://github.com/dart-lang/sdk/issues/32936).
+我們已知 `HttpClient` 實作中存在憑證驗證的潛在問題。
+如需追蹤我們的調查進度，請參閱 [Dart issue 32936](https://github.com/dart-lang/sdk/issues/32936)。
 
 ### v0.3.1
 
-* [flutter/engine#4932](https://github.com/flutter/engine/pull/4932) introduced a new shell embedding API with numerous new features.  In particular, a single process can now host multiple Flutter shells.
+* [flutter/engine#4932](https://github.com/flutter/engine/pull/4932) 引入了全新的 shell 嵌入式 API，帶來了許多新功能。特別是，現在單一行程可以承載多個 Flutter shells。
 
-* [flutter/engine#4762](https://github.com/flutter/engine/pull/4762) and [flutter/engine#5008](https://github.com/flutter/engine/pull/5008) introduced `Image.toByteData()`, which is used to get the raw RGBA bytes of an `Image` instance in `dart:ui`.
+* [flutter/engine#4762](https://github.com/flutter/engine/pull/4762) 與 [flutter/engine#5008](https://github.com/flutter/engine/pull/5008) 引入了 `Image.toByteData()`，可用於在 `dart:ui` 中取得 `Image` 實例的原始 RGBA 位元組。
 
-* [#16721](https://github.com/flutter/flutter/pull/16721) scroll motion starts on iOS has been fine tuned to avoid a jump when the scroll first starts moving and to more closely mirror native behavior.
+* [#16721](https://github.com/flutter/flutter/pull/16721) 微調了 iOS 上的滾動動作啟動，避免滾動剛開始時產生跳動，並更貼近原生行為。
 
 ### v0.2.11
 
-* [#16039](https://github.com/flutter/flutter/pull/16039) and [#16447](https://github.com/flutter/flutter/pull/16447) substantially revised the `Chip` implementation, added new chip types: `InputChip`, `ChoiceChip`, `FilterChip`, `ActionChip`, and updated the appearance of chips.
+* [#16039](https://github.com/flutter/flutter/pull/16039) 與 [#16447](https://github.com/flutter/flutter/pull/16447) 大幅修訂了 `Chip` 實作，新增了新的 chip 類型：`InputChip`、`ChoiceChip`、`FilterChip`、`ActionChip`，並更新了 chip 的外觀。
 
 ### v0.2.9
 
-* [#16187](https://github.com/flutter/flutter/pull/16187) updated the `Card` widget's shape and elevation.
+* [#16187](https://github.com/flutter/flutter/pull/16187) 更新了 `Card` 元件 (Widget) 的形狀與陰影。
 
-### Dart changes since Flutter v0.2.8
+### Flutter v0.2.8 之後的 Dart 變更
 
-* `dart:async`: Removed the deprecated `defaultValue` parameter on `Stream.firstWhere` and `Stream.lastWhere`.
-* `dart:core`: Added `tryParse` static method to `int`, `double`, `num`, `BigInt`, `Uri` and `DateTime`, and deprecated `onError` parameter on `int.parse`, `double.parse`, and `num.parse`.
-* The `new` keyword can now always be omitted. The `const` keyword is required to create a constant expression, although within the expression, further `const` keywords can also be omitted.
+* `dart:async`：移除了 `Stream.firstWhere` 與 `Stream.lastWhere` 上已棄用的 `defaultValue` 參數。
+* `dart:core`：在 `int`、`double`、`num`、`BigInt`、`Uri` 和 `DateTime` 上新增了 `tryParse` 靜態方法，並在 `int.parse`、`double.parse`、`num.parse` 上棄用了 `onError` 參數。
+* 現在可以隨時省略 `new` 關鍵字。若要建立常數運算式，必須使用 `const` 關鍵字，但在運算式內部，可進一步省略 `const` 關鍵字。
 
-## Changes in v0.2.8 (since v0.2.3) - beta 2
+## v0.2.8（自 v0.2.3 起的變更）- beta 2
 
 ### v0.2.8
 
-* [#16040](https://github.com/flutter/flutter/pull/16040) adds an API to let `CupertinoTabScaffold`'s current tab be programmatically changed via its `CupertinoTabBar`'s `currentIndex`.
+* [#16040](https://github.com/flutter/flutter/pull/16040) 新增了一個 API，可讓 `CupertinoTabScaffold` 的目前分頁能透過其 `CupertinoTabBar` 的 `currentIndex` 以程式方式切換。
 
 ### v0.2.5
 
-* [#15416](https://github.com/flutter/flutter/pull/15416) removed `package:http` from Flutter and replaced all usages with the `HttpClient` from `dart:io`. If you use `package:http` you must add it as a dependency in your `pubspec.yaml` to continue using it.
+* [#15416](https://github.com/flutter/flutter/pull/15416) 從 Flutter 中移除了 `package:http`，並將所有用法替換為 `dart:io` 的 `HttpClient`。如果你使用 `package:http`，必須在 `pubspec.yaml` 中將其加入為相依套件，才能繼續使用。
 
-  `createHttpClient()` was also removed after being marked deprecated. To change how the framework creates http clients, you can use [HttpOverrides](https://api.flutter.dev/flutter/dart-io/HttpOverrides-class.html) from `dart:io` to provide your own `createHttpClient()` callback globally or per zone.
+  `createHttpClient()` 也在標記為已棄用後被移除。若要變更框架建立 http client 的方式，你可以使用 `dart:io` 的 [HttpOverrides](https://api.flutter.dev/flutter/dart-io/HttpOverrides-class.html)，全域或區域（zone）地提供自訂的 `createHttpClient()` 回呼（callback）。
 
-  More details are available [in the announcement](https://groups.google.com/forum/#!topic/flutter-dev/AnqDqgQ6vus).
+  更多細節請參閱[公告](https://groups.google.com/forum/#!topic/flutter-dev/AnqDqgQ6vus)。
 
-* [#15871](https://github.com/flutter/flutter/pull/15871) changed the default configuration of the `AndroidManifest.xml` created by `flutter create`.  "screenLayout" and "density" are now included by default in the configChanges attribute, preventing flutter apps from restarting when these change.
+* [#15871](https://github.com/flutter/flutter/pull/15871) 變更了由 `flutter create` 建立的 `AndroidManifest.xml` 的預設設定。現在 "screenLayout" 與 "density" 會預設包含在 configChanges 屬性中，當這些值變動時可避免 Flutter 應用程式重新啟動。
 
-* [#15324](https://github.com/flutter/flutter/pull/15324) adds a new CupertinoRefreshControl widget styled after the iOS pull-to-refresh pattern. Demo available in the Flutter Gallery.
+* [#15324](https://github.com/flutter/flutter/pull/15324) 新增了仿 iOS 下拉更新樣式的 CupertinoRefreshControl 元件 (Widget)。可於 Flutter Gallery 中觀看示範。
 
 ### v0.2.4
 
-* [#15565](https://github.com/flutter/flutter/pull/15565) turned Dart 2 mode on by default.  To run in Dart 1 mode, you can still use `--no-preview-dart-2`.
+* [#15565](https://github.com/flutter/flutter/pull/15565) 預設啟用 Dart 2 模式。若要以 Dart 1 模式執行，仍可使用 `--no-preview-dart-2`。
 
-  More details are available [in the announcement](https://groups.google.com/d/msg/flutter-dev/H8dDhWg_c8I/_Ql78q_6AgAJ).
+  更多細節請參閱[公告](https://groups.google.com/d/msg/flutter-dev/H8dDhWg_c8I/_Ql78q_6AgAJ)。
 
-* [#15537](https://github.com/flutter/flutter/pull/15537) removed SemanticsSortOrder. From now on traversal sorting is done among sibling nodes only.
+* [#15537](https://github.com/flutter/flutter/pull/15537) 移除了 SemanticsSortOrder。從現在起，遍歷排序僅在同層級節點間進行。
 
-  More details available [in the announcement](https://groups.google.com/forum/#!topic/flutter-dev/iCoLnW31heE).
+  更多細節請參閱[公告](https://groups.google.com/forum/#!topic/flutter-dev/iCoLnW31heE)。
 
-* [#15484](https://github.com/flutter/flutter/pull/15484) changed the meaning of the `TextFormField` `initialValue` constructor parameter.
+* [#15484](https://github.com/flutter/flutter/pull/15484) 變更了 `TextFormField` `initialValue` 建構子參數的意義。
 
-  The TextFormField initialValue parameter no longer unconditionally initializes the text property of its TextEditingController. If you create a TextFormField and provide a controller, the initialValue must be null, which is now the default. If you're providing a controller you can specify it's initial text value with the TextEditingController text property.
+  TextFormField 的 initialValue 參數不再無條件初始化其 TextEditingController 的 text 屬性。如果你建立 TextFormField 並提供 controller，initialValue 必須為 null（現為預設值）。如果你提供 controller，可直接用 TextEditingController 的 text 屬性指定初始文字。
 
-  > #### Before
+  > #### 變更前
   >     new TextFormField(
   >       initialValue: 'Hello World',
   >       controller: _myTextEditingController,
   >     );
   >
-  > #### After
+  > #### 變更後
   >     new TextFormField(
   >       controller: _myTextEditingController ..text = 'Hello World',
   >     )
-  >     // Or more typically:
+  >     // 或更常見的寫法：
   >     _myTextEditingController = new TextEditingController(
   >       text: 'Hello World',
   >     );
@@ -266,55 +265,55 @@ To follow our investigation, see [Dart issue 32936](https://github.com/dart-lang
   >       controller: _myTextEditingController,
   >     );
 
-* [#15303](https://github.com/flutter/flutter/pull/15303) updated the `showDialog` function to take a builder and deprecated the `widget` parameter.
+* [#15303](https://github.com/flutter/flutter/pull/15303) 更新了 `showDialog` 函式，改為接受 builder 並棄用了 `widget` 參數。
 
-  > #### Before
+  > #### 變更前
   >     showDialog(context: context, child: new Text('hello'))
   >
-  > #### After
+  > #### 變更後
   >     showDialog(context: context, builder: (BuildContext context) => new Text('hello'))
 
-* [#15265](https://github.com/flutter/flutter/pull/15265) updated `ThemeData` to use the primary color of a `MaterialColor` instead of unconditionally using the 500 shade for light themes.  The color values remain unchanged.
+* [#15265](https://github.com/flutter/flutter/pull/15265) 更新了 `ThemeData`，現在會使用 `MaterialColor` 的主色（primary color），而不再無條件使用 light 主題下的 500 色階。顏色值本身未變動。
 
-  > #### Before
-  >     expect(widget.color, Colors.blue.shade500) // primary color
+  > #### 變更前
+  >     expect(widget.color, Colors.blue.shade500) // 主色
   >
-  > #### After
-  >     expect(widget.color, Colors.blue) // primary color
+  > #### 變更後
+  >     expect(widget.color, Colors.blue) // 主色
 
-* [#15548](https://github.com/flutter/flutter/pull/15548) adds debugging flags `debugDisableClipLayers`, `debugDisablePhysicalShapeLayers` and `debugDisableOpacityLayers` to help with performance diagnosis of rasterizing speed.
+* [#15548](https://github.com/flutter/flutter/pull/15548) 新增了除錯旗標 `debugDisableClipLayers`、`debugDisablePhysicalShapeLayers` 與 `debugDisableOpacityLayers`，協助診斷光柵化速度的效能問題。
 
-## Changes in v0.2.3 (since v0.1.5) - beta 1 update
+## v0.2.3（自 v0.1.5 起的變更）- beta 1 更新
 
 ### v0.2.0
 
-* [flutter/engine#4742](https://github.com/flutter/engine/pull/4742) updated assets to be read directly out of the APK on Android. As a result, leading slashes are no longer supported in image asset paths:
+* [flutter/engine#4742](https://github.com/flutter/engine/pull/4742) 讓資源（assets）可直接從 Android 的 APK 讀取。因此，圖片資源路徑不再支援開頭的斜線：
 
-  > #### Before
+  > #### 變更前
   >     new Image.asset('/foo/bar.png')
   >
-  > #### After:
+  > #### 變更後：
   >     new Image.asset('foo/bar.png')
 
 ### v0.1.9
 
-* [#14901](https://github.com/flutter/flutter/pull/14901) A [Slider](https://api.flutter.dev/flutter/material/Slider-class.html) visual update changed the colors, opacities, and the value indicator shape and behavior. It also removed the "`thumbOpenAtMin`" flag from the Slider class, which is no longer needed, and can be emulated by the custom thumb shape support.
+* [#14901](https://github.com/flutter/flutter/pull/14901) [Slider](https://api.flutter.dev/flutter/material/Slider-class.html) 的視覺更新，調整了顏色、不透明度，以及 value indicator 的形狀與行為。也從 Slider 類別中移除了 "`thumbOpenAtMin`" 旗標（已不再需要，可透過自訂 thumb shape 支援來模擬）。
 
-## Changes in v0.1.5 (since v0.1.4) - beta 1.1
+## v0.1.5（自 v0.1.4 起的變更）- beta 1.1
 
 ### v0.1.5
 
-* [#14714](https://github.com/flutter/flutter/pull/14714) fixed the groovy script for the Flutter Gallery, thus fixing [#14912](https://github.com/flutter/flutter/issues/14912).
+* [#14714](https://github.com/flutter/flutter/pull/14714) 修正了 Flutter Gallery 的 groovy 腳本，進而修正了 [#14912](https://github.com/flutter/flutter/issues/14912)。
 
-## Changes in v0.1.4 (since v0.0.20) - beta 1
+## v0.1.4（自 v0.0.20 起的變更）- beta 1
 
 ### v0.1.3
 
-* [#14702](https://github.com/flutter/flutter/pull/14702) removed the `engineDartVersion` getter from the flutter tool's `Version` class.
+* [#14702](https://github.com/flutter/flutter/pull/14702) 從 flutter tool 的 `Version` 類別中移除了 `engineDartVersion` getter。
 
 ### v0.1.1
 
-* [flutter/engine#4607](https://github.com/flutter/engine/pull/4607) and [#14601](https://github.com/flutter/flutter/pull/14601) removed default constructors from the following `dart:ui` classes:
+* [flutter/engine#4607](https://github.com/flutter/engine/pull/4607) 與 [#14601](https://github.com/flutter/flutter/pull/14601) 移除了下列 `dart:ui` 類別的預設建構子：
 
   * `Codec`
   * `FrameInfo`
@@ -326,41 +325,40 @@ To follow our investigation, see [Dart issue 32936](https://github.com/dart-lang
   * `SemanticsUpdate`
   * `Shader`
 
-  The default constructors were removed to prevent the creation of uninitialized instances of these classes (and in certain cases to prevent extending these classes). These classes should be instantiated only by the Flutter engine or through named constructors (if provided).
+  移除預設建構子的目的是防止這些類別產生未初始化的實例（某些情況下也防止繼承這些類別）。這些類別應僅由 Flutter engine 或透過命名建構子（若有提供）實例化。
 
 ### v0.0.24
 
-* [#14410](https://github.com/flutter/flutter/pull/14410) contained a breaking API change to `ButtonTheme`:
+* [#14410](https://github.com/flutter/flutter/pull/14410) 對 `ButtonTheme` 進行了破壞性 API 變更：
 
-  * The constructors `ButtonTheme()` and `ButtonTheme.bar()` are no longer `const` constructible
-  * `ButtonTheme.textTheme` is now `ButtonTheme.data.textTheme`
-  * `ButtonTheme.minWidth` is now `ButtonTheme.data.minWidth`
-  * `ButtonTheme.height` is now `ButtonTheme.data.height`
-  * `ButtonTheme.padding` is now `ButtonTheme.data.padding`
+  * `ButtonTheme()` 與 `ButtonTheme.bar()` 建構子不再可由 `const` 建立
+  * `ButtonTheme.textTheme` 現為 `ButtonTheme.data.textTheme`
+  * `ButtonTheme.minWidth` 現為 `ButtonTheme.data.minWidth`
+  * `ButtonTheme.height` 現為 `ButtonTheme.data.height`
+  * `ButtonTheme.padding` 現為 `ButtonTheme.data.padding`
 
-* [#14410](https://github.com/flutter/flutter/pull/14410) changed the hierarchy of `FlatButton` and `RaisedButton` - they both inherit from `RawMaterialButton` now rather than from `MaterialButton`.
+* [#14410](https://github.com/flutter/flutter/pull/14410) 變更了 `FlatButton` 與 `RaisedButton` 的繼承層級——它們現在都繼承自 `RawMaterialButton`，而非 `MaterialButton`。
 
-* [#14410](https://github.com/flutter/flutter/pull/14410) changed `RaisedButton` to no longer cast a shadow when disabled.
+* [#14410](https://github.com/flutter/flutter/pull/14410) 變更了 `RaisedButton`，當其為 disabled 狀態時不再投射陰影。
 
 ### v0.0.23
 
-* [#14343](https://github.com/flutter/flutter/pull/14343) revised how copy, cut, and paste works for EditableText: The abstract class TextSelectionControls has new methods canCopy, canCut, etc. to determine if those actions are available. The TextSelectionDelegate interface now requires an additional method bringIntoView(TextPosition position) to scroll a TextPosition into the visible part of a TextField. Furthermore, that interface is no longer implemented by TextSelectionOverlay. In its place EditableTextState should be used, which implements that interface. See also: [flutter-dev/IHPndyUDy0M](https://groups.google.com/forum/#!topic/flutter-dev/IHPndyUDy0M)
+* [#14343](https://github.com/flutter/flutter/pull/14343) 調整了 EditableText 的複製、剪下與貼上行為：TextSelectionControls 抽象類別新增了 canCopy、canCut 等方法，用以判斷這些動作是否可用。TextSelectionDelegate 介面現在要求額外的方法 bringIntoView(TextPosition position)，以將 TextPosition 捲動至 TextField 的可見區域。此外，該介面不再由 TextSelectionOverlay 實作，改由 EditableTextState 實作。詳情請參閱 [flutter-dev/IHPndyUDy0M](https://groups.google.com/forum/#!topic/flutter-dev/IHPndyUDy0M)
 
-#### Sliver APIs
+#### Sliver API
 
-* [#14449](https://github.com/flutter/flutter/pull/14449) replaces the `SliverGridLayout.estimateMaxScrollOffset` method by the `SliverGridLayout.computeMaxScrollOffset` method. This new method must report an accurate value, not just an estimate. This was necessary to fix a bug where a finite `SliverGrid` could not handle being scrolled off the top of the screen (because we had no way to determine how much content it had).
+* [#14449](https://github.com/flutter/flutter/pull/14449) 用 `SliverGridLayout.computeMaxScrollOffset` 方法取代了 `SliverGridLayout.estimateMaxScrollOffset` 方法。新方法必須回報精確值，而非僅僅估算。這是為了解決有限 `SliverGrid` 無法正確處理被捲動至螢幕頂端的 bug（因為無法得知其內容長度）。
 
-  For similar reasons, the `RenderSliverBoxChildManager` interface has a new getter, `childCount`, which must return a non-null value if `createChild` can return null. In practice, it is unusual to implement this interface, so this should have no effect. It is more common to implement the widgets-layer equivalent, `SliverChildDelegate`. This interface already had an `estimatedChildCount` getter. The getter continues to exist, though its semantics have been adjusted a little to require that the returned value be accurate if the `build` method on the delegate ever returns null.
+  出於類似原因，`RenderSliverBoxChildManager` 介面新增了 getter `childCount`，當 `createChild` 可能回傳 null 時，必須回傳非 null 值。實務上，實作此介面並不常見，因此影響有限。更常見的是實作 widgets 層級的對應介面 `SliverChildDelegate`，該介面本來就有 `estimatedChildCount` getter。該 getter 仍然存在，但語意略有調整：若 delegate 的 `build` 方法可能回傳 null，則必須保證回傳值正確。
 
 ### v0.0.21
 
-* [#13734](https://github.com/flutter/flutter/pull/13734), [#14055](https://github.com/flutter/flutter/pull/14055), and [#14177](https://github.com/flutter/flutter/pull/14177) substantially revised the InputDecorator et al. widgets. The layout of the input decorator's parts has changed a little, which means that the internal layout of text fields has changed as well. Tests that depend on the internal geometry of text fields will need to be updated.
+* [#13734](https://github.com/flutter/flutter/pull/13734)、[#14055](https://github.com/flutter/flutter/pull/14055) 與 [#14177](https://github.com/flutter/flutter/pull/14177) 大幅修訂了 InputDecorator 及相關元件 (Widget)。InputDecorator 各部分的版面配置略有調整，意味著文字欄位（text field）的內部排版也有所變動。依賴文字欄位內部幾何結構的測試需進行更新。
 
-  In addition, `hideDivider: true` must be replaced by the new `border: InputBorder.none`. This is part of our making it easier to customize how inputs are rendered; you can now also provide a custom InputBorder subclass if you have particularly novel desires for your input decoration.
+  此外，`hideDivider: true` 必須替換為新的 `border: InputBorder.none`。這是我們簡化輸入元件客製化渲染方式的一部分；你現在也可以自行提供自訂的 InputBorder 子類別，以滿足特殊的輸入裝飾需求。
 
-* [#4528](https://github.com/flutter/engine/pull/4528) and [#14011](https://github.com/flutter/flutter/pull/14011) deprecated support for big integers in the standard platform channel message/method codecs, to be made unavailable following a four week grace period. This change is a consequence of the transition to Dart
-2.0 where the `int` type is no longer unlimited size.
+* [#4528](https://github.com/flutter/engine/pull/4528) 與 [#14011](https://github.com/flutter/flutter/pull/14011) 棄用了標準平台通道訊息/方法編解碼器對大整數（big integers）的支援，四週寬限期後將不可用。這項變更是因為 Dart 2.0 過渡，`int` 型別不再為無限大小。
 
-* [#4487](https://github.com/flutter/engine/pull/4487) replaces all uses of the `RequestPermissionResult` callback concept in `io.flutter.plugin.common.PluginRegistry` with `RequestPermissionsResult`, adding a missing `s` to align with the corresponding Android SDK concept.
+* [#4487](https://github.com/flutter/engine/pull/4487) 將 `io.flutter.plugin.common.PluginRegistry` 中所有 `RequestPermissionResult` 回呼（callback）概念替換為 `RequestPermissionsResult`，並新增了缺少的 `s`，以與對應的 Android SDK 概念對齊。
 
-  The old API has been deprecated and will be made unavailable in a later release. There will be a grace period of at least four weeks between the release that introduces the deprecation and the release that makes the old API unavailable.
+  舊 API 已被棄用，未來版本將移除。在引入棄用的版本與移除舊 API 的版本之間，至少會有四週的寬限期。

@@ -1,19 +1,14 @@
 ---
-title: CupertinoTabBar requires Localizations parent
+title: CupertinoTabBar 需要 Localizations 父元件
 description: >
-  In order to provide locale appropriate semantics, the
-  CupertinoTabBar requires a Localizations parent.
+  為了提供符合語言地區的語意，CupertinoTabBar 需要有 Localizations 父元件。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-Instances of `CupertinoTabBar` must have a
-`Localizations`parent in order to provide a localized
-`Semantics` hint. Trying to instantiate a
-`CupertinoTabBar` without localizations
-results in an assertion such as the following:
+`CupertinoTabBar` 的實例必須有 `Localizations` 父元件，才能提供在地化的 `Semantics` 提示。若嘗試在沒有 localizations 的情況下建立 `CupertinoTabBar`，將會出現如下的 assertion：
 
 ```plaintext
 CupertinoTabBar requires a Localizations parent in order to provide an appropriate Semantics hint
@@ -23,33 +18,21 @@ instantiate your own Localizations.
 Failed assertion: line 213 pos 7: 'localizations != null'
 ```
 
-## Context
+## 背景
 
-To support localized semantics information,
-the `CupertinoTabBar` requires localizations.
+為了支援在地語系化的語意資訊，`CupertinoTabBar` 需要本地化（localizations）。
 
-Before this change, the `Semantics` hint provided
-to the `CupertinoTabBar` was a hard-coded String,
-'tab, $index of $total'. The content of the semantics
-hint was also updated from this original
-String to 'Tab $index of $total' in English.
+在此變更之前，提供給 `CupertinoTabBar` 的 `Semantics` 提示（hint）是一個硬編碼的字串：'tab, $index of $total'。語意提示的內容也從原本的這個字串，更新為英文的 'Tab $index of $total'。
 
-If your `CupertinoTabBar` is within the scope
-of a `CupertinoApp`, the `DefaultCupertinoLocalizations`
-is already instantiated and may suit your
-needs without having to make a change to your existing code.
+如果你的 `CupertinoTabBar` 位於 `CupertinoApp` 的範圍內，`DefaultCupertinoLocalizations` 已經被實例化，通常可以直接滿足你的需求，無需對現有程式碼做任何修改。
 
-If your `CupertinoTabBar` is not within a `CupertinoApp`,
-you may provide the localizations of
-your choosing using the `Localizations` widget.
+如果你的 `CupertinoTabBar` 不在 `CupertinoApp` 之內，你可以使用 `Localizations` 元件 (Widget) 提供你所需的本地化內容。
 
-## Migration guide
+## 遷移指南
 
-If you are seeing a `'localizations != null'` assertion error,
-make sure locale information is being
-provided to your `CupertinoTabBar`.
+如果你遇到 `'localizations != null'` 斷言錯誤，請確認你的 `CupertinoTabBar` 已正確提供 locale（語系）資訊。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 import 'package:flutter/cupertino.dart';
@@ -79,7 +62,7 @@ class Foo extends StatelessWidget {
 }
 ```
 
-Code after migration (Providing localizations via the `CupertinoApp`):
+遷移後的程式碼（透過 `CupertinoApp` 提供在地化）：
 
 ```dart
 import 'package:flutter/cupertino.dart';
@@ -108,8 +91,7 @@ class Foo extends StatelessWidget {
 }
 ```
 
-Code after migration (Providing localizations by using
-the `Localizations` widget):
+遷移後的程式碼（使用 `Localizations` 元件 (Widget) 提供在地化）：
 
 ```dart
 import 'package:flutter/cupertino.dart';
@@ -146,14 +128,14 @@ class Foo extends StatelessWidget {
 }
 ```
 
-## Timeline
+## 時間軸
 
-Landed in version: 1.18.0-9.0.pre<br>
-In stable release: 1.20.0
+合併於版本：1.18.0-9.0.pre<br>
+進入穩定版：1.20.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`CupertinoTabBar`][]
 * [`Localizations`][]
@@ -163,7 +145,7 @@ API documentation:
 * [Internationalizing Flutter Apps][]
 
 
-Relevant PR:
+相關 PR：
 
 * [PR 55336: Adding tabSemanticsLabel to CupertinoLocalizations][]
 * [PR 56582: Update Tab semantics in Cupertino to be the same as Material][]

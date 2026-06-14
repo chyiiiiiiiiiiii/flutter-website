@@ -1,34 +1,28 @@
 ---
-title: Built-in Kotlin migration for plugin authors
+title: 插件作者的內建 Kotlin 遷移指南
 description: >-
-  Migrate Flutter plugins to use built-in Kotlin.
+  將 Flutter 插件遷移至使用內建 Kotlin。
 ---
 
-## Migrate your Flutter plugin
+## 遷移您的 Flutter 插件
 
-This guide outlines the migration steps specifically for plugin authors.
+本指南專門針對插件作者說明遷移步驟。
 
-### Update the Gradle file
+### 更新 Gradle 檔案
 
-The following steps assume you can update your plugin's Flutter SDK minimum
-to 3.44. If you cannot update the Flutter SDK minimum to 3.44, follow the
-instructions for
-[supporting Flutter versions earlier than 3.44][flutter-sdk-minimum-below-3.44].
+以下步驟假設您可以將插件的 Flutter SDK 最低版本更新至 3.44。若您無法將 Flutter SDK 最低版本更新至 3.44，請依照
+[支援低於 3.44 的 Flutter 版本][flutter-sdk-minimum-below-3.44] 中的說明進行操作。
 
-First, find the `kotlin-android` plugin (or the `org.jetbrains.kotlin.android`
-plugin).
-It is likely located in the `plugins` block of the
-`<plugin-project>/build.gradle` or the `<plugin-project>/build.gradle.kts` file.
-If you use the legacy `apply` syntax, it will be located in
-the Groovy-based `<plugin-project>/build.gradle` file, as this syntax is
-not supported in Kotlin DSL.
+首先，找到 `kotlin-android` 插件（或 `org.jetbrains.kotlin.android` 插件）。
+它通常位於 `<plugin-project>/build.gradle` 或 `<plugin-project>/build.gradle.kts` 檔案的 `plugins` 區塊中。
+若您使用舊式 `apply` 語法，它會位於基於 Groovy 的 `<plugin-project>/build.gradle` 檔案中，因為此語法不支援 Kotlin DSL。
 
-The following examples demonstrate how to migrate a Flutter plugin:
+以下範例示範如何遷移 Flutter 插件：
 
 <Tabs key="modern-legacy-apply">
 <Tab name="plugins block">
 
-**Before**:
+**遷移前**：
 
 ```kotlin title="<app-src>/android/build.gradle(.kts)"
 plugins {
@@ -48,7 +42,7 @@ android {
 // ...
 ```
 
-Next, remove the `kotlin-android` plugin and the `kotlinOptions` block:
+接下來，移除 `kotlin-android` 插件及 `kotlinOptions` 區塊：
 
 ```kotlin diff title="<app-src>/android/build.gradle.kts"
   plugins {
@@ -66,7 +60,7 @@ Next, remove the `kotlin-android` plugin and the `kotlinOptions` block:
   }
 ```
 
-Add the `kotlin.compilerOptions{}` DSL block with the following:
+加入含有下列內容的 `kotlin.compilerOptions{}` DSL 區塊：
 
 ```kotlin diff title="<app-src>/android/build.gradle.kts"
 + kotlin {
@@ -76,9 +70,9 @@ Add the `kotlin.compilerOptions{}` DSL block with the following:
 + }
 ```
 
-Here is how the file will likely end up:
+完成後，檔案的內容大致如下：
 
-**After**:
+**遷移後**：
 
 ```kotlin title="<app-src>/android/build.gradle(.kts)"
 plugins {
@@ -102,7 +96,7 @@ kotlin {
 </Tab>
 <Tab name="legacy apply">
 
-**Before**:
+**遷移前**：
 
 ```groovy title="<app-src>/android/build.gradle"
 apply plugin: 'com.android.library'
@@ -120,7 +114,7 @@ android {
 // ...
 ```
 
-Next, remove the `kotlin-android` plugin and the `kotlinOptions` block:
+接下來，移除 `kotlin-android` 插件及 `kotlinOptions` 區塊：
 
 ```groovy diff title="<app-src>/android/build.gradle"
   apply plugin: 'com.android.library'
@@ -135,7 +129,7 @@ Next, remove the `kotlin-android` plugin and the `kotlinOptions` block:
       // ...
   }
 ```
-Add the `kotlin.compilerOptions{}` DSL block with the following:
+加入含有下列內容的 `kotlin.compilerOptions{}` DSL 區塊：
 
 ```groovy diff title="<app-src>/android/build.gradle"
 + kotlin {
@@ -145,9 +139,9 @@ Add the `kotlin.compilerOptions{}` DSL block with the following:
 + }
 ```
 
-Here is how the file will likely end up:
+完成後，檔案的內容大致如下：
 
-**After**:
+**遷移後**：
 
 ```groovy title="<app-src>/android/build.gradle"
 apply plugin: 'com.android.library'
@@ -168,18 +162,17 @@ kotlin {
 </Tab>
 </Tabs>
 
-### Update the plugin's `pubspec.yaml`
+### 更新插件的 `pubspec.yaml`
 
-Using the `kotlin.compilerOptions {}` DSL block requires
-a minimum Kotlin Gradle Plugin (KGP) version of 2.0.0.
-Beginning with Flutter 3.44, the minimum required KGP version is 2.0.0.
-To ensure that apps using your plugin can safely migrate to built-in Kotlin,
-you should require a minimum Flutter version of 3.44 for this plugin version.
+使用 `kotlin.compilerOptions {}` DSL 區塊需要 Kotlin Gradle Plugin (KGP) 最低版本為 2.0.0。
+從 Flutter 3.44 開始，所需的最低 KGP 版本為 2.0.0。
+為確保使用您插件的應用程式能夠安全地遷移至內建 Kotlin，
+您應在此插件版本中要求 Flutter 最低版本為 3.44。
 
-Since you are updating the minimum Flutter version,
-you must also update the minimum associated Dart version.
+由於您正在更新 Flutter 最低版本，
+您也必須同步更新對應的 Dart 最低版本。
 
-Update the minimum Flutter version and the minimum Dart version:
+更新 Flutter 最低版本及 Dart 最低版本：
 
 ```yaml diff title="<plugin-project>/pubspec.yaml"
 # ...
@@ -193,7 +186,7 @@ Update the minimum Flutter version and the minimum Dart version:
 # ...
 ```
 
-Here is how the file will likely end up:
+完成後，檔案的內容大致如下：
 
 ```yaml title="<plugin-project>/pubspec.yaml"
 # ...
@@ -205,20 +198,19 @@ environment:
 # ...
 ```
 
-## Supporting Flutter versions earlier than 3.44
+## 支援低於 3.44 的 Flutter 版本
 
-If you updated your plugin's Flutter SDK minimum to 3.44, skip this section
-and proceed to updating the plugin's `CHANGELOG.md`.
+若您已將插件的 Flutter SDK 最低版本更新至 3.44，請跳過本節並繼續更新插件的 `CHANGELOG.md`。
 
-If you cannot update the plugin's Flutter SDK minimum to 3.44, you must make
-the following changes to `<plugin-project>/android/build.gradle` or
-`<plugin-project>/android/build.gradle.kts` to support apps on AGP < 9
-and AGP >= 9:
+若您無法將插件的 Flutter SDK 最低版本更新至 3.44，則必須對
+`<plugin-project>/android/build.gradle` 或
+`<plugin-project>/android/build.gradle.kts` 進行以下修改，
+以同時支援 AGP < 9 和 AGP >= 9 的應用程式：
 
 <Tabs key="workaround-for-plugins">
 <Tab name="Kotlin DSL fix">
 
-**Before**:
+**遷移前**：
 
 ```kotlin title="<app-src>/android/build.gradle.kts"
 plugins {
@@ -238,7 +230,7 @@ android {
 // ...
 ```
 
-Next, remove the `kotlin-android` plugin and the `kotlinOptions` block:
+接下來，移除 `kotlin-android` 插件及 `kotlinOptions` 區塊：
 
 ```kotlin diff title="<app-src>/android/build.gradle.kts"
   plugins {
@@ -256,8 +248,7 @@ Next, remove the `kotlin-android` plugin and the `kotlinOptions` block:
   }
 ```
 
-Add a check to apply the Kotlin Gradle Plugin only when the app's Android
-Gradle Plugin version is earlier than 9.
+加入一個條件判斷，僅在應用程式的 Android Gradle Plugin 版本低於 9 時才套用 Kotlin Gradle Plugin。
 
 ```kotlin diff title="<app-src>/android/build.gradle.kts"
 + val agpMajor = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION.substringBefore('.').toInt()
@@ -267,7 +258,7 @@ Gradle Plugin version is earlier than 9.
 + }
 ```
 
-Add the `compilerOptions` configuration using the project extension:
+使用 project extension 加入 `compilerOptions` 設定：
 
 ```kotlin diff title="<app-src>/android/build.gradle.kts"
 + project.extensions.configure(org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension::class.java) {
@@ -277,9 +268,9 @@ Add the `compilerOptions` configuration using the project extension:
 + }
 ```
 
-Here is how the file will likely end up:
+完成後，檔案的內容大致如下：
 
-**After**:
+**遷移後**：
 
 ```kotlin title="<app-src>/android/build.gradle.kts"
 plugins {
@@ -309,7 +300,7 @@ project.extensions.configure(org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjec
 </Tab>
 <Tab name="Groovy DSL fix">
 
-**Before**:
+**遷移前**：
 
 ```groovy title="<app-src>/android/build.gradle"
 apply plugin: 'com.android.library'
@@ -326,7 +317,7 @@ android {
 // ...
 ```
 
-Next, remove the `kotlin-android` plugin and the `kotlinOptions` block:
+接下來，移除 `kotlin-android` 插件及 `kotlinOptions` 區塊：
 
 ```groovy diff title="<app-src>/android/build.gradle"
   apply plugin: 'com.android.library'
@@ -341,8 +332,7 @@ Next, remove the `kotlin-android` plugin and the `kotlinOptions` block:
   }
 ```
 
-Add a check to apply the Kotlin Gradle Plugin only when the app's Android
-Gradle Plugin version is earlier than 9.
+加入一個條件判斷，僅在應用程式的 Android Gradle Plugin 版本低於 9 時才套用 Kotlin Gradle Plugin。
 
 ```groovy diff title="<app-src>/android/build.gradle"
 + def agpMajor = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION.tokenize('.')[0] as int
@@ -352,7 +342,7 @@ Gradle Plugin version is earlier than 9.
 + }
 ```
 
-Add the `kotlin.compilerOptions{}` DSL block with the following:
+加入含有下列內容的 `kotlin.compilerOptions{}` DSL 區塊：
 
 ```groovy diff title="<app-src>/android/build.gradle"
 + kotlin {
@@ -362,9 +352,9 @@ Add the `kotlin.compilerOptions{}` DSL block with the following:
 + }
 ```
 
-Here is how the file will likely end up:
+完成後，檔案的內容大致如下：
 
-**After**:
+**遷移後**：
 
 ```groovy title="<app-src>/android/build.gradle"
 apply plugin: 'com.android.library'
@@ -389,9 +379,9 @@ kotlin {
 </Tab>
 </Tabs>
 
-### Update the plugin's `CHANGELOG.md`
+### 更新插件的 `CHANGELOG.md`
 
-Include your changes in the CHANGELOG of the newly released plugin version:
+在新發布的插件版本的 CHANGELOG 中記錄您的變更：
 
 ```markdown diff title="<plugin-project>/CHANGELOG.md"
 + ## <new-plugin-release-version>
@@ -402,15 +392,13 @@ Include your changes in the CHANGELOG of the newly released plugin version:
 // ...
 ```
 
-### Validate
+### 驗證
 
-Execute `flutter run` or `flutter build apk` to confirm that
-your plugin example app builds and launches
-on a connected Android device or emulator.
+執行 `flutter run` 或 `flutter build apk`，確認您的插件範例應用程式能在已連接的 Android 裝置或模擬器上成功建置並啟動。
 
-If your plugin example app also applies KGP,
-then you will also have to migrate the example app.
-Follow the [migration guide for app developers][app-migration-guide] to migrate your example app.
+若您的插件範例應用程式也有套用 KGP，
+則您還需要遷移範例應用程式。
+請依照[應用程式開發者遷移指南][app-migration-guide]來遷移您的範例應用程式。
 
 [app-migration-guide]: {{site.flutter-docs}}/release/breaking-changes/migrate-to-built-in-kotlin/for-app-developers
 [flutter-sdk-minimum-below-3.44]: {{site.flutter-docs}}/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors#supporting-flutter-versions-earlier-than-3-44

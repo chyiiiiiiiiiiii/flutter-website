@@ -1,36 +1,28 @@
 ---
-title: Component theme normalization
+title: 元件主題正規化
 description: >-
-  `CardTheme`, `DialogTheme`, and `TabBarTheme` have been normalized to follow
-  Flutter's convention for component themes in the Material library.
+  `CardTheme`、`DialogTheme` 和 `TabBarTheme` 已正規化，以遵循 Flutter 在 Material 函式庫中對元件主題 (Component Theme) 的慣例。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-`CardTheme`, `DialogTheme` and `TabBarTheme` were refactored to
-conform to Flutter's conventions for component themes.
-`CardThemeData`, `DialogThemeData`, and `TabBarThemeData` were added to
-define overrides for the defaults of the component visual properties.
-Releases of Flutter continue to normalize component themes like these for
-a more consistent theming experience in the material library.
+`CardTheme`、`DialogTheme` 和 `TabBarTheme` 已重構，以符合 Flutter 對元件主題的慣例。
+`CardThemeData`、`DialogThemeData` 和 `TabBarThemeData` 已新增，用於定義元件視覺屬性的預設值覆寫。
+Flutter 的發行版本會持續對這類元件主題進行正規化，以在 Material 函式庫中帶來更一致的主題化體驗。
 
-## Migration guide
+## 遷移指南
 
-In `ThemeData`:
+在 `ThemeData` 中：
 
-- The type of the `cardTheme` property has been
-  changed from `CardTheme` to `CardThemeData`.
-- The type of the `dialogTheme` property has been
-  changed from the `DialogTheme` to `DialogThemeData`.
-- The type of `tabBarTheme` property has been
-  changed from `TabBarTheme` to `TabBarThemeData`.
+- `cardTheme` 屬性的型別已從 `CardTheme` 變更為 `CardThemeData`。
+- `dialogTheme` 屬性的型別已從 `DialogTheme` 變更為 `DialogThemeData`。
+- `tabBarTheme` 屬性的型別已從 `TabBarTheme` 變更為 `TabBarThemeData`。
 
-The return type of the component theme `xTheme.of()` methods and
-`Theme.of().xTheme` have also changed to `xThemeData` accordingly.
+元件主題 `xTheme.of()` 方法與 `Theme.of().xTheme` 的回傳型別也已相應變更為 `xThemeData`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 final CardTheme cardTheme = Theme.of(context).cardTheme;
@@ -43,7 +35,7 @@ final TabBarTheme tabBarTheme = Theme.of(context).tabBarTheme;
 final TabBarTheme tabBarTheme = TabBarTheme.of(context);
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 final CardThemeData cardTheme = Theme.of(context).cardTheme;
@@ -56,21 +48,21 @@ final TabBarThemeData tabBarTheme = Theme.of(context).tabBarTheme;
 final TabBarThemeData tabBarTheme = TabBarTheme.of(context);
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.27.0-0.0.pre<br>
-Stable release: 3.27
+合併於版本：3.27.0-0.0.pre<br>
+穩定版本：3.27
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`ThemeData`][]
 * [`CardTheme`][]
 * [`DialogTheme`][]
 * [`TabBarTheme`][]
 
-Relevant PRs:
+相關 PR：
 
 * [Normalize ThemeData.cardTheme][]
 * [Normalize ThemeData.dialogTheme][]

@@ -1,75 +1,69 @@
 ---
-title: Added enabled property and made onChanged optional for DropdownButton
+title: 為 DropdownButton 新增 enabled 屬性並使 onChanged 改為選填
 description: >-
-  DropdownButton and DropdownButtonFormField now support an explicit enabled
-  property, and their onChanged callbacks are no longer required.
+  DropdownButton 和 DropdownButtonFormField 現在支援明確的 enabled
+  屬性，且其 onChanged 回呼（callback）不再是必填項目。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-`DropdownButton` and `DropdownButtonFormField` now include
-an `enabled` property to explicitly manage their interactive state,
-and the `onChanged` callback is no longer marked as `required`.
+`DropdownButton` 和 `DropdownButtonFormField` 現在新增了
+`enabled` 屬性，可明確管理其互動狀態，
+且 `onChanged` 回呼（callback）不再標記為 `required`。
 
-## Background
+## 背景
 
-Previously, `DropdownButton` and `DropdownButtonFormField` didn't
-have an `enabled` parameter.
-The only way to disable the dropdown
-(graying it out and making it non-interactive) was to
-pass `null` to the `required` `onChanged` callback.
-This led to unintuitive code when trying to
-dynamically enable or disable the button,
-forcing developers to write conditional expressions for the callback itself,
-such as `onChanged: condition ? (value) { ... } : null`.
+過去，`DropdownButton` 和 `DropdownButtonFormField` 沒有
+`enabled` 參數。
+停用下拉選單的唯一方式
+（使其變灰且無法互動）是將 `null`
+傳入 `required` 的 `onChanged` 回呼（callback）。
+這導致在動態啟用或停用按鈕時，程式碼不夠直覺，
+迫使開發者必須為回呼（callback）本身撰寫條件運算式，
+例如 `onChanged: condition ? (value) { ... } : null`。
 
-To improve this API, a dedicated `enabled` property was introduced,
-and `onChanged` was made optional.
+為了改善此 API，引入了專屬的 `enabled` 屬性，
+並將 `onChanged` 改為選填。
 
-The `enabled` property is optional.
-Making it mandatory introduces a massive breaking change that
-breaks nearly every existing `DropdownButton` implementation in
-the Flutter ecosystem.
-Instead, to preserve backward compatibility,
-if the `enabled` argument isn't explicitly provided,
-the button determines its state by falling back to whether
-`onChanged` is provided (that is, it's enabled if `onChanged != null`,
-and disabled if `onChanged == null`).
+`enabled` 屬性為選填。
+若強制設為必填，將會造成大規模重大變更，
+幾乎會破壞 Flutter 生態系中所有現有的 `DropdownButton` 實作。
+為了保持向下相容性，
+若未明確提供 `enabled` 引數，
+按鈕會根據是否提供 `onChanged` 來決定其狀態（即
+若 `onChanged != null` 則啟用，若 `onChanged == null` 則停用）。
 
-The minor breaking change here is structural:
-while the old conditional `onChanged` pattern technically
-still works due to the fallback logic,
-developers are encouraged to migrate to the clearer API by
-explicitly using the `enabled` property.
+此處的輕微重大變更在於結構上：
+雖然舊有的條件式 `onChanged` 模式由於回退邏輯在技術上仍可運作，
+但建議開發者透過明確使用 `enabled` 屬性來遷移至更清晰的 API。
 
-## Migration guide
+## 遷移指南
 
-If you previously disabled your `DropdownButton` by
-conditionally passing `null` to `onChanged`,
-migrate to the new `enabled` property.
-This cleanly separates the state of the widget (enabled/disabled) from
-its behavior (the callback).
+若您先前透過條件式傳入 `null` 給 `onChanged` 來停用 `DropdownButton`，
+請遷移至新的 `enabled` 屬性。
+這樣可以清楚地將元件 (Widget) 的狀態（啟用/停用）
+與其行為（回呼（callback））分離。
 
-To automatically migrate your code for simple cases
-(such as statically passing `null`), run the following command:
+若要自動遷移簡單情況下的程式碼
+（例如靜態傳入 `null`），請執行以下指令：
 
 ```console
 $ dart fix --apply
 ```
 
 :::important
-Note that `dart fix` will not automatically migrate cases where `onChanged`
-is set using conditional logic. For those, you must update your code manually.
+請注意，`dart fix` 不會自動遷移使用條件邏輯設定 `onChanged`
+的情況。對於這類情況，您必須手動更新程式碼。
 :::
 
-### Case 1: Statically disabled dropdown {: #case-1-statically-disabled }
+### 案例一：靜態停用的下拉選單 {: #case-1-statically-disabled }
 
-For simple cases where a dropdown is permanently disabled,
-you can now simply omit `onChanged` and use `enabled: false`.
+對於下拉選單永久停用的簡單情況，
+您現在可以直接省略 `onChanged` 並使用 `enabled: false`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 final disabledDropdown = DropdownButton<String>(
@@ -81,7 +75,7 @@ final disabledDropdown = DropdownButton<String>(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart diff
   final disabledDropdown = DropdownButton<String>(
@@ -94,12 +88,12 @@ Code after migration:
   );
 ```
 
-### Case 2: Conditionally disabled dropdown {: #case-2-conditionally-disabled }
+### 案例二：條件式停用的下拉選單 {: #case-2-conditionally-disabled }
 
-The recommended best practice is to separate the callback from
-the interactive state by using the `enabled` property directly.
+建議的最佳實踐做法是透過直接使用 `enabled` 屬性，
+將回呼（callback）與互動狀態分離。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 final conditionalDropdown = DropdownButton<String>(
@@ -111,7 +105,7 @@ final conditionalDropdown = DropdownButton<String>(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart diff
   final conditionalDropdown = DropdownButton<String>(
@@ -125,23 +119,23 @@ Code after migration:
   );
 ```
 
-## Timeline
+## 時間軸
 
-Landed in version: 3.44.0-1.0.pre-629<br>
-In stable release: Not yet
+已落地版本：3.44.0-1.0.pre-629<br>
+穩定版本：尚未發布
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`DropdownButton`][]
 * [`DropdownButtonFormField`][]
 
-Relevant issues:
+相關 issues：
 
-* [Why is DropdownButtonFormField's onChanged required?][issue-57953]
+* [為什麼 DropdownButtonFormField 的 onChanged 是必填？][issue-57953]
 
-Relevant PRs:
+相關 PR：
 
 * [Update DropdownButton enabled property logic][]
 

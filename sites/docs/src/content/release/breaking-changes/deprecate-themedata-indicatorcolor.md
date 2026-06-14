@@ -1,39 +1,30 @@
 ---
-title: Deprecate `ThemeData.indicatorColor` in favor of
-  `TabBarThemeData.indicatorColor`
+title: 棄用 `ThemeData.indicatorColor`，改用 `TabBarThemeData.indicatorColor`
 description: >-
-  The `ThemeData.indicatorColor` parameter has been replaced by
-  `TabBarThemeData.indicatorColor`.
+  `ThemeData.indicatorColor` 參數已被 `TabBarThemeData.indicatorColor` 取代。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-The [`ThemeData.indicatorColor`][] parameter was deprecated in favor of
-the [`TabBarThemeData.indicatorColor`][] parameter.
+[`ThemeData.indicatorColor`][] 參數已被棄用，建議改用 [`TabBarThemeData.indicatorColor`][] 參數。
 
-## Context
+## 背景說明
 
-The defaults for the [`TabBar`][] widget can be overridden with a
-component-specific theme like [`TabBarThemeData`][].
-Previously, the `ThemeData.indicatorColor` parameter was used to
-override the default tab bar indicator color in Material Design 2,
-which was made redundant by [`TabBarThemeData`][].
+[`TabBar`][] 元件 (Widget) 的預設值可以透過像 [`TabBarThemeData`][] 這樣的元件專屬主題（component-specific theme）來覆寫。
+過去，`ThemeData.indicatorColor` 參數用於在 Material Design 2 中覆寫預設的分頁列指示器顏色，但這個功能已被 [`TabBarThemeData`][] 取代，因此變得多餘。
 
-## Description of change
+## 變更說明
 
-The [`ThemeData.indicatorColor`][] is deprecated in
-favor of a component-specific theme.
-Use [`TabBarThemeData`][] to override the default indicator color.
+[`ThemeData.indicatorColor`][] 已被棄用，建議改用元件專屬主題。
+請使用 [`TabBarThemeData`][] 來覆寫預設的指示器顏色。
 
-## Migration guide
+## 遷移指南
 
-Replace [`ThemeData.indicatorColor`][] with
-[`TabBarThemeData.indicatorColor`][] to override the default tab bar
-indicator color when [`ThemeData.useMaterial3`][] flag is set to `false`.
+當 [`ThemeData.useMaterial3`][] 旗標（flag）設為 `false` 時，請將 [`ThemeData.indicatorColor`][] 替換為 [`TabBarThemeData.indicatorColor`][]，以覆寫預設的分頁列指示器顏色。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 theme: ThemeData(
@@ -42,7 +33,7 @@ theme: ThemeData(
 ),
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 theme: ThemeData(
@@ -51,14 +42,14 @@ theme: ThemeData(
 ),
 ```
 
-## Timeline
+## 時程
 
 Landed in version: 3.30.0-0.0.pre<br>
 In stable release: 3.32
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 - [`ThemeData.indicatorColor`][]
 - [`ThemeData.useMaterial3`][]
@@ -66,11 +57,11 @@ API documentation:
 - [`TabBarThemeData`][]
 - [`TabBar`][]
 
-Relevant issues:
+相關議題：
 
 - [Issue #91772][]
 
-Relevant PRs:
+相關 PR：
 
 - [Deprecate `ThemeData.indicatorColor` in favor of `TabBarThemeData.indicatorColor`][]
 

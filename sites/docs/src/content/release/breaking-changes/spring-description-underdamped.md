@@ -1,56 +1,49 @@
 ---
-title: Underdamped spring formula changed
+title: 欠阻尼彈簧公式已變更
 description: >-
-  The formula for `SpringDescription` changed to correct an earlier error,
-  affecting underdamped springs (damping ratio less than 1).
+  `SpringDescription` 的公式已變更以修正先前的錯誤，
+  影響到欠阻尼彈簧（阻尼比小於 1）。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-The formula for `SpringDescription` changed to correct an earlier error,
-affecting underdamped springs (damping ratio less than 1)
-with mass values other than 1.
-Springs created prior to this change may exhibit
-different bouncing behaviors after upgrading.
+`SpringDescription` 的公式已變更，以修正先前的錯誤，
+這會影響到阻尼比小於 1 且質量不等於 1 的欠阻尼彈簧。
+在此變更之前建立的彈簧，在升級後可能會出現
+不同的彈跳行為。
 
-## Background
+## 背景
 
-The [`SpringDescription`][] class describes the behavior of damped springs,
-enabling Flutter widgets to animate realistically based on provided parameters.
-The physics of damped springs are widely studied and documented. For an overview
-of damping, see [Wikipedia: Damping][].
+[`SpringDescription`][] 類別描述了阻尼彈簧的行為，
+讓 Flutter 元件 (Widget) 能根據所提供的參數進行真實的動畫。
+阻尼彈簧的物理行為在學術上已有廣泛的研究與記錄。關於阻尼的概述，
+可參考 [Wikipedia: Damping][]。
 
-Previously, Flutter's formula for calculating underdamped spring behavior was
-incorrect, as reported in [Issue 163858][]. This error affected all springs with
-a damping ratio less than 1 and a mass other than 1. Consequently, animations
-did not match expected real-world physics, and behavior around the critical
-damping point (damping ratio of exactly 1) exhibited discontinuities.
-Specifically, when using `SpringDescription.withDampingRatio`, small
-differences, such as damping ratios of 1.0001 versus 0.9999, resulted in
-significantly different animations.
+先前，Flutter 用於計算欠阻尼彈簧行為的公式
+是錯誤的，如 [Issue 163858][] 所回報。這個錯誤影響了所有阻尼比小於 1 且質量不等於 1 的彈簧。因此，動畫
+無法符合預期的真實物理行為，且在臨界阻尼點（阻尼比正好為 1）附近的行為會出現不連續的情況。
+特別是當使用 `SpringDescription.withDampingRatio` 時，像是阻尼比 1.0001 與 0.9999 這樣的
+微小差異，會導致動畫產生顯著不同。
 
-The issue was corrected in PR [Fix SpringSimulation formula for underdamping][],
-which updated the underlying calculation. As a result, previously affected
-animations now behave differently, though no explicit errors are reported by the
-framework.
+這個問題已在 PR [Fix SpringSimulation formula for underdamping][]
+中修正，更新了底層的計算方式。因此，先前受影響的
+動畫現在會有不同的行為，雖然框架本身不會明確回報錯誤。
 
-## Migration guide
+## 遷移指南
 
-Migration is necessary only for springs with damping ratios less than 1 and
-masses other than 1.
+只有阻尼比小於 1 且質量不等於 1 的彈簧需要進行遷移。
 
-To restore previous animation behavior, update your spring parameters
-accordingly. You can calculate the required parameter adjustments using the
-provided [JSFiddle for migration][]. Detailed formulas and explanations follow
-in the next sections.
+若要恢復先前的動畫行為，請相應地調整您的彈簧參數。
+您可以使用提供的 [JSFiddle for migration][] 來計算所需的參數調整。
+詳細的公式與說明請見下方章節。
 
-### Default constructor
+### 預設建構子
 
-If the `SpringDescription` was built with the default constructor with
-mass `m`, stiffness `k`, and damping `c`,
-then it should be changed with the following formula:
+如果 `SpringDescription` 是使用預設建構子建立，並帶有
+質量 `m`、剛性 `k` 與阻尼 `c`，
+則應依照下列公式進行調整：
 
 ```plaintext
 new_m = 1
@@ -58,7 +51,7 @@ new_c = c * m
 new_k = (4 * (k / m) - (c / m)^2 + (c * m)^2) / 4
 ```
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 const spring = SpringDescription(
@@ -68,7 +61,7 @@ const spring = SpringDescription(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 const spring = SpringDescription(
@@ -78,23 +71,22 @@ const spring = SpringDescription(
 );
 ```
 
-### `.withDampingRatio` constructor
+### `.withDampingRatio` 建構函式
 
-If the `SpringDescription` was built with the `.withDampingRatio` constructor
-with mass `m`, stiffness `k`, and ratio `z`, then first calculate damping:
+如果 `SpringDescription` 是使用 `.withDampingRatio` 建構函式，並指定質量 `m`、剛性 `k` 以及比率 `z` 建立的，則請先計算阻尼值：
 
 ```plaintext
 c = z * 2 * sqrt(m * k)
 ```
 
-Then apply the formula above.
-Optionally, you might convert the result back to damping ratio with:
+然後套用上面的公式。
+您也可以選擇將結果轉換回阻尼比（damping ratio），方法如下：
 
 ```plaintext
 new_z = new_c / 2 / sqrt(new_m * new_k)
 ```
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 const spring = SpringDescription.withDampingRatio(
@@ -104,7 +96,7 @@ const spring = SpringDescription.withDampingRatio(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 const spring = SpringDescription.withDampingRatio(
@@ -114,27 +106,27 @@ const spring = SpringDescription.withDampingRatio(
 );
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.31.0-0.1.pre<br>
-In stable release: 3.32
+納入版本：3.31.0-0.1.pre<br>
+正式版發佈：3.32
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`SpringDescription`][]
 
-Relevant issues:
+相關議題：
 
-* [Issue 163858][], where the bug was discovered and more context can be found.
+* [Issue 163858][]，此處發現了該錯誤，並可取得更多背景資訊。
 
-Relevant PRs:
+相關 PR：
 
-* [Fix SpringSimulation formula for underdamping][]
+* [修正 SpringSimulation 欠阻尼公式][Fix SpringSimulation formula for underdamping]
 
-Tool:
-* [JSFiddle for migration][]
+工具：
+* [遷移用 JSFiddle][JSFiddle for migration]
 
 [Fix SpringSimulation formula for underdamping]: {{site.repo.flutter}}/pull/165017
 [Issue 163858]: {{site.repo.flutter}}/issues/163858

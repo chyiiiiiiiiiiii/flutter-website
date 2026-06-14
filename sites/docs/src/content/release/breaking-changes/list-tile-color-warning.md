@@ -1,36 +1,22 @@
 ---
-title: ListTile reports an error in debug when wrapped in a colored widget
+title: ListTile 在偵錯模式下被有色元件包裹時會回報錯誤
 description: >-
-  ListTile now reports an error in debug mode when it is wrapped in
-  an intermediate widget with a non-transparent background color.
+  ListTile 現在會在偵錯模式下，當它被具有不透明背景色的中間元件包裹時回報錯誤。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-When a widget with a non-transparent background color,
-such as a `Container` or `ColoredBox` that sets `color`,
-sits between a `ListTile` and its nearest `Material` ancestor,
-the framework now reports an error.
+當一個具有不透明背景色的元件 (Widget)，例如設定了 `color` 的 `Container` 或 `ColoredBox`，位於 `ListTile` 與其最近的 `Material` 祖先之間時，框架現在會回報錯誤。
 
-## Background
+## 背景
 
-`ListTile` paints its background color and ink splashes
-on the nearest `Material` ancestor.
-When a widget with an opaque background color is
-placed between the `ListTile` and its `Material` ancestor,
-it obscures these visual effects,
-making them invisible to the user.
+`ListTile` 會在最近的 `Material` 祖先上繪製背景色與墨水濺射效果 (ink splashes)。當一個具有不透明背景色的元件被放置在 `ListTile` 與其 `Material` 祖先之間時，這個元件會遮蔽這些視覺效果，使使用者看不到它們。
 
-To prevent you from accidentally introducing this bug and
-wondering why the background or ink splash effects on
-the `ListTile` aren't displaying,
-the framework now reports an assertion error during development.
+為了避免您不小心引入此錯誤並困惑於 `ListTile` 的背景或墨水濺射效果為何未顯示，框架現在會在開發過程中回報一個斷言錯誤 (assertion error)。
 
-If your code has an intermediate colored widget
-between a `ListTile` and a `Material` widget,
-you will now see an error similar to this:
+若您的程式碼在 `ListTile` 與 `Material` 元件之間有一個中間有色元件，您現在將會看到類似以下的錯誤：
 
 ```text
 ListTile background color or ink splashes may be invisible.
@@ -41,13 +27,11 @@ To fix this, wrap the ListTile in its own Material widget, or
 remove the background color from the intermediate Container.
 ```
 
-## Migration guide
+## 遷移指南
 
-To fix the error,
-remove the background color from the intermediate widget or
-wrap the `ListTile` in its own `Material` widget.
+若要修正此錯誤，請移除中間元件的背景色，或將 `ListTile` 包裹在其專屬的 `Material` 元件中。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 // The colored Container hides the ink splashes from the ListTile.
@@ -62,7 +46,7 @@ Material(
 )
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 // Use a Material widget directly for the background color.
@@ -77,8 +61,7 @@ Material(
 )
 ```
 
-Alternatively,
-wrap the `ListTile` in its own `Material` widget:
+或者，將 `ListTile` 包裹在其專屬的 `Material` 元件中：
 
 ```dart
 Container(
@@ -93,23 +76,23 @@ Container(
 )
 ```
 
-## Timeline
+## 時間軸
 
-Landed in version: 3.43.0-0.1.pre<br>
-In stable release: 3.44
+導入版本：3.43.0-0.1.pre<br>
+穩定版本：3.44
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`ListTile`][]
 * [`Material`][]
 
-Relevant issues:
+相關議題：
 
 * [`ListTile.selectedTileColor` not visible when parent `Container` has explicit background color][issue-174366]
 
-Relevant PRs:
+相關 PR：
 
 * [Add warning when there is a widget with color between `Material` and `ListTile`][pr-181402]
 

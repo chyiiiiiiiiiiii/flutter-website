@@ -1,42 +1,30 @@
 ---
-title: Web-specific golden comparisons are no longer supported
+title: 不再支援 Web 專用的 golden 比對
 description: >-
-  The `WebGoldenComparator` class and `webGoldenComparator` top-level instance
-  are deprecated, pending removal, and the web rendering backends (including
-  both CanvasKit and skWasm) now use `GoldenFileComparator` and
-  `goldenFileComparator` directly.
+  `WebGoldenComparator` 類別與 `webGoldenComparator` 頂層實例已被棄用，預計將移除，Web 渲染後端（包含 CanvasKit 與 skWasm）現在會直接使用 `GoldenFileComparator` 與 `goldenFileComparator`。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-The `flutter_test` package and `flutter` tool will no longer use the
-[`webGoldenComparator`][] top-level variable, and instead use the original
-[`goldenFileComparator`][] top-level variable (like the non-web platforms).
+`flutter_test` 套件與 `flutter` 工具將不再使用
+[`webGoldenComparator`][] 頂層變數，而是改為使用原本的
+[`goldenFileComparator`][] 頂層變數（如同非 Web 平台）。
 
-For _users_ of `flutter_test`, these changes will be made automatically.
+對於 `flutter_test` 的_使用者_，這些變更會自動完成。
 
-## Background
+## 背景
 
-Originally, [`WebGoldenComparator`][class-WebGoldenComparator] was added for
-the HTML-backend of Flutter web, as it was not possible to create an encoded
-PNG (byte buffer), and a new API was needed. As [the HTML backend is being
-deprecated and removed][Issue 145954], this separate API is no longer necessary.
+最初，[`WebGoldenComparator`][class-WebGoldenComparator] 是為了 Flutter Web 的 HTML 後端所新增，因為當時無法建立編碼後的 PNG（位元組緩衝區），因此需要一個新的 API。隨著 [HTML 後端即將被棄用與移除][Issue 145954]，這個額外的 API 已不再需要。
 
-## Migration guide
+## 遷移指南
 
-For most users, no changes are required (other than migrating off the HTML
-backend, which is not covered here), the `flutter` tool will automatically
-configure [`goldenFileComparator`][] and use it (when using a non-HTML web
-backend).
+對於大多數使用者，無需進行任何變更（除了需遷移離開 HTML 後端，這部分不在本文件範圍內），`flutter` 工具會自動設定 [`goldenFileComparator`][] 並加以使用（當使用非 HTML 的 Web 後端時）。
 
-For users that implement a custom [`WebGoldenComparator`][], you will
-migrate the implementation to [`GoldenFileComparator`][]. Fortunately the
-Canvas Kit and SkWasm backends already required similar methods (`compareButes`
-and `updateBytes`).
+若您有實作自訂的 [`WebGoldenComparator`][]，則需將實作遷移到 [`GoldenFileComparator`][]。幸運的是，CanvasKit 與 SkWasm 後端本來就需要類似的方法（`compareButes` 與 `updateBytes`）。
 
-For example:
+例如：
 
 ```dart
 // Before
@@ -76,21 +64,21 @@ class MyGenericGoldenComparator extends GoldenFileComparator {
 }
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.29.0-0.0.pre<br>
-In stable release: 3.29
+已於版本：3.29.0-0.0.pre<br>
+正式版發布：3.29
 
-## References
+## 參考資料
 
-Relevant Issues:
+相關議題（Issues）：
 
-- [Issue 145954][], where the HTML renderer was deprecated.
-- [Issue 160261][], where it was proposed to consolidate `GoldenFileComparator` and `WebGoldenComparator`.
+- [Issue 145954][]，HTML renderer 已被棄用。
+- [Issue 160261][]，提出合併 `GoldenFileComparator` 與 `WebGoldenComparator` 的建議。
 
-Relevant PRs:
+相關 PR：
 
-- [PR 161196][], where `WebGoldenComparator` was deprecated and the `flutter` CLI started using `goldenFileComparator`.
+- [PR 161196][]，在此 PR 中 `WebGoldenComparator` 被棄用，且 `flutter` 命令列介面 (CLI) 開始使用 `goldenFileComparator`。
 
 [Issue 145954]: {{site.github}}/flutter/flutter/issues/145954
 [Issue 160261]: {{site.github}}/flutter/flutter/issues/160261

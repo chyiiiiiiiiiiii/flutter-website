@@ -1,40 +1,40 @@
 ---
-title: Generic types in PopScope
+title: PopScope 的泛型型別
 description: >-
-  Added a generic type to the PopScope class and updated
-  the onPopInvoked function signature.
+  為 PopScope 類別新增了泛型型別，並更新了
+  onPopInvoked 函式的簽章。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-Added a generic type to the [`PopScope`][] class and replaced
-the [`onPopInvoked`][] with a new method [`onPopInvokedWithResult`][].
-The new method takes a boolean `didPop` and a `result` as position parameters.
+為 [`PopScope`][] 類別新增了泛型型別，並將
+[`onPopInvoked`][] 替換為新的方法 [`onPopInvokedWithResult`][]。
+新方法接受一個布林值 `didPop` 和一個 `result` 作為位置參數。
 
-Also replaced the [`Form.onPopInvoked`] with [`Form.onPopInvokedWithResult`][]
-for the same reason.
+同時也將 [`Form.onPopInvoked`] 替換為 [`Form.onPopInvokedWithResult`][]，
+原因相同。
 
-## Context
+## 背景說明
 
-Previously, `PopScope` didn't have a way to access
-the pop result when `onPopInvoked` was called.
-The generic type is added to the `PopScope` class so that
-the new method `onPopInvokedWithResult` can access the type-safe result.
+過去，`PopScope` 在呼叫 `onPopInvoked` 時
+無法取得 pop 的結果。
+現在於 `PopScope` 類別中新增了泛型型別，
+讓新方法 `onPopInvokedWithResult` 能夠存取型別安全的結果。
 
-## Description of change
+## 變更說明
 
-Added a generic type (`<T>`) to the `PopScope` class and
-a new method `onPopInvokedWithResult`.
-The `onPopInvoked` property was deprecated in favor of `onPopInvokedWithResult`.
+為 `PopScope` 類別新增了泛型型別（`<T>`），並
+新增了一個新方法 `onPopInvokedWithResult`。
+`onPopInvoked` 屬性已被棄用，建議改用 `onPopInvokedWithResult`。
 
-Also added a new method `onPopInvokedWithResult`
-to `Form` to replace `onPopInvoked`.
+同時也在 `Form` 中新增了新方法 `onPopInvokedWithResult`，
+以取代 `onPopInvoked`。
 
-## Migration guide
+## 遷移指南
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 import 'package:flutter/material.dart';
@@ -72,7 +72,7 @@ void main() {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 import 'package:flutter/material.dart';
@@ -110,22 +110,21 @@ void main() {
 }
 ```
 
-The generic type should match the generic type of the [`Route`][]
-that the `PopScope` is in.
-For example, if the route uses `int` as its generic type,
-consider using `PopScope<int>`.
+泛型型別應與 [`Route`][] 所在的 `PopScope` 的泛型型別一致。
+例如，如果該路由（Route）使用 `int` 作為其泛型型別，
+建議使用 `PopScope<int>`。
 
-If the `PopScope` widgets are shared across multiple routes with
-different types, you can use `PopScope<Object?>` to catch all possible types.
+如果 `PopScope` 元件 (Widget) 在多個具有不同型別的路由（Route）間共用，
+可以使用 `PopScope<Object?>` 來涵蓋所有可能的型別。
 
-## Timeline
+## 時程
 
-Landed in version: 3.22.0-26.0.pre<br>
-In stable release: 3.24.0
+合併於版本：3.22.0-26.0.pre<br>
+穩定版釋出：3.24.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`PopScope`][]
 * [`onPopInvoked`][]
@@ -134,14 +133,14 @@ API documentation:
 * [`Form.onPopInvoked`][]
 * [`Form.onPopInvokedWithResult`][]
 
-Relevant issue:
+相關議題：
 
 * [Issue 137458][]
 
-Relevant PR:
+相關 PR：
 
-* [Add generic type for result in PopScope][] _(reverted)_
-* [Reapply new PopScope API][] _(final reland)_
+* [Add generic type for result in PopScope][] _(已回滾)_
+* [Reapply new PopScope API][] _(最終重新合併)_
 
 [Add generic type for result in PopScope]: {{site.repo.flutter}}/pull/139164
 [Reapply new PopScope API]: {{site.repo.flutter}}/pull/147607

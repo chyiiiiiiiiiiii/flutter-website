@@ -1,39 +1,31 @@
 ---
-title: The default page transition on Android is now PredictiveBackPageTransitionsBuilder
+title: Android 預設頁面轉場效果現已更新為 PredictiveBackPageTransitionsBuilder
 description: >-
-  Android's default page transition has been updated to match the
-  platform and to support predictive back.
+  Android 的預設頁面轉場效果已更新，以符合平台規範並支援預測性返回功能。
 ---
 
-## Summary
+## 摘要
 
-The default page transition on Android has been updated from
-[`ZoomPageTransitionsBuilder`][] to [`PredictiveBackPageTransitionsBuilder`][].
-When not using predictive back, this falls back to
-[`FadeForwardsPageTransitionsBuilder`][].
+Android 的預設頁面轉場效果已從
+[`ZoomPageTransitionsBuilder`][] 更新為 [`PredictiveBackPageTransitionsBuilder`][]。
+若未使用預測性返回，則會退回使用
+[`FadeForwardsPageTransitionsBuilder`][]。
 
-## Context
+## 背景說明
 
-Android has been rolling out a feature called predictive back, where performing
-a back gesture allows the user to peek at the previous route or app and possibly
-cancel the navigation. Flutter added support for this with the [`PopScope`][]
-widget followed by [`PredictiveBackPageTransitionsBuilder`][].
+Android 一直在推出一項名為預測性返回 (predictive back) 的功能，使用者在執行返回手勢時，可以預覽前一個路由或應用程式，並可能取消導航。Flutter 透過元件 (Widget) [`PopScope`][] 以及後續的 [`PredictiveBackPageTransitionsBuilder`][] 新增了對此功能的支援。
 
-In the meantime, Android also updated its default page transition. Flutter added
-support for this with [`FadeForwardsPageTransitionsBuilder`][].
+同時，Android 也更新了其預設的頁面轉場效果。Flutter 透過 [`FadeForwardsPageTransitionsBuilder`][] 新增了對此功能的支援。
 
-## Description of change
+## 變更說明
 
-With this change, [`PredictiveBackPageTransitionsBuilder`][] has replaced
-[`ZoomPageTransitionsBuilder`][] as the default page transition on Android.
-During a normal page transition without a predictive back gesture, users
-see the new [`FadeForwardsPageTransitionsBuilder`][] as the default page
-transition. When using a predictive back gesture, the page animates along
-with the gesture and allows canceling or committing to the back navigation.
+透過此變更，[`PredictiveBackPageTransitionsBuilder`][] 已取代
+[`ZoomPageTransitionsBuilder`][] 成為 Android 上的預設頁面轉場效果。
+在不使用預測性返回手勢的一般頁面轉場期間，使用者將看到新的 [`FadeForwardsPageTransitionsBuilder`][] 作為預設的頁面轉場效果。使用預測性返回手勢時，頁面會隨著手勢動畫，並允許取消或確認返回導航。
 
-In this example, no page transition is explicitly given, so the
-[default]({{site.github}}/flutter/flutter/blob/e983e4bd81f29b17215057fa5c9f46f96cbaf183/packages/flutter/lib/src/material/page_transitions_theme.dart#L806-L813)
-is set to [`PredictiveBackPageTransitionsBuilder`][] in the theme on Android.
+在以下範例中，未明確指定任何頁面轉場效果，因此主題中的 Android
+[預設值]({{site.github}}/flutter/flutter/blob/e983e4bd81f29b17215057fa5c9f46f96cbaf183/packages/flutter/lib/src/material/page_transitions_theme.dart#L806-L813)
+會設定為 [`PredictiveBackPageTransitionsBuilder`][]。
 
 ```dart
 MaterialApp(
@@ -44,14 +36,11 @@ MaterialApp(
 );
 ```
 
-## Migration guide
+## 遷移指南
 
-If you want to keep your app's page transition on the old
-[`ZoomPageTransitionsBuilder`][], you can simply set your page transition
-explicitly in your app's theme. Keep in mind that you will not be able to
-support predictive back route transitions.
+若您想保留應用程式原本的 [`ZoomPageTransitionsBuilder`][] 頁面轉場效果，可以在應用程式主題中明確設定頁面轉場。請注意，這樣做將無法支援預測性返回路由轉場。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 return MaterialApp(
@@ -63,7 +52,7 @@ return MaterialApp(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 MaterialApp(
@@ -79,13 +68,9 @@ MaterialApp(
 );
 ```
 
-One side effect of changing the default transition is that the duration that it
-takes to transition between pages has increased from 300ms to 450ms. This might
-cause breakages in tests that depend on the previous transition duration.
-Fortunately, it's possible to use [`TransitionDurationObserver`][] to keep tests
-independent of whatever page transition is used.
+變更預設轉場效果的副作用之一是，頁面之間轉場所需的時間已從 300ms 增加至 450ms。這可能會導致依賴舊轉場時間的測試出現問題。所幸可以使用 [`TransitionDurationObserver`][] 讓測試不依賴於所使用的頁面轉場效果。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 testWidgets('example', (WidgetTester tester) async {
@@ -107,7 +92,7 @@ testWidgets('example', (WidgetTester tester) async {
 });
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 testWidgets('example', (WidgetTester tester) async {
@@ -132,10 +117,9 @@ testWidgets('example', (WidgetTester tester) async {
 });
 ```
 
-It's even possible to write tests that need to pump part of the way through a
-page transition without depending on the exact duration.
+您甚至可以撰寫需要在頁面轉場過程中途進行 pump 的測試，而無需依賴確切的時間長度。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 testWidgets('example', (WidgetTester tester) async {
@@ -157,7 +141,7 @@ testWidgets('example', (WidgetTester tester) async {
 });
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 testWidgets('example', (WidgetTester tester) async {
@@ -182,14 +166,14 @@ testWidgets('example', (WidgetTester tester) async {
 });
 ```
 
-## Timeline
+## 時間軸
 
-Landed in version: 3.37.0-0.0.pre<br>
-In stable release: 3.38.0
+導入版本：3.37.0-0.0.pre<br>
+穩定版本：3.38.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`ZoomPageTransitionsBuilder`][]
 * [`PredictiveBackPageTransitionsBuilder`][]
@@ -197,11 +181,11 @@ API documentation:
 * [`PopScope`][]
 * [`TransitionDurationObserver`][]
 
-Relevant issues:
+相關 Issue：
 
 * [Android predictive back route transitions][]
 
-Relevant PRs:
+相關 PR：
 
 * [Predictive back route transitions by default][]
 

@@ -1,52 +1,50 @@
 ---
-title: IconData class marked as final
+title: IconData 類別標記為 final
 description: >-
-  The IconData class is now marked as final,
-  preventing it from being extended or implemented.
+  IconData 類別現在已標記為 final，
+  禁止對其進行擴充或實作。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 概要
 
-The `IconData` class is now marked as [`final`][],
-which prevents it from being implemented or extended.
-This change is part of an effort to generalize the
-mechanism for tree-shaking assets and native code.
+`IconData` 類別現在已標記為 [`final`][]，
+這表示它無法再被實作或擴充。
+此變更是為了通用化資源 (assets) 與原生程式碼的
+Tree Shaking 機制所做的努力之一。
 
 [`final`]: {{site.dart-site}}/language/class-modifiers#final
 
-## Background
+## 背景
 
-The Flutter team is working on a generalized mechanism to
-bring tree-shaking of assets and native code to packages.
-The existing bespoke Icon Tree Shaker is
-being folded into this general mechanism.
+Flutter 團隊正在開發一套通用機制，
+以便將資源與原生程式碼的 Tree Shaking 功能帶入套件 (package)。
+現有的專用 Icon Tree Shaker 將被整合至此通用機制中。
 
-For performance, locality, and understandability, the general mechanism doesn't
-support recording `const` instances in complex type hierarchies.
-Therefore, the `IconData` class is now marked as `final`.
+為了效能、局部性與可理解性，通用機制不支援
+在複雜型別階層中記錄 `const` 實例。
+因此，`IconData` 類別現在已標記為 `final`。
 
-Code that implements or extends `IconData` now
-fails to compile with the following error:
+實作或擴充 `IconData` 的程式碼現在將無法編譯，
+並出現下列錯誤：
 
 ```text
 The class 'IconData' is 'final' and can't be extended or implemented outside of its library.
 ```
 
-## Migration guide
+## 遷移指南
 
-Instead of implementing `IconData`,
-such as with an `enum` that supports dot shorthand,
-type safety, and an automated `.values` list,
-use a wrapper class with `static const` instances.
+若要取代實作 `IconData` 的方式
+（例如使用支援點式簡寫 (dot shorthand)、型別安全以及自動 `.values` 清單的 `enum`），
+請改用含有 `static const` 實例的包裝類別。
 
-### Migrating custom icon types
+### 遷移自訂圖示型別
 
-If you used an `enum` that implements `IconData`,
-migrate to a class with `static const` instances and a custom widget.
+若您曾使用實作 `IconData` 的 `enum`，
+請遷移至含有 `static const` 實例的類別，並搭配自訂元件 (Widget)。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 enum AppIcons implements IconData {
@@ -69,15 +67,15 @@ enum AppIcons implements IconData {
 }
 
 Widget build(BuildContext context) {
-  // Example usage of AppIcons:
+  // AppIcons 的使用範例：
   return Icon(AppIcons.arrowUpward);
 }
 ```
 
-To maintain dot shorthand support and type safety,
-use a wrapper class and a custom widget.
+若要保留點式簡寫支援與型別安全，
+請使用包裝類別與自訂元件。
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 final class AppIconData {
@@ -106,41 +104,40 @@ class AppIcon extends StatelessWidget {
 }
 
 Widget build(BuildContext context) {
-  // Usage preserves dot shorthand if the type can be inferred:
+  // 若可推斷型別，用法仍保留點式簡寫：
   return const AppIcon(AppIconData.arrowUpward);
-  // Or if inferred: const AppIcon(.arrowUpward)
+  // 或在可推斷時使用：const AppIcon(.arrowUpward)
 }
 ```
 
-If you rely on `.values` for tools like Widgetbook,
-you can maintain the `values` list manually as shown in
-the previous example or use code generation.
+若您依賴 `.values` 搭配 Widgetbook 等工具，
+可如上例手動維護 `values` 清單，或使用程式碼產生工具。
 
-### Ignore the `mustBeConst` lint
+### 忽略 `mustBeConst` 程式碼檢查
 
-To enable tree-shaking, some `IconData` parameters are
-marked with the `mustBeConst` annotation.
-If you must use a non-const `IconData` and
-are willing to forgo tree-shaking for that icon,
-add an ignore comment for the lint.
+為了啟用 Tree Shaking，部分 `IconData` 參數已使用
+`mustBeConst` 標注進行標記。
+若您必須使用非 const 的 `IconData`，
+且願意放棄該圖示的 Tree Shaking，
+請為該程式碼檢查加入忽略註解。
 
 ```dart
 // ignore: non_const_argument_for_const_parameter
 Icon(myDynamicIconData);
 ```
 
-## Timeline
+## 時間表
 
-Landed in version: 3.44.0-0.1.pre<br>
-In stable release: 3.44
+導入版本：3.44.0-0.1.pre<br>
+穩定版本：3.44
 
-## References
+## 參考資料
 
-Relevant PR:
+相關 PR：
 
 * [Mark `IconData` `final` and `@mustBeConst`][pr-181345]
 
-Relevant issues:
+相關 issues：
 
 * [Breaking Change: Marking `class IconData` as `final`][issue-181342]
 * [Marking `IconData`'s constructor parameters as `@mustBeConst`][issue-181344]

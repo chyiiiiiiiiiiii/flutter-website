@@ -1,39 +1,29 @@
 ---
-title: Migration guide for ignoringSemantics in IgnorePointer and related classes
-description: Removal of ignoringSemantics in IgnorePointer and related classes.
+title: 在 IgnorePointer 及相關元件中 ignoringSemantics 的遷移指南
+description: 移除 IgnorePointer 及相關元件中的 ignoringSemantics。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-The `IgnoringPointer` widget allows you to designate an area of the UI
-where you don't want to accept pointer events, for example, when
-you don't want to allow the user to enter text in a text field.
+`IgnoringPointer` 元件 (Widget) 可讓你指定 UI 中某個區域不接受指標事件，例如當你不希望使用者在文字欄位 (text field) 中輸入文字時。
 
-Previously, the `IgnorePointer` not only blocked pointer events but also
-dropped its subtree from the semantics tree. The `ignoreSemantics` parameter
-was introduced as a workaround to preserve the semantics tree when using
-`IgnorePointer`s.
+過去，`IgnorePointer` 不僅會阻擋指標事件，也會將其子樹從 semantics 樹中移除。`ignoreSemantics` 參數被引入作為權宜之計，用於在使用 `IgnorePointer` 時保留 semantics 樹。
 
-The `IgnorePointer` behavior has changed in that it no longer drops
-the entire semantics subtree but merely blocks semantics actions in the
-subtree. The `ignoringSemantics` workaround is no longer needed and is
-deprecated.
+`IgnorePointer` 的行為已變更，現在不再移除整個 semantics 子樹，而僅會阻擋子樹中的 semantics 操作。`ignoringSemantics` 這個權宜之計已不再需要，並且已被棄用。
 
-This change also applies to the `AbsorbPointer` and
-`SliverIgnorePointer` widgets.
+這項變更同樣適用於 `AbsorbPointer` 和 `SliverIgnorePointer` 元件。
 
-## Description of change
+## 變更說明
 
-`ignoringSemantics` was removed.
+`ignoringSemantics` 已被移除。
 
-## Migration guide
+## 遷移指南
 
-If you set this parameter to true in these widgets, consider using
-`ExcludeSemantics` instead.
+如果你在這些元件中將此參數設為 true，請考慮改用 `ExcludeSemantics`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 IgnorePointer(
@@ -52,7 +42,7 @@ SliverIgnorePointer(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 ExcludeSemantics(
@@ -74,9 +64,7 @@ SliverIgnorePointer(
 );
 ```
 
-If you are previously using `IgnorePointer`s with `ignoringSemantics` set to `false`,
-you can achieve the same behavior by copying the follow widgets directly into your
-code and use.
+如果你之前在使用 `IgnorePointer` 並將 `ignoringSemantics` 設為 `false`，你可以直接將下列元件複製到你的程式碼中使用，以達到相同的行為效果。
 
 ```dart
 /// A widget ignores pointer events without modifying the semantics tree.
@@ -139,17 +127,16 @@ class _RenderSliverIgnorePointerWithSemantics extends RenderProxySliver {
 }
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.10.0-2.0.pre<br>
-In stable release: 3.13.0
+合併於版本：3.10.0-2.0.pre<br>
+正式版釋出於：3.13.0
 
-## References
+## 參考資料
 
-Relevant PRs:
+相關 PR：
 
-* [PR 120619][]: Fixes IgnorePointer and AbsorbPointer to only block user
-  interactions in a11y.
+* [PR 120619][]：修正 IgnorePointer 與 AbsorbPointer，讓它們僅在無障礙（a11y）情境下阻擋使用者互動。
 
 [PR 120619]: {{site.repo.flutter}}/pull/120619
 [`IgnorePointer`]: {{site.api}}/flutter/widgets/IgnorePointer-class.html

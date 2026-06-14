@@ -1,42 +1,39 @@
 ---
-title: Deprecate `containsSemantics` in favor of `isSemantics`
+title: 棄用 `containsSemantics`，改用 `isSemantics`
 description: >-
-  The `containsSemantics` matcher has been deprecated in favor of
-  `isSemantics` and `matchesSemantics` matchers.
+  `containsSemantics` 匹配器已棄用，改用
+  `isSemantics` 與 `matchesSemantics` 匹配器。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-The `containsSemantics` partial matcher is deprecated and replaced by
-`isSemantics` to clarify intent and standardize matcher conventions.
+`containsSemantics` 部分匹配器已棄用，並由 `isSemantics` 取代，
+以釐清意圖並統一匹配器的命名慣例。
 
-## Context
+## 背景
 
-The `contains` prefix for partial matchers, such as `containsSemantics`, has been 
-replaced with `is` to align with naming conventions:
+部分匹配器（例如 `containsSemantics`）的 `contains` 前綴已替換為 `is`，
+以符合以下命名慣例：
 
-* **Partial matchers** (such as `isSemantics`) match only
-  the properties explicitly provided.
-  Any arguments not provided are ignored.
-* **Exact matchers** (such as `matchesSemantics`) verify all values.
-  Any arguments not provided are expected to
-  match the object's default values.
+* **部分匹配器**（例如 `isSemantics`）只匹配明確提供的屬性。
+  未提供的引數會被忽略。
+* **精確匹配器**（例如 `matchesSemantics`）則驗證所有值。
+  未提供的引數預期應符合物件的預設值。
 
-## Migration guide
+## 遷移指南
 
-To automatically migrate your code, run the following command:
+若要自動遷移程式碼，請執行以下指令：
 
 ```console
 $ dart fix --apply
 ```
 
-Alternatively, replace `containsSemantics` with `isSemantics` for partial
-matching (most common case), or `matchesSemantics` if you need to assert 
-exact property values (including defaults for omitted arguments).
+或者，針對部分匹配（最常見的情況），將 `containsSemantics` 替換為 `isSemantics`；
+若需要斷言精確的屬性值（包含省略引數的預設值），則替換為 `matchesSemantics`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 expect(
@@ -48,7 +45,7 @@ expect(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 expect(
@@ -60,24 +57,24 @@ expect(
 );
 ```
 
-## Timeline
+## 時間軸
 
-Landed in version: 3.40.0-1.0.pre<br>
-In stable release: 3.41
+導入版本：3.40.0-1.0.pre<br>
+穩定版發布：3.41
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`isSemantics`][]
 * [`matchesSemantics`][]
 
-Relevant issues:
+相關 Issue：
 
 * [Issue 180534][]
 * [Issue 107859][]
 
-Relevant PR:
+相關 PR：
 
 * [PR 180538][]
 

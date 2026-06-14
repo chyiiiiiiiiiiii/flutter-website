@@ -1,39 +1,36 @@
 ---
-title: Deprecate textScaleFactor in favor of TextScaler
+title: 棄用 textScaleFactor，改用 TextScaler
 description: >-
-  The new class, TextScaler, replaces the textScaleFactor scalar in
-  preparation for Android 14 nonlinear text scaling support.
+  新增的 TextScaler 類別取代了 textScaleFactor 這個純量值，
+  以因應 Android 14 非線性文字縮放支援的準備。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-In preparation for adopting the [Android 14 nonlinear font scaling][] feature,
-all occurrences of `textScaleFactor` in the Flutter framework have been
-deprecated and replaced by `TextScaler`.
+為了支援 [Android 14 非線性字型縮放][Android 14 nonlinear font scaling] 功能，
+Flutter 框架中所有出現的 `textScaleFactor` 均已被棄用，並由 `TextScaler` 取代。
 
-## Context
+## 背景
 
-Many platforms allow users to scale textual contents up or down globally in
-system preferences. In the past, the scaling strategy was captured as a single
-`double` value named `textScaleFactor`, as text scaling was proportional:
-`scaledFontSize = textScaleFactor x unScaledFontSize`. For example, when
-`textScaleFactor` is 2.0 and the developer-specified font size is 14.0, the
-actual font size is 2.0 x 14.0 = 28.0.
+許多平台允許使用者在系統偏好設定中全域調整文字內容的縮放比例。
+過去，縮放策略是以一個名為 `textScaleFactor` 的單一 `double` 值來表示，
+因為文字縮放是「等比例」的：`scaledFontSize = textScaleFactor x unScaledFontSize`。
+例如，當 `textScaleFactor` 為 2.0，且開發者指定的字型大小為 14.0 時，
+實際的字型大小就是 2.0 x 14.0 = 28.0。
 
-With the introduction of [Android 14 nonlinear font scaling][], larger text gets
-scaled at a lesser rate as compared to smaller text, to prevent excessive scaling
-of text that is already large. The `textScaleFactor` scalar value used by
-"proportional" scaling is not enough to represent this new scaling strategy.
-The [Replaces `textScaleFactor` with `TextScaler`][] pull request introduced a
-new class `TextScaler` to replace `textScaleFactor` in preparation for this new
-feature. Nonlinear text scaling is introduced in a different pull request.
+隨著 [Android 14 非線性字型縮放][Android 14 nonlinear font scaling] 的引入，較大的文字縮放幅度會小於較小文字，
+以避免已經很大的文字被過度放大。
+「等比例」縮放所使用的 `textScaleFactor` 純量值，已無法滿足這種新的縮放策略。
+[以 `TextScaler` 取代 `textScaleFactor`][Replaces `textScaleFactor` with `TextScaler`] 的 pull request 引入了一個新的類別 `TextScaler`，
+以取代 `textScaleFactor`，為這項新功能做準備。
+非線性文字縮放則會在另一個 pull request 中導入。
 
-## Description of change
+## 變更說明
 
-Introducing a new interface `TextScaler`, which
-represents a text scaling strategy.
+引入了一個新的介面 `TextScaler`，
+用來表示文字縮放策略。
 
 ```dart
 abstract class TextScaler {
@@ -42,70 +39,67 @@ abstract class TextScaler {
 }
 ```
 
-Use the `scale` method to scale font sizes instead of `textScaleFactor`.
-The `textScaleFactor` getter provides an estimated `textScaleFactor` value, it
-is for backward compatibility purposes and is already marked as deprecated, and
-will be removed in a future version of Flutter.
+請使用 `scale` 方法來縮放字型大小，而非 `textScaleFactor`。
+`textScaleFactor` getter 提供了一個預估的 `textScaleFactor` 值，僅為了向後相容而保留，且已經標記為已淘汰（deprecated），未來版本的 Flutter 將會移除。
 
-The new class has replaced
-`double textScaleFactor` (`double textScaleFactor` -> `TextScaler textScaler`),
-in the following APIs:
+新的類別已經取代了
+`double textScaleFactor`（`double textScaleFactor` -> `TextScaler textScaler`），
+並應用於以下 API：
 
-### Painting library
+### 繪製 (Painting) 函式庫
 
-| Affected APIs                                                                     | Error Message                                          |
+| 受影響的 API                                                                     | 錯誤訊息                                                   |
 |-----------------------------------------------------------------------------------|--------------------------------------------------------|
-| `InlineSpan.build({ double textScaleFactor = 1.0 })` argument                     | The named parameter 'textScaleFactor' isn't defined.   |
-| `TextStyle.getParagraphStyle({ double TextScaleFactor = 1.0 })` argument          | The named parameter 'textScaleFactor' isn't defined.   |
-| `TextStyle.getTextStyle({ double TextScaleFactor = 1.0 })`  argument              | 'textScaleFactor' is deprecated and shouldn't be used. |
-| `TextPainter({ double TextScaleFactor = 1.0 })` constructor argument              | 'textScaleFactor' is deprecated and shouldn't be used. |
-| `TextPainter.textScaleFactor` getter and setter                                   | 'textScaleFactor' is deprecated and shouldn't be used. |
-| `TextPainter.computeWidth({ double TextScaleFactor = 1.0 })` argument             | 'textScaleFactor' is deprecated and shouldn't be used. |
-| `TextPainter.computeMaxIntrinsicWidth({ double TextScaleFactor = 1.0 })` argument | 'textScaleFactor' is deprecated and shouldn't be used. |
+| `InlineSpan.build({ double textScaleFactor = 1.0 })` 參數                     | The named parameter 'textScaleFactor' isn't defined.   |
+| `TextStyle.getParagraphStyle({ double TextScaleFactor = 1.0 })` 參數          | The named parameter 'textScaleFactor' isn't defined.   |
+| `TextStyle.getTextStyle({ double TextScaleFactor = 1.0 })` 參數              | 'textScaleFactor' is deprecated and shouldn't be used. |
+| `TextPainter({ double TextScaleFactor = 1.0 })` 建構函式參數              | 'textScaleFactor' is deprecated and shouldn't be used. |
+| `TextPainter.textScaleFactor` getter 與 setter                                   | 'textScaleFactor' is deprecated and shouldn't be used. |
+| `TextPainter.computeWidth({ double TextScaleFactor = 1.0 })` 參數             | 'textScaleFactor' is deprecated and shouldn't be used. |
+| `TextPainter.computeMaxIntrinsicWidth({ double TextScaleFactor = 1.0 })` 參數 | 'textScaleFactor' is deprecated and shouldn't be used. |
 
-### Rendering library
+### Rendering 函式庫
 
-| Affected APIs                                                            | Error Message                                          |
+| 受影響的 API                                                            | 錯誤訊息                                                   |
 |--------------------------------------------------------------------------|--------------------------------------------------------|
-| `RenderEditable({ double TextScaleFactor = 1.0 })` constructor argument  | 'textScaleFactor' is deprecated and shouldn't be used. |
-| `RenderEditable.textScaleFactor` getter and setter                       | 'textScaleFactor' is deprecated and shouldn't be used. |
-| `RenderParagraph({ double TextScaleFactor = 1.0 })` constructor argument | 'textScaleFactor' is deprecated and shouldn't be used. |
-| `RenderParagraph.textScaleFactor` getter and setter                      | 'textScaleFactor' is deprecated and shouldn't be used. |
+| `RenderEditable({ double TextScaleFactor = 1.0 })` 建構函式參數  | 'textScaleFactor' is deprecated and shouldn't be used. |
+| `RenderEditable.textScaleFactor` getter 與 setter                       | 'textScaleFactor' is deprecated and shouldn't be used. |
+| `RenderParagraph({ double TextScaleFactor = 1.0 })` 建構函式參數 | 'textScaleFactor' is deprecated and shouldn't be used. |
+| `RenderParagraph.textScaleFactor` getter 與 setter                      | 'textScaleFactor' is deprecated and shouldn't be used. |
 
-### Widgets library
+### 元件 (Widgets) 函式庫
 
-| Affected APIs                                                           | Error Message                                                 |
+| 受影響的 API                                                           | 錯誤訊息                                                            |
 |-------------------------------------------------------------------------|---------------------------------------------------------------|
-| `MediaQueryData({ double TextScaleFactor = 1.0 })` constructor argument | 'textScaleFactor' is deprecated and shouldn't be used.        |
+| `MediaQueryData({ double TextScaleFactor = 1.0 })` 建構函式參數 | 'textScaleFactor' is deprecated and shouldn't be used.        |
 | `MediaQueryData.textScaleFactor` getter                                 | 'textScaleFactor' is deprecated and shouldn't be used.        |
-| `MediaQueryData.copyWith({ double? TextScaleFactor })` argument         | 'textScaleFactor' is deprecated and shouldn't be used.        |
-| `MediaQuery.maybeTextScaleFactorOf(BuildContext context)` static method | 'maybeTextScaleFactorOf' is deprecated and shouldn't be used. |
-| `MediaQuery.textScaleFactorOf(BuildContext context)` static method      | 'textScaleFactorOf' is deprecated and shouldn't be used.      |
-| `RichText({ double TextScaleFactor = 1.0 })` constructor argument       | 'textScaleFactor' is deprecated and shouldn't be used.        |
+| `MediaQueryData.copyWith({ double? TextScaleFactor })` 參數         | 'textScaleFactor' is deprecated and shouldn't be used.        |
+| `MediaQuery.maybeTextScaleFactorOf(BuildContext context)` 靜態方法 | 'maybeTextScaleFactorOf' is deprecated and shouldn't be used. |
+| `MediaQuery.textScaleFactorOf(BuildContext context)` 靜態方法      | 'textScaleFactorOf' is deprecated and shouldn't be used.      |
+| `RichText({ double TextScaleFactor = 1.0 })` 建構函式參數       | 'textScaleFactor' is deprecated and shouldn't be used.        |
 | `RichText.textScaleFactor` getter                                       | 'textScaleFactor' is deprecated and shouldn't be used.        |
-| `Text({ double? TextScaleFactor = 1.0 })` constructor argument          | 'textScaleFactor' is deprecated and shouldn't be used.        |
-| `Text.rich({ double? TextScaleFactor = 1.0 })` constructor argument     | 'textScaleFactor' is deprecated and shouldn't be used.        |
+| `Text({ double? TextScaleFactor = 1.0 })` 建構函式參數          | 'textScaleFactor' is deprecated and shouldn't be used.        |
+| `Text.rich({ double? TextScaleFactor = 1.0 })` 建構函式參數     | 'textScaleFactor' is deprecated and shouldn't be used.        |
 | `Text.textScaleFactor` getter                                           | 'textScaleFactor' is deprecated and shouldn't be used.        |
-| `EditableText({ double? TextScaleFactor = 1.0 })` constructor argument  | 'textScaleFactor' is deprecated and shouldn't be used.        |
+| `EditableText({ double? TextScaleFactor = 1.0 })` 建構函式參數  | 'textScaleFactor' is deprecated and shouldn't be used.        |
 | `EditableText.textScaleFactor` getter                                   | 'textScaleFactor' is deprecated and shouldn't be used.        |
 
-### Material library
+### Material 函式庫
 
-| Affected APIs                                                                 | Error Message                                          |
+| 受影響的 API                                                                 | 錯誤訊息                                                   |
 |-------------------------------------------------------------------------------|--------------------------------------------------------|
-| `SelectableText({ double? TextScaleFactor = 1.0 })` constructor argument      | 'textScaleFactor' is deprecated and shouldn't be used. |
-| `SelectableText.rich({ double? TextScaleFactor = 1.0 })` constructor argument | 'textScaleFactor' is deprecated and shouldn't be used. |
+| `SelectableText({ double? TextScaleFactor = 1.0 })` 建構函式參數      | 'textScaleFactor' is deprecated and shouldn't be used. |
+| `SelectableText.rich({ double? TextScaleFactor = 1.0 })` 建構函式參數 | 'textScaleFactor' is deprecated and shouldn't be used. |
 | `SelectableText.textScaleFactor` getter                                       | 'textScaleFactor' is deprecated and shouldn't be used. |
 
-## Migration guide
+## 遷移指南
 
-Widgets provided by the Flutter framework are already migrated.
-Migration is needed only if you're using any of the
-deprecated symbols listed in the previous tables.
+Flutter 框架所提供的元件 (Widgets) 已經完成遷移。
+只有當你使用了前述表格中列出的已淘汰符號時，才需要進行遷移。
 
-### Migrating your APIs that expose `textScaleFactor`
+### 遷移你暴露 `textScaleFactor` 的 API
 
-Before:
+遷移前：
 
 ```dart
 abstract class _MyCustomPaintDelegate {
@@ -114,7 +108,7 @@ abstract class _MyCustomPaintDelegate {
 }
 ```
 
-After:
+遷移後：
 
 ```dart
 abstract class _MyCustomPaintDelegate {
@@ -123,13 +117,11 @@ abstract class _MyCustomPaintDelegate {
 }
 ```
 
-### Migrating code that consumes `textScaleFactor`
+### 遷移消費 `textScaleFactor` 的程式碼
 
-If you're not currently using `textScaleFactor` directly, but rather passing it
-to a different API that receives a `textScaleFactor`, and the receiver API has
-already been migrated, then it's relatively straightforward:
+如果你目前並未直接使用 `textScaleFactor`，而是將其傳遞給另一個接收 `textScaleFactor` 的 API，且該接收方 API 已經完成遷移，那麼這個遷移相對簡單：
 
-Before:
+遷移前：
 
 ```dart
 RichText(
@@ -138,7 +130,7 @@ RichText(
 )
 ```
 
-After:
+遷移後：
 
 ```dart
 RichText(
@@ -147,28 +139,26 @@ RichText(
 )
 ```
 
-If the API that provides `textScaleFactor` hasn't been migrated, consider
-waiting for the migrated version.
+如果提供 `textScaleFactor` 的 API 尚未完成遷移，建議等待遷移後的版本。
 
-If you wish to compute the scaled font size yourself, use `TextScaler.scale`
-instead of the `*` binary operator:
+如果你希望自行計算縮放後的字型大小，請使用 `TextScaler.scale`，而不要使用 `*` 二元運算子：
 
-Before:
+遷移前：
 
 ```dart
 final scaledFontSize = textStyle.fontSize * MediaQuery.textScaleFactorOf(context);
 ```
 
-After:
+遷移後：
 
 ```dart
 final scaledFontSize = MediaQuery.textScalerOf(context).scale(textStyle.fontSize);
 ```
 
-If you are using `textScaleFactor` to scale dimensions that are not font sizes,
-there are no generic rules for migrating the code to nonlinear scaling, and it
-might require the UI to be implemented differently.
-Reusing the `MyTooltipBox`example:
+如果你使用 `textScaleFactor` 來縮放非字體大小的尺寸，
+則沒有通用的規則可以將程式碼遷移到非線性縮放，
+這可能需要以不同的方式實作 UI。
+以下重複使用 `MyTooltipBox` 範例：
 
 ```dart
 MyTooltipBox(
@@ -177,16 +167,13 @@ MyTooltipBox(
 )
 ```
 
-You could choose to use the "effective" text scale factor by applying the
-`TextScaler` on the font size 20: `chatBoxSize * textScaler.scale(20) / 20`, or
-redesign the UI and let the widget assume its own intrinsic size.
+你可以選擇使用「有效」的文字縮放因子（text scale factor），方法是在字型大小為 20 時套用 `TextScaler`：`chatBoxSize * textScaler.scale(20) / 20`，或者重新設計 UI，讓元件 (Widget) 自行決定其內在尺寸。
 
-### Overriding the text scaling strategy in a widget subtree
+### 覆寫元件子樹中的文字縮放策略
 
-To override the existing `TextScaler` used in a widget subtree, override
-the `MediaQuery` like so:
+若要覆寫元件子樹中現有的 `TextScaler`，可以像這樣覆寫 `MediaQuery`：
 
-Before:
+遷移前：
 
 ```dart
 MediaQuery(
@@ -195,7 +182,7 @@ MediaQuery(
 )
 ```
 
-After:
+遷移後：
 
 ```dart
 MediaQuery(
@@ -204,18 +191,14 @@ MediaQuery(
 )
 ```
 
-However, it's rarely needed to create a custom `TextScaler` subclass.
-`MediaQuery.withNoTextScaling` (which creates a widget that disables text scaling
-altogether for its child subtree), and `MediaQuery.withClampedTextScaling` (which
-creates a widget that restricts the scaled font size to within the range
-`[minScaleFactor * fontSize, maxScaleFactor * fontSize]`), are convenience methods
-that cover common cases where the text scaling strategy needs to be overridden.
+然而，實際上很少需要自行建立 `TextScaler` 的子類別。
+`MediaQuery.withNoTextScaling`（會建立一個完全為其子樹停用文字縮放的元件），以及 `MediaQuery.withClampedTextScaling`（會建立一個將縮放後字體大小限制在 `[minScaleFactor * fontSize, maxScaleFactor * fontSize]` 範圍內的元件），這兩者都是方便用法，涵蓋了常見需要覆寫文字縮放策略的情境。
 
-#### Examples
+#### 範例
 
-**Disabling Text Scaling For Icon Fonts**
+**為圖示字型停用文字縮放**
 
-Before:
+遷移前：
 
 ```dart
 MediaQuery(
@@ -227,7 +210,7 @@ MediaQuery(
 )
 ```
 
-After:
+遷移後：
 
 ```dart
 MediaQuery.withNoTextScaling(
@@ -238,9 +221,9 @@ MediaQuery.withNoTextScaling(
 )
 ```
 
-**Preventing Contents From Overscaling**
+**防止內容過度縮放**
 
-Before:
+遷移前：
 
 ```dart
 final mediaQueryData = MediaQuery.of(context);
@@ -250,7 +233,7 @@ MediaQuery(
 )
 ```
 
-After:
+遷移後：
 
 ```dart
 MediaQuery.withClampedTextScaling(
@@ -259,11 +242,9 @@ MediaQuery.withClampedTextScaling(
 )
 ```
 
-**Disabling Nonlinear Text Scaling**
+**停用非線性文字縮放**
 
-If you want to temporarily opt-out of nonlinear text scaling on Android 14 until
-your app is fully migrated, put a modified `MediaQuery` at the top of your app's
-widget tree:
+如果你希望在你的應用程式完全遷移之前，暫時在 Android 14 上停用非線性文字縮放，請將修改過的 `MediaQuery` 放在應用程式元件樹（widget tree）的頂部：
 
 ```dart
 runApp(
@@ -276,17 +257,16 @@ runApp(
 );
 ```
 
-This trick uses the deprecated `textScaleFactor` API and will stop working once
-it's removed from the Flutter API.
+此技巧使用了已棄用的 `textScaleFactor` API，一旦該 API 從 Flutter API 中移除後，此方法將無法再使用。
 
-## Timeline
+## 時程
 
-Landed in version: 3.13.0-4.0.pre<br>
-In stable release: 3.16
+合併於版本：3.13.0-4.0.pre<br>
+正式版釋出：3.16
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`TextScaler`][]
 * [`MediaQuery.textScalerOf`][]
@@ -294,11 +274,11 @@ API documentation:
 * [`MediaQuery.withNoTextScaling`][]
 * [`MediaQuery.withClampedTextScaling`][]
 
-Relevant issues:
+相關議題：
 
 * [New font scaling system (Issue 116231)][]
 
-Relevant PRs:
+相關 PR：
 
 * [Replaces `textScaleFactor` with `TextScaler`][]
 

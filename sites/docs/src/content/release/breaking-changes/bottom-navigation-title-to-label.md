@@ -1,39 +1,37 @@
 ---
 title: Bottom Navigation Title To Label
 description: >
-  Deprecated BottomNavigationBarItem's title (a Widget) in
-  favor of label (a String).
+  已棄用 BottomNavigationBarItem 的 title（一個元件 (Widget)），
+  改為使用 label（一個 String）。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-`BottomNavigationBarItem.title` gives a deprecation warning,
-or no longer exists when referenced in code.
+`BottomNavigationBarItem.title` 會顯示棄用警告，
+或在程式碼中引用時已不存在。
 
-## Context
+## 背景
 
-`BottomNavigationBarItem`s `title` parameter was deprecated
-in favor of `label`. This change was necessary to improve
-the user experience of `BottomNavigationBar`s when the text
-scale factor is increased. Items in a `BottomNavigationBar`
-now show tooltips on long press. Accomplishing this
-requires a `String` parameter on `BottomNavigationBarItem`s.
+`BottomNavigationBarItem` 的 `title` 參數已被棄用，
+改為使用 `label`。這項變更是為了在文字縮放比例增加時，
+提升 `BottomNavigationBar` 的使用者體驗。現在，`BottomNavigationBar`
+中的項目於長按時會顯示工具提示（tooltip）。
+要實現這個功能，`BottomNavigationBarItem` 需要有 `String` 參數。
 
-## Description of change
+## 變更說明
 
-The `BottomNavigationBarItem` class has a `title` parameter,
-which is a `Widget`. This made it impossible for the
-`BottomNavigationBar` to show `Tooltip` widgets,
-a change that was necessary to improve the accessibility experience.
-Now, instead of building the `BottomNavigationBarItem.title`
-widget, the BottomNavigationBar wraps the
-`BottomNavigationBarItem.label` in a Text widget and builds that.
+`BottomNavigationBarItem` 類別具有 `title` 參數，
+其型別為 `Widget`。這使得
+`BottomNavigationBar` 無法顯示 `Tooltip` 元件，
+而這項變更是為了提升無障礙體驗所必須進行的。
+現在，`BottomNavigationBar` 不再建置 `BottomNavigationBarItem.title`
+元件，而是將 `BottomNavigationBarItem.label` 包裝在 Text 元件中並進行建置。
 
-## Migration guide
+## 遷移指南
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 BottomNavigationBarItem(
@@ -42,7 +40,7 @@ BottomNavigationBarItem(
 )
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 BottomNavigationBarItem(
@@ -51,23 +49,23 @@ BottomNavigationBarItem(
 )
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 1.22.0<br>
-In stable release: 2.0.0
+引入版本：1.22.0<br>
+進入穩定版本：2.0.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`BottomNavigationBarItem`][]
 
-Relevant PRs:
+相關 PR：
 
-* [PR 60655][]: Clean up hero controller scope
-* [PR 59127][]: Update BottomNavigationBar to show tooltips on long press.
+* [PR 60655][]：清理 hero controller 範圍
+* [PR 59127][]：更新 BottomNavigationBar，支援長按顯示工具提示。
 
-Breaking change proposal:
+重大變更提案：
 
 * [Breaking Change: Bottom Navigation Item Title][]
 

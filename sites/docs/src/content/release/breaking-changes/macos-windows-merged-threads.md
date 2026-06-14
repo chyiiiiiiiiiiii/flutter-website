@@ -1,49 +1,45 @@
 ---
-title: Merged threads on macOS and Windows
+title: macOS 與 Windows 上的執行緒合併
 description: >-
-  Learn about threading changes on macOS and Windows in Flutter 3.35.
+  了解 Flutter 3.35 在 macOS 與 Windows 上的執行緒變更。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-Flutter 3.35 merges the UI and platform threads by default on macOS and Windows.
+Flutter 3.35 預設在 macOS 與 Windows 上合併 UI 與平台執行緒。
 
-## Context
+## 背景說明
 
-Originally, Flutter had separate threads to produce UI frames and to
-interact with the native platform.
+最初，Flutter 會分別使用不同的執行緒來產生 UI 畫面與與原生平台互動。
 
-The split-thread design prevented Flutter apps and plugins from using Dart FFI
-to interoperate with native APIs that must be called on the platform thread.
+這種分離執行緒的設計，會導致 Flutter 應用程式與插件無法透過 Dart FFI 與必須在平台執行緒上呼叫的原生 API 進行互操作。
 
-## Description of change
+## 變更說明
 
-Flutter 3.35 merges the UI and platform threads by default on macOS and Windows.
+Flutter 3.35 預設在 macOS 與 Windows 上合併 UI 與平台執行緒。
 
-This mirrors iOS and Android, whose threads were merged by default in
-Flutter 3.29.
+這與 iOS 與 Android 一致，這兩個平台的執行緒已於 Flutter 3.29 預設合併。
 
-## Migration guide
+## 遷移指南
 
-Merged threads should not affect your app.
+執行緒合併應不會影響您的應用程式。
 
-If you suspect merged threads has regressed your app, please reach out on
-[Issue 150525][].
+如果您懷疑執行緒合併導致應用程式出現問題，請在 [Issue 150525][] 提出反饋。
 
-## Timeline
+## 時程
 
-Landed in version: 3.33.0-0.0.pre<br>
-In stable release: 3.35
+合併於版本：3.33.0-0.0.pre<br>
+穩定版釋出：3.35
 
-## References
+## 參考資料
 
-Relevant issue:
+相關議題：
 
 * [Issue 150525][]
 
-Relevant PRs:
+相關 PR：
 
 * [PR 166536][]
 * [PR 167472][]

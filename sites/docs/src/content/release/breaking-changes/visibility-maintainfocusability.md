@@ -1,34 +1,33 @@
 ---
-title: The Visibility widget is no longer focusable by default when maintainState is enabled
+title: 當啟用 maintainState 時，Visibility 元件預設不再可聚焦
 description: >-
-  The Visibility widget by default no longer implicitly retains focusability
-  for its child when maintainState is enabled.
+  Visibility 元件 (Widget) 在啟用 maintainState 時，預設不再隱式保留其子元件的可聚焦性。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
-This change was introduced to fix an issue
-where an `IndexedStack`s hidden children would be focusable with keyboard events
-(see [issue](https://github.com/flutter/flutter/issues/114213))
-due to the underlying `Visibility` widgets default behavior.
+## 摘要
 
-## Description of change
-The core change is the `Visibility` widget is no longer focusable by default
-when `maintainState` is enabled.
-A new flag, `maintainFocusability`, must be set to true with `maintainState`
-for a hidden widget to remain focusable.
+此變更是為了解決一個問題，
+即 `IndexedStack` 的隱藏子元件會因底層 `Visibility` 元件 (Widget) 的預設行為，
+而能夠透過鍵盤事件取得焦點
+（詳見 [issue](https://github.com/flutter/flutter/issues/114213)）。
 
-## Migration guide
-If your app has a `Visibility` widget that does not set `maintainState` to true,
-then no changes are required.
+## 變更說明
 
-If your app has a `Visibility` widget that sets `maintainState` to true
-and you relied on the previous default behavior
-that allowed you to focus your hidden widget,
-you will need to set `maintainFocusability` to true.
+主要的變更是，當啟用 `maintainState` 時，`Visibility` 元件 (Widget) 預設不再可聚焦。
+若要讓隱藏的元件 (Widget) 仍然可聚焦，必須同時將新的旗標 `maintainFocusability` 與 `maintainState` 設為 true。
 
-Code before migration:
+## 遷移指南
+
+如果您的應用程式中有 `Visibility` 元件 (Widget)，且未將 `maintainState` 設為 true，
+則不需要做任何變更。
+
+如果您的應用程式中有 `Visibility` 元件 (Widget)，且將 `maintainState` 設為 true，
+並且您依賴於先前預設允許聚焦隱藏元件 (Widget) 的行為，
+則需要將 `maintainFocusability` 設為 true。
+
+遷移前的程式碼：
 
 ```dart
 child: Visibility(
@@ -37,7 +36,7 @@ child: Visibility(
 )
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 child: Visibility(
@@ -47,21 +46,21 @@ child: Visibility(
 )
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.34.0-pre<br>
-In stable release: 3.35
+合併於版本：3.34.0-pre<br>
+正式版本：3.35
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`Visibility`]({{site.api}}/flutter/widgets/Visibility-class.html)
 
-Relevant issues:
+相關議題：
 
 * [Issue 114213]({{site.repo.flutter}}/issues/114213)
 
-Relevant PRs:
+相關 PR：
 
-* [PR 159133: Add flag to exclude focus for hidden children in Visibility, maintainFocusability. Set maintainFocusability to false in IndexedStack]({{site.repo.flutter}}/pull/159133)
+* [PR 159133: 為 Visibility 新增排除隱藏子元件焦點的旗標 maintainFocusability。在 IndexedStack 中將 maintainFocusability 設為 false]({{site.repo.flutter}}/pull/159133)

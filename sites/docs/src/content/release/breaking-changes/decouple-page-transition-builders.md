@@ -1,52 +1,51 @@
 ---
-title: Page transition builders reorganization
+title: 頁面轉場建置器重新組織
 description: >-
-  CupertinoPageTransitionsBuilder has been moved from the
-  Material library to the Cupertino library where it belongs.
+  CupertinoPageTransitionsBuilder 已從
+  Material 函式庫移至其所屬的 Cupertino 函式庫。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-`CupertinoPageTransitionsBuilder` has been relocated from
-`package:flutter/material.dart` to `package:flutter/cupertino.dart`.
+`CupertinoPageTransitionsBuilder` 已從
+`package:flutter/material.dart` 遷移至 `package:flutter/cupertino.dart`。
 
-## Background
+## 背景
 
-Flutter provides several page transition builders that
-control how routes animate when navigating between pages.
-These builders are used with `PageTransitionsTheme` to
-customize transitions per platform.
+Flutter 提供了多個頁面轉場建置器 (page transition builders)，
+用於控制在頁面之間導覽時路由的動畫效果。
+這些建置器與 `PageTransitionsTheme` 搭配使用，
+可針對各平台自訂轉場效果。
 
-The available page transition builders are:
+可用的頁面轉場建置器如下：
 
-| Builder | Library | Description |
+| 建置器 | 函式庫 | 說明 |
 |---------|---------|-------------|
-| `FadeUpwardsPageTransitionsBuilder` | Material | Default transition before Material 3 |
-| `OpenUpwardsPageTransitionsBuilder` | Material | Vertical slide transition |
-| `ZoomPageTransitionsBuilder` | Material | Zoom transition (Material 3 default) |
-| `PredictiveBackPageTransitionsBuilder` | Material | Android predictive back gesture support |
-| `CupertinoPageTransitionsBuilder` | **Cupertino** | iOS-style horizontal slide transition |
+| `FadeUpwardsPageTransitionsBuilder` | Material | Material 3 之前的預設轉場 |
+| `OpenUpwardsPageTransitionsBuilder` | Material | 垂直滑動轉場 |
+| `ZoomPageTransitionsBuilder` | Material | 縮放轉場（Material 3 預設） |
+| `PredictiveBackPageTransitionsBuilder` | Material | Android 預測性返回手勢支援 |
+| `CupertinoPageTransitionsBuilder` | **Cupertino** | iOS 風格水平滑動轉場 |
 
 {:.table}
 
-Previously, `CupertinoPageTransitionsBuilder` was defined in
-the Material library alongside the other builders.
-This class is semantically a Cupertino component because
-its implementation uses Cupertino transition mixins and
-provides iOS-style navigation animations.
+先前，`CupertinoPageTransitionsBuilder` 與其他建置器一同定義於
+Material 函式庫中。
+由於此類別的實作使用了 Cupertino 轉場 mixin
+並提供 iOS 風格的導覽動畫，因此在語意上屬於 Cupertino 元件 (Widget)。
 
-This move improves code organization and allows Cupertino apps to
-use this builder without depending on the Material library.
+此次移動改善了程式碼的組織方式，
+並讓 Cupertino 應用程式無需相依於 Material 函式庫即可使用此建置器。
 
-## Migration guide
+## 遷移指南
 
-If you use `CupertinoPageTransitionsBuilder` and
-only import `package:flutter/material.dart`,
-add an import for `package:flutter/cupertino.dart`.
+若您使用了 `CupertinoPageTransitionsBuilder`，
+且只匯入了 `package:flutter/material.dart`，
+請新增 `package:flutter/cupertino.dart` 的匯入。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 import 'package:flutter/material.dart';
@@ -59,7 +58,7 @@ final pageTransitionsTheme = PageTransitionsTheme(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 import 'package:flutter/cupertino.dart';
@@ -73,16 +72,16 @@ final pageTransitionsTheme = PageTransitionsTheme(
 );
 ```
 
-If your app already imports both packages, no changes are needed.
+若您的應用程式已同時匯入兩個套件，則無需進行任何變更。
 
-## Timeline
+## 時間軸
 
-Landed in version: 3.43.0-0.1.pre<br>
-In stable release: 3.44
+已落地版本：3.43.0-0.1.pre<br>
+穩定版本：3.44
 
-## References
+## 參考資料
 
-Relevant PRs:
+相關 PR：
 
 * [Decouple CupertinoPageTransitionsBuilder from Material][pr-179776]
 

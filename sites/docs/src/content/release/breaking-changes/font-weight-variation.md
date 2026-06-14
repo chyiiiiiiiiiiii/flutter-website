@@ -1,76 +1,53 @@
 ---
-title: FontWeight also controls the weight attribute of variable fonts
+title: FontWeight 也會控制可變字體的 weight 屬性
 description: >-
-  FontWeight values applied to text styles will now
-  set the weight attribute of variable fonts.
+  套用至文字樣式的 FontWeight 值，現在也會設定可變字體的 weight 屬性。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-A `FontWeight` in a text style will also set the weight attribute of variable
-fonts. It is no longer necessary to separately use `FontVariation` to control
-the weight of these fonts.
+文字樣式中的 `FontWeight` 現在也會設定可變字體 (variable fonts) 的 weight 屬性。不再需要另外使用 `FontVariation` 來控制這些字體的粗細。
 
-## Context
+## 背景
 
-Text styles can specify a `FontWeight` value that configures the thickness of
-the strokes used to paint the text. `FontWeight` will select the closest
-weight among a set of font files belonging to the same family.
+文字樣式可以指定 `FontWeight` 值，用來設定繪製文字時筆畫的粗細。`FontWeight` 會從隸屬同一字體家族的一組字體檔案中，選擇最接近的粗細。
 
-However, some fonts are distributed as [variable fonts](https://fonts.google.com/knowledge/introducing_type/introducing_variable_fonts)
-where a single font file allows adjustment of attributes such as weight. For
-variable fonts, applications also had to use the `FontVariation` API to set
-the value of the weight variation axis within the selected font file.
+然而，部分字體以[可變字體](https://fonts.google.com/knowledge/introducing_type/introducing_variable_fonts)的形式發行，單一字體檔案即可調整粗細等屬性。對於可變字體，應用程式還需要使用 `FontVariation` API 來設定所選字體檔案中 weight 變化軸的數值。
 
-Flutter has now changed the behavior of `FontWeight` so that it will both
-select the closest matching font file and set the weight attribute of variable
-fonts.
+Flutter 現在已改變 `FontWeight` 的行為，使其在選取最接近的字體檔案的同時，也會設定可變字體的 weight 屬性。
 
-## Description of change
+## 變更說明
 
-Setting the `fontWeight` property of objects such as `TextStyle` will now also
-set the value of the `wght` variation axis of fonts that support it. Flutter
-will internally apply the equivalent of adding a `FontVariation('wght')`
-attribute to the style whose value is the same as the `FontWeight`.
+設定 `TextStyle` 等物件的 `fontWeight` 屬性，現在也會同時設定支援該屬性之字體的 `wght` 變化軸數值。Flutter 會在內部自動套用等同於在樣式中加入 `FontVariation('wght')` 屬性的效果，其數值與 `FontWeight` 相同。
 
-`FontWeight` instances can now be constructed using arbitrary integer values
-ranging from 1 to 1000. This allows usage of weights beyond the
-`FontWeight.w100` through `FontWeight.w900` range with values that are not
-multiples of 100. This also means that linear interpolation of fonts using
-`FontWeight.lerp` can yield values other than `FontWeight.w100` through `w900`.
+`FontWeight` 實例現在可使用 1 到 1000 之間的任意整數值來建構。這使得可以使用超出 `FontWeight.w100` 到 `FontWeight.w900` 範圍、且非 100 倍數的粗細值。這也意味著使用 `FontWeight.lerp` 對字體進行線性插值時，可能產生 `FontWeight.w100` 到 `w900` 以外的數值。
 
-The `FontWeight.index` property is now deprecated because it only identifies
-the `FontWeight.w100` through `w900` weights. Applications should use
-`FontWeight.value` to obtain the thickness level of a font.
+`FontWeight.index` 屬性現已棄用，因為它只能識別 `FontWeight.w100` 到 `w900` 的粗細。應用程式應改用 `FontWeight.value` 來取得字體的粗細等級。
 
-## Migration guide
+## 遷移指南
 
-Applications may see changes in text rendering if they used variable fonts and
-were specifying `FontWeight` in text styles without a matching
-`FontVariation('wght')` value.
+若應用程式使用了可變字體，並在文字樣式中指定了 `FontWeight` 但未搭配對應的 `FontVariation('wght')` 值，則可能會看到文字渲染結果的變化。
 
-If these changes are undesirable, then the application should change the
-`FontWeight` to a value that achieves the intended rendering. For example,
-to restore the font's default weight, set `fontWeight` to `FontWeight.normal`.
+若不希望出現這些變化，應用程式應將 `FontWeight` 調整為能達到預期渲染效果的值。例如，若要還原字體的預設粗細，請將 `fontWeight` 設為 `FontWeight.normal`。
 
-## Timeline
+## 時程
 
-Landed in version: 3.39.0-0.0.pre<br>
-In stable release: 3.41
+引入版本：3.39.0-0.0.pre<br>
+穩定版本：3.41
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`FontWeight`][]
 
-Relevant issue:
+相關 issue：
 
 * [Issue 148026][]
 
-Relevant PR:
+相關 PR：
 
 * [PR 175771][]
 

@@ -1,314 +1,314 @@
 ---
-title: Flutter 1.17.0 release notes
-shortTitle: 1.17.0 release notes
-description: Release notes for Flutter 1.17.0.
+title: Flutter 1.17.0 發行說明
+shortTitle: 1.17.0 發行說明
+description: Flutter 1.17.0 的發行說明。
 skipTemplateRendering: true
 ---
 
-##  Merged pull requests by label
+##  依標籤彙總的已合併 Pull Request
 
-### Merged PRs by labels for `flutter/flutter`
+### `flutter/flutter` 依標籤彙總的已合併 PR
 
-#### tool - 435 pull request(s)
+#### tool - 共 435 個 pull request
 
-[50581](https://github.com/flutter/flutter/pull/50581) Implements --machine flag for `devices` command (cla: yes, tool)
+[50581](https://github.com/flutter/flutter/pull/50581) 為 `devices` 指令實作 --machine 旗標 (cla: yes, tool)
 
 
-[51126](https://github.com/flutter/flutter/pull/51126) [flutter_tools] fix build for projects with watchOS companion app (cla: yes, tool)
+[51126](https://github.com/flutter/flutter/pull/51126) [flutter_tools] 修正包含 watchOS companion app 專案的建置問題 (cla: yes, tool)
 
 
-[52507](https://github.com/flutter/flutter/pull/52507) enable avoid_equals_and_hash_code_on_mutable_classes (a: tests, cla: yes, d: examples, f: cupertino, f: material design, framework, team, team: gallery, tool, waiting for tree to go green)
+[52507](https://github.com/flutter/flutter/pull/52507) 啟用 avoid_equals_and_hash_code_on_mutable_classes (a: tests, cla: yes, d: examples, f: cupertino, f: material design, framework, team, team: gallery, tool, waiting for tree to go green)
 
 
-[52791](https://github.com/flutter/flutter/pull/52791) Read custom app project name from gradle.properties (cla: yes, team, tool)
+[52791](https://github.com/flutter/flutter/pull/52791) 從 gradle.properties 讀取自訂 app 專案名稱 (cla: yes, team, tool)
 
 
-[53374](https://github.com/flutter/flutter/pull/53374) [gen_l10n] Fallback feature for untranslated messages (a: internationalization, cla: yes, team, tool, waiting for tree to go green)
+[53374](https://github.com/flutter/flutter/pull/53374) [gen_l10n] 未翻譯訊息的備援機制 (a: internationalization, cla: yes, team, tool, waiting for tree to go green)
 
 
-[53381](https://github.com/flutter/flutter/pull/53381) Characters Package (a: text input, cla: yes, f: material design, framework, team, tool, waiting for tree to go green)
+[53381](https://github.com/flutter/flutter/pull/53381) Characters 套件 (a: text input, cla: yes, f: material design, framework, team, tool, waiting for tree to go green)
 
 
-[53422](https://github.com/flutter/flutter/pull/53422) Rename GPU thread to raster thread in API docs (a: tests, cla: yes, framework, team, tool, waiting for tree to go green)
+[53422](https://github.com/flutter/flutter/pull/53422) 將 API 文件中的 GPU 執行緒名稱改為 raster 執行緒 (a: tests, cla: yes, framework, team, tool, waiting for tree to go green)
 
 
-[53600](https://github.com/flutter/flutter/pull/53600) Restructure the Windows app template (cla: yes, team, tool)
+[53600](https://github.com/flutter/flutter/pull/53600) 重構 Windows app 範本 (cla: yes, team, tool)
 
 
-[53715](https://github.com/flutter/flutter/pull/53715) Support old and new git release tag formats (cla: yes, tool)
+[53715](https://github.com/flutter/flutter/pull/53715) 支援舊版與新版 git 發行標籤格式 (cla: yes, tool)
 
 
-[53765](https://github.com/flutter/flutter/pull/53765) [flutter_tools] re-enable debug extension (cla: yes, tool, waiting for tree to go green)
+[53765](https://github.com/flutter/flutter/pull/53765) [flutter_tools] 重新啟用 debug extension (cla: yes, tool, waiting for tree to go green)
 
 
-[53773](https://github.com/flutter/flutter/pull/53773) [flutter_tools] surgically remove outputs from shared directory (cla: yes, tool, waiting for tree to go green)
+[53773](https://github.com/flutter/flutter/pull/53773) [flutter_tools] 精確移除 shared 目錄下的輸出檔案 (cla: yes, tool, waiting for tree to go green)
 
 
-[53785](https://github.com/flutter/flutter/pull/53785) [flutter_tools] Don't generate native registrant classes if no pluginClass is defined (cla: yes, tool, waiting for tree to go green)
+[53785](https://github.com/flutter/flutter/pull/53785) [flutter_tools] 若未定義 pluginClass，則不產生 native registrant 類別 (cla: yes, tool, waiting for tree to go green)
 
 
-[53809](https://github.com/flutter/flutter/pull/53809) [flutter_tools] update to package vm_service: electric boogaloo (cla: yes, team, tool)
+[53809](https://github.com/flutter/flutter/pull/53809) [flutter_tools] 升級至 vm_service 套件：electric boogaloo (cla: yes, team, tool)
 
 
-[53824](https://github.com/flutter/flutter/pull/53824) [gen_l10n] Add option for deferred loading on the web (a: internationalization, cla: yes, team, tool, waiting for tree to go green)
+[53824](https://github.com/flutter/flutter/pull/53824) [gen_l10n] 為 Web 新增延遲載入選項 (a: internationalization, cla: yes, team, tool, waiting for tree to go green)
 
 
-[53848](https://github.com/flutter/flutter/pull/53848) [flutter_tools] don't compute hashes of well known artifacts (cla: yes, tool)
+[53848](https://github.com/flutter/flutter/pull/53848) [flutter_tools] 不再計算已知資源的雜湊值 (cla: yes, tool)
 
 
-[53853](https://github.com/flutter/flutter/pull/53853) [flutter_tools] remove indirection around App.framework production (cla: yes, tool)
+[53853](https://github.com/flutter/flutter/pull/53853) [flutter_tools] 移除 App.framework 產生的間接層 (cla: yes, tool)
 
 
-[53859](https://github.com/flutter/flutter/pull/53859) [flutter_tools] write SkSL file to local file (cla: yes, tool)
+[53859](https://github.com/flutter/flutter/pull/53859) [flutter_tools] 將 SkSL 檔案寫入本地檔案 (cla: yes, tool)
 
 
-[53868](https://github.com/flutter/flutter/pull/53868) [gen_l10n] Add scriptCode handling (a: internationalization, cla: yes, severe: new feature, team, tool)
+[53868](https://github.com/flutter/flutter/pull/53868) [gen_l10n] 新增 scriptCode 處理 (a: internationalization, cla: yes, severe: new feature, team, tool)
 
 
-[53876](https://github.com/flutter/flutter/pull/53876) Update Windows and Linux plugin templates (cla: yes, tool)
+[53876](https://github.com/flutter/flutter/pull/53876) 更新 Windows 與 Linux plugin 範本 (cla: yes, tool)
 
 
-[53882](https://github.com/flutter/flutter/pull/53882) Remove URL shortening from GitHub reporter similar issues URL (a: triage improvements, cla: yes, tool)
+[53882](https://github.com/flutter/flutter/pull/53882) 移除 GitHub reporter 相似議題 URL 的縮網址功能 (a: triage improvements, cla: yes, tool)
 
 
-[53902](https://github.com/flutter/flutter/pull/53902) [flutter_tools] Launch DevTools with 'v' (cla: yes, tool, waiting for tree to go green)
+[53902](https://github.com/flutter/flutter/pull/53902) [flutter_tools] 使用 'v' 啟動 DevTools (cla: yes, tool, waiting for tree to go green)
 
 
-[53928](https://github.com/flutter/flutter/pull/53928) [macos] build: add build-number and buid-name arguments (cla: yes, tool, waiting for tree to go green)
+[53928](https://github.com/flutter/flutter/pull/53928) [macos] build: 新增 build-number 與 build-name 參數 (cla: yes, tool, waiting for tree to go green)
 
 
-[53936](https://github.com/flutter/flutter/pull/53936) Sanitize error message sent to GitHub crash reporter (a: triage improvements, cla: yes, tool)
+[53936](https://github.com/flutter/flutter/pull/53936) 清理傳送至 GitHub crash reporter 的錯誤訊息 (a: triage improvements, cla: yes, tool)
 
 
-[53944](https://github.com/flutter/flutter/pull/53944) [flutter_tools] update asset manifest to use package_config instead of package_map (cla: yes, tool)
+[53944](https://github.com/flutter/flutter/pull/53944) [flutter_tools] 更新資產清單，改用 package_config 取代 package_map (cla: yes, tool)
 
 
-[53949](https://github.com/flutter/flutter/pull/53949) [flutter_tools] also listen to web stderr stream (cla: yes, tool)
+[53949](https://github.com/flutter/flutter/pull/53949) [flutter_tools] 也監聽 web stderr stream (cla: yes, tool)
 
 
-[53951](https://github.com/flutter/flutter/pull/53951) Revert "[flutter_tools] update to package vm_service: electric boogaloo" (cla: yes, team, tool)
+[53951](https://github.com/flutter/flutter/pull/53951) 還原 "[flutter_tools] 升級至 vm_service 套件：electric boogaloo" (cla: yes, team, tool)
 
 
-[53954](https://github.com/flutter/flutter/pull/53954) [gen_l10n] Fix plural parsing for translated messages (a: internationalization, cla: yes, team, tool, waiting for tree to go green)
+[53954](https://github.com/flutter/flutter/pull/53954) [gen_l10n] 修正翻譯訊息的複數解析 (a: internationalization, cla: yes, team, tool, waiting for tree to go green)
 
 
-[53956](https://github.com/flutter/flutter/pull/53956) Revert "[flutter_tools] surgically remove outputs from shared directory" (cla: yes, tool)
+[53956](https://github.com/flutter/flutter/pull/53956) 還原 "[flutter_tools] 精確移除 shared 目錄下的輸出檔案" (cla: yes, tool)
 
 
-[53957](https://github.com/flutter/flutter/pull/53957) [flutter_tools] Migrate to vm service 3 (reland): electric boogaloo (cla: yes, team, tool)
+[53957](https://github.com/flutter/flutter/pull/53957) [flutter_tools] 遷移至 vm service 3（重推）：electric boogaloo (cla: yes, team, tool)
 
 
-[53960](https://github.com/flutter/flutter/pull/53960) [flutter_tools] Refresh VM state before executing hot reload (cla: yes, tool, waiting for tree to go green)
+[53960](https://github.com/flutter/flutter/pull/53960) [flutter_tools] 在執行 hot reload 前刷新 VM 狀態 (cla: yes, tool, waiting for tree to go green)
 
 
-[53962](https://github.com/flutter/flutter/pull/53962) [flutter_tools]  surgically remove outputs from shared directory (cla: yes, tool)
+[53962](https://github.com/flutter/flutter/pull/53962) [flutter_tools] 精確移除 shared 目錄下的輸出檔案 (cla: yes, tool)
 
 
-[54083](https://github.com/flutter/flutter/pull/54083) Add a switch to use WebSockets for web debug proxy (cla: yes, tool, waiting for tree to go green)
+[54083](https://github.com/flutter/flutter/pull/54083) 新增使用 WebSockets 作為 web debug proxy 的開關 (cla: yes, tool, waiting for tree to go green)
 
 
-[54114](https://github.com/flutter/flutter/pull/54114) Revert "[flutter_tools] Migrate to vm service 3 (reland): electric boogaloo" (cla: yes, team, tool)
+[54114](https://github.com/flutter/flutter/pull/54114) 還原 "[flutter_tools] 遷移至 vm service 3（重推）：electric boogaloo" (cla: yes, team, tool)
 
 
-[54123](https://github.com/flutter/flutter/pull/54123) [flutter_tools] Use gzip level 1 for devfs transfer compression (cla: yes, tool, waiting for tree to go green)
+[54123](https://github.com/flutter/flutter/pull/54123) [flutter_tools] devfs 傳輸壓縮使用 gzip level 1 (cla: yes, tool, waiting for tree to go green)
 
 
 [54131](https://github.com/flutter/flutter/pull/54131) flutter/flutter 1.17.0-dev.3.1 cherrypicks (CQ+1, cla: yes, framework, tool)
 
 
-[54132](https://github.com/flutter/flutter/pull/54132) [flutter_tools] Migrate to package:vm_service 4: trigonometric boogaloo (cla: yes, team, tool)
+[54132](https://github.com/flutter/flutter/pull/54132) [flutter_tools] 遷移至 package:vm_service 4：trigonometric boogaloo (cla: yes, team, tool)
 
 
-[54133](https://github.com/flutter/flutter/pull/54133) [flutter_tools] ensure the tool can find SDK manager on windows (cla: yes, tool, waiting for customer response)
+[54133](https://github.com/flutter/flutter/pull/54133) [flutter_tools] 確保工具在 Windows 上能找到 SDK manager (cla: yes, tool, waiting for customer response)
 
 
-[54152](https://github.com/flutter/flutter/pull/54152) [flutter_tools] Remove fromPlatform from tests (cla: yes, team, tool, waiting for tree to go green)
+[54152](https://github.com/flutter/flutter/pull/54152) [flutter_tools] 從測試中移除 fromPlatform (cla: yes, team, tool, waiting for tree to go green)
 
 
-[54154](https://github.com/flutter/flutter/pull/54154) Convert iOS simulator log reader to simctl, use unified logging filters (cla: yes, platform-ios, tool, waiting for tree to go green)
+[54154](https://github.com/flutter/flutter/pull/54154) 將 iOS 模擬器 log 讀取器轉為 simctl，並使用統一的日誌過濾器 (cla: yes, platform-ios, tool, waiting for tree to go green)
 
 
-[54176](https://github.com/flutter/flutter/pull/54176) Fix newly reported prefer_const_constructors lints. (a: internationalization, cla: yes, d: examples, team, tool)
+[54176](https://github.com/flutter/flutter/pull/54176) 修正新報告的 prefer_const_constructors lint 問題 (a: internationalization, cla: yes, d: examples, team, tool)
 
 
-[54185](https://github.com/flutter/flutter/pull/54185) [gen_l10n] Handle single, double quotes, and dollar signs in strings (cla: yes, team, tool, waiting for tree to go green)
+[54185](https://github.com/flutter/flutter/pull/54185) [gen_l10n] 處理字串中的單引號、雙引號與 $ 符號 (cla: yes, team, tool, waiting for tree to go green)
 
 
-[54208](https://github.com/flutter/flutter/pull/54208) [flutter_tools] migrate engine location check (a: null-safety, cla: yes, tool)
+[54208](https://github.com/flutter/flutter/pull/54208) [flutter_tools] 遷移 engine 位置檢查 (a: null-safety, cla: yes, tool)
 
 
-[54217](https://github.com/flutter/flutter/pull/54217) Fix `frameworkVersionFor` for flutter doctor and usage (cla: yes, tool, waiting for tree to go green)
+[54217](https://github.com/flutter/flutter/pull/54217) 修正 flutter doctor 與 usage 的 `frameworkVersionFor` (cla: yes, tool, waiting for tree to go green)
 
 
-[54228](https://github.com/flutter/flutter/pull/54228) [flutter_tools] allow passing non-config inputs (cla: yes, tool)
+[54228](https://github.com/flutter/flutter/pull/54228) [flutter_tools] 允許傳遞非 config 輸入 (cla: yes, tool)
 
 
-[54233](https://github.com/flutter/flutter/pull/54233) [flutter_tools] ensure build fails if asset files are missing (cla: yes, tool)
+[54233](https://github.com/flutter/flutter/pull/54233) [flutter_tools] 若資產檔案缺失則建置失敗 (cla: yes, tool)
 
 
-[54294](https://github.com/flutter/flutter/pull/54294) [flutter_tools] remove extra same repo check (cla: yes, tool)
+[54294](https://github.com/flutter/flutter/pull/54294) [flutter_tools] 移除多餘的相同 repo 檢查 (cla: yes, tool)
 
 
-[54299](https://github.com/flutter/flutter/pull/54299) [flutter_tools] migrate devfs web to package_config (a: null-safety, cla: yes, tool)
+[54299](https://github.com/flutter/flutter/pull/54299) [flutter_tools] 將 devfs web 遷移至 package_config (a: null-safety, cla: yes, tool)
 
 
-[54301](https://github.com/flutter/flutter/pull/54301) [flutter_tools] Remove packageMap usage and update package_config (a: null-safety, cla: yes, tool)
+[54301](https://github.com/flutter/flutter/pull/54301) [flutter_tools] 移除 packageMap 用法並更新 package_config (a: null-safety, cla: yes, tool)
 
 
-[54313](https://github.com/flutter/flutter/pull/54313) [flutter_tools] fix routing test (cla: yes, tool)
+[54313](https://github.com/flutter/flutter/pull/54313) [flutter_tools] 修正 routing 測試 (cla: yes, tool)
 
 
-[54314](https://github.com/flutter/flutter/pull/54314) [gen_l10n] Expand integration tests (a: internationalization, cla: yes, tool, waiting for tree to go green)
+[54314](https://github.com/flutter/flutter/pull/54314) [gen_l10n] 擴充整合測試 (a: internationalization, cla: yes, tool, waiting for tree to go green)
 
 
-[54320](https://github.com/flutter/flutter/pull/54320) [flutter_tools] make verbose macOS builds actually verbose (cla: yes, tool)
+[54320](https://github.com/flutter/flutter/pull/54320) [flutter_tools] 讓 macOS 詳細建置資訊實際可見 (cla: yes, tool)
 
 
-[54328](https://github.com/flutter/flutter/pull/54328) [flutter_tools] use new output location for the apk (cla: yes, tool, waiting for tree to go green)
+[54328](https://github.com/flutter/flutter/pull/54328) [flutter_tools] apk 使用新的輸出路徑 (cla: yes, tool, waiting for tree to go green)
 
 
-[54337](https://github.com/flutter/flutter/pull/54337) [flutter_tools] Move service methods to VmService extension methods (cla: yes, tool)
+[54337](https://github.com/flutter/flutter/pull/54337) [flutter_tools] 將 service 方法移至 VmService 擴充方法 (cla: yes, tool)
 
 
-[54374](https://github.com/flutter/flutter/pull/54374) [flutter_tools] switch benchmark to isolate runnable (cla: yes, tool)
+[54374](https://github.com/flutter/flutter/pull/54374) [flutter_tools] 基準測試切換為 isolate runnable (cla: yes, tool)
 
 
-[54389](https://github.com/flutter/flutter/pull/54389) [flutter_tools] disable cache in devices test (cla: yes, tool)
+[54389](https://github.com/flutter/flutter/pull/54389) [flutter_tools] 在 devices 測試中停用快取 (cla: yes, tool)
 
 
-[54407](https://github.com/flutter/flutter/pull/54407) Don't import plugins that don't support android in settings.gradle (a: accessibility, cla: yes, d: examples, team, tool, waiting for tree to go green)
+[54407](https://github.com/flutter/flutter/pull/54407) 在 settings.gradle 中不匯入不支援 android 的 plugin (a: accessibility, cla: yes, d: examples, team, tool, waiting for tree to go green)
 
 
-[54414](https://github.com/flutter/flutter/pull/54414) [flutter_tools] attempt to fix benchmark mode test (cla: yes, tool)
+[54414](https://github.com/flutter/flutter/pull/54414) [flutter_tools] 嘗試修正 benchmark mode 測試 (cla: yes, tool)
 
 
-[54428](https://github.com/flutter/flutter/pull/54428) Add .last_build_id to gitignore (cla: yes, tool, waiting for tree to go green)
+[54428](https://github.com/flutter/flutter/pull/54428) 將 .last_build_id 加入 gitignore (cla: yes, tool, waiting for tree to go green)
 
 
-[54467](https://github.com/flutter/flutter/pull/54467) [flutter_tools] update compilation to use package config (a: null-safety, cla: yes, tool)
+[54467](https://github.com/flutter/flutter/pull/54467) [flutter_tools] 編譯流程改用 package config (a: null-safety, cla: yes, tool)
 
 
-[54478](https://github.com/flutter/flutter/pull/54478) Fix environment leakage in doctor_test (cla: yes, team, team: flakes, team: infra, tool)
+[54478](https://github.com/flutter/flutter/pull/54478) 修正 doctor_test 的環境變數外洩 (cla: yes, team, team: flakes, team: infra, tool)
 
 
-[54488](https://github.com/flutter/flutter/pull/54488) Remove Finder extended attributes from iOS project files (cla: yes, platform-ios, tool)
+[54488](https://github.com/flutter/flutter/pull/54488) 從 iOS 專案檔案移除 Finder 擴充屬性 (cla: yes, platform-ios, tool)
 
 
-[54555](https://github.com/flutter/flutter/pull/54555) [flutter_tools] refactor FlutterManifest to be context-free (cla: yes, tool, waiting for tree to go green)
+[54555](https://github.com/flutter/flutter/pull/54555) [flutter_tools] 將 FlutterManifest 重構為無 context (cla: yes, tool, waiting for tree to go green)
 
 
-[54613](https://github.com/flutter/flutter/pull/54613) [flutter_tools] support enable-experiment in flutter analyze (a: null-safety, cla: yes, tool, waiting for tree to go green)
+[54613](https://github.com/flutter/flutter/pull/54613) [flutter_tools] flutter analyze 支援 enable-experiment (a: null-safety, cla: yes, tool, waiting for tree to go green)
 
 
-[54617](https://github.com/flutter/flutter/pull/54617) [flutter_tools] initial support for enable experiment, run, apk, ios, macos (a: null-safety, cla: yes, team, tool)
+[54617](https://github.com/flutter/flutter/pull/54617) [flutter_tools] 初步支援 enable experiment、run、apk、ios、macos (a: null-safety, cla: yes, team, tool)
 
 
-[54645](https://github.com/flutter/flutter/pull/54645) remove outdated build_runner instructions (cla: yes, tool, waiting for tree to go green)
+[54645](https://github.com/flutter/flutter/pull/54645) 移除過時的 build_runner 指令說明 (cla: yes, tool, waiting for tree to go green)
 
 
-[54679](https://github.com/flutter/flutter/pull/54679) [flutter_tools] Handle empty gzip file on Windows (cla: yes, tool)
+[54679](https://github.com/flutter/flutter/pull/54679) [flutter_tools] 處理 Windows 上空的 gzip 檔案 (cla: yes, tool)
 
 
-[54682](https://github.com/flutter/flutter/pull/54682) [flutter_tools] update coverage collector to use vmservice api (cla: yes, tool, waiting for tree to go green)
+[54682](https://github.com/flutter/flutter/pull/54682) [flutter_tools] coverage collector 改用 vmservice api (cla: yes, tool, waiting for tree to go green)
 
 
-[54691](https://github.com/flutter/flutter/pull/54691) Migrate Runner project base configuration (cla: yes, d: examples, t: xcode, team, tool)
+[54691](https://github.com/flutter/flutter/pull/54691) 遷移 Runner 專案的 base 設定 (cla: yes, d: examples, t: xcode, team, tool)
 
 
-[54692](https://github.com/flutter/flutter/pull/54692) [flutter_tools] support machine and coverage together but for real (cla: yes, tool, waiting for tree to go green)
+[54692](https://github.com/flutter/flutter/pull/54692) [flutter_tools] 同時支援 machine 與 coverage（真正可用）(cla: yes, tool, waiting for tree to go green)
 
 
-[54700](https://github.com/flutter/flutter/pull/54700) [flutter_tools] remove runFromSource, move runInView to vm_service extension (cla: yes, tool, waiting for tree to go green)
+[54700](https://github.com/flutter/flutter/pull/54700) [flutter_tools] 移除 runFromSource，將 runInView 移至 vm_service 擴充 (cla: yes, tool, waiting for tree to go green)
 
 
-[54715](https://github.com/flutter/flutter/pull/54715) [flutter_tools] support any as a special web-hostname (cla: yes, tool, waiting for tree to go green)
+[54715](https://github.com/flutter/flutter/pull/54715) [flutter_tools] 支援 any 作為特殊 web-hostname (cla: yes, tool, waiting for tree to go green)
 
 
-[54717](https://github.com/flutter/flutter/pull/54717) [flutter_tools] don't elapse real time during fallback test (cla: yes, tool)
+[54717](https://github.com/flutter/flutter/pull/54717) [flutter_tools] fallback 測試時不流逝真實時間 (cla: yes, tool)
 
 
-[54756](https://github.com/flutter/flutter/pull/54756) Fix/set mocks defaults (cla: yes, tool, waiting for tree to go green)
+[54756](https://github.com/flutter/flutter/pull/54756) 修正／設定 mocks 預設值 (cla: yes, tool, waiting for tree to go green)
 
 
-[54783](https://github.com/flutter/flutter/pull/54783) [flutter_tools] Fix roll dev script, add tests (cla: yes, team, tool, waiting for tree to go green)
+[54783](https://github.com/flutter/flutter/pull/54783) [flutter_tools] 修正 roll dev script，新增測試 (cla: yes, team, tool, waiting for tree to go green)
 
 
-[54786](https://github.com/flutter/flutter/pull/54786) [flutter_tools] fix response format of flutterVersion, flutterMemoryInfo (cla: yes, tool)
+[54786](https://github.com/flutter/flutter/pull/54786) [flutter_tools] 修正 flutterVersion、flutterMemoryInfo 的回應格式 (cla: yes, tool)
 
 
-[54805](https://github.com/flutter/flutter/pull/54805) [flutter_tools] dont suppress analytics from re-entrant macos build (cla: yes, tool, waiting for tree to go green)
+[54805](https://github.com/flutter/flutter/pull/54805) [flutter_tools] 不要壓制 re-entrant macos build 的分析數據 (cla: yes, tool, waiting for tree to go green)
 
 
-[54881](https://github.com/flutter/flutter/pull/54881) Add COM initializition to Windows template (cla: yes, tool)
+[54881](https://github.com/flutter/flutter/pull/54881) 為 Windows 範本新增 COM 初始化 (cla: yes, tool)
 
 
-[54884](https://github.com/flutter/flutter/pull/54884) [flutter_tools] Provide global options with subcommand help text (cla: yes, tool)
+[54884](https://github.com/flutter/flutter/pull/54884) [flutter_tools] 子指令說明文字中提供全域選項 (cla: yes, tool)
 
 
-[54909](https://github.com/flutter/flutter/pull/54909) [flutter_tools] fix multiple defines in flutter tooling, web (cla: yes, team, tool)
+[54909](https://github.com/flutter/flutter/pull/54909) [flutter_tools] 修正 flutter tooling 與 web 的多重 defines 問題 (cla: yes, team, tool)
 
 
-[54912](https://github.com/flutter/flutter/pull/54912) Move doctor into globals (cla: yes, team, tool)
+[54912](https://github.com/flutter/flutter/pull/54912) 將 doctor 移至 globals (cla: yes, team, tool)
 
 
-[54916](https://github.com/flutter/flutter/pull/54916) Convert expression evaluation exceptions to errors (cla: yes, team, tool, waiting for tree to go green)
+[54916](https://github.com/flutter/flutter/pull/54916) 表達式運算例外轉為錯誤 (cla: yes, team, tool, waiting for tree to go green)
 
 
-[54918](https://github.com/flutter/flutter/pull/54918) [flutter_tools] ensure EventPrinter handles a null parent (cla: yes, tool, waiting for tree to go green)
+[54918](https://github.com/flutter/flutter/pull/54918) [flutter_tools] 確保 EventPrinter 能處理 null parent (cla: yes, tool, waiting for tree to go green)
 
 
-[54920](https://github.com/flutter/flutter/pull/54920) [flutter_tools] remove Isolate implementations of vm_service methods (cla: yes, tool)
+[54920](https://github.com/flutter/flutter/pull/54920) [flutter_tools] 移除 vm_service 方法的 Isolate 實作 (cla: yes, tool)
 
 
-[54923](https://github.com/flutter/flutter/pull/54923) [flutter_tools] default tree-shake-icons to enabled and improve performance (cla: yes, tool)
+[54923](https://github.com/flutter/flutter/pull/54923) [flutter_tools] 預設啟用 tree-shake-icons 並提升效能 (cla: yes, tool)
 
 
-[54924](https://github.com/flutter/flutter/pull/54924) CrashReportSender dependency injection (cla: yes, team, tool)
+[54924](https://github.com/flutter/flutter/pull/54924) CrashReportSender 相依性注入 (cla: yes, team, tool)
 
 
-[54959](https://github.com/flutter/flutter/pull/54959) fixed flutter run for projects containing a watchOS companion (cla: yes, tool)
+[54959](https://github.com/flutter/flutter/pull/54959) 修正包含 watchOS companion 的專案 flutter run 問題 (cla: yes, tool)
 
 
-[54967](https://github.com/flutter/flutter/pull/54967) Revert "[flutter_tools] fix multiple defines in flutter tooling, web" (cla: yes, team, tool)
+[54967](https://github.com/flutter/flutter/pull/54967) 還原 "[flutter_tools] 修正 flutter tooling 與 web 的多重 defines 問題" (cla: yes, team, tool)
 
 
-[54973](https://github.com/flutter/flutter/pull/54973) [flutter_tools] Reland: fix multiple dart defines (cla: yes, team, tool)
+[54973](https://github.com/flutter/flutter/pull/54973) [flutter_tools] 再次修正多重 dart defines (cla: yes, team, tool)
 
 
 [54987](https://github.com/flutter/flutter/pull/54987) git pull --ff-only (cla: yes, tool, waiting for tree to go green)
 
 
-[54989](https://github.com/flutter/flutter/pull/54989) Support armv7s architecture (cla: yes, platform-ios, tool)
+[54989](https://github.com/flutter/flutter/pull/54989) 支援 armv7s 架構 (cla: yes, platform-ios, tool)
 
 
-[55002](https://github.com/flutter/flutter/pull/55002) Move GitHubTemplateCreator into reporting library (cla: yes, team, tool)
+[55002](https://github.com/flutter/flutter/pull/55002) 將 GitHubTemplateCreator 移至 reporting 函式庫 (cla: yes, team, tool)
 
 
-[55003](https://github.com/flutter/flutter/pull/55003) Add flag to enable expression evaluation for web (cla: yes, tool)
+[55003](https://github.com/flutter/flutter/pull/55003) 新增啟用 Web 表達式運算的旗標 (cla: yes, tool)
 
 
-[55012](https://github.com/flutter/flutter/pull/55012) Even more vm service refactor (cla: yes, tool)
+[55012](https://github.com/flutter/flutter/pull/55012) vm service 重構再進化 (cla: yes, tool)
 
 
-[55085](https://github.com/flutter/flutter/pull/55085) [flutter_tools] check if requireloader is defined (cla: yes, tool, waiting for tree to go green)
+[55085](https://github.com/flutter/flutter/pull/55085) [flutter_tools] 檢查是否有定義 requireloader (cla: yes, tool, waiting for tree to go green)
 
 
-[55125](https://github.com/flutter/flutter/pull/55125) prettify the flutter web bootstrap file (cla: yes, tool)
+[55125](https://github.com/flutter/flutter/pull/55125) 美化 flutter web bootstrap 檔案 (cla: yes, tool)
 
 
-[55141](https://github.com/flutter/flutter/pull/55141) Support tags in testWidgets (a: tests, cla: yes, framework, tool, waiting for tree to go green)
+[55141](https://github.com/flutter/flutter/pull/55141) testWidgets 支援 tags (a: tests, cla: yes, framework, tool, waiting for tree to go green)
 
 
-[55152](https://github.com/flutter/flutter/pull/55152) Support tags when running tests from command line (cla: yes, team, tool)
+[55152](https://github.com/flutter/flutter/pull/55152) 從命令列執行測試時支援 tags (cla: yes, team, tool)
 
 
-[55160](https://github.com/flutter/flutter/pull/55160) [flutter_tools] refactor Chrome launch logic to remove globals/statics (cla: yes, tool)
+[55160](https://github.com/flutter/flutter/pull/55160) [flutter_tools] 重構 Chrome 啟動邏輯，移除 globals/statics (cla: yes, tool)
 
 
-[55187](https://github.com/flutter/flutter/pull/55187) [flutter_tools] migrate windows to assemble (cla: yes, tool)
+[55187](https://github.com/flutter/flutter/pull/55187) [flutter_tools] 將 windows 遷移至 assemble (cla: yes, tool)
 
 
-[55212](https://github.com/flutter/flutter/pull/55212) [flutter_tools] fix type error in symbolize (cla: yes, tool, waiting for tree to go green)
+[55212](https://github.com/flutter/flutter/pull/55212) [flutter_tools] 修正 symbolize 的型別錯誤 (cla: yes, tool, waiting for tree to
 
 
 [55244](https://github.com/flutter/flutter/pull/55244) [flutter_tools] remove PackageMap and finish PackageConfig migration (cla: yes, tool)
@@ -1316,7 +1316,7 @@ skipTemplateRendering: true
 [61129](https://github.com/flutter/flutter/pull/61129) [flutter_tools] fix recursive asset variant issue (cla: yes, tool, waiting for tree to go green)
 
 
-#### framework - 413 pull request(s)
+#### framework - 共 413 個 pull request
 
 [42940](https://github.com/flutter/flutter/pull/42940) Revise Action API (cla: yes, f: cupertino, f: material design, framework, team)
 
@@ -1351,7 +1351,7 @@ skipTemplateRendering: true
 [52126](https://github.com/flutter/flutter/pull/52126) Autofill  Part 1 (cla: yes, customer: peppermint, f: cupertino, f: material design, framework, waiting for tree to go green)
 
 
-[52507](https://github.com/flutter/flutter/pull/52507) enable avoid_equals_and_hash_code_on_mutable_classes (a: tests, cla: yes, d: examples, f: cupertino, f: material design, framework, team, team: gallery, tool, waiting for tree to go green)
+[52507](https://github.com/flutter/flutter/pull/52507) 啟用 avoid_equals_and_hash_code_on_mutable_classes (a: tests, cla: yes, d: examples, f: cupertino, f: material design, framework, team, team: gallery, tool, waiting for tree to go green)
 
 
 [52990](https://github.com/flutter/flutter/pull/52990) Update Highlight mode initial value calculation. (cla: yes, f: focus, framework, waiting for tree to go green)
@@ -1360,10 +1360,10 @@ skipTemplateRendering: true
 [52995](https://github.com/flutter/flutter/pull/52995) Fix typo of showCupertinoModalPopup documentation comment (cla: yes, f: cupertino, framework, waiting for tree to go green)
 
 
-[53381](https://github.com/flutter/flutter/pull/53381) Characters Package (a: text input, cla: yes, f: material design, framework, team, tool, waiting for tree to go green)
+[53381](https://github.com/flutter/flutter/pull/53381) Characters 套件 (a: text input, cla: yes, f: material design, framework, team, tool, waiting for tree to go green)
 
 
-[53422](https://github.com/flutter/flutter/pull/53422) Rename GPU thread to raster thread in API docs (a: tests, cla: yes, framework, team, tool, waiting for tree to go green)
+[53422](https://github.com/flutter/flutter/pull/53422) 將 API 文件中的 GPU 執行緒名稱改為 raster 執行緒 (a: tests, cla: yes, framework, team, tool, waiting for tree to go green)
 
 
 [53616](https://github.com/flutter/flutter/pull/53616) Improving A11y for Flutter Gallery Demos (a: accessibility, a: tests, cla: yes, f: material design, framework, team)
@@ -1546,7 +1546,7 @@ skipTemplateRendering: true
 [55069](https://github.com/flutter/flutter/pull/55069) Prioritize scrolling away nested overscroll (a: fidelity, a: quality, cla: yes, customer: crowd, f: scrolling, framework, platform-ios, waiting for tree to go green)
 
 
-[55141](https://github.com/flutter/flutter/pull/55141) Support tags in testWidgets (a: tests, cla: yes, framework, tool, waiting for tree to go green)
+[55141](https://github.com/flutter/flutter/pull/55141) testWidgets 支援 tags (a: tests, cla: yes, framework, tool, waiting for tree to go green)
 
 
 [55221](https://github.com/flutter/flutter/pull/55221) [ExpansionTile] adds padding property (cla: yes, f: material design, framework)
@@ -2557,15 +2557,15 @@ skipTemplateRendering: true
 [61118](https://github.com/flutter/flutter/pull/61118) Fix #61102 line wrapping (a: tests, cla: yes, framework, waiting for tree to go green)
 
 
-#### team - 283 pull request(s)
+#### team - 共 283 個 pull request
 
 [42940](https://github.com/flutter/flutter/pull/42940) Revise Action API (cla: yes, f: cupertino, f: material design, framework, team)
 
 
-[52507](https://github.com/flutter/flutter/pull/52507) enable avoid_equals_and_hash_code_on_mutable_classes (a: tests, cla: yes, d: examples, f: cupertino, f: material design, framework, team, team: gallery, tool, waiting for tree to go green)
+[52507](https://github.com/flutter/flutter/pull/52507) 啟用 avoid_equals_and_hash_code_on_mutable_classes (a: tests, cla: yes, d: examples, f: cupertino, f: material design, framework, team, team: gallery, tool, waiting for tree to go green)
 
 
-[52791](https://github.com/flutter/flutter/pull/52791) Read custom app project name from gradle.properties (cla: yes, team, tool)
+[52791](https://github.com/flutter/flutter/pull/52791) 從 gradle.properties 讀取自訂 app 專案名稱 (cla: yes, team, tool)
 
 
 [53096](https://github.com/flutter/flutter/pull/53096) Devicelab tests (Chrome run, Web compile) for New Flutter Gallery (cla: yes, team, waiting for tree to go green)
@@ -2574,16 +2574,16 @@ skipTemplateRendering: true
 [53358](https://github.com/flutter/flutter/pull/53358) Disable `flutter_driver_screenshot_test_ios`. (cla: yes, team, waiting for tree to go green)
 
 
-[53374](https://github.com/flutter/flutter/pull/53374) [gen_l10n] Fallback feature for untranslated messages (a: internationalization, cla: yes, team, tool, waiting for tree to go green)
+[53374](https://github.com/flutter/flutter/pull/53374) [gen_l10n] 未翻譯訊息的備援機制 (a: internationalization, cla: yes, team, tool, waiting for tree to go green)
 
 
-[53381](https://github.com/flutter/flutter/pull/53381) Characters Package (a: text input, cla: yes, f: material design, framework, team, tool, waiting for tree to go green)
+[53381](https://github.com/flutter/flutter/pull/53381) Characters 套件 (a: text input, cla: yes, f: material design, framework, team, tool, waiting for tree to go green)
 
 
-[53422](https://github.com/flutter/flutter/pull/53422) Rename GPU thread to raster thread in API docs (a: tests, cla: yes, framework, team, tool, waiting for tree to go green)
+[53422](https://github.com/flutter/flutter/pull/53422) 將 API 文件中的 GPU 執行緒名稱改為 raster 執行緒 (a: tests, cla: yes, framework, team, tool, waiting for tree to go green)
 
 
-[53600](https://github.com/flutter/flutter/pull/53600) Restructure the Windows app template (cla: yes, team, tool)
+[53600](https://github.com/flutter/flutter/pull/53600) 重構 Windows app 範本 (cla: yes, team, tool)
 
 
 [53616](https://github.com/flutter/flutter/pull/53616) Improving A11y for Flutter Gallery Demos (a: accessibility, a: tests, cla: yes, f: material design, framework, team)
@@ -2592,16 +2592,16 @@ skipTemplateRendering: true
 [53655](https://github.com/flutter/flutter/pull/53655) Pass showCheckboxColumn parameter to DataTable (a: quality, cla: yes, f: material design, framework, team)
 
 
-[53809](https://github.com/flutter/flutter/pull/53809) [flutter_tools] update to package vm_service: electric boogaloo (cla: yes, team, tool)
+[53809](https://github.com/flutter/flutter/pull/53809) [flutter_tools] 升級至 vm_service 套件：electric boogaloo (cla: yes, team, tool)
 
 
-[53824](https://github.com/flutter/flutter/pull/53824) [gen_l10n] Add option for deferred loading on the web (a: internationalization, cla: yes, team, tool, waiting for tree to go green)
+[53824](https://github.com/flutter/flutter/pull/53824) [gen_l10n] 為 Web 新增延遲載入選項 (a: internationalization, cla: yes, team, tool, waiting for tree to go green)
 
 
 [53837](https://github.com/flutter/flutter/pull/53837) Skip Audits (2) (a: tests, cla: yes, f: cupertino, framework, platform-web, team, waiting for tree to go green)
 
 
-[53868](https://github.com/flutter/flutter/pull/53868) [gen_l10n] Add scriptCode handling (a: internationalization, cla: yes, severe: new feature, team, tool)
+[53868](https://github.com/flutter/flutter/pull/53868) [gen_l10n] 新增 scriptCode 處理 (a: internationalization, cla: yes, severe: new feature, team, tool)
 
 
 [53879](https://github.com/flutter/flutter/pull/53879) Collect chrome://tracing data in Web benchmarks (cla: yes, team, work in progress; do not review)
@@ -2616,16 +2616,16 @@ skipTemplateRendering: true
 [53916](https://github.com/flutter/flutter/pull/53916) Slider rebase work (cla: yes, f: material design, framework, team)
 
 
-[53951](https://github.com/flutter/flutter/pull/53951) Revert "[flutter_tools] update to package vm_service: electric boogaloo" (cla: yes, team, tool)
+[53951](https://github.com/flutter/flutter/pull/53951) 還原 "[flutter_tools] 升級至 vm_service 套件：electric boogaloo" (cla: yes, team, tool)
 
 
 [53952](https://github.com/flutter/flutter/pull/53952) [web] Fix race condition in widget benchmarks (cla: yes, platform-web, team)
 
 
-[53954](https://github.com/flutter/flutter/pull/53954) [gen_l10n] Fix plural parsing for translated messages (a: internationalization, cla: yes, team, tool, waiting for tree to go green)
+[53954](https://github.com/flutter/flutter/pull/53954) [gen_l10n] 修正翻譯訊息的複數解析 (a: internationalization, cla: yes, team, tool, waiting for tree to go green)
 
 
-[53957](https://github.com/flutter/flutter/pull/53957) [flutter_tools] Migrate to vm service 3 (reland): electric boogaloo (cla: yes, team, tool)
+[53957](https://github.com/flutter/flutter/pull/53957) [flutter_tools] 遷移至 vm service 3（重推）：electric boogaloo (cla: yes, team, tool)
 
 
 [53963](https://github.com/flutter/flutter/pull/53963) revive the android_views test (cla: yes, team, waiting for tree to go green)
@@ -2646,7 +2646,7 @@ skipTemplateRendering: true
 [54023](https://github.com/flutter/flutter/pull/54023) disable MotionEvents test (cla: yes, team)
 
 
-[54114](https://github.com/flutter/flutter/pull/54114) Revert "[flutter_tools] Migrate to vm service 3 (reland): electric boogaloo" (cla: yes, team, tool)
+[54114](https://github.com/flutter/flutter/pull/54114) 還原 "[flutter_tools] 遷移至 vm service 3（重推）：electric boogaloo" (cla: yes, team, tool)
 
 
 [54122](https://github.com/flutter/flutter/pull/54122) disable the "gpu" tracing category (cla: yes, team)
@@ -2655,7 +2655,7 @@ skipTemplateRendering: true
 [54125](https://github.com/flutter/flutter/pull/54125) remove flutter_test quiver dep, use fake_async and clock instead (a: tests, cla: yes, framework, team)
 
 
-[54132](https://github.com/flutter/flutter/pull/54132) [flutter_tools] Migrate to package:vm_service 4: trigonometric boogaloo (cla: yes, team, tool)
+[54132](https://github.com/flutter/flutter/pull/54132) [flutter_tools] 遷移至 package:vm_service 4：trigonometric boogaloo (cla: yes, team, tool)
 
 
 [54144](https://github.com/flutter/flutter/pull/54144) drop image package dependency for goldens (a: tests, cla: yes, framework, team, waiting for tree to go green)
@@ -2664,7 +2664,7 @@ skipTemplateRendering: true
 [54150](https://github.com/flutter/flutter/pull/54150) Don't checkout master in roll_dev (cla: yes, team)
 
 
-[54152](https://github.com/flutter/flutter/pull/54152) [flutter_tools] Remove fromPlatform from tests (cla: yes, team, tool, waiting for tree to go green)
+[54152](https://github.com/flutter/flutter/pull/54152) [flutter_tools] 從測試中移除 fromPlatform (cla: yes, team, tool, waiting for tree to go green)
 
 
 [54155](https://github.com/flutter/flutter/pull/54155) [cleanup] Remove unused script (cla: yes, team)
@@ -2673,13 +2673,13 @@ skipTemplateRendering: true
 [54163](https://github.com/flutter/flutter/pull/54163) Enable the android_views AlertDialog test (cla: yes, team)
 
 
-[54176](https://github.com/flutter/flutter/pull/54176) Fix newly reported prefer_const_constructors lints. (a: internationalization, cla: yes, d: examples, team, tool)
+[54176](https://github.com/flutter/flutter/pull/54176) 修正新報告的 prefer_const_constructors lint 問題 (a: internationalization, cla: yes, d: examples, team, tool)
 
 
 [54181](https://github.com/flutter/flutter/pull/54181) Roll pinned xml and petitparser versions (cla: yes, team, waiting for tree to go green)
 
 
-[54185](https://github.com/flutter/flutter/pull/54185) [gen_l10n] Handle single, double quotes, and dollar signs in strings (cla: yes, team, tool, waiting for tree to go green)
+[54185](https://github.com/flutter/flutter/pull/54185) [gen_l10n] 處理字串中的單引號、雙引號與 $ 符號 (cla: yes, team, tool, waiting for tree to go green)
 
 
 [54206](https://github.com/flutter/flutter/pull/54206) Updating codeowners for goldens (a: tests, cla: yes, framework, team, waiting for tree to go green)
@@ -2727,13 +2727,13 @@ skipTemplateRendering: true
 [54403](https://github.com/flutter/flutter/pull/54403) Reland re-enable `android_view_test` #54214  (cla: yes, team, waiting for tree to go green)
 
 
-[54407](https://github.com/flutter/flutter/pull/54407) Don't import plugins that don't support android in settings.gradle (a: accessibility, cla: yes, d: examples, team, tool, waiting for tree to go green)
+[54407](https://github.com/flutter/flutter/pull/54407) 在 settings.gradle 中不匯入不支援 android 的 plugin (a: accessibility, cla: yes, d: examples, team, tool, waiting for tree to go green)
 
 
 [54471](https://github.com/flutter/flutter/pull/54471) fix visual density prefer_const_constructors lint (cla: yes, team)
 
 
-[54478](https://github.com/flutter/flutter/pull/54478) Fix environment leakage in doctor_test (cla: yes, team, team: flakes, team: infra, tool)
+[54478](https://github.com/flutter/flutter/pull/54478) 修正 doctor_test 的環境變數外洩 (cla: yes, team, team: flakes, team: infra, tool)
 
 
 [54480](https://github.com/flutter/flutter/pull/54480) Revert "[flutter_driver] Add SceneDisplayLag stats to timeline summar… (a: tests, cla: yes, framework, team)
@@ -2754,7 +2754,7 @@ skipTemplateRendering: true
 [54522](https://github.com/flutter/flutter/pull/54522) Reland "Add API to services package that overrides HTTP ban (#54243)" (cla: yes, framework, team, waiting for tree to go green)
 
 
-[54617](https://github.com/flutter/flutter/pull/54617) [flutter_tools] initial support for enable experiment, run, apk, ios, macos (a: null-safety, cla: yes, team, tool)
+[54617](https://github.com/flutter/flutter/pull/54617) [flutter_tools] 初步支援 enable experiment、run、apk、ios、macos (a: null-safety, cla: yes, team, tool)
 
 
 [54618](https://github.com/flutter/flutter/pull/54618) Revert "[devicelab] Do not wait for connections after process has exited" (cla: yes, team)
@@ -2766,7 +2766,7 @@ skipTemplateRendering: true
 [54678](https://github.com/flutter/flutter/pull/54678) Make Web shard count configurable via WEB_SHARD_COUNT (cla: yes, team, waiting for tree to go green)
 
 
-[54691](https://github.com/flutter/flutter/pull/54691) Migrate Runner project base configuration (cla: yes, d: examples, t: xcode, team, tool)
+[54691](https://github.com/flutter/flutter/pull/54691) 遷移 Runner 專案的 base 設定 (cla: yes, d: examples, t: xcode, team, tool)
 
 
 [54697](https://github.com/flutter/flutter/pull/54697) fix APK location for devicelab (cla: yes, team)
@@ -2775,7 +2775,7 @@ skipTemplateRendering: true
 [54703](https://github.com/flutter/flutter/pull/54703) fix run release test APK location (cla: yes, team)
 
 
-[54783](https://github.com/flutter/flutter/pull/54783) [flutter_tools] Fix roll dev script, add tests (cla: yes, team, tool, waiting for tree to go green)
+[54783](https://github.com/flutter/flutter/pull/54783) [flutter_tools] 修正 roll dev script，新增測試 (cla: yes, team, tool, waiting for tree to go green)
 
 
 [54787](https://github.com/flutter/flutter/pull/54787) force upgraded package dependencies (cla: yes, team)
@@ -2808,25 +2808,25 @@ skipTemplateRendering: true
 [54908](https://github.com/flutter/flutter/pull/54908) add benchmark for picture recording (cla: yes, team)
 
 
-[54909](https://github.com/flutter/flutter/pull/54909) [flutter_tools] fix multiple defines in flutter tooling, web (cla: yes, team, tool)
+[54909](https://github.com/flutter/flutter/pull/54909) [flutter_tools] 修正 flutter tooling 與 web 的多重 defines 問題 (cla: yes, team, tool)
 
 
-[54912](https://github.com/flutter/flutter/pull/54912) Move doctor into globals (cla: yes, team, tool)
+[54912](https://github.com/flutter/flutter/pull/54912) 將 doctor 移至 globals (cla: yes, team, tool)
 
 
-[54916](https://github.com/flutter/flutter/pull/54916) Convert expression evaluation exceptions to errors (cla: yes, team, tool, waiting for tree to go green)
+[54916](https://github.com/flutter/flutter/pull/54916) 表達式運算例外轉為錯誤 (cla: yes, team, tool, waiting for tree to go green)
 
 
-[54924](https://github.com/flutter/flutter/pull/54924) CrashReportSender dependency injection (cla: yes, team, tool)
+[54924](https://github.com/flutter/flutter/pull/54924) CrashReportSender 相依性注入 (cla: yes, team, tool)
 
 
 [54952](https://github.com/flutter/flutter/pull/54952) Roll pinned package versions (cla: yes, team, waiting for tree to go green)
 
 
-[54967](https://github.com/flutter/flutter/pull/54967) Revert "[flutter_tools] fix multiple defines in flutter tooling, web" (cla: yes, team, tool)
+[54967](https://github.com/flutter/flutter/pull/54967) 還原 "[flutter_tools] 修正 flutter tooling 與 web 的多重 defines 問題" (cla: yes, team, tool)
 
 
-[54973](https://github.com/flutter/flutter/pull/54973) [flutter_tools] Reland: fix multiple dart defines (cla: yes, team, tool)
+[54973](https://github.com/flutter/flutter/pull/54973) [flutter_tools] 再次修正多重 dart defines (cla: yes, team, tool)
 
 
 [54991](https://github.com/flutter/flutter/pull/54991) Mark ios_app_with_watch_companion as not flaky (a: tests, cla: yes, team)
@@ -2835,7 +2835,7 @@ skipTemplateRendering: true
 [54994](https://github.com/flutter/flutter/pull/54994) flutter_gallery__memory_nav and flutter_gallery__back_button_memory are flaky (cla: yes, team)
 
 
-[55002](https://github.com/flutter/flutter/pull/55002) Move GitHubTemplateCreator into reporting library (cla: yes, team, tool)
+[55002](https://github.com/flutter/flutter/pull/55002) 將 GitHubTemplateCreator 移至 reporting 函式庫 (cla: yes, team, tool)
 
 
 [55057](https://github.com/flutter/flutter/pull/55057) validate engine hash (cla: yes, team)
@@ -2850,7 +2850,7 @@ skipTemplateRendering: true
 [55130](https://github.com/flutter/flutter/pull/55130) Enable android_views window touch test (cla: yes, team)
 
 
-[55152](https://github.com/flutter/flutter/pull/55152) Support tags when running tests from command line (cla: yes, team, tool)
+[55152](https://github.com/flutter/flutter/pull/55152) 從命令列執行測試時支援 tags (cla: yes, team, tool)
 
 
 [55181](https://github.com/flutter/flutter/pull/55181) Add performance tests for the new gallery (cla: yes, perf: speed, severe: performance, team, waiting for tree to go green)
@@ -3408,7 +3408,7 @@ skipTemplateRendering: true
 [61128](https://github.com/flutter/flutter/pull/61128) Update tester to latest version (team)
 
 
-#### f: material design - 204 pull request(s)
+#### f: material design - 共 204 個 pull request
 
 [42940](https://github.com/flutter/flutter/pull/42940) Revise Action API (cla: yes, f: cupertino, f: material design, framework, team)
 
@@ -3431,10 +3431,10 @@ skipTemplateRendering: true
 [52126](https://github.com/flutter/flutter/pull/52126) Autofill  Part 1 (cla: yes, customer: peppermint, f: cupertino, f: material design, framework, waiting for tree to go green)
 
 
-[52507](https://github.com/flutter/flutter/pull/52507) enable avoid_equals_and_hash_code_on_mutable_classes (a: tests, cla: yes, d: examples, f: cupertino, f: material design, framework, team, team: gallery, tool, waiting for tree to go green)
+[52507](https://github.com/flutter/flutter/pull/52507) 啟用 avoid_equals_and_hash_code_on_mutable_classes (a: tests, cla: yes, d: examples, f: cupertino, f: material design, framework, team, team: gallery, tool, waiting for tree to go green)
 
 
-[53381](https://github.com/flutter/flutter/pull/53381) Characters Package (a: text input, cla: yes, f: material design, framework, team, tool, waiting for tree to go green)
+[53381](https://github.com/flutter/flutter/pull/53381) Characters 套件 (a: text input, cla: yes, f: material design, framework, team, tool, waiting for tree to go green)
 
 
 [53616](https://github.com/flutter/flutter/pull/53616) Improving A11y for Flutter Gallery Demos (a: accessibility, a: tests, cla: yes, f: material design, framework, team)
@@ -4022,12 +4022,12 @@ skipTemplateRendering: true
 [61012](https://github.com/flutter/flutter/pull/61012) prevents sliver app bar from changing semantics tree when it is not n… (a: accessibility, f: material design, framework, waiting for tree to go green)
 
 
-#### a: tests - 67 pull request(s)
+#### a: tests - 共 67 個 pull request
 
-[52507](https://github.com/flutter/flutter/pull/52507) enable avoid_equals_and_hash_code_on_mutable_classes (a: tests, cla: yes, d: examples, f: cupertino, f: material design, framework, team, team: gallery, tool, waiting for tree to go green)
+[52507](https://github.com/flutter/flutter/pull/52507) 啟用 avoid_equals_and_hash_code_on_mutable_classes (a: tests, cla: yes, d: examples, f: cupertino, f: material design, framework, team, team: gallery, tool, waiting for tree to go green)
 
 
-[53422](https://github.com/flutter/flutter/pull/53422) Rename GPU thread to raster thread in API docs (a: tests, cla: yes, framework, team, tool, waiting for tree to go green)
+[53422](https://github.com/flutter/flutter/pull/53422) 將 API 文件中的 GPU 執行緒名稱改為 raster 執行緒 (a: tests, cla: yes, framework, team, tool, waiting for tree to go green)
 
 
 [53616](https://github.com/flutter/flutter/pull/53616) Improving A11y for Flutter Gallery Demos (a: accessibility, a: tests, cla: yes, f: material design, framework, team)
@@ -4081,7 +4081,7 @@ skipTemplateRendering: true
 [55001](https://github.com/flutter/flutter/pull/55001) FlutterErrorDetails.context docs fix (a: error message, a: tests, cla: yes, d: api docs, d: examples, documentation, framework, waiting for tree to go green)
 
 
-[55141](https://github.com/flutter/flutter/pull/55141) Support tags in testWidgets (a: tests, cla: yes, framework, tool, waiting for tree to go green)
+[55141](https://github.com/flutter/flutter/pull/55141) testWidgets 支援 tags (a: tests, cla: yes, framework, tool, waiting for tree to go green)
 
 
 [55484](https://github.com/flutter/flutter/pull/55484) Revert "Fix FlutterError.onError in debug mode (#53843)" (a: tests, cla: yes, f: material design, framework)
@@ -4225,7 +4225,7 @@ skipTemplateRendering: true
 [61118](https://github.com/flutter/flutter/pull/61118) Fix #61102 line wrapping (a: tests, cla: yes, framework, waiting for tree to go green)
 
 
-#### f: cupertino - 53 pull request(s)
+#### f: cupertino - 共 53 個 pull request
 
 [42940](https://github.com/flutter/flutter/pull/42940) Revise Action API (cla: yes, f: cupertino, f: material design, framework, team)
 
@@ -4236,7 +4236,7 @@ skipTemplateRendering: true
 [52126](https://github.com/flutter/flutter/pull/52126) Autofill  Part 1 (cla: yes, customer: peppermint, f: cupertino, f: material design, framework, waiting for tree to go green)
 
 
-[52507](https://github.com/flutter/flutter/pull/52507) enable avoid_equals_and_hash_code_on_mutable_classes (a: tests, cla: yes, d: examples, f: cupertino, f: material design, framework, team, team: gallery, tool, waiting for tree to go green)
+[52507](https://github.com/flutter/flutter/pull/52507) 啟用 avoid_equals_and_hash_code_on_mutable_classes (a: tests, cla: yes, d: examples, f: cupertino, f: material design, framework, team, team: gallery, tool, waiting for tree to go green)
 
 
 [52995](https://github.com/flutter/flutter/pull/52995) Fix typo of showCupertinoModalPopup documentation comment (cla: yes, f: cupertino, framework, waiting for tree to go green)
@@ -4386,33 +4386,33 @@ skipTemplateRendering: true
 [60929](https://github.com/flutter/flutter/pull/60929) Adding CupertinoApp Sample templates (cla: yes, d: api docs, d: examples, documentation, f: cupertino, framework, team, waiting for tree to go green)
 
 
-#### a: internationalization - 34 pull request(s)
+#### a: internationalization - 共 34 個 pull request
 
 [50915](https://github.com/flutter/flutter/pull/50915) Implement barrierDismissible for `showCupertinoDialog` (a: internationalization, cla: yes, f: cupertino, f: material design, framework, waiting for tree to go green)
 
 
-[53374](https://github.com/flutter/flutter/pull/53374) [gen_l10n] Fallback feature for untranslated messages (a: internationalization, cla: yes, team, tool, waiting for tree to go green)
+[53374](https://github.com/flutter/flutter/pull/53374) [gen_l10n] 未翻譯訊息的備援機制 (a: internationalization, cla: yes, team, tool, waiting for tree to go green)
 
 
-[53824](https://github.com/flutter/flutter/pull/53824) [gen_l10n] Add option for deferred loading on the web (a: internationalization, cla: yes, team, tool, waiting for tree to go green)
+[53824](https://github.com/flutter/flutter/pull/53824) [gen_l10n] 為 Web 新增延遲載入選項 (a: internationalization, cla: yes, team, tool, waiting for tree to go green)
 
 
-[53868](https://github.com/flutter/flutter/pull/53868) [gen_l10n] Add scriptCode handling (a: internationalization, cla: yes, severe: new feature, team, tool)
+[53868](https://github.com/flutter/flutter/pull/53868) [gen_l10n] 新增 scriptCode 處理 (a: internationalization, cla: yes, severe: new feature, team, tool)
 
 
 [53880](https://github.com/flutter/flutter/pull/53880) Use `no` locale as synonym for `nb` (a: internationalization, cla: yes, customer: dream (g3), f: cupertino, f: material design, team, waiting for tree to go green)
 
 
-[53954](https://github.com/flutter/flutter/pull/53954) [gen_l10n] Fix plural parsing for translated messages (a: internationalization, cla: yes, team, tool, waiting for tree to go green)
+[53954](https://github.com/flutter/flutter/pull/53954) [gen_l10n] 修正翻譯訊息的複數解析 (a: internationalization, cla: yes, team, tool, waiting for tree to go green)
 
 
-[54176](https://github.com/flutter/flutter/pull/54176) Fix newly reported prefer_const_constructors lints. (a: internationalization, cla: yes, d: examples, team, tool)
+[54176](https://github.com/flutter/flutter/pull/54176) 修正新報告的 prefer_const_constructors lint 問題 (a: internationalization, cla: yes, d: examples, team, tool)
 
 
 [54219](https://github.com/flutter/flutter/pull/54219) Remove escape dollar parameter in localizations_utils (a: internationalization, cla: yes, team, waiting for tree to go green)
 
 
-[54314](https://github.com/flutter/flutter/pull/54314) [gen_l10n] Expand integration tests (a: internationalization, cla: yes, tool, waiting for tree to go green)
+[54314](https://github.com/flutter/flutter/pull/54314) [gen_l10n] 擴充整合測試 (a: internationalization, cla: yes, tool, waiting for tree to go green)
 
 
 [54401](https://github.com/flutter/flutter/pull/54401) Cleanup in gen_l10n files (a: internationalization, cla: yes, team)
@@ -4490,7 +4490,7 @@ skipTemplateRendering: true
 [60600](https://github.com/flutter/flutter/pull/60600) Fix and address Inconsistencies with Pashto support  (a: internationalization, cla: yes, f: material design)
 
 
-#### engine - 33 pull request(s)
+#### engine - 共 33 個 pull request
 
 [54111](https://github.com/flutter/flutter/pull/54111) Manual roll of engine 9b8dcc7ecffe..df257e59c241 (cla: no, engine)
 
@@ -4591,21 +4591,21 @@ skipTemplateRendering: true
 [61013](https://github.com/flutter/flutter/pull/61013) Re-land gesture detection for hybrid platform views (engine, framework, team)
 
 
-#### d: examples - 28 pull request(s)
+#### d: examples - 共 28 個 pull request
 
-[52507](https://github.com/flutter/flutter/pull/52507) enable avoid_equals_and_hash_code_on_mutable_classes (a: tests, cla: yes, d: examples, f: cupertino, f: material design, framework, team, team: gallery, tool, waiting for tree to go green)
+[52507](https://github.com/flutter/flutter/pull/52507) 啟用 avoid_equals_and_hash_code_on_mutable_classes (a: tests, cla: yes, d: examples, f: cupertino, f: material design, framework, team, team: gallery, tool, waiting for tree to go green)
 
 
-[54176](https://github.com/flutter/flutter/pull/54176) Fix newly reported prefer_const_constructors lints. (a: internationalization, cla: yes, d: examples, team, tool)
+[54176](https://github.com/flutter/flutter/pull/54176) 修正新報告的 prefer_const_constructors lint 問題 (a: internationalization, cla: yes, d: examples, team, tool)
 
 
 [54317](https://github.com/flutter/flutter/pull/54317) PageStorage sample (cla: yes, d: api docs, d: examples, documentation, framework, team, waiting for tree to go green)
 
 
-[54407](https://github.com/flutter/flutter/pull/54407) Don't import plugins that don't support android in settings.gradle (a: accessibility, cla: yes, d: examples, team, tool, waiting for tree to go green)
+[54407](https://github.com/flutter/flutter/pull/54407) 在 settings.gradle 中不匯入不支援 android 的 plugin (a: accessibility, cla: yes, d: examples, team, tool, waiting for tree to go green)
 
 
-[54691](https://github.com/flutter/flutter/pull/54691) Migrate Runner project base configuration (cla: yes, d: examples, t: xcode, team, tool)
+[54691](https://github.com/flutter/flutter/pull/54691) 遷移 Runner 專案的 base 設定 (cla: yes, d: examples, t: xcode, team, tool)
 
 
 [54798](https://github.com/flutter/flutter/pull/54798) ToDo Audit - Cupertino+ Library (a: accessibility, cla: yes, d: examples, f: cupertino, framework, team, waiting for tree to go green)
@@ -4677,7 +4677,7 @@ skipTemplateRendering: true
 [60929](https://github.com/flutter/flutter/pull/60929) Adding CupertinoApp Sample templates (cla: yes, d: api docs, d: examples, documentation, f: cupertino, framework, team, waiting for tree to go green)
 
 
-#### a: accessibility - 25 pull request(s)
+#### a: accessibility - 共 25 個 pull request
 
 [53616](https://github.com/flutter/flutter/pull/53616) Improving A11y for Flutter Gallery Demos (a: accessibility, a: tests, cla: yes, f: material design, framework, team)
 
@@ -4685,7 +4685,7 @@ skipTemplateRendering: true
 [54394](https://github.com/flutter/flutter/pull/54394) replace simple empty Container with w & h with SizedBox (a: accessibility, cla: yes, f: cupertino, f: material design, framework)
 
 
-[54407](https://github.com/flutter/flutter/pull/54407) Don't import plugins that don't support android in settings.gradle (a: accessibility, cla: yes, d: examples, team, tool, waiting for tree to go green)
+[54407](https://github.com/flutter/flutter/pull/54407) 在 settings.gradle 中不匯入不支援 android 的 plugin (a: accessibility, cla: yes, d: examples, team, tool, waiting for tree to go green)
 
 
 [54798](https://github.com/flutter/flutter/pull/54798) ToDo Audit - Cupertino+ Library (a: accessibility, cla: yes, d: examples, f: cupertino, framework, team, waiting for tree to go green)
@@ -4754,18 +4754,18 @@ skipTemplateRendering: true
 [61012](https://github.com/flutter/flutter/pull/61012) prevents sliver app bar from changing semantics tree when it is not n… (a: accessibility, f: material design, framework, waiting for tree to go green)
 
 
-#### platform-ios - 19 pull request(s)
+#### platform-ios - 共 19 個 pull request
 
 [54140](https://github.com/flutter/flutter/pull/54140) iOS Text Selection Menu Overflow (a: text input, cla: yes, f: cupertino, f: material design, framework, platform-ios)
 
 
-[54154](https://github.com/flutter/flutter/pull/54154) Convert iOS simulator log reader to simctl, use unified logging filters (cla: yes, platform-ios, tool, waiting for tree to go green)
+[54154](https://github.com/flutter/flutter/pull/54154) 將 iOS 模擬器 log 讀取器轉為 simctl，並使用統一的日誌過濾器 (cla: yes, platform-ios, tool, waiting for tree to go green)
 
 
-[54488](https://github.com/flutter/flutter/pull/54488) Remove Finder extended attributes from iOS project files (cla: yes, platform-ios, tool)
+[54488](https://github.com/flutter/flutter/pull/54488) 從 iOS 專案檔案移除 Finder 擴充屬性 (cla: yes, platform-ios, tool)
 
 
-[54989](https://github.com/flutter/flutter/pull/54989) Support armv7s architecture (cla: yes, platform-ios, tool)
+[54989](https://github.com/flutter/flutter/pull/54989) 支援 armv7s 架構 (cla: yes, platform-ios, tool)
 
 
 [55069](https://github.com/flutter/flutter/pull/55069) Prioritize scrolling away nested overscroll (a: fidelity, a: quality, cla: yes, customer: crowd, f: scrolling, framework, platform-ios, waiting for tree to go green)
@@ -4813,7 +4813,7 @@ skipTemplateRendering: true
 [60623](https://github.com/flutter/flutter/pull/60623) Take screenshots of wirelessly paired iOS devices (platform-ios, tool)
 
 
-#### a: quality - 16 pull request(s)
+#### a: quality - 共 16 個 pull request
 
 [50412](https://github.com/flutter/flutter/pull/50412) Make CircularProgressIndicator's animation match native (a: fidelity, a: quality, cla: yes, f: material design, framework, waiting for tree to go green)
 
@@ -4863,9 +4863,9 @@ skipTemplateRendering: true
 [60936](https://github.com/flutter/flutter/pull/60936) Skip Audit - Widgets Library (a: quality, a: tests, cla: yes, framework, team, waiting for tree to go green)
 
 
-#### a: text input - 15 pull request(s)
+#### a: text input - 共 15 個 pull request
 
-[53381](https://github.com/flutter/flutter/pull/53381) Characters Package (a: text input, cla: yes, f: material design, framework, team, tool, waiting for tree to go green)
+[53381](https://github.com/flutter/flutter/pull/53381) Characters 套件 (a: text input, cla: yes, f: material design, framework, team, tool, waiting for tree to go green)
 
 
 [54140](https://github.com/flutter/flutter/pull/54140) iOS Text Selection Menu Overflow (a: text input, cla: yes, f: cupertino, f: material design, framework, platform-ios)
@@ -4910,7 +4910,7 @@ skipTemplateRendering: true
 [60726](https://github.com/flutter/flutter/pull/60726) Doc and Error Message Improvements (a: animation, a: annoyance, a: error message, a: quality, a: text input, cla: yes, d: api docs, d: examples, documentation, f: cupertino, f: material design, framework, waiting for tree to go green)
 
 
-#### d: api docs - 13 pull request(s)
+#### d: api docs - 共 13 個 pull request
 
 [50673](https://github.com/flutter/flutter/pull/50673) Update AppBar MediaQuery documentation (cla: yes, d: api docs, f: material design, framework, waiting for tree to go green)
 
@@ -4951,7 +4951,7 @@ skipTemplateRendering: true
 [60929](https://github.com/flutter/flutter/pull/60929) Adding CupertinoApp Sample templates (cla: yes, d: api docs, d: examples, documentation, f: cupertino, framework, team, waiting for tree to go green)
 
 
-#### documentation - 11 pull request(s)
+#### documentation - 共 11 個 pull request
 
 [54317](https://github.com/flutter/flutter/pull/54317) PageStorage sample (cla: yes, d: api docs, d: examples, documentation, framework, team, waiting for tree to go green)
 
@@ -4986,7 +4986,7 @@ skipTemplateRendering: true
 [60929](https://github.com/flutter/flutter/pull/60929) Adding CupertinoApp Sample templates (cla: yes, d: api docs, d: examples, documentation, f: cupertino, framework, team, waiting for tree to go green)
 
 
-#### severe: performance - 11 pull request(s)
+#### severe: performance - 共 11 個 pull request
 
 [54494](https://github.com/flutter/flutter/pull/54494) Add A/B test mode to local devicelab runner (cla: yes, severe: performance, team, waiting for tree to go green)
 
@@ -5021,7 +5021,7 @@ skipTemplateRendering: true
 [59932](https://github.com/flutter/flutter/pull/59932) Add SkSL shader warm-up tests to Flutter gallery (cla: yes, perf: speed, severe: performance, team, waiting for tree to go green)
 
 
-#### severe: API break - 11 pull request(s)
+#### severe: API break - 共 11 個 pull request
 
 [54806](https://github.com/flutter/flutter/pull/54806) Roll engine deef2663aca4..e6a2534b63ac (20 commits) (cla: yes, severe: API break, waiting for tree to go green, will affect goldens)
 
@@ -5056,7 +5056,7 @@ skipTemplateRendering: true
 [58392](https://github.com/flutter/flutter/pull/58392) iOS mid-drag activity indicator (a: fidelity, a: quality, cla: yes, f: cupertino, f: scrolling, framework, platform-ios, severe: API break)
 
 
-#### f: scrolling - 11 pull request(s)
+#### f: scrolling - 共 11 個 pull request
 
 [55069](https://github.com/flutter/flutter/pull/55069) Prioritize scrolling away nested overscroll (a: fidelity, a: quality, cla: yes, customer: crowd, f: scrolling, framework, platform-ios, waiting for tree to go green)
 
@@ -5091,9 +5091,9 @@ skipTemplateRendering: true
 [60222](https://github.com/flutter/flutter/pull/60222) Doc Updates (cla: yes, d: api docs, d: examples, documentation, f: scrolling, framework, waiting for tree to go green)
 
 
-#### t: xcode - 10 pull request(s)
+#### t: xcode - 共 10 個 pull request
 
-[54691](https://github.com/flutter/flutter/pull/54691) Migrate Runner project base configuration (cla: yes, d: examples, t: xcode, team, tool)
+[54691](https://github.com/flutter/flutter/pull/54691) 遷移 Runner 專案的 base 設定 (cla: yes, d: examples, t: xcode, team, tool)
 
 
 [55790](https://github.com/flutter/flutter/pull/55790) Remove dead variable from xcode_backend (cla: yes, t: xcode, tool)
@@ -5123,7 +5123,7 @@ skipTemplateRendering: true
 [60546](https://github.com/flutter/flutter/pull/60546) Fix daemon device discovery crash when Xcode isn't installed (cla: yes, severe: crash, t: xcode, tool, waiting for tree to go green)
 
 
-#### will affect goldens - 9 pull request(s)
+#### will affect goldens - 共 9 個 pull request
 
 [51656](https://github.com/flutter/flutter/pull/51656) Set AA flag for painting images (a: images, cla: yes, framework, waiting for tree to go green, will affect goldens)
 
@@ -5152,7 +5152,7 @@ skipTemplateRendering: true
 [57629](https://github.com/flutter/flutter/pull/57629) Roll Engine from 2d4e83921d31 to 9ce1e5c5c7e7 (27 revisions) (cla: yes, severe: API break, waiting for tree to go green, will affect goldens)
 
 
-#### platform-web - 9 pull request(s)
+#### platform-web - 共 9 個 pull request
 
 [51581](https://github.com/flutter/flutter/pull/51581) Fix outline button solid path when BorderSize.width is used (cla: yes, f: material design, framework, platform-web, waiting for tree to go green)
 
@@ -5181,24 +5181,24 @@ skipTemplateRendering: true
 [57286](https://github.com/flutter/flutter/pull/57286) Revert " Bring back paste button hide behavior 3" (a: accessibility, cla: yes, f: cupertino, f: material design, framework, platform-web, team, waiting for tree to go green)
 
 
-#### a: null-safety - 8 pull request(s)
+#### a: null-safety - 共 8 個 pull request
 
-[54208](https://github.com/flutter/flutter/pull/54208) [flutter_tools] migrate engine location check (a: null-safety, cla: yes, tool)
-
-
-[54299](https://github.com/flutter/flutter/pull/54299) [flutter_tools] migrate devfs web to package_config (a: null-safety, cla: yes, tool)
+[54208](https://github.com/flutter/flutter/pull/54208) [flutter_tools] 遷移 engine 位置檢查 (a: null-safety, cla: yes, tool)
 
 
-[54301](https://github.com/flutter/flutter/pull/54301) [flutter_tools] Remove packageMap usage and update package_config (a: null-safety, cla: yes, tool)
+[54299](https://github.com/flutter/flutter/pull/54299) [flutter_tools] 將 devfs web 遷移至 package_config (a: null-safety, cla: yes, tool)
 
 
-[54467](https://github.com/flutter/flutter/pull/54467) [flutter_tools] update compilation to use package config (a: null-safety, cla: yes, tool)
+[54301](https://github.com/flutter/flutter/pull/54301) [flutter_tools] 移除 packageMap 用法並更新 package_config (a: null-safety, cla: yes, tool)
 
 
-[54613](https://github.com/flutter/flutter/pull/54613) [flutter_tools] support enable-experiment in flutter analyze (a: null-safety, cla: yes, tool, waiting for tree to go green)
+[54467](https://github.com/flutter/flutter/pull/54467) [flutter_tools] 編譯流程改用 package config (a: null-safety, cla: yes, tool)
 
 
-[54617](https://github.com/flutter/flutter/pull/54617) [flutter_tools] initial support for enable experiment, run, apk, ios, macos (a: null-safety, cla: yes, team, tool)
+[54613](https://github.com/flutter/flutter/pull/54613) [flutter_tools] flutter analyze 支援 enable-experiment (a: null-safety, cla: yes, tool, waiting for tree to go green)
+
+
+[54617](https://github.com/flutter/flutter/pull/54617) [flutter_tools] 初步支援 enable experiment、run、apk、ios、macos (a: null-safety, cla: yes, team, tool)
 
 
 [58533](https://github.com/flutter/flutter/pull/58533) [flutter_tools] add flag for sound-null-safety, unify with experiments (a: null-safety, cla: yes, tool)
@@ -5207,7 +5207,7 @@ skipTemplateRendering: true
 [60111](https://github.com/flutter/flutter/pull/60111) Add null safety options to build ios-framework (a: existing-apps, a: null-safety, cla: yes, tool)
 
 
-#### a: fidelity - 7 pull request(s)
+#### a: fidelity - 共 7 個 pull request
 
 [50412](https://github.com/flutter/flutter/pull/50412) Make CircularProgressIndicator's animation match native (a: fidelity, a: quality, cla: yes, f: material design, framework, waiting for tree to go green)
 
@@ -5230,7 +5230,7 @@ skipTemplateRendering: true
 [58829](https://github.com/flutter/flutter/pull/58829) Step 3 of 3: Remove opt-in for useMaterialBorderRadius on Dialogs (a: fidelity, a: quality, cla: yes, f: material design, framework, waiting for tree to go green)
 
 
-#### a: images - 7 pull request(s)
+#### a: images - 共 7 個 pull request
 
 [51656](https://github.com/flutter/flutter/pull/51656) Set AA flag for painting images (a: images, cla: yes, framework, waiting for tree to go green, will affect goldens)
 
@@ -5253,7 +5253,7 @@ skipTemplateRendering: true
 [59877](https://github.com/flutter/flutter/pull/59877) Allow detection of images using more memory than necessary (a: debugging, a: error message, a: images, cla: yes, framework)
 
 
-#### work in progress; do not review - 5 pull request(s)
+#### work in progress; do not review - 共 5 個 pull request
 
 [53879](https://github.com/flutter/flutter/pull/53879) Collect chrome://tracing data in Web benchmarks (cla: yes, team, work in progress; do not review)
 
@@ -5270,7 +5270,7 @@ skipTemplateRendering: true
 [58050](https://github.com/flutter/flutter/pull/58050) Flutter 1.17.2 cherrypicks (a: accessibility, cla: yes, d: examples, engine, f: cupertino, f: material design, framework, team, tool, work in progress; do not review)
 
 
-#### platform-android - 5 pull request(s)
+#### platform-android - 共 5 個 pull request
 
 [50111](https://github.com/flutter/flutter/pull/50111) fix memory leak of android view (a: platform-views, cla: yes, p: framework, perf: memory, platform-android, plugin, waiting for tree to go green)
 
@@ -5287,7 +5287,7 @@ skipTemplateRendering: true
 [59867](https://github.com/flutter/flutter/pull/59867) Replace ANDROID_HOME user messages with ANDROID_SDK_ROOT (cla: yes, platform-android, team, tool, waiting for tree to go green)
 
 
-#### CQ+1 - 4 pull request(s)
+#### CQ+1 - 共 4 個 pull request
 
 [54131](https://github.com/flutter/flutter/pull/54131) flutter/flutter 1.17.0-dev.3.1 cherrypicks (CQ+1, cla: yes, framework, tool)
 
@@ -5301,7 +5301,7 @@ skipTemplateRendering: true
 [60717](https://github.com/flutter/flutter/pull/60717) 1.19 CP: Fix daemon device discovery crash when Xcode isn't installed (#60546) (CQ+1, cla: yes)
 
 
-#### a: existing-apps - 4 pull request(s)
+#### a: existing-apps - 共 4 個 pull request
 
 [59217](https://github.com/flutter/flutter/pull/59217) Deprecate make-host-app-editable (a: existing-apps, cla: yes, tool, waiting for tree to go green)
 
@@ -5315,9 +5315,9 @@ skipTemplateRendering: true
 [60228](https://github.com/flutter/flutter/pull/60228) Make module run script names unique (a: existing-apps, cla: yes, platform-ios, team, tool)
 
 
-#### severe: new feature - 4 pull request(s)
+#### severe: new feature - 共 4 個 pull request
 
-[53868](https://github.com/flutter/flutter/pull/53868) [gen_l10n] Add scriptCode handling (a: internationalization, cla: yes, severe: new feature, team, tool)
+[53868](https://github.com/flutter/flutter/pull/53868) [gen_l10n] 新增 scriptCode 處理 (a: internationalization, cla: yes, severe: new feature, team, tool)
 
 
 [55829](https://github.com/flutter/flutter/pull/55829) allow changing the paint offset of a GlowingOverscrollIndicator (a: fidelity, a: quality, cla: yes, d: api docs, d: examples, documentation, f: material design, f: scrolling, framework, severe: new feature, waiting for tree to go green)
@@ -5329,7 +5329,7 @@ skipTemplateRendering: true
 [59405](https://github.com/flutter/flutter/pull/59405) [AppBar] adds toolbarHeight property to customize AppBar height (cla: yes, f: material design, f: scrolling, framework, severe: new feature, waiting for tree to go green)
 
 
-#### perf: memory - 4 pull request(s)
+#### perf: memory - 共 4 個 pull request
 
 [50111](https://github.com/flutter/flutter/pull/50111) fix memory leak of android view (a: platform-views, cla: yes, p: framework, perf: memory, platform-android, plugin, waiting for tree to go green)
 
@@ -5343,7 +5343,7 @@ skipTemplateRendering: true
 [61025](https://github.com/flutter/flutter/pull/61025) benchmark memory usage for grid view of memory intensive widgets (cla: yes, perf: memory, team, waiting for tree to go green)
 
 
-#### f: routes - 4 pull request(s)
+#### f: routes - 共 4 個 pull request
 
 [55998](https://github.com/flutter/flutter/pull/55998) Fixes the navigator pages update crashes when there is still route wa… (cla: yes, f: routes, framework, severe: API break, waiting for tree to go green)
 
@@ -5357,7 +5357,7 @@ skipTemplateRendering: true
 [60621](https://github.com/flutter/flutter/pull/60621) Add a flag to toggle navigator route update reporting (cla: yes, f: routes, framework, waiting for tree to go green)
 
 
-#### a: desktop - 3 pull request(s)
+#### a: desktop - 共 3 個 pull request
 
 [53888](https://github.com/flutter/flutter/pull/53888) Add visualDensity and focus support to ListTile (a: desktop, cla: yes, f: material design, framework, team, waiting for tree to go green)
 
@@ -5368,7 +5368,7 @@ skipTemplateRendering: true
 [58272](https://github.com/flutter/flutter/pull/58272) Remove callback asserts on FocusableActionDetector (a: desktop, cla: yes, framework)
 
 
-#### perf: speed - 3 pull request(s)
+#### perf: speed - 共 3 個 pull request
 
 [55181](https://github.com/flutter/flutter/pull/55181) Add performance tests for the new gallery (cla: yes, perf: speed, severe: performance, team, waiting for tree to go green)
 
@@ -5379,18 +5379,18 @@ skipTemplateRendering: true
 [59932](https://github.com/flutter/flutter/pull/59932) Add SkSL shader warm-up tests to Flutter gallery (cla: yes, perf: speed, severe: performance, team, waiting for tree to go green)
 
 
-#### a: triage improvements - 3 pull request(s)
+#### a: triage improvements - 共 3 個 pull request
 
-[53882](https://github.com/flutter/flutter/pull/53882) Remove URL shortening from GitHub reporter similar issues URL (a: triage improvements, cla: yes, tool)
+[53882](https://github.com/flutter/flutter/pull/53882) 移除 GitHub reporter 相似議題 URL 的縮網址功能 (a: triage improvements, cla: yes, tool)
 
 
-[53936](https://github.com/flutter/flutter/pull/53936) Sanitize error message sent to GitHub crash reporter (a: triage improvements, cla: yes, tool)
+[53936](https://github.com/flutter/flutter/pull/53936) 清理傳送至 GitHub crash reporter 的錯誤訊息 (a: triage improvements, cla: yes, tool)
 
 
 [56928](https://github.com/flutter/flutter/pull/56928) Add mirror overrides to doctor output (a: triage improvements, cla: yes, t: flutter doctor, tool, waiting for tree to go green)
 
 
-#### a: typography - 3 pull request(s)
+#### a: typography - 共 3 個 pull request
 
 [54234](https://github.com/flutter/flutter/pull/54234) Fix right alignment TWB longestLine (a: typography, cla: yes, framework)
 
@@ -5401,9 +5401,9 @@ skipTemplateRendering: true
 [55793](https://github.com/flutter/flutter/pull/55793) Skip Audit - Painting Library (a: images, a: tests, a: typography, cla: yes, framework, platform-web, team, will affect goldens)
 
 
-#### team: infra - 3 pull request(s)
+#### team: infra - 共 3 個 pull request
 
-[54478](https://github.com/flutter/flutter/pull/54478) Fix environment leakage in doctor_test (cla: yes, team, team: flakes, team: infra, tool)
+[54478](https://github.com/flutter/flutter/pull/54478) 修正 doctor_test 的環境變數外洩 (cla: yes, team, team: flakes, team: infra, tool)
 
 
 [54891](https://github.com/flutter/flutter/pull/54891) Mark ios_app_with_watch_companion as flaky (cla: yes, team, team: infra)
@@ -5412,7 +5412,7 @@ skipTemplateRendering: true
 [54899](https://github.com/flutter/flutter/pull/54899) Pass in runtime to ios_app_with_watch_companion simctl create (cla: yes, team, team: infra)
 
 
-#### a: error message - 3 pull request(s)
+#### a: error message - 共 3 個 pull request
 
 [55001](https://github.com/flutter/flutter/pull/55001) FlutterErrorDetails.context docs fix (a: error message, a: tests, cla: yes, d: api docs, d: examples, documentation, framework, waiting for tree to go green)
 
@@ -5423,7 +5423,7 @@ skipTemplateRendering: true
 [60726](https://github.com/flutter/flutter/pull/60726) Doc and Error Message Improvements (a: animation, a: annoyance, a: error message, a: quality, a: text input, cla: yes, d: api docs, d: examples, documentation, f: cupertino, f: material design, framework, waiting for tree to go green)
 
 
-#### f: focus - 3 pull request(s)
+#### f: focus - 共 3 個 pull request
 
 [52990](https://github.com/flutter/flutter/pull/52990) Update Highlight mode initial value calculation. (cla: yes, f: focus, framework, waiting for tree to go green)
 
@@ -5434,7 +5434,7 @@ skipTemplateRendering: true
 [58535](https://github.com/flutter/flutter/pull/58535) Make _RenderSlider not be a semantics container (a: accessibility, cla: yes, f: focus, f: material design, framework)
 
 
-#### customer: money (g3) - 3 pull request(s)
+#### customer: money (g3) - 共 3 個 pull request
 
 [58482](https://github.com/flutter/flutter/pull/58482) Expose ComputePlatformResolvedLocale (a: internationalization, cla: yes, customer: money (g3), framework, waiting for tree to go green)
 
@@ -5445,7 +5445,7 @@ skipTemplateRendering: true
 [60248](https://github.com/flutter/flutter/pull/60248) Ensure FloatingActionButtonLocations are always within safe interactive areas (a: quality, cla: yes, customer: money (g3), f: material design, framework, waiting for tree to go green)
 
 
-#### customer: crowd - 2 pull request(s)
+#### customer: crowd - 共 2 個 pull request
 
 [55069](https://github.com/flutter/flutter/pull/55069) Prioritize scrolling away nested overscroll (a: fidelity, a: quality, cla: yes, customer: crowd, f: scrolling, framework, platform-ios, waiting for tree to go green)
 
@@ -5453,7 +5453,7 @@ skipTemplateRendering: true
 [59187](https://github.com/flutter/flutter/pull/59187) Support floating the header slivers of a NestedScrollView (a: annoyance, a: quality, cla: yes, customer: crowd, customer: quill (g3), d: api docs, d: examples, documentation, f: material design, f: scrolling, framework, waiting for tree to go green)
 
 
-#### severe: regression - 2 pull request(s)
+#### severe: regression - 共 2 個 pull request
 
 [55408](https://github.com/flutter/flutter/pull/55408) Fix InputDecorator intrinsic height reporting (a: text input, cla: yes, f: material design, f: scrolling, framework, severe: regression, waiting for tree to go green)
 
@@ -5461,7 +5461,7 @@ skipTemplateRendering: true
 [57037](https://github.com/flutter/flutter/pull/57037) Making DropdownButtonFormField to re-render if parent widget changes (cla: yes, f: material design, found in release: 1.17, found in release: 1.18, framework, severe: regression, waiting for tree to go green)
 
 
-#### a: platform-views - 2 pull request(s)
+#### a: platform-views - 共 2 個 pull request
 
 [50111](https://github.com/flutter/flutter/pull/50111) fix memory leak of android view (a: platform-views, cla: yes, p: framework, perf: memory, platform-android, plugin, waiting for tree to go green)
 
@@ -5469,7 +5469,7 @@ skipTemplateRendering: true
 [55609](https://github.com/flutter/flutter/pull/55609) Add benchmark for hybrid composition on Android (a: platform-views, cla: yes, t: flutter driver, team)
 
 
-#### a: animation - 2 pull request(s)
+#### a: animation - 共 2 個 pull request
 
 [60726](https://github.com/flutter/flutter/pull/60726) Doc and Error Message Improvements (a: animation, a: annoyance, a: error message, a: quality, a: text input, cla: yes, d: api docs, d: examples, documentation, f: cupertino, f: material design, framework, waiting for tree to go green)
 
@@ -5477,7 +5477,7 @@ skipTemplateRendering: true
 [60836](https://github.com/flutter/flutter/pull/60836) Expose height and width factor in AnimatedAlign  (a: animation, cla: yes, framework, waiting for tree to go green)
 
 
-#### a: annoyance - 2 pull request(s)
+#### a: annoyance - 共 2 個 pull request
 
 [59187](https://github.com/flutter/flutter/pull/59187) Support floating the header slivers of a NestedScrollView (a: annoyance, a: quality, cla: yes, customer: crowd, customer: quill (g3), d: api docs, d: examples, documentation, f: material design, f: scrolling, framework, waiting for tree to go green)
 
@@ -5485,7 +5485,7 @@ skipTemplateRendering: true
 [60726](https://github.com/flutter/flutter/pull/60726) Doc and Error Message Improvements (a: animation, a: annoyance, a: error message, a: quality, a: text input, cla: yes, d: api docs, d: examples, documentation, f: cupertino, f: material design, framework, waiting for tree to go green)
 
 
-#### t: flutter doctor - 2 pull request(s)
+#### t: flutter doctor - 共 2 個 pull request
 
 [56928](https://github.com/flutter/flutter/pull/56928) Add mirror overrides to doctor output (a: triage improvements, cla: yes, t: flutter doctor, tool, waiting for tree to go green)
 
@@ -5493,118 +5493,118 @@ skipTemplateRendering: true
 [57963](https://github.com/flutter/flutter/pull/57963) [flutter_tools] Support latest IntelliJ via Jetbrain toolbox (cla: yes, t: flutter doctor, tool)
 
 
-#### found in release: 1.17 - 1 pull request(s)
+#### found in release: 1.17 - 共 1 個 pull request
 
 [57037](https://github.com/flutter/flutter/pull/57037) Making DropdownButtonFormField to re-render if parent widget changes (cla: yes, f: material design, found in release: 1.17, found in release: 1.18, framework, severe: regression, waiting for tree to go green)
 
 
-#### f: inspector - 1 pull request(s)
+#### f: inspector - 共 1 個 pull request
 
 [55911](https://github.com/flutter/flutter/pull/55911) Text field height fix (a: text input, cla: yes, f: inspector, f: material design, framework, waiting for tree to go green)
 
 
-#### f: gestures - 1 pull request(s)
+#### f: gestures - 共 1 個 pull request
 
 [57838](https://github.com/flutter/flutter/pull/57838) Add sample code of  GestureDetector with no children (cla: yes, d: api docs, d: examples, documentation, f: gestures, framework, waiting for tree to go green)
 
 
-#### platform-mac - 1 pull request(s)
+#### platform-mac - 共 1 個 pull request
 
 [56794](https://github.com/flutter/flutter/pull/56794) [web & desktop] Hide all characters in a TextField, when obscureText is true on web & desktop (cla: yes, f: material design, framework, platform-mac, platform-web, waiting for tree to go green)
 
 
-#### customer: quill (g3) - 1 pull request(s)
+#### customer: quill (g3) - 共 1 個 pull request
 
 [59187](https://github.com/flutter/flutter/pull/59187) Support floating the header slivers of a NestedScrollView (a: annoyance, a: quality, cla: yes, customer: crowd, customer: quill (g3), d: api docs, d: examples, documentation, f: material design, f: scrolling, framework, waiting for tree to go green)
 
 
-#### plugin - 1 pull request(s)
+#### plugin - 共 1 個 pull request
 
 [50111](https://github.com/flutter/flutter/pull/50111) fix memory leak of android view (a: platform-views, cla: yes, p: framework, perf: memory, platform-android, plugin, waiting for tree to go green)
 
 
-#### customer: peppermint - 1 pull request(s)
+#### customer: peppermint - 共 1 個 pull request
 
 [52126](https://github.com/flutter/flutter/pull/52126) Autofill  Part 1 (cla: yes, customer: peppermint, f: cupertino, f: material design, framework, waiting for tree to go green)
 
 
-#### severe: crash - 1 pull request(s)
+#### severe: crash - 共 1 個 pull request
 
 [60546](https://github.com/flutter/flutter/pull/60546) Fix daemon device discovery crash when Xcode isn't installed (cla: yes, severe: crash, t: xcode, tool, waiting for tree to go green)
 
 
-#### customer: octopod - 1 pull request(s)
+#### customer: octopod - 共 1 個 pull request
 
 [59363](https://github.com/flutter/flutter/pull/59363) Add material state mouse cursor to TextField (a: text input, cla: yes, customer: octopod, f: material design, framework, waiting for tree to go green)
 
 
-#### customer: fun (g3) - 1 pull request(s)
+#### customer: fun (g3) - 共 1 個 pull request
 
 [54919](https://github.com/flutter/flutter/pull/54919) Add MediaQueryData.navigationMode and allow controls to be focused when disabled. (cla: yes, customer: fun (g3), f: material design, framework)
 
 
-#### customer: fuchsia - 1 pull request(s)
+#### customer: fuchsia - 共 1 個 pull request
 
 [60152](https://github.com/flutter/flutter/pull/60152) Remove unused physicalDepth code (a: tests, cla: yes, customer: fuchsia, framework, waiting for tree to go green)
 
 
-#### p: framework - 1 pull request(s)
+#### p: framework - 共 1 個 pull request
 
 [50111](https://github.com/flutter/flutter/pull/50111) fix memory leak of android view (a: platform-views, cla: yes, p: framework, perf: memory, platform-android, plugin, waiting for tree to go green)
 
 
-#### t: flutter driver - 1 pull request(s)
+#### t: flutter driver - 共 1 個 pull request
 
 [55609](https://github.com/flutter/flutter/pull/55609) Add benchmark for hybrid composition on Android (a: platform-views, cla: yes, t: flutter driver, team)
 
 
-#### customer: dream (g3) - 1 pull request(s)
+#### customer: dream (g3) - 共 1 個 pull request
 
 [53880](https://github.com/flutter/flutter/pull/53880) Use `no` locale as synonym for `nb` (a: internationalization, cla: yes, customer: dream (g3), f: cupertino, f: material design, team, waiting for tree to go green)
 
 
-#### cla: no - 1 pull request(s)
+#### cla: no - 共 1 個 pull request
 
 [54111](https://github.com/flutter/flutter/pull/54111) Manual roll of engine 9b8dcc7ecffe..df257e59c241 (cla: no, engine)
 
 
-#### team: flakes - 1 pull request(s)
+#### team: flakes - 共 1 個 pull request
 
-[54478](https://github.com/flutter/flutter/pull/54478) Fix environment leakage in doctor_test (cla: yes, team, team: flakes, team: infra, tool)
-
-
-#### team: gallery - 1 pull request(s)
-
-[52507](https://github.com/flutter/flutter/pull/52507) enable avoid_equals_and_hash_code_on_mutable_classes (a: tests, cla: yes, d: examples, f: cupertino, f: material design, framework, team, team: gallery, tool, waiting for tree to go green)
+[54478](https://github.com/flutter/flutter/pull/54478) 修正 doctor_test 的環境變數外洩 (cla: yes, team, team: flakes, team: infra, tool)
 
 
-#### a: video - 1 pull request(s)
+#### team: gallery - 共 1 個 pull request
+
+[52507](https://github.com/flutter/flutter/pull/52507) 啟用 avoid_equals_and_hash_code_on_mutable_classes (a: tests, cla: yes, d: examples, f: cupertino, f: material design, framework, team, team: gallery, tool, waiting for tree to go green)
+
+
+#### a: video - 共 1 個 pull request
 
 [59966](https://github.com/flutter/flutter/pull/59966) Added a filterQuality parameter to texture (a: quality, a: video, cla: yes, framework, waiting for tree to go green)
 
 
-#### a: mouse - 1 pull request(s)
+#### a: mouse - 共 1 個 pull request
 
 [59883](https://github.com/flutter/flutter/pull/59883) Refactor mouse hit testing system: Direct mouse hit test (a: mouse, cla: yes, f: material design, framework, severe: performance, waiting for tree to go green)
 
 
-#### waiting for customer response - 1 pull request(s)
+#### waiting for customer response - 共 1 個 pull request
 
-[54133](https://github.com/flutter/flutter/pull/54133) [flutter_tools] ensure the tool can find SDK manager on windows (cla: yes, tool, waiting for customer response)
+[54133](https://github.com/flutter/flutter/pull/54133) [flutter_tools] 確保工具在 Windows 上能找到 SDK manager (cla: yes, tool, waiting for customer response)
 
 
-#### a: debugging - 1 pull request(s)
+#### a: debugging - 共 1 個 pull request
 
 [59877](https://github.com/flutter/flutter/pull/59877) Allow detection of images using more memory than necessary (a: debugging, a: error message, a: images, cla: yes, framework)
 
 
-#### found in release: 1.18 - 1 pull request(s)
+#### found in release: 1.18 - 共 1 個 pull request
 
 [57037](https://github.com/flutter/flutter/pull/57037) Making DropdownButtonFormField to re-render if parent widget changes (cla: yes, f: material design, found in release: 1.17, found in release: 1.18, framework, severe: regression, waiting for tree to go green)
 
-### Merged PRs by labels for `flutter/engine`
+### `flutter/engine` 依標籤彙總的已合併 PR
 
-#### platform-android - 62 pull request(s)
+#### platform-android - 共 62 個 pull request
 
 [17509](https://github.com/flutter/engine/pull/17509) Implement repeat filtering logic in Android Embedder (affects: text input, cla: yes, platform-android)
 
@@ -5792,7 +5792,7 @@ skipTemplateRendering: true
 [19608](https://github.com/flutter/engine/pull/19608) Propoagate Tap events on Android hybrid views (cla: yes, platform-android)
 
 
-#### platform-ios - 21 pull request(s)
+#### platform-ios - 共 21 個 pull request
 
 [18379](https://github.com/flutter/engine/pull/18379) Remove currentLocale prepend on iOS (cla: yes, platform-ios)
 
@@ -5857,7 +5857,7 @@ skipTemplateRendering: true
 [19592](https://github.com/flutter/engine/pull/19592) Only attempt surface creation in viewDidLayoutSubviews if the application is active. (cla: yes, platform-ios)
 
 
-#### severe: performance - 16 pull request(s)
+#### severe: performance - 共 16 個 pull request
 
 [17175](https://github.com/flutter/engine/pull/17175) Enhance image_filter_layer caching to filter a cached child (cla: yes, perf: speed, severe: performance, waiting for tree to go green)
 
@@ -5907,7 +5907,7 @@ skipTemplateRendering: true
 [18945](https://github.com/flutter/engine/pull/18945) Add ui_benchmarks (affects: tests, cla: yes, perf: speed, severe: performance, waiting for tree to go green)
 
 
-#### perf: speed - 13 pull request(s)
+#### perf: speed - 共 13 個 pull request
 
 [17175](https://github.com/flutter/engine/pull/17175) Enhance image_filter_layer caching to filter a cached child (cla: yes, perf: speed, severe: performance, waiting for tree to go green)
 
@@ -5948,7 +5948,7 @@ skipTemplateRendering: true
 [18945](https://github.com/flutter/engine/pull/18945) Add ui_benchmarks (affects: tests, cla: yes, perf: speed, severe: performance, waiting for tree to go green)
 
 
-#### platform-web - 13 pull request(s)
+#### platform-web - 共 13 個 pull request
 
 [17495](https://github.com/flutter/engine/pull/17495) [web] Detect when the mouseup occurs outside of window (cla: yes, platform-web, waiting for tree to go green)
 
@@ -5989,7 +5989,7 @@ skipTemplateRendering: true
 [19586](https://github.com/flutter/engine/pull/19586) [web][1/3] Start first batch of auto-generated (already passing) tests for line break (cla: yes, platform-web)
 
 
-#### platform-fuchsia - 6 pull request(s)
+#### platform-fuchsia - 共 6 個 pull request
 
 [18625](https://github.com/flutter/engine/pull/18625) Add tests & --unopt to build_fuchsia_artifacts (cla: yes, platform-fuchsia)
 
@@ -6009,7 +6009,7 @@ skipTemplateRendering: true
 [19500](https://github.com/flutter/engine/pull/19500) fuchsia: Remove dead flutter_frontend_server code (cla: yes, code health, platform-fuchsia)
 
 
-#### perf: memory - 5 pull request(s)
+#### perf: memory - 共 5 個 pull request
 
 [18164](https://github.com/flutter/engine/pull/18164) Fix iOS platform view not deallocated (cla: yes, perf: memory, severe: performance)
 
@@ -6026,7 +6026,7 @@ skipTemplateRendering: true
 [19283](https://github.com/flutter/engine/pull/19283) Make Shell::NotifyLowMemoryWarning trace (cla: yes, perf: memory, waiting for tree to go green)
 
 
-#### affects: engine - 3 pull request(s)
+#### affects: engine - 共 3 個 pull request
 
 [18492](https://github.com/flutter/engine/pull/18492) fuchsia: Fix runtime_tests and shell_tests (affects: engine, bug, cla: yes, waiting for tree to go green)
 
@@ -6037,7 +6037,7 @@ skipTemplateRendering: true
 [19132](https://github.com/flutter/engine/pull/19132) Add PlatformView support for Fuchsia (affects: engine, cla: yes, platform-fuchsia)
 
 
-#### affects: tests - 3 pull request(s)
+#### affects: tests - 共 3 個 pull request
 
 [17615](https://github.com/flutter/engine/pull/17615) [web] Combine duplicate platform message spy implementations (affects: tests, cla: yes, platform-web)
 
@@ -6048,7 +6048,7 @@ skipTemplateRendering: true
 [19339](https://github.com/flutter/engine/pull/19339) Fix broken mac/fuchsia compiles (affects: tests, cla: yes, platform-android, platform-fuchsia, platform-ios, platform-linux, platform-macos, platform-windows)
 
 
-#### code health - 3 pull request(s)
+#### code health - 共 3 個 pull request
 
 [19003](https://github.com/flutter/engine/pull/19003) Move fuchsia/scenic integration behind #define (affects: engine, cla: yes, code health, platform-fuchsia)
 
@@ -6059,7 +6059,7 @@ skipTemplateRendering: true
 [19500](https://github.com/flutter/engine/pull/19500) fuchsia: Remove dead flutter_frontend_server code (cla: yes, code health, platform-fuchsia)
 
 
-#### affects: text input - 2 pull request(s)
+#### affects: text input - 共 2 個 pull request
 
 [17420](https://github.com/flutter/engine/pull/17420) Make DPAD movement consider grapheme clusters (affects: text input, cla: yes)
 
@@ -6067,7 +6067,7 @@ skipTemplateRendering: true
 [17509](https://github.com/flutter/engine/pull/17509) Implement repeat filtering logic in Android Embedder (affects: text input, cla: yes, platform-android)
 
 
-#### platform-windows - 2 pull request(s)
+#### platform-windows - 共 2 個 pull request
 
 [18878](https://github.com/flutter/engine/pull/18878) Refactor Win32FlutterWindow in preparation for UWP windowing implementation (cla: yes, platform-windows)
 
@@ -6075,40 +6075,40 @@ skipTemplateRendering: true
 [19339](https://github.com/flutter/engine/pull/19339) Fix broken mac/fuchsia compiles (affects: tests, cla: yes, platform-android, platform-fuchsia, platform-ios, platform-linux, platform-macos, platform-windows)
 
 
-#### bug - 1 pull request(s)
+#### bug - 共 1 個 pull request
 
 [18492](https://github.com/flutter/engine/pull/18492) fuchsia: Fix runtime_tests and shell_tests (affects: engine, bug, cla: yes, waiting for tree to go green)
 
 
-#### bug (regression) - 1 pull request(s)
+#### bug (regression) - 共 1 個 pull request
 
 [18193](https://github.com/flutter/engine/pull/18193) Add fullscreen padding workarounds to v2 android embedding (bug (regression), cla: yes, platform-android)
 
 
-#### crash - 1 pull request(s)
+#### crash - 共 1 個 pull request
 
 [19280](https://github.com/flutter/engine/pull/19280) skip ios safari tests on felt level (cla: yes, crash)
 
 
-#### perf: app size - 1 pull request(s)
+#### perf: app size - 共 1 個 pull request
 
 [18439](https://github.com/flutter/engine/pull/18439) Roll buildroot to flutter/buildroot@a4f3c4d5023e080ee50596e6623d179e9c5f839b (cla: yes, perf: app size, perf: speed, severe: performance, waiting for tree to go green)
 
 
-#### platform-linux - 1 pull request(s)
+#### platform-linux - 共 1 個 pull request
 
 [19339](https://github.com/flutter/engine/pull/19339) Fix broken mac/fuchsia compiles (affects: tests, cla: yes, platform-android, platform-fuchsia, platform-ios, platform-linux, platform-macos, platform-windows)
 
 
-#### platform-macos - 1 pull request(s)
+#### platform-macos - 共 1 個 pull request
 
 [19339](https://github.com/flutter/engine/pull/19339) Fix broken mac/fuchsia compiles (affects: tests, cla: yes, platform-android, platform-fuchsia, platform-ios, platform-linux, platform-macos, platform-windows)
 
 
 
-### Merged PRs by labels for `flutter/plugins`
+### `flutter/plugins` 依標籤彙總的已合併 PR
 
-#### submit queue - 3 pull request(s)
+#### submit queue - 共 3 個 pull request
 
 [831](https://github.com/flutter/plugins/pull/831) [google_maps_flutter] add zoom controls property (cla: yes, feature, submit queue)
 
@@ -6119,7 +6119,7 @@ skipTemplateRendering: true
 [2743](https://github.com/flutter/plugins/pull/2743) reference apple sign in plugin from google sign in plugin (cla: yes, submit queue)
 
 
-#### waiting for test harness - 3 pull request(s)
+#### waiting for test harness - 共 3 個 pull request
 
 [2634](https://github.com/flutter/plugins/pull/2634) [google_sign_in] Add serverAuthCode attribute to google_sign_in_platform_interface (cla: yes, submit queue, waiting for test harness)
 
@@ -6130,7 +6130,7 @@ skipTemplateRendering: true
 [2817](https://github.com/flutter/plugins/pull/2817) [image_picker_for_web] Remove android directory. (cla: yes, waiting for test harness)
 
 
-#### in review - 2 pull request(s)
+#### in review - 共 2 個 pull request
 
 [2116](https://github.com/flutter/plugins/pull/2116) [google_sign_in] Add ability to return serverAuthCode (cla: yes, in review)
 
@@ -6138,30 +6138,30 @@ skipTemplateRendering: true
 [2755](https://github.com/flutter/plugins/pull/2755) [image_picker] fixes for iOS which doesn't present camera/albums with more complex navigation (cla: yes, in review)
 
 
-#### bugfix - 1 pull request(s)
+#### bugfix - 共 1 個 pull request
 
 [2757](https://github.com/flutter/plugins/pull/2757) [url_launcher] Initialize previousAutomaticSystemUiAdjustment in launch (bugfix, cla: yes)
 
 
-#### documentation - 1 pull request(s)
+#### documentation - 共 1 個 pull request
 
 [2766](https://github.com/flutter/plugins/pull/2766) [url_launcher] update README with enableJavaScript info (cla: yes, documentation, webview)
 
 
-#### feature - 1 pull request(s)
+#### feature - 共 1 個 pull request
 
 [831](https://github.com/flutter/plugins/pull/831) [google_maps_flutter] add zoom controls property (cla: yes, feature, submit queue)
 
 
-#### webview - 1 pull request(s)
+#### webview - 共 1 個 pull request
 
 [2766](https://github.com/flutter/plugins/pull/2766) [url_launcher] update README with enableJavaScript info (cla: yes, documentation, webview)
 
-## All merged pull requests
+## 所有已合併的 Pull Request
 
-### Merged PRs in `flutter/flutter`
+### `flutter/flutter` 中已合併的 PR
 
-There were 1526 pull requests.
+共有 1526 個 pull request。
 
 [37145](https://github.com/flutter/flutter/pull/37145) Use state value in DropdownButtonFieldForm (cla: yes, f: material design, framework, passed first triage)
 
@@ -9215,9 +9215,9 @@ There were 1526 pull requests.
 
 [53866](https://github.com/flutter/flutter/pull/53866) Roll engine 49d65b45cfee..f56e678e7fa9 (2 commits) (cla: yes, waiting for tree to go green)
 
-### Merged PRs in `flutter/engine`
+### `flutter/engine` 中已合併的 PR
 
-There were 1421 pull requests.
+共有 1421 個 pull request。
 
 [12467](https://github.com/flutter/engine/pull/12467) Add support for on/off switch labels when built on iOS 13. (cla: yes)
 
@@ -12061,9 +12061,9 @@ There were 1421 pull requests.
 
 [17490](https://github.com/flutter/engine/pull/17490) Roll fuchsia/sdk/core/linux-amd64 from v61zg... to -jFTb... (cla: yes, waiting for tree to go green)
 
-### Merged PRs in `flutter/plugins`
+### `flutter/plugins` 中已合併的 PR
 
-There were 214 pull requests.
+共有 214 個 pull request。
 
 [1821](https://github.com/flutter/plugins/pull/1821) [google_maps_flutter] Breaking change fix for bitmap scaling (cla: yes)
 

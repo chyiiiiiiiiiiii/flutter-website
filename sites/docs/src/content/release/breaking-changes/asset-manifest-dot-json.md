@@ -1,29 +1,29 @@
 ---
-title: Removal of AssetManifest.json
+title: 移除 AssetManifest.json
 description: >-
-    Built Flutter apps will no longer include an AssetManifest.json asset file.
+    已建置的 Flutter 應用程式將不再包含 AssetManifest.json 資源檔案。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-Flutter apps included an asset file named `AssetManifest.json`.
-This file effectively contains a list of assets.
-Application code can read it using the [`AssetBundle`][] API to
-determine what assets are available at runtime.
+Flutter 應用程式會包含一個名為 `AssetManifest.json` 的資源檔案。
+這個檔案實際上包含了一份資源清單。
+應用程式程式碼可以使用 [`AssetBundle`][] API 來讀取它，
+以便在執行時判斷有哪些資源可用。
 
-The `AssetManifest.json` file is an undocumented implementation detail.
-It's no longer used by the framework, and it's planned to
-no longer generate it in a future release of Flutter.
-If your app's code needs to get a list of available assets,
-use the [`AssetManifest`][] API instead.
+`AssetManifest.json` 檔案是一個未公開記載的實作細節。
+目前框架已不再使用它，並計劃在未來的 Flutter 版本中
+不再產生此檔案。
+如果您的應用程式程式碼需要取得可用資源的清單，
+請改用 [`AssetManifest`][] API。
 
-## Migration guide
+## 遷移指南
 
-### Reading asset manifest from Flutter application code
+### 從 Flutter 應用程式程式碼讀取資源清單
 
-Before:
+變更前：
 
 ```dart
 import 'dart:convert';
@@ -37,7 +37,7 @@ void readAssetList() async {
 }
 ```
 
-After:
+變更後：
 
 ```dart
 import 'package:flutter/services.dart';
@@ -48,17 +48,16 @@ void readAssetList() async {
 }
 ```
 
-### Reading asset manifest information from Dart code outside of a Flutter app
+### 從 Flutter 應用程式外部的 Dart 程式碼讀取資源清單
 
-The `flutter` CLI tool generates a new file, `AssetManifest.bin`.
-This replaces `AssetManifest.json`.
-This file contains the same information as `AssetManifest.json`,
-but in a different format.
-If you need to read this file from code that isn't part of a Flutter app, and
-therefore can't use the [`AssetManifest`][] API,
-you can still parse the file yourself.
+`flutter` 命令列介面 (Command Line Interface) 工具會產生一個新檔案 `AssetManifest.bin`。
+這個檔案取代了 `AssetManifest.json`。
+該檔案包含與 `AssetManifest.json` 相同的資訊，但格式不同。
+如果你需要從不是 Flutter 應用程式的程式碼中讀取這個檔案，
+因此無法使用 [`AssetManifest`][] API，
+你仍然可以自行解析這個檔案。
 
-The [`standard_message_codec`][] package can be used to parse the contents.
+你可以使用 [`standard_message_codec`][] 套件來解析其內容。
 
 ```dart
 import 'dart:io';
@@ -76,27 +75,25 @@ void main() {
 }
 ```
 
-Keep in mind that `AssetManifest.bin` is an implementation detail of Flutter.
-Reading this file isn't an officially supported workflow.
-The contents or format of the file might change in
-a future Flutter release without an announcement.
+請注意，`AssetManifest.bin` 是 Flutter 的實作細節。
+讀取此檔案並不是官方支援的工作流程。
+該檔案的內容或格式在未來的 Flutter 版本中可能會變更，且不會另行公告。
 
-## Timeline
+## 時程
 
-`AssetManifest.json` will no longer be generated starting with
-the fourth stable release after 3.19 or one year after the release of 3.19,
-whichever comes later.
+自 Flutter 3.19 之後的第四個穩定版發行起，或自 3.19 發行後滿一年（以較晚者為準），
+將不再產生 `AssetManifest.json`。
 
-## References
+## 參考資料
 
-Relevant issues:
+相關議題：
 
-* When building a Flutter app, the flutter tool generates an
-  `AssetManifest.json` file that's unused by the framework [(Issue #143577)][]
+* 當建置 Flutter 應用程式時，flutter 工具會產生一個
+  `AssetManifest.json` 檔案，但該檔案並未被框架使用 [(Issue #143577)][]
 
-Relevant PR:
+相關 PR：
 
-* [Remove deprecated `AssetManifest.json` file][PR 172594]
+* [移除已棄用的 `AssetManifest.json` 檔案][PR 172594]
 
 [`AssetBundle`]: {{site.api}}/flutter/services/AssetBundle-class.html
 [`AssetManifest`]: {{site.api}}/flutter/services/AssetManifest-class.html

@@ -1,34 +1,27 @@
 ---
-title: More strict assertions in the Navigator and the Hero controller scope
+title: Navigator 與 Hero controller scope 更嚴格的斷言檢查
 description: >
-  Added additional assertions to guarantee that
-  one hero controller scope can only subscribe to one navigator at a time.
+  新增了額外的斷言，以保證
+  一個 hero controller scope 同時只能訂閱一個 navigator。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-The framework throws an assertion error when it detects there are
-multiple navigators registered with one hero controller scope.
+當框架偵測到有多個 Navigator 註冊在同一個 hero controller scope 下時，會拋出斷言錯誤。
 
-## Context
+## 背景
 
-The hero controller scope hosts a hero controller for its widget
-subtree. The hero controller can only support one navigator at
-a time. Previously, there was no assertion to guarantee that.
+hero controller scope 會為其元件 (Widget) 子樹提供一個 hero controller。hero controller 一次只能支援一個 Navigator。過去，並沒有斷言來保證這一點。
 
-## Description of change
+## 變更說明
 
-If the code starts throwing assertion errors after this change,
-it means the code was already broken even before this change.
-Multiple navigators may be registered under the same hero
-controller scope, and they can not trigger hero animations when
-their route changes. This change only surfaced this problem.
+如果在這次變更後，程式碼開始拋出斷言錯誤，這表示程式碼在這次變更前就已經有問題了。可能有多個 Navigator 被註冊在同一個 hero controller scope 下，這樣在 Route 變更時，將無法觸發 hero 動畫（Animation）。這次變更只是讓這個問題浮現出來。
 
-## Migration guide
+## 遷移指南
 
-An example application that starts to throw exceptions.
+以下是一個在這次變更後開始拋出例外的應用程式範例。
 
 ```dart
 import 'package:flutter/material.dart';
@@ -70,7 +63,7 @@ void main() {
 }
 ```
 
-You can fix this application by introducing your own hero controller scopes.
+你可以透過自行引入 hero controller 的作用域（hero controller scopes）來修正這個應用程式。
 
 ```dart
 import 'package:flutter/material.dart';
@@ -116,24 +109,24 @@ void main() {
 }
 ```
 
-## Timeline
+## 時間軸
 
-Landed in version: 1.20.0<br>
-In stable release: 1.20
+導入版本：1.20.0<br>
+穩定版本：1.20
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`Navigator`][]
 * [`HeroController`][]
 * [`HeroControllerScope`][]
 
-Relevant issue:
+相關議題：
 
 * [Issue 45938][]
 
-Relevant PR:
+相關 PR：
 
 * [Clean up hero controller scope][]
 

@@ -1,30 +1,23 @@
 ---
-title: Deprecated Splash Screen API Migration
-description: How to migrate from Manifest/Activity defined splash screen.
+title: 已淘汰的 Splash Screen API 遷移
+description: 如何從 Manifest/Activity 定義的 splash screen 遷移。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-Prior to Flutter 2.5, Flutter apps could add a splash
-screen by defining it within the metadata of their application manifest file
-(`AndroidManifest.xml`), by implementing [`provideSplashScreen`][] within
-their [`FlutterActivity`][], or both. This would display momentarily in between
-the time after the Android launch screen is shown and when Flutter has
-drawn the first frame. This approach is now deprecated as of Flutter 2.5.
-Flutter now automatically keeps the Android launch screen displayed
-until it draws the first frame.
+在 Flutter 2.5 之前，Flutter 應用程式可以透過在應用程式的 manifest 檔案
+（`AndroidManifest.xml`）中定義 splash screen，或是在其 [`FlutterActivity`][] 中實作
+[`provideSplashScreen`][]，或同時採用這兩種方式。這會在 Android 啟動畫面顯示之後、Flutter
+繪製出第一個畫面之前，短暫顯示自訂的 splash screen。自 Flutter 2.5 起，這種做法已經被淘汰。
+Flutter 現在會自動維持 Android 啟動畫面顯示，直到 Flutter 繪製出第一個畫面為止。
 
-To migrate from defining a custom splash screen to just defining a custom
-launch screen for your application, follow the steps that correspond
-to how your application's custom splash screen was defined
-prior to the 2.5 release.
+若要從自訂 splash screen 遷移至僅定義自訂啟動畫面，請依照下列步驟，根據你在 2.5 版本之前如何定義
+自訂 splash screen 進行調整。
 
-**Custom splash screen defined in [`FlutterActivity`][]**
+**在 [`FlutterActivity`][] 中定義自訂 splash screen**
 
-1. Locate your application's implementation of `provideSplashScreen()`
-   within its `FlutterActivity` and **delete it**. This implementation should involve
-   the construction of your application's custom splash screen
-   as a `Drawable`. For example:
+1. 找到你的應用程式在 `FlutterActivity` 中對 `provideSplashScreen()` 的實作，並**將其刪除**。
+   這段實作通常會建立你的應用程式自訂的 splash screen，並作為 `Drawable`。例如：
 
    ```java
    @Override
@@ -36,19 +29,16 @@ prior to the 2.5 release.
    }
    ```
 
-2. Use the steps in the section directly following to ensure that your
-   `Drawable` splash screen (`R.some_splash_screen` in the previous example)
-   is properly configured as your application's custom launch screen.
+2. 請依照下方章節的步驟，確保你的 `Drawable` 啟動畫面（在前述範例中為 `R.some_splash_screen`）
+   已正確設定為應用程式的自訂啟動畫面。
 
-**Custom splash screen defined in Manifest**
+**在 Manifest 中定義自訂 splash screen**
 
-1. Locate your application's `AndroidManifest.xml` file.
-   Within this file, find the `activity` element.
-   Within this element, identify the `android:theme` attribute
-   and the `meta-data` element that defines
-   a splash screen as an
-   `io.flutter.embedding.android.SplashScreenDrawable`,
-   and update it. For example:
+1. 找到你的應用程式的 `AndroidManifest.xml` 檔案。
+   在此檔案中，找到 `activity` 元素。
+   在該元素內，確認 `android:theme` 屬性以及以
+   `io.flutter.embedding.android.SplashScreenDrawable` 定義 splash screen 的
+   `meta-data` 元素，並進行更新。舉例如下：
 
    ```xml
    <activity
@@ -62,16 +52,13 @@ prior to the 2.5 release.
    </activity>
    ```
 
-2. If the `android:theme` attribute isn't specified, add the attribute and
-   [define a launch theme][] for your application's launch screen.
+2. 如果未指定 `android:theme` 屬性，請新增該屬性，並[為你的應用程式啟動畫面定義一個啟動主題][define a launch theme]。
 
-3. Delete the `meta-data` element, as Flutter no longer
-   uses that, but it can cause a crash.
+3. 刪除 `meta-data` 元素，因為 Flutter 已不再使用該元素，且它可能導致應用程式崩潰。
 
-4. Locate the definition of the theme specified by the `android:theme` attribute
-   within your application's `style` resources. This theme specifies the
-   launch theme of your application. Ensure that the `style` attribute configures the
-   `android:windowBackground` attribute with your custom splash screen. For example:
+4. 在你的應用程式 `style` 資源中，找到由 `android:theme` 屬性指定的主題定義。這個主題會指定你的
+   應用程式啟動主題。請確保 `style` 屬性已使用你的自訂啟動畫面來設定 `android:windowBackground`
+   屬性。例如：
 
    ```xml
    <resources>

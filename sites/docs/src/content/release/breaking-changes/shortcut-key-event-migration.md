@@ -1,81 +1,60 @@
 ---
-title: Migrate ShortcutActivator and ShortcutManager to KeyEvent system
+title: 將 ShortcutActivator 與 ShortcutManager 遷移至 KeyEvent 系統
 description: >
-  The raw key event subsystem has been superseded by the key event subsystem,
-  and APIs that use RawKeyEvent and RawKeyboard are converted to KeyEvent and
-  HardwareKeyboard.
+  原始鍵盤事件子系統已被鍵盤事件子系統取代，
+  所有使用 RawKeyEvent 與 RawKeyboard 的 API 已轉換為 KeyEvent 與
+  HardwareKeyboard。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-For some time now (years), Flutter has had two key event systems implemented.
-The new system reached parity with the old platform-specific raw key event
-system, and the raw system will be removed. To prepare for that, the Flutter
-APIs that use the old system are being modified, and for a select few of them we
-have decided to make breaking changes in the API in order to preserve the
-quality of the API.
+Flutter 已經同時實作了兩套鍵盤事件（key events）系統有一段時間（數年）。新的系統已經與舊的、平台特定的原始鍵盤事件系統達到功能等同，且原始系統即將被移除。為了迎接這個變化，所有使用舊系統的 Flutter API 正在進行修改，並且對於其中少數 API，我們決定進行破壞性更動，以維持 API 的品質。
 
-## Context
+## 背景
 
-In the original key event subsystem handling each platform's quirks in the
-framework and in client apps caused overly complex code, and the old system
-didn't properly represent the true state of key events on the system.
+在原始的鍵盤事件子系統中，為了處理各平台的特殊行為，無論是在框架還是用戶端應用程式，都導致了過於複雜的程式碼，而且舊系統無法正確反映系統上鍵盤事件的實際狀態。
 
-So, the new [`KeyEvent`][]-based system was born, and to minimize breaking
-changes, was implemented in parallel with the old system with the intention of
-eventually deprecating the raw system. That time is quickly arriving, and to
-prepare for it, we have made some minimal breaking changes required to preserve
-the quality of the API.
+因此，新的 [`KeyEvent`][]-為基礎的系統誕生了。為了將破壞性更動降到最低，新的系統與舊系統並行實作，最終目標是淘汰原始系統。這個時機很快就會到來，為了準備，我們已經針對 API 品質進行了必要的最小破壞性更動。
 
-## Description of change
+## 變更說明
 
-Summary of APIs that have been affected:
+受影響的 API 摘要如下：
 
-- `ShortcutActivator.accepts` now takes a `KeyEvent` and `HardwareKeyboard`.
-- `ShortcutActivator.isActivatedBy` is now deprecated. Just call `accepts` instead.
-- `ShortcutActivator.triggers` is now optional, and returns null if not implemented.
-- `ShortcutManager.handleKeypress` now takes a `KeyEvent`.
+- `ShortcutActivator.accepts` 現在接收 `KeyEvent` 與 `HardwareKeyboard`。
+- `ShortcutActivator.isActivatedBy` 現已棄用。請直接呼叫 `accepts`。
+- `ShortcutActivator.triggers` 現在為選填，若未實作則回傳 null。
+- `ShortcutManager.handleKeypress` 現在接收 `KeyEvent`。
 
-The change modifies the `ShortcutActivator.accepts` method to take a `KeyEvent`
-and `HardwareKeyboard` instead of the previous `RawKeyEvent` and `RawKeyboard`.
+這項變更將 `ShortcutActivator.accepts` 方法修改為接收 `KeyEvent`
+與 `HardwareKeyboard`，取代先前的 `RawKeyEvent` 與 `RawKeyboard`。
 
-The meaning of `ShortcutActivator.accepts` has changed slightly. Before the
-change, it was assumed that `accepts` was only called if
-`ShortcutActivator.triggers` returned null, or if the key event sent to `accepts`
-had a logical key that was in the `triggers` list. Now it is always called, and
-may use the `triggers` list as a performance improvement, but is not required
-to. Flutter subclasses such as `SingleActivator` and `CharacterActivator`
-already do this.
+`ShortcutActivator.accepts` 的意義有些微調整。在此變更前，假設只有當 `ShortcutActivator.triggers` 回傳 null 時，
+或傳給 `accepts` 的鍵盤事件（key event）具有在 `triggers` 清單中的 logical key 時，才會呼叫 `accepts`。現在則會無條件呼叫，且可選擇性地利用 `triggers` 清單提升效能，但並非強制。Flutter 的子類別如 `SingleActivator` 與 `CharacterActivator` 已經這麼做。
 
-The change also modifies the `ShortcutManager.handleKeypress` method to take a
-`KeyEvent` instead of `RawKeyEvent`.
+這項變更也將 `ShortcutManager.handleKeypress` 方法修改為接收
+`KeyEvent`，取代先前的 `RawKeyEvent`。
 
-## Migration guide
+## 遷移指南
 
-APIs provided by the Flutter framework are already migrated. Migration is
-needed only if you're using any of the methods listed in the previous section.
+Flutter 框架所提供的 API 已經完成遷移。只有當你使用上一節所列方法時，才需要進行遷移。
 
-### Migrating your APIs that use `ShortcutActivator` or its subclasses.
+### 遷移你使用 `ShortcutActivator` 或其子類別的 API
 
-Pass a `KeyEvent` instead of a `RawKeyEvent` to `ShortcutActivator.accepts`.
-This may mean switching where you get your key events from. Depending on where
-you get them, this can either mean switching to using `Focus.onKeyEvent` instead
-of `Focus.onKey`, or a similar change if using `FocusScope`, `FocusNode` or
-`FocusScopeNode`.
+請傳遞 `KeyEvent`，而非 `RawKeyEvent` 給 `ShortcutActivator.accepts`。
+這可能意味著你需要調整取得鍵盤事件（key events）的方式。根據你取得事件的來源，可能需要從 `Focus.onKey` 切換為 `Focus.onKeyEvent`，或是如果你使用 `FocusScope`、`FocusNode` 或 `FocusScopeNode`，則進行類似的調整。
 
-If you're using a `RawKeyboardListener`, switch to using a
-`KeyboardListener` instead. If you're accessing `RawKeyboard` directly, use
-`HardwareKeyboard` instead. You'll find that there are non-raw equivalents for
-all of the key event sources.
+如果你使用的是 `RawKeyboardListener`，請改用
+`KeyboardListener`。如果你直接存取 `RawKeyboard`，請改用
+`HardwareKeyboard`。你會發現所有鍵盤事件來源都有非 raw 版本可用。
 
-### Migrating your APIs that extend `ShortcutActivator`
+### 遷移你擴充 `ShortcutActivator` 的 API
 
-The `ShortcutActivator.accepts` method was modified to take a `KeyEvent` and a
-`HardwareKeyboard` instead of a `RawKeyEvent` and `RawKeyboard`.
+`ShortcutActivator.accepts` 方法已修改為接收 `KeyEvent` 與
+`HardwareKeyboard`，取代先前的 `RawKeyEvent` 與 `RawKeyboard`。
 
-Before:
+變更前：
 
 ```dart
 class MyActivator extends ShortcutActivator {
@@ -88,7 +67,7 @@ class MyActivator extends ShortcutActivator {
 }
 ```
 
-After:
+變更後：
 
 ```dart
 class MyActivator extends ShortcutActivator {
@@ -101,15 +80,11 @@ class MyActivator extends ShortcutActivator {
 }
 ```
 
-### Migrating your APIs that extend `ShortcutManager`
+### 遷移擴充 `ShortcutManager` 的 API
 
-The `ShortcutManager` class was modified to take `KeyEvent`s in `handleKeypress`
-instead of `RawKeyEvent`s.  One difference in the two APIs is that repeated keys
-are determined differently. In the `RawKeyEvent` case, the `repeat` member
-indicated a repeat, but in `RawKeyEvent` code, the event is a different type
-(`KeyRepeatEvent`).
+`ShortcutManager` 類別已修改為在 `handleKeypress` 中接收 `KeyEvent`，而非 `RawKeyEvent`。這兩個 API 之間有一個差異：重複鍵的判斷方式不同。在 `RawKeyEvent` 的情況下，`repeat` 成員用於表示重複，但在 `KeyEvent` 的程式碼中，事件會是另一種型別（`KeyRepeatEvent`）。
 
-Before:
+變更前：
 
 ```dart
 class _MyShortcutManager extends ShortcutManager {
@@ -127,7 +102,7 @@ class _MyShortcutManager extends ShortcutManager {
 }
 ```
 
-After:
+變更後：
 
 ```dart
 class _MyShortcutManager extends ShortcutManager {
@@ -145,27 +120,27 @@ class _MyShortcutManager extends ShortcutManager {
 }
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.17.0-5.0.pre<br>
-In stable release: 3.19.0
+合併於版本：3.17.0-5.0.pre<br>
+正式版釋出於：3.19.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`KeyEvent`][]
 * [`HardwareKeyboard`][]
 * [`ShortcutActivator`][]
 * [`ShortcutManager`][]
 
-Relevant issues:
+相關議題：
 
-* [`RawKeyEvent` and `RawKeyboard`, et al should be deprecated and removed (Issue 136419)][]
+* [`RawKeyEvent` 和 `RawKeyboard` 等應該被棄用並移除（Issue 136419）][`RawKeyEvent` and `RawKeyboard`, et al should be deprecated and removed (Issue 136419)]
 
-Relevant PRs:
+相關 PR：
 
-* [Prepare ShortcutActivator and ShortcutManager to migrate to KeyEvent from RawKeyEvent][]
+* [準備將 ShortcutActivator 和 ShortcutManager 從 RawKeyEvent 遷移至 KeyEvent][Prepare ShortcutActivator and ShortcutManager to migrate to KeyEvent from RawKeyEvent]
 
 [`KeyEvent`]: {{site.api}}/flutter/services/KeyEvent-class.html
 [`HardwareKeyboard`]: {{site.api}}/flutter/services/HardwareKeyboard-class.html

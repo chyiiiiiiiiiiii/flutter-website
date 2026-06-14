@@ -1,62 +1,54 @@
 ---
-title: Using HTML slots to render platform views in the web
+title: 在網頁中使用 HTML slots 來渲染平台視圖
 description: >
-  iframes in Flutter web used to reload, because of
-  the way some DOM operations were made.
-  A change in the way Flutter web apps render platform views
-  makes them stable (preventing iframe reloads, and other problems
-  with video tags or forms potentially losing their state).
+  由於某些 DOM 操作方式，Flutter Web 中的 iframe 以前會重新載入。
+  Flutter Web 應用程式現在改變了渲染平台視圖的方式，
+  使其更為穩定（防止 iframe 重新載入，以及解決 video 標籤或表單可能遺失狀態的問題）。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-Flutter now renders all web platform views in a consistent location of the DOM,
-as direct children of `flt-glass-pane` (regardless of the rendering backend:
-`html` or `canvaskit`). Platform views are then _"slotted"_ into the correct
-position of the App's DOM with standard HTML features.
+Flutter 現在會將所有網頁平台視圖（platform views）渲染在 DOM 的一致位置，
+作為 `flt-glass-pane` 的直接子元素（不論使用哪種渲染後端：
+`html` 或 `canvaskit`）。平台視圖隨後會透過標準 HTML 功能，
+以 _「slot」_ 方式插入 App DOM 的正確位置。
 
-Up until this change, Flutter web would change the styling of the rendered
-contents of a platform views to position/size it to the available space. **This
-is no longer the case.** Users can now decide how they want to utilize the space
-allocated to their platform view by the framework.
+在這項變更之前，Flutter Web 會變更平台視圖渲染內容的樣式，
+以將其定位／調整至可用空間。**現在已不再如此。**
+使用者現在可以自行決定如何利用框架分配給平台視圖的空間。
 
-## Context
+## 背景
 
-The Flutter framework frequently tweaks its render tree to optimize the paint
-operations that are ultimately made per frame. In the web, these render tree
-changes often result in DOM operations.
+Flutter 框架經常調整其渲染樹，以最佳化每一幀最終執行的繪製操作。
+在網頁端，這些渲染樹的變動通常會導致 DOM 操作。
 
-Flutter web used to render its platform views ([`HtmlElementView` widgets][])
-directly into its corresponding position of the DOM.
+Flutter Web 以前會將其平台視圖（[`HtmlElementView` 元件 (Widgets)][`HtmlElementView` widgets]）
+直接渲染到 DOM 中對應的位置。
 
-Using certain DOM elements as the "target" of some DOM operations causes those
-elements to lose their internal state. In practice, this means that `iframe`
-tags are going to reload, `video` players might restart, or an editable form
-might lose its edits.
+使用某些 DOM 元素作為特定 DOM 操作的「目標」會導致這些元素遺失其內部狀態。
+實際上，這表示 `iframe` 標籤會重新載入、`video` 播放器可能會重新啟動，
+或可編輯的表單可能會遺失編輯內容。
 
-Flutter now renders platform views using [slot elements][] inside of a single,
-app-wide [shadow root][]. Slot elements can be added/removed/moved around the
-Shadow DOM without affecting the underlying slotted content (which is rendered
-in a constant location)
+Flutter 現在會在單一、全應用的 [shadow root][] 內，
+使用 [slot 元素][slot elements] 來渲染平台視圖。Slot 元素可以在 Shadow DOM 中新增／移除／移動，
+而不會影響底層的 slotted 內容（這些內容會渲染在固定位置）。
 
-This change was made to:
+這項變更的目的包括：
 
-* Stabilize the behavior of platform views in Flutter web.
-* Unify how platform views are rendered in the web for both rendering
-   backends (`html` and `canvaskit`).
-* Provide a predictable location in the DOM that allows developers to reliably
-   use CSS to style their platform views, and to use other standard DOM API,
-   such as `querySelector`, and `getElementById`.
+* 穩定 Flutter Web 中平台視圖的行為。
+* 統一兩種渲染後端（`html` 和 `canvaskit`）在網頁端渲染平台視圖的方式。
+* 在 DOM 中提供可預測的位置，讓開發者能可靠地使用 CSS 為平台視圖設計樣式，
+  並能使用其他標準 DOM API，例如 `querySelector` 和 `getElementById`。
 
-## Description of change
+## 變更說明
 
-A Flutter web app is now rendered inside a common [shadow root][] in which
-[slot elements][] represent platform views. The actual content of
-each platform view is rendered as a **sibling of said shadow root**.
+Flutter Web 應用程式現在會被渲染在一個共同的 [shadow root][] 之內，
+其中 [slot 元素][slot elements] 代表平台視圖。每個平台視圖的實際內容
+會作為**該 shadow root 的兄弟元素**來渲染。
 
-### Before
+### 變更前
 
 ```html
 ...
@@ -75,7 +67,7 @@ each platform view is rendered as a **sibling of said shadow root**.
 ...
 ```
 
-### After
+### 調整後
 
 ```html
 ...
@@ -96,45 +88,42 @@ each platform view is rendered as a **sibling of said shadow root**.
 ...
 ```
 
-After this change, when the framework needs to move DOM nodes around, it
-operates over `flt-platform-view-slot`s, which only contain a `slot` element.
-The slot _projects_ the contents defined in `flt-platform-view` elements outside
-the shadow root. `flt-platform-view` elements are never the target of DOM
-operations from the framework, thus preventing the reload issues.
+在此變更之後，當框架需要移動 DOM 節點時，會針對 `flt-platform-view-slot` 進行操作，
+而 `flt-platform-view-slot` 僅包含一個 `slot` 元素。
+該 slot 會「投影」(project) 在 shadow root 外部由 `flt-platform-view` 元素所定義的內容。
+`flt-platform-view` 元素將不再成為框架進行 DOM 操作的目標，因此可避免重新載入的問題。
 
-From an app's perspective, this change is transparent. **However**, this is
-considered a _breaking change_ because some tests make assumptions
-about the internal DOM of a Flutter web app, and break.
+從應用程式的角度來看，這項變更是透明的。**然而**，由於某些測試會對
+Flutter 網頁應用程式的內部 DOM 結構做出假設，導致測試失效，
+因此這被視為_破壞性變更_（breaking change）。
 
-## Migration guide
+## 遷移指南
 
-### Code
+### 程式碼
 
-The engine may print a warning message to the console similar to:
+引擎可能會在主控台輸出類似以下的警告訊息：
 
 ```bash
 Height of Platform View type: [$viewType] may not be set. Defaulting to `height: 100%`.
 Set `style.height` to any appropriate value to stop this message.
 ```
 
-or:
+或：
 
 ```bash
 Width of Platform View type: [$viewType] may not be set. Defaulting to `width: 100%`.
 Set `style.width` to any appropriate value to stop this message.
 ```
 
-Previously, the content returned by [`PlatformViewFactory` functions][] was
-resized and positioned by the framework. Instead, Flutter now sizes and
-positions `<flt-platform-view-slot>`, which is the parent of the slot where the
-content is projected.
+過去，[`PlatformViewFactory` functions][] 所回傳的內容會由框架自動調整大小與定位。
+現在，Flutter 會針對 `<flt-platform-view-slot>`（即內容投影插槽的父元素）
+進行尺寸與位置的設定。
 
-To stop the warning above, platform views need to set the `style.width` and
-`style.height` of their root element to any appropriate (non-null) value.
+為了消除上述警告，平台視圖（platform views）需要將其根元素的 `style.width`
+與 `style.height` 設定為任何合適的（非 null）值。
 
-For example, to make the root `html.Element` fill all the available space
-allocated by the framework, set its `style.width` and `style.height` properties
-to `'100%'`:
+例如，若要讓根 `html.Element` 填滿框架所分配的所有可用空間，
+可以將其 `style.width` 與 `style.height` 屬性設為 `'100%'`：
 
 ```dart
 ui.platformViewRegistry.registerViewFactory(viewType, (int viewId) {
@@ -147,45 +136,43 @@ ui.platformViewRegistry.registerViewFactory(viewType, (int viewId) {
 });
 ```
 
-If other techniques are used to lay out the platform view (like `inset: 0`) a
-value of `auto` for `width` and `height` is enough to stop the warning.
+如果你使用其他技術來排版 platform view（例如 `inset: 0`），
+那麼將 `width` 和 `height` 設為 `auto` 就足以消除該警告。
 
-Read more about [`CSS width`][] and [`CSS height`][].
+請閱讀更多關於 [`CSS width`][] 和 [`CSS height`][] 的資訊。
 
-### Tests
+### 測試
 
-After this change, user's test code does **not** need to deeply inspect the
-contents of the shadow root of the App. All of the platform view contents will
-be placed as direct children of `flt-glass-pane`, wrapped in a
-`flt-platform-view` element.
+在這項變更之後，使用者的測試程式碼**不需要**深入檢查 App 的 shadow root 內容。
+所有 platform view 的內容都會被作為 `flt-glass-pane` 的直接子元素，
+並包裹在一個 `flt-platform-view` 元素中。
 
-Avoid looking inside the `flt-glass-pane` shadow root, it is considered a
-**"private implementation detail"**, and its markup can change at any time,
-without notice.
+請避免檢查 `flt-glass-pane` 的 shadow root，這被視為**「私有實作細節」**，
+其標記（markup）可能隨時變動，恕不另行通知。
 
-(See Relevant PRs below for examples of the "migrations" described above).
+（請參考下方「相關 PR」以取得上述「遷移」的範例。）
 
-## Timeline
+## 時程
 
-Landed in version: 2.3.0-16.0.pre<br>
-In stable release: 2.5
+導入版本：2.3.0-16.0.pre<br>
+穩定版釋出：2.5
 
-## References
+## 參考資料
 
-Design document:
+設計文件：
 
 * [Using slot to embed web Platform Views][design doc]
 
-Relevant issues:
+相關議題：
 
 * [Issue #80524][issue-80524]
 
-Relevant PRs:
+相關 PR：
 
-* [flutter/engine#25747][pull-25747]: Introduces the feature.
-* [flutter/flutter#82926][pull-82926]: Tweaks `flutter` tests.
-* [flutter/plugins#3964][pull-3964]: Tweaks to `plugins` code.
-* [flutter/packages#364][pull-364]: Tweaks to `packages` code.
+* [flutter/engine#25747][pull-25747]：引入此功能。
+* [flutter/flutter#82926][pull-82926]：調整 `flutter` 測試。
+* [flutter/plugins#3964][pull-3964]：調整 `plugins` 程式碼。
+* [flutter/packages#364][pull-364]：調整 `packages` 程式碼。
 
 [`CSS height`]: https://developer.mozilla.org/en-US/docs/Web/CSS/height
 [`CSS width`]: https://developer.mozilla.org/en-US/docs/Web/CSS/width

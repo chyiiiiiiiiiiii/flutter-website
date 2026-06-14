@@ -1,86 +1,79 @@
 ---
-title: Android v1 embedding app and plugin creation deprecation
-description: Gradual deprecation of the Android v1 embedding.
+title: Android v1 embedding 應用程式與插件建立棄用公告
+description: Android v1 embedding 的逐步棄用。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-The `flutter create` templates for apps and plugins
-no longer create Android wrapping based on the
-v1 Android embedding as part of our gradual
-Android v1 embedding deprecation process described in our
-[Android Migration Summary][].
+`flutter create` 應用程式與插件的範本
+不再基於 v1 Android embedding 建立 Android 包裝，
+這是我們依據
+[Android 遷移摘要][Android Migration Summary]
+所描述的 Android v1 embedding 逐步棄用流程的一部分。
 
-Application projects using the v1 Android embedding
-are encouraged to migrate following the steps described in
-[Upgrading pre 1.12 Android projects][].
+建議使用 v1 Android embedding 的應用程式專案，
+依照[升級 1.12 之前的 Android 專案][Upgrading pre 1.12 Android projects]
+中所述的步驟進行遷移。
 
-Plugins targeting the v1 Android embedding are encouraged
-to migrate following the instructions in
-[Supporting the new Android plugins APIs][].
+針對 v1 Android embedding 的插件也建議
+依照[支援新版 Android 插件 API][Supporting the new Android plugins APIs]
+中的說明進行遷移。
 
 [Android Migration Summary]: /go/android-migration-summary
 [Upgrading pre 1.12 Android projects]: {{site.repo.flutter}}/blob/main/docs/platforms/android/Upgrading-pre-1.12-Android-projects.md
 [Supporting the new Android plugins APIs]: /release/breaking-changes/plugin-api-migration
 
-## Context
+## 背景說明
 
-In Flutter version 1.12, we launched a v2 set of
-Android APIs based on the [`io.flutter.embedding`][]
-package in order to enable the [add-to-app][] workflow
-on Android.
+在 Flutter 1.12 版本中，我們推出了一組基於 [`io.flutter.embedding`][]
+套件的 v2 Android API，
+以支援 Android 上的 [add-to-app][] 工作流程。
 
-Over time, we gradually deprecated the older
-v1 Android embeddings based on the
-[`io.flutter.app`][] package.
+隨著時間推移，我們逐步棄用了舊有
+基於 [`io.flutter.app`][] 套件的 v1 Android embedding。
 
-As of Q2 2020, only 26% of applications used the v1 embeddings.
+截至 2020 年第二季，僅有 26% 的應用程式仍使用 v1 embedding。
 
-Since the v2 embeddings were strongly established over
-the 7 months since the launch of Flutter v1.12,
-we disabled the creation of new app and plugin
-projects using the v1 embeddings.
+自 Flutter v1.12 推出後的 7 個月內，v2 embedding 已被廣泛採用，
+因此我們已停用使用 v1 embedding 建立新應用程式與插件專案的功能。
 
 [add-to-app]: /add-to-app
 [`io.flutter.embedding`]: https://cs.opensource.google/flutter/engine/+/master:shell/platform/android/io/flutter/embedding/
 [`io.flutter.app`]: https://cs.opensource.google/flutter/engine/+/master:shell/platform/android/io/flutter/app/.
 
-## Description of change
+## 變更說明
 
-The `flutter config` command no longer has a
-toggleable `enable-android-embedding-v2`
-flag (which defaulted to true since v1.12).
-All projects created with `flutter create`
-and `flutter create -t plugin` exclusively use the
-Android v2 embedding.
+`flutter config` 指令已不再提供
+可切換的 `enable-android-embedding-v2`
+旗標（自 v1.12 起預設為 true）。
+所有以 `flutter create`
+與 `flutter create -t plugin` 建立的專案皆僅使用
+Android v2 embedding。
 
-Existing v1 applications continue to work.
+既有的 v1 應用程式仍可正常運作。
 
-Existing v1 applications consuming plugins now receive
-a warning prompt to migrate to v2 embedding.
+既有的 v1 應用程式若使用插件，現在會收到
+建議遷移至 v2 embedding 的警告提示。
 
-Existing v1 applications consuming a plugin that targets
-only the v2 embedding won't build and must migrate.
-This has been the case since v1.12. However,
-the likelihood of encountering this increases as
-plugin developers create and publish v2 only plugins.
+既有的 v1 應用程式若使用僅支援 v2 embedding 的插件，將無法建置，必須進行遷移。
+這種情況自 v1.12 起即已存在。然而，
+隨著插件開發者持續創建並發佈僅支援 v2 的插件，
+遇到此情形的機率將會提高。
 
-Existing v2 applications continue to work with or without
-plugins.
+既有的 v2 應用程式無論是否使用插件，皆可正常運作。
 
-Existing v2 applications consuming plugins that only
-target the v1 embedding continue to receive a warning prompt.
-The likelihood of encountering this decreases
-as plugin developers create and publish v2 plugins.
+既有的 v2 應用程式若使用僅支援 v1 embedding 的插件，仍會收到警告提示。
+隨著插件開發者逐步創建並發佈 v2 插件，
+遇到此情形的機率將會降低。
 
-## Migration guide
+## 遷移指南
 
-For more information,
-see [Upgrading pre 1.12 Android projects][].
+欲了解更多資訊，
+請參閱[升級 1.12 之前的 Android 專案][Upgrading pre 1.12 Android projects]。
 
-## Timeline
+## 時程
 
-Landed in version: 1.20.0-8.0<br>
-In stable release: 1.22
+合併進版本：1.20.0-8.0<br>
+穩定版本：1.22

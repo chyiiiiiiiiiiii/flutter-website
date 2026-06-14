@@ -1,59 +1,47 @@
 ---
-title: Migrate RawKeyEvent/RawKeyboard system to KeyEvent/HardwareKeyboard system
+title: 將 RawKeyEvent/RawKeyboard 系統遷移至 KeyEvent/HardwareKeyboard 系統
 description: >-
-  The raw key event subsystem has been superseded by the key event subsystem,
-  and APIs that use RawKeyEvent and RawKeyboard are converted to KeyEvent and
-  HardwareKeyboard.
+  原始鍵盤事件子系統已被鍵盤事件子系統取代，所有使用 RawKeyEvent 和 RawKeyboard 的 API
+  都已轉換為 KeyEvent 和 HardwareKeyboard。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-For some time now (years), Flutter has had two key event systems implemented.
-The new system reached parity with the old platform-specific raw key event
-system, and the raw system has been deprecated.
+Flutter 已經同時實作了兩套鍵盤事件（key events）系統有一段時間（數年）。
+新的系統已經達到與舊有平台專屬原始鍵盤事件系統相同的功能，且原始系統已經被棄用。
 
-## Context
+## 背景說明
 
-In the original key event subsystem, handling each platform's quirks in the
-framework and in client apps caused overly complex code, and the old system
-didn't properly represent the true state of key events on the system.
+在原始鍵盤事件子系統中，為了處理每個平台的特殊情況，無論是在框架還是客戶端應用程式中，都導致程式碼過於複雜，而且舊系統無法正確反映系統上鍵盤事件的真實狀態。
 
-The legacy API [`RawKeyboard`][] has been deprecated
-and will be removed in the future.
-The [`HardwareKeyboard`][] and [`KeyEvent`][] APIs replace this legacy API.
-An example of this change is [`FocusNode.onKeyEvent`][]
-replacing `FocusNode.onKey`.
+舊版 API [`RawKeyboard`][] 已被棄用，
+未來將會移除。
+[`HardwareKeyboard`][] 和 [`KeyEvent`][] API 取代了這個舊版 API。
+此變更的一個例子是 [`FocusNode.onKeyEvent`][]
+取代了 `FocusNode.onKey`。
 
-The behavior of [`RawKeyboard`][] provided a
-less unified and less regular event model
-than [`HardwareKeyboard`][] does.
-Consider the following examples:
+[`RawKeyboard`][] 的行為
+所提供的事件模型比 [`HardwareKeyboard`][]
+更不統一且不規則。
+請參考以下例子：
 
-* Down events were not always matched with an up event, and vice versa (the set
-  of pressed keys was silently updated).
-* The logical key of the down event was not always the same as that of the up
-  event.
-* Down events and repeat events were not easily distinguishable (had to be
-  tracked manually).
-* Lock modes (such as CapsLock) only had their "enabled" state recorded. There
-  was no way to acquire their pressed state.
+* 按下（down）事件不一定會有對應的放開（up）事件，反之亦然（按下的鍵集合會被靜默更新）。
+* 按下事件的邏輯鍵（logical key）不一定與放開事件相同。
+* 按下事件與重複事件（repeat events）不易區分（必須手動追蹤）。
+* 鎖定模式（如 CapsLock）只記錄其「啟用」狀態，無法取得其實際按下狀態。
 
-So, the new [`KeyEvent`][]/[`HardwareKeyboard`][]-based system was born and, to
-minimize breaking changes, was implemented in parallel with the old system with
-the intention of eventually deprecating the raw system. That time has arrived,
-and application developers should migrate their code to avoid breaking changes
-that will occur when the deprecated APIs are removed.
+因此，新的 [`KeyEvent`][]/[`HardwareKeyboard`][] 為基礎的系統誕生了。為了將破壞性變更降到最低，這套新系統與舊系統並行實作，最終目標是棄用原始系統。現在時機已到，應用程式開發者應該盡快將程式碼遷移，以避免未來移除舊 API 時產生破壞性變更。
 
-## Description of change
+## 變更說明
 
-Below are the APIs that have been deprecated.
+以下是已被棄用的 API。
 
-### Deprecated APIs that have an equivalent
+### 有對應替代 API 的已棄用 API
 
 * [`Focus.onKey`][] => [`Focus.onKeyEvent`][]
-* [`FocusNode.attach`][]'s `onKey` argument => `onKeyEvent` argument
+* [`FocusNode.attach`][] 的 `onKey` 參數 => `onKeyEvent` 參數
 * [`FocusNode.onKey`][] => [`FocusNode.onKeyEvent`][]
 * [`FocusOnKeyCallback`][] => [`FocusOnKeyEventCallback`][]
 * [`FocusScope.onKey`][] => [`FocusScope.onKeyEvent`][]
@@ -64,10 +52,9 @@ Below are the APIs that have been deprecated.
 * [`RawKeyEvent`][] => [`KeyEvent`][]
 * [`RawKeyUpEvent`][] => [`KeyUpEvent`][]
 
-### APIs that have been discontinued
+### 已移除的 API
 
-These APIs are no longer needed once there is only one key event system, or
-their functionality is no longer offered.
+這些 API 在僅剩一套鍵盤事件系統後已不再需要，或其功能已不再提供。
 
 * [`debugKeyEventSimulatorTransitModeOverride`][]
 * [`GLFWKeyHelper`][]
@@ -91,33 +78,28 @@ their functionality is no longer offered.
 * [`RawKeyEventHandler`][]
 * [`ServicesBinding.keyEventManager`][]
 
-## Migration guide
+## 遷移指南
 
-The Flutter framework libraries have already been migrated.
-If your code uses any of the classes or methods listed in
-the previous section, migrate to these new APIs.
+Flutter 框架函式庫已經完成遷移。
+如果你的程式碼有使用前述章節列出的類別或方法，請遷移至這些新 API。
 
-### Migrating your code that uses `RawKeyEvent`
+### 遷移你使用 `RawKeyEvent` 的程式碼
 
-For the most part, there are equivalent `KeyEvent` APIs available for all of the
-`RawKeyEvent` APIs.
+大多數情況下，所有 `RawKeyEvent` API 都有對應的 `KeyEvent` API 可用。
 
-Some APIs relating to platform specific information contained in
-[`RawKeyEventData`][] objects or their subclasses have been removed and are no
-longer supported. One exception is that [`RawKeyEventDataAndroid.eventSource`][]
-information is accessible now as [`KeyEvent.deviceType`][] in a more
-platform independent form.
+部分與平台相關的資訊，原本包含於 [`RawKeyEventData`][] 物件或其子類別的 API 已被移除且不再支援。唯一的例外是 [`RawKeyEventDataAndroid.eventSource`][]
+資訊現在可以透過更具平台獨立性的 [`KeyEvent.deviceType`][] 取得。
 
-#### Migrating `isKeyPressed` and related functions
+#### 遷移 `isKeyPressed` 及相關功能
 
-If the legacy code used the [`RawKeyEvent.isKeyPressed`][],
-[`RawKeyEvent.isControlPressed`][], [`RawKeyEvent.isShiftPressed`][],
-[`RawKeyEvent.isAltPressed`][], or [`RawKeyEvent.isMetaPressed`][] APIs, there
-are now equivalent functions on the [`HardwareKeyboard`][] singleton instance,
-but are not available on [KeyEvent]. [`RawKeyEvent.isKeyPressed`][] is available
-as [`HardwareKeyboard.isLogicalKeyPressed`][].
+如果舊版程式碼使用了 [`RawKeyEvent.isKeyPressed`][]、
+[`RawKeyEvent.isControlPressed`][]、[`RawKeyEvent.isShiftPressed`][]、
+[`RawKeyEvent.isAltPressed`][] 或 [`RawKeyEvent.isMetaPressed`][] API，
+現在都可以在 [`HardwareKeyboard`][] 單例實例上找到對應功能，
+但在 [KeyEvent] 上不可用。[`RawKeyEvent.isKeyPressed`][]
+則可作為 [`HardwareKeyboard.isLogicalKeyPressed`][] 使用。
 
-Before:
+遷移前：
 
 ```dart
 KeyEventResult _handleKeyEvent(RawKeyEvent keyEvent) {
@@ -134,7 +116,7 @@ KeyEventResult _handleKeyEvent(RawKeyEvent keyEvent) {
 }
 ```
 
-After:
+遷移後：
 
 ```dart
 KeyEventResult _handleKeyEvent(KeyEvent _) {
@@ -151,15 +133,14 @@ KeyEventResult _handleKeyEvent(KeyEvent _) {
 }
 ```
 
-#### Setting `onKey` for focus
+#### 設定焦點的 `onKey`
 
-If the legacy code was using the [`Focus.onKey`][], [`FocusScope.onKey`][],
-[`FocusNode.onKey`][], or [`FocusScopeNode.onKey`][] parameters, then there is
-an equivalent [`Focus.onKeyEvent`][], [`FocusScope.onKeyEvent`][],
-[`FocusNode.onKeyEvent`][], or [`FocusScopeNode.onKeyEvent`][] parameter that
-supplies `KeyEvent`s instead of `RawKeyEvent`s.
+如果舊有程式碼使用了 [`Focus.onKey`][]、[`FocusScope.onKey`][]、
+[`FocusNode.onKey`][] 或 [`FocusScopeNode.onKey`][] 參數，則有對應的 [`Focus.onKeyEvent`][]、[`FocusScope.onKeyEvent`][]、
+[`FocusNode.onKeyEvent`][] 或 [`FocusScopeNode.onKeyEvent`][] 參數，
+這些參數會提供 `KeyEvent`（而非 `RawKeyEvent`）。
 
-Before:
+變更前：
 
 ```dart
 Widget build(BuildContext context) {
@@ -173,7 +154,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-After:
+變更後：
 
 ```dart
 Widget build(BuildContext context) {
@@ -187,13 +168,11 @@ Widget build(BuildContext context) {
 }
 ```
 
-#### Repeat key event handling
+#### 重複鍵盤事件的處理
 
-If you were relying on the [`RawKeyEvent.repeat`][] attribute to determine if a
-key was a repeated key event, that has now been separated into a separate
-[`KeyRepeatEvent`][] type.
+如果你之前依賴 [`RawKeyEvent.repeat`][] 屬性來判斷是否為重複的鍵盤事件（repeat key event），現在這部分已經被拆分為獨立的 [`KeyRepeatEvent`][] 類型。
 
-Before:
+變更前：
 
 ```dart
 KeyEventResult _handleKeyEvent(RawKeyEvent keyEvent) {
@@ -204,7 +183,7 @@ KeyEventResult _handleKeyEvent(RawKeyEvent keyEvent) {
 }
 ```
 
-After:
+變更後：
 
 ```dart
 KeyEventResult _handleKeyEvent(KeyEvent _) {
@@ -215,19 +194,19 @@ KeyEventResult _handleKeyEvent(KeyEvent _) {
 }
 ```
 
-Though it is not a subclass of [`KeyDownEvent`][],
-a [`KeyRepeatEvent`][] is also a key down event.
-Don't assume that `keyEvent is! KeyDownEvent` only allows key up events.
-Check both `KeyDownEvent` and `KeyRepeatEvent`.
+雖然它不是 [`KeyDownEvent`][] 的子類別，
+但 [`KeyRepeatEvent`][] 也是一個 key down 事件（鍵盤按下事件）。
+請不要假設 `keyEvent is! KeyDownEvent` 只允許 key up 事件（鍵盤放開事件）。
+請同時檢查 `KeyDownEvent` 和 `KeyRepeatEvent`。
 
-## Timeline
+## 時程
 
-Landed in version: 3.18.0-7.0.pre<br>
-In stable release: 3.19.0
+合併至版本：3.18.0-7.0.pre<br>
+穩定版釋出：3.19.0
 
-## References
+## 參考資料
 
-Replacement API documentation:
+替代 API 文件：
 
 * [`Focus.onKeyEvent`][]
 * [`FocusNode.onKeyEvent`][]
@@ -242,13 +221,13 @@ Replacement API documentation:
 * [`KeyEventHandler`][]
 * [`KeyUpEvent`][]
 
-Relevant issues:
+相關議題：
 
-* [`RawKeyEvent` and `RawKeyboard`, et al should be deprecated and removed (Issue 136419)][]
+* [`RawKeyEvent` 和 `RawKeyboard` 等應該被棄用並移除（Issue 136419）][`RawKeyEvent` and `RawKeyboard`, et al should be deprecated and removed (Issue 136419)]
 
-Relevant PRs:
+相關 PR：
 
-* [Deprecate RawKeyEvent, et al. and exempt uses in the framework.][]
+* [棄用 RawKeyEvent 等，並豁免框架中的使用情境。][Deprecate RawKeyEvent, et al. and exempt uses in the framework.]
 
 [`debugKeyEventSimulatorTransitModeOverride`]: {{site.api}}/flutter/services/debugKeyEventSimulatorTransitModeOverride-class.html
 [`Focus.onKey`]: {{site.api}}/flutter/services/Focus/onKey.html

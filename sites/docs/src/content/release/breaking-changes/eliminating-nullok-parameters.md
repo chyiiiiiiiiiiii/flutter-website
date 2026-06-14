@@ -1,52 +1,36 @@
 ---
-title: Eliminating nullOk Parameters
+title: 移除 nullOk 參數
 description: >
-    To eliminate nullOk parameters to help with
-    API clarity in the face of null safety.
+    為了提升 API 在 null safety 環境下的清晰度，移除 nullOk 參數。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-This migration guide describes conversion of code that uses the `nullOk`
-parameter on multiple `of` static accessors and related accessors to use
-alternate APIs with nullable return values.
+本遷移指南說明如何將使用多個 `of` 靜態存取器及相關存取器上的 `nullOk`
+參數的程式碼，轉換為使用回傳可為 null 的替代 API。
 
-## Context
+## 背景
 
-Flutter has a common pattern of allowing lookup of some types of widgets
-([`InheritedWidget`][]s) using static member functions that are typically called
-`of`, and take a `BuildContext`.
+Flutter 常見的一種模式，是允許透過靜態成員函式來查找某些類型的元件 (Widget)
+（[`InheritedWidget`][]s），這些函式通常命名為 `of`，並接受一個 `BuildContext`。
 
-Before non-nullability was the default, it was useful to have a toggle on these
-APIs that swapped between throwing an exception if the widget was not present in
-the widget tree and returning null if it was not found. It was useful, and
-wasn't confusing, since every variable was nullable.
+在 non-nullability（非空性）尚未成為預設之前，這些 API 提供一個切換開關，能夠在元件樹中找不到該元件時，選擇是拋出例外還是回傳 null。這樣的設計很實用，也不會造成混淆，因為當時每個變數都可以是 nullable。
 
-When non-nullability was made the default, it was then desirable to have the
-most commonly used APIs return a non-nullable value. This is because saying
-`MediaQuery.of(context, nullOk: false)` and then still requiring an `!` operator
-or `?` and a fallback value after that call felt awkward.
+當 non-nullability 成為預設後，讓最常用的 API 回傳 non-nullable 值就變得更理想。因為如果呼叫 `MediaQuery.of(context, nullOk: false)` 後，仍然需要加上 `!` 運算子，或是 `?` 並加上備用值，這樣的寫法顯得不自然。
 
-The `nullOk` parameter was a cheap form of providing a null safety toggle, which
-in the face of true language support for non-nullability, was then supplying
-redundant, and perhaps contradictory signals to the developer.
+`nullOk` 參數原本是一種簡便的 null safety 切換方式，但隨著語言本身支援 non-nullability，這個參數就變得多餘，甚至可能給開發者帶來矛盾的訊號。
 
-To solve this, the `of` accessors (and some related accessors that also used
-`nullOk`) were split into two calls: one that returned a non-nullable value and
-threw an exception when the sought-after widget was not present, and one that
-returned a nullable value that didn't throw an exception, and returned null if
-the widget was not present.
+為了解決這個問題，`of` 存取器（以及其他也使用 `nullOk` 的相關存取器）被拆分為兩種呼叫方式：一種回傳 non-nullable 值，若找不到目標元件則拋出例外；另一種則回傳可為 null 的值，不會拋出例外，找不到元件時回傳 null。
 
-The design document for this change is [Eliminating nullOk parameters][].
+本變更的設計文件請參考 [Eliminating nullOk parameters][]。
 
 [Eliminating nullOk parameters]: /go/eliminating-nullok-parameters
 
-## Description of change
+## 變更說明
 
-The actual change modified these APIs to not have a `nullOk` parameter, and to
-return a non-nullable value:
+實際的變更是將這些 API 移除 `nullOk` 參數，並改為回傳 non-nullable 值：
 
 * [`MediaQuery.of`][]
 * [`Navigator.of`][]
@@ -72,8 +56,7 @@ return a non-nullable value:
 * [`CupertinoTextThemeData.resolveFrom`][]
 * [`MaterialBasedCupertinoThemeData.resolveFrom`][]
 
-And introduced these new APIs alongside those, to
-return a nullable value:
+並同時新增以下這些 API，讓其回傳可為 null 的值：
 
 * [`MediaQuery.maybeOf`][]
 * [`Navigator.maybeOf`][]
@@ -93,55 +76,50 @@ return a nullable value:
 * [`CupertinoUserInterfaceLevel.maybeOf`][]
 * [`CupertinoTheme.maybeBrightnessOf`][]
 
-## Migration guide
+## 遷移指南
 
-In order to modify your code to use the new form of the APIs, convert all
-instances of calls that include `nullOk = true` as a parameter to use the
-`maybe` form of the API instead.
+為了讓你的程式碼改用新的 API 形式，請將所有帶有 `nullOk = true` 參數的呼叫，
+改為使用 `maybe` 形式的 API。
 
-So this:
+也就是說，原本這樣的寫法：
 
 ```dart
 MediaQueryData? data = MediaQuery.of(context, nullOk: true);
 ```
 
-becomes:
+變更為：
 
 ```dart
 MediaQueryData? data = MediaQuery.maybeOf(context);
 ```
 
-You also need to modify all instances of calling the API with `nullOk =
-false` (often the default), to accept non-nullable return values, or remove any
-`!` operators:
+你也需要修改所有使用 `nullOk =
+false`（通常為預設值）呼叫 API 的情境，以接受不可為 null 的回傳值，或移除任何
+`!` 運算子：
 
-So either of:
+所以可以選擇以下任一方式：
 
 ```dart
 MediaQueryData data = MediaQuery.of(context)!; // nullOk false by default.
 MediaQueryData? data = MediaQuery.of(context); // nullOk false by default.
 ```
 
-both become:
+兩者都變成：
 
 ```dart
 MediaQueryData data = MediaQuery.of(context); // No ! or ? operator here now.
 ```
 
-The `unnecessary_non_null_assertion` analysis option can be quite helpful in
-finding the places where the `!` operator should be removed, and the
-`unnecessary_nullable_for_final_variable_declarations` analysis option can be
-helpful in finding unnecessary question mark operators on `final` and `const`
-variables.
+`unnecessary_non_null_assertion` 分析選項在尋找應移除 `!` 運算子的地方時非常有幫助，而 `unnecessary_nullable_for_final_variable_declarations` 分析選項則有助於找出在 `final` 和 `const` 變數上不必要的問號運算子。
 
-## Timeline
+## 時程表
 
-Landed in version: 1.24.0<br>
-In stable release: 2.0.0
+合併於版本：1.24.0<br>
+正式版釋出：2.0.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`MediaQuery.of`][]
 * [`Navigator.of`][]
@@ -184,11 +162,11 @@ API documentation:
 * [`CupertinoUserInterfaceLevel.maybeOf`][]
 * [`CupertinoTheme.maybeBrightnessOf`][]
 
-Relevant issue:
+相關議題：
 
 * [Issue 68637][]
 
-Relevant PRs:
+相關 PR：
 
 * [Remove `nullOk` in `MediaQuery.of`][]
 * [Remove `nullOk` in `Navigator.of`][]

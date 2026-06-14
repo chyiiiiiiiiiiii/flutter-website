@@ -1,18 +1,18 @@
 ---
-title: TextField requires a MaterialLocalizations widget
+title: TextField 需要 MaterialLocalizations 元件
 description: >
-  TextField now throws an assert error if there is
-  no MaterialLocalizations widget in the widget tree.
+  如果元件樹中沒有 MaterialLocalizations 元件，
+  TextField 現在會拋出 assert 錯誤。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-Instances of `TextField` must have a
-`MaterialLocalizations` present in the widget tree.
-Trying to instantiate a `TextField` without the proper localizations
-results in an assertion such as the following:
+`TextField` 的實例必須在元件樹中
+有 `MaterialLocalizations` 存在。
+如果嘗試在沒有正確在地化設定的情況下建立 `TextField`，
+將會出現如下的 assertion（斷言）錯誤：
 
 ```plaintext
 No MaterialLocalizations found.
@@ -24,25 +24,25 @@ The specific widget that could not find a MaterialLocalizations ancestor was:
   TextField
 ```
 
-## Context
+## 背景說明
 
-If the `TextField` descends from a `MaterialApp`, the
-`DefaultMaterialLocalizations` is already instantiated
-and won't require any changes to your existing code.
+如果 `TextField` 是 `MaterialApp` 的子孫，
+則 `DefaultMaterialLocalizations` 已經被實例化，
+不需要對您現有的程式碼做任何更動。
 
-If the `TextField` doesn't descend from `MaterialApp`,
-you can use a `Localizations` widget to
-provide your own localizations.
+如果 `TextField` 不是 `MaterialApp` 的子孫，
+您可以使用 `Localizations` 元件（Widget）
+來提供您自訂的在地化內容。
 
-## Migration guide
+## 遷移指南
 
-If you see an assertion error, make sure that
-locale information is available to the `TextField`,
-either through an ancestor `MaterialApp`
-(that automatically provides `Localizations`), or
-by creating your own `Localizations` widget.
+如果您遇到 assertion error（斷言錯誤），請確保
+`TextField` 可以取得 locale（語系）資訊，
+這可以透過上層的 `MaterialApp`
+（會自動提供 `Localizations`），
+或是自行建立 `Localizations` 元件（Widget）來達成。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 import 'package:flutter/material.dart';
@@ -65,7 +65,7 @@ class Foo extends StatelessWidget {
 }
 ```
 
-Code after migration (Providing localizations using the `MaterialApp`):
+遷移後的程式碼（使用 `MaterialApp` 來提供在地化）：
 
 ```dart
 import 'package:flutter/material.dart';
@@ -84,7 +84,7 @@ class Foo extends StatelessWidget {
 }
 ```
 
-Code after migration (Providing localizations via the `Localizations` widget):
+遷移後的程式碼（透過 `Localizations` 元件（Widget）提供在地化）：
 
 ```dart
 import 'package:flutter/material.dart';
@@ -114,14 +114,14 @@ class Foo extends StatelessWidget {
 }
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 1.20.0-1.0.pre<br>
-In stable release: 1.20
+合併於版本：1.20.0-1.0.pre<br>
+穩定版釋出：1.20
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`TextField`][]
 * [`Localizations`][]
@@ -130,7 +130,7 @@ API documentation:
 * [`MaterialApp`][]
 * [Internationalizing Flutter apps][]
 
-Relevant PR:
+相關 PR：
 
 * [PR 58831: Assert debugCheckHasMaterialLocalizations on TextField][]
 

@@ -1,60 +1,47 @@
 ---
-title: Insecure HTTP connections are disabled by default on iOS and Android
+title: 預設停用 iOS 與 Android 上的不安全 HTTP 連線
 description: >
-  Accessing a URL with HTTP protocol throws an exception unless
-  the domain is explicitly allowed by policy.
+  除非網域已被政策明確允許，否則存取 HTTP 協定的 URL 會拋出例外。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-If your code tries to open an HTTP connection to a host
-on iOS or Android, a `StateException` is now thrown with
-the following message:
+如果您的程式碼嘗試在 iOS 或 Android 上對主機建立 HTTP 連線，現在會拋出 `StateException`，並顯示以下訊息：
 
 ```plaintext
 Insecure HTTP is not allowed by platform: <host>
 ```
 
-Use HTTPS instead.
+請改用 HTTPS。
 
-## Context
+## 背景說明
 
-Starting with Android [API 28][] and [iOS 9][],
-these platforms disable insecure HTTP connections by default.
+自 Android [API 28][] 及 [iOS 9][] 起，這些平台預設會停用不安全的 HTTP 連線。
 
-With this change Flutter also disables insecure connections on
-mobile platforms. Other platforms (desktop, web, etc)
-are not affected.
+此變更使 Flutter 也在行動平台上停用不安全的連線。其他平台（桌面、網頁等）則不受影響。
 
-You can override this behavior by following the
-platform-specific guidelines to define a domain-specific
-network policy. See the migration guide below for details.
+你可以依照各平台的指引，定義特定網域的網路政策來覆寫此行為。詳情請參考下方的遷移指南。
 
 [API 28]: {{site.android-dev}}/training/articles/security-config#CleartextTrafficPermitted
 [iOS 9]: {{site.apple-dev}}/documentation/bundleresources/information_property_list/nsapptransportsecurity
 
 :::important
-The following only applies to platform native sockets (sockets owned
-by the Android and iOS platforms).
+以下內容僅適用於平台原生 socket（由 Android 和 iOS 平台所擁有的 socket）。
 
-Flutter does not enforce any policy at socket level; you would be
-responsible for securing the connection. If the socket is owned by
-Dart/Flutter, no policy will be enforced.
+Flutter 不會在 socket 層級強制執行任何政策；你需要自行負責連線的安全性。如果 socket 由 Dart/Flutter 所擁有，則不會強制執行任何政策。
 :::
 
-## Migration guide
+## 遷移指南
 
-On iOS, you can add [NSExceptionDomains][] to your
-application's Info.plist.
+在 iOS 上，你可以在應用程式的 Info.plist 中加入 [NSExceptionDomains][]。
 
-On Android, you can add a [network security config][] XML.
+在 Android 上，你可以新增一個 [network security config][] XML 檔案。
 
-### Allowing cleartext connection for debug builds
+### 為 Debug 版本允許明文連線
 
-If you would like to allow HTTP connections for Android debug
-builds, you can add the following snippet to your $project_path\android\app\src\debug\AndroidManifest.xml:
+如果你希望在 Android 的 debug 版本中允許 HTTP 連線，可以將以下程式碼片段加入到你的 `$project_path\android\app\src\debug\AndroidManifest.xml`：
 
 ```xml
 <application android:networkSecurityConfig="@xml/network_security_config">
@@ -62,7 +49,7 @@ builds, you can add the following snippet to your $project_path\android\app\src\
 </application>
 ```
 
-Then, add the network configuration to your $project_path/android/app/src/debug/res/xml/network_security_config.xml:
+接著，將網路設定加入你的 `$project_path/android/app/src/debug/res/xml/network_security_config.xml`：
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
@@ -70,11 +57,9 @@ Then, add the network configuration to your $project_path/android/app/src/debug/
 </network-security-config>
 ```
 
-It is also possible to set the policy per domain.  See the Android
-documentation for more information.
+也可以針對個別網域設定政策。詳情請參閱 Android 說明文件。
 
-For iOS, you can follow [these instructions][] to create a `Info-debug.plist`
-and put this in:
+對於 iOS，你可以依照[這些指引][]來建立 `Info-debug.plist`，並將以下內容放入其中：
 
 ```xml
 <key>NSAppTransportSecurity</key>
@@ -84,33 +69,30 @@ and put this in:
 </dict>
 ```
 
-We **do not** recommend you do this for your release builds.
+我們**不建議**你在正式發行（release）版本中這麼做。
 
-## Additional Information
+## 其他資訊
 
-* Build time configuration is the only way to change
-  network policy. It cannot be modified at runtime.
+* 建置時（build time）設定是唯一能更改網路政策的方式。無法在執行時（runtime）修改。
 
 [network security config]: {{site.android-dev}}/training/articles/security-config#CleartextTrafficPermitted
 [NSExceptionDomains]: {{site.apple-dev}}/documentation/bundleresources/information_property_list/nsapptransportsecurity/nsexceptiondomains
 
-## Timeline
+## 時程
 
-Landed in version: 1.23<br>
-In stable release: 2.0.0<br>
-Reverted in version: 2.2.0 (proposed)
+納入版本：1.23<br>
+穩定版發行：2.0.0<br>
+於版本 2.2.0 回復（提案中）
 
-## References
+## 參考資料
 
-API documentation: There's no API for this change since
-the modification to network policy is done through the
-platform specific configuration as detailed above.
+API 文件：此變更沒有 API，因為網路政策的修改是透過上述的平台專屬設定完成。
 
-Relevant PRs:
+相關 PR：
 
 * [PR 20218: Plumbing for setting domain network policy][]
 * [Introduce per-domain policy for strict secure connections][]
 
 [PR 20218: Plumbing for setting domain network policy]: {{site.repo.engine}}/pull/20218
 [Introduce per-domain policy for strict secure connections]: {{site.github}}/dart-lang/sdk/commit/d878cfbf20375befa09f9bf85f0ba2b87b319427
-[these instructions]: /add-to-app/ios/project-setup#local-network-permissions
+[這些指引]: /add-to-app/ios/project-setup#local-network-permissions

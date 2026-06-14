@@ -1,40 +1,38 @@
 ---
-title: Component theme normalization updates
+title: 元件主題正規化更新
 description: >-
-  `AppBarTheme`, `BottomAppBarTheme` and `InputDecorationTheme` have been
-  normalized to follow Flutter's convention for component themes in the
-  Material library.
+  `AppBarTheme`、`BottomAppBarTheme` 和 `InputDecorationTheme` 已正規化，以遵循 Flutter 在
+  Material 函式庫中對元件主題的慣例。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-`AppBarTheme`, `BottomAppBarTheme` and `InputDecorationTheme` were refactored
-to conform to Flutter's conventions for component themes.
-`AppBarThemeData`, `BottomAppBarThemeData` and `InputDecorationThemeData` were
-added to define overrides for the defaults of the component visual properties.
-Releases of Flutter continue to normalize component themes like these for
-a more consistent theming experience in the material library.
+`AppBarTheme`、`BottomAppBarTheme` 和 `InputDecorationTheme` 已重構，
+以符合 Flutter 對元件主題的慣例。
+`AppBarThemeData`、`BottomAppBarThemeData` 和 `InputDecorationThemeData` 已新增，
+用於定義元件視覺屬性的預設值覆寫。
+Flutter 的版本持續正規化這類元件主題，
+以在 Material 函式庫中帶來更一致的主題化體驗。
 
-## Migration guide
+## 遷移指南
 
-In `ThemeData`:
-- The type of the `appBarTheme` property has been
-  changed from `AppBarTheme` to `AppBarThemeData`.
-- The type of `bottomAppBarTheme` property has been
-  changed from `BottomAppBarTheme` to `BottomAppBarThemeData`.
-- The type of `inputDecorationTheme` property has been
-  changed from `InputDecorationTheme` to `InputDecorationThemeData`.
+在 `ThemeData` 中：
+- `appBarTheme` 屬性的型別已從 `AppBarTheme`
+  變更為 `AppBarThemeData`。
+- `bottomAppBarTheme` 屬性的型別已從 `BottomAppBarTheme`
+  變更為 `BottomAppBarThemeData`。
+- `inputDecorationTheme` 屬性的型別已從 `InputDecorationTheme`
+  變更為 `InputDecorationThemeData`。
 
-The return type of the component theme `xTheme.of()` methods and
-`Theme.of().xTheme` have also changed to `xThemeData`.
+元件主題 `xTheme.of()` 方法和 `Theme.of().xTheme`
+的回傳型別也已變更為 `xThemeData`。
 
-In `DatePickerThemeData` and `TimePickerThemeData`, the type of the
-`inputDecorationTheme` property has been changed from `InputDecorationTheme`
-to `InputDecorationThemeData`.
+在 `DatePickerThemeData` 和 `TimePickerThemeData` 中，`inputDecorationTheme`
+屬性的型別已從 `InputDecorationTheme` 變更為 `InputDecorationThemeData`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 final AppBarTheme appBarTheme = Theme.of(context).appBarTheme;
@@ -66,7 +64,7 @@ const DatePickerThemeData datePickerTheme = DatePickerThemeData(inputDecorationT
 const TimePickerThemeData timePickerTheme = TimePickerThemeData(inputDecorationTheme: InputDecorationTheme());
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 final AppBarThemeData appBarTheme = Theme.of(context).appBarTheme;
@@ -98,20 +96,20 @@ const DatePickerThemeData datePickerTheme = DatePickerThemeData(inputDecorationT
 const TimePickerThemeData timePickerTheme = TimePickerThemeData(inputDecorationTheme: InputDecorationThemeData());
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.33.0-1.0.pre through 3.35.0-0.0.pre<br>
-Stable release: 3.35
+納入版本：3.33.0-1.0.pre 至 3.35.0-0.0.pre<br>
+穩定版發佈：3.35
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`AppBarTheme`][]
 * [`BottomAppBarTheme`][]
 * [`InputDecorationTheme`][]
 
-Relevant PRs:
+相關 PR：
 
 * [Normalize ThemeData.appBarTheme][]
 * [Normalize ThemeData.bottomAppBarTheme][]

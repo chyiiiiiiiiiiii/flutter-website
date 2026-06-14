@@ -1,57 +1,34 @@
 ---
-title: Trackpad gestures can trigger GestureRecognizer
+title: 觸控板手勢可觸發 GestureRecognizer
 description: >
-  Trackpad gestures on most platforms now send `PointerPanZoom` sequences and
-  can trigger pan, drag, and scale `GestureRecognizer` callbacks.
+  現在大多數平台上的觸控板手勢會傳送 `PointerPanZoom` 序列，並可觸發平移、拖曳及縮放的 `GestureRecognizer` 回呼（callback）。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-Trackpad gestures on most platforms now send `PointerPanZoom` sequences and
-can trigger pan, drag, and scale `GestureRecognizer` callbacks.
+現在大多數平台上的觸控板手勢會傳送 `PointerPanZoom` 序列，並可觸發平移、拖曳及縮放的 `GestureRecognizer` 回呼（callback）。
 
-## Context
+## 背景
 
-Scrolling on Flutter Desktop prior to version 3.3.0 used `PointerScrollEvent`
-messages to represent discrete scroll deltas. This system worked well for mouse
-scroll wheels, but wasn't a good fit for trackpad scrolling. Trackpad scrolling
-is expected to cause momentum, which depends not only on the scroll deltas, but
-also the timing of when fingers are released from the trackpad.
-In addition, trackpad pinching-to-zoom could not be represented.
+在 Flutter Desktop 3.3.0 版本之前，滾動操作是透過 `PointerScrollEvent` 訊息來表示離散的滾動增量。這套系統對於滑鼠滾輪運作良好，但並不適合觸控板滾動。觸控板滾動預期會產生動量，這不僅取決於滾動增量，也與手指何時離開觸控板的時機有關。
+此外，觸控板的雙指縮放（pinch-to-zoom）也無法被表示。
 
-Three new `PointerEvent`s have been introduced: `PointerPanZoomStartEvent`,
-`PointerPanZoomUpdateEvent`, and `PointerPanZoomEndEvent`.
-Relevant `GestureRecognizer`s have been updated to register interest in
-trackpad gesture sequences, and will emit `onDrag`, `onPan`, and/or
-`onScale` callbacks in response to movements
-of two or more fingers on the trackpad.
+現已引入三種新的 `PointerEvent`：`PointerPanZoomStartEvent`、`PointerPanZoomUpdateEvent` 以及 `PointerPanZoomEndEvent`。
+相關的 `GestureRecognizer` 也已更新，可註冊對觸控板手勢序列的關注，並在觸控板上有兩指或以上移動時，發出 `onDrag`、`onPan` 和／或 `onScale` 回呼（callback）。
 
-This means both that code designed only for touch interactions might trigger upon
-trackpad interaction, and that code designed to handle all desktop scrolling
-might now only trigger upon mouse scrolling, and not trackpad scrolling.
+這代表，僅設計給觸控互動的程式碼現在可能會因觸控板互動而被觸發；而原本設計來處理所有桌面滾動的程式碼，現在可能只會因滑鼠滾動而觸發，不會因觸控板滾動而觸發。
 
-## Description of change
+## 變更說明
 
-The Flutter engine has been updated on all possible platforms to recognize
-trackpad gestures and send them to the framework as `PointerPanZoom` events
-instead of as `PointerScrollSignal` events. `PointerScrollSignal` events will
-still be used to represent scrolling on a mouse wheel.
+Flutter 引擎已在所有可能的平台上更新，能辨識觸控板手勢並將其作為 `PointerPanZoom` 事件傳送給框架，而非以 `PointerScrollSignal` 事件傳送。`PointerScrollSignal` 事件仍會用於表示滑鼠滾輪的滾動。
 
-Depending on the platform and specific trackpad model, the new system might not
-be used, if not enough data is provided to the Flutter engine by platform APIs.
-This includes on Windows, where trackpad gesture support is dependent on the
-trackpad's driver, and the Web platform, where not enough data is provided by
-browser APIs, and trackpad scrolling must still
-use the old `PointerScrollSignal` system.
+根據平台及特定觸控板型號，若平台 API 提供給 Flutter 引擎的資料不足，則可能不會使用新系統。這包括 Windows 平台（觸控板手勢支援取決於觸控板驅動程式），以及 Web 平台（瀏覽器 API 提供的資料不足），因此觸控板滾動仍必須使用舊的 `PointerScrollSignal` 系統。
 
-Developers should be prepared to receive both types of events and
-ensure their apps or packages handle them in the appropriate manner.
+開發者應準備好同時處理這兩種類型的事件，並確保其應用程式或套件能以適當方式處理。
 
-`Listener` now has three new callbacks: `onPointerPanZoomStart`,
-`onPointerPanZoomUpdate`, and `onPointerPanZoomEnd` which can
-be used to observe trackpad scrolling and zooming events.
+`Listener` 現在新增了三個回呼（callback）：`onPointerPanZoomStart`、`onPointerPanZoomUpdate` 以及 `onPointerPanZoomEnd`，可用於觀察觸控板的滾動與縮放事件。
 
 ```dart
 void main() => runApp(Foo());
@@ -80,21 +57,16 @@ class Foo extends StatelessWidget {
 }
 ```
 
-`PointerPanZoomUpdateEvent` contains a `pan` field to represent the cumulative
-pan of the current gesture, a `panDelta` field to represent the difference in
-pan since the last event, a `scale` event to represent the cumulative zoom
-of the current gesture, and a `rotation` event to
-represent the cumulative rotation (in radians) of the current gesture.
+`PointerPanZoomUpdateEvent` 包含一個 `pan` 欄位，用於表示當前手勢的累積平移（pan），
+一個 `panDelta` 欄位，用於表示自上次事件以來的平移差異，
+一個 `scale` 事件，用於表示當前手勢的累積縮放（zoom），
+以及一個 `rotation` 事件，用於表示當前手勢的累積旋轉（以弧度為單位）。
 
-`GestureRecognizer`s now have methods to all the trackpad events from one
-continuous trackpad gesture. Calling the `addPointerPanZoom` method on a
-`GestureRecognizer` with a `PointerPanZoomStartEvent` will cause the recognizer
-to register its interest in that trackpad interaction, and resolve conflicts
-between multiple `GestureRecognizer`s that could potentially respond to the
-gesture.
+`GestureRecognizer` 現在具有方法，可以從一次連續的觸控板手勢中取得所有觸控板事件。
+對 `GestureRecognizer` 呼叫 `addPointerPanZoom` 方法並傳入 `PointerPanZoomStartEvent`，將會讓辨識器（recognizer）註冊其對該觸控板互動的關注，
+並在多個可能回應此手勢的 `GestureRecognizer` 之間解決衝突。
 
-The following example shows the proper use of `Listener` and `GestureRecognizer`
-to respond to trackpad interactions.
+以下範例展示如何正確使用 `Listener` 和 `GestureRecognizer` 來回應觸控板互動。
 
 ```dart
 void main() => runApp(Foo());
@@ -134,9 +106,7 @@ class Foo extends StatefulWidget {
 }
 ```
 
-When using `GestureDetector`, this is done automatically, so code such as the
-following example will issue its gesture update callbacks in response to both
-touch and trackpad panning.
+當使用 `GestureDetector` 時，這個動作會自動完成，因此像下列範例這樣的程式碼，會在偵測到觸控或觸控板（trackpad）平移時，都觸發其手勢更新回呼（gesture update callbacks）。
 
 ```dart
 void main() => runApp(Foo());
@@ -160,27 +130,22 @@ class Foo extends StatelessWidget {
 }
 ```
 
-## Migration guide
+## 遷移指南
 
-Migration steps depend on whether you want each gesture interaction in your
-app to be usable via a trackpad, or whether it should be restricted to only
-touch and mouse usage.
+遷移步驟取決於你是否希望應用程式中的每個手勢互動都能透過觸控板（trackpad）使用，或是僅限於觸控和滑鼠操作。
 
-### For gesture interactions suitable for trackpad usage
+### 適合觸控板（trackpad）使用的手勢互動
 
-#### Using `GestureDetector`
+#### 使用 `GestureDetector`
 
-No change is needed, `GestureDetector` automatically processes trackpad
-gesture events and triggers callbacks if recognized.
+無需任何更動，`GestureDetector` 會自動處理觸控板手勢事件，並在辨識到時觸發回呼（callback）。
 
-#### Using `GestureRecognizer` and `Listener`
+#### 使用 `GestureRecognizer` 和 `Listener`
 
-Ensure that `onPointerPanZoomStart` is passed through to
-each recognizer from the `Listener`.
-The `addPointerPanZoom` method of `GestureRecognizer must be called
-for it to show interest and start tracking each trackpad gesture.
+請確保 `onPointerPanZoomStart` 有從 `Listener` 傳遞到每個辨識器（recognizer）。
+`GestureRecognizer` 的 `addPointerPanZoom` 方法必須被呼叫，才能表明有興趣並開始追蹤每個觸控板手勢。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 void main() => runApp(Foo());
@@ -219,7 +184,7 @@ class Foo extends StatefulWidget {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 void main() => runApp(Foo());
@@ -259,13 +224,11 @@ class Foo extends StatefulWidget {
 }
 ```
 
-#### Using raw `Listener`
+#### 使用原始 `Listener`
 
-The following code using PointerScrollSignal will no longer be called upon all
-desktop scrolling. `PointerPanZoomUpdate` events should be captured to receive
-trackpad gesture data.
+以下使用 PointerScrollSignal 的程式碼將不再於所有桌面滾動時被呼叫。應改為捕捉 `PointerPanZoomUpdate` 事件，以接收觸控板手勢資料。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 void main() => runApp(Foo());
@@ -285,7 +248,7 @@ class Foo extends StatelessWidget {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 void main() => runApp(Foo());
@@ -308,22 +271,16 @@ class Foo extends StatelessWidget {
 }
 ```
 
-Please note: Use of raw `Listener` in this way could
-cause conflicts with other gesture interactions as it
-doesn't participate in the gesture disambiguation arena.
+請注意：以這種方式使用原始的 `Listener` 可能會與其他手勢互動產生衝突，因為它不會參與手勢消歧場（gesture disambiguation arena）。
 
-### For gesture interactions not suitable for trackpad usage
+### 對於不適合觸控板（trackpad）使用的手勢互動
 
-#### Using `GestureDetector`
+#### 使用 `GestureDetector`
 
-If using Flutter 3.3.0, `RawGestureDetector` could be used
-instead of `GestureDetector` to ensure each `GestureRecognizer` created
-by the `GestureDetector` has `supportedDevices` set to
-exclude `PointerDeviceKind.trackpad`.
-Starting in version 3.4.0, there is a `supportedDevices` parameter
-directly on `GestureDetector`.
+如果你使用的是 Flutter 3.3.0，可以使用 `RawGestureDetector` 來取代 `GestureDetector`，以確保由 `GestureDetector` 所建立的每個 `GestureRecognizer` 都會將 `supportedDevices` 設定為排除 `PointerDeviceKind.trackpad`。
+從 3.4.0 版本開始，`GestureDetector` 上直接提供了 `supportedDevices` 參數。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 void main() => runApp(Foo());
@@ -347,7 +304,7 @@ class Foo extends StatelessWidget {
 }
 ```
 
-Code after migration (Flutter 3.3.0):
+遷移後的程式碼（Flutter 3.3.0）：
 
 ```dart
 // Example of code after the change.
@@ -389,7 +346,7 @@ class Foo extends StatelessWidget {
 }
 ```
 
-Code after migration: (Flutter 3.4.0):
+遷移後的程式碼：（Flutter 3.4.0）：
 
 ```dart
 void main() => runApp(Foo());
@@ -420,12 +377,12 @@ class Foo extends StatelessWidget {
 }
 ```
 
-#### Using `RawGestureRecognizer`
+#### 使用 `RawGestureRecognizer`
 
-Explicitly ensure that `supportedDevices`
-doesn't include `PointerDeviceKind.trackpad`.
+請明確確保 `supportedDevices`
+不包含 `PointerDeviceKind.trackpad`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 void main() => runApp(Foo());
@@ -458,7 +415,7 @@ class Foo extends StatelessWidget {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 // Example of code after the change.
@@ -500,12 +457,9 @@ class Foo extends StatelessWidget {
 }
 ```
 
-#### Using `GestureRecognizer` and `Listener`
+#### 使用 `GestureRecognizer` 和 `Listener`
 
-After upgrading to Flutter 3.3.0, there won't be a change in behavior, as
-`addPointerPanZoom` must be called on each `GestureRecognizer` to allow
-it to track gestures. The following code won't receive pan gesture callbacks
-when the trackpad is scrolled:
+升級至 Flutter 3.3.0 之後，行為不會有變化，因為必須在每個 `GestureRecognizer` 上呼叫 `addPointerPanZoom`，才能讓其追蹤手勢。當使用觸控板捲動時，下列程式碼將不會收到平移（pan）手勢的回呼（callback）：
 
 ```dart
 void main() => runApp(Foo());
@@ -545,28 +499,28 @@ class Foo extends StatefulWidget {
 }
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.3.0-0.0.pre<br>
-In stable release: 3.3.0
+合併於版本：3.3.0-0.0.pre<br>
+正式版釋出：3.3.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`GestureDetector`][]
 * [`RawGestureDetector`][]
 * [`GestureRecognizer`][]
 
-Design document:
+設計文件：
 
 * [Flutter Trackpad Gestures][]
 
-Relevant issues:
+相關議題：
 
 * [Issue 23604][]
 
-Relevant PRs:
+相關 PR：
 
 * [Support trackpad gestures in framework][]
 * [iPad trackpad gestures][]

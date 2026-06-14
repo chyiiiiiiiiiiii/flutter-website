@@ -1,31 +1,29 @@
 ---
-title: Rename MaterialState to WidgetState
+title: 將 MaterialState 重新命名為 WidgetState
 description: >-
-  MaterialState and its related APIs have been moved
-  outside of the Material library and renamed to
-  WidgetState.
+  MaterialState 及其相關 API 已移出 Material 函式庫，
+  並重新命名為 WidgetState。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-`MaterialState`, and its related APIs, have been moved out
-of the Material library and renamed to `WidgetState`.
+`MaterialState` 及其相關 API 已從 Material 函式庫中移除，
+並重新命名為 `WidgetState`。
 
-## Background
+## 背景
 
-Previously, `MaterialState` provided logic for
-handling multiple different states a widget could have,
-like "hovered", "focused", and "disabled".
-Because this functionality is useful outside the Material library,
-namely for the base Widgets layer and Cupertino,
-it was decided to move it outside of Material.
-As part of the move, and to avoid future confusion,
-the different `MaterialState` classes have been renamed to `WidgetState`.
-The behavior of the two are the same.
+過去，`MaterialState` 提供了處理元件（Widget）可擁有的多種不同狀態的邏輯，
+例如「滑鼠懸停（hovered）」、「獲得焦點（focused）」以及「已停用（disabled）」等。
+由於這項功能在 Material 函式庫之外也很有用，
+特別是在基礎 Widgets 層和 Cupertino，
+因此決定將其移出 Material 函式庫。
+作為這次調整的一部分，並為了避免未來產生混淆，
+不同的 `MaterialState` 類別已重新命名為 `WidgetState`。
+兩者的行為完全相同。
 
-| Before                          | Now                           |
+| 調整前                          | 調整後                           |
 |---------------------------------|-------------------------------|
 | `MaterialState`                 | `WidgetState`                 |
 | `MaterialStatePropertyResolver` | `WidgetStatePropertyResolver` |
@@ -38,19 +36,18 @@ The behavior of the two are the same.
 | `MaterialStatePropertyAll`      | `WidgetStatePropertyAll`      |
 | `MaterialStatesController`      | `WidgetStatesController`      |
 
-The classes `MaterialStateOutlineInputBorder` and
-`MaterialStateUnderlineInputBorder` were left in the
-Material library with no `WidgetState` equivalent, as
-they are specific to Material design.
+`MaterialStateOutlineInputBorder` 和
+`MaterialStateUnderlineInputBorder` 這兩個類別仍保留在 Material 函式庫中，
+且沒有對應的 `WidgetState`，因為它們是 Material Design 專屬的。
 
-## Migration guide
+## 遷移指南
 
-A [Flutter fix][] is available to help migrate the `MaterialState`
-classes to `WidgetState`.
+提供了一個 [Flutter fix][]，可協助將 `MaterialState`
+類別遷移至 `WidgetState`。
 
-To migrate, replace `MaterialState` with `WidgetState`.
+若要遷移，請將 `MaterialState` 替換為 `WidgetState`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 MaterialState selected = MaterialState.selected;
@@ -74,7 +71,7 @@ BorderSide side = MaterialStateBorderSide.resolveWith((Set<MaterialState> states
 });
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 WidgetState selected = WidgetState.selected;
@@ -98,18 +95,18 @@ BorderSide side = WidgetStateBorderSide.resolveWith((Set<WidgetState> states) {
 });
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.21.0-11.0.pre<br>
-In stable release: 3.22.0
+合併於版本：3.21.0-11.0.pre<br>
+進入穩定版：3.22.0
 
-## References
+## 參考資料
 
-Relevant issues:
+相關議題（issues）：
 
 * [Create widgets level support for State][]
 
-Relevant PRs:
+相關 PR：
 
 * [Widget State Properties][]
 

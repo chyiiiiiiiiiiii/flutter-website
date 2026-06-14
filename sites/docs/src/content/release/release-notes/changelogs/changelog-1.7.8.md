@@ -1,14 +1,14 @@
 ---
-title: Change log for Flutter 1.7.8
-shortTitle: 1.7.8 change log
-description: Change log for Flutter 1.7.8 containing a list of all PRs merged for this release.
+title: Flutter 1.7.8 變更記錄
+shortTitle: 1.7.8 變更記錄
+description: Flutter 1.7.8 變更記錄，包含本次發佈合併的所有 PR 列表。
 skipTemplateRendering: true
 ---
 
 
-## PRs closed in this release of flutter/flutter
+## 本次 flutter/flutter 版本關閉的 PR
 
-From Wed May 1 16:56:00 2019 -0700 to Thu Jul 18 08:04:00 2019 -0700
+時間範圍：2019 年 5 月 1 日（週三）16:56:00 -0700 至 2019 年 7 月 18 日（週四）08:04:00 -0700
 
 
 [28808](https://github.com/flutter/flutter/pull/28808)  updated tearDownAll function (cla: yes, t: flutter driver, team, tool, waiting for tree to go green)
@@ -1380,9 +1380,9 @@ From Wed May 1 16:56:00 2019 -0700 to Thu Jul 18 08:04:00 2019 -0700
 [36413](https://github.com/flutter/flutter/pull/36413) Revert "Roll engine f3482700474a..1af19ae67dd1 (4 commits)" (cla: yes, engine)
 
 
-## PRs closed in this release of flutter/engine
+## 本次 flutter/engine 版本關閉的 PR
 
-From Wed May 1 16:56:00 2019 -0700 to Thu Jul 18 08:04:00 2019 -0700
+時間範圍：2019 年 5 月 1 日（週三）16:56:00 -0700 至 2019 年 7 月 18 日（週四）08:04:00 -0700
 
 
 [7847](https://github.com/flutter/engine/pull/7847) Extracted PlatformViewsChannel from PlatformViewsController. (cla: yes)
@@ -2128,9 +2128,9 @@ From Wed May 1 16:56:00 2019 -0700 to Thu Jul 18 08:04:00 2019 -0700
 [9905](https://github.com/flutter/engine/pull/9905) Respect EXIF information while decompressing images. (cla: yes)
 
 
-## PRs closed in this release of flutter/plugins
+## 本次 flutter/plugins 版本關閉的 PR
 
-From Wed May 1 16:56:00 2019 -0700 to Thu Jul 18 08:04:00 2019 -0700
+時間範圍：2019 年 5 月 1 日（週三）16:56:00 -0700 至 2019 年 7 月 18 日（週四）08:04:00 -0700
 
 
 [826](https://github.com/flutter/plugins/pull/826) [google_maps_flutter] enable/disable indoor view (cla: yes, feature, needs love)

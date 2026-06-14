@@ -1,46 +1,30 @@
 ---
-title: SystemContextMenuController.show Deprecated
+title: SystemContextMenuController.show 已淘汰
 description: >-
-  `SystemContextMenuController`'s `show` method is deprecated and replaced by
-  its `showWithItems` method.
+  `SystemContextMenuController` 的 `show` 方法已被淘汰，並由其 `showWithItems` 方法取代。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-`SystemContextMenuController.show` is deprecated. The same functionality can be
-achieved by passing the result of calling `SystemContextMenu.getDefaultItems` to
-`SystemContextMenuController.showWithItems`.
+`SystemContextMenuController.show` 已被淘汰。相同的功能現在可以透過將呼叫 `SystemContextMenu.getDefaultItems` 的結果傳遞給 `SystemContextMenuController.showWithItems` 來實現。
 
-## Background
+## 背景
 
-The iOS-drawn `SystemContextMenu` feature was originally added without the
-ability to control which items are shown in the menu. The platform would decide
-which items to show based on the active `TextInputConnection`.
+iOS 原生繪製的 `SystemContextMenu` 功能最初加入時，並沒有辦法控制選單中顯示哪些項目。平台會根據當前的 `TextInputConnection` 來決定要顯示哪些項目。
 
-The problem with this approach is that an "Autofill" button is often shown, but
-Flutter does not have the ability to respond to this button. So in many cases,
-users see an "Autofill" button that does nothing when tapped, and Flutter app
-developers have no way to hide the button.
+這種做法的問題在於，「自動填充（Autofill）」按鈕經常會被顯示出來，但 Flutter 並沒有辦法對這個按鈕做出回應。因此在許多情況下，使用者會看到一個「自動填充（Autofill）」按鈕，但點擊後沒有任何反應，而 Flutter 應用程式開發者也無法隱藏這個按鈕。
 
-This problem is solved by introducing a new method,
-`SystemContextMenuController.showWithItems`, which requires a list of `items` to
-be passed.
+這個問題已透過引入新方法 `SystemContextMenuController.showWithItems` 得到解決，該方法要求傳入一個 `items` 的清單。
 
-Developers that have no preference which items are shown can call the new method
-`SystemContextMenu.getDefaultItems` to get the default items based on the given
-`EditableTextState`. For example, if the `EditableTextState` indicates that
-there is nothing selected, then the **Copy** button won't be included, since it
-requires a selection to copy.
+如果開發者對於顯示哪些項目沒有特別偏好，可以呼叫新方法 `SystemContextMenu.getDefaultItems`，根據給定的 `EditableTextState` 取得預設項目。例如，如果 `EditableTextState` 表示目前沒有任何選取內容，則 **Copy**（複製）按鈕就不會包含在內，因為複製功能需要有選取內容才能使用。
 
-## Migration guide
+## 遷移指南
 
-Most users use the system context menu through the `SystemContextMenu` widget,
-and in this case there will be no change required. The `SystemContextMenu`
-widget automatically gets the default items under the hood.
+大多數使用者都是透過 `SystemContextMenu` 元件（Widget）來使用系統內容選單，在這種情況下不需要做任何更動。`SystemContextMenu` 元件會自動在底層取得預設項目。
 
-No migration is needed:
+不需要進行遷移：
 
 ```dart
 class _MyWidgetState extends State<MyWidget> {
@@ -57,19 +41,17 @@ class _MyWidgetState extends State<MyWidget> {
 }
 ```
 
-For advanced users that directly work with `SystemContextMenuController`,
-migrate to the new method `SystemContextMenuController.showWithItems`. The
-default can be obtained from `SystemContextMenu.getDefaultItems` as a list of
-`IOSSystemContextMenuItem`s, which can be converted to the format required by
-`showWithItems` through `IOSSystemContextMenuItem.getData`.
+對於直接使用 `SystemContextMenuController` 的進階使用者，請遷移至新的方法 `SystemContextMenuController.showWithItems`。
+預設值可以從 `SystemContextMenu.getDefaultItems` 取得，該預設值是一個 `IOSSystemContextMenuItem` 的清單，
+可透過 `IOSSystemContextMenuItem.getData` 轉換為 `showWithItems` 所需的格式。
 
-Code before migration:
+遷移前的程式碼如下：
 
 ```dart
 _controller.show(selectionRect);
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 final List<IOSSystemContextMenuItem> defaultItems =
@@ -84,30 +66,30 @@ final List<IOSSystemContextMenuItemData> defaultItemData =
 _controller.showWithItems(selectionRect, defaultItemData);
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.29.0-0.3.pre<br>
-In stable release: 3.32
+合併於版本：3.29.0-0.3.pre<br>
+正式版推出：3.32
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`TextInputConnection`][]
 * [`SystemContextMenuController.show`][]
 * [`SystemContextMenuController.showWithItems`][]
 * [`SystemContextMenu`][]
 
-Relevant issues:
+相關議題：
 
-* [Flutter should support iOS 15's Secure Paste feature][]
+* [Flutter 應支援 iOS 15 的 Secure Paste 功能][Flutter should support iOS 15's Secure Paste feature]
 
-Relevant PRs:
+相關 PR：
 
-* [Secure paste milestone 2][]
-* [ios secure_paste show menu item based on info sent from framework][]
-* [Native ios context menu][]
-* [ios_edit_menu add native edit menu][]
+* [Secure paste 里程碑 2][Secure paste milestone 2]
+* [iOS secure_paste 根據 framework 傳送的資訊顯示選單項目][ios secure_paste show menu item based on info sent from framework]
+* [原生 iOS context menu][Native ios context menu]
+* [ios_edit_menu 新增原生編輯選單][ios_edit_menu add native edit menu]
 
 [`TextInputConnection`]: {{site.api}}/flutter/services/TextInputConnection-class.html
 [`SystemContextMenuController.show`]: {{site.api}}/flutter/services/SystemContextMenuController/show.html

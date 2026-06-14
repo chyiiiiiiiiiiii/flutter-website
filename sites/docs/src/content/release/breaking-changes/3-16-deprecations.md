@@ -1,36 +1,36 @@
 ---
-title: Deprecated API removed after v3.16
+title: v3.16 之後移除的已棄用 API
 description: >-
-  After reaching end of life, the following deprecated APIs
-  were removed from Flutter.
+  以下在 Flutter 達到生命週期終止後，
+  已從 Flutter 移除的已棄用 API。
 ---
 
-## Summary
+## 摘要
 
-In accordance with Flutter's [Deprecation Policy][],
-deprecated APIs that reached end of life after the
-3.16 stable release have been removed.
+根據 Flutter 的 [棄用政策][Deprecation Policy]，
+在 3.16 穩定版發佈後達到生命週期終止的
+已棄用 API 已被移除。
 
-All affected APIs have been compiled into this
-primary source to aid in migration.
-To further aid your migration, check out this
-[quick reference sheet][].
+所有受影響的 API 已彙整於此主要來源，
+以協助您進行遷移。
+如需進一步協助遷移，請參考這份
+[快速參考表][quick reference sheet]。
 
 [Deprecation Policy]: {{site.repo.flutter}}/blob/main/docs/contributing/Tree-hygiene.md#deprecations
 [quick reference sheet]: /go/deprecations-removed-after-3-16
 
-## Changes
+## 變更內容
 
-This section lists the deprecations by the package and affected class.
+本節依套件及受影響的類別列出棄用項目。
 
-### Button `styleFrom` properties
+### Button `styleFrom` 屬性
 
-Package: flutter
-Supported by Flutter Fix: yes
+套件：flutter
+支援 Flutter Fix：是
 
-The `TextButton`, `ElevatedButton` and `OutlinedButton` widgets all have a
-static `styleFrom` method for generating the `ButtonStyle`. The following color
-properties of this method for each class were deprecated in v3.1:
+`TextButton`、`ElevatedButton` 以及 `OutlinedButton` 這三個元件 (Widget) 皆有一個
+靜態的 `styleFrom` 方法用於產生 `ButtonStyle`。在 v3.1 版本中，
+以下各類別該方法的顏色屬性已被棄用：
 
 * `TextButton.styleFrom`
   * `primary`
@@ -43,14 +43,13 @@ properties of this method for each class were deprecated in v3.1:
   * `primary`
   * `onSurface`
 
-These changes better aligned the API with updated Material Design
-specifications. The changes also provided more clarity in how the colors would
-be applied to the buttons, by replacing these properties with `backgroundColor`,
-`foregroundColor`, and `disabledForegroundColor`.
+這些變更讓 API 更符合最新的 Material Design
+規範。這些調整也讓按鈕顏色的應用方式更加明確，
+透過以 `backgroundColor`、`foregroundColor` 和 `disabledForegroundColor` 取代上述屬性來達成。
 
-**Migration guide**
+**遷移指南**
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 TextButton.styleFrom(
@@ -68,7 +67,7 @@ OutlinedButton.styleFrom(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 TextButton.styleFrom(
@@ -86,19 +85,19 @@ OutlinedButton.styleFrom(
 );
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
 * [`TextButton`][]
 * [`ElevatedButton`][]
 * [`OutlinedButton`][]
 * [`ButtonStyle`][]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#105291][]
-* Removed in [#139267][]
+* 在 [#105291][] 中標記為已棄用
+* 在 [#139267][] 中移除
 
 [`TextButton`]: {{site.api}}/flutter/material/TextButton-class.html
 [`ElevatedButton`]: {{site.api}}/flutter/material/ElevatedButton-class.html
@@ -112,18 +111,17 @@ Relevant PRs:
 
 ### ThemeData.selectedRowColor
 
-Package: flutter
-Supported by Flutter Fix: yes
+套件：flutter
+支援 Flutter Fix：是
 
-The `selectedRowColor` property of `ThemeData` was deprecated in v3.1.
+`ThemeData` 的 `selectedRowColor` 屬性於 v3.1 被標記為已棄用。
 
-The property was no longer used by the framework, as widgets using it migrated
-to other component themes or no longer required it in the updated specification
-for Material Design.
+此屬性已不再被框架使用，因為原本使用它的元件已遷移至其他元件主題，
+或是在新版 Material Design 規範下已不再需要此屬性。
 
-**Migration guide**
+**遷移指南**
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 ThemeData(
@@ -132,7 +130,7 @@ ThemeData(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 ThemeData(
@@ -141,16 +139,16 @@ ThemeData(
 );
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
 * [`ThemeData`][]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#109070][]
-* Removed in [#139080][]
+* 在 [#109070][] 中標記為已棄用
+* 在 [#139080][] 中移除
 
 [`ThemeData`]: {{site.api}}/flutter/material/ThemeData-class.html
 
@@ -161,35 +159,34 @@ Relevant PRs:
 
 ### NavigatorState.focusScopeNode
 
-Package: flutter
-Supported by Flutter Fix: yes
+套件：flutter
+支援 Flutter Fix：是
 
-The `focusScopeNode` property of `NavigatorState` was deprecated in v3.1.
+`NavigatorState` 的 `focusScopeNode` 屬性於 v3.1 被標記為已棄用。
 
-This change was made to resolve several issues stemming around the
-`FocusScopeNode` introduced by the `Navigator`. Instead, the `FocusScope`
-was moved to enclose the topmost `Navigator` in a `WidgetsApp`.
-`NavigatorState` was changed to contain its own `FocusNode`, from where it can
-refer to its `FocusNode.enclosingScope` to access the correct `FocusScopeNode`.
+此變更是為了解決由 `Navigator` 引入的 `FocusScopeNode` 所產生的多項問題。
+取而代之的是，`FocusScope` 現在會包覆 `WidgetsApp` 中最上層的 `Navigator`。
+`NavigatorState` 也被調整為包含自己的 `FocusNode`，
+並可透過其 `FocusNode.enclosingScope` 來存取正確的 `FocusScopeNode`。
 
-**Migration guide**
+**遷移指南**
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 Navigator.of(context).focusScopeNode;
 
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 Navigator.of(context).focusNode.enclosingScope!;
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
 * [`Navigator`][]
 * [`NavigatorState`][]
@@ -197,10 +194,10 @@ API documentation:
 * [`FocusScopeNode`][]
 * [`FocusNode`][]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#109702][]
-* Removed in [#139260][]
+* 在 [#109702][] 中標記為已棄用
+* 在 [#139260][] 中移除
 
 [`Navigator`]: {{site.api}}/flutter/widgets/Navigator-class.html
 [`NavigatorState`]: {{site.api}}/flutter/widgets/NavigatorState-class.html
@@ -215,17 +212,17 @@ Relevant PRs:
 
 ### PlatformMenuBar.body
 
-Package: flutter
-Supported by Flutter Fix: yes
+套件：flutter
+支援 Flutter Fix：是
 
-The `body` property of `PlatformMenuBar` was deprecated in v3.1.
+`PlatformMenuBar` 的 `body` 屬性於 v3.1 被標記為已棄用。
 
-This change was made to align `PlatformMenuBar` with other widgets in the
-framework, renaming it to `child`.
+此變更是為了讓 `PlatformMenuBar` 與框架中其他元件保持一致，
+將其重新命名為 `child`。
 
-**Migration guide**
+**遷移指南**
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 PlatformMenuBar(
@@ -233,7 +230,7 @@ PlatformMenuBar(
 );
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 PlatformMenuBar(
@@ -241,16 +238,16 @@ PlatformMenuBar(
 );
 ```
 
-**References**
+**參考資料**
 
-API documentation:
+API 文件：
 
 * [`PlatformMenuBar`][]
 
-Relevant PRs:
+相關 PR：
 
-* Deprecated in [#104565][]
-* Removed in [#138509][]
+* 在 [#104565][] 中標記為已棄用
+* 在 [#138509][] 中移除
 
 [`PlatformMenuBar`]: {{site.api}}/flutter/widgets/PlatformMenuBar-class.html
 
@@ -259,18 +256,16 @@ Relevant PRs:
 
 ---
 
-The [previously announced][] deprecations for `TextTheme`, `WidgetInspectorService`,
-and `WidgetInspectorServiceExtensions` were not removed during this cycle.
-The `WidgetInspectorService` and `WidgetInspectorServiceExtensions`
-deprecation on `setPubRootDirectories` has been extended another year to allow
-IDEs and other customer to migrate.
-Expect the `TextTheme` deprecations to be removed in the next cycle, which will
-be announced again when it comes.
+[先前公告][previously announced] 的 `TextTheme`、`WidgetInspectorService`
+和 `WidgetInspectorServiceExtensions` 棄用項目，在本次週期中尚未移除。
+`WidgetInspectorService` 和 `WidgetInspectorServiceExtensions`
+在 `setPubRootDirectories` 上的棄用時程已延長一年，以便 IDE 及其他客戶進行遷移。
+預計 `TextTheme` 的棄用項目將於下個週期移除，屆時會再次公告。
 
 [previously announced]: https://groups.google.com/g/flutter-announce/c/DLnuqZo714o
 
 ---
 
-## Timeline
+## 時程
 
-In stable release: 3.19.0
+穩定版發佈於：3.19.0

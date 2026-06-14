@@ -1,28 +1,26 @@
 ---
-title: Deprecate onReorder callback
+title: 棄用 onReorder 回呼（callback）
 description: >-
-  The onReorder callback has been deprecated
-  in favor of a new callback, called onReorderItem.
+  onReorder 回呼（callback）已被棄用，
+  改以新的回呼（callback）onReorderItem 取代。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-The `onReorder` callback in the
-`ReorderableListView`, `ReorderableListView.builder`,
-`ReorderableList`, and `SliverReorderableList` widgets
-has been replaced by a new callback, `onReorderItem`,
-which provides more intuitive behavior for `newIndex`.
+`ReorderableListView`、`ReorderableListView.builder`、
+`ReorderableList` 及 `SliverReorderableList` 元件 (Widget) 中的
+`onReorder` 回呼（callback）已被新的回呼（callback）`onReorderItem` 取代，
+後者為 `newIndex` 提供了更直覺的行為。
 
-## Background
+## 背景
 
-The `onReorder` callback in the
-`ReorderableListView`, `ReorderableListView.builder`,
-`ReorderableList`, and `SliverReorderableList` widgets required
-a manual correction for the second parameter, `newIndex`,
-in case the `oldIndex` is before the `newIndex` because
-the list of items would be shortened by one element.
+`ReorderableListView`、`ReorderableListView.builder`、
+`ReorderableList` 及 `SliverReorderableList` 元件中的 `onReorder` 回呼（callback），
+在 `oldIndex` 位於 `newIndex` 之前的情況下，
+需要對第二個參數 `newIndex` 進行手動修正，
+因為此時項目清單會縮短一個元素。
 
 ```dart
 void handleReorder(int oldIndex, int newIndex) {
@@ -39,8 +37,7 @@ ReorderableListView(
 )
 ```
 
-The new callback, `onReorderItem`, solves this problem
-by doing the correction automatically.
+新的回呼（callback）`onReorderItem` 透過自動進行修正來解決此問題。
 
 ```dart
 void handleReorder(int oldIndex, int newIndex) {
@@ -52,18 +49,18 @@ ReorderableListView(
 )
 ```
 
-## Migration guide
+## 遷移指南
 
-The `ReorderableListView`, `ReorderableListView.builder`,
-`ReorderableList`, and `SliverReorderableList` widgets
-share the same reordering logic.
-The same migration steps apply to each of these widgets.
+`ReorderableListView`、`ReorderableListView.builder`、
+`ReorderableList` 及 `SliverReorderableList` 元件
+共用相同的排序邏輯。
+相同的遷移步驟適用於上述每個元件。
 
-This migration guide uses `ReorderableListView` as an example.
+本遷移指南以 `ReorderableListView` 作為範例。
 
-### Case 1: Simple callbacks {: #case-1-simple-callbacks }
+### 情況一：簡單的回呼（callback） {: #case-1-simple-callbacks }
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 ReorderableListView(
@@ -77,7 +74,7 @@ ReorderableListView(
 )
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart diff
   ReorderableListView(
@@ -92,15 +89,15 @@ Code after migration:
   )
 ```
 
-### Case 2: Opt out for complex `onReorder` implementations {: #case-2-opt-out }
+### 情況二：針對複雜 `onReorder` 實作的退出方案 {: #case-2-opt-out }
 
-In some cases, such as when the provided callback is complex,
-the migration to the new `onReorderItem` callback might not be obvious.
+在某些情況下，例如所提供的回呼（callback）較為複雜時，
+遷移至新的 `onReorderItem` 回呼（callback）可能並不直觀。
 
-In these cases, to opt out of the new behavior,
-adjust the `newIndex` to match the old behavior.
+在這些情況下，若要退出新的行為，
+請調整 `newIndex` 以符合舊有行為。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 void handleSomeComplexReorder(int oldIndex, int newIndex) {
@@ -114,7 +111,7 @@ ReorderableListView(
 )
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart diff
   void handleSomeComplexReorder(int oldIndex, int newIndex) {
@@ -135,30 +132,30 @@ Code after migration:
 ```
 
 :::important
-This migration isn't supported by `dart fix`,
-due to the change in meaning for the second callback parameter.
+由於第二個回呼（callback）參數的語意已有所變更，
+此遷移不支援 `dart fix`。
 :::
 
-## Timeline
+## 時間表
 
-Landed in version: 3.41.0-1.0.pre-364<br>
-In stable release: 3.44
+版本導入：3.41.0-1.0.pre-364<br>
+穩定版發布：3.44
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`ReorderCallback`][]
 * [`ReorderableList`][]
 * [`ReorderableListView`][]
 * [`SliverReorderableList`][]
 
-Relevant issues:
+相關 Issue：
 
 * [The index parameter for ReorderableListView's onReorderCallback is confusing][issue-127901]
 * [SliverReorderableList newIndex arg off by one on drag down list][issue-169878]
 
-Relevant PRs:
+相關 PR：
 
 * [Deprecate onReorder callback][]
 

@@ -1,58 +1,58 @@
 ---
-title: Migration guide for `RouteInformation.location`
-description: Deprecation of `RouteInformation.location` and its related APIs.
+title: "`RouteInformation.location` 的遷移指南"
+description: RouteInformation.location 及其相關 API 的棄用說明。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-`RouteInformation.location` and related APIs were deprecated
-in the favor of `RouteInformation.uri`.
+`RouteInformation.location` 及相關 API 已被棄用，
+建議改用 `RouteInformation.uri`。
 
-## Context
+## 背景說明
 
-The [`RouteInformation`][] needs the authority information to
-handle mobile deeplinks from different web domains.
-The `uri` field was added to `RouteInformation` that captures
-the entire deeplink information and route-related parameters
-were converted to the full [`Uri`][] format.
-This led to deprecation of incompatible APIs.
+[`RouteInformation`][] 需要 authority 資訊，
+以處理來自不同網域的行動裝置深層連結 (deep links)。
+在 `RouteInformation` 中新增了 `uri` 欄位，
+用於完整記錄深層連結資訊，並將與路由相關的參數
+轉換為完整的 [`Uri`][] 格式。
+因此，與之不相容的 API 已被棄用。
 
-## Description of change
+## 變更說明
 
-* The `RouteInformation.location` was replaced by `RouteInformation.uri`.
-* The `WidgetBindingObserver.didPushRoute` was deprecated.
-* The `location` parameter of `SystemNavigator.routeInformationUpdated` was
-  replaced by the newly added `uri` parameter.
+* `RouteInformation.location` 已由 `RouteInformation.uri` 取代。
+* `WidgetBindingObserver.didPushRoute` 已被棄用。
+* `SystemNavigator.routeInformationUpdated` 的 `location` 參數
+  已被新加入的 `uri` 參數取代。
 
-## Migration guide
+## 遷移指南
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 const RouteInformation myRoute = RouteInformation(location: '/myroute');
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 final RouteInformation myRoute = RouteInformation(uri: Uri.parse('/myroute'));
 ```
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 final String myPath = myRoute.location;
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 final String myPath = myRoute.uri.path;
 ```
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 class MyObserverState extends State<MyWidget> with WidgetsBindingObserver {
@@ -61,7 +61,7 @@ class MyObserverState extends State<MyWidget> with WidgetsBindingObserver {
 }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 class MyObserverState extends State<MyWidget> with WidgetsBindingObserver {
@@ -78,29 +78,28 @@ class MyObserverState extends State<MyWidget> with WidgetsBindingObserver {
 }
 ```
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 SystemNavigator.routeInformationUpdated(location: '/myLocation');
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 SystemNavigator.routeInformationUpdated(uri: Uri.parse('/myLocation'));
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 3.10.0-13.0.pre<br>
-In stable release: 3.13.0
+合併於版本：3.10.0-13.0.pre<br>
+正式版發佈於：3.13.0
 
-## References
+## 參考資料
 
-Relevant PRs:
+相關 PR：
 
-* [PR 119968][]: Implement url support for
-  RouteInformation and didPushRouteInformation.
+* [PR 119968][]：為 RouteInformation 及 didPushRouteInformation 實作 URL 支援。
 
 [PR 119968]: {{site.repo.flutter}}/pull/119968
 [`RouteInformation`]: {{site.api}}/flutter/widgets/RouteInformation-class.html

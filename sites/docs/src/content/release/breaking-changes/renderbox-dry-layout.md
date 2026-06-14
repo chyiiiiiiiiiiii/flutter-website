@@ -1,51 +1,44 @@
 ---
-title: Dry layout support for RenderBox
+title: RenderBox 的 Dry layout 支援
 description: >
-  The method "computeDryLayout" was added to the RenderBox protocol to
-  correctly calculate its intrinsic size in certain situations.
+  在 RenderBox 協定中新增了 "computeDryLayout" 方法，
+  以便在某些情境下正確計算其內在尺寸。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-A new method named `computeDryLayout` was added to the `RenderBox` protocol.
-Subclasses of `RenderBox` are expected to implement it to correctly report
-their desired size given a set of `BoxConstraints` during intrinsic
-calculations. Subclasses that implement `computeDryLayout` no longer need to
-override `performResize`.
+在 `RenderBox` 協定中新增了一個名為 `computeDryLayout` 的新方法。
+`RenderBox` 的子類別預期需要實作這個方法，以便在進行內在尺寸計算時，
+根據一組 `BoxConstraints` 正確回報其期望尺寸。已實作 `computeDryLayout` 的子類別，
+現在不再需要覆寫 `performResize`。
 
-## Context
+## 背景
 
-A new method, `computeDryLayout`, was added to the `RenderBox` protocol to
-correctly calculate the intrinsic sizes of a `RenderParagraph` with `WidgetSpan`
-children and a `RenderWrap`. The method receives a set of `BoxConstraints` and
-is expected to calculate the resulting size of the `RenderBox` without changing
-any internal state. It's essentially a dry run of `performLayout` that only
-calculates the resulting size and doesn't place the children. The
-`computeDryLayout` method is part of the intrinsics protocol (see also
-[`RenderBox.computeMinIntrinsicWidth`][] and friends).
+在 `RenderBox` 協定中新增了一個新方法 `computeDryLayout`，
+用於正確計算具有 `WidgetSpan` 子元件和 `RenderWrap` 的 `RenderParagraph` 的內在尺寸。
+該方法會接收一組 `BoxConstraints`，並預期計算出 `RenderBox` 的結果尺寸，
+但不會更動任何內部狀態。這本質上是一種僅計算結果尺寸、不實際擺放子元件的
+`performLayout` 的 dry run。`computeDryLayout` 方法屬於 intrinsics 協定的一部分
+（另請參閱 [`RenderBox.computeMinIntrinsicWidth`][] 及相關內容）。
 
-## Description of change
+## 變更說明
 
-Subclasses of `RenderBox` need to override the new `computeDryLayout` method
-if they are used as a descendant of a `RenderObject` that may query the intrinsic
-size of its children. Examples of widgets that do this are `IntrinsicHeight`
-and `IntrinsicWidth`.
+如果 `RenderBox` 的子類別被用作會查詢其子元件內在尺寸的 `RenderObject` 的後代，
+則需要覆寫新的 `computeDryLayout` 方法。會這麼做的元件 (Widget) 範例包括
+`IntrinsicHeight` 和 `IntrinsicWidth`。
 
-The default implementation of `RenderBox.performResize` also uses the size
-computed by `computeDryLayout` to perform the resize. Overriding `performResize`
-is therefore no longer necessary.
+`RenderBox.performResize` 的預設實作也會使用 `computeDryLayout` 計算出的尺寸來進行調整。
+因此，不再需要覆寫 `performResize`。
 
-## Migration guide
+## 遷移指南
 
-Subclasses that already override `performResize` can be migrated by simply
-changing the function signature from `void performResize()` to
-`Size computeDryLayout(BoxConstraints constraints)` and by returning the
-calculated size instead of assigning it to the `size` setter. The old
-implementation of `performResize` can be removed.
+已經覆寫 `performResize` 的子類別，只需將函式簽名從 `void performResize()`
+改為 `Size computeDryLayout(BoxConstraints constraints)`，並回傳計算出的尺寸，
+而不是將其指派給 `size` setter。舊的 `performResize` 實作可以移除。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
   @override
@@ -54,7 +47,7 @@ Code before migration:
   }
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
   // This replaces the old performResize method.
@@ -64,18 +57,15 @@ Code after migration:
   }
 ```
 
-If the subclass doesn't override `performResize`, the implementation of
-`computeDryLayout` has to be extracted from the `performLayout` method.
-Basically, `computeDryLayout` needs to do all the work `performLayout` is doing
-to figure out the size of the `RenderBox`. However, instead of assigning it
-to the `size` setter, it returns the computed size. If `computeDryLayout`
-needs to know the size of its children, it must obtain that size by calling
-`getDryLayout` on the child instead of calling `layout`.
+如果子類別沒有覆寫 `performResize`，那麼 `computeDryLayout` 的實作必須從 `performLayout` 方法中抽取出來。
+基本上，`computeDryLayout` 需要執行所有 `performLayout` 所做的工作，以計算 `RenderBox` 的尺寸。
+不過，`computeDryLayout` 並不是將計算結果指派給 `size` setter，而是回傳計算出來的尺寸。
+如果 `computeDryLayout` 需要知道其子元件的尺寸，必須透過呼叫子元件的 `getDryLayout`
+來取得尺寸，而不是呼叫 `layout`。
 
-If for some reason it is impossible to calculate the dry layout, `computeDryLayout`
-must call `debugCannotComputeDryLayout` from within an assert and return a dummy
-size of `const Size(0, 0)`. Calculating a dry layout is, for example, impossible
-if the size of a `RenderBox` depends on the baseline metrics of its children.
+如果因某些原因無法計算 dry layout，`computeDryLayout` 必須在 assert 內呼叫
+`debugCannotComputeDryLayout`，並回傳一個假尺寸 `const Size(0, 0)`。
+舉例來說，當 `RenderBox` 的尺寸依賴於其子元件的 baseline 指標時，就無法計算 dry layout。
 
 ```dart
   @override
@@ -87,14 +77,14 @@ if the size of a `RenderBox` depends on the baseline metrics of its children.
   }
 ```
 
-## Timeline
+## 時程
 
-Landed in version: 1.25.0-4.0.pre<br>
-In stable release: 2.0.0
+合併於版本：1.25.0-4.0.pre<br>
+穩定版發佈於：2.0.0
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`RenderBox`][]
 * [`computeMinIntrinsicWidth`][]
@@ -104,11 +94,11 @@ API documentation:
 * [`RenderWrap`][]
 * [`RenderParagraph`][]
 
-Relevant issues:
+相關議題：
 
 * [Issue 48679][]
 
-Relevant PRs:
+相關 PR：
 
 * [Fixes Intrinsics for RenderParagraph and RenderWrap][]
 

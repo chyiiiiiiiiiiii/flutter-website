@@ -1,33 +1,21 @@
 ---
-title: Deprecate `findChildIndexCallback` in favor of `findItemIndexCallback` in `ListView` and `SliverList` separated constructors
+title: 在 `ListView` 和 `SliverList` 的 separated 建構子中，以 `findItemIndexCallback` 取代已棄用的 `findChildIndexCallback`
 description: >-
-  The findChildIndexCallback parameter in ListView.separated and
-  SliverList.separated have been deprecated in favor of findItemIndexCallback.
+  ListView.separated 和 SliverList.separated 中的 findChildIndexCallback 參數
+  已被棄用，請改用 findItemIndexCallback。
 ---
 
-## Summary
+## 摘要
 
-The `findChildIndexCallback` parameter in `ListView.separated` and
-`SliverList.separated` constructors have been deprecated in favor of
-`findItemIndexCallback`. The new callback returns item indices directly,
-eliminating the need for manual index calculations to account for separators.
+`ListView.separated` 和 `SliverList.separated` 建構子中的 `findChildIndexCallback` 參數已被棄用，請改用 `findItemIndexCallback`。新的回呼（callback）直接回傳項目索引，不再需要手動計算索引以處理分隔元件 (Widget) 的偏移。
 
-## Background
+## 背景
 
-In `ListView.separated` and `SliverList.separated` constructors,
-the `findChildIndexCallback` was used to locate widgets by their key.
-However, this callback returned child indices, which include both items
-and separators in the internal widget tree. This meant that developers had to
-multiply item indices by 2 to get the correct child index, creating
-confusion and error-prone code.
+在 `ListView.separated` 和 `SliverList.separated` 建構子中，`findChildIndexCallback` 用來透過 key 定位元件。然而，此回呼回傳的是子元件索引，其中同時包含了內部元件樹中的項目與分隔元件。這意味著開發者必須將項目索引乘以 2 才能得到正確的子元件索引，容易造成混淆並產生容易出錯的程式碼。
 
-The new `findItemIndexCallback` parameter simplifies this by working
-directly with item indices, which do not include separators.
-This makes the API more intuitive and reduces the likelihood of
-index calculation errors.
+新的 `findItemIndexCallback` 參數直接使用項目索引（不含分隔元件），簡化了此流程。這讓 API 更直覺，也降低了索引計算錯誤的可能性。
 
-If you use the deprecated `findChildIndexCallback` parameter,
-you will see a deprecation warning:
+若您使用已棄用的 `findChildIndexCallback` 參數，將會看到以下棄用警告：
 
 ```plaintext
 'findChildIndexCallback' is deprecated and shouldn't be used.
@@ -39,21 +27,18 @@ you can remove that workaround when migrating to findItemIndexCallback.
 This feature was deprecated after v3.37.0-1.0.pre.
 ```
 
-Additionally, if you try to provide both parameters, you will encounter
-an assertion error:
+此外，若您同時提供兩個參數，將會遇到斷言錯誤：
 
 ```plaintext
 Cannot provide both findItemIndexCallback and findChildIndexCallback.
 Use findItemIndexCallback as findChildIndexCallback is deprecated.
 ```
 
-## Migration guide
+## 遷移指南
 
-To migrate from `findChildIndexCallback` to `findItemIndexCallback`,
-replace the parameter name and remove any index multiplications
-that were used to account for separators.
+若要從 `findChildIndexCallback` 遷移至 `findItemIndexCallback`，請將參數名稱替換，並移除原本用來處理分隔元件的索引乘法運算。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 ListView.separated(
@@ -74,7 +59,7 @@ ListView.separated(
 )
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 ListView.separated(
@@ -95,9 +80,9 @@ ListView.separated(
 )
 ```
 
-The same migration applies to `SliverList.separated`:
+同樣的遷移方式也適用於 `SliverList.separated`：
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 SliverList.separated(
@@ -117,7 +102,7 @@ SliverList.separated(
 )
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 SliverList.separated(
@@ -137,19 +122,19 @@ SliverList.separated(
 )
 ```
 
-## Timeline
+## 時間軸
 
-Landed in version: 3.38.0-1.0.pre<br>
-In stable release: 3.41
+導入版本：3.38.0-1.0.pre<br>
+穩定版本：3.41
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`ListView.separated`][]
 * [`SliverList.separated`][]
 
-Relevant PRs:
+相關 PR：
 
 * [Deprecate findChildIndexCallback for separated constructors][]
 

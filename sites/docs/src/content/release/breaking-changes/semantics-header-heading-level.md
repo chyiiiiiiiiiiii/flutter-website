@@ -1,59 +1,56 @@
 ---
-title: Update semantics header and headingLevel behavior on iOS and Android
+title: 更新 iOS 和 Android 上的語意標頭與 headingLevel 行為
 description: >-
-  The `header` semantics property is now a no-op on iOS and Android.
-  Accessibility heading behaviors are now controlled with `headingLevel`.
+  `header` 語意屬性在 iOS 和 Android 上現在是無操作 (no-op)。
+  無障礙標題行為現在改由 `headingLevel` 控制。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-The `header` semantics property now behaves as a no-op on iOS and Android.
-To declare a section heading for accessibility purposes on these platforms,
-use the `headingLevel` property with a value greater than `0`.
+`header` 語意屬性在 iOS 和 Android 上現在的行為為無操作 (no-op)。
+若要在這些平台上為無障礙功能宣告區段標題，
+請使用 `headingLevel` 屬性並設定大於 `0` 的值。
 
-## Context
+## 背景
 
-Historically, Flutter used the boolean `header` semantics property
-to denote headings on platform implementations:
-* On Android, a `header` value of `true` mapped to
-  `View.setHeading(true)`.
-* On iOS, a `header` value of `true` mapped to the
-  `UIAccessibilityTraitHeader` accessibility trait.
+過去，Flutter 使用布林值的 `header` 語意屬性
+來在各平台實作中表示標題：
+* 在 Android 上，`header` 值為 `true` 會對應至
+  `View.setHeading(true)`。
+* 在 iOS 上，`header` 值為 `true` 會對應至
+  `UIAccessibilityTraitHeader` 無障礙特性。
 
-However, `setHeading` and `UIAccessibilityTraitHeader`
-represent headings (equivalent to section headers/headings),
-which are best represented by a heading level.
-In contrast, "header" on these platforms often represents a banner
-or an app bar (such as `SliverAppBar` or `AppBar`),
-creating confusion and mismatch
-between platform APIs and Flutter properties.
+然而，`setHeading` 與 `UIAccessibilityTraitHeader`
+代表的是標題（相當於區段標頭/標題），
+最好以標題層級來表示。
+相對地，這些平台上的「標頭 (header)」通常代表橫幅
+或應用程式列（例如 `SliverAppBar` 或 `AppBar`），
+造成平台 API 與 Flutter 屬性之間的混淆與不一致。
 
-With this change:
-* The `header` semantics property behaves as a no-op
-  on iOS and Android. It remains available in the API and can
-  still be used in the future if similar APIs are provided.
-* The `headingLevel` property is updated so that setting it
-  to a value greater than `0` maps directly to
-  `View.setHeading(true)` on Android
-  and `UIAccessibilityTraitHeader` on iOS.
-  On iOS 13+, it also maps to `accessibilityHeadingLevel`.
+透過此變更：
+* `header` 語意屬性在 iOS 和 Android 上的行為變為無操作 (no-op)。
+  它仍保留在 API 中，若日後提供類似 API，可繼續使用。
+* `headingLevel` 屬性已更新，設定大於 `0` 的值時，
+  在 Android 上會直接對應至 `View.setHeading(true)`，
+  在 iOS 上則對應至 `UIAccessibilityTraitHeader`。
+  在 iOS 13+ 上，它也會對應至 `accessibilityHeadingLevel`。
 
-## Migration guide
+## 遷移指南
 
-If your code previously used `Semantics(header: true, ...)` or
-`SemanticsProperties(header: true, ...)` to declare headings,
-migrate your code to use `headingLevel: 1`
-(or another integer greater than `0`).
+若您的程式碼先前使用 `Semantics(header: true, ...)` 或
+`SemanticsProperties(header: true, ...)` 來宣告標題，
+請將程式碼遷移至使用 `headingLevel: 1`
+（或其他大於 `0` 的整數）。
 
-Note that while setting `headingLevel` to any value greater than `0`
-declares a heading on Android and iOS, other platforms (such as the web)
-treat the specific heading level number differently. For example,
-on the web, values `1` through `6` map to the corresponding
-`<h1>` through `<h6>` HTML elements.
+請注意，雖然將 `headingLevel` 設定為任何大於 `0` 的值
+在 Android 和 iOS 上均可宣告標題，但其他平台（例如網頁）
+對特定標題層級數字的處理方式有所不同。例如，
+在網頁上，值 `1` 至 `6` 分別對應至
+`<h1>` 至 `<h6>` HTML 元素。
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 Semantics(
@@ -62,7 +59,7 @@ Semantics(
 )
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 Semantics(
@@ -71,9 +68,9 @@ Semantics(
 )
 ```
 
-Similarly, if you used `SemanticsProperties`:
+同樣地，若您使用 `SemanticsProperties`：
 
-Code before migration:
+遷移前的程式碼：
 
 ```dart
 SemanticsProperties(
@@ -81,7 +78,7 @@ SemanticsProperties(
 )
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```dart
 SemanticsProperties(
@@ -89,24 +86,24 @@ SemanticsProperties(
 )
 ```
 
-## Timeline
+## 時間表
 
-Landed in version: 3.45.0-0.1.pre<br>
-In stable release: TBD
+落地版本：3.45.0-0.1.pre<br>
+穩定版發布：待定
 
-## References
+## 參考資料
 
-API documentation:
+API 文件：
 
 * [`Semantics`][]
 * [`SemanticsProperties`][]
 * [`SemanticsConfiguration`][]
 
-Relevant issues:
+相關 Issue：
 
 * [Issue 175416][]
 
-Relevant PRs:
+相關 PR：
 
 * [PR 186916][]
 * [PR 175416][]

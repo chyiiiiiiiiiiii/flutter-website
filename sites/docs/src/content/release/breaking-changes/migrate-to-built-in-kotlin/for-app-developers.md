@@ -1,38 +1,35 @@
 ---
-title: Built-in Kotlin migration for app developers
+title: 應用程式開發者的內建 Kotlin 遷移指南
 description: >-
-  Migrate Flutter apps to use built-in Kotlin.
+  將 Flutter 應用程式遷移至使用內建 Kotlin。
 ---
 
-## Migrate
+## 遷移
 
-This guide outlines the migration steps specifically for app developers.
+本指南專門針對應用程式開發者，說明遷移步驟。
 
-These instructions assume you are updating from
-an AGP version created before 9.0.0 to an AGP version 9.0.0+.
-You should also use the minimum compatible dependency versions
-listed in the [Android Gradle Plugin docs][AGP block].
+以下說明假設您正從 AGP 9.0.0 以前的版本更新至 AGP 9.0.0+。
+您也應使用 [Android Gradle Plugin 文件][AGP block] 中列出的最低相容相依性版本。
 
-### Verify flags in properties file
+### 確認 properties 檔案中的旗標
 
-Flutter sets the default behavior to use the legacy Kotlin Gradle Plugin (KGP)
-and the old AGP DSL types to support projects that have not yet migrated.
-The Flutter migrator tool automatically adds `android.builtInKotlin=false`
-and `android.newDsl=false` to your `gradle.properties` file.
+Flutter 預設使用舊版 Kotlin Gradle Plugin (KGP) 以及舊版 AGP DSL 型別，
+以支援尚未完成遷移的專案。
+Flutter 遷移工具會自動將 `android.builtInKotlin=false`
+及 `android.newDsl=false` 加入您的 `gradle.properties` 檔案。
 
-If these flags are missing from your `gradle.properties` file,
-the Flutter tool automatically adds them when you next build or run your app
-using `flutter run` or `flutter build apk`.
+若這些旗標在您的 `gradle.properties` 檔案中遺失，
+Flutter 工具會在您下次使用 `flutter run` 或 `flutter build apk`
+建置或執行應用程式時自動加入。
 
-Alternatively, building the project using Android Studio tooling also adds
-these flags automatically.
-Once the process completes, verify that the flags have been added.
-For more details, see [Issue #183910].
+此外，使用 Android Studio 工具建置專案也會自動加入這些旗標。
+程序完成後，請確認旗標已被加入。
+詳細資訊請參閱 [Issue #183910]。
 
-All add-to-app projects must manually add `android.builtInKotlin=false`
-and `android.newDsl=false` to the Android host app's `gradle.properties` file.
-The Flutter migrator tool cannot run during add-to-app Android host app builds
-because the host app is a pure native Android project.
+所有 add-to-app 專案必須手動將 `android.builtInKotlin=false`
+及 `android.newDsl=false` 加入 Android 主應用程式的 `gradle.properties` 檔案。
+Flutter 遷移工具在 add-to-app Android 主應用程式建置時無法執行，
+因為主應用程式是純原生 Android 專案。
 
 ```properties diff title="<host-app-project>/gradle.properties"
 # ...
@@ -41,32 +38,28 @@ because the host app is a pure native Android project.
 ```
 
 :::note
-If your app doesn't apply
-the `kotlin-android` plugin (also called Kotlin Gradle Plugin),
-then you only need to add `android.newDsl=false` and do not need
-further migration.
+若您的應用程式未套用 `kotlin-android` 插件（也稱為 Kotlin Gradle Plugin），
+則只需加入 `android.newDsl=false`，無需進行進一步的遷移。
 :::
 
-### Update the Gradle file
+### 更新 Gradle 檔案
 
-First, find the `kotlin-android` plugin (or the `org.jetbrains.kotlin.android`
-plugin).
-It is likely located in the `plugins` block of the
-`<app-src>/android/app/build.gradle` or the
-`<app-src>/android/app/build.gradle.kts` file.
-If you use the legacy `apply` syntax, it will be located in
-the Groovy-based `<app-src>/android/app/build.gradle` file, as this syntax is
-not supported in Kotlin DSL.
+首先，找到 `kotlin-android` 插件（或 `org.jetbrains.kotlin.android` 插件）。
+它通常位於 `<app-src>/android/app/build.gradle` 或
+`<app-src>/android/app/build.gradle.kts` 檔案的 `plugins` 區塊中。
+若您使用舊版 `apply` 語法，它會位於以 Groovy 為基礎的
+`<app-src>/android/app/build.gradle` 檔案中，
+因為 Kotlin DSL 不支援此語法。
 
-The following examples demonstrate how to migrate a Flutter Android app
-and an add-to-app Android host app:
+以下範例示範如何遷移 Flutter Android 應用程式
+及 add-to-app Android 主應用程式：
 
-#### Migrate your Flutter Android app
+#### 遷移您的 Flutter Android 應用程式
 
 <Tabs key="modern-legacy-apply">
 <Tab name="plugins block">
 
-**Before**:
+**遷移前**：
 
 ```kotlin title="<app-src>/android/app/build.gradle(.kts)"
 plugins {
@@ -86,7 +79,7 @@ android {
 // ...
 ```
 
-Next, remove the `kotlin-android` plugin and the `kotlinOptions` block:
+接著，移除 `kotlin-android` 插件及 `kotlinOptions` 區塊：
 
 ```kotlin diff title="<app-src>/android/app/build.gradle.kts"
   plugins {
@@ -104,7 +97,7 @@ Next, remove the `kotlin-android` plugin and the `kotlinOptions` block:
   }
 ```
 
-Add the `kotlin.compilerOptions{}` DSL block with the following:
+加入含有以下內容的 `kotlin.compilerOptions{}` DSL 區塊：
 
 ```kotlin diff title="<app-src>/android/app/build.gradle.kts"
 + kotlin {
@@ -114,9 +107,9 @@ Add the `kotlin.compilerOptions{}` DSL block with the following:
 + }
 ```
 
-Here is how the file will likely end up:
+以下是檔案最終的大致樣貌：
 
-**After**:
+**遷移後**：
 
 ```kotlin title="<app-src>/android/app/build.gradle(.kts)"
 plugins {
@@ -140,7 +133,7 @@ kotlin {
 </Tab>
 <Tab name="legacy apply">
 
-**Before**:
+**遷移前**：
 
 ```groovy title="<app-src>/android/app/build.gradle"
 apply plugin: 'com.android.application'
@@ -158,7 +151,7 @@ android {
 // ...
 ```
 
-Next, remove the `kotlin-android` plugin and the `kotlinOptions` block:
+接著，移除 `kotlin-android` 插件及 `kotlinOptions` 區塊：
 
 ```groovy diff title="<app-src>/android/app/build.gradle"
   apply plugin: 'com.android.application'
@@ -173,7 +166,7 @@ Next, remove the `kotlin-android` plugin and the `kotlinOptions` block:
       // ...
   }
 ```
-Add the `kotlin.compilerOptions{}` DSL block with the following:
+加入含有以下內容的 `kotlin.compilerOptions{}` DSL 區塊：
 
 ```groovy diff title="<app-src>/android/app/build.gradle"
 + kotlin {
@@ -183,9 +176,9 @@ Add the `kotlin.compilerOptions{}` DSL block with the following:
 + }
 ```
 
-Here is how the file will likely end up:
+以下是檔案最終的大致樣貌：
 
-**After**:
+**遷移後**：
 
 ```groovy title="<app-src>/android/app/build.gradle"
 apply plugin: 'com.android.application'
@@ -207,13 +200,13 @@ kotlin {
 </Tab>
 </Tabs>
 
-#### Migrate your add-to-app Android host app
+#### 遷移您的 add-to-app Android 主應用程式
 
-Android native apps use the `alias` keyword to apply plugins,
-which is incompatible with the legacy `apply()` syntax.
-Therefore, only the `plugins {}` block instructions are included.
+Android 原生應用程式使用 `alias` 關鍵字套用插件，
+這與舊版 `apply()` 語法不相容。
+因此，此處僅提供 `plugins {}` 區塊的說明。
 
-**Before**:
+**遷移前**：
 
 ```kotlin title="<app-src>/android/app/build.gradle(.kts)"
 plugins {
@@ -233,7 +226,7 @@ android {
 // ...
 ```
 
-Next, remove the `kotlin-android` plugin and the `kotlinOptions` block:
+接著，移除 `kotlin-android` 插件及 `kotlinOptions` 區塊：
 
 ```kotlin diff title="<app-src>/android/app/build.gradle.kts"
   plugins {
@@ -250,7 +243,7 @@ Next, remove the `kotlin-android` plugin and the `kotlinOptions` block:
       // ...
   }
 ```
-Add the `kotlin.compilerOptions{}` DSL block with the following:
+加入含有以下內容的 `kotlin.compilerOptions{}` DSL 區塊：
 
 ```kotlin diff title="<app-src>/android/app/build.gradle.kts"
 + kotlin {
@@ -260,9 +253,9 @@ Add the `kotlin.compilerOptions{}` DSL block with the following:
 + }
 ```
 
-Here is how the file will likely end up:
+以下是檔案最終的大致樣貌：
 
-**After**:
+**遷移後**：
 
 ```kotlin title="<app-src>/android/app/build.gradle(.kts)"
 plugins {
@@ -283,32 +276,29 @@ kotlin {
 // ...
 ```
 
-### Validate
+### 驗證
 
-Execute `flutter run` or `flutter build apk` to confirm that
-your app builds and launches on a connected Android device or emulator.
+執行 `flutter run` 或 `flutter build apk`，確認您的應用程式
+能在已連接的 Android 裝置或模擬器上成功建置並啟動。
 
-If your app fails to build because you are using an unmigrated Flutter plugin,
-follow the instructions below:
+若您的應用程式因使用尚未遷移的 Flutter 插件而建置失敗，
+請依照以下步驟操作：
 
-### Report incompatible Kotlin Gradle Plugin usage to plugin authors
+### 向插件作者回報不相容的 Kotlin Gradle Plugin 使用情況
 
-Follow these instructions only if your app uses a Flutter plugin
-that has not yet migrated to built-in Kotlin.
+僅在您的應用程式使用尚未遷移至內建 Kotlin 的 Flutter 插件時，
+才需依照以下步驟操作。
 
-1. Find the repository of the unmigrated Flutter plugin by searching for the
-   plugin name on [pub.dev](https://pub.dev) or online.
-2. Refer to the plugin CHANGELOG to confirm that no existing version
-   has migrated to built-in Kotlin.
-3. Report an issue to the plugin authors, informing them that the Kotlin
-   Gradle Plugin is incompatible and won't be supported in a future version
-   of Flutter.
+1. 在 [pub.dev](https://pub.dev) 或線上搜尋插件名稱，找到該未遷移 Flutter 插件的儲存庫。
+2. 參閱插件的 CHANGELOG，確認目前沒有任何版本已遷移至內建 Kotlin。
+3. 向插件作者回報問題，告知他們 Kotlin Gradle Plugin 不相容，
+   且未來的 Flutter 版本將不再支援。
 
-You can use the following template for the issue:
+您可以使用以下範本提交問題：
 
-**Issue Title:** Migrate Plugin to Built-in Kotlin
+**問題標題：** Migrate Plugin to Built-in Kotlin
 
-**Issue Body:**
+**問題內文：**
 I am using `<plugin-name>` in my Flutter app.
 
 Starting with Android Gradle Plugin (AGP) 9.0,
@@ -331,22 +321,20 @@ of conduct when reporting issues and interacting with plugin authors.
 
 For reference, see the [Flutter Code of Conduct][Code of Conduct].
 
-## Next steps
+## 後續步驟
 
-See the [migration overview](./) for next steps.
+請參閱[遷移概覽](./)以了解後續步驟。
 
-## References
+## 參考資料
 
-Relevant issues:
+相關 Issue：
 
-- [Issue #183910][]: Add Disable Built-in Kotlin and new DSL Migrators
-- [Issue #181383][]: Flutter plugins should support AGP 9.0.0
+- [Issue #183910][]：Add Disable Built-in Kotlin and new DSL Migrators
+- [Issue #181383][]：Flutter plugins should support AGP 9.0.0
 
-The Gradle build files in your app vary based on the Flutter version
-used when your app was created.
-Consider staying up to date with the latest version
-of the build files by periodically running `flutter upgrade`
-in your app's directory.
+您應用程式中的 Gradle 建置檔案會依據建立應用程式時所使用的 Flutter 版本而有所不同。
+建議定期在應用程式目錄中執行 `flutter upgrade`，
+以跟上最新版本的建置檔案。
 
 [AGP block]: {{site.android-dev}}/build/releases/gradle-plugin
 

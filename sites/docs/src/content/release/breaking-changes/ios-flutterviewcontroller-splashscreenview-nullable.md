@@ -1,57 +1,50 @@
 ---
-title: iOS FlutterViewController splashScreenView made nullable
+title: iOS FlutterViewController splashScreenView 改為可為 null
 description: >
-  FlutterViewController splashScreenView changed from nonnull to nullable.
+  FlutterViewController 的 splashScreenView 屬性已從 nonnull 改為 nullable。
 ---
 
 {% render "docs/breaking-changes.md" %}
 
-## Summary
+## 摘要
 
-The `FlutterViewController` property `splashScreenView` has
-been changed from `nonnull` to `nullable`.
+`FlutterViewController` 屬性 `splashScreenView`
+已從 `nonnull` 變更為 `nullable`。
 
-Old declaration of `splashScreenView`:
+`splashScreenView` 的舊宣告如下：
 
 ```objc
 @property(strong, nonatomic) UIView* splashScreenView;
 ```
 
-New declaration of `splashScreenView`:
+`splashScreenView` 的新宣告如下：
 
 ```objc
 @property(strong, nonatomic, nullable) UIView* splashScreenView;
 ```
 
-## Context
+## 背景
 
-Prior to this change, on iOS the `splashScreenView` property returned `nil`
-when no splash screen view was set, and
-setting the property to `nil` removed the splash screen view.
-However, the `splashScreenView` API was incorrectly marked `nonnull`.
-This property is most often used when transitioning to
-Flutter views in iOS add-to-app scenarios.
+在此變更之前，於 iOS 上，`splashScreenView` 屬性在未設定 splash screen view（啟動畫面視圖）時會回傳 `nil`，並且將該屬性設為 `nil` 時則會移除 splash screen view。然而，`splashScreenView` API 被錯誤地標記為 `nonnull`。此屬性最常用於 iOS add-to-app（將 Flutter 嵌入現有 iOS 應用程式）場景中切換至 Flutter 視圖時。
 
-## Description of change
+## 變更說明
 
-While it was possible in Objective-C to work around the
-incorrect `nonnull` annotation by setting `splashScreenView` to
-a `nil` `UIView`, in Swift this caused a compilation error:
+雖然在 Objective-C 中可以透過將 `splashScreenView` 設為 `nil` `UIView` 來繞過錯誤的 `nonnull` 標註，但在 Swift 中這會導致編譯錯誤：
 
 ```plaintext
 error build: Value of optional type 'UIView?' must be unwrapped to a value of type 'UIView'
 ```
 
-[PR #34743][] updates the property attribute to `nullable`.
-It can return `nil` and can be set to `nil` to
-remove the view in both Objective-C and Swift.
+[PR #34743][] 將屬性屬性（property attribute）更新為 `nullable`。
+它現在可以回傳 `nil`，並且可以設為 `nil`，
+以在 Objective-C 和 Swift 中移除該 view。
 
-## Migration guide
+## 遷移指南
 
-If `splashScreenView` is stored in a `UIView` variable in Swift,
-update to an optional type `UIView?`.
+如果 `splashScreenView` 在 Swift 中是儲存在 `UIView` 變數中，
+請更新為可選型別 `UIView?`。
 
-Code before migration:
+遷移前的程式碼：
 
 ```swift
   var splashScreenView = UIView()
@@ -60,7 +53,7 @@ Code before migration:
   splashScreenView = flutterViewController.splashScreenView // compilation error: Value of optional type 'UIView?' must be unwrapped to a value of type 'UIView'
 ```
 
-Code after migration:
+遷移後的程式碼：
 
 ```swift
   var splashScreenView : UIView? = UIView()
@@ -71,15 +64,15 @@ Code after migration:
   }
 ```
 
-## Timeline
+## 時程
 
-In stable release: 3.7
+在穩定版發佈：3.7
 
-## References
+## 參考資料
 
-Relevant PR:
+相關 PR：
 
-* [Make splashScreenView of FlutterViewController nullable][]
+* [讓 FlutterViewController 的 splashScreenView 可為 nullable][Make splashScreenView of FlutterViewController nullable]
 
 [Make splashScreenView of FlutterViewController nullable]: {{site.repo.engine}}/pull/34743
 [PR #34743]: {{site.repo.engine}}/pull/34743
