@@ -178,7 +178,7 @@ Flutter 3.35 正式上線！詳情請參閱
 * 您現在可以使用 [Flutter 元件 (Widget) 預覽工具][Flutter Widget Previewer]指南，
   在 Chrome 中預覽您的 Flutter 元件。
 
-* 每次穩定版（stable）通道發行都會影響
+* 每次穩定版（stable）發行都會影響
   Flutter 支援的已部署平台版本。
   詳情請造訪更新後的
   [支援的平台][supported platforms]頁面。
