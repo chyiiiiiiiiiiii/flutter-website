@@ -5,7 +5,7 @@ description: >-
 ---
 
 本頁收錄了 Flutter 官方網站及部落格的 What's new 歷史公告。
-若需最新版本資訊，請參閱[目前的 What's new][] 頁面。
+若需最新版本資訊，請參閱[目前的 What's new][current what's new] 頁面。
 
 [current what's new]: /release/whats-new
 
@@ -943,7 +943,7 @@ Flutter 和 Firebase YouTube 頻道上取得：
 * [Flutter 與 Dialogflow 語音機器人][Flutter and Dialogflow voice bots]
 * [Inherited 元件][Inherited widgets]
 * [Null safety][]
-* [Sliver][]
+* [Slivers][]
 
 如需查看 I/O 上所有 Flutter 相關活動的列表，
 請參閱 [Google 2021 I/O Flutter][] 頁面。

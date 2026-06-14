@@ -36,9 +36,9 @@ description: >-
 
 ### 尚未釋出至穩定版
 
-* [為 DropdownButton 新增 enabled 屬性並讓 onChanged 成為選填][]
-* [在 Android 17 上忽略大螢幕方向與可調整大小限制][]
-* [更新 iOS 與 Android 上的 semantics 標題與 headingLevel 行為][]
+* [為 DropdownButton 新增 enabled 屬性並讓 onChanged 成為選填](/release/breaking-changes/dropdownbutton-enabled-property)
+* [在 Android 17 上忽略大螢幕方向與可調整大小限制](/release/breaking-changes/android-large-screens-restrictions-ignored)
+* [更新 iOS 與 Android 上的 semantics 標題與 headingLevel 行為](/release/breaking-changes/semantics-header-heading-level)
 
 [Added enabled property and made onChanged optional for DropdownButton]: /release/breaking-changes/dropdownbutton-enabled-property
 [Large screen orientation and resizability restrictions ignored on Android 17]: /release/breaking-changes/android-large-screens-restrictions-ignored
@@ -47,14 +47,14 @@ description: >-
 <a id="released-in-flutter-344" aria-hidden="true"></a>
 ### Flutter 3.44 釋出
 
-* [變更 RawMenuAnchor 的關閉順序][]
-* [棄用 `onReorder` 回呼（callback）][]
-* [棄用 `TextInputConnection.setStyle`][]
-* [棄用 `cacheExtent` 與 `cacheExtentStyle`][]
-* [`IconData` 類別標記為 `final`][]
-* [ListTile 在除錯模式下被有顏色的元件包裹時會回報錯誤][]
-* [將 Flutter Android 專案遷移至內建 Kotlin][]
-* [頁面轉場建構器重組][]
+* [變更 RawMenuAnchor 的關閉順序](/release/breaking-changes/raw-menu-anchor-close-order)
+* [棄用 `onReorder` 回呼（callback）](/release/breaking-changes/deprecate-onreorder-callback)
+* [棄用 `TextInputConnection.setStyle`](/release/breaking-changes/deprecate-text-input-connection-set-style)
+* [棄用 `cacheExtent` 與 `cacheExtentStyle`](/release/breaking-changes/scroll-cache-extent)
+* [`IconData` 類別標記為 `final`](/release/breaking-changes/icondata-class-marked-final)
+* [ListTile 在除錯模式下被有顏色的元件包裹時會回報錯誤](/release/breaking-changes/list-tile-color-warning)
+* [將 Flutter Android 專案遷移至內建 Kotlin](/release/breaking-changes/migrate-to-built-in-kotlin)
+* [頁面轉場建構器重組](/release/breaking-changes/decouple-page-transition-builders)
 
 [Changing RawMenuAnchor close order]: /release/breaking-changes/raw-menu-anchor-close-order
 [Deprecate `onReorder` callback]: /release/breaking-changes/deprecate-onreorder-callback
@@ -68,11 +68,11 @@ description: >-
 <a id="released-in-flutter-341" aria-hidden="true"></a>
 ### Flutter 3.41 釋出
 
-* [Linux 合併執行緒][]
-* [`FontWeight` 也能控制可變字型的 weight 屬性][]
-* [棄用 `containsSemantics`，改用 `isSemantics`][]
-* [棄用 `ListView` 與 `SliverList` 分離建構子中的 `findChildIndexCallback`，改用 `findItemIndexCallback`][]
-* [Material 3 token 更新][]
+* [Linux 合併執行緒](/release/breaking-changes/linux-merged-threads)
+* [`FontWeight` 也能控制可變字型的 weight 屬性](/release/breaking-changes/font-weight-variation)
+* [棄用 `containsSemantics`，改用 `isSemantics`](/release/breaking-changes/deprecate-contains-semantics)
+* [棄用 `ListView` 與 `SliverList` 分離建構子中的 `findChildIndexCallback`，改用 `findItemIndexCallback`](/release/breaking-changes/separated-builder-find-child-index-callback)
+* [Material 3 token 更新](/release/breaking-changes/material-color-utilities)
 
 [Merged threads on Linux]: /release/breaking-changes/linux-merged-threads
 [`FontWeight` also controls the weight attribute of variable fonts]: /release/breaking-changes/font-weight-variation
@@ -83,12 +83,12 @@ description: >-
 <a id="released-in-flutter-338" aria-hidden="true"></a>
 ### Flutter 3.38 釋出
 
-* [`CupertinoDynamicColor` 廣色域支援][]
-* [棄用 `OverlayPortal.targetsRootOverlay`][]
-* [棄用 `SemanticsProperties.focusable` 與 `SemanticsConfiguration.isFocusable`][]
-* [含 action 的 SnackBar 不再自動消失][]
-* [Android 預設頁面轉場現已改為 `PredictiveBackPageTransitionBuilder`][]
-* [採用 UISceneDelegate][]
+* [`CupertinoDynamicColor` 廣色域支援](/release/breaking-changes/wide-gamut-cupertino-dynamic-color)
+* [棄用 `OverlayPortal.targetsRootOverlay`](/release/breaking-changes/deprecate-overlay-portal-targets-root)
+* [棄用 `SemanticsProperties.focusable` 與 `SemanticsConfiguration.isFocusable`](/release/breaking-changes/deprecate-focusable)
+* [含 action 的 SnackBar 不再自動消失](/release/breaking-changes/snackbar-with-action-behavior-update)
+* [Android 預設頁面轉場現已改為 `PredictiveBackPageTransitionBuilder`](/release/breaking-changes/default-android-page-transition)
+* [採用 UISceneDelegate](/release/breaking-changes/uiscenedelegate)
 
 [`CupertinoDynamicColor` wide gamut support]: /release/breaking-changes/wide-gamut-cupertino-dynamic-color
 [Deprecate `OverlayPortal.targetsRootOverlay`]: /release/breaking-changes/deprecate-overlay-portal-targets-root
@@ -100,16 +100,16 @@ description: >-
 <a id="released-in-flutter-335" aria-hidden="true"></a>
 ### Flutter 3.35 釋出
 
-* [元件主題正規化更新][]
-* [棄用 `DropdownButtonFormField` 的 `value` 參數，改用 `initialValue`][]
-* [棄用 app bar 顏色][]
-* [重新設計 `Radio` 元件 (Widget)][]
-* [移除 semantics elevation 與 thickness][]
-* [`Form` 元件不再支援 sliver][]
-* [Flutter 現於 Android 建置時設置預設 `abiFilters`][]
-* [macOS 與 Windows 合併執行緒][]
-* [啟用 `maintainState` 時，`Visibility` 元件預設不再可聚焦][]
-* [`$FLUTTER_ROOT/version` 被 `$FLUTTER_ROOT/bin/cache/flutter.version.json` 取代][]
+* [元件主題正規化更新](/release/breaking-changes/component-theme-normalization-updates)
+* [棄用 `DropdownButtonFormField` 的 `value` 參數，改用 `initialValue`](/release/breaking-changes/deprecate-dropdownbuttonformfield-value)
+* [棄用 app bar 顏色](/release/breaking-changes/appbar-theme-color)
+* [重新設計 `Radio` 元件 (Widget)](/release/breaking-changes/radio-api-redesign)
+* [移除 semantics elevation 與 thickness](/release/breaking-changes/remove-semantics-elevation-and-thickness)
+* [`Form` 元件不再支援 sliver](/release/breaking-changes/form-semantics)
+* [Flutter 現於 Android 建置時設置預設 `abiFilters`](/release/breaking-changes/default-abi-filters-android)
+* [macOS 與 Windows 合併執行緒](/release/breaking-changes/macos-windows-merged-threads)
+* [啟用 `maintainState` 時，`Visibility` 元件預設不再可聚焦](/release/breaking-changes/visibility-maintainfocusability)
+* [`$FLUTTER_ROOT/version` 被 `$FLUTTER_ROOT/bin/cache/flutter.version.json` 取代](/release/breaking-changes/flutter-root-version-file)
 
 [Component theme normalization updates]: /release/breaking-changes/component-theme-normalization-updates
 [Deprecate `DropdownButtonFormField` `value` parameter in favor of `initialValue`]: /release/breaking-changes/deprecate-dropdownbuttonformfield-value
@@ -125,17 +125,17 @@ description: >-
 <a id="released-in-flutter-332" aria-hidden="true"></a>
 ### Flutter 3.32 釋出
 
-* [棄用 `SystemContextMenuController.show`][]
-* [棄用 `ExpansionTileController`，改用 `ExpansibleController`][]
+* [棄用 `SystemContextMenuController.show`](/release/breaking-changes/system_context_menu_controller_show)
+* [棄用 `ExpansionTileController`，改用 `ExpansibleController`](/release/breaking-changes/expansion-tile-controller)
 * [棄用 `RouteTransitionRecord.markForRemove`][deprecate-markForRemove]
   ，改用 `RouteTransitionRecord.markForComplete`
-* [棄用 `ThemeData.indicatorColor`，改用 `TabBarThemeData.indicatorColor`][]
-* [Material 主題系統更新][]
-* [`.flutter-plugins-dependencies` 取代 `.flutter-plugins`][]
-* [在地化訊息直接產生至原始碼，而非合成套件][]
-* [變更 `integration_test` 的預設 `goldenFileComparator`][]
-* [棄用 `InputDecoration.maintainHintHeight`，改用 `InputDecoration.maintainHintSize`][]
-* [欠阻尼彈簧公式變更][]
+* [棄用 `ThemeData.indicatorColor`，改用 `TabBarThemeData.indicatorColor`](/release/breaking-changes/deprecate-themedata-indicatorcolor)
+* [Material 主題系統更新](/release/breaking-changes/material-theme-system-updates)
+* [`.flutter-plugins-dependencies` 取代 `.flutter-plugins`](/release/breaking-changes/flutter-plugins-configuration)
+* [在地化訊息直接產生至原始碼，而非合成套件](/release/breaking-changes/flutter-generate-i10n-source)
+* [變更 `integration_test` 的預設 `goldenFileComparator`](/release/breaking-changes/integration-test-default-golden-comparator)
+* [棄用 `InputDecoration.maintainHintHeight`，改用 `InputDecoration.maintainHintSize`](/release/breaking-changes/deprecate-inputdecoration-maintainhintheight)
+* [欠阻尼彈簧公式變更](/release/breaking-changes/spring-description-underdamped)
 
 [Deprecate `SystemContextMenuController.show`]: /release/breaking-changes/system_context_menu_controller_show
 [Deprecate `ExpansionTileController` in favor of `ExpansibleController`]: /release/breaking-changes/expansion-tile-controller
@@ -151,12 +151,12 @@ description: >-
 <a id="released-in-flutter-329" aria-hidden="true"></a>
 ### Flutter 3.29 釋出
 
-* [移除 v1 Android embedding Java API][]
-* [棄用 `WebGoldenComparator`][]
-* [棄用 `ThemeData.dialogBackgroundColor`，改用 `DialogThemeData.backgroundColor`][]
-* [`ImageFilter.blur` 預設平鋪模式自動選擇][]
-* [Material 3 `Slider` 更新][]
-* [Material 3 進度指示器更新][]
+* [移除 v1 Android embedding Java API](/release/breaking-changes/v1-android-embedding)
+* [棄用 `WebGoldenComparator`](/release/breaking-changes/web-golden-comparator)
+* [棄用 `ThemeData.dialogBackgroundColor`，改用 `DialogThemeData.backgroundColor`](/release/breaking-changes/deprecate-themedata-dialogbackgroundcolor)
+* [`ImageFilter.blur` 預設平鋪模式自動選擇](/release/breaking-changes/image-filter-blur-tilemode)
+* [Material 3 `Slider` 更新](/release/breaking-changes/updated-material-3-slider)
+* [Material 3 進度指示器更新](/release/breaking-changes/updated-material-3-progress-indicators)
 
 [Removal of v1 Android embedding Java APIs]: /release/breaking-changes/v1-android-embedding
 [Deprecate `WebGoldenComparator`]: /release/breaking-changes/web-golden-comparator
@@ -168,12 +168,12 @@ description: >-
 <a id="released-in-flutter-327" aria-hidden="true"></a>
 ### Flutter 3.27 釋出
 
-* [`Color` 廣色域支援][]
-* [元件主題正規化][]
-* [深層連結旗標變更][]
-* [Flutter 中 Material 3 Tokens 更新][]
-* [移除 `InputDecoration.collapsed` 的無效參數][]
-* [SystemUiMode 預設設為 Edge-to-Edge][]
+* [`Color` 廣色域支援](/release/breaking-changes/wide-gamut-framework)
+* [元件主題正規化](/release/breaking-changes/component-theme-normalization)
+* [深層連結旗標變更](/release/breaking-changes/deep-links-flag-change)
+* [Flutter 中 Material 3 Tokens 更新](/release/breaking-changes/material-design-3-token-update)
+* [移除 `InputDecoration.collapsed` 的無效參數](/release/breaking-changes/input-decoration-collapsed)
+* [SystemUiMode 預設設為 Edge-to-Edge](/release/breaking-changes/default-systemuimode-edge-to-edge)
 
 [`Color` wide gamut support]: /release/breaking-changes/wide-gamut-framework
 [Component theme normalization]: /release/breaking-changes/component-theme-normalization
@@ -185,10 +185,10 @@ description: >-
 <a id="released-in-flutter-324" aria-hidden="true"></a>
 ### Flutter 3.24 釋出
 
-* [Navigator 的 page API 重大變更][]
-* [`PopScope` 泛型型別][]
-* [棄用 `ButtonBar`，改用 `OverflowBar`][]
-* [Android 插件渲染至 `Surface` 的新 API][]
+* [Navigator 的 page API 重大變更](/release/breaking-changes/navigator-and-page-api)
+* [`PopScope` 泛型型別](/release/breaking-changes/popscope-with-result)
+* [棄用 `ButtonBar`，改用 `OverflowBar`](/release/breaking-changes/deprecate-buttonbar)
+* [Android 插件渲染至 `Surface` 的新 API](/release/breaking-changes/android-surface-plugins)
 
 [Navigator's page APIs breaking change]: /release/breaking-changes/navigator-and-page-api
 [Generic types in `PopScope`]: /release/breaking-changes/popscope-with-result
@@ -198,12 +198,12 @@ description: >-
 <a id="released-in-flutter-322" aria-hidden="true"></a>
 ### Flutter 3.22 釋出
 
-* [v3.19 後移除的棄用 API][]
-* [將 `MaterialState` 重新命名為 `WidgetState`][]
-* [新增 `ColorScheme` 角色][]
-* [停止支援 Android KitKat][]
-* [`PageView.controller` 可為 null][]
-* [將 `MemoryAllocations` 重新命名為 `FlutterMemoryAllocations`][]
+* [v3.19 後移除的棄用 API](/release/breaking-changes/3-19-deprecations)
+* [將 `MaterialState` 重新命名為 `WidgetState`](/release/breaking-changes/material-state)
+* [新增 `ColorScheme` 角色](/release/breaking-changes/new-color-scheme-roles)
+* [停止支援 Android KitKat](/release/breaking-changes/android-kitkat-deprecation)
+* [`PageView.controller` 可為 null](/release/breaking-changes/pageview-controller)
+* [將 `MemoryAllocations` 重新命名為 `FlutterMemoryAllocations`](/release/breaking-changes/flutter-memory-allocations)
 
 [Deprecated API removed after v3.19]: /release/breaking-changes/3-19-deprecations
 [Rename `MaterialState` to `WidgetState`]: /release/breaking-changes/material-state
@@ -216,12 +216,12 @@ description: >-
 
 ### Flutter 3.19 釋出
 
-* [v3.16 後移除的棄用 API][]
-* [RawKeyEvent/RawKeyboard 系統遷移至 KeyEvent/HardwareKeyboard 系統][]
-* [棄用 Flutter Gradle 插件的命令式 apply][]
-* [預設多點觸控滾動][]
-* [tooltip 的無障礙遍歷順序變更][]
-* [停止產生 `AssetManifest.json`][]
+* [v3.16 後移除的棄用 API](/release/breaking-changes/3-16-deprecations)
+* [RawKeyEvent/RawKeyboard 系統遷移至 KeyEvent/HardwareKeyboard 系統](/release/breaking-changes/key-event-migration)
+* [棄用 Flutter Gradle 插件的命令式 apply](/release/breaking-changes/flutter-gradle-plugin-apply)
+* [預設多點觸控滾動](/release/breaking-changes/multi-touch-scrolling)
+* [tooltip 的無障礙遍歷順序變更](/release/breaking-changes/tooltip-semantics-order)
+* [停止產生 `AssetManifest.json`](/release/breaking-changes/asset-manifest-dot-json)
 
 [Deprecated API removed after v3.16]: /release/breaking-changes/3-16-deprecations
 [Migrate RawKeyEvent/RawKeyboard system to KeyEvent/HardwareKeyboard system]: /release/breaking-changes/key-event-migration
@@ -233,19 +233,19 @@ description: >-
 <a id="released-in-flutter-316" aria-hidden="true"></a>
 ### Flutter 3.16 釋出
 
-* [遷移至 Material 3][]
-* [ShortcutActivator 與 ShortcutManager 遷移至 KeyEvent 系統][]
-* [`ThemeData.useMaterial3` 屬性預設為 true][]
-* [v3.13 後移除的棄用 API][]
-* [使用新 `TabBar.tabAlignment` 屬性自訂分頁對齊][]
-* [棄用 `textScaleFactor`，改用 `TextScaler`][]
-* [啟用 Android 14 非線性字體縮放][]
-* [棄用 `describeEnum` 並將 `EnumProperty` 更新為型別嚴格][]
-* [Android Predictive Back 棄用即時導航 pop API][]
-* [棄用 `Paint.enableDithering`][]
-* [選單預設文字樣式更新][]
-* [Windows：外部視窗應通知 Flutter 引擎生命週期變化][]
-* [Windows 建置路徑新增目標架構][]
+* [遷移至 Material 3](/release/breaking-changes/material-3-migration)
+* [ShortcutActivator 與 ShortcutManager 遷移至 KeyEvent 系統](/release/breaking-changes/shortcut-key-event-migration)
+* [`ThemeData.useMaterial3` 屬性預設為 true](/release/breaking-changes/material-3-default)
+* [v3.13 後移除的棄用 API](/release/breaking-changes/3-13-deprecations)
+* [使用新 `TabBar.tabAlignment` 屬性自訂分頁對齊](/release/breaking-changes/tab-alignment)
+* [棄用 `textScaleFactor`，改用 `TextScaler`](/release/breaking-changes/deprecate-textscalefactor)
+* [啟用 Android 14 非線性字體縮放](/release/breaking-changes/android-14-nonlinear-text-scaling-migration)
+* [棄用 `describeEnum` 並將 `EnumProperty` 更新為型別嚴格](/release/breaking-changes/describe-enum)
+* [Android Predictive Back 棄用即時導航 pop API](/release/breaking-changes/android-predictive-back)
+* [棄用 `Paint.enableDithering`](/release/breaking-changes/paint-enableDithering)
+* [選單預設文字樣式更新](/release/breaking-changes/menus-text-style)
+* [Windows：外部視窗應通知 Flutter 引擎生命週期變化](/release/breaking-changes/win-lifecycle-process-function)
+* [Windows 建置路徑新增目標架構](/release/breaking-changes/windows-build-architecture)
 
 [Migrating to Material 3]: /release/breaking-changes/material-3-migration
 [Migrate ShortcutActivator and ShortcutManager to KeyEvent system]: /release/breaking-changes/shortcut-key-event-migration
@@ -264,15 +264,15 @@ description: >-
 <a id="released-in-flutter-313" aria-hidden="true"></a>
 ### Flutter 3.13 釋出
 
-* [為部分可釋放物件新增缺漏的 `dispose()`][]
-* [v3.10 後移除的棄用 API][]
-* [新增 AppLifecycleState.hidden][] 列舉值
-* [將 ReorderableListView 的在地化字串從 material 移至 widgets localizations][]
-* [移除 `ignoringSemantics` 屬性][]
-* [棄用 `RouteInformation.location` 及其相關 API][]
-* [EditableText 捲動至可見行為更新][]
-* [Windows 專案遷移以確保視窗顯示][]
-* [`Checkbox.fillColor` 行為更新][]
+* [為部分可釋放物件新增缺漏的 `dispose()`](/release/breaking-changes/dispose)
+* [v3.10 後移除的棄用 API](/release/breaking-changes/3-10-deprecations)
+* [新增 AppLifecycleState.hidden](/release/breaking-changes/add-applifecyclestate-hidden) 列舉值
+* [將 ReorderableListView 的在地化字串從 material 移至 widgets localizations](/release/breaking-changes/material-localized-strings)
+* [移除 `ignoringSemantics` 屬性](/release/breaking-changes/ignoringsemantics-migration)
+* [棄用 `RouteInformation.location` 及其相關 API](/release/breaking-changes/route-information-uri)
+* [EditableText 捲動至可見行為更新](/release/breaking-changes/editable-text-scroll-into-view)
+* [Windows 專案遷移以確保視窗顯示](/release/breaking-changes/windows-show-window-migration)
+* [`Checkbox.fillColor` 行為更新](/release/breaking-changes/checkbox-fillColor)
 
 [Added missing `dispose()` for some disposable objects in Flutter]: /release/breaking-changes/dispose
 [Deprecated API removed after v3.10]: /release/breaking-changes/3-10-deprecations
@@ -287,13 +287,13 @@ description: >-
 <a id="released-in-flutter-310" aria-hidden="true"></a>
 ### Flutter 3.10 釋出
 
-* [Flutter v3.10 及後續版本的 Dart 3 變更][]
-* [v3.7 後移除的棄用 API][]
-* [插入內容文字輸入 client][]
-* [棄用 window singleton][]
-* [解決 Android Java Gradle 錯誤][]
-* [`ClipboardData` 建構子需至少一個資料變體][]
-* ["Zone mismatch" 訊息][]
+* [Flutter v3.10 及後續版本的 Dart 3 變更]({{site.dart-site}}/resources/dart-3-migration)
+* [v3.7 後移除的棄用 API](/release/breaking-changes/3-7-deprecations)
+* [插入內容文字輸入 client](/release/breaking-changes/insert-content-text-input-client)
+* [棄用 window singleton](/release/breaking-changes/window-singleton)
+* [解決 Android Java Gradle 錯誤](/release/breaking-changes/android-java-gradle-migration-guide)
+* [`ClipboardData` 建構子需至少一個資料變體](/release/breaking-changes/clipboard-data-required)
+* ["Zone mismatch" 訊息](/release/breaking-changes/zone-errors)
 
 [Dart 3 changes in Flutter v3.10 and later]: {{site.dart-site}}/resources/dart-3-migration
 [Deprecated API removed after v3.7]: /release/breaking-changes/3-7-deprecations
@@ -306,13 +306,13 @@ description: >-
 <a id="released-in-flutter-37" aria-hidden="true"></a>
 ### Flutter 3.7 釋出
 
-* [v3.3 後移除的棄用 API][]
-* [以通用元件建構器取代自訂內容選單參數][]
-* [iOS FlutterViewController 的 splashScreenView 改為可為 null][]
-* [將 `of` 遷移為非 null 回傳值，並新增 `maybeOf`][]
-* [移除 RouteSettings.copyWith][]
-* [ThemeData 的 toggleableActiveColor 屬性已棄用][]
-* [Windows 專案遷移以支援深色標題列][]
+* [v3.3 後移除的棄用 API](/release/breaking-changes/3-3-deprecations)
+* [以通用元件建構器取代自訂內容選單參數](/release/breaking-changes/context-menus)
+* [iOS FlutterViewController 的 splashScreenView 改為可為 null](/release/breaking-changes/ios-flutterviewcontroller-splashscreenview-nullable)
+* [將 `of` 遷移為非 null 回傳值，並新增 `maybeOf`](/release/breaking-changes/supplemental-maybeOf-migration)
+* [移除 RouteSettings.copyWith](/release/breaking-changes/routesettings-copywith-migration)
+* [ThemeData 的 toggleableActiveColor 屬性已棄用](/release/breaking-changes/toggleable-active-color)
+* [Windows 專案遷移以支援深色標題列](/release/breaking-changes/windows-dark-mode)
 
 [Replaced parameters for customizing context menus with a generic widget builder]: /release/breaking-changes/context-menus
 [Deprecated API removed after v3.3]: /release/breaking-changes/3-3-deprecations
@@ -325,10 +325,10 @@ description: >-
 <a id="released-in-flutter-33" aria-hidden="true"></a>
 ### Flutter 3.3 釋出
 
-* [新增 ImageProvider.loadBuffer][]
-* [桌面版預設 PrimaryScrollController][]
-* [觸控板手勢可觸發 GestureRecognizer][]
-* [Windows 專案遷移以設定版本資訊][]
+* [新增 ImageProvider.loadBuffer](/release/breaking-changes/image-provider-load-buffer)
+* [桌面版預設 PrimaryScrollController](/release/breaking-changes/primary-scroll-controller-desktop)
+* [觸控板手勢可觸發 GestureRecognizer](/release/breaking-changes/trackpad-gestures)
+* [Windows 專案遷移以設定版本資訊](/release/breaking-changes/windows-version-information)
 
 [Adding ImageProvider.loadBuffer]: /release/breaking-changes/image-provider-load-buffer
 [Default PrimaryScrollController on Desktop]: /release/breaking-changes/primary-scroll-controller-desktop
@@ -337,9 +337,9 @@ description: >-
 
 ### Flutter 3 釋出
 
-* [v2.10 後移除的棄用 API][]
-* [將 Chips 的 useDeleteButtonTooltip 遷移至 deleteButtonTooltipMessage][]
-* [頁面轉場由 ZoomPageTransitionsBuilder 取代][]
+* [v2.10 後移除的棄用 API](/release/breaking-changes/2-10-deprecations)
+* [將 Chips 的 useDeleteButtonTooltip 遷移至 deleteButtonTooltipMessage](/release/breaking-changes/chip-usedeletebuttontooltip-migration)
+* [頁面轉場由 ZoomPageTransitionsBuilder 取代](/release/breaking-changes/page-transition-replaced-by-ZoomPageTransitionBuilder)
 
 [Deprecated API removed after v2.10]: /release/breaking-changes/2-10-deprecations
 [Page transitions replaced by ZoomPageTransitionsBuilder]: /release/breaking-changes/page-transition-replaced-by-ZoomPageTransitionBuilder
@@ -348,10 +348,10 @@ description: >-
 <a id="released-in-flutter-210" aria-hidden="true"></a>
 ### Flutter 2.10 釋出
 
-* [v2.5 後移除的棄用 API][]
-* [網頁上的原始圖片使用正確的原點與顏色][]
-* [必要的 Kotlin 版本][]
-* [Scribble 文字輸入 client][]
+* [v2.5 後移除的棄用 API](/release/breaking-changes/2-5-deprecations)
+* [網頁上的原始圖片使用正確的原點與顏色](/release/breaking-changes/raw-images-on-web-uses-correct-origin-and-colors)
+* [必要的 Kotlin 版本](/release/breaking-changes/kotlin-version)
+* [Scribble 文字輸入 client](/release/breaking-changes/scribble-text-input-client)
 
 [Deprecated API removed after v2.5]: /release/breaking-changes/2-5-deprecations
 [Raw images on Web uses correct origin and colors]: /release/breaking-changes/raw-images-on-web-uses-correct-origin-and-colors
@@ -361,16 +361,16 @@ description: >-
 <a id="released-in-flutter-25" aria-hidden="true"></a>
 ### Flutter 2.5 釋出
 
-* [預設拖曳捲動裝置][]
-* [v2.2 後移除的棄用 API][]
-* [變更 enterText 方法以將游標移至輸入文字末端][]
-* [GestureRecognizer 清理][]
-* [引入 package:flutter_lints][]
-* [以 collate 取代 AnimationSheetBuilder.display][]
-* [ThemeData 的 accent 屬性已棄用][]
-* [平台頻道測試介面轉移至 flutter_test 套件][]
-* [使用 HTML slots 在網頁上渲染平台視圖][]
-* [Windows 專案遷移至慣用執行迴圈][]
+* [預設拖曳捲動裝置](/release/breaking-changes/default-scroll-behavior-drag)
+* [v2.2 後移除的棄用 API](/release/breaking-changes/2-2-deprecations)
+* [變更 enterText 方法以將游標移至輸入文字末端](/release/breaking-changes/enterText-trailing-caret)
+* [GestureRecognizer 清理](/release/breaking-changes/gesture-recognizer-add-allowed-pointer)
+* [引入 package:flutter_lints](/release/breaking-changes/flutter-lints-package)
+* [以 collate 取代 AnimationSheetBuilder.display](/release/breaking-changes/animation-sheet-builder-display)
+* [ThemeData 的 accent 屬性已棄用](/release/breaking-changes/theme-data-accent-properties)
+* [平台頻道測試介面轉移至 flutter_test 套件](/release/breaking-changes/mock-platform-channels)
+* [使用 HTML slots 在網頁上渲染平台視圖](/release/breaking-changes/platform-views-using-html-slots-web)
+* [Windows 專案遷移至慣用執行迴圈](/release/breaking-changes/windows-run-loop)
 
 [Change the enterText method to move the caret to the end of the input text]: /release/breaking-changes/enterText-trailing-caret
 [Default drag scrolling devices]: /release/breaking-changes/default-scroll-behavior-drag
@@ -396,24 +396,24 @@ description: >-
 <a id="released-in-flutter-22" aria-hidden="true"></a>
 ### Flutter 2.2 釋出
 
-* [桌面版預設捲動條][]
+* [桌面版預設捲動條](/release/breaking-changes/default-desktop-scrollbars)
 
 [Default Scrollbars on Desktop]: /release/breaking-changes/default-desktop-scrollbars
 
 ### Flutter 2 釋出
 
-* [為 TextEditingController.buildTextSpan 新增 BuildContext 參數][]
-* [Android ActivityControlSurface attachToActivity 簽章變更][]
-* [移除 Android FlutterMain.setIsRunningInRobolectricTest 測試 API][]
-* [裁剪行為][]
-* [v1.22 後移除的棄用 API][]
-* [RenderBox 的乾式版面配置支援][]
-* [消除 nullOk 參數][]
-* [Material Chip 按鈕語意][]
-* [ScaffoldMessenger 管理的 SnackBar][]
-* [TextSelectionTheme 遷移][]
-* [平台頻道測試介面轉移至 flutter_test 套件][]
-* [使用 maxLengthEnforcement 取代 maxLengthEnforced][]
+* [為 TextEditingController.buildTextSpan 新增 BuildContext 參數](/release/breaking-changes/buildtextspan-buildcontext)
+* [Android ActivityControlSurface attachToActivity 簽章變更](/release/breaking-changes/android-activity-control-surface-attach)
+* [移除 Android FlutterMain.setIsRunningInRobolectricTest 測試 API](/release/breaking-changes/android-setIsRunningInRobolectricTest-removed)
+* [裁剪行為](/release/breaking-changes/clip-behavior)
+* [v1.22 後移除的棄用 API](/release/breaking-changes/1-22-deprecations)
+* [RenderBox 的乾式版面配置支援](/release/breaking-changes/renderbox-dry-layout)
+* [消除 nullOk 參數](/release/breaking-changes/eliminating-nullok-parameters)
+* [Material Chip 按鈕語意](/release/breaking-changes/material-chip-button-semantics)
+* [ScaffoldMessenger 管理的 SnackBar](/release/breaking-changes/scaffold-messenger)
+* [TextSelectionTheme 遷移](/release/breaking-changes/text-selection-theme)
+* [平台頻道測試介面轉移至 flutter_test 套件](/release/breaking-changes/mock-platform-channels)
+* [使用 maxLengthEnforcement 取代 maxLengthEnforced](/release/breaking-changes/use-maxLengthEnforcement-instead-of-maxLengthEnforced)
 
 [Added BuildContext parameter to TextEditingController.buildTextSpan]: /release/breaking-changes/buildtextspan-buildcontext
 [Android ActivityControlSurface attachToActivity signature change]: /release/breaking-changes/android-activity-control-surface-attach
@@ -431,9 +431,9 @@ description: >-
 <a id="released-in-flutter-122" aria-hidden="true"></a>
 ### Flutter 1.22 釋出
 
-* [Android v1 embedding 應用程式與插件建立已棄用][]
-* [Cupertino icons 1.0.0][]
-* [新的 Form、FormField 自動驗證 API][]
+* [Android v1 embedding 應用程式與插件建立已棄用](/release/breaking-changes/android-v1-embedding-create-deprecation)
+* [Cupertino icons 1.0.0](/release/breaking-changes/cupertino-icons-1.0.0)
+* [新的 Form、FormField 自動驗證 API](/release/breaking-changes/form-field-autovalidation-api)
 
 
 [Android v1 embedding app and plugin creation deprecation]: /release/breaking-changes/android-v1-embedding-create-deprecation
@@ -443,18 +443,18 @@ description: >-
 <a id="released-in-flutter-120" aria-hidden="true"></a>
 ### Flutter 1.20 釋出
 
-* [Actions API 修訂][]
-* [新增 TextInputClient.currentAutofillScope 屬性][]
-* [新按鈕與按鈕主題][]
-* [對話框的預設 BorderRadius][]
-* [Navigator 與 Hero Controller Scope 中更嚴格的斷言][]
-* [Route Transition 記錄與 Transition delegate 更新][]
-* [RenderEditable 需在點擊測試前完成版面配置][]
-* [反轉 scheduler 與 services 層之間的相依性][]
-* [Modal Routes 中 Overlay Entries 的語意順序][]
-* [為 TextInputClient 新增 showAutocorrectionPromptRect 方法][]
-* [TestWidgetsFlutterBinding.clock][]
-* [TextField 需要 MaterialLocalizations][]
+* [Actions API 修訂](/release/breaking-changes/actions-api-revision)
+* [新增 TextInputClient.currentAutofillScope 屬性](/release/breaking-changes/add-currentAutofillScope-to-TextInputClient)
+* [新按鈕與按鈕主題](/release/breaking-changes/buttons)
+* [對話框的預設 BorderRadius](/release/breaking-changes/dialog-border-radius)
+* [Navigator 與 Hero Controller Scope 中更嚴格的斷言](/release/breaking-changes/hero-controller-scope)
+* [Route Transition 記錄與 Transition delegate 更新](/release/breaking-changes/route-transition-record-and-transition-delegate)
+* [RenderEditable 需在點擊測試前完成版面配置](/release/breaking-changes/rendereditable-layout-before-hit-test)
+* [反轉 scheduler 與 services 層之間的相依性](/release/breaking-changes/services-scheduler-dependency-reversed)
+* [Modal Routes 中 Overlay Entries 的語意順序](/release/breaking-changes/modal-router-semantics-order)
+* [為 TextInputClient 新增 showAutocorrectionPromptRect 方法](/release/breaking-changes/add-showAutocorrectionPromptRect)
+* [TestWidgetsFlutterBinding.clock](/release/breaking-changes/test-widgets-flutter-binding-clock)
+* [TextField 需要 MaterialLocalizations](/release/breaking-changes/text-field-material-localizations)
 
 [Actions API revision]: /release/breaking-changes/actions-api-revision
 [Adding TextInputClient.currentAutofillScope property]: /release/breaking-changes/add-currentAutofillScope-to-TextInputClient
@@ -472,23 +472,23 @@ description: >-
 <a id="released-in-flutter-117" aria-hidden="true"></a>
 ### Flutter 1.17 釋出
 
-* [在 TargetPlatform 列舉中新增 'linux' 與 'windows'][]
-* [Annotations 回傳相對於物件的本地座標][]
-* [Container 顏色最佳化][]
-* [CupertinoTabBar 需要 Localizations 父級][]
-* [ParentDataWidget 的泛型型別改為 ParentData][]
-* [ImageCache 與 ImageProvider 變更][]
-* [ImageCache 大型圖片][]
-* [MouseTracker 移至 rendering][]
-* [MouseTracker 不再附加 annotations][]
-* [Nullable CupertinoTheme.brightness][]
-* [OverlayEntries 與 Routes 的重建最佳化][]
-* [可捲動的 AlertDialog][]
-* [TestTextInput 狀態重設][]
-* [TextInputClient currentTextEditingValue][]
-* [forgetChild() 方法必須呼叫 super][]
-* [Route 與 Navigator 重構][]
-* [FloatingActionButton 與 ThemeData 的 accent 屬性][]
+* [在 TargetPlatform 列舉中新增 'linux' 與 'windows'](/release/breaking-changes/target-platform-linux-windows)
+* [Annotations 回傳相對於物件的本地座標](/release/breaking-changes/annotations-return-local-position-relative-to-object)
+* [Container 顏色最佳化](/release/breaking-changes/container-color)
+* [CupertinoTabBar 需要 Localizations 父級](/release/breaking-changes/cupertino-tab-bar-localizations)
+* [ParentDataWidget 的泛型型別改為 ParentData](/release/breaking-changes/parent-data-widget-generic-type)
+* [ImageCache 與 ImageProvider 變更](/release/breaking-changes/image-cache-and-provider)
+* [ImageCache 大型圖片](/release/breaking-changes/imagecache-large-images)
+* [MouseTracker 移至 rendering](/release/breaking-changes/mouse-tracker-moved-to-rendering)
+* [MouseTracker 不再附加 annotations](/release/breaking-changes/mouse-tracker-no-longer-attaches-annotations)
+* [Nullable CupertinoTheme.brightness](/release/breaking-changes/nullable-cupertinothemedata-brightness)
+* [OverlayEntries 與 Routes 的重建最佳化](/release/breaking-changes/overlay-entry-rebuilds)
+* [可捲動的 AlertDialog](/release/breaking-changes/scrollable-alert-dialog)
+* [TestTextInput 狀態重設](/release/breaking-changes/test-text-input)
+* [TextInputClient currentTextEditingValue](/release/breaking-changes/text-input-client-current-value)
+* [forgetChild() 方法必須呼叫 super](/release/breaking-changes/forgetchild-call-super)
+* [Route 與 Navigator 重構](/release/breaking-changes/route-navigator-refactoring)
+* [FloatingActionButton 與 ThemeData 的 accent 屬性](/release/breaking-changes/fab-theme-data-accent-properties)
 
 [Adding 'linux' and 'windows' to TargetPlatform enum]: /release/breaking-changes/target-platform-linux-windows
 [Annotations return local position relative to object]: /release/breaking-changes/annotations-return-local-position-relative-to-object
