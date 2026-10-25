@@ -70,7 +70,7 @@ public static void registerWith(@NonNull io.flutter.plugin.common.PluginRegistry
 如需此遷移的範例，
 請參考 Flutter 團隊所擁有的插件移除此方法的 pull request：[flutter/packages#6494][]。
 
-[flutter/packages#6494]: {{site.github}}/flutter/packages/pull/6494
+[flutter/packages#6494]: {{site.repo.packages}}/pull/6494
 
 ## 時程表
 

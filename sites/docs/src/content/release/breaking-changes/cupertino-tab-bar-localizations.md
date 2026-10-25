@@ -35,7 +35,7 @@ Failed assertion: line 213 pos 7: 'localizations != null'
 遷移前的程式碼：
 
 ```dart
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 void main() => runApp(Foo());
 
@@ -65,7 +65,7 @@ class Foo extends StatelessWidget {
 遷移後的程式碼（透過 `CupertinoApp` 提供在地化）：
 
 ```dart
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 void main() => runApp(Foo());
 
@@ -94,7 +94,7 @@ class Foo extends StatelessWidget {
 遷移後的程式碼（使用 `Localizations` 元件 (Widget) 提供在地化）：
 
 ```dart
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 void main() => runApp(Foo());
 
@@ -150,11 +150,11 @@ API 文件：
 * [PR 55336: Adding tabSemanticsLabel to CupertinoLocalizations][]
 * [PR 56582: Update Tab semantics in Cupertino to be the same as Material][]
 
-[`CupertinoTabBar`]: {{site.api}}/flutter/cupertino/CupertinoTabBar-class.html
+[`CupertinoTabBar`]: {{site.cupertino_ui}}/CupertinoTabBar-class.html
 [`Localizations`]: {{site.api}}/flutter/widgets/Localizations-class.html
-[`DefaultCupertinoLocalizations`]: {{site.api}}/flutter/cupertino/DefaultCupertinoLocalizations-class.html
+[`DefaultCupertinoLocalizations`]: {{site.cupertino_ui}}/DefaultCupertinoLocalizations-class.html
 [`Semantics`]: {{site.api}}/flutter/widgets/Semantics-class.html
-[`CupertinoApp`]: {{site.api}}/flutter/cupertino/CupertinoApp-class.html
+[`CupertinoApp`]: {{site.cupertino_ui}}/CupertinoApp-class.html
 [Internationalizing Flutter Apps]: /ui/internationalization
 [PR 55336: Adding tabSemanticsLabel to CupertinoLocalizations]: {{site.repo.flutter}}/pull/55336
 [PR 56582: Update Tab semantics in Cupertino to be the same as Material]: {{site.repo.flutter}}/pull/56582#issuecomment-625497951

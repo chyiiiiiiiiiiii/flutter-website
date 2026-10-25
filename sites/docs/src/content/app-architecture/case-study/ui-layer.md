@@ -356,8 +356,7 @@ Widget build(BuildContext context) {
 請回顧前一段程式碼片段中的這段程式碼：
 
 <CodePreview direction="row">
-
-  <DashImage 
+  <DashImage
     image="app-architecture/case-study/dismissible.webp"
     alt="A clip that demonstrates the 'dismissible' functionality of the Compass app."
     img-style="max-height: 480px; border-radius: 12px; border: black 2px solid;"
@@ -377,7 +376,6 @@ Widget build(BuildContext context) {
     ),
   ),
   ```
-
 </CodePreview>
 
 在 `HomeScreen` 上，使用者儲存的行程會由 `_Booking` 元件（Widget）來表示。當 `_Booking` 被關閉（dismissed）時，會執行 `viewModel.deleteBooking` 方法。
@@ -567,7 +565,7 @@ Flutter 所提供的 [`AsyncSnapshot`][] 類別就已經內建了這項功能。
 [`Listenable`]: {{site.api}}/flutter/foundation/Listenable-class.html
 [`ListenableBuilder`]: {{site.api}}/flutter/widgets/ListenableBuilder-class.html
 [`notifyListeners`]: {{site.api}}/flutter/foundation/ChangeNotifier/notifyListeners.html
-[`Scaffold`]: {{site.api}}/flutter/material/Scaffold-class.html
+[`Scaffold`]: {{site.material_ui}}/Scaffold-class.html
 [`Dismissible`]: {{site.api}}/flutter/widgets/Dismissible-class.html
 [`utils` directory]: https://github.com/flutter/samples/blob/main/compass_app/app/lib/utils/command.dart
 [streams]: {{site.api}}/flutter/dart-async/Stream-class.html

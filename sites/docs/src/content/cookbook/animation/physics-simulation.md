@@ -12,10 +12,10 @@ description: 如何實作物理動畫。
 
 本教學包含以下步驟：
 
-1. 建立動畫控制器
-2. 透過手勢移動元件
-3. 動畫化元件
-4. 計算速度以模擬彈簧運動
+1.  建立動畫控制器。
+1.  透過手勢移動元件。
+1.  動畫化元件。
+1.  計算速度以模擬彈簧運動。
 
 
 ## 步驟 1：建立動畫控制器
@@ -70,13 +70,14 @@ class _DraggableCardState extends State<DraggableCard> {
 ```
 
 讓 `_DraggableCardState` 類別繼承自
-[SingleTickerProviderStateMixin][]。
-然後在 `initState` 中建立一個 [AnimationController][]，
+[`SingleTickerProviderStateMixin`][]。
+然後在 `initState` 中建立一個 [`AnimationController`][]，
 並將 `vsync` 設為 `this`。
 
 :::note
 繼承 `SingleTickerProviderStateMixin` 可以讓狀態 (state) 物件成為
-`AnimationController` 的 `TickerProvider`。如需更多資訊，請參閱 [TickerProvider][] 的文件。
+`AnimationController` 的 `TickerProvider`。
+若想了解更多，請參閱 [`TickerProvider`][] 文件。
 :::
 
 ```dart diff
@@ -101,7 +102,7 @@ class _DraggableCardState extends State<DraggableCard> {
 
 ## 步驟 2：使用手勢移動元件
 
-讓元件在被拖曳時能夠移動，並在 `_DraggableCardState` 類別中新增一個 [Alignment][] 欄位：
+讓元件在被拖曳時能夠移動，並在 `_DraggableCardState` 類別中新增一個 [`Alignment`][] 欄位：
 
 ```dart diff
   class _DraggableCardState extends State<DraggableCard>
@@ -110,7 +111,7 @@ class _DraggableCardState extends State<DraggableCard> {
 +   Alignment _dragAlignment = Alignment.center;
 ```
 
-新增一個 [GestureDetector][]，用來處理 `onPanDown`、`onPanUpdate` 和 `onPanEnd` 回呼（callback）。為了調整對齊方式，可以使用 [MediaQuery][] 來取得元件的尺寸，並除以 2。（這會將「拖曳的像素」單位轉換為 [Align][] 使用的座標。）然後，將 `Align` 元件的 `alignment` 設為 `_dragAlignment`：
+新增一個 [`GestureDetector`][]，用來處理 `onPanDown`、`onPanUpdate` 和 `onPanEnd` 回呼（callback）。為了調整對齊方式，可以使用 [`MediaQuery.sizeOf()`][] 來取得元件的尺寸，並除以 2。（這會將「拖曳的像素」單位轉換為 [`Align`][] 使用的座標。）然後，將 `Align` 元件的 `alignment` 設為 `_dragAlignment`：
 
 ```dart diff
   @override
@@ -118,7 +119,7 @@ class _DraggableCardState extends State<DraggableCard> {
 -   return Align(
 -     child: Card(
 -       child: widget.child,
-+   var size = MediaQuery.of(context).size;
++   final size = MediaQuery.sizeOf(context);
 +   return GestureDetector(
 +     onPanDown: (details) {},
 +     onPanUpdate: (details) {
@@ -144,7 +145,7 @@ class _DraggableCardState extends State<DraggableCard> {
 
 當元件被釋放時，應該會以彈簧效果回到中心位置。
 
-新增一個 `Animation<Alignment>` 欄位和一個 `_runAnimation` 方法。這個方法會定義一個 `Tween`，用來在元件被拖曳到的位置與中心點之間進行插值（interpolate）。
+新增一個 `Animation<Alignment>` 欄位和一個 `_runAnimation()` 方法。這個方法會定義一個 `Tween`，用來在元件被拖曳到的位置與中心點之間進行插值（interpolate）。
 
 ```dart diff
   class _DraggableCardState extends State<DraggableCard>
@@ -211,7 +212,7 @@ child: Align(
 
 ## 步驟 4：計算速度以模擬彈簧運動
 
-最後一步需要進行一些數學運算，以計算元件在拖曳結束後的速度。這樣可以讓元件以更真實的方式，先依照該速度繼續移動，然後再被拉回來。（`_runAnimation` 方法已經透過設定動畫的起始與結束對齊方式來決定方向。）
+最後一步需要進行一些數學運算，以計算元件在拖曳結束後的速度。這樣可以讓元件以更真實的方式，先依照該速度繼續移動，然後再被拉回來。（`_runAnimation()` 方法已經透過設定動畫的起始與結束對齊方式來決定方向。）
 
 首先，匯入 `physics` 套件：
 
@@ -220,9 +221,9 @@ child: Align(
 import 'package:flutter/physics.dart';
 ```
 
-`onPanEnd` 回呼會提供一個 [DragEndDetails][] 物件。這個物件會提供指標停止接觸螢幕時的速度。該速度的單位是每秒像素（pixels per second），但 `Align` 元件並不是以像素為單位，而是使用介於 [-1.0, -1.0] 到 [1.0, 1.0] 的座標值，其中 [0.0, 0.0] 代表中心點。在步驟 2 計算出的 `size`，則用來將像素轉換為這個範圍內的座標值。
+`onPanEnd` 回呼會提供一個 [`DragEndDetails`][] 物件。這個物件會提供指標停止接觸螢幕時的速度。該速度的單位是每秒像素（pixels per second），但 `Align` 元件並不是以像素為單位，而是使用介於 [-1.0, -1.0] 到 [1.0, 1.0] 的座標值，其中 [0.0, 0.0] 代表中心點。在步驟 2 計算出的 `size`，則用來將像素轉換為這個範圍內的座標值。
 
-最後，`AnimationController` 有一個 `animateWith()` 方法，可以傳入一個 [SpringSimulation][]：
+最後，`AnimationController` 有一個 `animateWith()` 方法，可以傳入一個 [`SpringSimulation`][]：
 
 <?code-excerpt "lib/main.dart (runAnimation)"?>
 ```dart
@@ -245,6 +246,12 @@ void _runAnimation(Offset pixelsPerSecond, Size size) {
   _controller.animateWith(simulation);
 }
 ```
+
+:::tip
+你也可以使用 [`SpringDescription.withDurationAndBounce()`][]
+來設定 [`SpringDescription`][]，
+而不必手動指定 `mass`、`stiffness` 和 `damping`。
+:::
 
 別忘了以 velocity（速度）和 size（大小）來呼叫 `_runAnimation()`：
 
@@ -345,7 +352,7 @@ class _DraggableCardState extends State<DraggableCard>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery.sizeOf(context);
     return GestureDetector(
       onPanDown: (details) {
         _controller.stop();
@@ -371,15 +378,17 @@ class _DraggableCardState extends State<DraggableCard>
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/animation-physics-card-drag.webp" alt="展示一個元件被拖曳並自動回彈至中央的示範" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/animation-physics-card-drag.webp" alt="展示一個元件被拖曳並自動回彈至中央的示範" />
 </noscript>
 
-[Align]: {{site.api}}/flutter/widgets/Align-class.html
-[Alignment]: {{site.api}}/flutter/painting/Alignment-class.html
-[AnimationController]: {{site.api}}/flutter/animation/AnimationController-class.html
-[GestureDetector]: {{site.api}}/flutter/widgets/GestureDetector-class.html
-[SingleTickerProviderStateMixin]: {{site.api}}/flutter/widgets/SingleTickerProviderStateMixin-mixin.html
-[TickerProvider]: {{site.api}}/flutter/scheduler/TickerProvider-class.html
-[MediaQuery]: {{site.api}}/flutter/widgets/MediaQuery-class.html
-[DragEndDetails]: {{site.api}}/flutter/gestures/DragEndDetails-class.html
-[SpringSimulation]: {{site.api}}/flutter/physics/SpringSimulation-class.html
+[`Align`]: {{site.api}}/flutter/widgets/Align-class.html
+[`Alignment`]: {{site.api}}/flutter/painting/Alignment-class.html
+[`AnimationController`]: {{site.api}}/flutter/animation/AnimationController-class.html
+[`DragEndDetails`]: {{site.api}}/flutter/gestures/DragEndDetails-class.html
+[`GestureDetector`]: {{site.api}}/flutter/widgets/GestureDetector-class.html
+[`MediaQuery.sizeOf()`]: {{site.api}}/flutter/widgets/MediaQuery/sizeOf.html
+[`SingleTickerProviderStateMixin`]: {{site.api}}/flutter/widgets/SingleTickerProviderStateMixin-mixin.html
+[`SpringDescription`]: {{site.api}}/flutter/physics/SpringDescription-class.html
+[`SpringDescription.withDurationAndBounce()`]: {{site.api}}/flutter/physics/SpringDescription/SpringDescription.withDurationAndBounce.html
+[`SpringSimulation`]: {{site.api}}/flutter/physics/SpringSimulation-class.html
+[`TickerProvider`]: {{site.api}}/flutter/scheduler/TickerProvider-class.html

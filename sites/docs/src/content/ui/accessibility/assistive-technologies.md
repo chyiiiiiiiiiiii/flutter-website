@@ -56,7 +56,7 @@ description: >-
 如果您透過 API 程式化自動啟用應用程式的無障礙功能，則使用者可以略過這個步驟。
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/semantics.dart';
 
 void main() {
@@ -108,44 +108,13 @@ Flutter 的標準元件 (Widget) 會自動產生無障礙樹。不過，如果�
 
 Android 提供 Switch Access、Voice Access 及 Accessibility Menu，而 iOS 則有 Switch Control、Voice Control 和 AssistiveTouch。了解這些工具有助於打造適合各種身體能力使用者的應用程式。
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>作業系統 (OS)</th>
-      <th>功能 (Features) </th>
-      <th>功能說明 (Functions)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Android</td>
-      <td><strong>Switch Access</strong> </td>
-      <td>可作為替代輸入方式，支援 Switch Access 與 Camera Switches</td>
-    </tr>
-    <tr>
-      <td>Android</td>
-      <td><strong>Voice Access</strong> </td>
-      <td>以語音控制裝置</td>
-    </tr>
-    <tr>
-      <td>Android</td>
-      <td><strong>Accessibility Menu</strong> </td>
-      <td>浮動於螢幕上的選單，提供簡化按鈕以控制主要手機功能。</td>
-    </tr>
-    <tr>
-      <td>iOS</td>
-      <td><strong>Switch Control</strong> </td>
-      <td>以開關作為替代輸入方式</td>
-    </tr>
-    <tr>
-      <td>iOS</td>
-      <td><strong>Voice Control</strong> </td>
-      <td>以語音控制裝置</td>
-    </tr>
-    <tr>
-      <td>iOS</td>
-      <td><strong>AssistiveTouch</strong> </td>
-      <td>使用 AssistiveTouch 取代多指手勢或硬體按鍵操作</td>
-    </tr>
-  </tbody>
-</table>
+| 作業系統 (OS) | 功能 (Features) | 功能說明 (Functions) |
+| --- | --- | --- |
+| Android | **Switch Access** | 可作為替代輸入方式，支援 Switch Access 與 Camera Switches |
+| Android | **Voice Access** | 以語音控制裝置 |
+| Android | **Accessibility Menu** | 浮動於螢幕上的選單，提供簡化按鈕以控制主要手機功能 |
+| iOS | **Switch Control** | 以開關作為替代輸入方式 |
+| iOS | **Voice Control** | 以語音控制裝置 |
+| iOS | **AssistiveTouch** | 使用 AssistiveTouch 取代多指手勢或硬體按鍵操作 |
+
+{:.table .table-striped}

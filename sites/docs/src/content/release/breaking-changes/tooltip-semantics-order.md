@@ -136,5 +136,5 @@ API 文件：
 
 * [OverlayPortal.overlayChild 現在將 semantics 貢獻給 OverlayPortal，而非 Overlay][OverlayPortal.overlayChild contributes semantics to OverlayPortal instead of Overlay]
 
-[`Tooltip`]: {{site.api}}/flutter/material/Tooltip-class.html
+[`Tooltip`]: {{site.material_ui}}/Tooltip-class.html
 [OverlayPortal.overlayChild contributes semantics to OverlayPortal instead of Overlay]: {{site.repo.flutter}}/pull/134921

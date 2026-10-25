@@ -19,14 +19,14 @@ description: 學習如何測試你的插件套件。
 
 若想查看每種測試類型的範例，你可以[使用插件範本建立新插件][plugin-tests]，並在指定的目錄中查看。
 
-* <strong>Dart [單元測試][unit tests]與[元件測試][widget tests]</strong>。
+* **Dart [單元測試][unit tests]與[元件測試][widget tests]**。
   這些測試讓你可以像測試非插件套件的 Dart 程式碼一樣，測試插件中的 Dart 部分。
   不過，插件的原生程式碼[不會被載入][won't be loaded]，
   所以所有對平台通道（platform channels）的呼叫都需要[在測試中進行模擬（mock）][mocked in tests]。
 
   範例請參考 `test` 目錄。
 
-* <strong>Dart [整合測試][integration tests]</strong>。
+* **Dart [整合測試][integration tests]**。
   由於整合測試會在 Flutter 應用程式（範例 app）的環境下執行，
   因此可以同時測試 Dart 與原生程式碼，以及它們之間的互動。
   此外，對於需要在瀏覽器中執行的 web 實作程式碼，整合測試也很適合用來做單元測試。
@@ -38,7 +38,7 @@ description: 學習如何測試你的插件套件。
 
   範例請參考 `example/integration_test` 目錄。
 
-* <strong>原生單元測試</strong>
+* **原生單元測試**
   就像 Dart 單元測試可以獨立測試插件的 Dart 部分一樣，原生單元測試可以獨立測試原生部分。
   每個平台都有自己的原生單元測試系統，測試會以與被測試程式碼相同的原生語言撰寫。
 
@@ -47,29 +47,29 @@ description: 學習如何測試你的插件套件。
   你可以依照自己熟悉的平台，設定並使用任何原生測試框架，
   不過以下這些已經在插件範本中預先設定好：
 
-  * <strong>Android</strong>：
+  * **Android**：
     [JUnit][JUnit] 測試可在 `android/src/test/` 找到。
 
-  * <strong>iOS</strong> 與 <strong>macOS</strong>：
+  * **iOS** 與 **macOS**：
     [XCTest][XCTest] 測試分別可在 `example/ios/RunnerTests/`
     與 `example/macos/RunnerTests/` 找到。
     這些測試位於 example 目錄下，
     而非套件的頂層目錄，
     因為它們是透過範例 app 的專案執行。
 
-  * <strong>Linux</strong> 與 <strong>Windows</strong>：
+  * **Linux** 與 **Windows**：
     [GoogleTest][GoogleTest] 測試分別可在 `linux/test/`
     與 `windows/test/` 找到。
 
-其他類型的測試，目前尚未在範本中預先設定的是<strong>原生 UI 測試</strong>。
+其他類型的測試，目前尚未在範本中預先設定的是**原生 UI 測試**。
 在原生 UI 測試框架（如 [Espresso][Espresso] 或 [XCUITest][XCUITest]）下執行你的應用程式，
 可以讓測試同時與原生及 Flutter UI 元件互動，
 因此如果你的插件必須透過原生 UI 互動才能測試，這類測試會很有幫助。
 
 [Espresso]: {{site.repo.packages}}/tree/main/packages/espresso
-[GoogleTest]: {{site.github}}/google/googletest
+[GoogleTest]: https://github.com/google/googletest
 [integration tests]: /cookbook/testing/integration/introduction
-[JUnit]: {{site.github}}/junit-team/junit4/wiki/Getting-started
+[JUnit]: https://github.com/junit-team/junit4/wiki/Getting-started
 [mocked in tests]: /testing/plugins-in-tests#mock-the-platform-channel
 [`patrol`]: {{site.pub-pkg}}/patrol
 [plugin-tests]: /packages-and-plugins/developing-packages#step-1-create-the-package-1
@@ -101,7 +101,7 @@ description: 學習如何測試你的插件套件。
 以確保所有平台專屬的建置檔案都已建立，
 才能執行單元測試。
 
-<strong>Android JUnit</strong><br>
+**Android JUnit**<br>
 
 如果你已經在 Android Studio 中以 Android 專案開啟範例，
 可以使用 [Android Studio 測試 UI][Android Studio test UI] 執行單元測試。
@@ -113,7 +113,7 @@ description: 學習如何測試你的插件套件。
 ./gradlew testDebugUnitTest
 ```
 
-<strong>iOS 與 macOS XCTest</strong><br>
+**iOS 與 macOS XCTest**<br>
 
 如果你已在 Xcode 中開啟範例應用程式，
 可以使用 [Xcode Test UI][Xcode Test UI] 來執行單元測試。
@@ -127,7 +127,7 @@ xcodebuild test -workspace Runner.xcworkspace -scheme Runner -configuration Debu
 
 對於 iOS 測試，你可能需要先在 Xcode 中開啟 `Runner.xcworkspace` 以設定程式碼簽署（code signing）。
 
-<strong>Linux GoogleTest</strong><br>
+**Linux GoogleTest**<br>
 
 若要從命令列執行測試，請在範例目錄下使用以下指令，
 並將 "my_plugin" 替換為你的插件專案名稱：
@@ -138,7 +138,7 @@ build/linux/plugins/x64/debug/my_plugin/my_plugin_test
 
 如果你是以 release 模式而非 debug 模式建置範例應用程式，請將「debug」替換為「release」。
 
-<strong>Windows GoogleTest</strong><br>
+**Windows GoogleTest**<br>
 
 如果你已在 Visual Studio 中開啟範例應用程式，可以使用 [Visual Studio test UI][Visual Studio test UI] 來執行單元測試。
 

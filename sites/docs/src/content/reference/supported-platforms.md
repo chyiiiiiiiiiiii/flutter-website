@@ -5,7 +5,7 @@ description: Flutter 依平台版本支援的各目標平台。
 showBreadcrumbs: false
 ---
 
-從 Flutter {{site.currentFlutterVersion}} 開始，
+從 Flutter {{site.documentedFlutterVersion}} 開始，
 Flutter 支援在以下硬體架構與作業系統版本組合上部署應用程式。
 這些組合統稱為 _平台 (platforms)_。
 
@@ -25,7 +25,7 @@ Flutter 支援部署至以下平台。
     name="Android"
     icon="mobile"
     arch="x64, Arm32, Arm64"
-    supported="24 to 36"
+    supported="24 to 37"
     ci-tested="24 to 36"
     unsupported="23 and earlier"
     deploy-to-link="/deployment/android"
@@ -34,14 +34,23 @@ Flutter 支援部署至以下平台。
     name="iOS"
     icon="mobile"
     arch="Arm64"
-    supported="13 to 26"
-    ci-tested="18"
-    unsupported="12 and earlier"
+    supported="15 to 27"
+    ci-tested="18 and 26"
+    unsupported="14 and earlier"
     deploy-to-link="/deployment/ios"
   />
 </PlatformsGrid>
 
 ## 桌面平台 {:#desktop-platforms}
+
+:::warning macOS Intel (x64) deprecation
+隨著 Apple 逐步淘汰 Intel 架構的 Mac，
+Flutter 也正逐步停止支援 Intel (x64) 硬體。
+關於時程與影響的詳細資訊，
+請參閱 [macOS Intel deprecation strategy][]。
+
+[macOS Intel deprecation strategy]: {{site.main-url}}/go/macos-intel-deprecation
+:::
 
 <PlatformsGrid>
   <PlatformCard
@@ -57,9 +66,9 @@ Flutter 支援部署至以下平台。
     name="macOS"
     icon="laptop_mac"
     arch="x64, Arm64"
-    supported="Catalina (10.15) to Tahoe (26)"
+    supported="Monterey (12) to Golden Gate (27)"
     ci-tested="Sequoia (15)"
-    unsupported="Mojave (10.14) and earlier"
+    unsupported="Big Sur (11) and earlier"
     deploy-to-link="/deployment/macos"
   />
   <PlatformCard
@@ -128,3 +137,17 @@ Flutter 支援部署至以下平台。
     deploy-to-link="/deployment/web"
   />
 </PlatformsGrid>
+
+## 先前的 Flutter 版本 {:#previous-flutter-versions}
+
+若想了解先前 Flutter 版本的支援狀況，
+請參閱以下資源：
+
+*   [Flutter SDK 版本資訊][Flutter SDK release notes]。
+    可依版本查看重大變更與支援更新。
+*   [支援平台頁面的歷史紀錄][supported-platforms-history]。
+    若要查看過往的支援矩陣，
+    請檢視此頁面的先前版本。
+
+[Flutter SDK release notes]: /release/release-notes
+[supported-platforms-history]: {{site.repo.this}}/commits/main/sites/docs/src/content/reference/supported-platforms.md

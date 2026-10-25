@@ -14,13 +14,6 @@ Flutter 模組，而無需在 Xcode 之外執行額外指令。
 若要進一步了解 CocoaPods，
 請參閱 [CocoaPods 入門指南][CocoaPods getting started guide]。
 
-#### 觀看影片
-
-如果你偏好透過影片學習，
-以下影片介紹了如何將 Flutter 加入 iOS 應用程式：
-
-<YouTubeEmbed id="IIcrfrTshTs" title="Step by step on how to add Flutter to an existing iOS app"></YouTubeEmbed>
-
 #### 需求條件 {:#method-a-reqs}
 
 專案中每位開發人員都必須在本機安裝

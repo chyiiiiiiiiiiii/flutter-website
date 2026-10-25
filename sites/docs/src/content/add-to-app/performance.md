@@ -15,12 +15,6 @@ Flutter 的引擎執行階段與您的應用程式編譯後的 Dart 程式碼，
 
 這個步驟會在您第一次建立 `FlutterEngine` 時於 **[Android][android-engine]** 與 **[iOS][ios-engine]** API 上發生。
 
-:::note
-有些套件允許您將原生應用程式的圖片與字型共用到 Flutter 螢幕。例如：
-* [native_font]({{site.pub-pkg}}/native_font)
-* [ios_platform_images]({{site.pub-pkg}}/ios_platform_images)
-:::
-
 ### 載入 Flutter 函式庫
 
 找到資源後，引擎的共享函式庫會在每個行程（process）中載入一次至記憶體。
@@ -85,6 +79,6 @@ Dart 執行階段初始化後，下一步是 Flutter 引擎對 Dart 執行階段
 [multiple Flutters]: /add-to-app/multiple-flutters
 [`runApp()`]: {{site.api}}/flutter/widgets/runApp.html
 [`runWithEntrypoint:`]: {{site.api}}/ios-embedder/interface_flutter_engine.html#a019d6b3037eff6cfd584fb2eb8e9035e
-[snapshot]: {{site.github}}/dart-lang/sdk/wiki/Snapshots
+[snapshot]: {{site.repo.dart-sdk}}/wiki/Snapshots
 [`startActivity()`]: {{site.android-dev}}/reference/android/content/Context#startActivity(android.content.Intent)
 [`Surface`]: {{site.android-dev}}/reference/android/view/Surface

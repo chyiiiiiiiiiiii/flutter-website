@@ -94,5 +94,5 @@ API 文件：此變更沒有 API，因為網路政策的修改是透過上述的
 * [Introduce per-domain policy for strict secure connections][]
 
 [PR 20218: Plumbing for setting domain network policy]: {{site.repo.engine}}/pull/20218
-[Introduce per-domain policy for strict secure connections]: {{site.github}}/dart-lang/sdk/commit/d878cfbf20375befa09f9bf85f0ba2b87b319427
+[Introduce per-domain policy for strict secure connections]: {{site.repo.dart-sdk}}/commit/d878cfbf20375befa09f9bf85f0ba2b87b319427
 [這些指引]: /add-to-app/ios/project-setup#local-network-permissions

@@ -5,14 +5,14 @@
 import 'package:jaspr/dom.dart';
 import 'package:jaspr/jaspr.dart';
 import 'package:jaspr_content/jaspr_content.dart';
+import 'package:site_shared/components/common/button.dart';
+import 'package:site_shared/components/common/material_icon.dart';
+import 'package:site_shared/components/layout/menu_toggle.dart';
+import 'package:site_shared/components/layout/site_switcher.dart';
+import 'package:site_shared/components/layout/theme_switcher.dart';
+import 'package:site_shared/util.dart';
 
-import '../../util.dart';
 import '../../utils/active_nav.dart';
-import '../common/button.dart';
-import '../common/material_icon.dart';
-import 'menu_toggle.dart';
-import 'site_switcher.dart';
-import 'theme_switcher.dart';
 
 /// The site-wide top navigation bar.
 class DashHeader extends StatelessComponent {
@@ -63,7 +63,7 @@ class DashHeader extends StatelessComponent {
             isActive: activeEntry == ActiveNavEntry.learn,
           ),
           _NavItem(
-            href: '/ai/create-with-ai',
+            href: '/ai/get-started',
             label: 'AI',
             isActive: activeEntry == ActiveNavEntry.ai,
           ),

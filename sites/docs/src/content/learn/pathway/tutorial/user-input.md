@@ -28,8 +28,8 @@ items:
 在本課中，使用兩個互動元件來建置此功能：
 [`TextField`][] 和 [`IconButton`][]。
 
-[`TextField`]: {{site.api}}/flutter/material/TextField-class.html
-[`IconButton`]: {{site.api}}/flutter/material/IconButton-class.html
+[`TextField`]: {{site.material_ui}}/TextField-class.html
+[`IconButton`]: {{site.material_ui}}/IconButton-class.html
 
 ### 實作回呼（callback）函式
 
@@ -619,10 +619,10 @@ class GuessInput extends StatelessWidget {
 
 此方法與 `TextField` 上的 `onSubmitted` 回呼功能相同。
 
-[`Icon`]: {{site.api}}/flutter/material/Icons-class.html
-[`TextButton`]: {{site.api}}/flutter/material/TextButton-class.html
-[`ElevatedButton`]: {{site.api}}/flutter/material/ElevatedButton-class.html
-[`IconButton`]: {{site.api}}/flutter/material/IconButton-class.html
+[`Icon`]: {{site.material_ui}}/Icons-class.html
+[`TextButton`]: {{site.material_ui}}/TextButton-class.html
+[`ElevatedButton`]: {{site.material_ui}}/ElevatedButton-class.html
+[`IconButton`]: {{site.material_ui}}/IconButton-class.html
 
 :::note Challenge - Share "on submitted" logic.
 

@@ -1,6 +1,5 @@
 ---
 title: GenUI SDK 主要元件與概念
-sidenav: ai
 breadcrumb: Main components & concepts
 description: >-
   熟悉 Flutter GenUI SDK 的主要元件與概念。

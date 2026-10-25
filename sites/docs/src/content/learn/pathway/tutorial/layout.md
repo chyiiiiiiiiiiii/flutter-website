@@ -35,8 +35,8 @@ items:
 以及低階元件，例如 [`Column`][] 或 [`Row`][]，
 可將元件垂直或水平排列。
 
-[`Scaffold`]: {{site.api}}/flutter/material/Scaffold-class.html
-[`AppBar`]: {{site.api}}/flutter/material/AppBar-class.html
+[`Scaffold`]: {{site.material_ui}}/Scaffold-class.html
+[`AppBar`]: {{site.material_ui}}/AppBar-class.html
 [`Column`]:  {{site.api}}/flutter/widgets/Column-class.html
 [`Row`]: {{site.api}}/flutter/widgets/Row-class.html
 
@@ -52,15 +52,14 @@ items:
 
 `Scaffold` 是一個便利元件，提供 Material 風格的頁面版面配置，
 讓你可以輕鬆地在應用程式頁面中加入應用程式列、抽屜式導覽、
-導覽列等。`AppBar` 當然就是應用程式列本身。
+導覽列等。
+`AppBar` 當然就是應用程式列本身。
 
-由 `flutter create --empty` 指令產生的程式碼已包含
-`AppBar` 元件和 `Scaffold` 元件。
-以下程式碼將其更新為使用額外的版面配置元件：[`Align`][]。
+在你的 `MainApp` 元件的 `build` 方法中，
+為 `Scaffold` 元件加入 `AppBar`。
+以下程式碼使用了額外的版面配置元件：[`Align`][]。
 這會將標題定位到左側，否則預設會置中。
 `Text` 元件包含標題本身的文字。
-
-在你的 `MainApp` 元件的 `build` 方法中修改 `Scaffold`。
 
 直接傳入列舉或靜態屬性（例如 `Alignment.centerLeft`）
 也可以使用 [Dart 的點號簡寫][Dart's dot shorthands] 語法縮短，
@@ -79,12 +78,14 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Align(
+          title: const Align(
             alignment: Alignment.centerLeft,
             child: Text('Birdle'),
           ),
         ),
-        body: Center(child: Text('Hello World!')),
+        body: const Center(
+          child: Tile('A', HitType.hit),
+        ),
       ),
     );
   }
@@ -124,8 +125,8 @@ class GamePage extends StatelessWidget {
 }
 ```
 
-接著更新你的 `MainPage` 元件，改為建立並
-顯示 `GamePage` 元件，而非「Hello World!」。
+接著更新你的 `MainApp` 元件，改為建立並
+顯示 `GamePage` 元件，而非 `Tile` 元件。
 
 <?code-excerpt "fwe/birdle/lib/step3_main.dart (MainApp)"?>
 ```dart highlightLines=14
@@ -148,6 +149,20 @@ class MainApp extends StatelessWidget {
   }
 }
 ```
+
+:::note 解決 `const` 建構子錯誤
+
+由於 `GamePage` 會初始化一個非常數欄位
+（`final Game _game = Game();`），
+它的建構子不能是 `const`。
+如果你先前寫的是 const Center(...) 或 const MaterialApp(...)，
+Dart 會回報以下錯誤：
+"The constructor being called isn't a const constructor."
+要解決此問題，請從 Center（或 MaterialApp）
+（或外層的父元件）移除 const 關鍵字，
+並且只在引數皆為常數的元件上使用 `const`，
+例如 `const Align(...)`。
+:::
 
 ### 使用 `Column` 和 `Row` 排列元件
 

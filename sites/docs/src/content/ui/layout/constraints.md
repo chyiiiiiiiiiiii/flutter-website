@@ -1261,7 +1261,7 @@ class Example29 extends Example {
 
 這些範例會在接下來的章節中進行說明。
 
-[this GitHub repo]: {{site.github}}/marcglasberg/flutter_layout_article
+[this GitHub repo]: https://github.com/marcglasberg/flutter_layout_article
 
 ### 範例 1
 
@@ -2030,10 +2030,10 @@ Marcelo 最初將這篇內容發表於
 
 同時也感謝 [Simon Lightfoot][Simon Lightfoot] 製作了本文開頭的標題圖片。
 
-[article]: {{site.medium}}/flutter-community/flutter-the-advanced-layout-rule-even-beginners-must-know-edc9516d1a2
-[GitHub]: {{site.github}}/marcglasberg
+[article]: https://medium.com/flutter-community/flutter-the-advanced-layout-rule-even-beginners-must-know-edc9516d1a2
+[GitHub]: https://github.com/marcglasberg
 [pub.dev]: {{site.pub}}/publishers/glasberg.dev/packages
-[Simon Lightfoot]: {{site.github}}/slightfoot
+[Simon Lightfoot]: https://github.com/slightfoot
 
 :::note
 想更深入了解 Flutter 如何實作版面配置約束，

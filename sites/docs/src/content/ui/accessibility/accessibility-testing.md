@@ -101,9 +101,22 @@ void main() {
 flutter run -d chrome --profile --dart-define=FLUTTER_WEB_DEBUG_SHOW_SEMANTICS=true
 ```
 
-啟用該旗標後，語意節點會顯示在元件（Widget）上方；
+或者，你也可以在自訂的 `flutter_bootstrap.js`
+[初始化設定][initialization configuration]中，
+設定 `debugShowSemanticsNodes: true` 來啟用語意節點視覺化：
+
+```js title="web/flutter_bootstrap.js"
+_flutter.loader.load({
+  config: {
+    debugShowSemanticsNodes: true,
+  },
+});
+```
+
+啟用後，語意節點會顯示在元件（Widget）上方；
 您可以驗證語意元素是否正確地放置在應有的位置。
 如果語意節點放置不正確，請[提交錯誤回報][file a bug report]。
 
 [Accessibility Scanner]: https://play.google.com/store/apps/details?id=com.google.android.apps.accessibility.auditor&hl=en
 [file a bug report]: https://goo.gle/flutter_web_issue
+[initialization configuration]: /platform-integration/web/initialization#customize-the-flutter-loader

@@ -90,7 +90,7 @@ await Sentry.captureException(exception, stackTrace: stackTrace);
 請參考 [Sentry flutter 範例][Sentry flutter example] 應用程式。
 
 
-[Sentry flutter example]: {{site.github}}/getsentry/sentry-dart/tree/main/flutter/example
+[Sentry flutter example]: https://github.com/getsentry/sentry-dart/tree/main/flutter/example
 [Create an account with Sentry]: https://sentry.io/signup/
 [Bugsnag]: https://www.bugsnag.com/platforms/flutter
 [Datadog]: https://docs.datadoghq.com/real_user_monitoring/flutter/

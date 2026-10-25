@@ -62,6 +62,12 @@ Dart 入門教學 →
 
 </Stepper>
 
+## 準備好開始了嗎？
+
+先安裝 Flutter 並設定開發環境，就能開始上手：
+
+[從步驟 1 開始：快速安裝 →](/learn/pathway/quick-install)
+
 <img src="/assets/images/docs/learn/beginner.jpg" alt="Dash with question marks around her; looking curious." class="image-wrapper learn-image-wrapper">
 
 

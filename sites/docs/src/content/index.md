@@ -22,7 +22,7 @@ description: >-
   <Card title="影片" link="https://www.youtube.com/@flutterdev" outlined="true">
     觀看 Flutter YouTube 頻道上的眾多影片。
   </Card>
-  <Card title="以 AI 創作" link="/ai/create-with-ai" outlined="true">
+  <Card title="以 AI 開發" link="/ai/get-started" outlined="true">
     了解如何建置並整合強大的 AI 工具。
   </Card>
 </div>

@@ -10,7 +10,8 @@ description: >-
 ## 摘要
 
 `CupertinoPageTransitionsBuilder` 已從
-`package:flutter/material.dart` 遷移至 `package:flutter/cupertino.dart`。
+`package:material_ui/material_ui.dart` 遷移至 Cupertino 套件，
+該套件現位於 `package:cupertino_ui/cupertino_ui.dart`。
 
 ## 背景
 
@@ -48,7 +49,7 @@ Material 函式庫中。
 遷移前的程式碼：
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final pageTransitionsTheme = PageTransitionsTheme(
   builders: {
@@ -61,8 +62,8 @@ final pageTransitionsTheme = PageTransitionsTheme(
 遷移後的程式碼：
 
 ```dart
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 
 final pageTransitionsTheme = PageTransitionsTheme(
   builders: {

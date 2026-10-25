@@ -36,13 +36,14 @@ shortTitle: Android
 ## 新增啟動器圖示
 
 當你建立新的 Flutter 應用程式時，會有一個預設的啟動器圖示。
-若要自訂這個圖示，你可以參考
+若要了解如何自訂這個圖示，請參考
 [flutter_launcher_icons][] 套件。
 
 另外，你也可以依照以下步驟手動設定：
 
-1. 參閱
-   [Material Design 產品圖示][launchericons]設計指引，了解圖示設計原則。
+1. 參閱 Android
+   [adaptive icon 指引][adaptive-icons]，
+   了解圖示設計與尺寸規格。
 
 1. 在 `[project]/android/app/src/main/res/` 目錄下，
    將你的圖示檔案放在以
@@ -59,7 +60,8 @@ shortTitle: Android
    請執行你的應用程式並檢查 Launcher 中的應用程式圖示。
 
 [flutter_launcher_icons]: {{site.pub}}/packages/flutter_launcher_icons
-[launchericons]: {{site.material}}/styles/icons
+[adaptive-icons]:
+  {{site.android-dev}}/develop/ui/views/launch/icon_design_adaptive
 [config-qual]: {{site.android-dev}}/guide/topics/resources/providing-resources#AlternativeResources
 [applicationtag]: {{site.android-dev}}/guide/topics/manifest/application-element
 
@@ -175,8 +177,8 @@ Android 會使用兩種簽署金鑰：_上傳金鑰_（upload key）與 _應用�
 
 建立一個名為 `[project]/android/key.properties` 的檔案，
 內容包含對你的 keystore 的參考。
-不要包含尖括號（`< >`）。
-這些尖括號表示該文字僅為你的值的佔位符。
+不要包含尖括號（`< >`），
+這些尖括號表示該文字僅為你的值的佔位符：
 
 ```properties
 storePassword=<password-from-previous-step>
@@ -205,7 +207,7 @@ Windows 上 `keystore.jks` 的路徑必須以雙反斜線指定：`\\`。
 
 1. 在 `android` 屬性區塊之前，定義並載入 keystore 屬性檔案。
 
-1. 設定 `keystoreProperties` 物件以載入 `key.properties` 檔案。
+1. 設定 `keystoreProperties` 物件以載入 `key.properties` 檔案：
 
 <Tabs key="android-keystore-properties">
 <Tab name="Kotlin">
@@ -254,7 +256,7 @@ Windows 上 `keystore.jks` 的路徑必須以雙反斜線指定：`\\`。
 </Tab>
 </Tabs>
 
-1. 在 `android` 屬性區塊內，於 `buildTypes` 屬性區塊之前新增簽章（signing）設定。
+1. 在 `android` 屬性區塊內，於 `buildTypes` 屬性區塊之前新增簽章（signing）設定：
 
 <Tabs key="android-signing-config">
 <Tab name="Kotlin">
@@ -265,10 +267,10 @@ Windows 上 `keystore.jks` 的路徑必須以雙反斜線指定：`\\`。
 
 +     signingConfigs {
 +         create("release") {
-+             keyAlias = keystoreProperties["keyAlias"] as String
-+             keyPassword = keystoreProperties["keyPassword"] as String
-+             storeFile = keystoreProperties["storeFile"]?.let { file(it) }
-+             storePassword = keystoreProperties["storePassword"] as String
++             keyAlias = keystoreProperties.getProperty("keyAlias")
++             keyPassword = keystoreProperties.getProperty("keyPassword")
++             storeFile = keystoreProperties.getProperty("storeFile")?.let { file(it) }
++             storePassword = keystoreProperties.getProperty("storePassword")
 +         }
 +     }
       buildTypes {
@@ -322,7 +324,7 @@ Flutter 現在會為所有 release 版本進行簽章。
 這可以避免快取的建置結果影響簽章流程。
 :::
 
-想進一步了解如何為你的應用程式簽章，請參考 Android 開發者文件中的
+若要了解如何為你的應用程式簽章，請參考 Android 開發者文件中的
 [Sign your app][]。
 
 [Sign your app]: {{site.android-dev}}/studio/publish/app-signing.html#generate-key
@@ -344,7 +346,7 @@ Android 17 引入了 v3.2 APK 簽章方案（APK Signature Scheme）。
   請注意，你必須建立新的傳統金鑰；
   無法重複使用舊有的金鑰。
 
-如需更多資訊，請參考
+詳情請參閱
 [Android 關於 PQC APK 簽章的文件][android-doc]。
 
 [android-doc]: {{site.android-dev}}/about/versions/17/features#pqc-apk-signing
@@ -360,7 +362,7 @@ Android 17 引入了 v3.2 APK 簽章方案（APK Signature Scheme）。
 
 `--[no-]shrink` 旗標不會產生任何效果。
 在 release 版本建置時，程式碼壓縮始終會啟用。
-想了解更多，請參考 [Shrink, obfuscate, and optimize your app][]。
+詳情請參閱 [Shrink, obfuscate, and optimize your app][]。
 :::
 
 [R8]: {{site.android-dev}}/studio/build/shrink-code
@@ -394,7 +396,7 @@ Flutter 工具會啟用 multidex 支援並重新嘗試建置：
 <img src='/assets/images/docs/deployment/android/cli-multidex-added-build.png'
   width="100%" alt='The output of a successful build after adding multidex.'>
 
-:::note
+:::version-note
 當目標為 Android SDK 21 或更高版本時，multidex 支援已原生內建。
 :::
 
@@ -408,14 +410,14 @@ io/flutter/util/PathUtils.class
 ```
 
 同時，也請包含應用程式啟動時所使用的其他類別。
-如需手動新增 multidex 支援的詳細指引，請參考官方 [Android 文件][multidex-docs]。
+若要了解如何手動新增 multidex 支援，請參閱官方 [Android 文件][multidex-docs]。
 
 [multidex-keep]: {{site.android-dev}}/studio/build/multidex#keep
 [multidex-docs]: {{site.android-dev}}/studio/build/multidex
 
 ## 檢查應用程式 manifest
 
-請檢查預設的 [App Manifest][manifest] 檔案。
+請檢查預設的 [App Manifest][manifest] 檔案：
 
 ```xml title="[project]/android/app/src/main/AndroidManifest.xml"
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
@@ -444,8 +446,8 @@ io/flutter/util/PathUtils.class
 ## 檢查 Gradle 建置組態 {:#review-the-gradle-build-configuration}
 
 若要確認 Android 建置組態，請檢查預設
-[Gradle 建置腳本][gradlebuild]中的 `android` 區塊。
-預設的 Gradle 建置腳本位於 `[project]/android/app/build.gradle.kts`。
+[Gradle 建置腳本][gradlebuild]中的 `android` 區塊，
+該腳本位於 `[project]/android/app/build.gradle.kts`：
 
 ```kotlin title="[project]/android/app/build.gradle.kts"
 android {
@@ -462,7 +464,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.example.[project]"
         // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        // For details, see https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -508,9 +510,12 @@ android {
 
 Flutter 工具會為 Android SDK 版本設定預設值：
 
-* **`compileSdk`**：用於編譯應用程式的 Android SDK 版本。
-* **`minSdk`**：應用程式支援的最低 Android 版本。
-* **`targetSdk`**：應用程式設計並測試運行的 Android 版本。
+* **`compileSdk`**：用於編譯應用程式的
+  Android SDK 版本。
+* **`minSdk`**：應用程式支援的
+  最低 Android 版本。
+* **`targetSdk`**：應用程式設計並
+  測試運行的 Android 版本。
 
 這些預設值（`flutter.compileSdkVersion` 等）由 Flutter 管理，
 以確保與框架和插件的相容性。
@@ -538,7 +543,8 @@ Flutter 工具會為 Android SDK 版本設定預設值：
 
 :::note
 Google Play 商店偏好使用 app bundle 格式。
-如需詳細資訊，請參閱 [About Android App Bundles][bundle]。
+若要了解 Android App Bundle，請參閱
+[About Android App Bundles][bundle]。
 :::
 
 [bundle]: {{site.android-dev}}/guide/app-bundle
@@ -583,7 +589,7 @@ app bundle 可透過多種方式測試。
 1. [從 app bundle 產生 APK 集合][apk-set]。
 1. [將 APK 部署][apk-deploy]至連接的裝置。
 
-[bundletool-github]: {{site.github}}/google/bundletool/releases/latest
+[bundletool-github]: https://github.com/google/bundletool/releases/latest
 [apk-set]: {{site.android-dev}}/studio/command-line/bundletool#generate_apks
 [apk-deploy]: {{site.android-dev}}/studio/command-line/bundletool#deploy_with_bundletool
 
@@ -627,6 +633,13 @@ app bundle 可透過多種方式測試。
 這類 APK 檔案體積較分割版本更大，
 使用者需下載與其裝置架構不相容的原生二進位檔。
 
+使用分割 APK 時，框架會將 `ABI_VERSION * 1000`
+加到版本代碼 (version code) 上。這是因為 Google Play 商店
+[不允許](https://developer.android.com/studio/build/configure-apk-splits#configure-APK-versions)
+同一個應用程式的多個 APK 使用相同的版本代碼。
+若要強制使用預設的版本代碼，請在建置時指定
+`-P force-version-code-ignoring-abi=true` 旗標。
+
 [obfuscating your Dart code]: /deployment/obfuscate
 
 ### 在裝置上安裝 APK
@@ -641,7 +654,7 @@ app bundle 可透過多種方式測試。
 
 ## 發佈至 Google Play 商店
 
-如需將應用程式發佈至 Google Play 商店的詳細說明，
+若要了解如何將應用程式發佈至 Google Play 商店，
 請參閱 [Google Play launch][play] 文件。
 
 ## 更新應用程式版本號
@@ -663,7 +676,7 @@ version: 1.0.0+1
 版本號與建置號。
 
 在 Android 中，`build-name` 會作為 `versionName` 使用，
-而 `build-number` 則作為 `versionCode` 使用。更多資訊請參考 Android 文件中的
+而 `build-number` 則作為 `versionCode` 使用。詳情請參閱 Android 文件中的
 [Version your app][]。
 
 當你為 Android 重新建置應用程式時，來自 pubspec 檔案的
@@ -755,9 +768,9 @@ Java/Android 工具鏈會在函式庫名稱前加上 `lib` 前綴，
 `android:name="flutterEmbedding"` 的 `<meta-data>` 標籤。
 其值可以是 `1` 或 `2`。
 
-範例：
+此指令
 `apkanalyzer manifest print some-flutter-app.apk | grep flutterEmbedding -C 2`
-會回傳如下格式的字串：
+會回傳如下輸出：
 ```
 <meta-data
    android:name="flutterEmbedding"

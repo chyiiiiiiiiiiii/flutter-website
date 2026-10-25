@@ -327,7 +327,7 @@ public class MyPlugin implements FlutterPlugin, ActivityAware {
 
 [`ActivityAware`]: {{site.api}}/javadoc/io/flutter/embedding/engine/plugins/activity/ActivityAware.html
 [Basic plugin]: #basic-plugin
-[battery plus package]: {{site.github}}/fluttercommunity/plus_plugins/tree/main/packages/battery_plus/battery_plus
+[battery plus package]: https://github.com/fluttercommunity/plus_plugins/tree/main/packages/battery_plus/battery_plus
 [Flutter plugins]: {{site.pub}}/flutter/packages
 [`FlutterPlugin`]: {{site.api}}/javadoc/io/flutter/embedding/engine/plugins/FlutterPlugin.html
 [`PluginRegistry.Registrar`]: {{site.api}}/javadoc/io/flutter/plugin/common/PluginRegistry.Registrar.html

@@ -23,14 +23,14 @@ Flutter 提供了 [`AnimatedContainer`][] 元件。
 本教學將說明如何使用 `AnimatedContainer`，在使用者點擊按鈕時，
 為尺寸、背景顏色和圓角（border radius）製作動畫，步驟如下：
 
-  1. 建立一個具有預設屬性的 StatefulWidget。
-  2. 使用這些屬性建構 `AnimatedContainer`。
-  3. 透過以新屬性重新建構來啟動動畫。
+1.  建立一個具有預設屬性的 `StatefulWidget`。
+1.  使用這些屬性建構 `AnimatedContainer`。
+1.  透過以新屬性重新建構來啟動動畫。
 
-## 1. 建立具有預設屬性的 StatefulWidget
+## 1. 建立具有預設屬性的 `StatefulWidget`
 
 首先，建立 [`StatefulWidget`][] 和 [`State`][] 類別。
-使用自訂的 State 類別來定義會隨時間變化的屬性。在本範例中，包括寬度、高度、顏色和圓角（border radius）。你也可以為每個屬性定義預設值。
+使用自訂的 `State` 類別來定義會隨時間變化的屬性。在本範例中，包括寬度、高度、顏色和圓角（border radius）。你也可以為每個屬性定義預設值。
 
 這些屬性屬於自訂的 `State` 類別，
 以便在使用者點擊按鈕時可以更新。
@@ -121,6 +121,7 @@ FloatingActionButton(
       );
     });
   },
+  tooltip: 'Animate',
   child: const Icon(Icons.play_arrow),
 )
 ```
@@ -196,6 +197,7 @@ class _AnimatedContainerAppState extends State<AnimatedContainerApp> {
               );
             });
           },
+          tooltip: 'Animate',
           child: const Icon(Icons.play_arrow),
         ),
       ),
@@ -205,7 +207,7 @@ class _AnimatedContainerAppState extends State<AnimatedContainerApp> {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/animated-container.webp" alt="AnimatedContainer 範例展示一個方塊在變大變小的同時，顏色與圓角（border radius）也隨之變化" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/animated-container.webp" alt="AnimatedContainer 範例展示一個方塊在變大變小的同時，顏色與圓角（border radius）也隨之變化" />
 </noscript>
 
 

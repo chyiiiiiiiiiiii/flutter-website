@@ -35,16 +35,13 @@ description: 如何確保你的 Flutter 應用程式具有良好效能。
 * 避免建立過於龐大的單一元件，其 `build()` 函式過大。請根據封裝性以及元件變動方式將其拆分成不同元件：
   * 當對 `State` 物件呼叫 `setState()` 時，所有子孫元件都會重建。因此，應將 `setState()` 呼叫侷限於實際需要變更 UI 的子樹部分。如果變更只影響樹中的小區塊，避免在樹的高層呼叫 `setState()`。
   * 重建所有子孫元件的遍歷會在遇到與前一幀相同實例的子元件時停止。這個技巧在框架內部被大量用於最佳化動畫（Animation），當動畫不影響子樹時。請參考 [`TransitionBuilder`][] 模式，以及 [`SlideTransition` 原始碼][source code for `SlideTransition`]，其利用此原則在動畫時避免重建子元件。（「相同實例」是透過 `operator ==` 判斷，但請參閱本頁最後的陷阱區段，了解何時應避免覆寫 `operator ==`。）
-  * 儘可能使用 `const` 建構函式，因為這能讓 Flutter 快速跳過大部分重建工作。若想在可能時自動提醒你使用 `const`，請啟用 [`flutter_lints`][] 套件中的推薦 lint。更多資訊請參考 [`flutter_lints` 遷移指南][`flutter_lints` migration guide]。
   * 若要建立可重複使用的 UI 區塊，建議使用 [`StatelessWidget`][]，而非單純的函式。
 
 更多資訊請參考：
 
 * [效能考量][Performance considerations]，屬於 [`StatefulWidget`][] API 文件的一部分
-* [Widgets vs helper methods][]，這是 Flutter 官方 YouTube 頻道的影片，說明為何元件（特別是具有 `const` 建構函式的元件）比函式更具效能。
+* [Widgets vs helper methods][]，這是 Flutter 官方 YouTube 頻道的影片，說明為何元件比函式更具效能。
 
-[`flutter_lints`]: {{site.pub-pkg}}/flutter_lints
-[`flutter_lints` migration guide]: /release/breaking-changes/flutter-lints-package#migration-guide
 [Performance considerations]: {{site.api}}/flutter/widgets/StatefulWidget-class.html#performance-considerations
 [source code for `SlideTransition`]: {{site.repo.flutter}}/blob/main/packages/flutter/lib/src/widgets/transitions.dart#L168
 [`StatefulWidget`]: {{site.api}}/flutter/widgets/StatefulWidget-class.html
@@ -108,7 +105,7 @@ TBD: It would be nice if we could link to an example.
 * [`Chip`][]&mdash;若 `disabledColorAlpha != 0xff`，可能觸發 `saveLayer()` 呼叫
 * [`Text`][]&mdash;若有 `overflowShader`，可能觸發 `saveLayer()` 呼叫
 
-[`Chip`]: {{site.api}}/flutter/material/Chip-class.html
+[`Chip`]: {{site.material_ui}}/Chip-class.html
 [`ColorFilter`]: {{site.api}}/flutter/dart-ui/ColorFilter-class.html
 [`FadeInImage`]: {{site.api}}/flutter/widgets/FadeInImage-class.html
 [`Opacity`]: {{site.api}}/flutter/widgets/Opacity-class.html
@@ -144,7 +141,7 @@ Opacity（透明度）與裁剪（clipping）都是昂貴的操作。以下是�
 * [建立一次只載入一頁的 `ListView`][Creating a `ListView` that loads one page at a time]，由 AbdulRahman AlHamali 撰寫的社群文章
 * [`ListView.builder`][] API
 
-[Creating a `ListView` that loads one page at a time]: {{site.medium}}/saugo360/flutter-creating-a-listview-that-loads-one-page-at-a-time-c5c91b6fabd3
+[Creating a `ListView` that loads one page at a time]: https://medium.com/saugo360/flutter-creating-a-listview-that-loads-one-page-at-a-time-c5c91b6fabd3
 [`ListView.builder`]: {{site.api}}/flutter/widgets/ListView/ListView.builder.html
 [Working with long lists]: /cookbook/lists/long-lists
 

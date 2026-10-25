@@ -11,8 +11,8 @@ description: >-
 若你想新增主題或修正內容，可以[提交 issue][file an issue]或在 GitHub 上送出 [pull request][pull request]。
 
 [community support channels]: #社群支援
-[file an issue]: {{site.github}}/flutter/website/issues/new
-[pull request]: {{site.github}}/flutter/website/pulls
+[file an issue]: {{site.repo.this}}/issues/new
+[pull request]: {{site.repo.this}}/pulls
 
 ## 取得 Flutter SDK
 
@@ -46,7 +46,6 @@ __說明與建議__
 [config path]: https://dartcode.org/docs/configuring-path-and-environment-variables/
 
 ### Flutter 放在特殊資料夾中
-
 
 __這個問題會是什麼樣子？__
 
@@ -127,7 +126,7 @@ Flutter 會自動使用 Android Studio 內建的 JDK。
 欲了解更多資訊，
 請參閱 [Android Java Gradle 遷移指南][Android Java Gradle migration guide]
 或 [flutter doctor --android-licenses 無法執行，因為
-    java.lang.UnsupportedClassVersionError - Stack Overflow][so java version]。
+java.lang.UnsupportedClassVersionError - Stack Overflow][so java version]。
 
 [java binary path]: {{site.repo.flutter}}/issues/106416#issuecomment-1522198064
 [Android Java Gradle migration guide]: /release/breaking-changes/android-java-gradle-migration-guide
@@ -162,6 +161,48 @@ __說明與建議__
 也可以透過 [sdkmanager][sdkmanager] 命令列工具來下載這些工具。
 
 [sdkmanager]: {{site.android-dev}}/studio/command-line/sdkmanager
+
+### Android license status unknown
+
+__這個問題會出現什麼狀況？__
+
+執行 `flutter doctor` 時，會看到錯誤訊息指出
+Android 授權狀態未知：
+
+```plaintext noHighlight
+[!] Android toolchain - develop for Android devices
+    ! Android license status unknown.
+      Run `flutter doctor --android-licenses` to accept the SDK licenses.
+      See https://flutter.dev/to/macos-android-setup for more details.
+```
+
+__說明與建議__
+
+當你尚未接受 Android SDK 授權，
+或 `flutter doctor` 找不到檢查授權狀態所需的
+Android SDK 命令列工具時，就會發生此問題。
+
+要解決此問題：
+
+1. 確認已安裝 **Android SDK Command-line Tools** 元件：
+   1. 開啟 Android Studio。
+   2. 開啟 SDK Manager（**Tools > SDK Manager** 或
+      **More Actions > SDK Manager**）。
+   3. 切換到 **SDK Tools** 分頁。
+   4. 選取 **Android SDK Command-line Tools (latest)**。
+   5. 點擊 **Apply**，然後點擊 **OK** 以安裝該元件。
+1. 在終端機中執行授權同意指令：
+
+   ```console
+   $ flutter doctor --android-licenses
+   ```
+
+1. 出現提示時，檢視並輸入 `y` 接受每一項授權。
+1. 再次執行 `flutter doctor`，確認所有授權皆已接受：
+
+   ```console
+   $ flutter doctor
+   ```
 
 ## macOS 設定
 

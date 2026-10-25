@@ -265,8 +265,8 @@ Xcode Cloud 會將新工作流程的建置號碼預設為 `1`，並在每次成�
 [fastlane Android beta deployment guide]: https://docs.fastlane.tools/getting-started/android/beta-deployment/
 [fastlane CI documentation]: https://docs.fastlane.tools/best-practices/continuous-integration
 [fastlane iOS beta deployment guide]: https://docs.fastlane.tools/getting-started/ios/beta-deployment/
-[GitHub Action in Flutter Project]: {{site.github}}/nabilnalakath/flutter-githubaction
-[GitHub Actions]: {{site.github}}/features/actions
+[GitHub Action in Flutter Project]: https://github.com/nabilnalakath/flutter-githubaction
+[GitHub Actions]: https://github.com/features/actions
 [GitLab]: https://docs.gitlab.com/ee/ci/
 [CircleCI]: https://circleci.com
 [Building and deploying Flutter apps with Fastlane]: https://circleci.com/blog/deploy-flutter-android

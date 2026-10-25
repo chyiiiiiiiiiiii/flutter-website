@@ -120,8 +120,8 @@ API 文件：
 
 * [PR 100812][]
 
-[`ZoomPageTransitionsBuilder`]: {{site.api}}/flutter/material/ZoomPageTransitionsBuilder-class.html
-[`FadeUpwardsPageTransitionsBuilder`]: {{site.api}}/flutter/material/FadeUpwardsPageTransitionsBuilder-class.html
-[`PageTransitionsTheme`]: {{site.api}}/flutter/material/PageTransitionsTheme-class.html
+[`ZoomPageTransitionsBuilder`]: {{site.material_ui}}/ZoomPageTransitionsBuilder-class.html
+[`FadeUpwardsPageTransitionsBuilder`]: {{site.material_ui}}/FadeUpwardsPageTransitionsBuilder-class.html
+[`PageTransitionsTheme`]: {{site.material_ui}}/PageTransitionsTheme-class.html
 [Issue 43277]: {{site.repo.flutter}}/issues/43277
 [PR 100812]: {{site.repo.flutter}}/pull/100812

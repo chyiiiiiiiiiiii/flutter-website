@@ -96,5 +96,5 @@ class _MyHomepageState extends State<MyHomepage> {
 
 總結來說，任何 Flutter 應用程式中都存在兩種概念上的狀態類型。暫時性狀態（ephemeral state）可以透過 `State` 和 `setState()` 來實作，通常只屬於單一元件（Widget）本地。其餘的則是你的應用程式狀態（app state）。這兩種狀態在任何 Flutter 應用程式中都各有其角色，而兩者的劃分則取決於你的偏好與應用程式的複雜度。
 
-[Do whatever is less awkward]: {{site.github}}/reduxjs/redux/issues/1287#issuecomment-175351978
+[Do whatever is less awkward]: https://github.com/reduxjs/redux/issues/1287#issuecomment-175351978
 [`PageView`]: {{site.api}}/flutter/widgets/PageView-class.html

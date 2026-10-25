@@ -11,7 +11,7 @@ import '../components/common/prev_next.dart';
 import '../components/layout/toc.dart';
 import '../components/layout/trailing_content.dart';
 import '../models/page_navigation_model.dart';
-import 'dash_layout.dart';
+import 'flutter_layout.dart';
 
 /// The Jaspr Content layout to use for normal docs pages,
 /// adding elements such as breadcrumbs, TOC, and prev/next cards.
@@ -20,8 +20,6 @@ class DocLayout extends FlutterDocsLayout {
 
   @override
   String get name => 'docs';
-
-  bool get allowBreadcrumbs => true;
 
   @override
   ({Set<String> prerender, Set<String> prefetch}) speculationUrls(Page page) {
@@ -32,7 +30,7 @@ class DocLayout extends FlutterDocsLayout {
         prerender: const {},
         prefetch: const {
           '/learn/pathway',
-          '/ai/create-with-ai',
+          '/ai/get-started',
         },
       );
     }
@@ -82,13 +80,10 @@ class DocLayout extends FlutterDocsLayout {
               PageHeader(
                 title: pageTitle,
                 description: pageDescription,
-                showBreadcrumbs:
-                    allowBreadcrumbs &&
-                    (pageData['showBreadcrumbs'] as bool? ?? true),
+                showBreadcrumbs: showBreadcrumbsFor(page),
               ),
 
               child,
-
               PrevNext(
                 previousPage: PageNavigationEntry.fromData(pageData['prev']),
                 nextPage: PageNavigationEntry.fromData(pageData['next']),

@@ -83,5 +83,5 @@ API 文件：
 
 相關 PR：
 
-* [PR 56365: FormField 應僅在內容變更時自動驗證]({{site.github}}/flutter/pull/56365)
+* [PR 56365: FormField 應僅在內容變更時自動驗證]({{site.repo.flutter}}/pull/56365)
 * [PR 59766: FormField 應僅在內容變更時自動驗證（修正）]({{site.repo.flutter}}/pull/59766)

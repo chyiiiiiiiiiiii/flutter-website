@@ -65,5 +65,5 @@ Flutter 團隊提供 VS Code、Android Studio 和 IntelliJ 的插件支援。
 [Language Server Protocol][lsp] 和 [Debug Adapter Protocol][dap]，
 為 Dart 與 Flutter 啟用進階的程式碼編輯與除錯功能。
 
-[lsp]: https://github.com/dart-lang/sdk/tree/main/pkg/analysis_server/tool/lsp_spec/README.md
-[dap]: https://github.com/dart-lang/sdk/blob/main/third_party/pkg/dap/tool/README.md
+[lsp]: {{site.repo.dart-sdk}}/tree/main/pkg/analysis_server/tool/lsp_spec/README.md
+[dap]: {{site.repo.dart-sdk}}/blob/main/third_party/pkg/dap/tool/README.md

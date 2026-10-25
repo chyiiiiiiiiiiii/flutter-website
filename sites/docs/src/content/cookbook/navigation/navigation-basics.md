@@ -323,15 +323,15 @@ class SecondRoute extends StatelessWidget {
 *   [`removeRouteBelow`]：移除堆疊中特定路由下方的路由。
 *   [`restorablePush`]：還原先前從堆疊中移除的路由。
 
-[Cupertino]: {{site.docs}}/ui/widgets/cupertino
-[Material Components]: {{site.docs}}/ui/widgets/material
-[`CupertinoApp`]: {{site.api}}/flutter/cupertino/CupertinoApp-class.html
-[`CupertinoButton`]: {{site.api}}/flutter/cupertino/CupertinoButton-class.html
-[`CupertinoPageRoute`]: {{site.api}}/flutter/cupertino/CupertinoPageRoute-class.html
-[`CupertinoPageScaffold`]: {{site.api}}/flutter/cupertino/CupertinoPageScaffold-class.html
-[`ElevatedButton`]: {{site.api}}/flutter/material/ElevatedButton-class.html
-[`MaterialApp`]: {{site.api}}/flutter/material/MaterialApp-class.html
-[`MaterialPageRoute`]: {{site.api}}/flutter/material/MaterialPageRoute-class.html
+[Cupertino]: /ui/widgets/cupertino
+[Material Components]: /ui/widgets/material
+[`CupertinoApp`]: {{site.cupertino_ui}}/CupertinoApp-class.html
+[`CupertinoButton`]: {{site.cupertino_ui}}/CupertinoButton-class.html
+[`CupertinoPageRoute`]: {{site.cupertino_ui}}/CupertinoPageRoute-class.html
+[`CupertinoPageScaffold`]: {{site.cupertino_ui}}/CupertinoPageScaffold-class.html
+[`ElevatedButton`]: {{site.material_ui}}/ElevatedButton-class.html
+[`MaterialApp`]: {{site.material_ui}}/MaterialApp-class.html
+[`MaterialPageRoute`]: {{site.material_ui}}/MaterialPageRoute-class.html
 [`Navigator.pop()`]: {{site.api}}/flutter/widgets/Navigator/pop.html
 [`Navigator.push()`]: {{site.api}}/flutter/widgets/Navigator/push.html
 [`Navigator`]: {{site.api}}/flutter/widgets/Navigator-class.html
@@ -345,4 +345,4 @@ class SecondRoute extends StatelessWidget {
 [`replace`]: {{site.api}}/flutter/widgets/Navigator/replace.html
 [`replaceRouteBelow`]: {{site.api}}/flutter/widgets/Navigator/replaceRouteBelow.html
 [`restorablePush`]: {{site.api}}/flutter/widgets/Navigator/restorablePush.html
-[`Scaffold`]: {{site.api}}/flutter/material/Scaffold-class.html
+[`Scaffold`]: {{site.material_ui}}/Scaffold-class.html

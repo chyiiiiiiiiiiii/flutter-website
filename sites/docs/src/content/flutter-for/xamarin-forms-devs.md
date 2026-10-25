@@ -86,8 +86,8 @@ Xamarin.Forms 有多種類型的頁面；`ContentPage` 是最常見的。
 又或者你可以使用較低階的 [`WidgetsApp`][]，
 你可以依照自己的需求進行任何自訂。
 
-[`CupertinoApp`]: {{site.api}}/flutter/cupertino/CupertinoApp-class.html
-[`MaterialApp`]: {{site.api}}/flutter/material/MaterialApp-class.html
+[`CupertinoApp`]: {{site.cupertino_ui}}/CupertinoApp-class.html
+[`MaterialApp`]: {{site.material_ui}}/MaterialApp-class.html
 [`WidgetsApp`]: {{site.api}}/flutter/widgets/WidgetsApp-class.html
 
 以下程式碼定義了一個首頁，這是一個有狀態元件（Stateful widget）。
@@ -284,7 +284,7 @@ const Text(
 
 <?code-excerpt "lib/views_stateful.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -450,7 +450,7 @@ myImage.FadeTo(0, 1000);
 
 <?code-excerpt "lib/animation.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const FadeAppTest());
@@ -532,7 +532,7 @@ Flutter 提供兩個協助你在 canvas 上繪製的類別：`CustomPaint`
 
 <?code-excerpt "lib/draw.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const MaterialApp(home: DemoApp()));
@@ -768,8 +768,8 @@ Future<void> loadData() async {
 ```dart
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -912,8 +912,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:isolate';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -1071,8 +1071,8 @@ Future<void> loadData() async {
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -1264,7 +1264,9 @@ dependencies:
 
 <?code-excerpt "lib/strings.dart (localization)"?>
 ```dart
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart'
+    hide GlobalMaterialLocalizations;
+import 'package:material_ui/material_ui.dart';
 
 class MyWidget extends StatelessWidget {
   const MyWidget({super.key});
@@ -1626,7 +1628,7 @@ Flutter 中對應於 `ListView` 的元件就是……`ListView`！
 
 <?code-excerpt "lib/listview.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -1676,7 +1678,8 @@ class SampleAppPage extends StatelessWidget {
 <?code-excerpt "lib/listview_item_clicked.dart"?>
 ```dart
 import 'dart:developer' as developer;
-import 'package:flutter/material.dart';
+
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -1744,7 +1747,8 @@ class _SampleAppPageState extends State<SampleAppPage> {
 <?code-excerpt "lib/dynamic_listview.dart"?>
 ```dart
 import 'dart:developer' as developer;
-import 'package:flutter/material.dart';
+
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -1811,7 +1815,8 @@ class _SampleAppPageState extends State<SampleAppPage> {
 <?code-excerpt "lib/listview_builder.dart"?>
 ```dart
 import 'dart:developer' as developer;
-import 'package:flutter/material.dart';
+
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -1964,7 +1969,7 @@ Xamarin.Forms 的 `element` 可讓你直接查詢 `element`，
 
 <?code-excerpt "lib/form.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class MyForm extends StatefulWidget {
   const MyForm({super.key});
@@ -1997,7 +2002,7 @@ class _MyFormState extends State<MyForm> {
         // When the user presses the button, show an alert dialog with the
         // text that the user has typed into our text field.
         onPressed: () {
-          showDialog(
+          showDialog<void>(
             context: context,
             builder: (context) {
               return AlertDialog(
@@ -2045,7 +2050,7 @@ TextField(decoration: InputDecoration(hintText: 'This is a hint')),
 
 <?code-excerpt "lib/validation.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -2134,11 +2139,11 @@ Flutter 並不會直接在底層平台上執行程式碼；相反地，構成 Fl
 
 ### 如何使用 Facebook 登入？
 
-若要使用 Facebook 登入，請使用 [`flutter_facebook_login`][] 社群插件。
+若要使用 Facebook 登入，請使用 [`flutter_facebook_auth`][] 社群插件。
 
 ### 如何使用 Firebase 功能？
 
-大多數 Firebase 功能都由[官方插件（first party plugins）][first party plugins]支援。這些插件由 Flutter 團隊維護，屬於官方整合：
+大多數 Firebase 功能都由[官方插件（first party plugins）][first party plugins]支援。這些插件由 Flutter 與 Firebase 團隊維護，屬於官方整合：
 
  * [`google_mobile_ads`][] for Google Mobile Ads for Flutter
  * [`firebase_analytics`][] for Firebase Analytics
@@ -2146,7 +2151,7 @@ Flutter 並不會直接在底層平台上執行程式碼；相反地，構成 Fl
  * [`firebase_database`][] for Firebase RTDB
  * [`firebase_storage`][] for Firebase Cloud Storage
  * [`firebase_messaging`][] for Firebase Messaging (FCM)
- * [`flutter_firebase_ui`][] for quick Firebase Auth integrations
+ * [`firebase_ui_auth`][] for quick Firebase Auth integrations
    (Facebook, Google, Twitter and email)
  * [`cloud_firestore`][] for Firebase Cloud Firestore
 
@@ -2232,7 +2237,7 @@ DevTools 支援效能分析、堆疊檢查、元件樹（widget tree）檢查、
 [Animations overview]: /ui/animations
 [Animations tutorial]: /ui/animations/tutorial
 [Apple's iOS design language]: {{site.apple-dev}}/design/resources/
-[arb]: {{site.github}}/google/app-resource-bundle
+[arb]: https://github.com/google/app-resource-bundle
 [Async UI]: #async-ui
 [`cloud_firestore`]: {{site.pub}}/packages/cloud_firestore
 [composing]: /resources/architectural-overview#composition
@@ -2248,8 +2253,8 @@ DevTools 支援效能分析、堆疊檢查、元件樹（widget tree）檢查、
 [`firebase_messaging`]: {{site.pub}}/packages/firebase_messaging
 [`firebase_storage`]: {{site.pub}}/packages/firebase_storage
 [first party plugins]: {{site.pub}}/flutter/packages?q=firebase
-[`flutter_facebook_login`]: {{site.pub}}/packages/flutter_facebook_login
-[`flutter_firebase_ui`]: {{site.pub}}/packages/flutter_firebase_ui
+[`flutter_facebook_auth`]: {{site.pub-pkg}}/flutter_facebook_auth
+[`firebase_ui_auth`]: {{site.pub-pkg}}/firebase_ui_auth
 [`geolocator`]: {{site.pub}}/packages/geolocator
 [`camera`]: {{site.pub-pkg}}/camera
 [`http` package]: {{site.pub}}/packages/http

@@ -149,7 +149,7 @@ class ContactListDetail extends StatelessWidget {
 
 <?code-excerpt "fwe/rolodex/lib/step4_navigation/screens/adaptive_layout.dart (imports)"?>
 ```dart
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 import 'contact_groups.dart';
 import 'contacts.dart';

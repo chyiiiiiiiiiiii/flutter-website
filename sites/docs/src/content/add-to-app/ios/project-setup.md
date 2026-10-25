@@ -13,7 +13,7 @@ Flutter 持續以維護模式支援 CocoaPods，
 :::
 
 [cocoapods]: https://blog.cocoapods.org/CocoaPods-Specs-Repo/
-[Swift Package Manager]: https://www.swift.org/documentation/package-manager/
+[Swift Package Manager]: https://docs.swift.org/latest/documentation/packagemanagerdocs/
 
 Flutter UI 元件 (Widget) 可以使用 Swift 套件
 以漸進方式加入至您現有的 iOS 應用程式。
@@ -166,6 +166,7 @@ flutter create my_flutter_app
     1. 前往您目標的 **General** 頁籤，
        並在 **Frameworks, Libraries, and Embedded Content**
        下加入 `FlutterNativeIntegration`。
+
        <DashImage image="development/add-to-app/ios/project-setup-swiftpm/flutternativeintegration-library.png" caption="Frameworks, Libraries, and Embedded Content 下的 FlutterNativeIntegration。" />
 
  1. <h3>新增建置設定</h3>

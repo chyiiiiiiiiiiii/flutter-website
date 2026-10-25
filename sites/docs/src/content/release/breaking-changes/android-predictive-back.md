@@ -18,7 +18,7 @@ Flutter 3.22 版本針對預測返回行為有一些更新。
 [Issue #132504][]。
 :::
 
-[Issue #132504]: {{site.github}}/flutter/flutter/issues/132504#issuecomment-2025776552
+[Issue #132504]: {{site.repo.flutter}}/issues/132504#issuecomment-2025776552
 
 ## 背景
 
@@ -32,25 +32,25 @@ Android 14 推出了
 
 ### PopScope
 
-`PopScope` 類別直接取代了 `WillPopScope`，以支援預測返回（Predictive Back）。不再是在發生時決定是否允許 pop，而是預先透過 `canPop` 布林值設定。你仍然可以透過 `onPopInvoked` 來監聽 pop 事件。
+`PopScope` 類別直接取代了 `WillPopScope`，以支援預測返回（Predictive Back）。不再是在發生時決定是否允許 pop，而是預先透過 `canPop` 布林值設定。你仍然可以透過 `onPopInvokedWithResult` 來監聽 pop 事件。
 
 ```dart
 PopScope(
   canPop: _myPopDisableEnableLogic(),
-  onPopInvoked: (bool didPop) {
+  onPopInvokedWithResult: (bool didPop, Object? result) {
     // Handle the pop. If `didPop` is false, it was blocked.
   },
 )
 ```
 
-### Form.canPop 與 Form.onPopInvoked
+### Form.canPop 與 Form.onPopInvokedWithResult
 
 這兩個新參數是基於 `PopScope`，並取代了已棄用的 `Form.onWillPop` 參數。它們與 `PopScope` 的使用方式與上方所述相同。
 
 ```dart
 Form(
   canPop: _myPopDisableEnableLogic(),
-  onPopInvoked: (bool didPop) {
+  onPopInvokedWithResult: (bool didPop, Object? result) {
     // Handle the pop. If `didPop` is false, it was blocked.
   },
 )
@@ -111,9 +111,9 @@ PopScope(
 ),
 ```
 
-在需要獲得 pop 嘗試通知的情況下，可以使用 `onPopInvoked` 方法，其用法與 `onWillPop` 類似。
+在需要獲得 pop 嘗試通知的情況下，可以使用 `onPopInvokedWithResult` 方法，其用法與 `onWillPop` 類似。
 請注意，`onWillPop` 會在 pop 被處理之前呼叫，並且有能力取消該操作，
-而 `onPopInvoked` 則是在 pop 完成處理後才會被呼叫。
+而 `onPopInvokedWithResult` 則是在 pop 完成處理後才會被呼叫。
 
 遷移前的程式碼：
 
@@ -132,7 +132,7 @@ WillPopScope(
 ```dart
 PopScope(
   canPop: true,
-  onPopInvoked: (bool didPop) {
+  onPopInvokedWithResult: (bool didPop, Object? result) {
     _myHandleOnPopMethod();
   },
   child: ...
@@ -170,10 +170,10 @@ NavigatorPopHandler(
 )
 ```
 
-### 從 Form.onWillPop 遷移至 Form.canPop 和 Form.onPopInvoked
+### 從 Form.onWillPop 遷移至 Form.canPop 和 Form.onPopInvokedWithResult
 
 過去，`Form` 在底層使用了一個 `WillPopScope` 實例，並對外暴露其 `onWillPop` 方法。
-現在已經改為使用 `PopScope`，並對外暴露其 `canPop` 和 `onPopInvoked` 方法。
+現在已經改為使用 `PopScope`，並對外暴露其 `canPop` 和 `onPopInvokedWithResult` 方法。
 遷移方式與上方所述從 `WillPopScope` 遷移至 `PopScope` 完全相同。
 
 ### 從 Route.willPop 遷移至 Route.popDisposition
@@ -277,7 +277,7 @@ WillPopScope(
 ```dart
 return PopScope(
   canPop: false,
-  onPopInvoked: (bool didPop) async {
+  onPopInvokedWithResult: (bool didPop, Object? result) async {
     if (didPop) {
       return;
     }
@@ -293,18 +293,8 @@ return PopScope(
 
 ### 支援預測返回（predictive back）
 
-  1. 執行 Android 14（API 等級 34）或以上版本。
-  1. 在裝置的「開發人員選項」中啟用預測返回（predictive back）功能旗標。
-     在未來的 Android 版本中將不再需要這個步驟。
-  1. 在 `android/app/src/main/AndroidManifest.xml` 中設定 `android:enableOnBackInvokedCallback="true"`。
-      如有需要，請參考
-     [Android 的完整指南]({{site.android-dev}}/guide/navigation/custom-back/predictive-back-gesture)
-     以協助 Android 應用程式遷移並支援預測返回。
-  1. 請確保你使用的是 Flutter 版本 `3.14.0-7.0.pre` 或更高版本。
-  1. 請確認你的 Flutter 應用程式沒有使用
-     `WillPopScope` 元件 (Widget)。使用該元件會停用
-     預測返回。若有需要，請改用 `PopScope`。
-  1. 執行應用程式，並從螢幕左側滑動進行返回手勢。
+如需完整的設定說明、預測返回手勢動畫的指引，以及 Android manifest 設定，
+請參閱如何[加入預測返回手勢](/platform-integration/android/predictive-back)。
 
 ## 時程
 
@@ -319,7 +309,7 @@ API 文件：
 * [`NavigatorPopHandler`][]
 * [`PopEntry`][]
 * [`Form.canPop`][]
-* [`Form.onPopInvoked`][]
+* [`Form.onPopInvokedWithResult`][]
 * [`Route.popDisposition`][]
 * [`ModalRoute.registerPopEntry`][]
 * [`ModalRoute.unregisterPopEntry`][]
@@ -337,7 +327,7 @@ API 文件：
 [`NavigatorPopHandler`]: {{site.api}}/flutter/widgets/NavigatorPopHandler-class.html
 [`PopEntry`]: {{site.api}}/flutter/widgets/PopEntry-class.html
 [`Form.canPop`]: {{site.api}}/flutter/widgets/Form/canPop.html
-[`Form.onPopInvoked`]: {{site.api}}/flutter/widgets/Form/onPopInvoked.html
+[`Form.onPopInvokedWithResult`]: {{site.api}}/flutter/widgets/Form/onPopInvokedWithResult.html
 [`Route.popDisposition`]: {{site.api}}/flutter/widgets/Route/popDisposition.html
 [`ModalRoute.registerPopEntry`]: {{site.api}}/flutter/widgets/ModalRoute/registerPopEntry.html
 [`ModalRoute.unregisterPopEntry`]: {{site.api}}/flutter/widgets/ModalRoute/unregisterPopEntry.html

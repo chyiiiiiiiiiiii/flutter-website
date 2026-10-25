@@ -179,6 +179,95 @@ class _GamePageState extends State<GamePage> {
 
 [`setState`]: {{site.api}}/flutter/widgets/State/setState.html
 
+### 將 `GuessInput` 轉換為具狀態元件
+
+當 `GamePage` 在呼叫 `setState` 後重新建置時，
+它的所有子元件也會一併重新建置。
+由於 `GuessInput` 最初是以 `StatelessWidget` 建立的，
+它的 `TextEditingController` 和 `FocusNode` 直接存放在元件類別中。
+每次重新建置都會建立新的元件實例，因此這些控制器每次都會被重新建立，
+導致文字輸入欄位失去焦點，
+也讓不再使用的控制器沒有被妥善釋放。
+
+為了在每次猜測之間讓文字欄位保持焦點，
+並妥善管理控制器的生命週期，
+請將 `GuessInput` 轉換為 `StatefulWidget`：
+
+1. 將 `GuessInput` 改為繼承 `StatefulWidget`，而非 `StatelessWidget`。
+1. 建立配套的 `_GuessInputState` 類別，繼承 `State<GuessInput>`。
+1. 將 `_textEditingController`、`_focusNode`、`_onSubmit()` 和 `build()`
+   移至 `_GuessInputState`。
+1. 實作 `dispose()` 以清理 `_textEditingController` 和 `_focusNode`。
+
+修改後的 `GuessInput` 元件應如下所示：
+
+<?code-excerpt "fwe/birdle/lib/step5_main.dart (GuessInput)"?>
+```dart
+class GuessInput extends StatefulWidget {
+  const GuessInput({super.key, required this.onSubmitGuess});
+
+  final void Function(String) onSubmitGuess;
+
+  @override
+  State<GuessInput> createState() => _GuessInputState();
+}
+
+class _GuessInputState extends State<GuessInput> {
+  final TextEditingController _textEditingController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  void _onSubmit() {
+    widget.onSubmitGuess(_textEditingController.text.trim());
+    _textEditingController.clear();
+    _focusNode.requestFocus();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              maxLength: 5,
+              focusNode: _focusNode,
+              autofocus: true,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(35)),
+                ),
+              ),
+              controller: _textEditingController,
+              onSubmitted: (input) {
+                _onSubmit();
+              },
+            ),
+          ),
+        ),
+        IconButton(
+          padding: EdgeInsets.zero,
+          icon: const Icon(Icons.arrow_circle_up),
+          onPressed: _onSubmit,
+        ),
+      ],
+    );
+  }
+}
+```
+
+將 `GuessInput` 轉換為 `StatefulWidget` 後，
+`_GuessInputState` 會在父元件重新建置時保持存在，
+讓文字欄位在每次提交猜測後維持焦點，
+並在元件被卸載時妥善釋放資源。
+
 ### 複習
 
 <SummaryCard>
@@ -190,14 +279,14 @@ items:
     icon: change_circle
     details: >-
       當元件的外觀或資料需要在其生命週期內改變時，你需要 `StatefulWidget`。元件本身保持不可變，但其配套的 `State` 物件保存可變資料並觸發重新建置。
-  - title: 將 GamePage 轉換為 StatefulWidget
+  - title: 將 GamePage 和 GuessInput 轉換為 StatefulWidget
     icon: swap_horiz
     details: >-
-      你透過建立配套的 `_GamePageState` 類別、將 `build` 方法和可變屬性移至其中，以及實作 `createState()`，將 `GamePage` 重構為具狀態元件。IDE 的快速輔助支援可以自動化此轉換。
+      你透過建立配套的 `State` 類別、將可變屬性和生命週期管理（例如 `dispose`）移至其中，以及實作 `createState()`，將 `GamePage` 和 `GuessInput` 重構為具狀態元件。IDE 的快速輔助支援可以自動化此轉換。
   - title: 使用 setState 讓應用程式回應使用者輸入
     icon: refresh
     details: >-
-      呼叫 `setState` 會告訴 Flutter 重新建置元件的 UI。當使用者提交猜測時，你呼叫 `setState` 來更新遊戲狀態，方格會自動反映新資料。你的應用程式現在真正具有互動性了！
+      呼叫 `setState` 會告訴 Flutter 重新建置元件的 UI。當使用者提交猜測時，你呼叫 `setState` 來更新遊戲狀態，方格會自動反映新資料，同時讓文字欄位保持焦點。你的應用程式現在真正具有互動性了！
 </SummaryCard>
 
 ### 自我測驗

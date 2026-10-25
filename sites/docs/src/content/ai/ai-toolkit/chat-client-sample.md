@@ -1,6 +1,5 @@
 ---
 title: 聊天用戶端範例
-sidenav: ai
 description: >
   了解 AI Toolkit 中所包含的聊天用戶端範例。
 prev:
@@ -26,4 +25,4 @@ AI Chat 範例旨在提供一個完整的聊天應用程式，使用 Flutter AI 
 {% comment %} TODO: If Mit agrees, move this to an official Flutter repo Chris
 didn't want to do it so close to release {% endcomment %}
 
-[AI Chat README]: {{site.github}}/csells/flutter_ai_chat
+[AI Chat README]: https://github.com/csells/flutter_ai_chat

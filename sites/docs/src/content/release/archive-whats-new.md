@@ -11,13 +11,53 @@ description: >-
 
 ---
 
+## 2025 年 8 月 13 日：3.35 版發佈
+
+Flutter 3.35 已經上線！更多資訊請參閱 [Flutter 3.35 技術部落格文章][3.35-tech]。
+你也可以參考 [Dart 3.9 發佈][Dart 3.9 release] 部落格文章。
+
+[3.35-tech]: {{site.flutter-blog}}/whats-new-in-flutter-3-35-c58ef72e3766
+[Dart 3.9 release]: {{site.dart-blog}}/announcing-dart-3-9
+
+**自 3.32 版以來更新或新增的文件**
+
+* 網頁版熱重載現已推出，不再需要實驗性旗標。
+  更多資訊請參閱[熱重載][hot reload]。
+
+* 新增 [Create with AI][] 指南，說明如何運用
+  Gemini Code Assist、GeminiCLI 以及 Dart 與 Flutter MCP Server 等 AI 工具，
+  為你的 Flutter 應用程式打造 AI 驅動的功能。
+
+* 你現在可以透過 [Flutter Widget Previewer][] 指南，
+  在 Chrome 中預覽你的 Flutter 元件 (Widget)。
+
+* 每個穩定版發佈都會影響 Flutter 所支援的
+  已部署平台版本。
+  更多資訊請參閱更新後的
+  [支援的平台][supported platforms]頁面。
+
+* 在 Android 上，你現在可以在分享螢幕時
+  保護敏感內容，例如客戶資訊。
+  詳情請參閱[保護應用程式的敏感內容][Protect your app's sensitive content]。
+
+* 另外，別忘了查看本次發佈的[重大變更][bc-3.35]頁面，裡面也有實用的遷移資訊。
+
+[Flutter Widget Previewer]: /tools/widget-previewer
+[Create with AI]: /ai/create-with-ai
+[bc-3.35]: /release/breaking-changes#released-in-flutter-3-35
+[hot reload]: /tools/hot-reload
+[Protect your app's sensitive content]: /platform-integration/android/sensitive-content
+[supported platforms]: /reference/supported-platforms
+
+---
+
 ## 2025 年 5 月 20 日：Google I/O 3.32 版發佈
 
 Flutter 3.32 已經上線！更多資訊請參閱 [Flutter 3.32 技術部落格文章][3.32-tech]。
 你也可以參考 [Dart 3.8 發佈][Dart 3.8 release] 部落格文章。
 
-[3.32-tech]: {{site.medium}}/flutter/whats-new-in-flutter-3-32-40c1086bab6e
-[Dart 3.8 release]: {{site.medium}}/dartlang/announcing-dart-3-8-724eaaec9f47
+[3.32-tech]: https://flutter.dev/blog/whats-new-in-flutter-3-32
+[Dart 3.8 release]: {{site.dart-blog}}/announcing-dart-3-8
 
 **網站更新**
 
@@ -69,8 +109,8 @@ Flutter 3.32 已經上線！更多資訊請參閱 [Flutter 3.32 技術部落格�
 Flutter 3.29 已經上線！更多資訊請參閱 [Flutter 3.29 技術部落格文章][3.29-tech]。
 你也可以參考 [Dart 3.7 發佈][Dart 3.7 release] 部落格文章。
 
-[3.29-tech]: {{site.medium}}/flutter/whats-new-in-flutter-3-29-f90c380c2317
-[Dart 3.7 release]: {{site.medium}}/dartlang/announcing-dart-3-7-bf864a1b195c
+[3.29-tech]: https://flutter.dev/blog/whats-new-in-flutter-3-29
+[Dart 3.7 release]: {{site.dart-blog}}/announcing-dart-3-7
 
 **自 3.27 版以來更新或新增的文件**
 
@@ -86,7 +126,6 @@ Flutter 3.29 已經上線！更多資訊請參閱 [Flutter 3.29 技術部落格�
 
 [Architectural overview page]: /resources/architectural-overview
 [bc-3.29]: /release/breaking-changes#released-in-flutter-3-29
-[Dart 3.7 release]: {{site.medium}}/dartlang/announcing-dart-3-7-bf864a1b195c
 [Flutter for Jetpack Compose devs]: /flutter-for/compose-devs
 [Test orientation]: /cookbook/testing/widget/orientation
 
@@ -98,9 +137,9 @@ Flutter 3.27 已經上線！更多資訊請參閱 [Flutter 3.27 總覽部落格�
 及 [Flutter 3.27 技術部落格文章][3.27-tech]。
 你也可以參考 [Dart 3.6 發佈][Dart 3.6 release] 部落格文章。
 
-[3.27-umbrella]: {{site.medium}}/flutter/flutter-in-production-f9418261d8e1
-[3.27-tech]: {{site.medium}}/flutter/whats-new-in-flutter-3-27-28341129570c
-[Dart 3.6 release]: {{site.medium}}/dartlang/announcing-dart-3-6-778dd7a80983
+[3.27-umbrella]: https://flutter.dev/blog/celebrating-flutters-production-era
+[3.27-tech]: https://flutter.dev/blog/whats-new-in-flutter-3-27
+[Dart 3.6 release]: {{site.dart-blog}}/announcing-dart-3-6
 
 **自 3.24 版以來更新或新增的文件**
 
@@ -145,7 +184,7 @@ Flutter 3.27 已經上線！更多資訊請參閱 [Flutter 3.27 總覽部落格�
 
 * 另外，別忘了查看本次發佈的[重大變更][bc-3.27]頁面，裡面也有實用的遷移資訊。
 
-[ad-bp]: {{site.medium}}/flutter/video-web-ad-support-in-flutter-f50e5a3480a8
+[ad-bp]: https://flutter.dev/blog/video-web-ad-support-in-flutter
 [app-authors]: /packages-and-plugins/swift-package-manager/for-app-developers
 [Architecting Flutter apps]: /app-architecture
 [bc-3.27]: /release/breaking-changes#released-in-flutter-3-27
@@ -172,7 +211,7 @@ Flutter 3.24 已經上線！更多資訊請參閱 [Flutter 3.24 總覽部落格�
 
 [3.24-tech]: {{site.flutter-blog}}/whats-new-in-flutter-3-24-6c040f87d1e4
 [3.24-umbrella]: {{site.flutter-blog}}/flutter-3-24-dart-3-5-204b7d20c45d
-[Dart 3.5 release]: {{site.medium}}/dartlang/dart-3-5-6ca36259fa2f
+[Dart 3.5 release]: {{site.dart-blog}}/announcing-dart-3-5-and-an-update-on-the-dart-roadmap
 
 **自 3.22 版以來更新或新增的文件**
 
@@ -199,7 +238,7 @@ Flutter 3.24 已經上線！更多資訊請參閱 [Flutter 3.24 總覽部落格�
   希望這些頁面對新手 Flutter 開發者有所幫助。
 * DevTools 也有更新。請參閱 [DevTools 2.35.0][]、[DevTools 2.36.0][] 與 [DevTools 2.37.2][] 發佈說明。
 
-[`CarouselView`]: {{site.api}}/flutter/material/CarouselView-class.html
+[`CarouselView`]: {{site.material_ui}}/CarouselView-class.html
 [Cupertino catalog]: /ui/widgets/cupertino
 [DevTools 2.35.0]: /tools/devtools/release-notes/release-notes-2.35.0
 [DevTools 2.36.0]: /tools/devtools/release-notes/release-notes-2.36.0
@@ -236,7 +275,7 @@ Flutter 3.22 已經上線！更多資訊請參閱 [Flutter 3.22 總覽部落格�
 
 [3.22-tech]: {{site.flutter-blog}}/whats-new-in-flutter-3-22-fbde6c164fe3
 [3.22-umbrella]: {{site.flutter-blog}}/io24-5e211f708a37
-[Dart 3.4 release]: {{site.medium}}/dartlang/dart-3-4-bd8d23b4462a
+[Dart 3.4 release]: {{site.dart-blog}}/announcing-dart-3-4
 [dart.dev/go/macros]: http://dart.dev/go/macros
 
 **自 3.19 版以來更新或新增的文件**
@@ -269,7 +308,7 @@ Flutter 3.22 已經上線！更多資訊請參閱 [Flutter 3.22 總覽部落格�
 [Flutter fundamentals docs]: /learn/pathway
 [Flutter install]: /install
 [Flutter web app initialization]: /platform-integration/web/initialization
-[website README]: {{site.github}}/flutter/website/?tab=readme-ov-file#flutter-documentation-website
+[website README]: {{site.repo.this}}/?tab=readme-ov-file#flutter-documentation-website
 [Support for WebAssembly (Wasm)]: /platform-integration/web/wasm
 [Transforming assets at build time]: /ui/assets/asset-transformation
 [Validate deep links]: /tools/devtools/deep-links
@@ -283,7 +322,7 @@ Flutter 3.19 已經上線！更多資訊請參閱 [Flutter 3.19 總覽部落格�
 
 [3.19-tech]: {{site.flutter-blog}}/whats-new-in-flutter-3-19-58b1aae242d2
 [3.19-umbrella]: {{site.flutter-blog}}/starting-2024-strong-with-flutter-and-dart-cae9845264fe
-[Dart 3.3 release]: {{site.medium}}/dartlang/new-in-dart-3-3-extension-types-javascript-interop-and-more-325bf2bf6c13
+[Dart 3.3 release]: {{site.dart-blog}}/new-in-dart-3-3-extension-types-javascript-interop-and-more
 
 **自 3.16 版以來更新或新增的文件**
 
@@ -293,10 +332,10 @@ Flutter 3.19 已經上線！更多資訊請參閱 [Flutter 3.19 總覽部落格�
 * [Flutter 安裝][Flutter install] 頁面已更新。歡迎[提供意見][let us know]。
 * [並行與 isolates][Concurrency and isolates] 頁面已重寫。
 
-[@TahaTesser]: {{site.github}}/TahaTesser
+[@TahaTesser]: https://github.com/TahaTesser
 [Concurrency and isolates]: /perf/isolates
 [Flutter install]: /install
-[let us know]: {{site.github}}/flutter/website/issues/new/choose
+[let us know]: {{site.repo.this}}/issues/new/choose
 [migrating from Material 2 to Material 3]: /release/breaking-changes/material-3-migration
 [Use themes to share colors and font styles]: /cookbook/design/themes
 
@@ -305,7 +344,7 @@ Flutter 3.19 已經上線！更多資訊請參閱 [Flutter 3.19 總覽部落格�
 * 請參閱剛發佈的 [Flutter 與 Dart 2024 路線圖][Flutter and Dart 2024 Roadmap]。
 * 請參閱[在 Dart 與 Flutter 應用中運用 Gemini API][Harness the Gemini API in your Dart and Flutter apps]。
 
-[Flutter and Dart 2024 Roadmap]: {{site.github}}/flutter/flutter/blob/main/docs/roadmap/Roadmap.md
+[Flutter and Dart 2024 Roadmap]: {{site.repo.flutter}}/blob/main/docs/roadmap/Roadmap.md
 [Harness the Gemini API in your Dart and Flutter apps]: {{site.flutter-blog}}/harness-the-gemini-api-in-your-dart-and-flutter-apps-00573e560381
 
 ## 2023 年 11 月 15 日：3.16 版發佈
@@ -337,7 +376,7 @@ Flutter 3.16 已經上線！更多資訊請參閱 [Flutter 3.16 部落格文章]
 
 **文章**
 
-以下文章自 Flutter 3.13 以來發佈於 [Flutter Medium][] 刊物：
+以下文章自 Flutter 3.13 以來發佈於 [Flutter blog][]：
 
 * [How IBM is creating a Flutter Center of Excellence][ibm]
 * [Introducing the Flutter Consulting Directory][fcd]
@@ -347,7 +386,7 @@ Flutter 3.16 已經上線！更多資訊請參閱 [Flutter 3.16 部落格文章]
 
 [3.16-umbrella]: {{site.flutter-blog}}/flutter-3-16-dart-3-2-high-level-umbrella-post-b9218b17f0f7
 [Casual Games Toolkit]: /resources/games-toolkit
-[Dart 3.2 release]: {{site.medium}}/dartlang/dart-3-2-c8de8fe1b91f
+[Dart 3.2 release]: {{site.dart-blog}}/announcing-dart-3-2
 [dt-ext]: {{site.flutter-blog}}/dart-flutter-devtools-extensions-c8bc1aaf8e5f
 [fcd]: {{site.flutter-blog}}/introducing-the-flutter-consulting-directory-f6fc4c1d2ba3
 [games-2]: {{site.flutter-blog}}/building-your-next-casual-game-with-flutter-716ef457e440
@@ -393,7 +432,7 @@ docs.flutter.dev 網站。具體來說，我們重新整理（扁平化）了
   * 另請參閱 [3.10 版以來的棄用 API][deprecated-3.10]
 
 [blog-general]: {{site.flutter-blog}}/whats-new-in-flutter-3-13-479d9b11df4d
-[Dart 3.1 & a retrospective on functional style programming in Dart 3]: {{site.medium}}/dartlang/dart-3-1-a-retrospective-on-functional-style-programming-in-dart-3-a1f4b3a7cdda
+[Dart 3.1 & a retrospective on functional style programming in Dart 3]: {{site.dart-blog}}/dart-3-1-a-retrospective-on-functional-style-programming-in-dart-3
 [Flutter Favorites program]: /packages-and-plugins/favorites
 [breaking-changes]: /release/breaking-changes
 [deprecated-3.10]: /release/breaking-changes/3-10-deprecations
@@ -412,7 +451,7 @@ docs.flutter.dev 網站。具體來說，我們重新整理（扁平化）了
 
 **文章**
 
-以下文章自 Flutter 3.10 以來發佈於 [Flutter Medium][] 刊物：
+以下文章自 Flutter 3.10 以來發佈於 [Flutter blog][]：
 
 * [The Future of iOS development with Flutter][]
 * [How it's made: I/O Flip][]
@@ -481,7 +520,7 @@ Flutter 3.10 已經上線！本版本包含許多更新與改進。本頁列出�
 
 [3.10 blog post]: {{site.flutter-blog}}/whats-new-in-flutter-3-10-b21db2c38c73
 [3.10 release notes]: /release/release-notes/release-notes-3.10.0
-[Introducing Dart 3]: {{site.medium}}/dartlang/announcing-dart-3-53f065a10635
+[Introducing Dart 3]: {{site.dart-blog}}/announcing-dart-3
 
 **自 3.7 版以來更新或新增的文件**
 
@@ -548,7 +587,7 @@ Flutter 3.10 已經上線！本版本包含許多更新與改進。本頁列出�
 
 **文章**
 
-Flutter 團隊自 Flutter 3.7 以來在 [Flutter Medium][] 刊物發佈了以下文章：
+Flutter 團隊自 Flutter 3.7 以來在 [Flutter blog][] 發佈了以下文章：
 
 * [Flutter in 2023: strategy and roadmap][]
 * [Wonderous nominated for Webby Award][]
@@ -567,7 +606,7 @@ Flutter 3.7 已經上線！本版本包含許多更新與改進。本頁列出�
 
 [3.7 blog post]: {{site.flutter-blog}}/whats-new-in-flutter-3-7-38cbea71133c
 [3.7 release notes]: /release/release-notes/release-notes-3.7.0
-[Introducing Dart 3 alpha]: {{site.medium}}/dartlang/dart-3-alpha-f1458fb9d232
+[Introducing Dart 3 alpha]: {{site.dart-blog}}/introducing-dart-3-alpha
 [What's next for Flutter]: {{site.flutter-blog}}/whats-next-for-flutter-b94ce089f49c
 
 **自 3.3 版以來更新或新增的文件**
@@ -591,7 +630,7 @@ Flutter 3.7 已經上線！本版本包含許多更新與改進。本頁列出�
 * 你現在可以從任何 isolate（包括背景 isolate）呼叫 platform channel。
   更多資訊請參閱
   [撰寫自訂平台特定程式碼][Writing custom platform-specific code]
-  及 Medium 上的 [介紹 isolate 背景 channels][Introducing isolate background channels] 文章。
+  及 Flutter 部落格上的 [介紹 isolate 背景 channels][Introducing isolate background channels] 文章。
 * 我們已更新 Swift 相關文件。
   新增及更新的頁面包括：
   * [Flutter for SwiftUI developers][] - 更新
@@ -606,31 +645,6 @@ Flutter 3.7 已經上線！本版本包含許多更新與改進。本頁列出�
   由於 Impeller 尚未準備好穩定版本，
   你可以在我們的 [Flutter GitHub wiki][Impeller] 上找到更多資訊。
 
-{% comment %}
-
-* Missing docs (xxx):
-  * Frame analysis tab in Performance view - Kenzie
-  * Menu bars (M3) - Greg Spencer
-    No docs yet (other than API docs)
-  * Cascading menus (M3) - Greg Spencer
-    No docs yet (other than API docs)
-  * Custom context menus - Justin
-    No docs yet (he volunteered to do something after 3.7)
-  * CupertinoListSelection, CupertinoListTile (new Cupertino) - Mitchell Goodwin
-  * AnimatedGrid, AnimatedSliverGrid (new widgets) - Kate
-  * Material 3 - what had been worked on? started? who in eng owns this?
-  * Global selection improvements - ChunHeng Tai (chtai)
-  * magnification property (who owns this? - I asked Justin)
-    No docs yet (other than API docs)
-    <https://main-api.flutter.dev/flutter/material/TextField/magnifierConfiguration.html>
-  * Implementing iOS PlatformView BackdropFilter. (Blur) - Leigha and Chris Yang
-    <https://docs.google.com/document/d/1V7Jc_RGaknrBBPPBBKB8lT7f3PKhYr8sin35MSMFAf4/edit>
-  * Memory management updates - Zach Anderson
-  * toImageSync - new API for rendering improvement - Zach Anderson
-    Nope, nothing available
-  * Font asset hot reload - Jonah
-{% endcomment -%}
-
 [Add a Flutter screen to an iOS app]: /add-to-app/ios/add-flutter-screen
 [Adding an iOS clip target]: /platform-integration/ios/ios-app-clip
 [Creating Flavors for Flutter]: /deployment/flavors
@@ -639,7 +653,7 @@ Flutter 3.7 已經上線！本版本包含許多更新與改進。本頁列出�
 [Flutter FAQ]: /resources/faq
 [Flutter for SwiftUI developers]: /flutter-for/swiftui-devs
 [Internationalizing Flutter apps]: /ui/internationalization
-[Introducing isolate background channels]: {{site.medium}}/flutter/introducing-background-isolate-channels-7a299609cad8
+[Introducing isolate background channels]: https://flutter.dev/blog/introducing-background-isolate-channels
 [Learning Dart as a Swift developer]: {{site.dart-site}}/guides/language/coming-from/swift-to-dart
 [Security false positives]: /reference/security-false-positives
 [Using the memory view]: /tools/devtools/memory
@@ -690,7 +704,7 @@ Flutter 3.7 已經上線！本版本包含許多更新與改進。本頁列出�
 
 **文章**
 
-自上次穩定版本以來，我們在 [Flutter Medium][] 刊物發佈了以下文章：
+自上次穩定版本以來，我們在 [Flutter blog][] 發佈了以下文章：
 
 * [What's next for Flutter][]
 * [Adapting Wonderous to larger device formats][]
@@ -707,26 +721,25 @@ Flutter 3.7 已經上線！本版本包含許多更新與改進。本頁列出�
 
 [Announcing the Flutter News Toolkit]: {{site.flutter-blog}}/announcing-the-flutter-news-toolkit-180a0d32c012
 [Adapting Wonderous to larger device formats]: {{site.flutter-blog}}/adapting-wonderous-to-larger-device-formats-ac51e1c00bc0
-[How can we improve the Flutter experience for desktop?]: {{site.medium}}/flutter/how-can-we-improve-the-flutter-experience-for-desktop-70b34bff9392
+[How can we improve the Flutter experience for desktop?]: https://flutter.dev/blog/how-can-we-improve-the-flutter-experience-for-desktop
 [How it's made: Holobooth]: {{site.flutter-blog}}/how-its-made-holobooth-6473f3d018dd
 [Introducing background isolate channels]: {{site.flutter-blog}}/introducing-background-isolate-channels-7a299609cad8
 [Material 3 for Flutter]: {{site.flutter-blog}}/material-3-for-flutter-d417a8a65564
-[Playful typography with Flutter]: {{site.medium}}/flutter/playful-typography-with-flutter-f030385058b4
-[Studying developer's usage of IDEs for Flutter development]: {{site.medium}}/flutter/studying-developers-usage-of-ides-for-flutter-development-4c0a648a48
-[Supporting six platforms with two keyboards]: {{site.medium}}/flutter/what-we-learned-from-the-flutter-q3-2022-survey-9b78803accd2
-[What we learned from the Flutter Q3 2022 survey]: {{site.medium}}/flutter/what-we-learned-from-the-flutter-q3-2022-survey-9b78803accd2
+[Playful typography with Flutter]: https://flutter.dev/blog/playful-typography-with-flutter
+[Studying developer's usage of IDEs for Flutter development]: https://flutter.dev/blog/studying-developers-usage-of-ides-for-flutter-development
+[Supporting six platforms with two keyboards]: https://flutter.dev/blog/what-we-learned-from-the-flutter-q3-2022-survey
+[What we learned from the Flutter Q3 2022 survey]: https://flutter.dev/blog/what-we-learned-from-the-flutter-q3-2022-survey
 
 ## 2022 年 8 月 31 日：Flutter Vikings：3.3 版發佈
 
 Flutter 3.3 已經上線！更多資訊請參閱
-
-[Flutter 3.3 新功能][What's new in Flutter 3.3]，
-[Dart 2.18：Objective-C 與 Swift 互通][Dart 2.18: Objective-C & Swift interop]（Medium 上的免費文章），
+[Flutter 3.3 新功能][What's new in Flutter 3.3]、
+[Dart 2.18：Objective-C 與 Swift 互通][Dart 2.18: Objective-C & Swift interop]，
 及 [Flutter 3.3 發佈說明][3.3 release notes]。
 
 [3.3 release notes]: /release/release-notes/release-notes-3.3.0
-[Dart 2.18: Objective-C & Swift interop]: {{site.medium}}/dartlang/dart-2-18-f4b3101f146c
-[What's new in Flutter 3.3]: {{site.medium}}/flutter/whats-new-in-flutter-3-3-893c7b9af1ff
+[Dart 2.18: Objective-C & Swift interop]: {{site.dart-blog}}/dart-2-18-objective-c-swift-interop
+[What's new in Flutter 3.3]: https://flutter.dev/blog/whats-new-in-flutter-3-3
 
 **自 3.0 版以來更新或新增的文件**
 
@@ -763,14 +776,13 @@ Flutter 3.3 已經上線！更多資訊請參閱
 
 Flutter 3 已經上線！！！更多資訊請參閱
 [Flutter 3 介紹][Introducing Flutter 3]、[Flutter 3 新功能][What's new in Flutter 3]，
-及 [Dart 2.17：生產力與整合][Dart 2.17: Productivity and integration]
-（Medium 上的免費文章），
+及 [Dart 2.17：生產力與整合][Dart 2.17: Productivity and integration]，
 以及 [Flutter 3 發佈說明][Flutter 3 release notes]。
 
-[Dart 2.17: Productivity and integration]: {{site.medium}}/dartlang/dart-2-17-b216bfc80c5d
+[Dart 2.17: Productivity and integration]: {{site.dart-blog}}/dart-2-17-productivity-and-integration
 [Flutter 3 release notes]: /release/release-notes/release-notes-3.0.0
-[Introducing Flutter 3]: {{site.medium}}/flutter/introducing-flutter-3-5eb69151622f
-[What's new in Flutter 3]: {{site.medium}}/flutter/whats-new-in-flutter-3-8c74a5bc32d0
+[Introducing Flutter 3]: https://flutter.dev/blog/introducing-flutter-3
+[What's new in Flutter 3]: https://flutter.dev/blog/whats-new-in-flutter-3
 
 **自 2.10 版以來更新或新增的文件**
 
@@ -823,7 +835,7 @@ Flutter 3 已經上線！！！更多資訊請參閱
 
 另外，請查看我們的 GDE 撰寫的工作坊，可在 [Flutter 社群部落格][Flutter community blog] 上取得。
 
-[Flutter community blog]: {{site.medium}}/@flutter_community/622b52f70173
+[Flutter community blog]: https://medium.com/@flutter_community/622b52f70173
 [Take your Flutter app from boring to beautiful]: https://web.archive.org/web/20251204045151/https://codelabs.developers.google.com/codelabs/flutter-boring-to-beautiful
 
 **影片**
@@ -841,8 +853,8 @@ Microsoft Windows 的桌面支援
 （2.10 版的核心功能）正式上線！
 更多資訊請參閱
 [宣布 Flutter for Windows][Announcing Flutter for Windows]
-及 [Flutter 2.10 新功能][What's new in Flutter 2.10]，
-這些是 Medium 上的免費文章。
+及 [Flutter 2.10 新功能][What's new in Flutter 2.10]
+（發佈於 Flutter 部落格）。
 
 <YouTubeEmbed id="g-0B_Vfc9qM" title="Flutter Update: Windows"></YouTubeEmbed>
 
@@ -874,7 +886,7 @@ Flutter 2.5 已經上線！詳情請參閱
 
 **文章**
 
-自上次穩定版本以來，我們在 [Flutter Medium][] 刊物發佈了以下文章：
+自上次穩定版本以來，我們在 [Flutter blog][] 發佈了以下文章：
 
 * [Raster thread performance optimization tips][]
 * [Writing a good code sample][]
@@ -959,7 +971,7 @@ Flutter 和 Firebase YouTube 頻道上取得：
 
 **文章**
 
-自上次穩定版本以來，我們在 [Flutter Medium][] 刊物發佈了以下文章：
+自上次穩定版本以來，我們在 [Flutter blog][] 發佈了以下文章：
 
 * [How It's Made: I/O Photo Booth][]
 * [Which factors affected users' decisions to adopt Flutter? - Q1 2021 user survey results][Q1 2021 survey]
@@ -968,11 +980,11 @@ Flutter 和 Firebase YouTube 頻道上取得：
 [Announcing Flutter 2.2]: {{site.flutter-blog}}/announcing-flutter-2-2-at-google-i-o-2021-92f0fcbd7ef9
 [Build Voice Bots for Android with Dialogflow Essentials & Flutter]: {{site.codelabs}}/codelabs/dialogflow-flutter
 [Building your first Flutter app]: {{site.yt.watch}}?v=Z6KZ3cTGBWw
-[DartPad Sharing Guide (using a Gist file)]: {{site.github}}/dart-lang/dart-pad/wiki/Sharing-Guide
-[DartPad Workshop Authoring Guide]: {{site.github}}/dart-lang/dart-pad/wiki/Workshop-Authoring-Guide
+[DartPad Sharing Guide (using a Gist file)]: https://github.com/dart-lang/dart-pad/wiki/Sharing-Guide
+[DartPad Workshop Authoring Guide]: https://github.com/dart-lang/dart-pad/wiki/Workshop-Authoring-Guide
 [Deferred components]: /perf/deferred-components
 [Embedded Support for Flutter]: /embedded
-[Embedding DartPad in your web page]: {{site.github}}/dart-lang/dart-pad/wiki/Embedding-Guide
+[Embedding DartPad in your web page]: https://github.com/dart-lang/dart-pad/wiki/Embedding-Guide
 [Firebase for Flutter]: {{site.yt.watch}}?v=4wunbF29Kkg
 [Flutter and Dialogflow voice bots]: {{site.yt.watch}}?v=O7JfSF3CJ84
 [Get to know Firebase for Flutter]: {{site.firebase}}/codelabs/firebase-get-to-know-flutter#0
@@ -1033,7 +1045,7 @@ Flutter 2 已經上線！！！更多資訊請參閱
 
 **文章**
 
-自上次穩定版本以來，我們在 [Flutter Medium][] 刊物發佈了以下文章：
+自上次穩定版本以來，我們在 [Flutter blog][] 發佈了以下文章：
 
 * [Flutter performance updates in the first half of 2020][perf-H1-2020]
 * [Are you happy with Flutter? - Q4 2020 user survey results][Q4]
@@ -1053,7 +1065,7 @@ Flutter 2 已經上線！！！更多資訊請參閱
 [Adding AdMob banner and native inline ads to a Flutter app]: {{site.codelabs}}/codelabs/admob-inline-ads-in-flutter
 [Adding a Flutter view to an Android app]: /add-to-app/android/add-flutter-view
 [Announcing Dart null safety beta]: {{site.flutter-blog}}/announcing-dart-null-safety-beta-4491da22077a
-[Announcing Dart 2.12]: {{site.medium}}/dartlang/announcing-dart-2-12-499a6e689c87
+[Announcing Dart 2.12]: {{site.dart-blog}}/announcing-dart-2-12
 [Announcing Flutter 2]: {{site.google-blog}}/2021/03/announcing-flutter-2.html
 [comp]: {{site.flutter-blog}}/providing-operating-system-compatibility-on-a-large-scale-374cc2fb0dad
 [Configuring the URL strategy on the web]: /ui/navigation/url-strategies
@@ -1121,7 +1133,7 @@ Flutter 1.22 已經上線！詳情請參閱
 
 **文章**
 
-自上次穩定版本以來，我們在 [Flutter Medium][] 刊物發佈了以下文章：
+自上次穩定版本以來，我們在 [Flutter blog][] 發佈了以下文章：
 
 * [Learning Flutter's new navigation and routing][]
 * [Integration testing with flutter_driver][]
@@ -1190,7 +1202,7 @@ dart.dev 新增了深入探討 null safety 的文章：
 
 **文章**
 
-自上次穩定版本以來，我們在 [Flutter Medium][] 刊物發佈了以下文章：
+自上次穩定版本以來，我們在 [Flutter blog][] 發佈了以下文章：
 
 * [Announcing Adobe XD support for Flutter][]
 * [What are the important & difficult tasks for Flutter devs? - Q1 2020 survey results][q1-2020]
@@ -1273,7 +1285,7 @@ Flutter 1.17 已經上線！
 
 其他新鮮事：
 
-* 自上次穩定版本以來，我們在 [Flutter Medium][] 刊物發佈了許多文章：
+* 自上次穩定版本以來，我們在 [Flutter blog][] 發佈了許多文章：
   * [Custom implicit animations in Flutter…with TweenAnimationBuilder][]
   * [Directional animations with build-in explicit animations][]
   * [When should I use AnimatedBuilder or AnimatedWidget?][]
@@ -1302,7 +1314,7 @@ Flutter 1.17 已經上線！
 [Developing packages and plugins]: /packages-and-plugins/developing-packages
 [Developing plugin packages]: /packages-and-plugins/developing-packages#federated-plugins
 [Directional animations with build-in explicit animations]: {{site.flutter-blog}}/directional-animations-with-built-in-explicit-animations-3e7c5e6fbbd7
-[Flutter Medium]: {{site.medium}}/flutter
+[Flutter blog]: https://flutter.dev/blog
 [Flutter Spring 2020 update]: {{site.flutter-blog}}/spring-2020-update-f723d898d7af
 [Flutter web: Navigating URLs using named routes]: {{site.flutter-blog}}/web-navigating-urls-using-named-routes-307e1b1e2050
 [Flutter web support updates]: {{site.flutter-blog}}/web-support-updates-8b14bfe6a908
@@ -1338,7 +1350,7 @@ Flutter 1.12 已經上線！
   新的 Android 插件 API。更多資訊請參閱
   [將插件遷移至新的 Android API][Migrating your plugin to the new Android APIs]。
 * Web 支援已移至 beta channel。更多資訊請參閱 [Flutter 的 Web 支援][Web support for Flutter] 及
-  Medium 刊物上的 [Flutter Web 支援進入 beta][Web support for Flutter goes beta]。
+  Flutter 部落格上的 [Flutter Web 支援進入 beta][Web support for Flutter goes beta]。
   另外，[使用 Flutter 建置 Web 應用程式][building a web app with Flutter] 頁面也已更新。
 * 在 [Get started][] 文件中新增了一個撰寫你的第一個 Flutter Web 應用程式的 codelab，
   包含在 DevTools 中設定中斷點的說明！
@@ -1352,7 +1364,6 @@ Flutter 1.12 已經上線！
 * [應用程式大小][app size] 頁面的 iOS 章節已更新，以反映 bitcode 的納入。
 * Flutter Layout Explorer 的 alpha 版本發佈，這是一個新功能
   （Flutter inspector 的一部分），允許你以視覺化方式探索版面配置。
-  更多資訊請參閱 [Flutter Layout Explorer][] 文件。
 
 其他新鮮事：
 
@@ -1368,8 +1379,6 @@ Flutter 1.12 已經上線！
 [Flutter Favorite program]: /packages-and-plugins/favorites
 [Flutter 1.12.13]: /release/release-notes/release-notes-1.12.13
 [Flutter Gallery]: {{site.gallery-archive}}
-[Flutter Layout Explorer]: /tools/devtools/legacy-inspector#flutter-layout-explorer
-[Flutter Medium publication]: {{site.medium}}/flutter
 [Migrating your plugin to the new Android APIs]: /release/breaking-changes/plugin-api-migration
 [Web support for Flutter goes beta]: {{site.flutter-blog}}/web-support-for-flutter-goes-beta-35b64a1217c0
 [Get started]: /install
@@ -1411,7 +1420,7 @@ Web 和桌面支援（也即將推出）將
 
 * SDK 1.9 改善了錯誤訊息。
   更多資訊請閱讀
-  [Flutter Medium 刊物][Flutter Medium publication] 上的
+  [Flutter blog][] 上的
   [改善 Flutter 的錯誤訊息][Improving Flutter's Error Messages]。
 * 若你已有依賴 flutter_web 套件的 Web 應用程式，
   以下說明告訴你如何遷移至 flutter 套件：
@@ -1427,24 +1436,24 @@ Web 和桌面支援（也即將推出）將
 [1.9.1 release notes]: /release/release-notes/release-notes-1.9.1
 [building a web application]: /platform-integration/web/building
 [`ColorFiltered`]: {{site.api}}/flutter/widgets/ColorFiltered-class.html
-[ColorFiltered demo]: {{site.github}}/csells/flutter_color_filter
+[ColorFiltered demo]: https://github.com/csells/flutter_color_filter
 [creating responsive apps]: /ui/adaptive-responsive
 [Flutter for web]: /platform-integration/web
 [Flutter news from GDD China: uniting Flutter on web and mobile, and introducing Flutter 1.9]: {{site.google-blog}}/2019/09/flutter-news-from-gdd-china-flutter1.9.html?m=1
 [Improving Flutter's Error Messages]: {{site.flutter-blog}}/improving-flutters-error-messages-e098513cecf9
 [Performance view]: /tools/devtools/performance
 [preparing a web app for release]: /deployment/web
-[`SelectableText`]: {{site.api}}/flutter/material/SelectableText-class.html
+[`SelectableText`]: {{site.material_ui}}/SelectableText-class.html
 [Showcase]: {{site.main-url}}/showcase
-[`ToggleButtons`]: {{site.api}}/flutter/material/ToggleButtons-class.html
-[ToggleButtons demo]: {{site.github}}/csells/flutter_toggle_buttons
+[`ToggleButtons`]: {{site.material_ui}}/ToggleButtons-class.html
+[ToggleButtons demo]: https://github.com/csells/flutter_toggle_buttons
 [using the dart:ffi library]: /platform-integration/legacy-ffi-plugin
 
 ## 2019 年 7 月 9 日：1.7 版發佈
 
 Flutter 1.7 已經上線！
 
-更多資訊請參閱 [Flutter Medium 刊物][Flutter Medium Publication] 上的
+更多資訊請參閱 [Flutter blog][] 上的
 [宣布 Flutter 1.7][Announcing Flutter 1.7]，
 及 [1.7.8 發佈說明][1.7.8 release notes]。
 
@@ -1481,7 +1490,7 @@ Flutter 1.7 版本包含了新的 [`RangeSlider`][] 元件，
 [Performance best practices]: /perf/best-practices
 [Performance profiling]: /perf/ui-performance
 [Preparing an Android app for release]: /deployment/android
-[`RangeSlider`]: {{site.api}}/flutter/material/RangeSlider-class.html
+[`RangeSlider`]: {{site.material_ui}}/RangeSlider-class.html
 [Simple app state management]: /data-and-backend/state-mgmt/simple
 
 ## 2019 年 5 月 7 日：Google I/O 2019：1.5 版發佈
@@ -1581,10 +1590,8 @@ Flutter 在巴塞隆納的 Mobile World Congress（MWC）發佈了 [1.2 版][ver
 [Technical videos]: /resources/videos
 [Flutter's build modes]: /testing/build-modes
 [Flutter Favorite Program]: /packages-and-plugins/favorites
-[file-issue]: {{site.github}}/flutter/website/issues/new/choose
+[file-issue]: {{site.repo.this}}/issues/new/choose
 [Impeller]: /perf/impeller
-[Flutter Medium]: {{site.medium}}/flutter
-[Flutter Medium Publication]: {{site.medium}}/flutter
 [Desktop]: /platform-integration/desktop
 [Performance best practices]: /perf/best-practices
 [Customizing web app initialization]: /platform-integration/web/initialization

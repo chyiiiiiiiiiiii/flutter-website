@@ -73,6 +73,33 @@ Flutter 支援在建置應用程式時，使用 Dart 套件來轉換資源檔案
 若要了解如何操作及撰寫自己的資源轉換套件，請參考
 [Transforming assets at build time][Transforming assets at build time]。
 
+### 平台專屬資源
+
+:::version-note
+此功能自 Flutter 3.41.0 起提供。
+:::
+
+你可以指定只針對特定平台打包的資源。
+當你有大型資源，
+而這些資源只有部分平台需要時，這個功能就很實用，
+例如高解析度紋理
+或平台專屬的設定檔。
+
+以下設定只會在 macOS 與 Windows 上包含該資源：
+
+```yaml
+flutter:
+  assets:
+    - path: assets/desktop_config.json
+      platforms:
+        - macos
+        - windows
+```
+
+如需設定平台專屬資源的更多資訊，
+請參閱 [Flutter pubspec options][Flutter pubspec options] 參考文件中的
+[`assets` field][`assets` field]。
+
 ## 載入資源
 
 您的應用程式可以透過
@@ -110,6 +137,7 @@ Flutter 支援在建置應用程式時，使用 Dart 套件來轉換資源檔案
 <?code-excerpt "main.dart (root-bundle-load)"?>
 ```dart
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:material_ui/material_ui.dart';
 
 Future<String> loadAsset() async {
   return await rootBundle.loadString('assets/config.json');
@@ -396,7 +424,9 @@ Flutter 也會利用原生平台機制，在 Flutter 框架載入期間，為你
 [`runApp()`]: {{site.api}}/flutter/widgets/runApp.html
 [`video_player` plugin]: {{site.pub}}/packages/video_player
 [MediaQueryData.size]: {{site.api}}/flutter/widgets/MediaQueryData/size.html
-[MaterialApp]: {{site.api}}/flutter/material/MaterialApp-class.html
-[CupertinoApp]: {{site.api}}/flutter/cupertino/CupertinoApp-class.html
+[MaterialApp]: {{site.material_ui}}/MaterialApp-class.html
+[CupertinoApp]: {{site.cupertino_ui}}/CupertinoApp-class.html
 [Transforming assets at build time]: /ui/assets/asset-transformation
 [flavors feature]: /deployment/flavors
+[`assets` field]: /tools/pubspec#assets
+[Flutter pubspec options]: /tools/pubspec

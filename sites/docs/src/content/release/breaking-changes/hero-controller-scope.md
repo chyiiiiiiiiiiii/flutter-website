@@ -24,7 +24,7 @@ hero controller scope 會為其元件 (Widget) 子樹提供一個 hero controlle
 以下是一個在這次變更後開始拋出例外的應用程式範例。
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(
@@ -66,7 +66,7 @@ void main() {
 你可以透過自行引入 hero controller 的作用域（hero controller scopes）來修正這個應用程式。
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(

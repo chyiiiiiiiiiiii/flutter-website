@@ -37,7 +37,7 @@ description: >-
 遷移前的程式碼：
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(
@@ -75,7 +75,7 @@ void main() {
 遷移後的程式碼：
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(

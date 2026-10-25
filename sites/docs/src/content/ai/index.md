@@ -1,6 +1,5 @@
 ---
 title: Flutter 與 AI
-sidenav: ai
 shortTitle: AI
 layout: toc
 description: >-

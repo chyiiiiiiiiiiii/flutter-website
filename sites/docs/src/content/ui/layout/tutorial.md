@@ -121,7 +121,7 @@ Flutter 會根據使用者輸入，只改變 UI 中最少的部分。
 
    <?code-excerpt "lib/main.dart (all)"?>
    ```dart
-   import 'package:flutter/material.dart';
+   import 'package:material_ui/material_ui.dart';
    
    void main() => runApp(const MyApp());
    

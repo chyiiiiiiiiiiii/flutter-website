@@ -106,7 +106,7 @@ _本頁為 Flutter wiki 舊版更新日誌頁面的匯總，內容涵蓋至 flut
 ## v0.6.0（自 v0.5.1 起的變更）- beta 6
 
 ### v0.6.0
-* Dart SDK 更新至 Dart 2 版本（2.1.0-dev.0.0）。套件與插件作者應確保其 `pubspec.yaml` 檔案包含 Dart SDK 上限為 `<3.0.0` 的約束。詳情請參閱 [Getting ready for Dart 2 post](https://blog.dart.dev/getting-ready-for-dart-2-and-making-your-packages-look-great-on-the-pub-site-118464d7f59d)。
+* Dart SDK 更新至 Dart 2 版本（2.1.0-dev.0.0）。套件與插件作者應確保其 `pubspec.yaml` 檔案包含 Dart SDK 上限為 `<3.0.0` 的約束。詳情請參閱 [Getting ready for Dart 2 post](https://dart.dev/blog/getting-ready-for-dart-2-and-making-your-packages-look-great-on-the-pub-site)。
 * [#19025](https://github.com/flutter/flutter/pull/19025) 為一致性將 `CupertinoRefreshControl` 更名為 `CupertinoSliverRefreshControl`。
 * [#19317](https://github.com/flutter/flutter/pull/19317) 為 TextField（Material）游標新增 cursorWidth 與 cursorRadius。
 * [#20116](https://github.com/flutter/flutter/pull/20116) 釋出版二進位檔案大小減少約 2MB
@@ -191,7 +191,7 @@ _本頁為 Flutter wiki 舊版更新日誌頁面的匯總，內容涵蓋至 flut
 ## v0.3.1（自 v0.2.8 起的變更）- beta 2 更新
 
 我們已知 `HttpClient` 實作中存在憑證驗證的潛在問題。
-如需追蹤我們的調查進度，請參閱 [Dart issue 32936](https://github.com/dart-lang/sdk/issues/32936)。
+如需追蹤我們的調查進度，請參閱 [Dart issue 32936]({{site.repo.dart-sdk}}/issues/32936)。
 
 ### v0.3.1
 
@@ -297,7 +297,7 @@ _本頁為 Flutter wiki 舊版更新日誌頁面的匯總，內容涵蓋至 flut
 
 ### v0.1.9
 
-* [#14901](https://github.com/flutter/flutter/pull/14901) [Slider](https://api.flutter.dev/flutter/material/Slider-class.html) 的視覺更新，調整了顏色、不透明度，以及 value indicator 的形狀與行為。也從 Slider 類別中移除了 "`thumbOpenAtMin`" 旗標（已不再需要，可透過自訂 thumb shape 支援來模擬）。
+* [#14901](https://github.com/flutter/flutter/pull/14901) [Slider](https://pub.dev/documentation/material_ui/latest/material_ui/Slider-class.html) 的視覺更新，調整了顏色、不透明度，以及 value indicator 的形狀與行為。也從 Slider 類別中移除了 "`thumbOpenAtMin`" 旗標（已不再需要，可透過自訂 thumb shape 支援來模擬）。
 
 ## v0.1.5（自 v0.1.4 起的變更）- beta 1.1
 

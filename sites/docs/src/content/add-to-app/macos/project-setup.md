@@ -123,6 +123,7 @@ flutter create my_flutter_app
     1. 前往您目標的 **General** 分頁，
        在 **Frameworks, Libraries, and Embedded Content** 下
        新增 `FlutterNativeIntegration`。
+
        <DashImage image="development/add-to-app/ios/project-setup-swiftpm/flutternativeintegration-library.png" caption="Frameworks, Libraries, and Embedded Content 下的 FlutterNativeIntegration。" />
 
  1. <h3>新增建置設定</h3>

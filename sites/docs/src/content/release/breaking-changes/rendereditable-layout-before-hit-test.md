@@ -29,7 +29,7 @@ Failed assertion: line 123 pos 45: '!debugNeedsLayout': is not true.
 ```dart
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   test('attach and detach correctly handle gesture', () {
@@ -65,7 +65,7 @@ class FakeEditableTextState extends TextSelectionDelegate {
 ```dart
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   test('attach and detach correctly handle gesture', () {

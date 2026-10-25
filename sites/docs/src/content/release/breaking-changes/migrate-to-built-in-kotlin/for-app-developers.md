@@ -4,14 +4,37 @@ description: >-
   將 Flutter 應用程式遷移至使用內建 Kotlin。
 ---
 
-## 遷移
-
 本指南專門針對應用程式開發者，說明遷移步驟。
 
 以下說明假設您正從 AGP 9.0.0 以前的版本更新至 AGP 9.0.0+。
 您也應使用 [Android Gradle Plugin 文件][AGP block] 中列出的最低相容相依性版本。
 
-### 確認 properties 檔案中的旗標
+:::warning
+本指南僅適用於已使用 Kotlin Gradle Plugin (KGP) 的應用程式。
+
+若要確認您的應用程式是否套用了 KGP，
+請找到 `kotlin-android` 插件
+（或 `org.jetbrains.kotlin.android` 插件）。
+它通常位於 `<app-src>/android/app/build.gradle` 或
+`<app-src>/android/app/build.gradle.kts` 檔案中。
+若要查看 KGP 的套用程式碼，
+請參閱[更新 Gradle 檔案](#update-the-gradle-file)。
+
+若您的應用程式目前並未套用 KGP，
+請勿遷移至內建 Kotlin。
+:::
+
+:::note
+若要將 Flutter 插件更新為使用內建 Kotlin，
+請依照[插件作者遷移指南][migration guide for plugin authors]操作。
+:::
+
+[AGP block]: {{site.android-dev}}/build/releases/gradle-plugin
+[migration guide for plugin authors]: /release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors
+
+<a id="verify-flags-in-properties-file" aria-hidden="true"></a>
+
+## 確認 Gradle properties 檔案中的旗標
 
 Flutter 預設使用舊版 Kotlin Gradle Plugin (KGP) 以及舊版 AGP DSL 型別，
 以支援尚未完成遷移的專案。
@@ -24,10 +47,11 @@ Flutter 工具會在您下次使用 `flutter run` 或 `flutter build apk`
 
 此外，使用 Android Studio 工具建置專案也會自動加入這些旗標。
 程序完成後，請確認旗標已被加入。
-詳細資訊請參閱 [Issue #183910]。
+詳細資訊請參閱 Flutter [issue #183910][issue-183910]。
 
-所有 add-to-app 專案必須手動將 `android.builtInKotlin=false`
-及 `android.newDsl=false` 加入 Android 主應用程式的 `gradle.properties` 檔案。
+所有 add-to-app 專案必須手動將
+`android.builtInKotlin=false` 及 `android.newDsl=false`
+加入 Android 主應用程式的 `gradle.properties` 檔案。
 Flutter 遷移工具在 add-to-app Android 主應用程式建置時無法執行，
 因為主應用程式是純原生 Android 專案。
 
@@ -39,10 +63,10 @@ Flutter 遷移工具在 add-to-app Android 主應用程式建置時無法執行�
 
 :::note
 若您的應用程式未套用 `kotlin-android` 插件（也稱為 Kotlin Gradle Plugin），
-則只需加入 `android.newDsl=false`，無需進行進一步的遷移。
+則只需加入 `android.newDsl=false`，無需進行任何進一步的遷移步驟。
 :::
 
-### 更新 Gradle 檔案
+## 更新 Gradle 檔案
 
 首先，找到 `kotlin-android` 插件（或 `org.jetbrains.kotlin.android` 插件）。
 它通常位於 `<app-src>/android/app/build.gradle` 或
@@ -54,7 +78,7 @@ Flutter 遷移工具在 add-to-app Android 主應用程式建置時無法執行�
 以下範例示範如何遷移 Flutter Android 應用程式
 及 add-to-app Android 主應用程式：
 
-#### 遷移您的 Flutter Android 應用程式
+### 遷移您的 Flutter Android 應用程式
 
 <Tabs key="modern-legacy-apply">
 <Tab name="plugins block">
@@ -166,6 +190,7 @@ android {
       // ...
   }
 ```
+
 加入含有以下內容的 `kotlin.compilerOptions{}` DSL 區塊：
 
 ```groovy diff title="<app-src>/android/app/build.gradle"
@@ -200,7 +225,7 @@ kotlin {
 </Tab>
 </Tabs>
 
-#### 遷移您的 add-to-app Android 主應用程式
+### 遷移您的 add-to-app Android 主應用程式
 
 Android 原生應用程式使用 `alias` 關鍵字套用插件，
 這與舊版 `apply()` 語法不相容。
@@ -243,6 +268,7 @@ android {
       // ...
   }
 ```
+
 加入含有以下內容的 `kotlin.compilerOptions{}` DSL 區塊：
 
 ```kotlin diff title="<app-src>/android/app/build.gradle.kts"
@@ -276,70 +302,105 @@ kotlin {
 // ...
 ```
 
-### 驗證
+## 驗證
 
-執行 `flutter run` 或 `flutter build apk`，確認您的應用程式
-能在已連接的 Android 裝置或模擬器上成功建置並啟動。
+在啟用內建 Kotlin 之前，
+請確認您已遷移自己的應用程式
+以及其所使用的所有 Flutter 插件。
+此外，也請確認您已將應用程式更新至 AGP 9+，
+因為內建 Kotlin 需要 AGP 9+。
+
+若要啟用內建 Kotlin，
+請在 `gradle.properties` 檔案中
+將 `android.builtInKotlin` 屬性設為 `true`：
+
+```properties diff title="<flutter-project>/android/gradle.properties"
+# ...
++ android.builtInKotlin=true
+```
+
+:::version-note
+Flutter 3.44 新增了在停用內建 Kotlin
+（`android.builtInKotlin=false`）的情況下支援 AGP 9，
+而啟用內建 Kotlin（`android.builtInKotlin=true`）
+則需要 Flutter 3.47 或更新版本。
+:::
+
+啟用內建 Kotlin 後，
+執行 `flutter run` 或 `flutter build apk`，
+確認您的應用程式能在已連接的 Android 裝置或模擬器上
+成功建置並啟動。
 
 若您的應用程式因使用尚未遷移的 Flutter 插件而建置失敗，
 請依照以下步驟操作：
 
-### 向插件作者回報不相容的 Kotlin Gradle Plugin 使用情況
+## 向插件作者回報不相容的 Kotlin Gradle Plugin 使用情況
 
 僅在您的應用程式使用尚未遷移至內建 Kotlin 的 Flutter 插件時，
 才需依照以下步驟操作。
 
-1. 在 [pub.dev](https://pub.dev) 或線上搜尋插件名稱，找到該未遷移 Flutter 插件的儲存庫。
-2. 參閱插件的 CHANGELOG，確認目前沒有任何版本已遷移至內建 Kotlin。
-3. 向插件作者回報問題，告知他們 Kotlin Gradle Plugin 不相容，
-   且未來的 Flutter 版本將不再支援。
+1.  在 [pub.dev]({{site.pub}}) 或線上搜尋插件名稱，
+    找到該未遷移 Flutter 插件的儲存庫。
+1.  查看插件的變更記錄 (changelog)，
+    確認目前沒有任何版本已遷移至內建 Kotlin。
+1.  向插件作者回報問題，
+    告知他們 Kotlin Gradle Plugin 不相容，
+    且未來的 Flutter 版本將不再支援。
 
 您可以使用以下範本提交問題：
 
-**問題標題：** Migrate Plugin to Built-in Kotlin
+**問題標題：** Migrate plugin to built-in Kotlin
 
 **問題內文：**
+
+```markdown
 I am using `<plugin-name>` in my Flutter app.
 
 Starting with Android Gradle Plugin (AGP) 9.0,
 support for applying the Kotlin Gradle Plugin (KGP) has been removed.
-Because this plugin applies KGP, it causes a compilation error
-that prevents my app from building.
-Here is an example of the error [Issue #181383][].
+Because this plugin applies KGP,
+it causes a compilation error that prevents my app from building.
+Flutter [issue #181383](https://github.com/flutter/flutter/issues/181383)
+includes an example of the error.
 
 Flutter has temporarily added support to allow KGP
-while apps and plugins migrate to AGP 9.0+,
+while apps and plugins migrate to AGP 9.0 or later,
 but this support will be removed in a future version of Flutter.
 
-Please migrate this plugin to use built-in Kotlin to ensure your plugin
-users can successfully build their apps in future versions of Flutter.
+Please migrate this plugin to use built-in Kotlin to
+ensure your plugin users can successfully
+build their apps in future versions of Flutter.
 
-Here is the Flutter [migration guide for plugin authors][plugin-migration-guide].
+Here is the Flutter
+[migration guide for plugin authors](https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors).
+```
 
-Please be respectful and mindful of the plugin repository's rules and code
-of conduct when reporting issues and interacting with plugin authors.
+回報問題時，請尊重並留意
+插件儲存庫的規則與行為準則，
+並與插件作者保持良好互動。
 
-For reference, see the [Flutter Code of Conduct][Code of Conduct].
+可參考 [Flutter 行為準則][Code of Conduct]。
+
+[Code of Conduct]: {{site.repo.flutter}}/blob/main/CODE_OF_CONDUCT.md
 
 ## 後續步驟
 
-請參閱[遷移概覽](./)以了解後續步驟。
+後續步驟請參閱
+[內建 Kotlin 遷移概覽][migration-overview]。
+
+[migration-overview]: /release/breaking-changes/migrate-to-built-in-kotlin
 
 ## 參考資料
 
 相關 Issue：
 
-- [Issue #183910][]：Add Disable Built-in Kotlin and new DSL Migrators
-- [Issue #181383][]：Flutter plugins should support AGP 9.0.0
+- [Issue #183910][issue-183910]：Add Disable Built-in Kotlin and new DSL Migrators
+- [Issue #181383][issue-181383]：Flutter plugins should support AGP 9.0.0
 
-您應用程式中的 Gradle 建置檔案會依據建立應用程式時所使用的 Flutter 版本而有所不同。
-建議定期在應用程式目錄中執行 `flutter upgrade`，
+您應用程式中的 Gradle 建置檔案會依據
+建立應用程式時所使用的 Flutter 版本而有所不同。
+建議定期在應用程式根目錄中執行 `flutter upgrade`，
 以跟上最新版本的建置檔案。
 
-[AGP block]: {{site.android-dev}}/build/releases/gradle-plugin
-
-[Issue #183910]: {{site.github}}/flutter/flutter/issues/183910
-[Issue #181383]: {{site.github}}/flutter/flutter/issues/181383
-
-[plugin-migration-guide]: {{site.flutter-docs}}/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors
-[Code of Conduct]: https://github.com/flutter/flutter/blob/master/CODE_OF_CONDUCT.md
+[issue-183910]: {{site.repo.flutter}}/issues/183910
+[issue-181383]: {{site.repo.flutter}}/issues/181383

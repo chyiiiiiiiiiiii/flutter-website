@@ -13,7 +13,7 @@ Flutter 框架在建構畫面（frame）、繪製場景（scene）以及追蹤�
 
 :::note
 若需優化網頁載入速度的相關資訊，
-請參考 Medium 上的（免費）文章：
+請參考 Flutter 部落格文章
 [Best practices for optimizing Flutter web loading speed][article]。
 
 [article]: {{site.flutter-blog}}/best-practices-for-optimizing-flutter-web-loading-speed-7cc0df14ce5c

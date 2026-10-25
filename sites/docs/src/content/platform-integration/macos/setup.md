@@ -40,7 +40,7 @@ description: >-
     $ sudo sh -c 'xcode-select -s /Applications/Xcode.app/Contents/Developer && xcodebuild -runFirstLaunch'
     ```
 
-    如果你是從其他地方下載 Xcode，或需要使用不同版本，請將 `/Applications/Xcode.app` 替換為該路徑。
+    如果你是從其他地方下載 Xcode，或需要使用不同版本，請將 `/Applications/Xcode.app` 替換為你的 Xcode 目錄路徑。
 
  1. <h3>同意 Xcode 授權條款</h3>
 

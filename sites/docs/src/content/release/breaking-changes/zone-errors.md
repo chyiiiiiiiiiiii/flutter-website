@@ -52,7 +52,7 @@ the bindings are initialized (i.e. as the first statement in `void main() { }`).
 
 ```dart
 import 'dart:async';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class Mutable<T> {
   Mutable(this.value);

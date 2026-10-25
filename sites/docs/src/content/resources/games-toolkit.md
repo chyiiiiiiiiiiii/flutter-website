@@ -136,7 +136,7 @@ Flutter 團隊了解未來你可能會考慮遊戲變現，
 
 * VGV 使用 Flame 引擎開發了 [I/O Pinball 遊戲][pinball-game]。
   想了解這款遊戲，
-  可參考 Medium 上的 [I/O Pinball Powered by Flutter and Firebase][]
+  可閱讀 Flutter 部落格上的 [I/O Pinball Powered by Flutter and Firebase][]
   並[直接在瀏覽器遊玩][pinball-game]。
 
 * Flutter 團隊則開發了 [I/O Flip][flip-game]，一款虛擬 [CCG] 遊戲。
@@ -162,8 +162,7 @@ Flutter 團隊了解未來你可能會考慮遊戲變現，
 
 <Icon id="book_5" title="Cookbook recipe"></Icon> [特效][Special effects]<br>
 <Icon id="handyman" title="Desktop tool"></Icon> [Spriter Pro][]<br>
-<Icon id="package_2" title="Flutter package"></Icon> [rive][]<br>
-<Icon id="package_2" title="Flutter package"></Icon> [spritewidget][]
+<Icon id="package_2" title="Flutter package"></Icon> [rive][]
 
 </td>
 </tr>
@@ -323,7 +322,7 @@ Flutter 團隊了解未來你可能會考慮遊戲變現，
 [Cloud, Firebase]: https://cloud.google.com/free
 [Flame game engine]: https://flame-engine.org/
 [Games]: {{site.main-url}}/games
-[I/O Pinball Powered by Flutter and Firebase]: {{site.medium}}/flutter/di-o-pinball-powered-by-flutter-and-firebase-d22423f3f5d
+[I/O Pinball Powered by Flutter and Firebase]: https://flutter.dev/blog/i-o-pinball-powered-by-flutter-and-firebase
 [install Flutter]: /install
 [Tomb Toad]: https://play.google.com/store/apps/details?id=com.crescentmoongames.tombtoad
 [basic-template-readme]: {{site.repo.games}}/blob/main/templates/basic/README.md
@@ -366,11 +365,10 @@ Flutter 團隊了解未來你可能會考慮遊戲變現，
 [game-svc-pkg]: {{site.pub-pkg}}/games_services
 [rive]: {{site.pub-pkg}}/rive
 [shared_preferences]: {{site.pub-pkg}}/shared_preferences
-[spritewidget]: {{site.pub-pkg}}/spritewidget
 [sqflite]: {{site.pub-pkg}}/sqflite
 [win32_gamepad]: {{site.pub-pkg}}/win32_gamepad
 [read how the game was created in 6 weeks]: {{site.flutter-blog}}/how-we-built-the-new-super-dash-demo-in-flutter-and-flame-in-just-six-weeks-9c7aa2a5ad31
-[view the open source code repo]: {{site.github}}/flutter/super_dash
+[view the open source code repo]: https://github.com/flutter/super_dash
 [web]: https://superdash.flutter.dev/
 [Tiled]: https://www.mapeditor.org/
 [flutter_soloud]: {{site.pub-pkg}}/flutter_soloud
@@ -386,5 +384,5 @@ Flutter 團隊了解未來你可能會考慮遊戲變現，
   來自 Google I/O 2024。
 
 [Game Developer Conference (GDC)]: https://gdconf.com/
-[forge2d-video]: {{site.youtube-site}}/watch?v=nsnQJrYHHNQ
-[gdc-talk]: {{site.youtube-site}}/watch?v=7mG_sW40tsw
+[forge2d-video]: {{site.yt.watch}}?v=nsnQJrYHHNQ
+[gdc-talk]: {{site.yt.watch}}?v=7mG_sW40tsw

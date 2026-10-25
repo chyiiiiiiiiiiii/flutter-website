@@ -66,7 +66,19 @@ Flutter Web 應用程式可在以下瀏覽器執行：
 
 ### 如何處理 Web 特定的匯入（import）？
 
-有些套件需要平台特定的匯入，特別是如果它們使用檔案系統（瀏覽器無法存取）。若要在你的應用程式中使用這些套件，請參閱 [dart.dev]({{site.dart-site}}) 上的 [條件匯入（conditional imports）文件][documentation for conditional imports]。
+有些套件需要平台特定的匯入，特別是如果它們使用檔案系統（瀏覽器無法存取）。若要在你的應用程式中使用這些套件，請使用條件匯入（conditional imports）。
+
+編譯為 WebAssembly 時，請檢查 `dart.library.js_interop`
+（而不是 Wasm 不支援的 `dart.library.js` 或 `dart.library.html`）：
+
+```dart
+import 'fallback.dart'
+  if (dart.library.js) 'legacy_web_interop.dart'
+  if (dart.library.js_interop) 'wasm_web_interop.dart';
+```
+
+如需更多細節，請參閱 [dart.dev]({{site.dart-site}}) 上的 [條件匯入（conditional imports）文件][documentation for conditional imports]。若想了解如何處理因不支援的匯入而導致的 Wasm 編譯失敗，請參閱
+[診斷 Wasm 編譯錯誤](/platform-integration/web/wasm#diagnosing-wasm-compilation-errors)。
 
 ### Flutter Web 支援並行（concurrency）嗎？
 
@@ -95,7 +107,19 @@ Flutter Web 應用程式有可能透過 [web workers][] 來達到類似效果，
 
 ### 部署後如何清除 Web 快取並強制用戶端重新下載應用程式？
 
-如果你希望在每次部署後強制失效這些快取標頭，一個常見做法是將某種建置 ID 加入靜態資源的連結，或直接更新檔案名稱。例如，`logo.png` 可能會變成 `logo.v123.png`。
+在 Flutter 3.50 及更新版本中，建置 Web 應用程式時請傳入 `--web-content-hash`：
+
+```console
+$ flutter build web --web-content-hash
+```
+
+`--web-content-hash` 旗標會將 8 個字元的 SHA-256 內容雜湊值嵌入
+已編譯的進入點、JavaScript source map，以及 `build/web/assets/**` 底下的所有檔案，
+並自動更新 `flutter_bootstrap.js` 中對它們的參照。
+如需完整的雜湊檔案清單與 overlay 上線指引，
+請參閱 [Web content hashing](/deployment/web#web-content-hashing)。
+
+如果你沒有使用 `--web-content-hash`，可以手動在 bootstrap 腳本標籤中加入 build ID 查詢參數或具版本的檔名：
 
 ```html
 <!-- Option 1, append build ID as a query parameter in your links -->
@@ -105,54 +129,102 @@ Flutter Web 應用程式有可能透過 [web workers][] 來達到類似效果，
 <script src="flutter_bootstrap.v123.js" async></script>
 ```
 
-Flutter 目前尚未支援自動將 build ID 附加到資源上。
-
 ### 如何設定快取標頭（cache headers）？
 
-如果你正在使用 Firebase Hosting，當你部署新版本的應用程式時，共用快取（CDN）會被自動失效（invalidate）。不過，為了確保瀏覽器不會快取應用程式腳本但共用快取仍然會快取，你可以如下方式設定快取標頭：
+如果你正在使用 Firebase Hosting，當你部署新版本的應用程式時，共用快取（CDN）會被自動失效（invalidate）。不過，Firebase Hosting 預設會對靜態檔案設定 `Cache-Control: max-age=3600`，
+這表示在部署後最長一小時內，瀏覽器仍可能提供過期的 `index.html`、
+`flutter_bootstrap.js` 或 manifest 檔案。
+
+如果你使用 `flutter build web --web-content-hash` 建置，請設定
+`firebase.json`，讓 `index.html`、`flutter_bootstrap.js` 和 `404.html`
+在每次載入時重新驗證（`max-age=0, must-revalidate`），
+而有雜湊的進入點與 `assets/**` 則以 immutable 方式快取一年
+（`public, max-age=31536000, immutable`）：
 
 ```json
 {
   "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "**/*.map"
+    ],
     "headers": [
       {
-        "source":
-          "**/*.@(jpg|jpeg|gif|png|svg|webp|css|eot|otf|ttf|ttc|woff|woff2|font.css)",
+        "source": "**",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "max-age=3600,s-maxage=604800"
+            "value": "max-age=0, must-revalidate"
           }
         ]
       },
       {
-        "source":
-          "**/*.@(mjs|js|wasm|json)",
+        "source": "assets/**",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "max-age=0,s-maxage=604800"
+            "value": "public, max-age=31536000, immutable"
           }
         ]
+      },
+      {
+        "source": "main.dart.*.+(js|wasm|mjs)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, immutable"
+          }
+        ]
+      },
+      {
+        "source": "404.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=0, must-revalidate"
+          }
+        ]
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "!(/assets/**|/canvaskit/**|/icons/**|/main.dart.*)",
+        "destination": "/index.html"
       }
     ]
   }
 }
 ```
 
+如果你建置時沒有使用 `--web-content-hash`，請省略 `assets/**` 與
+`main.dart.*.+(js|wasm|mjs)` 的 `immutable` 規則，讓所有檔案都透過
+`"source": "**"` 與 `"source": "404.html"`（`max-age=0, must-revalidate`）重新驗證，
+未變更時即可從 CDN 邊緣節點取得快速的 `304 Not Modified` 回應。
+
+`/index.html` rewrite 的排除規則
+（`!(/assets/**|/canvaskit/**|/icons/**|/main.dart.*)`）可確保
+對不存在的資源或已編譯進入點的請求會回傳真正的 `404` 狀態，
+而不是狀態為 `200 OK` 的 `index.html`；
+`404.html` 規則則可防止 CDN 在萬用字元 TTL 下快取 404 回應。
+
 ### 如何設定 service worker？
 
-Flutter 預設不再產生或管理 service worker。
+Flutter 預設不再產生或管理會快取的 service worker
+（在較新的版本中，它會寫入一個會自我清除的 stub，用來移除舊版 service worker）。
 
 如果你的應用程式需要離線支援或進階快取功能，你需要自行使用標準的 Web 工具或第三方解決方案（例如 [Workbox][workbox]）來設定 service worker。
+使用 `--web-content-hash` 建置時，Flutter 會產生
+`build/web/precache_manifest.json`，其中包含 `{url, hash, size, urlHashed}`
+項目，你可以將它們餵入自訂 service worker 的建置流程。
 
 如需更多關於建置自訂 service worker 的資訊，請參閱 [Using service workers][]。
 
-如果你的 service worker 沒有及時更新，請透過設定 CDN 與瀏覽器快取，將 `Cache-Control` 標頭設為較小的數值，例如 0 或 60 秒。
-
 [building a web app with Flutter]: /platform-integration/web/building
 [Creating responsive apps]: /ui/adaptive-responsive
-[documentation for conditional imports]: {{site.dart-site}}/guides/libraries/create-library-packages#conditionally-importing-and-exporting-library-files
+[documentation for conditional imports]: {{site.dart-site}}/interop/js-interop/package-web#conditional-imports
 [Embedding Flutter web]: /platform-integration/web/embedding-flutter-web
 [file an issue]: {{site.repo.flutter}}/issues/new?title=[web]:+%3Cdescribe+issue+here%3E&labels=%E2%98%B8+platform-web&body=Describe+your+issue+and+include+the+command+you%27re+running,+flutter_web%20version,+browser+version
 [`http`]: {{site.pub}}/packages/http
@@ -161,7 +233,7 @@ Flutter 預設不再產生或管理 service worker。
 [isolates]: {{site.dart-site}}/guides/language/concurrency
 [Issue 32248]: {{site.repo.flutter}}/issues/32248
 [Preparing a web app for release]: /deployment/web
-[roadmap]: {{site.github}}/flutter/flutter/blob/master/docs/roadmap/Roadmap.md#web-platform
+[roadmap]: {{site.repo.flutter}}/blob/master/docs/roadmap/Roadmap.md#web-platform
 [run your web apps in any supported browser]: /platform-integration/web/building#create-and-run
 [Using service workers]: https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers
 [Web content in Flutter]: /platform-integration/web/web-content-in-flutter

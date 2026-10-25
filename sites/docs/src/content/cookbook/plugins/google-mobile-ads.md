@@ -139,7 +139,7 @@ The number of method references in a .dex file cannot exceed 64K.
 
     <?code-excerpt "lib/main.dart (main)"?>
     ```dart
-    void main() async {
+    void main() {
       WidgetsFlutterBinding.ensureInitialized();
       unawaited(MobileAds.instance.initialize());
     
@@ -383,7 +383,6 @@ class _MyBannerAdWidgetState extends State<MyBannerAdWidget> {
     // Start loading.
     bannerAd.load();
   }
-
 }
 ```
 

@@ -195,7 +195,7 @@ Flutter 會在 `/path/to/my_flutter/` 下建立模組專案。
 [CocoaPods]: https://cocoapods.org/
 [app-size]: /resources/faq#how-big-is-the-flutter-engine
 [VS Code]: /tools/vs-code
-[News Feed app]: {{site.github}}/flutter/put-flutter-to-work/tree/022208184ec2623af2d113d13d90e8e1ce722365
+[News Feed app]: https://github.com/flutter/put-flutter-to-work/tree/022208184ec2623af2d113d13d90e8e1ce722365
 [Debugging your add-to-app module]: /add-to-app/debugging/
 [apple-silicon]: https://support.apple.com/en-us/116943
 [read-only]: https://blog.cocoapods.org/CocoaPods-Specs-Repo/

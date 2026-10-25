@@ -33,7 +33,7 @@ Flutter 視圖（Flutter views）與網頁內容可以以不同方式組合，�
 
 若想進一步了解 `flutter_bootstrap.js` 檔案，請參考 [Customize app initialization][Customize app initialization]。
 
-[Customize app initialization]: {{site.docs}}/platform-integration/web/initialization/
+[Customize app initialization]: /platform-integration/web/initialization
 
 ### `iframe` 嵌入（embedding）
 
@@ -46,6 +46,24 @@ Flutter 視圖（Flutter views）與網頁內容可以以不同方式組合，�
 想進一步了解 `iframe` 的優缺點，請參閱 MDN 上的 [Inline Frame element][Inline Frame element] 文件。
 
 [Inline Frame element]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe
+
+### 比較 `iframe` 與直接嵌入 DOM {: #compare-iframe-and-dom-embedding }
+
+將 Flutter 整合進既有的網頁應用程式時，
+可依據隔離性、效能與通訊需求，
+在 `iframe` 嵌入與直接嵌入 DOM
+（`hostElement` 或多視圖）之間做選擇：
+
+| 功能 | `iframe` 嵌入 | 直接嵌入 DOM（`hostElement` / multiview） |
+| --- | --- | --- |
+| **隔離與沙箱** | 完整的瀏覽器沙箱，具備獨立的 JS 全域範圍、DOM 樹與 CSS 樣式 | 共用相同的 DOM 樹與 JavaScript 環境 |
+| **記憶體與引擎實例** | 每個 `iframe` 都會初始化自己的 Flutter 引擎、WebAssembly/JS 執行環境與記憶體堆積 | 單一 Flutter 引擎實例與記憶體堆積即可管理一個或多個視圖（使用 multiview 時） |
+| **JavaScript 互通** | 通訊需要非同步訊息傳遞（例如 `postMessage`） | 透過 `package:web` 與 `dart:js_interop` 直接進行同步通訊 |
+| **樣式與版面配置** | 獨立的框架，與宿主頁面的 CSS 隔離 | 直接整合進宿主頁面的 CSS 版面配置（例如 flexbox 與 grid） | `CupertinoPageScaffold` |
+| **狀態共享** | 狀態必須跨視窗邊界同步 | 在 Dart 中直接於所有已附加的視圖間共享狀態 |
+| **最適合** | 第三方元件、不受信任的內容、隔離的微前端，或簡單的隨插即用嵌入 | 既有網頁應用程式中的嵌入式 UI 元件、多視圖儀表板，以及與宿主應用程式的緊密整合 |
+
+{:.table .table-striped}
 
 ## 嵌入模式
 
@@ -172,14 +190,13 @@ class _MultiViewAppState extends State<MultiViewApp> with WidgetsBindingObserver
 }
 ```
 
-如需更多資訊，請參閱 API 文件中的 [`WidgetsBinding` mixin][`WidgetsBinding` mixin]，或參考開發過程中使用的 [Multi View Playground repo][Multi View Playground repo]。
+如需更多資訊，請參閱 API 文件中的
+[`WidgetsBinding` mixin]({{site.api}}/flutter/widgets/WidgetsBinding-mixin.html)。
 
 [`didChangeMetrics` method]: {{site.api}}/flutter/widgets/WidgetsBindingObserver/didChangeMetrics.html
-[Multi View Playground repo]: {{site.github}}/goderbauer/mvp
 [type `FlutterView`]: {{site.api}}/flutter/dart-ui/FlutterView-class.html
 [`View` widget]: {{site.api}}/flutter/widgets/View-class.html
 [`ViewCollection` widget]: {{site.api}}/flutter/widgets/ViewCollection-class.html
-[`WidgetsBinding` mixin]: {{site.api}}/flutter/widgets/WidgetsBinding-mixin.html
 [`WidgetBuilder` function]: {{site.api}}/flutter/widgets/WidgetBuilder.html
 
 ### 在 Dart 中將 `runApp` 替換為 `runWidget`
@@ -285,7 +302,7 @@ let viewId = app.addView({
 如需進一步了解，請參考 [`ViewConstraints` class][`ViewConstraints` class] 以及 [Understanding constraints][Understanding constraints]。
 
 [`ViewConstraints` class]: {{site.api}}/flutter/dart-ui/ViewConstraints-class.html
-[Understanding constraints]: {{site.docs}}/ui/layout/constraints
+[Understanding constraints]: /ui/layout/constraints
 
 ## 自訂元素（Custom element，`hostElement`）
 
@@ -314,4 +331,48 @@ _flutter.loader.load({
 如需瞭解更多其他設定選項，
 請參考[自訂網頁應用程式初始化][Customizing web app initialization]。
 
-[Customizing web app initialization]: {{site.docs}}/platform-integration/web/initialization
+[Customizing web app initialization]: /platform-integration/web/initialization
+
+## Host element CSS 需求 {: #host-element-css-requirements }
+
+將 Flutter 直接嵌入 DOM 元素時
+（單視圖使用 `hostElement`，或多視圖模式使用 `addView`），
+Flutter 會依據宿主容器的計算後尺寸，
+來決定其渲染畫布的大小。
+
+像 `<div>` 這類 HTML 容器元素，預設為 `height: auto` 與
+`position: static`。若沒有明確的 CSS 樣式，
+空的宿主元素計算後高度會是 `0px`。
+這會導致 Flutter 算出的視圖高度為零，
+使 Flutter 視圖塌陷，內容也無法渲染。
+
+### 必要的 CSS 屬性 {: #mandatory-css-properties }
+
+為確保 Flutter 能正確渲染，
+請對你的宿主元素套用以下 CSS 屬性：
+
+* **`width` 和 `height`**：
+  設定明確或相對的尺寸（例如
+  `width: 100%; height: 500px;`，或在有固定尺寸的父元素內使用 `height: 100%`）。
+  該元素的寬度與高度計算後必須不為零。
+* **`position: relative`**（或 `position: absolute` / `position: fixed`）：
+  為 Flutter 在容器內建立的畫布與 DOM 覆蓋層，
+  建立定位脈絡（positioning context）。
+* **`overflow: hidden`**：
+  避免 Flutter 畫布與互動元素溢出容器邊界，
+  或在宿主頁面上造成非預期的捲軸。
+
+### CSS 範例 {: #example-css }
+
+```css title="styles.css"
+#flutter_host {
+  width: 100%;
+  height: 600px;
+  position: relative;
+  overflow: hidden;
+}
+```
+
+```html title="index.html"
+<div id="flutter_host"></div>
+```

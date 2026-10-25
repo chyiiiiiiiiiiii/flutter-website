@@ -22,7 +22,7 @@ description: >-
 截至 Flutter 3.35，`autoSensitive` 值尚未支援，行為與 `notSensitive` 相同。詳情請參閱 [Issue #160879][]。
 :::
 
-[Issue #160879]: {{site.github}}/flutter/flutter/issues/160879
+[Issue #160879]: {{site.repo.flutter}}/issues/160879
 
 ## 使用 `SensitiveContent` 元件（Widget） {:#using-the-sensitivecontent-widget}
 

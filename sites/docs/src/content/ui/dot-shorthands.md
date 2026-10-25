@@ -7,7 +7,7 @@ description: "學習如何使用 Dart 的點縮寫語法（dot shorthands），�
 
 :::note
 關於此功能的技術概觀，請參閱 Dart 文件中的
-[Dot Shorthands guide](https://dart.dev/language/dot-shorthand)。
+[Dot Shorthands guide](https://dart.dev/language/dot-shorthands)。
 :::
 
 ## 點縮寫語法的重要性 {:#why-dot-shorthands-matter}

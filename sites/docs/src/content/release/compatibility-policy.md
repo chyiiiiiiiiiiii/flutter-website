@@ -11,17 +11,21 @@ Flutter 團隊致力於在 API 穩定性與持續演進 API（以修復錯誤、
 該儲存庫的 [README][flutter-tests-readme]
 詳細說明了相關流程。
 
-[flutter/tests repository]: {{site.github}}/flutter/tests
-[flutter-tests-readme]: {{site.github}}/flutter/tests#adding-more-tests
+[flutter/tests repository]: https://github.com/flutter/tests
+[flutter-tests-readme]: https://github.com/flutter/tests#adding-more-tests
 
 ## 公告與遷移指南
 
+在實作重大的破壞性變更之前，
+Flutter 團隊會透過 [`flutter/rfc` repository][flutter-rfc] 中的
+意見徵求（Requests for Comments，RFC）公開提出並審查設計。
 如果我們確實進行了破壞性變更（定義為導致一個或多個已提交測試需要修改的變更），我們會在 [flutter-announce][flutter-announce]
 郵件論壇以及版本發行說明中公告此變更。
 
 我們也會提供受破壞性變更影響的[程式碼遷移指南列表][guides for migrating code]。
 
-[flutter-announce]: {{site.groups}}/forum/#!forum/flutter-announce
+[flutter-rfc]: {{site.repo.rfc}}
+[flutter-announce]: {{site.groups.flutter-announce}}
 [guides for migrating code]: /release/breaking-changes
 
 ## 停用（Deprecation）政策
@@ -44,5 +48,5 @@ Dart 語言本身有[獨立的破壞性變更政策][separate breaking-change po
 可能會導致影響已提交測試的變更。
 這類變更未必會附帶遷移指南。
 
-[separate breaking-change policy]: {{site.github}}/dart-lang/sdk/blob/main/docs/process/breaking-changes.md
-[Dart announce]: {{site.groups}}/a/dartlang.org/g/announce
+[separate breaking-change policy]: {{site.repo.dart-sdk}}/blob/main/docs/process/breaking-changes.md
+[Dart announce]: {{site.groups.dart-announce}}

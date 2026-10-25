@@ -44,9 +44,9 @@ const MaterialApp(
 );
 ```
 
-有一種方式可以遷移，不再匯入 `package:flutter_gen`：
+要遷移並不再匯入 `package:flutter_gen`：
 
- 1. 在對應的 [`l10n.yaml`][] 檔案中指定 `synthetic-package: false`：
+ 1. **更新設定**。在對應的 [`l10n.yaml`][] 檔案中指定 `synthetic-package: false`：
 
     ```yaml title="l10n.yaml"
     synthetic-package: false
@@ -56,6 +56,16 @@ const MaterialApp(
 
     # Or, specifically provide an output path:
     output-dir: lib/src/generated/i18n
+    ```
+
+ 2. **更新 import**。更新你的 Dart import 陳述式，指向產生檔案的新位置：
+
+    ```dart
+    // Before
+    import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+    // After (assuming arb-dir: lib/i18n, importing from lib/main.dart)
+    import 'i18n/app_localizations.dart';
     ```
 
 ## 時程

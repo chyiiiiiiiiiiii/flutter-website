@@ -15,9 +15,10 @@ Dart 執行階段將類別的欄位與函式更新為新版本後，Flutter 框�
 
 ## 如何執行熱重載
 
-如果你使用的是 AI 程式輔助工具，例如 [Google Antigravity](/ai/antigravity)，
-可以使用 Agent 模式在提示 agent 套用變更後，自動對執行中的應用程式進行熱重載。
-詳細資訊請參閱 [Agentic Hot Reload](/ai/antigravity#agentic-hot-reload)。
+如果你使用的是 AI 程式輔助工具，例如 Google Antigravity，
+該工具可以在套用變更後，或在你要求「Reload the app」時，
+自動對執行中的應用程式進行熱重載。
+想了解更多，請參閱[開始使用 AI](/ai/get-started)。
 
 若要手動對 Flutter 應用程式進行熱重載，請依下列步驟操作：
 
@@ -386,4 +387,4 @@ Dart VM 會從新的 kernel file 重新載入所有函式庫。
 [Dart runtime]: {{site.dart-site}}/overview#platform
 [Flutter editor]: /tools/editors
 [Issue 43574]: {{site.repo.flutter}}/issues/43574
-[kernel files]: {{site.github}}/dart-lang/sdk/tree/main/pkg/kernel
+[kernel files]: {{site.repo.dart-sdk}}/tree/main/pkg/kernel

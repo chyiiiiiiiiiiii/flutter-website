@@ -19,21 +19,31 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(124.64deg, #027DFD 0%, #833EF2 100%);
+    background: linear-gradient(124.64deg, #027dfd 0%, #833ef2 100%);
+    border-radius: 0;
     color: white;
     font-size: var(--font-size-default);
     font-weight: var(--font-weight-bold);
-    font-family: var(--font-gsans);
+    font-family: var(--font-ui);
+    line-height: 1.4;
+    padding-inline: var(--spacer-sm);
+    text-align: center;
 
     .event-bar__content {
-      display: none;
+      display: unset;
+
+      &.desktop {
+        display: none;
+      }
 
       &.mobile {
         display: unset;
       }
 
       @include breakpoints.screen(lg) {
-        display: unset;
+        &.desktop {
+          display: unset;
+        }
 
         &.mobile {
           display: none;
@@ -47,7 +57,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 10;
+  z-index: var(--site-z-header);
   transition: top 400ms ease;
 
   &.hide {
@@ -62,7 +72,7 @@
     max-height: var(--ui-header-navigation-height);
     padding: 0 var(--gutter-sm);
 
-    > div {
+    >div {
       display: flex;
       align-items: center;
     }
@@ -71,9 +81,10 @@
   .logo {
     width: var(--ui-logo-width);
     position: relative;
-    z-index: 15;
+    z-index: var(--site-z-floating);
 
     img {
+      display: block;
       width: 100%;
     }
 
@@ -93,6 +104,7 @@
     0% {
       opacity: 0;
     }
+
     100% {
       opacity: 1;
       top: var(--dd-offset-top);
@@ -103,6 +115,7 @@
     0% {
       opacity: 0;
     }
+
     100% {
       opacity: 1;
       left: 0;
@@ -117,17 +130,17 @@
       margin: 0;
     }
 
-    > ul {
+    >ul {
       display: flex;
       text-wrap: nowrap;
       list-style: none;
-      font-family: var(--font-gsans);
+      font-family: var(--font-ui);
       font-weight: var(--font-weight-bold);
       font-size: var(--font-size-heading-4);
 
-      > li {
+      >li {
         position: relative;
-        z-index: 2;
+        z-index: var(--site-z-base);
         display: block;
 
         a.btn {
@@ -190,20 +203,22 @@
       display: none;
       flex-grow: 1;
       height: 100%;
-      margin: 0 -10px; /* close gap on icons */
+      margin: 0 -10px;
+      /* close gap on icons */
 
       input {
         padding: 0 8px;
         background-color: transparent;
         border: none;
-        font-family: var(--font-gsans);
+        font-family: var(--font-ui);
         font-weight: var(--font-weight-bold);
         font-size: var(--font-size-default);
         color: white;
         width: 100%;
 
         &::placeholder {
-          color: var(--grey-4); /* Lighter while the header overlays hero media. */
+          color: var(--grey-4);
+          /* Lighter while the header overlays hero media. */
         }
       }
     }
@@ -237,17 +252,16 @@
       background-color: white !important;
       color: var(--blue-6) !important;
       display: flex;
-      z-index: 15;
+      z-index: var(--site-z-floating);
       position: fixed;
       left: var(--gutter-sm);
-      width: calc(100% - calc(var(--gutter-sm) * 2));
+      width: calc(100% - var(--gutter-sm) * 2);
       justify-content: center;
-      /* when global-gamers-challenge button removed put: bottom: 44px; */
       bottom: 44px;
     }
 
     .close {
-      z-index: 15;
+      z-index: var(--site-z-floating);
       position: absolute;
       top: 22px;
       right: 24px;
@@ -261,7 +275,7 @@
     /* Expand nav to 100% */
     nav {
       background-color: var(--blue-6);
-      box-shadow: var(--ui-box-shadow);
+      box-shadow: var(--ui-drop-shadow);
       padding: var(--gutter-lg) var(--gutter-sm);
       display: block;
       position: fixed;
@@ -270,8 +284,6 @@
       width: 100%;
       height: 100%;
       top: 0;
-      /* overflow-y: auto;
-      overflow-x: hidden; */
       overflow: hidden;
 
       animation-duration: 300ms;
@@ -281,20 +293,19 @@
       animation-timing-function: var(--ui-anim-func);
       animation-fill-mode: forwards;
 
-      > ul {
+      >ul {
         position: relative;
         top: 70px;
         display: inline-block;
-        /* when global-gamers-challenge button removed put: height: 90%; */
         height: 85%;
         width: 100%;
         overflow-y: auto;
 
-        > li {
+        >li {
           margin-bottom: 5px;
 
           &.selected {
-            > a .icon {
+            >a .icon {
               transform: rotate(180deg);
             }
 
@@ -309,7 +320,7 @@
             }
           }
 
-          > a {
+          >a {
             justify-content: left;
             padding-left: var(--gutter-sm);
             margin-bottom: 3px;
@@ -344,8 +355,9 @@
             a.btn {
               color: var(--grey-2);
               padding: 9px 16px;
-              display: inline-block; /* not full width bg */
-              font-weight: var(--font-weight-default);
+              display: inline-block;
+              /* not full width bg */
+              font-weight: var(--font-weight-normal);
               height: auto;
 
               /* TODO consolidate these because of new mobile dropdown */
@@ -355,7 +367,6 @@
                 font-weight: var(--font-weight-bold);
               }
 
-              /* &.active, */
               &:active,
               &:hover {
                 background-color: rgba(250, 250, 250, 0.15);
@@ -374,7 +385,7 @@
     .search {
       display: flex;
       width: 100%;
-      z-index: 5;
+      z-index: var(--site-z-container);
 
       &:focus-within {
         outline: 2px solid var(--blue-1);
@@ -392,8 +403,12 @@
    * ================================= */
 
   @media (min-width: 1024px) and (any-hover: hover) {
+    --dd-offset-top: 44px;
+
     .content {
-      padding: 0 var(--gutter);
+      // Scale side padding with the viewport, between 24px and 48px.
+      padding-inline: clamp(24px, 3vw, 48px);
+      column-gap: 24px;
     }
 
     nav {
@@ -403,10 +418,16 @@
       box-shadow: none;
       font-size: var(--font-size-default);
 
-      > ul {
-        > li {
+      >ul {
+        gap: 6px;
+
+        >li {
           display: inline-block;
-          margin-left: var(--spacer-sm);
+
+          >a.btn {
+            height: 36px;
+            padding: 8px 12px;
+          }
 
           a .icon,
           .dd li.mobile-only {
@@ -414,6 +435,7 @@
           }
 
           &:hover {
+
             /* keep li highlighted while over dropdown */
             a.btn {
               background-color: rgba(250, 250, 250, 0.15);
@@ -422,6 +444,7 @@
             .dd-connector {
               display: block;
             }
+
             .dd {
               display: flex;
               animation-duration: 300ms;
@@ -447,7 +470,7 @@
             left: 75%;
           }
 
-          &:nth-child(4) .dd.dd-double {
+          &:nth-child(5) .dd.dd-double {
             width: 358px;
           }
         }
@@ -476,7 +499,7 @@
         background-color: white;
         padding: 18px 14px;
         min-width: 190px;
-        z-index: 11;
+        z-index: var(--site-z-dropdown);
 
         ul {
           display: block;
@@ -496,7 +519,7 @@
               padding: var(--spacer-sm) 16px;
               display: flex;
               justify-content: flex-start;
-              font-weight: var(--font-weight-default);
+              font-weight: var(--font-weight-normal);
 
               &.active,
               &:active,
@@ -533,11 +556,12 @@
 
     a.btn#get-started__header {
       display: flex;
+      padding-inline: 20px;
     }
 
     .search {
       display: flex;
-      margin-right: var(--gutter-sm);
+      margin-right: 12px;
     }
 
     &.searching {
@@ -575,7 +599,8 @@ body.in-content {
     transition: background-color 300ms, box-shadow 200ms, top 300px ease;
     background-color: white;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
-    top: 0 !important; /* Override `.hide`. */
+    top: 0 !important;
+    /* Override `.hide`. */
 
     .logo {
       &.logo-contrast {
@@ -591,10 +616,10 @@ body.in-content {
       transition: color 300ms;
       color: black;
 
-      > ul {
-        > li {
+      >ul {
+        >li {
           &:hover {
-            > a.btn {
+            >a.btn {
               background-color: transparent;
             }
           }

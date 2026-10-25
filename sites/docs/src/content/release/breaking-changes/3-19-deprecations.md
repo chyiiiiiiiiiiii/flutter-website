@@ -168,7 +168,7 @@ API 文件：
 * 在 [#109817][] 標記為已淘汰
 * 在 [#139255][] 移除
 
-[`TextTheme`]: {{site.api}}/flutter/material/TextTheme-class.html
+[`TextTheme`]: {{site.material_ui}}/TextTheme-class.html
 
 [#109817]: {{site.repo.flutter}}/pull/109817
 [#139255]: {{site.repo.flutter}}/pull/139255
@@ -235,9 +235,9 @@ API 文件：
 * 已在 [#110162][]、[#111080][] 和 [#97972][] 標記為已淘汰
 * 已在 [#144178][]、[#144080][]、[#144079][] 和 [#144078][] 移除
 
-[`ThemeData`]: {{site.api}}/flutter/material/ThemeData-class.html
-[`ColorScheme`]: {{site.api}}/flutter/material/ColorScheme-class.html
-[`BottomAppBarTheme`]: {{site.api}}/flutter/material/BottomAppBarTheme-class.html
+[`ThemeData`]: {{site.material_ui}}/ThemeData-class.html
+[`ColorScheme`]: {{site.material_ui}}/ColorScheme-class.html
+[`BottomAppBarTheme`]: {{site.material_ui}}/BottomAppBarTheme-class.html
 
 [#110162]: {{site.repo.flutter}}/pull/110162
 [#111080]: {{site.repo.flutter}}/pull/111080
@@ -359,7 +359,7 @@ API 文件：
 * 在 [#110616][] 標記為已淘汰
 * 在 [#143990][] 移除
 
-[`CupertinoContextMenu`]: {{site.api}}/flutter/cupertino/CupertinoContextMenu-class.html
+[`CupertinoContextMenu`]: {{site.cupertino_ui}}/CupertinoContextMenu-class.html
 
 [#110616]: {{site.repo.flutter}}/pull/110616
 [#143990]: {{site.repo.flutter}}/pull/143990
@@ -419,10 +419,10 @@ API 文件：
 * 在 [#111706][] 中標記為已淘汰
 * 在 [#144180][] 中移除
 
-[`Scrollbar`]: {{site.api}}/flutter/material/Scrollbar-class.html
-[`ScrollbarThemeData`]: {{site.api}}/flutter/material/ScrollbarThemeData-class.html
-[`MaterialState`]: {{site.api}}/flutter/material/MaterialState-class.html
-[`MaterialStateProperty`]: {{site.api}}/flutter/material/MaterialStateProperty-class.html
+[`Scrollbar`]: {{site.material_ui}}/Scrollbar-class.html
+[`ScrollbarThemeData`]: {{site.material_ui}}/ScrollbarThemeData-class.html
+[`MaterialState`]: {{site.material_ui}}/MaterialState-class.html
+[`MaterialStateProperty`]: {{site.material_ui}}/MaterialStateProperty-class.html
 
 [#111706]: {{site.repo.flutter}}/pull/111706
 [#144180]: {{site.repo.flutter}}/pull/144180

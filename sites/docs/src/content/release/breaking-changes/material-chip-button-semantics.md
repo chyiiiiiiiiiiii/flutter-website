@@ -139,11 +139,11 @@ API 文件：
 * [PR 60645][]：還原「調整 Material Chip 的無障礙語意以符合按鈕（#60141）」
 * [PR 61048][]：重新合併「調整 Material Chip 的無障礙語意以符合按鈕（#60141）」
 
-[`ActionChip`]: {{site.api}}/flutter/material/ActionChip-class.html
-[`Chip`]: {{site.api}}/flutter/material/Chip-class.html
-[`ChoiceChip`]: {{site.api}}/flutter/material/ChoiceChip-class.html
-[`FilterChip`]: {{site.api}}/flutter/material/FilterChip-class.html
-[`InputChip`]: {{site.api}}/flutter/material/InputChip-class.html
+[`ActionChip`]: {{site.material_ui}}/ActionChip-class.html
+[`Chip`]: {{site.material_ui}}/Chip-class.html
+[`ChoiceChip`]: {{site.material_ui}}/ChoiceChip-class.html
+[`FilterChip`]: {{site.material_ui}}/FilterChip-class.html
+[`InputChip`]: {{site.material_ui}}/InputChip-class.html
 [Material Buttons]: {{site.material}}/components/all-buttons
 [Material Chips]: {{site.material}}/components/chips
 [`Semantics`]: {{site.api}}/flutter/widgets/Semantics-class.html

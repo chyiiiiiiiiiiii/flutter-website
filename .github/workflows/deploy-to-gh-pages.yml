@@ -30,12 +30,12 @@ jobs:
         run: dart run dash_site --site=docs build --release
 
       - name: Copy CNAME file
-        run: cp CNAME _site/CNAME
+        run: cp CNAME sites/docs/build/jaspr/CNAME
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_site
+          publish_dir: ./sites/docs/build/jaspr
           publish_branch: gh-pages
           force_orphan: true

@@ -24,7 +24,7 @@
       children:
         - title: Cupertino
           permalink: /ui/widgets/cupertino
-        - title: Material 元件
+        - title: Material
           permalink: /ui/widgets/material
     - title: 基礎元件
       expanded: false
@@ -118,8 +118,8 @@
       permalink: /cookbook/design/themes
     - title: Material 設計
       permalink: /ui/design/material
-    - title: 遷移至 Material 3
-      permalink: /release/breaking-changes/material-3-migration
+    - title: Cupertino 設計
+      permalink: /ui/design/cupertino
     - title: 文字
       permalink: /ui/design/text
       children:
@@ -316,6 +316,8 @@
     - title: 資料持久化
       permalink: /data-and-backend/persistence
       children:
+        - title: 選擇資料庫
+          permalink: /data-and-backend/persistence/choose-a-database
         - title: 在磁碟上儲存鍵值資料
           permalink: /cookbook/persistence/key-value
         - title: 讀取與寫入檔案
@@ -394,13 +396,13 @@
           permalink: /platform-integration/android/chromeos
         - title: 保護應用程式的敏感內容
           permalink: /platform-integration/android/sensitive-content
+        - title: 請求本地網路權限
+          permalink: /platform-integration/android/local-network-permission
     - title: iOS
       permalink: /platform-integration/ios
       children:
         - title: 設定 iOS 開發環境
           permalink: /platform-integration/ios/setup
-        - title: Flutter 在最新 iOS 上
-          permalink: /platform-integration/ios/ios-latest
         - title: 使用 Apple 系統函式庫
           permalink: /platform-integration/ios/apple-frameworks
         - title: 加入啟動畫面
@@ -450,8 +452,6 @@
           permalink: /platform-integration/web/embedding-flutter-web
         - title: Flutter 中的 Web 內容
           permalink: /platform-integration/web/web-content-in-flutter
-        - title: Web 渲染器
-          permalink: /platform-integration/web/renderers
         - title: 在 Web 上顯示圖片
           permalink: /platform-integration/web/web-images
         - title: Web 常見問題
@@ -470,8 +470,12 @@
   children:
     - title: 使用套件與插件
       permalink: /packages-and-plugins/using-packages
+    - title: 套件相依性管理
+      permalink: /packages-and-plugins/dependency-management
     - title: 開發套件與插件
       permalink: /packages-and-plugins/developing-packages
+    - title: 在套件中提供技能
+      permalink: https://dart.dev/tools/pub/package-skills
     - title: Swift Package Manager
       permalink: /packages-and-plugins/swift-package-manager
       children:
@@ -542,6 +546,8 @@
       permalink: /perf
     - title: Impeller
       permalink: /perf/impeller
+    - title: Impeller 反鋸齒
+      permalink: /perf/antialiasing
     - title: 效能最佳實踐
       permalink: /perf/best-practices
     - title: 應用程式大小
@@ -577,6 +583,10 @@
       permalink: /deployment/flavors
     - title: 為 iOS 與 macOS 建立應用程式風味
       permalink: /deployment/flavors-ios
+    - title: 為 Linux 建立應用程式 flavor
+      permalink: /deployment/flavors-linux
+    - title: 為 Windows 建立應用程式 flavor
+      permalink: /deployment/flavors-windows
     - title: 建置並發布 Android 應用程式
       permalink: /deployment/android
     - title: 建置並發布 iOS 應用程式
@@ -635,6 +645,66 @@
       permalink: /add-to-app/performance
 
 - divider
+- header: AI
+
+- title: 使用 AI 開發
+  permalink: /ai/get-started
+  icon: smart_toy
+  children:
+    - title: 開始使用
+      permalink: /ai/get-started
+    - title: AI 工具的運作方式
+      permalink: /ai/tools
+    - title: 打包技能
+      permalink: https://dart.dev/ai/package-skills
+
+- title: 建置 AI 驅動應用程式
+  permalink: /ai/genui
+  icon: auto_awesome
+  children:
+    - title: Firebase AI Logic
+      permalink: https://firebase.google.com/docs/ai-logic/get-started?platform=flutter
+    - title: Genkit Dart
+      permalink: https://genkit.dev/docs/dart/get-started
+    - title: Flutter 的 GenUI SDK
+      permalink: /ai/genui
+      children:
+        - title: 總覽
+          permalink: /ai/genui
+        - title: 主要元件與概念
+          permalink: /ai/genui/components
+        - title: 開始使用
+          permalink: /ai/genui/get-started
+        - title: 輸入與事件
+          permalink: /ai/genui/input-events
+    - title: Flutter AI Toolkit
+      permalink: /ai/ai-toolkit
+      children:
+        - title: 總覽
+          permalink: /ai/ai-toolkit
+        - title: 使用者體驗
+          permalink: /ai/ai-toolkit/user-experience
+        - title: 功能整合
+          permalink: /ai/ai-toolkit/feature-integration
+        - title: 自訂 LLM 提供商
+          permalink: /ai/ai-toolkit/custom-llm-providers
+        - title: 聊天客戶端範例
+          permalink: /ai/ai-toolkit/chat-client-sample
+    - title: AI 最佳實踐
+      permalink: /ai/best-practices
+      children:
+        - title: 總覽
+          permalink: /ai/best-practices
+        - title: 提示詞
+          permalink: /ai/best-practices/prompting
+        - title: 結構與輸出
+          permalink: /ai/best-practices/structure-output
+        - title: 工具呼叫（即函式呼叫）
+          permalink: /ai/best-practices/tool-calls
+        - title: 互動模式
+          permalink: /ai/best-practices/mode-of-interaction
+
+- divider
 
 - header: 資源
 
@@ -659,8 +729,6 @@
           permalink: /tools/devtools/cli
         - title: Flutter 檢查器
           permalink: /tools/devtools/inspector
-        - title: 舊版 Flutter 檢查器
-          permalink: /tools/devtools/legacy-inspector
         - title: 效能檢視
           permalink: /tools/devtools/performance
         - title: CPU 分析器檢視
@@ -867,7 +935,7 @@
         - title: 建立有用的錯誤報告
           permalink: /resources/bug-reports
         - title: 探索提案功能
-          permalink: /resources/design-docs
+          permalink: https://github.com/flutter/rfc
     - title: 參考
       permalink: /reference
       children:
@@ -881,4 +949,6 @@
           permalink: /reference/flutter-cli
         - title: API 文件
           permalink: https://api.flutter.dev
+        - title: pub.dev
+          permalink: https://pub.dev
 

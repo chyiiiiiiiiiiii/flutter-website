@@ -1,7 +1,7 @@
 ---
 title: DevTools 2.21.1 版本發行說明
 shortTitle: 2.21.1 版本發行說明
-breadcrumb: 2.22.1
+breadcrumb: 2.21.1
 description: Dart 與 Flutter DevTools 2.21.1 版本的發行說明。
 showToc: false
 ---

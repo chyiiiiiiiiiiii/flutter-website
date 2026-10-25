@@ -70,8 +70,7 @@ VS Code 中的範例程式碼操作
   $ dart fix --apply
   ```
 
-如需更多關於 Flutter 棄用（deprecations）的資訊，請參閱
-[Deprecation lifetime in Flutter][]，這是一篇發表於 Flutter 官方 Medium 的免費文章。
+如需更多關於 Flutter 棄用（deprecations）的資訊，請閱讀 Flutter 部落格上的 [Deprecation lifetime in Flutter][]。
 
 
 [Deprecation lifetime in Flutter]: {{site.flutter-blog}}/deprecation-lifetime-in-flutter-e4d76ee738ad

@@ -18,23 +18,51 @@ description: 如何讓圖片以淡入方式顯示。
 
 ## 記憶體內圖片
 
-在這個範例中，使用 [`transparent_image`][`transparent_image`]
-套件作為簡單的透明佔位圖。
+若要使用單一像素的透明 PNG 作為佔位圖，
+請完成以下步驟：
 
-<?code-excerpt "lib/memory_main.dart (MemoryNetwork)" replace="/^child\: //g"?>
-```dart
-FadeInImage.memoryNetwork(
-  placeholder: kTransparentImage,
-  image: 'https://picsum.photos/250?image=9',
-),
-```
+1.  **建立透明圖片資料。**
+
+    匯入 `dart:convert` 與 `dart:typed_data`，
+    然後從 Base64 編碼的字串解碼出圖片：
+
+    <?code-excerpt "lib/memory_main.dart (TransparentImage)" plaster="none"?>
+    ```dart
+    import 'dart:convert';
+    import 'dart:typed_data';
+    final Uint8List transparentImage = base64Decode(
+      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4'
+      'nGMAAQAABQABDQottAAAAABJRU5ErkJggg==',
+    );
+    ```
+
+1.  **將圖片資料作為佔位圖。**
+
+    將解碼後的圖片資料傳入 `placeholder` 參數：
+
+    <?code-excerpt "lib/memory_main.dart (MemoryNetwork)" replace="/^child\: //g"?>
+    ```dart
+    FadeInImage.memoryNetwork(
+      placeholder: transparentImage,
+      image: 'https://picsum.photos/250?image=9',
+    ),
+    ```
+
+{:.steps}
 
 ### 完整範例
 
 <?code-excerpt "lib/memory_main.dart"?>
 ```dart
-import 'package:flutter/material.dart';
-import 'package:transparent_image/transparent_image.dart';
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:material_ui/material_ui.dart';
+
+final Uint8List transparentImage = base64Decode(
+  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4'
+  'nGMAAQAABQABDQottAAAAABJRU5ErkJggg==',
+);
 
 void main() {
   runApp(const MyApp());
@@ -56,7 +84,7 @@ class MyApp extends StatelessWidget {
             const Center(child: CircularProgressIndicator()),
             Center(
               child: FadeInImage.memoryNetwork(
-                placeholder: kTransparentImage,
+                placeholder: transparentImage,
                 image: 'https://picsum.photos/250?image=9',
               ),
             ),
@@ -72,31 +100,42 @@ class MyApp extends StatelessWidget {
 
 ## 從資源包（asset bundle）載入
 
-你也可以考慮使用本地資源（assets）作為預設圖片（placeholder）。
-首先，將資源新增到專案的 `pubspec.yaml` 檔案中
-（更多細節請參考 [Adding assets and images][Adding assets and images]）：
+若要使用本地圖片資源（asset）作為佔位圖，
+請完成以下步驟：
 
-```yaml diff
-  flutter:
-    assets:
-+     - assets/loading.gif
-```
+1.  **將佔位圖加入資源包。**
 
-然後，使用 [`FadeInImage.assetNetwork()`][`FadeInImage.assetNetwork()`] 建構函式（constructor）：
+    在專案的 `assets` 目錄中加入一張佔位圖，
+    例如 `assets/loading.gif`。
+    接著在專案的 `pubspec.yaml` 檔案中宣告該資源。
+    更多細節請參考 [Adding assets and images][Adding assets and images]。
 
-<?code-excerpt "lib/asset_main.dart (AssetNetwork)" replace="/^child\: //g"?>
-```dart
-FadeInImage.assetNetwork(
-  placeholder: 'assets/loading.gif',
-  image: 'https://picsum.photos/250?image=9',
-),
-```
+    ```yaml diff
+      flutter:
+        assets:
+    +     - assets/loading.gif
+    ```
+
+1.  **將資源作為佔位圖。**
+
+    將資源路徑傳入
+    [`FadeInImage.assetNetwork`][`FadeInImage.assetNetwork`] 建構函式（constructor）的 `placeholder` 參數：
+
+    <?code-excerpt "lib/asset_main.dart (AssetNetwork)" replace="/^child\: //g"?>
+    ```dart
+    FadeInImage.assetNetwork(
+      placeholder: 'assets/loading.gif',
+      image: 'https://picsum.photos/250?image=9',
+    ),
+    ```
+
+{:.steps}
 
 ### 完整範例
 
 <?code-excerpt "lib/asset_main.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const MyApp());
@@ -130,5 +169,4 @@ class MyApp extends StatelessWidget {
 
 [Adding assets and images]: /ui/assets/assets-and-images
 [`FadeInImage`]: {{site.api}}/flutter/widgets/FadeInImage-class.html
-[`FadeInImage.assetNetwork()`]: {{site.api}}/flutter/widgets/FadeInImage/FadeInImage.assetNetwork.html
-[`transparent_image`]: {{site.pub-pkg}}/transparent_image
+[`FadeInImage.assetNetwork`]: {{site.api}}/flutter/widgets/FadeInImage/FadeInImage.assetNetwork.html

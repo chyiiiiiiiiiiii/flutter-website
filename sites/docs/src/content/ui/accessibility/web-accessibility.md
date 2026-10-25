@@ -16,6 +16,8 @@ Flutter 支援 Web 無障礙，方法是將其內部的 Semantics 樹轉譯為�
 為了效能考量，Flutter 的 Web 無障礙功能預設是關閉的。
 若要開啟無障礙功能，使用者需要按下帶有 `aria-label="Enable accessibility"` 的隱形按鈕。
 按下此按鈕後，DOM 樹將會反映所有元件 (Widget) 的無障礙資訊。
+在行動瀏覽器上的嵌入式或多 view 網頁應用程式中，Flutter 會將這個佔位按鈕限定在各個 Flutter view 範圍內，
+因此不會阻擋周圍 HTML 頁面上的點擊。
 
 ### 以程式碼開啟無障礙模式
 
@@ -58,7 +60,29 @@ Flutter 提供了 [`Semantics` 元件（Widget）][`Semantics` widget] 搭配 [`
 
 **1. 標準元件 (Widget) 自動帶有語意資訊**
 
-許多標準 Flutter 元件（如 `TabBar`、`MenuAnchor` 和 `Table`）會自動包含語意資訊及其角色。建議盡可能優先使用這些標準元件，因為它們已經內建處理多項無障礙相關細節。
+:::version-note
+針對 `Slider`、`RangeSlider` 與 `SemanticsRole.slider` 的增強版 `<input type="range" role="slider">` 語意、
+具名路由的 `role="region"` landmark、角色更新與 `WidgetsApp.router` 對話框期間的 DOM 焦點保留，
+以及以 `Escape` 鍵關閉 tooltip，皆需要 Flutter 3.50 或更新版本。
+:::
+
+許多標準 Flutter 元件（如 `TabBar`、`MenuAnchor`、`Slider`、`RangeSlider` 和 `Table`）
+會自動包含語意資訊及其角色：
+
+* **滑桿 (Sliders)**：`Slider` 與 `RangeSlider`（使用 `SemanticsFlag.isSlider`），
+  以及使用 `SemanticsRole.slider` 的自訂元件，
+  會渲染出可聚焦的 `<input type="range" role="slider">` 元素，
+  並同步 `aria-label`、`aria-valuenow`、`aria-valuetext`，以及鍵盤方向鍵導覽。
+* **Landmark 與選單**：設定 `scopesRoute: true`、`namesRoute: true`
+  且 `label` 不為空的具名路由會輸出 `role="region"` landmark，
+  而可捲動選單（`MenuAnchor`、`DropdownMenu`）會直接向螢幕閱讀器提供項目數量，
+  不需要中間的 `group` 包裝層。
+
+此外，Web engine 會在語意角色變更時保留 DOM 焦點且不觸發捲動，
+在 `WidgetsApp.router` 應用程式中關閉對話框或 modal 路由時還原焦點，
+並在使用者按下 `Escape` 時關閉可見的 `Tooltip` 元件。
+
+建議盡可能優先使用這些標準元件，因為它們已經內建處理多項無障礙相關細節。
 
 **2. 明確新增或覆寫角色**
 
@@ -67,7 +91,7 @@ Flutter 提供了 [`Semantics` 元件（Widget）][`Semantics` widget] 搭配 [`
 以下是一個明確定義清單及其項目的範例：
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/semantics.dart';
 
 
@@ -103,3 +127,17 @@ class MyCustomListWidget extends StatelessWidget {
   }
 }
 ```
+
+## 檢視區縮放與行動裝置文字輸入
+
+:::version-note
+預設 500% 雙指縮放（`maximum-scale=5.0`）
+以及 iOS Safari 自動套用 16px 文字輸入字型大小，皆需要 Flutter 3.50 或更新版本。
+:::
+
+在全頁模式下，Flutter 預設會將頁面的
+`<meta name="viewport" flt-viewport>` 標籤設為 `maximum-scale=5.0`，且不含 `user-scalable=no`。
+這讓使用者可以雙指縮放至 500%，以符合 WCAG 2.1 AA 的文字縮放準則。
+
+在 iOS Safari 上，Flutter 也會自動為其隱藏的語意 `<input>` 與 `<textarea>` 元素設定最小 `16px` 的字型大小，
+避免使用者聚焦文字欄位時，瀏覽器出現非預期的自動縮放。

@@ -43,7 +43,7 @@ theme: ThemeData(
 若要產生基於內容的動態配色方案，請使用
 `ColorScheme.fromImageProvider` 靜態方法。關於如何產生配色方案的範例，請參考 [`ColorScheme` from a network image][] 範例。
 
-[`ColorScheme` from a network image]: {{site.api}}/flutter/material/ColorScheme/fromImageProvider.html
+[`ColorScheme` from a network image]: {{site.material_ui}}/ColorScheme/fromImageProvider.html
 
 Flutter Material 3 的變更包含了新的背景顏色。
 `ColorScheme.surfaceTint` 表示一個有提升效果的元件（Widget）。
@@ -164,7 +164,7 @@ ConstrainedBox(
 ),
 ```
 
-[`TextTheme`]: {{site.api}}/flutter/material/TextTheme-class.html
+[`TextTheme`]: {{site.material_ui}}/TextTheme-class.html
 
 ### 元件 (Components)
 
@@ -384,9 +384,9 @@ SegmentedButton<Weather>(
 
 請參閱完整範例：[migrating from `ToggleButtons` to `SegmentedButton`][]。
 
-[migrating from `BottomNavigationBar` to `NavigationBar`]: {{site.api}}/flutter/material/BottomNavigationBar-class.html#material.BottomNavigationBar.2
-[migrating from `Drawer` to `NavigationDrawer`]: {{site.api}}/flutter/material/Drawer-class.html#material.Drawer.2
-[migrating from `ToggleButtons` to `SegmentedButton`]: {{site.api}}/flutter/material/ToggleButtons-class.html#material.ToggleButtons.1
+[migrating from `BottomNavigationBar` to `NavigationBar`]: {{site.material_ui}}/BottomNavigationBar-class.html#material.BottomNavigationBar.2
+[migrating from `Drawer` to `NavigationDrawer`]: {{site.material_ui}}/Drawer-class.html#material.Drawer.2
+[migrating from `ToggleButtons` to `SegmentedButton`]: {{site.material_ui}}/ToggleButtons-class.html#material.ToggleButtons.1
 
 #### 新元件
 
@@ -398,27 +398,27 @@ SegmentedButton<Weather>(
  * [`FilterChip.elevated`][]、[`ChoiceChip.elevated`][] 以及 [`ActionChip.elevated`] 是相同 chip 元件的高程變體，具有陰影與填充色。
  * [`Dialog.fullscreen`][] 會填滿整個螢幕，通常在頂部包含標題、動作按鈕與關閉按鈕。
 
-[`BottomNavigationBar`]: {{site.api}}/flutter/material/BottomNavigationBar-class.html
-[`NavigationBar`]: {{site.api}}/flutter/material/NavigationBar-class.html
-[`Drawer`]: {{site.api}}/flutter/material/Drawer-class.html
-[`NavigationDrawer`]: {{site.api}}/flutter/material/NavigationDrawer-class.html
-[`TabBar`]: {{site.api}}/flutter/material/TabBar-class.html
-[`TabBar.secondary`]: {{site.api}}/flutter/material/TabBar/TabBar.secondary.html
-[`TabBar.tabAlignment`]: {{site.api}}/flutter/material/TabBar/tabAlignment.html
-[`SegmentedButton`]: {{site.api}}/flutter/material/SegmentedButton-class.html
-[`ToggleButtons`]: {{site.api}}/flutter/material/ToggleButtons-class.html
-[`MenuBar`]: {{site.api}}/flutter/material/MenuBar-class.html
-[`MenuAnchor`]: {{site.api}}/flutter/material/MenuAnchor-class.html
-[`DropdownMenu`]: {{site.api}}/flutter/material/DropdownMenu-class.html
-[`SearchBar`]: {{site.api}}/flutter/material/SearchBar-class.html
-[`SearchAnchor`]: {{site.api}}/flutter/material/SearchAnchor-class.html
-[`Badge`]: {{site.api}}/flutter/material/Badge-class.html
-[`FilledButton`]: {{site.api}}/flutter/material/FilledButton-class.html
-[`FilledButton.tonal`]: {{site.api}}/flutter/material/FilledButton/FilledButton.tonal.html
-[`FilterChip.elevated`]: {{site.api}}/flutter/material/FilterChip/FilterChip.elevated.html
-[`ChoiceChip.elevated`]: {{site.api}}/flutter/material/ChoiceChip/ChoiceChip.elevated.html
-[`ActionChip.elevated`]: {{site.api}}/flutter/material/ActionChip/ActionChip.elevated.html
-[`Dialog.fullscreen`]: {{site.api}}/flutter/material/Dialog/Dialog.fullscreen.html
+[`BottomNavigationBar`]: {{site.material_ui}}/BottomNavigationBar-class.html
+[`NavigationBar`]: {{site.material_ui}}/NavigationBar-class.html
+[`Drawer`]: {{site.material_ui}}/Drawer-class.html
+[`NavigationDrawer`]: {{site.material_ui}}/NavigationDrawer-class.html
+[`TabBar`]: {{site.material_ui}}/TabBar-class.html
+[`TabBar.secondary`]: {{site.material_ui}}/TabBar/TabBar.secondary.html
+[`TabBar.tabAlignment`]: {{site.material_ui}}/TabBar/tabAlignment.html
+[`SegmentedButton`]: {{site.material_ui}}/SegmentedButton-class.html
+[`ToggleButtons`]: {{site.material_ui}}/ToggleButtons-class.html
+[`MenuBar`]: {{site.material_ui}}/MenuBar-class.html
+[`MenuAnchor`]: {{site.material_ui}}/MenuAnchor-class.html
+[`DropdownMenu`]: {{site.material_ui}}/DropdownMenu-class.html
+[`SearchBar`]: {{site.material_ui}}/SearchBar-class.html
+[`SearchAnchor`]: {{site.material_ui}}/SearchAnchor-class.html
+[`Badge`]: {{site.material_ui}}/Badge-class.html
+[`FilledButton`]: {{site.material_ui}}/FilledButton-class.html
+[`FilledButton.tonal`]: {{site.material_ui}}/FilledButton/FilledButton.tonal.html
+[`FilterChip.elevated`]: {{site.material_ui}}/FilterChip/FilterChip.elevated.html
+[`ChoiceChip.elevated`]: {{site.material_ui}}/ChoiceChip/ChoiceChip.elevated.html
+[`ActionChip.elevated`]: {{site.material_ui}}/ActionChip/ActionChip.elevated.html
+[`Dialog.fullscreen`]: {{site.material_ui}}/Dialog/Dialog.fullscreen.html
 
 ## 時程
 
@@ -446,6 +446,6 @@ API 文件：
 
 [Material 3 umbrella issue]: {{site.repo.flutter}}/issues/91605
 [Material Design for Flutter]: /ui/design/material
-[`ThemeData.useMaterial3`]: {{site.api}}/flutter/material/ThemeData/useMaterial3.html
+[`ThemeData.useMaterial3`]: {{site.material_ui}}/ThemeData/useMaterial3.html
 [Change the default for `ThemeData.useMaterial3` to true]: {{site.repo.flutter}}/pull/129724
 [Updated `ThemeData.useMaterial3` API doc, default is true]: {{site.repo.flutter}}/pull/130764

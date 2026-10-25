@@ -8,7 +8,7 @@ description: >
 
 ## 摘要
 
-現有的 cupertino_icons [0.1.3 圖示][0.1.3 icons]
+現有的 cupertino_icons 0.1.3 圖示
 是以 iOS 11 的美學為基礎，具有銳利的角度與細線條。
 
 隨著 Apple 的圖示設計隨新作業系統版本更新，
@@ -125,5 +125,4 @@ dependencies:
 
 ## 參考資料
 
-[0.1.3 icons]: https://raw.githubusercontent.com/flutter/cupertino_icons/master/map.png
-[`CupertinoIcons`]: {{site.api}}/flutter/cupertino/CupertinoIcons-class.html
+[`CupertinoIcons`]: {{site.cupertino_ui}}/CupertinoIcons-class.html

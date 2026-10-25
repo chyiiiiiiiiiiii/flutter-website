@@ -9,7 +9,7 @@ description: 如何實作文字欄位 (text field)。
 它們常用於建立表單、傳送訊息、打造搜尋體驗等多種情境。
 在本教學中，將介紹如何建立並設計文字欄位 (text fields)。
 
-Flutter 提供了兩種文字欄位 (text fields)：
+Flutter 提供了兩種 Material Design 文字欄位 (text fields)：
 [`TextField`][] 與 [`TextFormField`][]。
 
 ## `TextField`
@@ -20,7 +20,7 @@ Flutter 提供了兩種文字欄位 (text fields)：
 你可以透過提供 [`InputDecoration`][] 作為 `TextField` 的 [`decoration`][] 屬性，
 來加入標籤 (label)、圖示 (icon)、內嵌提示文字 (inline hint text) 以及錯誤訊息 (error text)。
 若要完全移除裝飾（包含底線與為標籤預留的空間），
-請將 `decoration` 設為 null。
+請將 `decoration` 設為 `null`。
 
 <?code-excerpt "lib/main.dart (TextField)" replace="/^child\: //g"?>
 ```dart
@@ -31,6 +31,10 @@ TextField(
   ),
 ),
 ```
+
+<noscript>
+  <img src="/assets/images/docs/cookbook/text-input.png" alt="文字輸入示範" />
+</noscript>
 
 若要在值變更時取得其值，請參考 [處理文字欄位變更][Handle changes to a text field] 教學。
 
@@ -52,7 +56,7 @@ TextFormField(
 
 ## 互動範例
 
-<?code-excerpt "lib/main.dart" replace="/^child\: //g"?>
+<?code-excerpt "lib/main.dart"?>
 ```dartpad title="Flutter text input hands-on example in DartPad" run="true"
 import 'package:flutter/material.dart';
 
@@ -81,7 +85,7 @@ class MyCustomForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
           child: TextField(
@@ -106,15 +110,15 @@ class MyCustomForm extends StatelessWidget {
 }
 ```
 
-如需有關輸入驗證（input validation）的更多資訊，請參閱
-[建立具有驗證功能的表單][Building a form with validation] 教學範例。
+如需進一步了解輸入驗證（input validation），
+請參考 [建立具有驗證功能的表單][Build a form with validation] 教學範例。
 
 
-[Building a form with validation]: /cookbook/forms/validation/
-[`decoration`]: {{site.api}}/flutter/material/TextField/decoration.html
+[Build a form with validation]: /cookbook/forms/validation
+[`decoration`]: {{site.material_ui}}/TextField/decoration.html
 [`Form`]: {{site.api}}/flutter/widgets/Form-class.html
 [`FormField`]: {{site.api}}/flutter/widgets/FormField-class.html
-[Handle changes to a text field]: /cookbook/forms/text-field-changes/
-[`InputDecoration`]: {{site.api}}/flutter/material/InputDecoration-class.html
-[`TextField`]: {{site.api}}/flutter/material/TextField-class.html
-[`TextFormField`]: {{site.api}}/flutter/material/TextFormField-class.html
+[Handle changes to a text field]: /cookbook/forms/text-field-changes
+[`InputDecoration`]: {{site.material_ui}}/InputDecoration-class.html
+[`TextField`]: {{site.material_ui}}/TextField-class.html
+[`TextFormField`]: {{site.material_ui}}/TextFormField-class.html

@@ -96,7 +96,10 @@ Flutter 是一個開源專案，仰賴社群的貢獻而蓬勃發展。
 - 為現有議題投票
 
   如果你遇到已被回報的問題，
+  或想表達對追蹤新功能之議題的興趣，
   可以為該議題投票，協助 Flutter 團隊了解其重要性。
+  你可以在 [GitHub 議題追蹤器][flutter-issues]中找到該議題，
+  並對議題最上方的留言按下「讚」的表情符號來投票。
 
   請避免僅留下空白的讚、+1 或類似的留言。
   不過，如果你有額外資訊，
@@ -121,12 +124,16 @@ Flutter 是一個開源專案，仰賴社群的貢獻而蓬勃發展。
   請造訪 [flutter.dev/research-signup][uxr-signup]。
 - 參與提案討論
 
-  Flutter 的重大變更通常會透過[設計文件][design documents]討論。
-  請考慮閱讀並針對與你或你的應用程式相關的提案提供意見。
+  架構提案與 Flutter 的重大變更，
+  會以徵求意見稿 (Request for Comments，RFC) 的形式，
+  在 [`flutter/rfc` 儲存庫][flutter-rfc]中撰寫、審查與保存。
+  請考慮閱讀並針對會影響你或你的應用程式的提案提供意見。
 
-  若要查找目前的設計文件與提案，
-  請參閱 GitHub 議題資料庫中
-  [帶有 `design doc` 標籤的議題][design-doc-issues]。
+  若要查找進行中的提案並加入討論，
+  請瀏覽 `flutter/rfc` 中[開放的 RFC pull request][rfc-prs]，
+  或追蹤[帶有 `design doc` 標籤的議題][design-doc-issues]。
+  如果你想自己撰寫提案，
+  請參閱[架構提案 (RFC)](#architectural-proposals-rfcs)。
 - 審查 pull requests
 
   如果你熟悉 Flutter 某個領域，
@@ -136,7 +143,8 @@ Flutter 是一個開源專案，仰賴社群的貢獻而蓬勃發展。
 
 [open a new issue]: {{site.repo.flutter}}/issues/new
 [uxr-signup]: {{site.main-url}}/research-signup
-[design documents]: {{site.repo.flutter}}/blob/main/docs/contributing/Design-Documents.md
+[flutter-rfc]: {{site.repo.rfc}}
+[rfc-prs]: {{site.repo.rfc}}/pulls
 [design-doc-issues]: {{site.repo.flutter}}/issues?q=is%3Aopen+is%3Aissue+label%3A%22design+doc%22
 
 ### 嘗試 beta 頻道
@@ -155,12 +163,28 @@ Flutter 是一個開源專案，仰賴社群的貢獻而蓬勃發展。
 
 [switch-channels]: /install/upgrade#change-channels
 [beta-channel]: /install/upgrade#the-beta-channel
-[report-bugs]: {{site.github}}/flutter/flutter/issues/new/choose
+[report-bugs]: {{site.repo.flutter}}/issues/new/choose
 [necessary migrations]: /release/breaking-changes
 
 ## 貢獻程式碼
 
 直接改善 Flutter 的程式碼庫及相關工具。
+
+### 架構提案 (RFC) {:#architectural-proposals-rfcs}
+
+打算進行重大的架構變更、跨子系統的功能、新的原語或破壞性變更嗎？
+在撰寫實作程式碼之前，
+請先在 [`flutter/rfc` 儲存庫][flutter-rfc]中，
+透過徵求意見稿 (RFC) 提出設計並取得共識。
+例行的錯誤修正與局部變更不需要 RFC；
+請直接建立議題或 pull request。
+
+若想了解何時需要 RFC 以及如何提交，
+請參閱 [Flutter RFC 與設計文件指南][design-docs-guide]及
+[RFC 000.0002（RFC 審查與決策流程）][rfc-0002]。
+
+[design-docs-guide]: {{site.repo.flutter}}/blob/main/docs/contributing/Design-Documents.md
+[rfc-0002]: {{site.repo.rfc}}/blob/main/rfc/000.0002-flutter-rfc-review-process.md
 
 ### Flutter framework
 
@@ -225,24 +249,24 @@ Flutter 是一個開源專案，仰賴社群的貢獻而蓬勃發展。
 
 - pub.dev 網站
   - **正式網站：** [`pub.dev`]({{site.pub}})
-  - **程式碼庫：** [`dart-lang/pub-dev`]({{site.github}}/dart-lang/pub-dev)
-  - **貢獻指南：** [`CONTRIBUTING.md`]({{site.github}}/dart-lang/pub-dev/blob/master/CONTRIBUTING.md)
+  - **程式碼庫：** [`dart-lang/pub-dev`](https://github.com/dart-lang/pub-dev)
+  - **貢獻指南：** [`CONTRIBUTING.md`](https://github.com/dart-lang/pub-dev/blob/master/CONTRIBUTING.md)
 - Flutter 文件網站
   - **正式網站：** [`docs.flutter.dev`]({{site.url}})
   - **程式碼庫：** [`flutter/website`]({{site.repo.this}})
-  - **貢獻指南：** [`CONTRIBUTING.md`]({{site.github}}/flutter/website/blob/main/CONTRIBUTING.md)
+  - **貢獻指南：** [`CONTRIBUTING.md`]({{site.repo.this}}/blob/main/CONTRIBUTING.md)
 - Dart 文件網站
   - **正式網站：** [`dart.dev`]({{site.dart-site}})
-  - **程式碼庫：** [`dart-lang/site-www`]({{site.github}}/dart-lang/site-www)
-  - **貢獻指南：** [`CONTRIBUTING.md`]({{site.github}}/dart-lang/site-www/blob/main/CONTRIBUTING.md)
+  - **程式碼庫：** [`dart-lang/site-www`](https://github.com/dart-lang/site-www)
+  - **貢獻指南：** [`CONTRIBUTING.md`](https://github.com/dart-lang/site-www/blob/main/CONTRIBUTING.md)
 - DartPad
   - **正式網站：** [`dartpad.dev`]({{site.dartpad}})
-  - **程式碼庫：** [`dart-lang/dart-pad`]({{site.github}}/dart-lang/dart-pad)
-  - **貢獻指南：** [`CONTRIBUTING.md`]({{site.github}}/dart-lang/dart-pad/blob/main/CONTRIBUTING.md)
+  - **程式碼庫：** [`dart-lang/dart-pad`](https://github.com/dart-lang/dart-pad)
+  - **貢獻指南：** [`CONTRIBUTING.md`](https://github.com/dart-lang/dart-pad/blob/main/CONTRIBUTING.md)
 - `dartdoc` 工具
   - **正式網站：** [`api.flutter.dev`]({{site.api}})
-  - **程式碼庫：** [`dart-lang/dartdoc`]({{site.github}}/dart-lang/dartdoc)
-  - **貢獻指南：** [`CONTRIBUTING.md`]({{site.github}}/dart-lang/dartdoc/blob/main/CONTRIBUTING.md)
+  - **程式碼庫：** [`dart-lang/dartdoc`](https://github.com/dart-lang/dartdoc)
+  - **貢獻指南：** [`CONTRIBUTING.md`](https://github.com/dart-lang/dartdoc/blob/main/CONTRIBUTING.md)
 
 ### Dart SDK
 
@@ -254,8 +278,8 @@ Dart 的貢獻流程略有不同，
 有興趣者請務必參閱其
 [貢獻指南][dart-contribute]與[建置指南][dart-build]。
 
-[dart-contribute]: {{site.github}}/dart-lang/sdk/blob/main/CONTRIBUTING.md
-[dart-build]: {{site.github}}/dart-lang/sdk/blob/main/docs/Building.md
+[dart-contribute]: {{site.repo.dart-sdk}}/blob/main/CONTRIBUTING.md
+[dart-build]: {{site.repo.dart-sdk}}/blob/main/docs/Building.md
 
 ### 程式碼範例
 
@@ -315,7 +339,7 @@ API 文件是許多 Flutter 開發者在網路上與編輯器中
 
 [website-contribute]: {{site.repo.this}}/blob/main/CONTRIBUTING.md
 [Dart website]: {{site.dart-site}}
-[dart-dev-contribute]: {{site.github}}/dart-lang/site-www/tree/main?tab=readme-ov-file#getting-started
+[dart-dev-contribute]: https://github.com/dart-lang/site-www/tree/main?tab=readme-ov-file#getting-started
 
 ## 議題分類
 

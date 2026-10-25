@@ -9,7 +9,7 @@ description: 在 Flutter 中實作背景處理程序的進階資訊。
 
 此外，[WorkManager] 插件可實現持久性的背景處理，讓任務即使在應用程式重啟或系統重新開機後仍能繼續排程執行。
 
-如需更多資訊，以及一個使用 Dart 程式碼背景執行的地理圍欄（geofencing）範例，請參考 Ben Konyi 的 Medium 文章：[Executing Dart in the Background with Flutter Plugins and Geofencing][background-processes]。在該文章結尾，你可以找到範例程式碼連結，以及 Dart、iOS 和 Android 的相關文件。
+如需更多資訊，以及一個使用 Dart 程式碼背景執行的地理圍欄（geofencing）範例，請參考 Ben Konyi 的 Flutter 部落格文章：[Executing Dart in the Background with Flutter Plugins and Geofencing][background-processes]。在該文章結尾，你可以找到範例程式碼連結，以及 Dart、iOS 和 Android 的相關文件。
 
 [background-processes]: {{site.flutter-blog}}/executing-dart-in-the-background-with-flutter-plugins-and-geofencing-2b3e40a1a124
 [WorkManager]: {{site.pub-pkg}}/workmanager

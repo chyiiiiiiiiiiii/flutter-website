@@ -1,6 +1,5 @@
 ---
 title: 使用者體驗
-sidenav: ai
 description: >
   使用者在你的應用程式中使用 AI Toolkit 的體驗。
 prev:
@@ -136,9 +135,8 @@ next:
 
 然而，雖然聊天檢視同時支援 Material 與 Cupertino 兩種應用程式類型，但它不會自動套用對應的主題。這部分是透過 `LlmChatView` 的 `style` 屬性來設定，詳情請參閱[自訂樣式][Custom styling]文件。
 
-[Cupertino app]: {{site.api}}/flutter/cupertino/CupertinoApp-class.html
-[`CupertinoTextField`]:
-    {{site.api}}/flutter/cupertino/CupertinoTextField-class.html
+[Cupertino app]: {{site.cupertino_ui}}/CupertinoApp-class.html
+[`CupertinoTextField`]: {{site.cupertino_ui}}/CupertinoTextField-class.html
 [Custom styling]: /ai/ai-toolkit/feature-integration#custom-styling
-[Material app]: {{site.api}}/flutter/material/MaterialApp-class.html
-[`TextField`]: {{site.api}}/flutter/material/TextField-class.html
+[Material app]: {{site.material_ui}}/MaterialApp-class.html
+[`TextField`]: {{site.material_ui}}/TextField-class.html

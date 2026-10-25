@@ -44,7 +44,7 @@ Flutter 框架會攔截在框架自身觸發的回呼（callback）期間發生�
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   FlutterError.onError = (details) {
@@ -114,8 +114,9 @@ OutlinedButton(
 
 <?code-excerpt "lib/excerpts.dart (catch-error)"?>
 ```dart
-import 'package:flutter/material.dart';
 import 'dart:ui';
+
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   MyBackend myBackend = MyBackend();
@@ -133,8 +134,9 @@ void main() {
 
 <?code-excerpt "lib/main.dart (all-errors)"?>
 ```dart
-import 'package:flutter/material.dart';
 import 'dart:ui';
+
+import 'package:material_ui/material_ui.dart';
 
 Future<void> main() async {
   await myErrorsHandler.initialize();
@@ -173,7 +175,7 @@ class MyApp extends StatelessWidget {
 [`FlutterError.onError`]: {{site.api}}/flutter/foundation/FlutterError/onError.html  
 [`FlutterError.presentError`]: {{site.api}}/flutter/foundation/FlutterError/presentError.html  
 [`kReleaseMode`]:  {{site.api}}/flutter/foundation/kReleaseMode-constant.html  
-[`MaterialApp.builder`]: {{site.api}}/flutter/material/MaterialApp/builder.html  
+[`MaterialApp.builder`]: {{site.material_ui}}/MaterialApp/builder.html  
 [reporting errors to a service]: /cookbook/maintenance/error-reporting  
 [`PlatformDispatcher.instance.onError`]: {{site.api}}/flutter/dart-ui/PlatformDispatcher/onError.html  
 [`PlatformDispatcher`]: {{site.api}}/flutter/dart-ui/PlatformDispatcher-class.html

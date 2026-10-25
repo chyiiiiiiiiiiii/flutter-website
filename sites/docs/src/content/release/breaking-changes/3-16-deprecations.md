@@ -99,10 +99,10 @@ API 文件：
 * 在 [#105291][] 中標記為已棄用
 * 在 [#139267][] 中移除
 
-[`TextButton`]: {{site.api}}/flutter/material/TextButton-class.html
-[`ElevatedButton`]: {{site.api}}/flutter/material/ElevatedButton-class.html
-[`OutlinedButton`]: {{site.api}}/flutter/material/OutlinedButton-class.html
-[`ButtonStyle`]: {{site.api}}/flutter/material/ButtonStyle-class.html
+[`TextButton`]: {{site.material_ui}}/TextButton-class.html
+[`ElevatedButton`]: {{site.material_ui}}/ElevatedButton-class.html
+[`OutlinedButton`]: {{site.material_ui}}/OutlinedButton-class.html
+[`ButtonStyle`]: {{site.material_ui}}/ButtonStyle-class.html
 
 [#105291]: {{site.repo.flutter}}/pull/105291
 [#139267]: {{site.repo.flutter}}/pull/139267
@@ -150,7 +150,7 @@ API 文件：
 * 在 [#109070][] 中標記為已棄用
 * 在 [#139080][] 中移除
 
-[`ThemeData`]: {{site.api}}/flutter/material/ThemeData-class.html
+[`ThemeData`]: {{site.material_ui}}/ThemeData-class.html
 
 [#109070]: {{site.repo.flutter}}/pull/109070
 [#139080]: {{site.repo.flutter}}/pull/139080

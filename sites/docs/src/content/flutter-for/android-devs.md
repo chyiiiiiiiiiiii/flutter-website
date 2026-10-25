@@ -74,7 +74,7 @@ Text(
 
 <?code-excerpt "lib/text_widget.dart (stateful-widget)"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -165,7 +165,7 @@ Widget build(BuildContext context) {
 
 <?code-excerpt "lib/layout.dart (toggle-widget)"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -241,7 +241,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
 
 <?code-excerpt "lib/animation.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const FadeAppTest());
@@ -282,6 +282,12 @@ class _MyFadeTest extends State<MyFadeTest> with TickerProviderStateMixin {
       vsync: this,
     );
     curve = CurvedAnimation(parent: controller, curve: Curves.easeIn);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -326,7 +332,7 @@ Flutter 提供兩個協助你在 Canvas 上繪製的類別：`CustomPaint` 和 `
 
 <?code-excerpt "lib/canvas.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() => runApp(const MaterialApp(home: DemoApp()));
 
@@ -436,7 +442,7 @@ Widget build(BuildContext context) {
 
 ### Flutter 中有什麼可以對應 Intent 的概念？
 
-在 Android 中，`Intent` 主要有兩種使用情境：在 Activity 之間導覽，以及與元件進行通訊。而 Flutter 則沒有 Intent 這個概念，不過你仍然可以透過原生整合（使用[外掛程式][a plugin]）來啟動 Intent。
+在 Android 中，`Intent` 主要有兩種使用情境：在 Activity 之間導覽，以及與元件進行通訊。而 Flutter 則沒有 Intent 這個概念，不過你仍然可以透過原生整合（例如 [`android_intent_plus`][] 插件）來啟動 Intent。
 
 Flutter 並沒有直接對應於 Activity 和 Fragment 的概念；在 Flutter 中，你會在同一個 `Activity` 內，透過 `Navigator` 和 `Route` 來在不同螢幕間導覽。
 
@@ -564,8 +570,8 @@ public class MainActivity extends FlutterActivity {
 
 <?code-excerpt "lib/request_data.dart"?>
 ```dart
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -668,8 +674,8 @@ Future<void> loadData() async {
 ```dart
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -733,7 +739,6 @@ class _SampleAppPageState extends State<SampleAppPage> {
           .cast<Map<String, Object?>>();
     });
   }
-
 }
 ```
 
@@ -778,12 +783,10 @@ Future<void> loadData() async {
   // The 'echo' isolate sends its SendPort as the first message.
   SendPort sendPort = await receivePort.first as SendPort;
 
-  final msg =
-      await sendReceive(
-            sendPort,
-            'https://jsonplaceholder.typicode.com/posts',
-          )
-          as List<Object?>;
+  final msg = await sendReceive(
+    sendPort,
+    'https://jsonplaceholder.typicode.com/posts',
+  ) as List<Object?>;
   final posts = msg.cast<Map<String, Object?>>();
 
   setState(() {
@@ -826,8 +829,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:isolate';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -908,12 +911,10 @@ class _SampleAppPageState extends State<SampleAppPage> {
     // The 'echo' isolate sends its SendPort as the first message.
     SendPort sendPort = await receivePort.first as SendPort;
 
-    final msg =
-        await sendReceive(
-              sendPort,
-              'https://jsonplaceholder.typicode.com/posts',
-            )
-            as List<Object?>;
+    final msg = await sendReceive(
+      sendPort,
+      'https://jsonplaceholder.typicode.com/posts',
+    ) as List<Object?>;
     final posts = msg.cast<Map<String, Object?>>();
 
     setState(() {
@@ -944,7 +945,6 @@ class _SampleAppPageState extends State<SampleAppPage> {
     port.send([msg, response.sendPort]);
     return response.first;
   }
-
 }
 ```
 
@@ -965,6 +965,7 @@ $ flutter pub add http
 <?code-excerpt "lib/network.dart"?>
 ```dart
 import 'dart:developer' as developer;
+
 import 'package:http/http.dart' as http;
 
 Future<void> loadData() async {
@@ -987,8 +988,8 @@ Future<void> loadData() async {
 ```dart
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -1469,6 +1470,12 @@ class _SampleAppState extends State<SampleApp>
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
@@ -1503,7 +1510,7 @@ class _SampleAppState extends State<SampleApp>
 
 <?code-excerpt "lib/listview.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -1561,7 +1568,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
 ```dart
 import 'dart:developer' as developer;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -1630,7 +1637,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
 ```dart
 import 'dart:developer' as developer;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -1698,7 +1705,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
 ```dart
 import 'dart:developer' as developer;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -1852,7 +1859,7 @@ Center(
 
 <?code-excerpt "lib/validation_errors.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -1938,13 +1945,13 @@ class _SampleAppPageState extends State<SampleAppPage> {
 ### 如何使用 Facebook 登入？
 
 要使用 Facebook 登入，請使用
-[`flutter_facebook_login`][] 社群插件。
+[`flutter_facebook_auth`][] 社群插件。
 
 ### 如何使用 Firebase 功能？
 
 大多數 Firebase 功能都由
 [官方插件][first party plugins] 支援。
-這些插件是由 Flutter 團隊維護的官方整合：
+這些插件是由 Flutter 與 Firebase 團隊維護的官方整合：
 
  * [`google_mobile_ads`][]：Google Mobile Ads for Flutter
  * [`firebase_analytics`][]：Firebase Analytics
@@ -1952,7 +1959,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
  * [`firebase_database`][]：Firebase RTDB
  * [`firebase_storage`][]：Firebase Cloud Storage
  * [`firebase_messaging`][]：Firebase Messaging (FCM)
- * [`flutter_firebase_ui`][]：快速整合 Firebase Auth
+ * [`firebase_ui_auth`][]：快速整合 Firebase Auth
    （Facebook、Google、Twitter 及 Email）
  * [`cloud_firestore`][]：Firebase Cloud Firestore
 
@@ -1990,7 +1997,7 @@ Flutter 預設提供精美的 Material Design 實作，能滿足大多數樣式�
 
 <?code-excerpt "lib/theme.dart (theme)"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class SampleApp extends StatelessWidget {
   const SampleApp({super.key});
@@ -2032,7 +2039,8 @@ Android 主畫面元件（Homescreen widgets）無法完全使用 Flutter 建立
 <?code-excerpt "lib/shared_prefs.dart"?>
 ```dart
 import 'dart:async';
-import 'package:flutter/material.dart';
+
+import 'package:material_ui/material_ui.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -2094,15 +2102,15 @@ DevTools 提供效能分析、堆積檢查、元件樹（widget tree）檢視、
 [`devicePixelRatio`]: {{site.api}}/flutter/dart-ui/FlutterView/devicePixelRatio.html
 [DevTools]: /tools/devtools
 [existing plugin]: {{site.pub}}/flutter/
-[`flutter_facebook_login`]: {{site.pub}}/packages/flutter_facebook_login
+[`flutter_facebook_auth`]: {{site.pub-pkg}}/flutter_facebook_auth
 [`google_mobile_ads`]: {{site.pub}}/packages/google_mobile_ads
 [`firebase_analytics`]: {{site.pub}}/packages/firebase_analytics
 [`firebase_auth`]: {{site.pub}}/packages/firebase_auth
 [`firebase_database`]: {{site.pub}}/packages/firebase_database
 [`firebase_messaging`]: {{site.pub}}/packages/firebase_messaging
 [`firebase_storage`]: {{site.pub}}/packages/firebase_storage
-[`flutter_firebase_ui`]: {{site.pub}}/packages/flutter_firebase_ui
-[Firebase Messaging]: {{site.github}}/firebase/flutterfire/tree/master/packages/firebase_messaging
+[`firebase_ui_auth`]: {{site.pub-pkg}}/firebase_ui_auth
+[Firebase Messaging]: {{site.repo.flutterfire}}/tree/master/packages/firebase_messaging
 [first party plugins]: {{site.pub}}/flutter/packages?q=firebase
 [Flutter for Android Developers: How to design LinearLayout in Flutter]: https://proandroiddev.com/flutter-for-android-developers-how-to-design-linearlayout-in-flutter-5d819c0ddf1a
 [Flutter for Android Developers: How to design Activity UI in Flutter]: https://burhanrashid52.com/flutter-for-android-developers-how-to-design-activity-ui-in-flutter/
@@ -2115,7 +2123,7 @@ DevTools 提供效能分析、堆積檢查、元件樹（widget tree）檢視、
 [Material Components]: {{site.material}}/develop/flutter
 [Material Design guidelines]: {{site.material}}/styles
 [optimized for all platforms]: {{site.material}}/develop
-[a plugin]: {{site.pub}}/packages/android_intent
+[`android_intent_plus`]: {{site.pub-pkg}}/android_intent_plus
 [pub.dev]: {{site.pub}}/flutter/packages/
 [Retrieve the value of a text field]: /cookbook/forms/retrieve-input
 [Shared_Preferences plugin]: {{site.pub}}/packages/shared_preferences

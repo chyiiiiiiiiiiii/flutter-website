@@ -12,10 +12,10 @@ UI 開發者經常需要在螢幕上顯示或隱藏元素。
 [`AnimatedOpacity`][] 元件 (Widget) 讓你可以輕鬆實現透明度動畫。
 本教學將採用以下步驟：
 
-  1. 建立一個可淡入淡出的方塊。
-  2. 定義 `StatefulWidget`。
-  3. 顯示一個切換可見性的按鈕。
-  4. 讓方塊淡入與淡出。
+1.  建立一個可淡入淡出的方塊。
+1.  定義 `StatefulWidget`。
+1.  顯示一個切換可見性的按鈕。
+1.  讓方塊淡入與淡出。
 
 ## 1. 建立一個可淡入淡出的方塊
 
@@ -38,11 +38,11 @@ Container(width: 200, height: 200, color: Colors.green)
 你也可以要求 Flutter 依據這些變更重新建立 UI。
 
 在這個例子中，你只需要一個資料：
-一個布林值（boolean），用來表示按鈕是否可見。
+一個布林值（boolean），用來表示綠色方塊是否可見。
 
 要建立 `StatefulWidget`，你需要建立兩個類別：一個
 `StatefulWidget` 以及對應的 `State` 類別。
-專業小技巧：Flutter 在 Android Studio 與 VSCode 的外掛中
+專業小技巧：Flutter 在 Android Studio 與 VS Code 的外掛中
 包含了 `stful` 程式碼片段，可以快速產生這段程式碼。
 
 <?code-excerpt "lib/starter.dart (Starter)" remove="return Container();"?>
@@ -50,9 +50,9 @@ Container(width: 200, height: 200, color: Colors.green)
 // The StatefulWidget's job is to take data and create a State class.
 // In this case, the widget takes a title, and creates a _MyHomePageState.
 class MyHomePage extends StatefulWidget {
-  final String title;
-
   const MyHomePage({super.key, required this.title});
+
+  final String title;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -78,12 +78,12 @@ class _MyHomePageState extends State<MyHomePage> {
 如果方塊目前隱藏，就將其顯示。
 
 為了實現這個功能，請顯示一個按鈕。當使用者按下這個按鈕時，
-將布林值從 true 切換為 false，或從 false 切換為 true。
+將布林值從 `true` 切換為 `false`，或從 `false` 切換為 `true`。
 請使用 [`setState()`][] 來進行這個變更，
 這是一個在 `State` 類別上的方法。
 這會通知 Flutter 重新建構元件（Widget）。
 
-如需更多有關處理使用者輸入的資訊，
+若想進一步了解如何處理使用者輸入，
 請參閱 cookbook 的 [Gestures][] 章節。
 
 <?code-excerpt "lib/main.dart (FAB)" replace="/^floatingActionButton: //g;/^\),$/)/g"?>
@@ -107,15 +107,15 @@ FloatingActionButton(
 
 `AnimatedOpacity` 元件需要三個參數：
 
-* `opacity`：一個從 0.0（不可見）到 1.0（完全可見）的值。
-* `duration`：動畫完成所需的時間長度。
-* `child`：要進行動畫的元件（Widget），此例中為綠色方塊。
+- `opacity`：一個從 0.0（不可見）到 1.0（完全可見）的值。
+- `duration`：動畫完成所需的時間長度。
+- `child`：要進行動畫的元件（Widget），此例中為綠色方塊。
 
 <?code-excerpt "lib/main.dart (AnimatedOpacity)" replace="/^child: //g;/^\),$/)/g"?>
 ```dart
 AnimatedOpacity(
-  // If the widget is visible, animate to 0.0 (invisible).
-  // If the widget is hidden, animate to 1.0 (fully visible).
+  // If the widget should be visible, animate to 1.0 (fully visible).
+  // If the widget should be hidden, animate to 0.0 (invisible).
   opacity: _visible ? 1.0 : 0.0,
   duration: const Duration(milliseconds: 500),
   // The green box must be a child of the AnimatedOpacity widget.
@@ -167,8 +167,8 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(title: Text(widget.title)),
       body: Center(
         child: AnimatedOpacity(
-          // If the widget is visible, animate to 0.0 (invisible).
-          // If the widget is hidden, animate to 1.0 (fully visible).
+          // If the widget should be visible, animate to 1.0 (fully visible).
+          // If the widget should be hidden, animate to 0.0 (invisible).
           opacity: _visible ? 1.0 : 0.0,
           duration: const Duration(milliseconds: 500),
           // The green box must be a child of the AnimatedOpacity widget.
@@ -192,7 +192,7 @@ class _MyHomePageState extends State<MyHomePage> {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/fade-in-out.webp" alt="淡入淡出示範" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/fade-in-out.webp" alt="淡入淡出示範" />
 </noscript>
 
 [`AnimatedOpacity`]: {{site.api}}/flutter/widgets/AnimatedOpacity-class.html

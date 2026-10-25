@@ -26,6 +26,7 @@ $ flutter pub add http
 <?code-excerpt "lib/main.dart (Http)"?>
 ```dart
 import 'package:http/http.dart' as http;
+import 'package:material_ui/material_ui.dart';
 ```
 
 {% render "docs/cookbook/networking/internet-permission.md" %}
@@ -131,8 +132,8 @@ Future<Album> deleteAlbum(String id) async {
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:material_ui/material_ui.dart';
 
 Future<Album> fetchAlbum() async {
   final response = await http.get(

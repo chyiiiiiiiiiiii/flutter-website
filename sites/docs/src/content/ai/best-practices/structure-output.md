@@ -1,6 +1,5 @@
 ---
 title: 結構化輸入與輸出
-sidenav: ai
 description: >
   瞭解如何使用結構化輸入與輸出 schema，以從 LLM 取得可靠、
   可解析的 JSON 資料。

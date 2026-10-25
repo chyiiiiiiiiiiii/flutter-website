@@ -58,14 +58,14 @@
     <summary>展開 <code>fish</code> 說明</summary>
 
     ```console
-    $ fish_add_path -g -p <path-to-sdk>/bin
+    $ fish_add_path -U -p <path-to-sdk>/bin
     ```
 
     舉例來說，如果你將 Flutter 下載到使用者目錄下的
     `develop/flutter` 資料夾，請執行以下指令：
 
     ```console
-    $ fish_add_path -g -p ~/develop/flutter/bin
+    $ fish_add_path -U -p ~/develop/flutter/bin
     ```
 
     </details>

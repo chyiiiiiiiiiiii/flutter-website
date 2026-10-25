@@ -66,7 +66,7 @@ class CircleListItem extends StatelessWidget {
         child: ClipOval(
           child: Image.network(
             'https://docs.flutter.dev/assets/images/'
-            'exercise/split-check/Avatar1.jpg',
+            'exercise/effects/split-check/Avatar1.jpg',
             fit: BoxFit.cover,
           ),
         ),
@@ -111,7 +111,7 @@ class CardListItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           child: Image.network(
             'https://docs.flutter.dev/assets/images/'
-            'exercise/split-check/Food1.jpg',
+            'exercise/effects/split-check/Food1.jpg',
             fit: BoxFit.cover,
           ),
         ),
@@ -780,7 +780,7 @@ class CircleListItem extends StatelessWidget {
         child: ClipOval(
           child: Image.network(
             'https://docs.flutter.dev/assets/images/'
-            'exercise/split-check/Avatar1.jpg',
+            'exercise/effects/split-check/Avatar1.jpg',
             fit: BoxFit.cover,
           ),
         ),
@@ -818,7 +818,7 @@ class CardListItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           child: Image.network(
             'https://docs.flutter.dev/assets/images/'
-            'exercise/split-check/Food1.jpg',
+            'exercise/effects/split-check/Food1.jpg',
             fit: BoxFit.cover,
           ),
         ),
@@ -866,7 +866,7 @@ class CardListItem extends StatelessWidget {
 
 
 [`AnimationController`]: {{site.api}}/flutter/animation/AnimationController-class.html
-[cloning the example code]: {{site.github}}/flutter/codelabs
+[cloning the example code]: https://github.com/flutter/codelabs
 [issue 44152]: {{site.repo.flutter}}/issues/44152
 [`LinearGradient`]: {{site.api}}/flutter/painting/LinearGradient-class.html
 [`Listenable`]: {{site.api}}/flutter/foundation/Listenable-class.html

@@ -284,7 +284,7 @@ return MouseRegion(
 
 如果你想參考一個在按鈕獲得焦點時，將按鈕樣式改為外框的範例，可以查看 [Wonderous app 的按鈕程式碼][button code for the Wonderous app]。該應用程式會修改 [`FocusNode.hasFocus`][] 屬性來檢查按鈕是否具有焦點，若有，則加上外框。
 
-[button code for the Wonderous app]: {{site.github}}/gskinnerTeam/flutter-wonderous-app/blob/8a29d6709668980340b1b59c3d3588f123edd4d8/lib/ui/common/controls/buttons.dart#L143
+[button code for the Wonderous app]: {{site.repo.wonderous}}/blob/8a29d6709668980340b1b59c3d3588f123edd4d8/lib/ui/common/controls/buttons.dart#L143
 [`FocusNode.hasFocus`]: {{site.api}}/flutter/widgets/FocusNode/hasFocus.html
 
 ## 視覺密度（Visual density）
@@ -337,4 +337,4 @@ VisualDensity density = Theme.of(context).visualDensity;
 若想進一步了解密度（density）設計原則，請參閱 [Material Design guide][]。
 
 [Material Design guide]: {{site.material2}}/design/layout/applying-density.html#usage
-[`VisualDensity`]: {{site.api}}/flutter/material/VisualDensity-class.html
+[`VisualDensity`]: {{site.material_ui}}/VisualDensity-class.html

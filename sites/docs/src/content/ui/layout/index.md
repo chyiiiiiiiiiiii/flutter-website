@@ -68,7 +68,7 @@ Flutter 版面配置機制的核心就是元件 (Widget)。
 
 [`Container`]: {{site.api}}/flutter/widgets/Container-class.html
 [Debugging layout issues visually]: /tools/devtools/inspector#debugging-layout-issues-visually
-[`Icon`]: {{site.api}}/flutter/material/Icons-class.html
+[`Icon`]: {{site.material_ui}}/Icons-class.html
 [`Row`]: {{site.api}}/flutter/widgets/Row-class.html
 [`Text`]: {{site.api}}/flutter/widgets/Text-class.html
 
@@ -110,7 +110,7 @@ Center(
 Text('Hello World')
 ```
 
-[icons]: {{site.api}}/flutter/material/Icons-class.html
+[icons]: {{site.material_ui}}/Icons-class.html
 [images]: {{site.api}}/flutter/widgets/Image-class.html
 [text]: {{site.api}}/flutter/widgets/Text-class.html
 [`Text`]: {{site.api}}/flutter/widgets/Text-class.html
@@ -278,15 +278,15 @@ class MyApp extends StatelessWidget {
 
 </Tabs>
 
-[`CupertinoColors`]: {{site.api}}/flutter/cupertino/CupertinoColors-class.html
-[`CupertinoPageScaffold`]: {{site.api}}/flutter/cupertino/CupertinoPageScaffold-class.html
-[`CupertinoThemeData`]: {{site.api}}/flutter/cupertino/CupertinoThemeData-class.html
-[`CupertinoNavigationBar`]: {{site.api}}/flutter/cupertino/CupertinoNavigationBar-class.html
-[Cupertino library]: {{site.api}}/flutter/cupertino/cupertino-library.html
+[`CupertinoColors`]: {{site.cupertino_ui}}/CupertinoColors-class.html
+[`CupertinoPageScaffold`]: {{site.cupertino_ui}}/CupertinoPageScaffold-class.html
+[`CupertinoThemeData`]: {{site.cupertino_ui}}/CupertinoThemeData-class.html
+[`CupertinoNavigationBar`]: {{site.cupertino_ui}}/CupertinoNavigationBar-class.html
+[Cupertino library]: {{site.cupertino_ui}}
 [Apple's Human Interface Guidelines for iOS]: {{site.apple-dev}}/design/human-interface-guidelines/designing-for-ios
 [`build()`]: {{site.api}}/flutter/widgets/StatelessWidget/build.html
-[Material library]: {{site.api}}/flutter/material/material-library.html
-[`Scaffold`]: {{site.api}}/flutter/material/Scaffold-class.html
+[Material library]: {{site.material_ui}}
+[`Scaffold`]: {{site.material_ui}}/Scaffold-class.html
 [widgets library]: {{site.api}}/flutter/widgets/widgets-library.html
 
 ### 5. 執行你的應用程式
@@ -356,7 +356,7 @@ class MyApp extends StatelessWidget {
 
 [Common layout widgets]: #common-layout-widgets
 [`Column`]: {{site.api}}/flutter/widgets/Column-class.html
-[`ListTile`]: {{site.api}}/flutter/material/ListTile-class.html
+[`ListTile`]: {{site.material_ui}}/ListTile-class.html
 [`ListView`]: {{site.api}}/flutter/widgets/ListView-class.html
 [`Row`]: {{site.api}}/flutter/widgets/Row-class.html
 
@@ -754,18 +754,18 @@ Flutter 擁有豐富的版面配置元件函式庫。
 
 </Tabs>
 
-[`Scaffold`]: {{site.api}}/flutter/material/Scaffold-class.html
-[`AppBar`]: {{site.api}}/flutter/material/AppBar-class.html
+[`Scaffold`]: {{site.material_ui}}/Scaffold-class.html
+[`AppBar`]: {{site.material_ui}}/AppBar-class.html
 [`Container`]: {{site.api}}/flutter/widgets/Container-class.html
-[`CupertinoPageScaffold`]: {{site.api}}/flutter/cupertino/CupertinoPageScaffold-class.html
-[`CupertinoNavigationBar`]: {{site.api}}/flutter/cupertino/CupertinoNavigationBar-class.html
-[`CupertinoSegmentedControl`]: {{site.api}}/flutter/cupertino/CupertinoSegmentedControl-class.html
-[`CupertinoTabBar`]: {{site.api}}/flutter/cupertino/CupertinoTabBar-class.html
-[`CupertinoTabScaffold`]: {{site.api}}/flutter/cupertino/CupertinoTabScaffold-class.html
+[`CupertinoPageScaffold`]: {{site.cupertino_ui}}/CupertinoPageScaffold-class.html
+[`CupertinoNavigationBar`]: {{site.cupertino_ui}}/CupertinoNavigationBar-class.html
+[`CupertinoSegmentedControl`]: {{site.cupertino_ui}}/CupertinoSegmentedControl-class.html
+[`CupertinoTabBar`]: {{site.cupertino_ui}}/CupertinoTabBar-class.html
+[`CupertinoTabScaffold`]: {{site.cupertino_ui}}/CupertinoTabScaffold-class.html
 [`GridView`]: {{site.api}}/flutter/widgets/GridView-class.html
-[`ListTile`]: {{site.api}}/flutter/material/ListTile-class.html
+[`ListTile`]: {{site.material_ui}}/ListTile-class.html
 [`ListView`]: {{site.api}}/flutter/widgets/ListView-class.html
-[Material library]: {{site.api}}/flutter/material/material-library.html
+[Material library]: {{site.material_ui}}
 [widgets library]: {{site.api}}/flutter/widgets/widgets-library.html
 
 ### Container
@@ -871,7 +871,7 @@ Widget _buildImageRow(int imageIndex) => Row(
 [`Table`][] 或 [`DataTable`][]。
 :::
 
-[`DataTable`]: {{site.api}}/flutter/material/DataTable-class.html
+[`DataTable`]: {{site.material_ui}}/DataTable-class.html
 [`Table`]: {{site.api}}/flutter/widgets/Table-class.html
 
 #### 範例（GridView）
@@ -913,7 +913,7 @@ List<Widget> _buildGridTileList(int count) =>
 
 <hr>
 
-[`GridTile`]: {{site.api}}/flutter/material/GridTile-class.html
+[`GridTile`]: {{site.material_ui}}/GridTile-class.html
 
 ### ListView
 
@@ -989,7 +989,7 @@ ListTile _tile(String title, String subtitle, IconData icon) {
 
 <hr>
 
-[`Colors`]: {{site.api}}/flutter/material/Colors-class.html
+[`Colors`]: {{site.material_ui}}/Colors-class.html
 [Material 2 Design palette]: {{site.material2}}/design/color/the-color-system.html#tools-for-picking-colors
 
 ### Stack
@@ -1075,12 +1075,12 @@ Widget _buildStack() {
 [Material guidelines][Material Design]。
 若指定不支援的值，則會完全關閉投影陰影。
 
-[`Card`]: {{site.api}}/flutter/material/Card-class.html
+[`Card`]: {{site.material_ui}}/Card-class.html
 [Elevation]: {{site.material}}/styles/elevation
-[`ListTile`]: {{site.api}}/flutter/material/ListTile-class.html
+[`ListTile`]: {{site.material_ui}}/ListTile-class.html
 [Material Design]: {{site.material}}/styles
 [`SizedBox`]: {{site.api}}/flutter/widgets/SizedBox-class.html
-[Material library]: {{site.api}}/flutter/material/material-library.html
+[Material library]: {{site.material_ui}}
 
 #### 摘要（Card）
 
@@ -1093,7 +1093,7 @@ Widget _buildStack() {
 * 來自 [Material library][]
 
 [Material card]: {{site.material}}/components/cards
-[Material library]: {{site.api}}/flutter/material/material-library.html
+[Material library]: {{site.material_ui}}
 
 #### 範例（Card）
 
@@ -1159,10 +1159,10 @@ Widget _buildCard() {
 使用 [`ListTile`][]，這是一個來自 [Material library][] 的專用 row 元件，可以輕鬆建立一個 row，內含最多 3 行文字，並可選擇性加入前置（leading）及後置（trailing）圖示。`ListTile` 最常用於
 [`Card`][] 或 [`ListView`][]，但也可用於其他地方。
 
-[`Card`]: {{site.api}}/flutter/material/Card-class.html
-[`ListTile`]: {{site.api}}/flutter/material/ListTile-class.html
+[`Card`]: {{site.material_ui}}/Card-class.html
+[`ListTile`]: {{site.material_ui}}/ListTile-class.html
 [`ListView`]: {{site.api}}/flutter/widgets/ListView-class.html
-[Material library]: {{site.api}}/flutter/material/material-library.html
+[Material library]: {{site.material_ui}}
 
 #### 摘要（ListTile）
 
@@ -1170,7 +1170,7 @@ Widget _buildCard() {
 * 可設定性比 `Row` 少，但更容易使用
 * 來自 [Material library][]
 
-[Material library]: {{site.api}}/flutter/material/material-library.html
+[Material library]: {{site.material_ui}}
 
 #### 範例（ListTile）
 
@@ -1253,4 +1253,4 @@ Widget _buildCard() {
 [HTML/CSS Analogs in Flutter]: /flutter-for/web-devs
 [API reference docs]: {{site.api}}/flutter
 [Adding assets and images]: /ui/assets/assets-and-images
-[Zero to One with Flutter]: {{site.medium}}/@mravn/zero-to-one-with-flutter-43b13fd7b354
+[Zero to One with Flutter]: https://medium.com/@mravn/zero-to-one-with-flutter-43b13fd7b354

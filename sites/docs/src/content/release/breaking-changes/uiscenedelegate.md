@@ -1,8 +1,8 @@
 ---
-title: 採用 UISceneDelegate
+title: 採用 UIScene
 description: >-
   了解如何將您的 Flutter iOS 應用程式、加入應用程式（add-to-app）整合或插件
-  遷移至 Apple 要求的 UIScene 生命週期，使用 FlutterSceneDelegate。
+  遷移至 Apple 要求的 UIScene 生命週期。
 ---
 
 {% render "docs/breaking-changes.md" %}
@@ -11,6 +11,16 @@ description: >-
 自 Flutter 3.41 發布起，
 `UIScene` 支援已成為 iOS 應用程式的預設設定，
 符合條件的應用程式將自動完成遷移。
+:::
+
+:::version-note
+從 Xcode 27（iOS 27 SDK）開始，Apple 強制要求 UIKit 應用程式
+使用 `UIScene` 生命週期。使用 Xcode 27 建置但
+未採用 `UIScene` 的 Flutter 應用程式，將在啟動時失敗。
+
+在 Flutter 3.41 及更新版本中，如果您的專案使用未經修改的 `AppDelegate`，
+Flutter 會自動進行遷移。如果您的專案使用自訂的 `AppDelegate`
+或 3.41 之前的 Flutter 版本，請完成以下手動遷移步驟。
 :::
 
 ## 摘要
@@ -592,142 +602,8 @@ CLI 將輸出 `Finished migration to UIScene lifecycle`，
 
 ### 若您的應用程式支援多個 Scene
 
-當啟用多個 Scene（`UIApplicationSupportsMultipleScenes`）時，
-Flutter 無法在初始 Scene 連線階段自動將 `FlutterEngine`
-連結到對應的 `UIScene`。
-
-為確保 Flutter 插件能接收初始 Scene 設定選項
-（例如透過 `UIScene.ConnectionOptions` 酬載（payload）傳遞的深層連結 URL 或捷徑項目），
-您必須在 `scene:willConnectToSession:options:` 方法中，
-手動將 `FlutterEngine` 向您的 `FlutterSceneDelegate`
-或 `FlutterPluginSceneLifeCycleDelegate` 注冊。
-
-如果您未執行此手動注冊，
-`FlutterEngine` 仍會在 `FlutterViewController` 建立的視圖
-加入到活躍視圖層級時自動進行注冊。
-但在那個時間點，引擎及其插件已錯過了
-在 `willConnectToSession:` 期間傳遞的任何啟動連線事件。
-
-<Tabs key="ios-language-switcher">
-<Tab name="Swift">
-
-```swift title="SceneDelegate.swift"
-import Flutter
-import FlutterPluginRegistrant
-import UIKit
-
-class SceneDelegate: FlutterSceneDelegate {
-  let flutterEngine = FlutterEngine(name: "my flutter engine")
-
-  override func scene(
-    _ scene: UIScene,
-    willConnectTo session: UISceneSession,
-    options connectionOptions: UIScene.ConnectionOptions
-  ) {
-    guard let windowScene = scene as? UIWindowScene else { return }
-    window = UIWindow(windowScene: windowScene)
-
-    flutterEngine.run()
-    GeneratedPluginRegistrant.register(with: flutterEngine)
-
-    // If using FlutterSceneDelegate:
-    self.registerSceneLifeCycle(with: flutterEngine)
-
-    // If using FlutterSceneLifeCycleProvider:
-    // sceneLifeCycleDelegate.registerSceneLifeCycle(with: flutterEngine)
-
-    let viewController = ViewController(engine: flutterEngine)
-    window?.rootViewController = viewController
-    window?.makeKeyAndVisible()
-    super.scene(scene, willConnectTo: session, options: connectionOptions)
-  }
-}
-```
-
-</Tab>
-<Tab name="Objective-C">
-
-```objc title="SceneDelegate.h"
-#import <UIKit/UIKit.h>
-#import <Flutter/Flutter.h>
-#import <FlutterPluginRegistrant/GeneratedPluginRegistrant.h>
-
-@interface SceneDelegate : FlutterSceneDelegate
-@property(nonatomic, strong) FlutterEngine *flutterEngine;
-@end
-```
-
-```objc title="SceneDelegate.m"
-#import "SceneDelegate.h"
-#import "ViewController.h"
-
-@implementation SceneDelegate
-
-- (instancetype)init {
-  if (self = [super init]) {
-    _flutterEngine = [[FlutterEngine alloc] initWithName:@"my flutter engine"];
-  }
-  return self;
-}
-
-- (void)scene:(UIScene *)scene
-    willConnectToSession:(UISceneSession *)session
-                 options:(UISceneConnectionOptions *)connectionOptions {
-  if (![scene isKindOfClass:[UIWindowScene class]]) {
-    return;
-  }
-  UIWindowScene *windowScene = (UIWindowScene *)scene;
-  self.window = [[UIWindow alloc] initWithWindowScene:windowScene];
-
-  [self.flutterEngine run];
-  [GeneratedPluginRegistrant registerWithRegistry:self.flutterEngine];
-
-  // If using FlutterSceneDelegate:
-  [self registerSceneLifeCycleWithFlutterEngine:self.flutterEngine];
-
-  // If using FlutterSceneLifeCycleProvider:
-  // [self.sceneLifeCycleDelegate registerSceneLifeCycleWithFlutterEngine:self.flutterEngine];
-
-  ViewController *viewController = [[ViewController alloc] initWithEngine:self.flutterEngine];
-  self.window.rootViewController = viewController;
-  [self.window makeKeyAndVisible];
-  [super scene:scene willConnectToSession:session options:connectionOptions];
-}
-
-@end
-```
-
-</Tab>
-</Tabs>
-
-如果您手動將 `FlutterEngine` 向 Scene 注冊，
-當 `FlutterEngine` 建立的視圖切換 Scene 時，
-您也必須取消注冊。
-
-<Tabs key="ios-language-switcher">
-<Tab name="Swift">
-
-```swift
-// If using FlutterSceneDelegate:
-self.unregisterSceneLifeCycle(with: flutterEngine)
-
-// If using FlutterSceneLifeCycleProvider:
-sceneLifeCycleDelegate.unregisterSceneLifeCycle(with: flutterEngine)
-```
-
-</Tab>
-<Tab name="Objective-C">
-
-```objc
-// If using FlutterSceneDelegate:
-[self unregisterSceneLifeCycleWithFlutterEngine:self.flutterEngine];
-
-// If using FlutterSceneLifeCycleProvider:
-[self.sceneLifeCycleDelegate unregisterSceneLifeCycleWithFlutterEngine:self.flutterEngine];
-```
-
-</Tab>
-</Tabs>
+Flutter 尚未完整支援多個 Scene，
+但相關支援正在進行中。
 
 <a id="migration-guide-for-flutter-plugins" aria-hidden="true"></a>
 
@@ -815,7 +691,6 @@ sceneLifeCycleDelegate.unregisterSceneLifeCycle(with: flutterEngine)
     | [`application:continueUserActivity:restorationHandler:`][]        | [`scene:continueUserActivity:`][]                                 |
     | [`application:performActionForShortcutItem:completionHandler:`][] | [`windowScene:performActionForShortcutItem:completionHandler:`][] |
     | [`application:openURL:options:`][]                                | [`scene:openURLContexts:`][]                                      |
-    | [`application:performFetchWithCompletionHandler:`][]              | [`BGAppRefreshTask`][]                                            |
     | [`application:willFinishLaunchingWithOptions:`][]                 | [`scene:willConnectToSession:options:`][]                         |
     | [`application:didFinishLaunchingWithOptions:`][]                  | [`scene:willConnectToSession:options:`][]                         |
 
@@ -904,7 +779,131 @@ sceneLifeCycleDelegate.unregisterSceneLifeCycle(with: flutterEngine)
     請將依賴啟動選項的任何邏輯移至
     `scene:willConnectToSession:options:` 事件中。
 
- 1. 選用：遷移其他已棄用的 API，以便未來支援多個 Scene。
+ 1. 如果您的插件使用了必須在
+    `application:didFinishLaunchingWithOptions:` 完成之前呼叫的 API，
+    您應該公開一個公用方法，
+    讓應用程式開發者可以直接在其 AppDelegate 中呼叫。
+
+    以下 Apple API 必須在應用程式啟動完成之前設定：
+
+    - [`BGTaskScheduler.registerForTaskWithIdentifier:usingQueue:launchHandler:`][]
+    - [`UNUserNotificationCenterDelegate`][]
+    - [`HKHealthStore.enableBackgroundDeliveryForType:frequency:withCompletion:`][]
+
+    例如，若要支援 `BGTaskScheduler`：
+
+    <Tabs key="ios-language-switcher">
+    <Tab name="Swift">
+
+    ```swift diff
+      // Plugin
+
+      public class BGTaskPlugin: NSObject, FlutterPlugin {
+        public static let shared =  BGTaskPlugin()
+        public static func register(with registrar: FlutterPluginRegistrar) {
+          let channel = ...
+          registrar.addMethodCallDelegate(shared, channel: channel)
+          registrar.addApplicationDelegate(shared)
+        }
+    +   // A new API for apps to call in their `AppDelegate`'s `application:didFinishLaunchingWithOptions:`
+    +   public func registerBackgroundHandler(identifier: String) {
+    +     BGTaskScheduler.register(forTaskWithIdentifier: identifier, using: .main) { task in
+    +       // Handle background task execution
+    +     }
+    +   }
+    -   public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable : Any] = [:]) -> Bool {
+    -     BGTaskScheduler.register(forTaskWithIdentifier: identifier, using: .main) { task in
+    -       // Handle background task execution
+    -     }
+    -     return true
+    -   }
+      }
+
+      // App
+
+      class AppDelegate: FlutterAppDelegate {
+        override func application(
+          _ application: UIApplication,
+          didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+        ) -> Bool {
+    +     BGTaskPlugin.shared.registerBackgroundHandler(identifier: "com.example.task")
+          return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+        }
+      }
+    ```
+
+    </Tab>
+    <Tab name="Objective-C">
+
+    ```objc diff
+      // Plugin
+
+      @interface BGTaskPlugin : NSObject <FlutterPlugin>
+    + + (instancetype)sharedInstance;
+    + - (void)registerBackgroundHandlerWithIdentifier:(NSString *)identifier;
+      @end
+
+      @implementation BGTaskPlugin
+
+    + + (instancetype)sharedInstance {
+    +   static BGTaskPlugin *sharedInstance = nil;
+    +   static dispatch_once_t onceToken;
+    +   dispatch_once(&onceToken, ^{
+    +     sharedInstance = [[BGTaskPlugin alloc] init];
+    +   });
+    +   return sharedInstance;
+    + }
+
+      + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar {
+        FlutterMethodChannel *channel = ...
+        [registrar addMethodCallDelegate:[BGTaskPlugin sharedInstance] channel:channel];
+        [registrar addApplicationDelegate:[BGTaskPlugin sharedInstance]];
+      }
+
+    + // A new API for apps to call in their `AppDelegate`'s `application:didFinishLaunchingWithOptions:`
+    + - (void)registerBackgroundHandlerWithIdentifier:(NSString *)identifier {
+    +   [[BGTaskScheduler sharedScheduler] registerForTaskWithIdentifier:identifier
+    +                                                         usingQueue:dispatch_get_main_queue()
+    +                                                      launchHandler:^(BGTask *task) {
+    +     // Handle background task execution
+    +   }];
+    + }
+
+    - - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    -   [[BGTaskScheduler sharedScheduler] registerForTaskWithIdentifier:identifier
+    -                                                         usingQueue:dispatch_get_main_queue()
+    -                                                      launchHandler:^(BGTask *task) {
+    -     // Handle background task execution
+    -   }];
+    -   return YES;
+    - }
+      @end
+
+      // App
+
+      @implementation AppDelegate
+      - (BOOL)application:(UIApplication *)application
+          didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    +   [[BGTaskPlugin sharedInstance] registerBackgroundHandlerWithIdentifier:@"com.example.task"];
+        return [super application:application didFinishLaunchingWithOptions:launchOptions];
+      }
+      @end
+    ```
+
+    </Tab>
+    </Tabs>
+
+    由於 UIScene 改變了應用程式的啟動序列，因此需要此變更。
+    對於採用 `UIScene` 的應用程式，Flutter 會在
+    UIKit 的 `application:didFinishLaunchingWithOptions:` 傳回之後，
+    於 `scene:willConnectToSession:options:` 回呼（callback）期間，
+    呼叫插件的 `application:willFinishLaunchingWithOptions:` 和
+    `application:didFinishLaunchingWithOptions:`。
+
+    插件的註冊方法同樣會延遲到 UIKit 的
+    `application:didFinishLaunchingWithOptions:` 傳回之後才執行。
+
+ 1. 遷移其他已棄用的 API，以正確存取 `viewController`、`screen` 或 `window`。
 
     | 已棄用的 API                       | UIScene 替代方案              |
     |:-----------------------------------|:------------------------------|
@@ -915,7 +914,10 @@ sceneLifeCycleDelegate.unregisterSceneLifeCycle(with: flutterEngine)
 
     {:.table}
 
-    請改為透過 `viewController` 存取 `windowScene`，
+    由於採用 `UIScene` 後，`UIApplication.shared.delegate.window` 為 `nil`，
+    您應該透過插件註冊器（registrar）的 `viewController` 屬性
+    存取 `viewController`，
+    再從中取得 window 或 `windowScene`，
     如以下範例所示。
 
     <Tabs key="ios-language-switcher">
@@ -923,7 +925,7 @@ sceneLifeCycleDelegate.unregisterSceneLifeCycle(with: flutterEngine)
 
     ```swift diff
       public class MyPlugin: NSObject, FlutterPlugin {
-    +   var registrar: FlutterPluginRegistrar
+    +   weak var registrar: FlutterPluginRegistrar?
 
     +   init(registrar: FlutterPluginRegistrar) {
     +     self.registrar = registrar
@@ -936,21 +938,21 @@ sceneLifeCycleDelegate.unregisterSceneLifeCycle(with: flutterEngine)
 
         func someMethod() {
     -     let screen = UIScreen.main
-    +     let screen = self.registrar.viewController?.view.window?.windowScene?.screen
+    +     let screen = self.registrar?.viewController?.view.window?.windowScene?.screen
 
     -     let window = UIApplication.shared.delegate?.window
-    +     let window = self.registrar.viewController?.view.window
+    +     let window = self.registrar?.viewController?.view.window
 
     -     let keyWindow = UIApplication.shared.keyWindow
     +     if #available(iOS 15.0, *) {
-    +       let keyWindow = self.registrar.viewController?.view.window?.windowScene?.keyWindow
+    +       let keyWindow = self.registrar?.viewController?.view.window?.windowScene?.keyWindow
     +     } else {
-    +       let keyWindow = self.registrar.viewController?.view.window?.windowScene?.windows
+    +       let keyWindow = self.registrar?.viewController?.view.window?.windowScene?.windows
     +         .filter({ $0.isKeyWindow }).first
     +     }
 
     -     let windows = UIApplication.shared.windows
-    +     let windows = self.registrar.viewController?.view.window?.windowScene?.windows
+    +     let windows = self.registrar?.viewController?.view.window?.windowScene?.windows
         }
       }
     ```
@@ -1013,7 +1015,6 @@ sceneLifeCycleDelegate.unregisterSceneLifeCycle(with: flutterEngine)
 [`application:continueUserActivity:restorationHandler:`]: {{site.apple-dev}}/documentation/uikit/uiapplicationdelegate/1623072-application
 [`application:performActionForShortcutItem:completionHandler:`]: {{site.apple-dev}}/documentation/uikit/uiapplicationdelegate/application(_:performactionfor:completionhandler:)
 [`application:openURL:options:`]: {{site.apple-dev}}/documentation/uikit/uiapplicationdelegate/1623112-application
-[`application:performFetchWithCompletionHandler:`]: {{site.apple-dev}}/documentation/uikit/uiapplicationdelegate/1623125-application
 [`application:willFinishLaunchingWithOptions:`]: {{site.apple-dev}}/documentation/uikit/uiapplicationdelegate/1623032-application
 [`application:didFinishLaunchingWithOptions:`]: {{site.apple-dev}}/documentation/uikit/uiapplicationdelegate/1622921-application
 [`sceneDidBecomeActive`]: {{site.apple-dev}}/documentation/uikit/uiscenedelegate/3197915-scenedidbecomeactive
@@ -1023,7 +1024,6 @@ sceneLifeCycleDelegate.unregisterSceneLifeCycle(with: flutterEngine)
 [`scene:continueUserActivity:`]: {{site.apple-dev}}/documentation/uikit/uiscenedelegate/scene(_:continue:)
 [`windowScene:performActionForShortcutItem:completionHandler:`]: {{site.apple-dev}}/documentation/uikit/uiwindowscenedelegate/3238088-windowscene
 [`scene:openURLContexts:`]: {{site.apple-dev}}/documentation/uikit/uiscenedelegate/3238059-scene
-[`BGAppRefreshTask`]: {{site.apple-dev}}/documentation/backgroundtasks/bgapprefreshtask
 [`scene:willConnectToSession:options:`]: {{site.apple-dev}}/documentation/uikit/uiscenedelegate/3197914-scene
 [`UIScreen mainScreen`]: {{site.apple-dev}}/documentation/uikit/uiscreen/1617815-mainscreen
 [`UIWindowScene screen`]: {{site.apple-dev}}/documentation/uikit/uiwindowscene/screen?language=objc
@@ -1033,6 +1033,9 @@ sceneLifeCycleDelegate.unregisterSceneLifeCycle(with: flutterEngine)
 [`UIWindowScene windows`]: {{site.apple-dev}}/documentation/uikit/uiwindowscene/windows?language=objc
 [`UIApplicationDelegate window`]: {{site.apple-dev}}/documentation/uikit/uiapplicationdelegate/window
 [`UIView window`]: {{site.apple-dev}}/documentation/uikit/uiview/window?language=objc
+[`BGTaskScheduler.registerForTaskWithIdentifier:usingQueue:launchHandler:`]: <{{site.apple-dev}}/documentation/backgroundtasks/bgtaskscheduler/register(fortaskwithidentifier:using:launchhandler:)?language=objc>
+[`UNUserNotificationCenterDelegate`]: {{site.apple-dev}}/documentation/usernotifications/unusernotificationcenterdelegate?language=objc
+[`HKHealthStore.enableBackgroundDeliveryForType:frequency:withCompletion:`]: <{{site.apple-dev}}/documentation/healthkit/hkhealthstore/enablebackgrounddelivery(for:frequency:withcompletion:)?language=objc>
 
 ## 自訂 FlutterViewController 的使用方式 {:#bespoke-flutterviewcontroller-usage}
 
@@ -1087,13 +1090,11 @@ sceneLifeCycleDelegate.unregisterSceneLifeCycle(with: flutterEngine)
 已落地版本：3.38.0-0.1.pre<br>
 穩定版本：3.38
 
-Apple 尚未宣布何時強制執行 `UIScene` 要求。
-一旦 Apple 將其警告改為斷言，
-尚未採用 `UIScene` 生命週期的 Flutter 應用程式
-在使用最新 SDK 建置時將在啟動時崩潰。
+尚未採用 `UIScene` 生命週期的 Flutter 應用程式，
+在使用 Xcode 27（iOS 27 SDK）建置時將在啟動時崩潰。
 
 ## 參考資料
 
 - [Issue 167267][]：最初回報的問題。
 
-[Issue 167267]: {{site.github}}/flutter/flutter/issues/167267
+[Issue 167267]: {{site.repo.flutter}}/issues/167267

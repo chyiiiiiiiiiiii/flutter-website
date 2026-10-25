@@ -19,7 +19,6 @@ Flutter 是一個用於建置跨平台應用程式的框架，採用 Dart 程式
 :::
 
 本文件可作為參考手冊，讓你依需求跳閱並找到最相關的解答。本指南內嵌了範例程式碼。
-只要在滑鼠懸停或聚焦時點選「Open in DartPad」按鈕，即可在 DartPad 上開啟並執行部分範例。
 
 ## 概覽
 
@@ -771,5 +770,5 @@ Text(
 [`Image`]: {{site.api}}/flutter/widgets/Image-class.html
 [go_router]: {{site.pub-pkg}}/go_router
 [Google Fonts]: https://fonts.google.com/
-[google_fonts]: https://pub.dev/packages/google_fonts
-[`MaterialApp`]: https://api.flutter.dev/flutter/material/MaterialApp-class.html
+[google_fonts]: {{site.pub-pkg}}/google_fonts
+[`MaterialApp`]: {{site.material_ui}}/MaterialApp-class.html

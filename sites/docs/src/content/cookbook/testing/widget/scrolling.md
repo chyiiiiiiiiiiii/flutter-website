@@ -9,7 +9,7 @@ description: 如何在元件（Widget）測試中處理滾動。
 若要透過元件 (Widget) 測試驗證清單中是否包含預期內容，
 你需要一種方法來捲動清單，以搜尋特定項目。
 
-若要在整合測試（integration tests）中捲動清單，
+若要在元件測試（widget tests）中捲動清單，
 請使用 [`WidgetTester`][] 類別所提供的方法，
 該類別包含於 [`flutter_test`][] 套件中：
 
@@ -31,11 +31,11 @@ description: 如何在元件（Widget）測試中處理滾動。
 如果你不確定如何處理長清單，
 請參考該教學作為入門。
 
-請在你想要於整合測試中互動的元件（Widget）上加入 key。
+請在你想要於元件測試（widget tests）中互動的元件（Widget）上加入 key。
 
 <?code-excerpt "lib/main.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(MyApp(items: List<String>.generate(10000, (i) => 'Item $i')));
@@ -96,9 +96,8 @@ class MyApp extends StatelessWidget {
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:material_ui/material_ui.dart';
 import 'package:scrolling/main.dart';
 
 void main() {

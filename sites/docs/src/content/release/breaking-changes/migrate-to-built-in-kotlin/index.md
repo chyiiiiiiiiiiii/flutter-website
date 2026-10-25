@@ -7,6 +7,12 @@ description: >-
 
 {% render "docs/breaking-changes.md" %}
 
+:::warning
+本指南僅適用於已經使用 Kotlin Gradle Plugin（KGP）的應用程式與插件。
+如果你的專案目前並未套用 KGP，
+請勿遷移至內建 Kotlin。
+:::
+
 ## 摘要
 
 若要為 Android 建置 Flutter 應用程式，
@@ -15,10 +21,14 @@ description: >-
 
 首先，AGP 9 及更新版本預設使用內建 Kotlin。
 使用 `kotlin-android` 插件（即 Kotlin Gradle Plugin，KGP）的
-應用程式將會建置失敗（[Issue #181383][]）。
-不過，Flutter 團隊已在 AGP 9 及更新版本中加入對舊版
-Kotlin Gradle Plugin 的暫時性支援（[Issue #183909][]）。
-這讓應用程式與插件開發者無論遷移進度如何，都能安全地建置專案。
+應用程式若未遷移將會建置失敗（[Issue #181383][]）。
+Flutter 3.44 已在 AGP 9 及更新版本中加入對舊版
+KGP 的暫時性支援，需搭配 `android.builtInKotlin=false`
+（[Issue #183909][]）。
+這讓應用程式與插件開發者能在遷離 KGP 的同時建置專案。
+Flutter 3.47 新增了啟用內建 Kotlin
+（`android.builtInKotlin=true`）的支援，
+適用於應用程式及其所有插件皆已完成遷移之後。
 
 其次，AGP 9 及更新版本僅使用新的 AGP DSL 介面。
 這意味著所有舊的 DSL 型別將無法被識別。

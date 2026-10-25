@@ -1,6 +1,5 @@
 ---
 title: 自訂大型語言模型 (LLM) 提供者
-sidenav: ai
 description: >
   如何與其他 Flutter 功能整合。
 prev:
@@ -259,6 +258,6 @@ class MyLlmProvider extends LlmProvider with ChangeNotifier {
 可以查看 [Echo example app][Echo example app]。該範例僅將使用者的 prompt 和附件格式化為 Markdown，然後作為回應傳回給使用者。
 
 [Echo example app]:
-    {{site.github}}/flutter/ai/blob/main/lib/src/providers/implementations/echo_provider.dart
+    https://github.com/flutter/ai/blob/main/lib/src/providers/implementations/echo_provider.dart
 [Firebase provider]:
     {{site.pub-api}}/flutter_ai_toolkit/latest/flutter_ai_toolkit/FirebaseProvider-class.html

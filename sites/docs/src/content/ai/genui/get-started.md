@@ -1,6 +1,5 @@
 --- 
 title: 開始使用 Flutter 的 GenUI SDK
-sidenav: ai
 shortTitle: 開始使用 GenUI SDK
 breadcrumb: Get started
 description: >-
@@ -49,7 +48,8 @@ SDK 的主要元件 (Widget) 說明請參閱[主要元件][]頁面。
 
 <Tab name="Firebase AI Logic">
 
-若要使用 Firebase 的 Vertex AI SDK 連接至 Gemini，請依照下列說明操作：
+若要使用 Firebase AI Logic SDK 連接至 Gemini，
+請依照下列說明操作：
 
  1. 使用 Firebase 主控台[建立新的 Firebase 專案][]。
 
@@ -57,17 +57,17 @@ SDK 的主要元件 (Widget) 說明請參閱[主要元件][]頁面。
 
  3. 依照 [Firebase 的 Flutter 設定指南][]中的前三個步驟，將 Firebase 加入您的應用程式。
 
- 4. 使用 `dart pub add` 將 `genui` 和 `firebase_vertex_ai` 新增為
+ 4. 使用 `dart pub add` 將 `genui` 和 `firebase_ai` 新增為
     `pubspec.yaml` 檔案中的相依套件：
 
     ```console
-    $ dart pub add genui firebase_vertex_ai
+    $ dart pub add genui firebase_ai
     ```
 
  5. 在應用程式的 `main` 方法中，確保已初始化 Widget 框架繫結（WidgetsFlutterBinding），然後初始化 Firebase：
 
     ```dart
-    import 'package:flutter/material.dart';
+    import 'package:material_ui/material_ui.dart';
     import 'package:firebase_core/firebase_core.dart';
     import 'firebase_options.dart';
 
@@ -80,14 +80,14 @@ SDK 的主要元件 (Widget) 說明請參閱[主要元件][]頁面。
     }
     ```
 
- 6. 建立 Firebase 的 Vertex AI 生成模型執行個體，並以
+ 6. 建立 Firebase AI Logic 生成模型執行個體，並以
     `SurfaceController` 和 `A2uiTransportAdapter` 包裝：
 
     ```dart
     import 'package:genui/genui.dart';
-    import 'package:firebase_vertex_ai/firebase_vertex_ai.dart';
+    import 'package:firebase_ai/firebase_ai.dart';
 
-    final catalog = Catalog(components: [
+    final catalog = Catalog([
       // ...
     ]);
     final catalogs = [catalog];
@@ -99,8 +99,8 @@ SDK 的主要元件 (Widget) 說明請參閱[主要元件][]頁面。
       systemPromptFragments: ['You are a helpful assistant.'],
     );
 
-    final model = FirebaseVertexAI.instance.generativeModel(
-      model: 'gemini-2.5-flash',
+    final model = FirebaseAI.vertexAI().generativeModel(
+      model: 'gemini-3.5-flash',
       systemInstruction: Content.system(promptBuilder.systemPromptJoined()),
     );
 
@@ -143,11 +143,11 @@ SDK 的主要元件 (Widget) 說明請參閱[主要元件][]頁面。
 請依照下列說明操作：
 
  1. 設定相依套件：
-    使用 `dart pub add` 將 `genui`、`genui_a2a` 及 `a2a` 新增為
+    使用 `dart pub add` 將 `genui` 和 `genui_a2a` 新增為
     `pubspec.yaml` 檔案中的相依套件。
 
     ```console
-    $ dart pub add genui genui_a2a a2a
+    $ dart pub add genui genui_a2a
     ```
 
  2. 初始化 `SurfaceController`：
@@ -171,7 +171,7 @@ SDK 的主要元件 (Widget) 說明請參閱[主要元件][]頁面。
     傳送至代理生成的內容。
 
     ```dart
-    import 'package:flutter/material.dart';
+    import 'package:material_ui/material_ui.dart';
     import 'package:genui/genui.dart';
     import 'package:genui_a2a/genui_a2a.dart';
     import 'package:logging/logging.dart';
@@ -259,15 +259,12 @@ SDK 的主要元件 (Widget) 說明請參閱[主要元件][]頁面。
       void _handleSubmitted(String text) async {
         if (text.isEmpty) return;
         _textController.clear();
-        final message = ChatMessage.user(TextPart(text));
+        final message = ChatMessage.user(text);
         setState(() {
           _messages.insert(0, message);
         });
         
-        final responseText = await _connector.connectAndSend(
-            message,
-            clientCapabilities: A2uiClientCapabilities(supportedProtocols: ['a2ui/0.9.0'])
-        );
+        final responseText = await _connector.connectAndSend(message);
         
         // Handling response depends on your app's logic
       }
@@ -298,8 +295,7 @@ SDK 的主要元件 (Widget) 說明請參閱[主要元件][]頁面。
               SizedBox(
                 height: 300,
                 child: Surface(
-                  surfaceController: _surfaceController,
-                  surfaceId: 'main_surface',
+                  surfaceContext: _surfaceController.contextFor('main_surface'),
                 ),
               ),
             ],
@@ -315,13 +311,13 @@ SDK 的主要元件 (Widget) 說明請參閱[主要元件][]頁面。
             children: <Widget>[
               Container(
                 margin: const EdgeInsets.only(right: 16.0),
-                child: CircleAvatar(child: Text(message.role == Role.user ? 'U' : 'A')),
+                child: CircleAvatar(child: Text(message.role == ChatMessageRole.user ? 'U' : 'A')),
               ),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(message.role == Role.user ? 'User' : 'Agent',
+                    Text(message.role == ChatMessageRole.user ? 'User' : 'Agent',
                         style: const TextStyle(fontWeight: FontWeight.bold)),
                     Container(
                       margin: const EdgeInsets.only(top: 5.0),
@@ -599,7 +595,7 @@ pub.dev 上的 [example][] 目錄包含示範如何使用此套件的完整應�
 
     ```dart
     import 'package:json_schema_builder/json_schema_builder.dart';
-    import 'package:flutter/material.dart';
+    import 'package:material_ui/material_ui.dart';
     import 'package:genui/genui.dart';
 
     final _schema = S.object(
@@ -621,18 +617,13 @@ pub.dev 上的 [example][] 目錄包含示範如何使用此套件的完整應�
       name: 'RiddleCard',
       dataSchema: _schema,
       widgetBuilder:
-          ({
-            required data,
-            required id,
-            required buildChild,
-            required dispatchEvent,
-            required context,
-            required dataContext,
-          }) {
-            final json = data as Map<String, Object?>;
+          (itemContext) {
+            final json = itemContext.data as Map<String, Object?>;
             final question = json['question'] as String;
             final answer = json['answer'] as String;
 
+            final context = itemContext.buildContext;
+    
             return Container(
               constraints: const BoxConstraints(maxWidth: 400),
               decoration: BoxDecoration(border: Border.all()),
@@ -656,7 +647,7 @@ pub.dev 上的 [example][] 目錄包含示範如何使用此套件的完整應�
 
     ```dart
     _surfaceController = SurfaceController(
-      catalogs: [BasicCatalogItems.asCatalog().copyWith([riddleCard])],
+      catalogs: [BasicCatalogItems.asCatalog().copyWith(newItems: [riddleCard])],
     );
     ```
 
@@ -704,6 +695,7 @@ pub.dev 上的 [example][] 目錄包含示範如何使用此套件的完整應�
 
 ```json
 {
+  "id": "welcome-text",
   "component": "Text",
   "text": "Welcome to GenUI",
   "variant": "h1"
@@ -714,6 +706,7 @@ pub.dev 上的 [example][] 目錄包含示範如何使用此套件的完整應�
 
 ```json
 {
+  "id": "image",
   "component": "Image",
   "url": "https://example.com/image.png",
   "variant": "mediumFeature"
@@ -751,15 +744,17 @@ pub.dev 上的 [example][] 目錄包含示範如何使用此套件的完整應�
 這就是為什麼[先前的範例][instruction-example]包含
 代理的系統指令，其中有「每當我給您一個單字時，您應生成顯示...的 UI」這一行：
 
-```dart highlightLines=4-5
+```dart highlightLines=5-6
 final promptBuilder = PromptBuilder.chat(
   catalog: catalog,
-  instructions: '''
+  systemPromptFragments: [
+    '''
     You are an expert in creating funny riddles.
     Every time I give you a word, you should generate UI that
     displays one new riddle related to that word.
     Each riddle should have both a question and an answer.
-    ''',
+    '''
+  ],
 );
 ```
 
@@ -776,7 +771,7 @@ final promptBuilder = PromptBuilder.chat(
 import 'package:logging/logging.dart';
 import 'package:genui/genui.dart';
 
-final logger = configureGenUiLogging(level: Level.ALL);
+final logger = configureLogging(level: Level.ALL);
 
 void main() async {
   logger.onRecord.listen((record) {

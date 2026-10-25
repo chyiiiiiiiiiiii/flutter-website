@@ -34,7 +34,7 @@ Dart 稱包含平台專屬程式碼的函式庫為 _plugin_（套件），即「
 
 ### Flutter 套件與 Apple 框架對照表
 
-| 使用情境                                       | Apple 框架或類別                                                              | Flutter 套件（Plugin）       |
+| 使用情境                                       | Apple 框架或類別                                                              | Flutter 整合方式             |
 |------------------------------------------------|-------------------------------------------------------------------------------|------------------------------|
 | 存取相簿                                       | `PhotoKit`，使用 `Photos` 與 `PhotosUI ` 框架及 `UIImagePickerController`                | [`image_picker`][`image_picker`]           |
 | 存取相機                                       | `UIImagePickerController`，使用 `.camera` `sourceType`                            | [`image_picker`][`image_picker`]           |
@@ -51,11 +51,10 @@ Dart 稱包含平台專屬程式碼的函式庫為 _plugin_（套件），即「
 | 使用機器學習                                   | `CoreML`                                                                              | [`google_ml_kit`][`google_ml_kit`][^5]      |
 | 文字辨識                                       | `VisionKit`                                                                           | [`google_ml_kit`][`google_ml_kit`][^5]      |
 | 語音辨識                                       | `Speech`                                                                              | [`speech_to_text`][`speech_to_text`]         |
-| 擴增實境                                       | `ARKit`                                                                               | [`ar_flutter_plugin`][`ar_flutter_plugin`]      |
+| 擴增實境                                       | `ARKit`                                                                               | [`arkit_plugin`][`arkit_plugin`]      |
 | 存取天氣資料                                   | `WeatherKit`                                                                          | [`weather`][`weather`][^6]            |
-| 存取與管理聯絡人                               | `Contacts`                                                                            | [`contacts_service`][`contacts_service`]       |
+| 存取與管理聯絡人                               | `Contacts`                                                                            | [`flutter_contacts`][`flutter_contacts`]       |
 | 主畫面顯示快速操作                             | `UIApplicationShortcutItem`                                                           | [`quick_actions`][`quick_actions`]          |
-| Spotlight 搜尋索引                             | `CoreSpotlight`                                                                       | [`flutter_core_spotlight`][`flutter_core_spotlight`] |
 | 設定、更新與 Widget 溝通                       | `WidgetKit`                                                                           | [`home_widget`][`home_widget`]            |
 | 透過 Siri/捷徑自動化應用程式操作               | `AppIntents`                                                                          | [`intelligence`][`intelligence`]            |
 
@@ -84,14 +83,13 @@ Dart 稱包含平台專屬程式碼的函式庫為 _plugin_（套件），即「
 [`google_ml_kit`]: {{site.pub-pkg}}/google_ml_kit
 [Use a custom TensorFlow Lite model with Flutter]: {{site.firebase}}/docs/ml/flutter/use-custom-models
 [`speech_to_text`]: {{site.pub-pkg}}/speech_to_text
-[`ar_flutter_plugin`]: {{site.pub-pkg}}/ar_flutter_plugin
+[`arkit_plugin`]: {{site.pub-pkg}}/arkit_plugin
 [`weather`]: {{site.pub-pkg}}/weather
-[`contacts_service`]: {{site.pub-pkg}}/contacts_service
+[`flutter_contacts`]: {{site.pub-pkg}}/flutter_contacts
 [`health`]: {{site.pub-pkg}}/health
 [OpenWeatherMap API]: https://openweathermap.org/api
 [`sqflite`]: {{site.pub-pkg}}/sqflite
 [Writing platform-specific code]: /platform-integration/platform-channels
 [`camera`]: {{site.pub-pkg}}/camera
-[`flutter_core_spotlight`]: {{site.pub-pkg}}/flutter_core_spotlight
 [`home_widget`]: {{site.pub-pkg}}/home_widget
 [`intelligence`]: {{site.pub-pkg}}/intelligence

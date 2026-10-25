@@ -56,7 +56,7 @@ Counter App 允許使用者點擊按鈕來增加計數器數值。
 
 <?code-excerpt "lib/main.dart"?>
 ```dart title="lib/main.dart"
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() => runApp(const MyApp());
 
@@ -196,10 +196,10 @@ counter_app/
 
     <?code-excerpt "integration_test/counter_test.dart (initial)" replace="/introduction/counter_app/g"?>
     ```dart title="integration_test/counter_test.dart"
-    import 'package:flutter/material.dart';
     import 'package:flutter_test/flutter_test.dart';
     import 'package:how_to/main.dart';
     import 'package:integration_test/integration_test.dart';
+    import 'package:material_ui/material_ui.dart';
     
     void main() {
       IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -604,7 +604,7 @@ Firebase Test Lab Console，請參閱 [iOS 裝置測試說明][iOS Device Testin
 [Android Device Testing]: {{site.repo.flutter}}/tree/main/packages/integration_test#android-device-testing
 [ChromeDriver]: https://googlechromelabs.github.io/chrome-for-testing/
 [Download EdgeDriver]: https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/
-[Download GeckoDriver]: {{site.github}}/mozilla/geckodriver/releases
+[Download GeckoDriver]: https://github.com/mozilla/geckodriver/releases
 [Firebase Console]: https://console.firebase.google.com/
 [Firebase Test Lab section of the README]: {{site.repo.flutter}}/tree/main/packages/integration_test#firebase-test-lab
 [Firebase Test Lab]: {{site.firebase}}/docs/test-lab

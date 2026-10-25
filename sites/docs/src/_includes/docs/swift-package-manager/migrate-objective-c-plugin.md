@@ -63,12 +63,16 @@
            // If the plugin name contains "_", replace with "-" for the library name
            .library(name: "plugin-name", targets: ["plugin_name"])
        ],
-       dependencies: [],
+       dependencies: [
+           .package(name: "FlutterFramework", path: "../FlutterFramework")
+       ],
        targets: [
            .target(
                // TODO: Update your target name.
                name: "plugin_name",
-               dependencies: [],
+               dependencies: [
+                   .product(name: "FlutterFramework", package: "FlutterFramework")
+               ],
                resources: [
                    // TODO: If your plugin requires a privacy manifest
                    // (in other words, if it uses any required reason APIs),
@@ -120,12 +124,16 @@
            // If the plugin name contains "_", replace with "-" for the library name
            .library(name: [!"plugin-name"!], targets: [[!"plugin_name"!]])
        ],
-       dependencies: [],
+       dependencies: [
+           .package(name: "FlutterFramework", path: "../FlutterFramework")
+       ],
        targets: [
            .target(
                // TODO: Update your target name.
                name: [!"plugin_name"!],
-               dependencies: [],
+               dependencies: [
+                   .product(name: "FlutterFramework", package: "FlutterFramework")
+               ],
                resources: [
                    // TODO: If your plugin requires a privacy manifest
                    // (for example, if it uses any required reason APIs),
@@ -229,6 +237,25 @@
 
 1. `ios/Assets`、`ios/Resources` 和 `ios/Classes` 目錄現在應為空，
    可以刪除。
+
+1. 將 `FlutterFramework` 加入為相依套件。
+
+   更新 `Package.swift` 以包含 `FlutterFramework`：
+
+   ```swift title="Package.swift"
+   dependencies: [
+       [!.package(name: "FlutterFramework", path: "../FlutterFramework")!]
+   ],
+   targets: [
+       .target(
+           // TODO: Update your target name.
+           name: "plugin_name",
+           dependencies: [
+               [!.product(name: "FlutterFramework", package: "FlutterFramework")!]
+           ]
+       )
+   ]
+   ```
 
 1. 若標頭檔案不再與實作檔案位於同一目錄，
    請更新你的 import 陳述式。
@@ -444,7 +471,7 @@
 
 [`PrivacyInfo.xcprivacy` file]: https://developer.apple.com/documentation/bundleresources/privacy_manifest_files
 [`public_header_files`]: https://guides.cocoapods.org/syntax/podspec.html#public_header_files
-[Swift Package Manager's documentation]: {{site.github}}/apple/swift-package-manager/blob/main/Documentation/Usage.md#creating-c-language-targets
+[Swift Package Manager's documentation]: https://github.com/apple/swift-package-manager/blob/main/Documentation/Usage.md#creating-c-language-targets
 [Pigeon]: https://pub.dev/packages/pigeon
 [CocoaPods `dependency`]: https://guides.cocoapods.org/syntax/podspec.html#dependency
 [Swift Package Manager dependencies]: https://developer.apple.com/documentation/packagedescription/package/dependency

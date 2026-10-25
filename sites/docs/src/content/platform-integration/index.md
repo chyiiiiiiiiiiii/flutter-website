@@ -157,6 +157,14 @@ Flutter 應用程式通常可以直接在多平台運作。
       <p>學習如何從你的應用程式啟動 Jetpack Compose 活動。</p>
     </div>
   </a>
+  <a class="card outlined-card" href="/platform-integration/android/local-network-permission">
+    <div class="card-header">
+      <span class="card-title">請求本地網路權限</span>
+    </div>
+    <div class="card-content">
+      <p>學習如何在 Flutter 中處理 Android 本地網路權限。</p>
+    </div>
+  </a>
 </div>
 
 ### 與 iOS 整合 {:#ios}
@@ -202,14 +210,6 @@ Flutter 應用程式通常可以直接在多平台運作。
     </div>
     <div class="card-content">
       <p>學習如何為你的應用程式加入 iOS App Extension。</p>
-    </div>
-  </a>
-  <a class="card outlined-card" href="/platform-integration/ios/ios-latest">
-    <div class="card-header">
-      <span class="card-title">支援最新 iOS 功能</span>
-    </div>
-    <div class="card-content">
-      <p>瞭解 Flutter 對於新功能或即將推出的 iOS 功能的支援情形。</p>
     </div>
   </a>
 </div>

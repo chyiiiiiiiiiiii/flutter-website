@@ -95,7 +95,7 @@ FlutterView 層級整合的一般要點是，你必須在自己的應用程式�
 該元件是否能夠用於內容尺寸 View，如下列範例所示：
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() => runApp(MyApp());
 

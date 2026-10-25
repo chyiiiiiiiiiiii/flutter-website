@@ -7,31 +7,23 @@ description: 如何在你的 Flutter 應用程式中使用套件。
 
 Flutter 支援使用其他開發者貢獻給 Flutter 與 Dart 生態系的共用套件。這讓你能夠快速建立應用程式，而不必從零開始開發所有功能。
 
-:::note 套件與插件 (plugin) 的差異
-插件（plugin）是一種_套件_——完整名稱為_插件套件（plugin package）_，通常簡稱為 _plugin_。
+本頁討論如何使用[套件][packages]與[插件][plugins]。
+若要撰寫新的套件，請參閱[開發套件][developing packages]。
 
-**套件（Packages）**
-: 最基本的 Dart 套件是一個包含 `pubspec.yaml` 檔案的目錄。此外，套件還可以包含相依套件（列在 pubspec 中）、Dart 函式庫、應用程式、資源、測試、圖片、字型和範例。[pub.dev][] 網站列出了許多套件——由 Google 工程師及 Flutter 與 Dart 社群的熱心成員開發——你可以在你的應用程式中使用這些套件。
+[packages]: /resources/glossary#package
+[plugins]: /resources/glossary#plugin
 
-**插件（Plugins）**
-: 插件套件是一種特殊的套件，能讓應用程式存取平台功能。插件套件可以針對 Android（使用 Kotlin 或 Java）、iOS（使用 Swift 或 Objective-C）、Web、macOS、Windows、Linux 或這些平台的任意組合來撰寫。例如，某個插件可能為 Flutter 應用程式提供使用裝置相機的能力。
+在撰寫應用程式時，現有的套件可實現許多應用情境。
+例如，自 Flutter 3.47 起，[風格化的元件 (Widget) 函式庫已從 Flutter 核心移出，改為可匯入的套件][ui-page]。
+其他現有的套件則可讓你的應用程式進行網路請求（[`http`][]）、處理導航（[`go_router`][]）、整合裝置 API（[`url_launcher`][] 和 [`battery_plus`][]），以及使用第三方平台 SDK，如 Firebase（[FlutterFire][]）。
 
-<YouTubeEmbed id="Y9WifT8aN6o"
-  title="Packages versus plugins | Decoding Flutter"></YouTubeEmbed>
-:::
-
-現有的套件可實現許多應用情境——例如，進行網路請求（[`http`][]）、導航／路由處理（[`go_router`][]）、整合裝置 API（[`url_launcher`][] 和 [`battery_plus`][]），以及使用第三方平台 SDK，如 Firebase（[FlutterFire][]）。
-
-若要撰寫新的套件，請參閱[開發套件][developing packages]。若要加入資產、圖片或字型（無論是檔案還是套件中的），請參閱[加入資產與圖片][Adding assets and images]。
-
-[Adding assets and images]: /ui/assets/assets-and-images
 [`battery_plus`]: {{site.pub-pkg}}/battery_plus
 [developing packages]: /packages-and-plugins/developing-packages
-[FlutterFire]: {{site.github}}/firebase/flutterfire
-
-[`go_router`]: {{site.pub-pkg}}/go_router
+[FlutterFire]: {{site.repo.flutterfire}}
 [`http`]: /cookbook/networking/fetch-data
+[`go_router`]: {{site.pub-pkg}}/go_router
 [pub.dev]: {{site.pub}}
+[ui-page]: /ui
 [`url_launcher`]: {{site.pub-pkg}}/url_launcher
 
 ## 使用套件
@@ -52,7 +44,7 @@ pub.dev 上的 [Flutter Favorites][] 頁面列出了被認定為你在撰寫應�
 [Flutter Favorites]: {{site.pub}}/flutter/favorites
 [Flutter Favorites program]: /packages-and-plugins/favorites
 [Flutter landing page]: {{site.pub}}/flutter
-[Linux]: {{site.pub-pkgs}}?q=sdk%3Aflutter+platform%3Alinux
+[Linux]: {{site.pub-pkg}}?q=sdk%3Aflutter+platform%3Alinux
 [iOS]: {{site.pub-pkg}}?q=sdk%3Aflutter+platform%3Aios
 [macOS]: {{site.pub-pkg}}?q=sdk%3Aflutter+platform%3Amacos
 [web]: {{site.pub-pkg}}?q=sdk%3Aflutter+platform%3Aweb
@@ -114,7 +106,7 @@ pub.dev 上的 [Flutter Favorites][] 頁面列出了被認定為你在撰寫應�
 ```yaml
 dependencies:
   url_launcher: ^5.4.0    # Good, any version >= 5.4.0 but < 6.0.0
-  image_picker: '5.4.3'   # Not so good, only version 5.4.3 works.
+  image_picker: '5.4.3'   # Not as good, only version 5.4.3 works.
 ```
 
 如果 `some_package` 宣告了上述相依套件，
@@ -210,9 +202,10 @@ CocoaPods 目前尚未提供相依套件覆寫（dependency override）功能。
 
   這種語法與第一個項目符號中提到的語法具有相同的意義。
 
-如需進一步了解，請參閱[套件版本管理指南][package versioning guide]。
+如需進一步了解，請參閱[套件相依性管理][package dependency management]與[套件版本管理指南][package versioning guide]。
 
 [caret syntax]: {{site.dart-site}}/tools/pub/dependencies#caret-syntax
+[package dependency management]: /packages-and-plugins/dependency-management
 [package versioning guide]: {{site.dart-site}}/tools/pub/versioning
 [`url_launcher` versions]: {{site.pub-pkg}}/url_launcher/versions
 
@@ -311,7 +304,7 @@ Flutter 會將找到的具體套件版本儲存在 `pubspec.lock`
     <?code-excerpt "lib/english_words.dart (english-words)"?>
     ```dart
     import 'package:english_words/english_words.dart';
-    import 'package:flutter/material.dart';
+    import 'package:material_ui/material_ui.dart';
     
     void main() {
       runApp(const MyApp());
@@ -367,7 +360,7 @@ Flutter 會將找到的具體套件版本儲存在 `pubspec.lock`
 
     <?code-excerpt "lib/url_launcher.dart (url-launcher)"?>
     ```dart
-    import 'package:flutter/material.dart';
+    import 'package:material_ui/material_ui.dart';
     import 'package:url_launcher/url_launcher.dart';
     
     void main() {
@@ -405,3 +398,18 @@ Flutter 會將找到的具體套件版本儲存在 `pubspec.lock`
     ```
 
 1. 執行應用程式（如果在加入 plugin 前已經在執行，請先停止再重新啟動）。點擊 **Show Flutter homepage**。你應該會看到預設瀏覽器在裝置上開啟，並顯示 flutter.dev 的首頁。
+
+## 從套件安裝 AI 技能 (skills)
+
+許多 `pub.dev` 套件內含官方的**套件技能 (package skills)**，
+可教導 AI 程式設計助理如何使用其 API 並遵循建議的模式。
+
+如果你的專案相依套件包含技能，
+只需一個指令，即可探索並安裝到你的本機工作區：
+
+```bash
+dart run skills@ get
+```
+
+若想進一步了解技能如何協助程式設計助理理解你的相依套件，請參閱
+[Package skills](https://dart.dev/ai/package-skills)。

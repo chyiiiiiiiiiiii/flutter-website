@@ -23,15 +23,21 @@ Flutter 的動畫系統是基於型別化的
 [`setState`][]，以通知元件系統需要
 以動畫的新值重新建構。
 
-這種模式非常常見，因此有兩個元件
-可以協助元件在動畫值變化時自動重建：
+這種模式非常常見，因此 Flutter 提供了
+在動畫值變化時自動重建的元件：
 [`AnimatedWidget`][] 和 [`AnimatedBuilder`][]。
 第一個 `AnimatedWidget`，最適合用於
 無狀態動畫元件。要使用 `AnimatedWidget`，
-只需繼承它並實作 [`build`][] 函式。
-第二個 `AnimatedBuilder`，適用於希望在較大 build 函式中納入動畫的複雜元件。
-要使用 `AnimatedBuilder`，只需建立該元件
+繼承它並實作 [`build`][] 函式。
+第二個 `AnimatedBuilder`，適用於在較大 build 函式中納入動畫的複雜元件。
+要使用 `AnimatedBuilder`，建立該元件
 並傳入一個 `builder` 函式。
+若要針對其他種類的 `Listenable` 物件變化進行重建，
+請使用 [`ListenableBuilder`][]。
+
+對於自行管理控制器的隱式動畫，
+請使用 [`ImplicitlyAnimatedWidget`][] 的子類別，
+例如 `AnimatedOpacity` 或 [`TweenAnimationBuilder`][]。
 
 ### `addStatusListener`
 
@@ -48,7 +54,7 @@ Flutter 的動畫系統是基於型別化的
 最終，若動畫達到其範圍的終點
 （1.0），動畫會進入 `completed` 狀態。
 
-## Animation&shy;Controller
+## AnimationController
 
 要建立動畫，首先需建立一個 [`AnimationController`][]。
 `AnimationController` 不僅本身是一個動畫，還能讓你控制動畫。例如，
@@ -62,7 +68,7 @@ Flutter 的動畫系統是基於型別化的
 例如，你可以建立一個 [`ReverseAnimation`][]，
 它會鏡像原始動畫但以相反方向運行（從 1.0 到 0.0）。
 同樣地，你可以建立一個 [`CurvedAnimation`][]，
-其值會由 [`Curve`][] 進行調整。
+其值會由 [`Curve`][]（例如 [`Curves`][] 中預先定義的曲線）進行調整。
 
 ## Tweens
 
@@ -75,7 +81,7 @@ Flutter 的動畫系統是基於型別化的
 你也可以透過建立自己的 `Tween` 子類別並覆寫其
 [`lerp`][] 函式來自訂插值方式。
 
-單獨來看，tween 只定義了如何在兩個值之間插值。要取得動畫當前幀的具體值，還需要一個動畫來決定當前狀態。
+單獨來看，tween 僅定義了如何在兩個值之間插值。要取得動畫當前幀的具體值，還需要一個動畫來決定當前狀態。
 有兩種方式可以將 tween 與動畫結合以取得具體值：
 
 1. 你可以在動畫的當前值上 [`evaluate`][] tween。這種方式最適合已經在監聽動畫且會在動畫值變化時重建的元件。
@@ -87,7 +93,7 @@ Flutter 的動畫系統是基於型別化的
 
 ## 架構
 
-動畫實際上是由多個核心構件組成。
+動畫是由多個核心構件組成。
 
 ### Scheduler（排程器）
 
@@ -136,11 +142,12 @@ double 值，並具有完成的概念。
 [`Animatable`][] 抽象類別會將一個
 double 對應到特定型別的值。
 
-`Animatable` 類別是無狀態且不可變的。
+`Animatable` 不會追蹤動畫進度，
+不過部分子類別具有可變的設定。
 
 #### Tweens
 
-[`Tween<T>`][] 抽象類別會將名義上在 0.0-1.0 區間內的 double
+[`Tween<T>`][] 類別會將名義上在 0.0-1.0 區間內的 double
 值對應到一個型別化的值
 （例如 `Color`，或另一個 double）。
 它是一個 `Animatable`。
@@ -149,12 +156,15 @@ double 對應到特定型別的值。
 並提供一種在起始值與結束值之間插值（`lerp`）的方法，
 針對給定的輸入值（名義上在 0.0-1.0 區間的 double）。
 
-`Tween` 類別是無狀態且不可變的。
+`Tween` 不會追蹤動畫進度，
+但其 `begin` 與 `end` 值是可變的。
 
 #### 組合 animatables
 
-將一個 `Animatable<double>`（父物件）傳給 `Animatable` 的
-`chain()` 方法，會建立一個新的 `Animatable` 子類別，該子類別會先套用父物件的對應，再套用子物件的對應。
+將一個 `Animatable<double>`（父物件）傳給
+`Animatable` 物件的 `chain()` 方法，
+會建立一個新的 `Animatable` 子類別，
+該子類別會先套用父物件的對應，再套用子物件的對應。
 
 ### Curves（曲線）
 
@@ -183,12 +193,17 @@ double 對應到特定型別的值。
 
 大多數 `Animation` 子類別會明確接收一個「父」`Animation<double>`。它們由該父物件驅動。
 
-`CurvedAnimation` 子類別會接收一個 `Animation<double>` 類別（父物件）以及一對 `Curve` 類別（正向與反向曲線）作為輸入，並將父物件的值作為曲線的輸入來決定其輸出。`CurvedAnimation` 是不可變且無狀態的。
+`CurvedAnimation` 子類別會接收一個 `Animation<double>` 物件（父物件）、
+一條正向曲線，以及一條選用的反向曲線。
+它會將父物件的值作為當前方向曲線的輸入。
+如果父物件在抵達端點前就反向，
+`CurvedAnimation` 會持續使用同一條曲線，
+以避免數值突然跳動。
 
 `ReverseAnimation` 子類別會接收一個
-`Animation<double>` 類別作為父物件，並將動畫的所有值反轉。它假設父物件使用名義上在 0.0-1.0 區間的值，並回傳 1.0-0.0 區間的值。父動畫的狀態與方向也會被反轉。`ReverseAnimation` 是不可變且無狀態的。
+`Animation<double>` 物件作為父物件，並將動畫的所有值反轉。它假設父物件使用名義上在 0.0-1.0 區間的值，並回傳 1.0-0.0 區間的值。父動畫的狀態與方向也會被反轉。`ReverseAnimation` 是不可變且無狀態的。
 
-`ProxyAnimation` 子類別會接收一個 `Animation<double>` 類別作為父物件，僅轉發該父物件的當前狀態。
+`ProxyAnimation` 子類別會接收一個 `Animation<double>` 物件作為父物件，僅轉發該父物件的當前狀態。
 但父物件是可變的。
 
 `TrainHoppingAnimation` 子類別會接收兩個父物件，
@@ -197,30 +212,43 @@ double 對應到特定型別的值。
 #### 動畫控制器（Animation controllers）
 
 [`AnimationController`][] 是一個有狀態的
-`Animation<double>`，它使用 `Ticker` 來賦予自身生命。
+`Animation<double>`，它使用 `Ticker` 在每個畫格推進其進度。
 它可以啟動與停止。每個 tick 時，會取得自啟動以來經過的時間並傳給 `Simulation` 以取得值。該值即為其回報的值。如果 `Simulation`
 回報該時刻已結束，控制器會自動停止。
 
 動畫控制器可設定下界與上界，
 並於兩者間進行動畫，以及動畫持續時間。
 
-簡單情境下（使用 `forward()` 或 `reverse()`），動畫控制器會在給定的持續時間內，於下界與上界（或反向時相反）之間進行線性插值。
+常見情境下（使用 `forward()` 或 `reverse()`），
+動畫控制器會在給定的持續時間內，
+於下界與上界（或反向時相反）之間進行線性插值。
 
-使用 `repeat()` 時，動畫控制器會在給定的持續時間內於指定範圍內進行線性插值，但不會自動停止。
+使用 `repeat()` 時，動畫控制器會在給定的持續時間內於指定範圍內進行線性插值。
+除非你指定 `count` 或將其停止，否則會無限重複。
 
-使用 `animateTo()` 時，動畫控制器會在給定的持續時間內，從當前值線性插值到指定目標。如果未指定持續時間，則會使用控制器的預設持續時間以及下界與上界描述的範圍來決定動畫速度。
+使用 `animateTo()` 時，動畫控制器會從當前值插值到指定目標，
+除非你指定不同的 `curve`，否則使用線性曲線。
+如果省略 `duration`，則會依目標距離佔控制器範圍的比例，
+來縮放控制器的持續時間。
 
-使用 `fling()` 時，會用 `Force` 建立特定模擬，並用來驅動控制器。
+使用 `fling()` 時，動畫控制器會使用彈簧模擬，
+搭配給定的初始速度與選用的 `SpringDescription`。
 
-使用 `animateWith()` 時，會用給定的模擬來驅動控制器。
+使用 `animateWith()` 時，會用給定的模擬
+來驅動控制器。
 
-這些方法都會回傳 `Ticker` 提供的 future，
-該 future 會在控制器下次停止或更換模擬時完成。
+這些方法會回傳一個 `TickerFuture`，
+在動畫成功完成時完成。
+取消動畫（包括啟動另一個動畫或
+釋放控制器）會使此 future 保持未完成。
+可使用其 `orCancel` 屬性來等待一個 future，
+該 future 在取消時會擲出 `TickerCanceled`。
 
 #### 將 animatables 附加到動畫
 
-將一個 `Animation<double>`（新父物件）傳給 `Animatable` 的
-`animate()` 方法，會建立一個新的 `Animation` 子類別，該子類別的行為如同
+將一個 `Animation<double>`（新父物件）傳給
+`Animatable` 物件的 `animate()` 方法，
+會建立一個新的 `Animation` 子類別，該子類別的行為如同
 `Animatable`，但由給定的父物件驅動。
 
 
@@ -239,15 +267,18 @@ double 對應到特定型別的值。
 [`build`]: {{site.api}}/flutter/widgets/AnimatedWidget/build.html
 [`ClampingScrollSimulation`]: {{site.api}}/flutter/widgets/ClampingScrollSimulation-class.html
 [`ColorTween`]: {{site.api}}/flutter/animation/ColorTween-class.html
-[`Curve`]: {{site.api}}/flutter/animation/Curves-class.html
+[`Curve`]: {{site.api}}/flutter/animation/Curve-class.html
+[`Curves`]: {{site.api}}/flutter/animation/Curves-class.html
 [`CurvedAnimation`]: {{site.api}}/flutter/animation/CurvedAnimation-class.html
 [`end`]: {{site.api}}/flutter/animation/Tween/end.html
 [`evaluate`]: {{site.api}}/flutter/animation/Animatable/evaluate.html
 [`fling`]: {{site.api}}/flutter/animation/AnimationController/fling.html
 [`forward`]: {{site.api}}/flutter/animation/AnimationController/forward.html
+[`ImplicitlyAnimatedWidget`]: {{site.api}}/flutter/widgets/ImplicitlyAnimatedWidget-class.html
 [`kAlwaysCompleteAnimation`]: {{site.api}}/flutter/animation/kAlwaysCompleteAnimation-constant.html
 [`kAlwaysDismissedAnimation`]: {{site.api}}/flutter/animation/kAlwaysDismissedAnimation-constant.html
 [`lerp`]: {{site.api}}/flutter/animation/Tween/lerp.html
+[`ListenableBuilder`]: {{site.api}}/flutter/widgets/ListenableBuilder-class.html
 [`RectTween`]: {{site.api}}/flutter/animation/RectTween-class.html
 [`ReverseAnimation`]: {{site.api}}/flutter/animation/ReverseAnimation-class.html
 [`scheduleFrameCallback()`]: {{site.api}}/flutter/scheduler/SchedulerBinding/scheduleFrameCallback.html
@@ -259,3 +290,4 @@ double 對應到特定型別的值。
 [`Ticker`]: {{site.api}}/flutter/scheduler/Ticker-class.html
 [`Tween<T>`]: {{site.api}}/flutter/animation/Tween-class.html
 [various concrete implementations]: {{site.api}}/flutter/physics/physics-library.html
+[`TweenAnimationBuilder`]: {{site.api}}/flutter/widgets/TweenAnimationBuilder-class.html

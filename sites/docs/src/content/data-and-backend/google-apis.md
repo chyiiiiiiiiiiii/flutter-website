@@ -71,7 +71,7 @@ YouTube 資料，請以
 
 <?code-excerpt "lib/main.dart (youtube-import)"?>
 ```dart
-/// Provides the `YouTubeApi` class.
+// Provides the `YouTubeApi` class.
 import 'package:googleapis/youtube/v3.dart';
 ```
 
@@ -126,7 +126,6 @@ void initState() {
 <?code-excerpt "lib/main.dart (post-init)" plaster="none"?>
 ```dart highlightLines=1,7,9-12
 GoogleSignInAccount? _currentUser;
-
 @override
 void initState() {
   super.initState();

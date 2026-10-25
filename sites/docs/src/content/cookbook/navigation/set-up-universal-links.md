@@ -42,7 +42,7 @@ Flutter 團隊維護 `go_router` 套件。
 3. 為了處理路由，請在 `main.dart` 檔案中建立一個 `GoRouter` 物件：
 
     ```dart title="main.dart"
-    import 'package:flutter/material.dart';
+    import 'package:material_ui/material_ui.dart';
     import 'package:go_router/go_router.dart';
 
     void main() => runApp(MaterialApp.router(routerConfig: router));
@@ -197,14 +197,10 @@ bundle ID 為 `com.example.deeplinkCookbook`，
 ```json
 {
   "applinks": {
-    "apps": [],
     "details": [
       {
         "appIDs": [
           "S8QB4VV633.com.example.deeplinkCookbook"
-        ],
-        "paths": [
-          "*"
         ],
         "components": [
           {
@@ -213,11 +209,6 @@ bundle ID 為 `com.example.deeplinkCookbook`，
         ]
       }
     ]
-  },
-  "webcredentials": {
-    "apps": [
-      "S8QB4VV633.com.example.deeplinkCookbook"
-    ]
   }
 }
 ```
@@ -225,10 +216,11 @@ bundle ID 為 `com.example.deeplinkCookbook`，
 1. 將 `appIDs` 陣列中的一個值設為
    `<team id>.<bundle id>`。
 
-1. 將 `paths` 陣列設為 `["*"]`。
-   `paths` 陣列用來指定允許的 universal links（通用連結）。
-   使用星號時，`*` 會將所有路徑重新導向至 Flutter 應用程式。
-   如有需要，請將 `paths` 陣列的值調整為更適合你應用程式的設定。
+1. 設定 `components` 陣列以指定允許的路徑。
+   在此範例中，`/` 鍵代表 URL 路徑。
+   值 `/*` 會比對任何路徑並將其重新導向至 Flutter 應用程式。
+   如有需要，請自訂 `components` 陣列，
+   使其只比對適合你應用程式的路徑。
 
 1. 將檔案主機設於類似以下結構的 URL 上。
 

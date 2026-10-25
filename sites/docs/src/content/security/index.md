@@ -66,7 +66,7 @@ Google 已將 Flutter 納入
 [Discord 頻道][Discord channel] 的更新。我們也會在技術發行部落格貼文中公告安全性更新。
 
 [Discord channel]: https://discord.gg/BS8KZyg
-[flutter-announce]: {{site.groups}}/forum/#!forum/flutter-announce
+[flutter-announce]: {{site.groups.flutter-announce}}
 
 ## 最佳實踐
 

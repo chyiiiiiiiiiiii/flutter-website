@@ -22,7 +22,7 @@ TextField(
 );
 ```
 
-如需更多有關處理輸入（Input）與建立文字欄位（text field）的資訊，請參閱 cookbook 的 [Forms][] 章節。
+若要進一步了解如何處理輸入（Input）與建立文字欄位（text field），請參閱 cookbook 的 [Forms][] 章節。
 
 ## 當按下按鈕時聚焦於文字欄位
 
@@ -30,9 +30,9 @@ TextField(
 
 本範例將示範如何在使用者按下按鈕後，讓文字欄位獲得焦點，步驟如下：
 
-  1. 建立一個 `FocusNode`。
-  2. 將 `FocusNode` 傳遞給 `TextField`。
-  3. 當按鈕被點擊時，將焦點給予 `TextField`。
+1.  建立一個 `FocusNode`。
+1.  將 `FocusNode` 傳遞給 `TextField`。
+1.  當按鈕被點擊時，將焦點給予 `TextField`。
 
 ### 1. 建立 `FocusNode`
 
@@ -56,7 +56,7 @@ class MyCustomForm extends StatefulWidget {
 class _MyCustomFormState extends State<MyCustomForm> {
   // Define the focus node. To manage the lifecycle, create the FocusNode in
   // the initState method, and clean it up in the dispose method.
-  late FocusNode myFocusNode;
+  late final FocusNode myFocusNode;
 
   @override
   void initState() {
@@ -103,6 +103,8 @@ FloatingActionButton(
   // When the button is pressed,
   // give focus to the text field using myFocusNode.
   onPressed: () => myFocusNode.requestFocus(),
+  tooltip: 'Focus Second Text Field',
+  child: const Icon(Icons.edit),
 ),
 ```
 
@@ -136,7 +138,7 @@ class MyCustomForm extends StatefulWidget {
 class _MyCustomFormState extends State<MyCustomForm> {
   // Define the focus node. To manage the lifecycle, create the FocusNode in
   // the initState method, and clean it up in the dispose method.
-  late FocusNode myFocusNode;
+  late final FocusNode myFocusNode;
 
   @override
   void initState() {
@@ -175,21 +177,17 @@ class _MyCustomFormState extends State<MyCustomForm> {
         onPressed: () => myFocusNode.requestFocus(),
         tooltip: 'Focus Second Text Field',
         child: const Icon(Icons.edit),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/focus.webp" alt="Text Field Focus Demo" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/focus.png" alt="Text Field Focus Demo" />
 </noscript>
 
 
-[fix has landed]: {{site.repo.flutter}}/pull/50372
 [`FocusNode`]: {{site.api}}/flutter/widgets/FocusNode-class.html
 [Forms]: /cookbook/forms
-[flutter/flutter@bf551a3]: {{site.repo.flutter}}/commit/bf551a31fe7ef45c854a219686b6837400bfd94c
-[Issue 52221]: {{site.repo.flutter}}/issues/52221
 [`requestFocus()`]: {{site.api}}/flutter/widgets/FocusNode/requestFocus.html
-[workaround]: {{site.repo.flutter}}/issues/52221#issuecomment-598244655

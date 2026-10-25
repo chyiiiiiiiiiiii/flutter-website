@@ -28,10 +28,10 @@ ColorScheme 讓你更容易建立深色與淺色主題，讓你的應用程式�
 
 你可以參考 [Material 3 gallery][]，體驗所有新元件，並與 Material 2 進行比較。
 
-[`ThemeData.colorScheme`]: {{site.api}}/flutter/material/ThemeData/colorScheme.html
-[`ThemeData.textTheme`]: {{site.api}}/flutter/material/ThemeData/textTheme.html
-[`ThemeData.segmentedButtonTheme`]: {{site.api}}/flutter/material/ThemeData/segmentedButtonTheme.html
-[`ThemeData.snackBarTheme`]: {{site.api}}/flutter/material/ThemeData/snackBarTheme.html
+[`ThemeData.colorScheme`]: {{site.material_ui}}/ThemeData/colorScheme.html
+[`ThemeData.textTheme`]: {{site.material_ui}}/ThemeData/textTheme.html
+[`ThemeData.segmentedButtonTheme`]: {{site.material_ui}}/ThemeData/segmentedButtonTheme.html
+[`ThemeData.snackBarTheme`]: {{site.material_ui}}/ThemeData/snackBarTheme.html
 
 ## 遷移指南
 
@@ -51,7 +51,7 @@ Material 2 的支援以及設定 `useMaterial3` 屬性的功能，最終將被�
 
 更多細節請參考 GitHub 上的 [Material 3 umbrella issue][]。
 
-[`NavigationBar`]: {{site.api}}/flutter/material/NavigationBar-class.html
+[`NavigationBar`]: {{site.material_ui}}/NavigationBar-class.html
 
 ## 時程
 
@@ -82,7 +82,7 @@ API 文件：
 [Material 3 gallery]: https://github.com/flutter/samples/tree/main/material_3_demo
 [Material 3 umbrella issue]: {{site.repo.flutter}}/issues/91605
 [Material Design for Flutter]: /ui/design/material
-[`ThemeData.useMaterial3`]: {{site.api}}/flutter/material/ThemeData/useMaterial3.html
+[`ThemeData.useMaterial3`]: {{site.material_ui}}/ThemeData/useMaterial3.html
 [Add support for M3 motion]: {{site.repo.flutter}}/issues/129942
 [Change the default for `ThemeData.useMaterial3` to true]: {{site.repo.flutter}}/pull/129724
 [Updated `ThemeData.useMaterial3` API doc, default is true]: {{site.repo.flutter}}/pull/130764

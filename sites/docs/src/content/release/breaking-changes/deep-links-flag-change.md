@@ -58,4 +58,4 @@ Flutter 的深層連結選項預設值已從 `false` 變更為 `true`，這表�
 
 相關 PR：
 
-* [Set deep linking flag to true by default]({{site.github}}/flutter/engine/pull/52350)
+* [Set deep linking flag to true by default]({{site.repo.engine}}/pull/52350)

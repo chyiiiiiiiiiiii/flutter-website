@@ -148,7 +148,7 @@ return const SelectableText.rich(
 );
 ```
 
-[`SelectableText`]: {{site.api}}/flutter/material/SelectableText-class.html
+[`SelectableText`]: {{site.material_ui}}/SelectableText-class.html
 
 ### 標題列（Title bars） {:#title-bars}
 
@@ -160,7 +160,7 @@ return const SelectableText.rich(
 
 這個套件允許你在 `TitleBar` 中加入任何你想要的元件 (Widgets)，因為它底層採用純 Flutter 元件實作。這讓你能夠在導覽至應用程式不同區段時，輕鬆調整標題列內容。
 
-[`bits_dojo`]: {{site.github}}/bitsdojo/bitsdojo_window
+[`bits_dojo`]: https://github.com/bitsdojo/bitsdojo_window
 
 ### 快顯選單與工具提示（Context menus and tooltips） {:#context-menus-and-tooltips}
 
@@ -204,7 +204,7 @@ Flutter 也在編輯或選取文字時，提供了內建的內容選單 (context
 [`custom_pop_up_menu`]: {{site.pub}}/packages/custom_pop_up_menu
 [`flutter_portal`]: {{site.pub}}/packages/flutter_portal
 [`super_tooltip`]: {{site.pub}}/packages/super_tooltip
-[`Tooltip`]: {{site.api}}/flutter/material/Tooltip-class.html
+[`Tooltip`]: {{site.material_ui}}/Tooltip-class.html
 
 ### 水平按鈕順序 {:#horizontal-button-order}
 

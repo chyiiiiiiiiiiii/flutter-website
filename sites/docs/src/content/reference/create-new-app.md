@@ -299,7 +299,7 @@ showBreadcrumbs: false
 ## Antigravity
 
 若要使用 Antigravity 建立 Flutter 應用程式，請先安裝並設定 Antigravity，
-詳情請參閱 [Antigravity 頁面](/ai/antigravity)。
+詳情請參閱 [AI 入門](/ai/get-started)。
 接著依照以下步驟操作：
 
  1. <h3>開啟 Antigravity 並建立工作區</h3>

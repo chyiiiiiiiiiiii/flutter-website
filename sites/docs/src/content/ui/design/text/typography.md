@@ -37,9 +37,9 @@ Flutter 中常見的字型比例，由 [`TextTheme`][] 提供，包含五大類�
 
 Flutter 所提供的所有平台專屬排版比例，皆包含於 [`Typography`][] 類別中。通常你不需要直接參考這個類別，因為 `TextTheme` 會根據目標平台自動在地化。
 
-[`TextTheme`]: https://api.flutter.dev/flutter/material/TextTheme-class.html
-[`TextStyle`]: https://api.flutter.dev/flutter/painting/TextStyle-class.html
-[`Typography`]: https://api.flutter.dev/flutter/material/Typography-class.html
+[`TextTheme`]: {{site.material_ui}}/TextTheme-class.html
+[`TextStyle`]: {{site.api}}/flutter/painting/TextStyle-class.html
+[`Typography`]: {{site.material_ui}}/Typography-class.html
 
 ## 可變字型（Variable fonts）
 
@@ -129,6 +129,6 @@ Text(
 若想了解一位工程師
 自訂可變字型並在變形過程中進行動畫（這也是上述影片的基礎），
 請參考 [Playful typography with Flutter][article]，
-這是一篇免費的 Medium 文章。相關範例同樣使用了自訂著色器（shader）。
+這是一篇 Flutter 部落格文章。相關範例同樣使用了自訂著色器（shader）。
 
 [article]: {{site.flutter-blog}}/playful-typography-with-flutter-f030385058b4

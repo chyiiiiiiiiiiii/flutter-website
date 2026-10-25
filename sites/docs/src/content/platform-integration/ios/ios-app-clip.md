@@ -258,68 +258,108 @@ Interface 請選擇 **Storyboard**。
 
 ## 步驟 8 - 整合插件
 
-**8.1**
+如果你的專案使用 Flutter 插件，請將它們整合到 App Clip target 中。
 
-開啟你的 Flutter 專案
-或 add-to-app host 專案的 `Podfile`。
+<Tabs key="plugin-dependency-manager">
+<Tab name="Swift Package Manager (default)">
 
-對於全 Flutter 應用程式，請取代以下區段：
+1.  在 Xcode 中，將 `FlutterGeneratedPluginSwiftPackage` 加入你的 App Clip target：
 
-```ruby
-target 'Runner' do
-  use_frameworks!
-  use_modular_headers!
+    1.  在 Xcode 中開啟 `ios/Runner.xcworkspace`。
+    1.  在 Project Navigator 中選擇 **Runner** 專案。
+    1.  在 **TARGETS** 下選擇你的 App Clip target。
+    1.  打開 **General** 分頁。
+    1.  在 **Frameworks, Libraries, and Embedded Content** 下點擊 **+**。
+    1.  選擇 `FlutterGeneratedPluginSwiftPackage` 並點擊 **Add**。
+        如果它沒有出現在列表中，
+        請點擊 **Add Other... > Add Package Dependency...**，
+        點擊 **Add Local...**，前往
+        `ios/Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage`，
+        並將它加入你的 App Clip target。
 
-  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
-end
-```
+1.  將 prepare pre-action 加入你的 App Clip scheme：
 
-with:
+    1.  前往 **Product > Scheme > Edit Scheme...**。
+    1.  從上方的 scheme 下拉選單中選擇你的 App Clip scheme。
+    1.  在左側邊欄展開 **Build** 區段，
+        然後選擇 **Pre-actions**。
+    1.  點擊 **+** 並選擇 **New Run Script Action**。
+    1.  將 **Provide build settings from** 設定為你的 App Clip target。
+    1.  在腳本欄位中輸入：
 
-```ruby
-use_frameworks!
-use_modular_headers!
-flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+        ```sh
+        "$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh" prepare
+        ```
 
-target 'Runner'
-target '<name of your App Clip target>'
-```
+    1.  點擊 **Close**。
 
-在檔案的最上方，
-也請取消註解 `platform :ios, '13.0'`，並將
-version 設定為兩個目標的 iOS
-Deployment Target 中較低的那一個。
+如需更多關於使用 SwiftPM 管理 Xcode target 的細節，
+請參考 [Swift Package Manager for app developers][]。
 
-若為 add-to-app，請加到：
+</Tab>
+<Tab name="CocoaPods (legacy)">
 
-```ruby
-target 'MyApp' do
-  install_all_flutter_pods(flutter_application_path)
-end
-```
+1.  開啟你的 Flutter 專案
+    或 add-to-app host 專案的 `Podfile`。
 
-使用：
+    對於全 Flutter 應用程式，請取代以下區段：
 
-```ruby
-target 'MyApp' do
-  install_all_flutter_pods(flutter_application_path)
-end
+    ```ruby
+    target 'Runner' do
+      use_frameworks!
+      use_modular_headers!
 
-target '<name of your App Clip target>'
-  install_all_flutter_pods(flutter_application_path)
-end
-```
+      flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+    end
+    ```
 
-**8.2**
+    with:
 
-請在命令列（Command Line Interface）中，
-進入你的 Flutter 專案目錄，
-然後安裝 pod：
+    ```ruby
+    use_frameworks!
+    use_modular_headers!
+    flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 
-```console
-cd ios
-pod install
-```
+    target 'Runner'
+    target '<name of your App Clip target>'
+    ```
+
+    在檔案的最上方，
+    取消註解 `platform :ios` 這一行，並將
+    version 設定為兩個 target 的 iOS
+    Deployment Target 中較低的那一個。
+
+    若為 add-to-app，請取代：
+
+    ```ruby
+    target 'MyApp' do
+      install_all_flutter_pods(flutter_application_path)
+    end
+    ```
+
+    with:
+
+    ```ruby
+    target 'MyApp' do
+      install_all_flutter_pods(flutter_application_path)
+    end
+
+    target '<name of your App Clip target>' do
+      install_all_flutter_pods(flutter_application_path)
+    end
+    ```
+
+1.  請在命令列（Command Line Interface）中，
+    進入你的 Flutter 專案的 `ios` 目錄，
+    然後安裝 pod：
+
+    ```console
+    cd ios
+    pod install
+    ```
+
+</Tab>
+</Tabs>
 
 ## 執行
 
@@ -333,6 +373,7 @@ pod install
 也請參考 Apple 的[測試你的 App Clip 啟動體驗][testing]文件。
 
 [testing]: {{site.apple-dev}}/documentation/app_clips/testing_your_app_clip_s_launch_experience
+[Swift Package Manager for app developers]: /packages-and-plugins/swift-package-manager/for-app-developers
 
 ## 除錯與熱重載
 

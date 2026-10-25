@@ -258,7 +258,40 @@ public class MyActivity extends FragmentActivity {
 畫面會出現空白 UI。
 大部分的時間延遲可以透過使用
 快取且預先啟動（pre-warmed）的 `FlutterEngine` 來避免，
-相關內容將在下節說明。
+相關內容請參閱
+[使用預先啟動的 `FlutterEngine`](#using-a-pre-warmed-flutterengine)。
+
+### 自動處理返回按鈕與預測返回
+
+在 Android 13 或更高版本（API level 33+）的原生 Android 應用程式中嵌入 `FlutterFragment` 時，
+你可以設定該 fragment 自動處理
+系統返回按鈕的按下動作與預測返回手勢，
+而不必手動轉發 `onBackPressed()`。
+
+請不要如上所示覆寫 `onBackPressed`，
+而是在建置 fragment 時設定
+`shouldAutomaticallyHandleOnBackPressed(true)`：
+
+<Tabs key="android-language">
+<Tab name="Kotlin">
+
+```kotlin
+val flutterFragment = FlutterFragment.withNewEngine()
+    .shouldAutomaticallyHandleOnBackPressed(true)
+    .build()
+```
+
+</Tab>
+<Tab name="Java">
+
+```java
+FlutterFragment flutterFragment = FlutterFragment.withNewEngine()
+    .shouldAutomaticallyHandleOnBackPressed(true)
+    .build();
+```
+
+</Tab>
+</Tabs>
 
 ## 使用預先啟動的 `FlutterEngine`
 

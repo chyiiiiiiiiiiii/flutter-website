@@ -99,5 +99,5 @@ API 文件：
 [Material Theme Updates]: /go/material-theme-system-updates
 [PR 62014: TextSelectionTheme support]: {{site.repo.flutter}}/pull/62014
 [Text Selection Theme]: /go/text-selection-theme
-[`TextSelectionThemeData`]: {{site.api}}/flutter/material/TextSelectionThemeData-class.html
-[`ThemeData`]: {{site.api}}/flutter/material/ThemeData-class.html
+[`TextSelectionThemeData`]: {{site.material_ui}}/TextSelectionThemeData-class.html
+[`ThemeData`]: {{site.material_ui}}/ThemeData-class.html

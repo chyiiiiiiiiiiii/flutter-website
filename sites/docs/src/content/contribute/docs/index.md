@@ -79,7 +79,7 @@ showBreadcrumbs: true
 - `eleventy.config.ts`
 
   網站 [11ty][] 靜態網站產生設定的進入點。
-- `firebase.json`
+- `sites/docs/firebase.json`
 
   用於預備與部署網站的 [Firebase Hosting][] 設定。
 - `package.json`

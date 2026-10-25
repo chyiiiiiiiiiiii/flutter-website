@@ -82,11 +82,11 @@ API 文件：
 * 在 [#96174][] 中標記為已棄用（Deprecated）
 * 在 [#134486][] 中移除
 
-[`DeletableChipAttributes`]: {{site.api}}/flutter/material/DeletableChipAttributes-class.html
-[`Chip`]: {{site.api}}/flutter/material/Chip-class.html
-[`RawChip`]: {{site.api}}/flutter/material/RawChip-class.html
-[`InputChip`]: {{site.api}}/flutter/material/InputChip-class.html
-[`MaterialLocalizations.deleteButtonTooltip`]: {{site.api}}/flutter/material/MaterialLocalizations/deleteButtonTooltip.html
+[`DeletableChipAttributes`]: {{site.material_ui}}/DeletableChipAttributes-class.html
+[`Chip`]: {{site.material_ui}}/Chip-class.html
+[`RawChip`]: {{site.material_ui}}/RawChip-class.html
+[`InputChip`]: {{site.material_ui}}/InputChip-class.html
+[`MaterialLocalizations.deleteButtonTooltip`]: {{site.material_ui}}/MaterialLocalizations/deleteButtonTooltip.html
 
 [#96174]: {{site.repo.flutter}}/pull/96174
 [#134486]: {{site.repo.flutter}}/pull/134486
@@ -298,8 +298,8 @@ API 文件：
 * 在 [#133181][] 中移除
 
 [`ScrollBehavior`]: {{site.api}}/flutter/widgets/ScrollBehavior-class.html
-[`MaterialScrollBehavior`]: {{site.api}}/flutter/material/MaterialScrollBehavior-class.html
-[`ThemeData`]: {{site.api}}/flutter/material/ThemeData-class.html
+[`MaterialScrollBehavior`]: {{site.material_ui}}/MaterialScrollBehavior-class.html
+[`ThemeData`]: {{site.material_ui}}/ThemeData-class.html
 [`GlowingOverscrollIndicator`]: {{site.api}}/flutter/widgets/GlowingOverscrollIndicator-class.html
 [`StretchingOverscrollIndicator`]: {{site.api}}/flutter/widgets/StretchingOverscrollIndicator-class.html
 

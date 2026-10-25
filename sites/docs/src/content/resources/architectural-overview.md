@@ -45,22 +45,8 @@ Flutter 框架為開源專案，採用寬鬆的 BSD 授權，
 
 Flutter 採用可擴充的分層系統設計。它由一系列相互獨立的函式庫組成，每一層都依賴於下層。沒有任何一層擁有對下層的特權存取，框架層的每個部分都設計為可選且可替換。
 
-{% comment %}
-The PNG diagrams in this document were created using draw.io. The draw.io
-metadata is embedded in the PNG file itself, so you can open the PNG directly
-from draw.io to edit the individual components.
-
-The following settings were used:
-
- - Select all (to avoid exporting the canvas itself)
- - Export as PNG, zoom 300% (for a reasonable sized output)
- - Enable _Transparent Background_
- - Enable _Selection Only_, _Crop_
- - Enable _Include a copy of my diagram_
-{% endcomment %}
-
 ![Architectural
-diagram](/assets/images/docs/arch-overview/archdiagram.png){:width="100%"}
+diagram](/assets/images/docs/arch-overview/archdiagram.webp){:width="100%"}
 
 對於底層作業系統而言，Flutter 應用程式的封裝方式與其他原生應用程式相同。平台專屬的嵌入器（embedder）提供進入點（entrypoint）；協調作業系統以存取繪圖表面、無障礙、輸入等服務；並管理訊息事件迴圈。嵌入器會以適合該平台的語言撰寫：目前 Android 採用 Java 與 C++，iOS 與 macOS 採用 Swift 及 Objective-C/Objective-C++，Windows 與 Linux 採用 C++。透過嵌入器，Flutter 程式碼可以作為模組整合進現有應用程式，或成為應用程式的全部內容。Flutter 內建多種常見目標平台的嵌入器，也有其他第三方嵌入器存在。
 
@@ -99,15 +85,14 @@ Flutter 引擎透過
 * **[rendering layer]({{site.api}}/flutter/rendering/rendering-library.html)** 提供
   版面配置的抽象。透過這一層，你可以建立可渲染物件的樹狀結構，
   並可動態操作這些物件，樹狀結構會自動更新版面以反映你的變更。
-* **[widgets layer]({{site.api}}/flutter/widgets/widgets-library.html)**
-  是組合（composition）抽象層。
+* **[widgets layer]({{site.api}}/flutter/widgets/widgets-library.html)**，
+  屬於 Flutter SDK 核心的一部分，是組合（composition）抽象層。
   rendering layer 中的每個 render object 在 widgets layer 中都有對應的類別。
   此外，widgets layer 允許你定義可重複使用的類別組合。
   這一層引入了響應式程式設計模型。
-* **[Material]({{site.api}}/flutter/material/material-library.html)**
-  及
-  **[Cupertino]({{site.api}}/flutter/cupertino/cupertino-library.html)**
-  函式庫則提供完整的控制元件集合，
+* **[Material]({{site.pub}}/packages/material_ui)** 及
+  **[Cupertino]({{site.pub}}/packages/cupertino_ui)** 套件
+  則提供完整的控制元件集合，
   利用 widgets layer 的組合原理來實作 Material 或 iOS 設計語言。
 
 Flutter 框架本身相對精簡；許多開發者常用的高階功能是以套件形式實作，
@@ -116,10 +101,16 @@ Flutter 框架本身相對精簡；許多開發者常用的高階功能是以套
 以及平台無關的功能如 [characters]({{site.pub}}/packages/characters)、
 [http]({{site.pub}}/packages/http)、[animations]({{site.pub}}/packages/animations)，
 這些都建立在 Dart 與 Flutter 核心函式庫之上。
-部分套件來自更廣泛的生態系，
+此外，Material 與 Cupertino UI 套件可在 pub.dev 上取得，
+讓你可以選擇匯入它們，或在核心 `widgets` 函式庫之上建立自己的設計系統，
+而不會讓應用程式變得臃腫。
+其他套件則來自更廣泛的生態系，
 涵蓋如 [in-app payments]({{site.pub}}/packages/square_in_app_payments)、[Apple
 authentication]({{site.pub}}/packages/sign_in_with_apple)、
 [animations]({{site.pub}}/packages/lottie) 等服務。
+
+如需進一步了解 Flutter 的 UI 設計方法，請參考
+[Buiding user interfaces with Flutter](/ui)。
 
 接下來的內容將依分層自上而下介紹，
 首先說明 UI 開發的響應式範式，
@@ -143,7 +134,7 @@ authentication]({{site.pub}}/packages/sign_in_with_apple)、
 
 **Framework** ([source code]({{site.repo.flutter}}/tree/main/packages/flutter/lib))
 * 提供高階 API 以打造高品質應用程式
-  （例如元件、命中測試、手勢偵測、無障礙、文字輸入）。
+  （例如風格中立的元件、命中測試、手勢偵測、無障礙、文字輸入）。
 * 將應用程式的元件樹合成為場景。
 
 **Engine** ([source code]({{site.repo.flutter}}/tree/main/engine/src/flutter/shell/common))
@@ -224,8 +215,8 @@ UI = f(state)
 
 <?code-excerpt "lib/main.dart (main)"?>
 ```dart
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() => runApp(const MyApp());
 
@@ -266,9 +257,9 @@ class MyApp extends StatelessWidget {
 應用程式會在事件（例如使用者互動）發生時，透過告知框架將元件階層中的某個元件替換為另一個元件，來更新其使用者介面。框架會比較新舊元件，並有效率地更新使用者介面。
 
 Flutter 為每個 UI 控制項都提供了自己的實作，而不是依賴系統所提供的控制項：例如，Flutter 有純 [Dart
-實作]({{site.api}}/flutter/cupertino/CupertinoSwitch-class.html)
+實作]({{site.cupertino_ui}}/CupertinoSwitch-class.html)
 的 [iOS 切換控制項]({{site.apple-dev}}/design/human-interface-guidelines/toggles)
-以及 [Android 對應控制項]({{site.api}}/flutter/material/Switch-class.html) [的版本]({{site.material}}/components/switch)。
+以及 [Android 對應控制項]({{site.material_ui}}/Switch-class.html) [的版本]({{site.material}}/components/switch)。
 
 這種做法帶來了多項優點：
 
@@ -290,7 +281,7 @@ Flutter 提供了 padding、alignment、row、column 以及 grid 等版面配置
 
 ### 建構元件（Building widgets）
 
-如前所述，你可以透過覆寫 [`build()`]({{site.api}}/flutter/widgets/StatelessWidget/build.html) 函式來決定元件的視覺呈現，回傳一個新的元素樹（element tree）。這棵樹以更具體的方式描述該元件在使用者介面中的部分。例如，一個工具列元件可能有一個 build 函式，會回傳一個 [水平版面配置]({{site.api}}/flutter/widgets/Row-class.html)，其中包含一些 [文字]({{site.api}}/flutter/widgets/Text-class.html) 與 [各種]({{site.api}}/flutter/material/IconButton-class.html) [按鈕]({{site.api}}/flutter/material/PopupMenuButton-class.html)。根據需要，框架會遞迴要求每個元件進行 build，直到整棵樹都由 [具體可繪製物件]({{site.api}}/flutter/widgets/RenderObjectWidget-class.html) 所描述。接著，框架會將這些可繪製物件組合成一棵可繪製物件樹。
+如前所述，你可以透過覆寫 [`build()`]({{site.api}}/flutter/widgets/StatelessWidget/build.html) 函式來決定元件的視覺呈現，回傳一個新的元素樹（element tree）。這棵樹以更具體的方式描述該元件在使用者介面中的部分。例如，一個工具列元件可能有一個 build 函式，會回傳一個 [水平版面配置]({{site.api}}/flutter/widgets/Row-class.html)，其中包含一些 [文字]({{site.api}}/flutter/widgets/Text-class.html) 與 [各種]({{site.material_ui}}/IconButton-class.html) [按鈕]({{site.material_ui}}/PopupMenuButton-class.html)。根據需要，框架會遞迴要求每個元件進行 build，直到整棵樹都由 [具體可繪製物件]({{site.api}}/flutter/widgets/RenderObjectWidget-class.html) 所描述。接著，框架會將這些可繪製物件組合成一棵可繪製物件樹。
 
 元件的 build 函式應該避免副作用。每當 build 被呼叫時，元件都應回傳一棵新的元件樹[^1]，不論前一次回傳的是什麼。框架會自動判斷哪些 build 方法需要被呼叫，這是根據 render object tree（繪製物件樹）來決定的（稍後會有更詳細說明）。你可以在 [Inside Flutter
 topic](/resources/inside-flutter#linear-reconciliation) 了解更多相關流程。
@@ -375,7 +366,7 @@ Container(
 );
 ```
 
-[properties like color and type styles]: {{site.api}}/flutter/material/ThemeData-class.html
+[properties like color and type styles]: {{site.material_ui}}/ThemeData-class.html
 
 隨著應用程式規模的擴大，能夠減少建立和使用有狀態元件（stateful widgets）繁瑣流程的進階狀態管理方法，會變得越來越有吸引力。許多 Flutter 應用程式會使用像是 [provider]({{site.pub}}/packages/provider) 這類實用套件，它為 `InheritedWidget` 提供了一層包裝。Flutter 的分層架構也讓你可以採用其他方式來實現狀態到 UI 的轉換，例如 [flutter_hooks]({{site.pub}}/packages/flutter_hooks) 套件。
 
@@ -520,7 +511,7 @@ Widget build(BuildContext context) {
 
 [ABI]: {{site.repo.flutter}}/blob/main/engine/src/flutter/shell/platform/embedder/embedder.h
 
-平台嵌入器是承載所有 Flutter 內容的原生作業系統應用程式，並作為主機作業系統與 Flutter 之間的橋樑。當你啟動一個 Flutter 應用程式時，嵌入器會提供進入點，初始化 Flutter 引擎，取得 UI 與光柵化所需的執行緒，並建立一個 Flutter 可以寫入的紋理。嵌入器同時負責應用程式生命週期管理，包括輸入手勢（如滑鼠、鍵盤、觸控）、視窗大小調整、執行緒管理與平台訊息處理。Flutter 內建 Android、iOS、Windows、macOS 與 Linux 的平台嵌入器；你也可以自訂平台嵌入器，例如[這個支援透過 VNC 風格 framebuffer 遠端 Flutter 工作階段的範例]({{site.github}}/chinmaygarde/fluttercast)，或是[這個 Raspberry Pi 的實作範例]({{site.github}}/ardera/flutter-pi)。
+平台嵌入器是承載所有 Flutter 內容的原生作業系統應用程式，並作為主機作業系統與 Flutter 之間的橋樑。當你啟動一個 Flutter 應用程式時，嵌入器會提供進入點，初始化 Flutter 引擎，取得 UI 與光柵化所需的執行緒，並建立一個 Flutter 可以寫入的紋理。嵌入器同時負責應用程式生命週期管理，包括輸入手勢（如滑鼠、鍵盤、觸控）、視窗大小調整、執行緒管理與平台訊息處理。Flutter 內建 Android、iOS、Windows、macOS 與 Linux 的平台嵌入器；你也可以自訂平台嵌入器，例如[這個支援透過 VNC 風格 framebuffer 遠端 Flutter 工作階段的範例](https://github.com/chinmaygarde/fluttercast)，或是[這個 Raspberry Pi 的實作範例](https://github.com/ardera/flutter-pi)。
 
 每個平台都有其專屬的 API 與限制。以下是各平台的簡要說明：
 
@@ -586,23 +577,22 @@ channel.setMethodCallHandler {
 <?code-excerpt "lib/ffi.dart" remove="ignore:"?>
 ```dart
 import 'dart:ffi';
+
 import 'package:ffi/ffi.dart'; // contains .toNativeUtf16() extension method
 
-typedef MessageBoxNative =
-    Int32 Function(
-      IntPtr hWnd,
-      Pointer<Utf16> lpText,
-      Pointer<Utf16> lpCaption,
-      Int32 uType,
-    );
+typedef MessageBoxNative = Int32 Function(
+  IntPtr hWnd,
+  Pointer<Utf16> lpText,
+  Pointer<Utf16> lpCaption,
+  Int32 uType,
+);
 
-typedef MessageBoxDart =
-    int Function(
-      int hWnd,
-      Pointer<Utf16> lpText,
-      Pointer<Utf16> lpCaption,
-      int uType,
-    );
+typedef MessageBoxDart = int Function(
+  int hWnd,
+  Pointer<Utf16> lpText,
+  Pointer<Utf16> lpCaption,
+  int uType,
+);
 
 void exampleFfi() {
   final user32 = DynamicLibrary.open('user32.dll');
@@ -685,67 +675,20 @@ Dart 自語言誕生以來就能編譯為 JavaScript，且工具鏈針對開發�
 
 然而，Flutter 引擎是以 C++ 編寫，設計上是與底層作業系統互動，而非直接與網頁瀏覽器溝通。因此，Web 平台需要採用不同的實作方式。
 
-在 Web 上，Flutter 提供兩種渲染器（renderer）：
+在 Web 上，Flutter 會將你的應用程式程式碼編譯為 JavaScript，
+或 [WebAssembly][Dart WebAssembly support]（使用 `--wasm` 建置時），
+並使用 WebAssembly 版本的 Skia 引擎來渲染圖形。
 
-<table class="table table-striped">
-<tr>
-<th>渲染器</th>
-<th>編譯目標</th>
-</tr>
+![Flutter web architecture](/assets/images/docs/resources/diagram-layercake.webp){:width="80%" .diagram-wrap}
 
-<tr>
-<td>CanvasKit
-</td>
-<td>JavaScript
-</td>
-</tr>
+與 Flutter 執行於其他平台相比，最顯著的差異之一是 Web 平台不需要 Flutter 提供 Dart 執行階段。取而代之的是，Flutter 框架（以及你所撰寫的程式碼）會被編譯為 JavaScript 或 WebAssembly。同時值得一提的是，Dart 在各種模式下（JIT 與 AOT、原生與 Web 編譯）語言語意差異極少，大多數開發者幾乎不會遇到語意差異所造成的問題。
 
-<tr>
-<td>Skwasm
-</td>
-<td>WebAssembly
-</td>
-</tr>
-</table>
+在開發階段，Flutter Web 使用 [`dartdevc`]({{site.dart-site}}/tools/dartdevc)，這是一個支援增量編譯的編譯器，因此同時支援 hot reload 與 hot restart。相對地，當你準備將應用程式部署至 Web 生產環境時，[`dart2js`]({{site.dart-site}}/tools/dart2js) 或 `dart2wasm` 會將 Flutter 核心、框架及你的應用程式一併編譯為可部署到任意 Web 伺服器的最佳化輸出。程式碼可選擇打包為單一檔案，或透過[延遲匯入（deferred imports）][deferred imports]分割為多個檔案。
 
-_建構模式_ 是命令列選項，用於決定執行應用程式時可用的渲染器。
+如需更多 Flutter Web 相關資訊，請參閱 [Flutter 的 Web 支援][Web support for Flutter]。
 
-Flutter 提供兩種 _建構_ 模式：
-
-<table class="table table-striped">
-<tr>
-<th>建構模式</th>
-<th>可用渲染器</th>
-</tr>
-
-<tr>
-<td>default</td>
-<td>CanvasKit</td>
-</tr>
-
-<tr>
-<td>`--wasm`</td>
-<td>Skwasm（優先）、CanvasKit（備援）</td>
-</tr>
-</table>
-
-
-預設模式僅提供 CanvasKit 渲染器。`--wasm` 選項則同時提供兩種渲染器，並根據瀏覽器能力自動選擇引擎：若瀏覽器支援 Skwasm，則優先使用 Skwasm，否則退回使用 CanvasKit。
-
-{% comment %}
-The draw.io source for the following image is in /diagrams/resources
-{% endcomment %}
-
-![Flutter web architecture](/assets/images/docs/arch-overview/web-framework-diagram.png){:width="80%" .diagram-wrap}
-
-與 Flutter 執行於其他平台相比，最顯著的差異之一是 Web 平台不需要 Flutter 提供 Dart 執行階段。取而代之的是，Flutter 框架（以及你所撰寫的程式碼）會被編譯為 JavaScript。同時值得一提的是，Dart 在各種模式下（JIT 與 AOT、原生與 Web 編譯）語言語意差異極少，大多數開發者幾乎不會遇到語意差異所造成的問題。
-
-在開發階段，Flutter Web 使用 [`dartdevc`]({{site.dart-site}}/tools/dartdevc)，這是一個支援增量編譯的編譯器，因此可以進行 hot restart 以及[啟用旗標後的 hot reload][hot reload behind a flag]。相對地，當你準備將應用程式部署至 Web 生產環境時，會使用 [`dart2js`]({{site.dart-site}}/tools/dart2js)，也就是 Dart 高度最佳化的生產用 JavaScript 編譯器，將 Flutter 核心、框架及你的應用程式一併封裝為可部署到任意 Web 伺服器的壓縮原始檔。程式碼可選擇打包為單一檔案，或透過[延遲匯入（deferred imports）][deferred imports]分割為多個檔案。
-
-如需更多 Flutter Web 相關資訊，請參閱 [Flutter 的 Web 支援][Web support for Flutter] 及 [Web 渲染器][Web renderers]。
-
+[Dart WebAssembly support]: https://dart.dev/web/wasm
 [deferred imports]: {{site.dart-site}}/language/libraries#lazily-loading-a-library
-[Web renderers]: /platform-integration/web/renderers
 [Web support for Flutter]: /platform-integration/web
 
 [hot reload behind a flag]: /platform-integration/web/building#hot-reload-web

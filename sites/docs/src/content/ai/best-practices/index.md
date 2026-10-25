@@ -1,6 +1,5 @@
 ---
 title: Flutter AI 最佳實務
-sidenav: ai
 shortTitle: AI 最佳實務
 breadcrumb: Best practices
 description: >
@@ -36,4 +35,4 @@ displaying 4 rows and 5 columns.">
 因此，本文並非詳述這個應用程式，而是介紹使用 Flutter 建置你自己的 AI 應用程式時應採用的最佳實務。那麼，讓我們開始吧！
 
 
-[crossword-app]: {{site.github}}/flutter/demos/tree/main/crossword_companion
+[crossword-app]: {{site.repo.demos}}/tree/main/crossword_companion

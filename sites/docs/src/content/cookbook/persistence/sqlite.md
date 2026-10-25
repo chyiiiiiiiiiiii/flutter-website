@@ -13,6 +13,10 @@ description: 如何使用 SQLite 來儲存與擷取資料。
 [sqflite package]: {{site.pub-pkg}}/sqflite
 
 如果你正在開發一個需要在本地裝置上儲存與查詢大量資料的應用程式，建議使用資料庫來取代本地檔案或 key-value 儲存方式。一般來說，資料庫在插入、更新與查詢資料時，效能會優於其他本地持久化解決方案。
+如果你的關聯式資料需要在雲端跨裝置同步，
+請參閱 [Choose a database for your Flutter app][]。
+
+[Choose a database for your Flutter app]: /data-and-backend/persistence/choose-a-database
 
 Flutter 應用程式可以透過 [`sqflite`][] 插件（可於 pub.dev 取得）來使用 SQLite 資料庫。
 本教學將示範如何使用 `sqflite` 進行新增、讀取、更新與刪除各種狗狗（Dogs）資料的基本操作。

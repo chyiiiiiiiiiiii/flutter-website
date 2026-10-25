@@ -359,6 +359,35 @@ Dart 擴充功能內建以下程式碼片段：
 <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F5</kbd>
 或在 macOS 上按 <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>F5</kbd>。
 
+### 自訂結尾標籤 {: #closing-labels}
+
+Dart 擴充功能會在多行結構（例如建構函式呼叫、方法呼叫與 list 字面值）的結尾分隔符號之後顯示標籤。
+結尾標籤是編輯器的註解標示，不會變更你的原始碼，
+即使預設的 ` // ` 前綴讓它們看起來與註解相似。
+
+若要變更前綴：
+
+1.  開啟 [Command Palette][]。
+1.  選擇 **Preferences: Open Settings (UI)**。
+1.  搜尋 `dart.closingLabels`。
+1.  在 **Dart: Closing Labels Prefix** 中輸入你偏好的前綴。
+
+例如，若要移除註解標記，
+同時保留程式碼與標籤之間的間距，
+請將前綴設為單一空格（` `）：
+
+```json
+{
+  "dart.closingLabelsPrefix": " "
+}
+```
+
+若要隱藏結尾標籤，請關閉 **Dart: Closing Labels**。
+如需完整的結尾標籤選項清單，
+請參閱[擴充功能的設定參考][closing-label-options]。
+
+[closing-label-options]: https://dartcode.org/docs/settings/#dartclosinglabels
+
 ## Flutter 屬性編輯器 {: #property-editor}
 
 Flutter 屬性編輯器（Flutter Property Editor）是 [Flutter 擴充功能][Flutter extension] 提供的強大工具，讓你可以直接在視覺化介面中檢視並修改元件（Widget）屬性。
@@ -395,6 +424,6 @@ Flutter 屬性編輯器（Flutter Property Editor）是 [Flutter 擴充功能][F
 [Flutter's build modes]: /testing/build-modes
 [Hot reload]: /tools/hot-reload
 [let us know]: {{site.repo.this}}/issues/new
-[issue tracker]: {{site.github}}/Dart-Code/Dart-Code/issues
+[issue tracker]: https://github.com/Dart-Code/Dart-Code/issues
 [Running DevTools from VS Code]: /tools/devtools/vscode
 [VS Code status bar]: /assets/images/docs/tools/vs-code/device_status_bar.png

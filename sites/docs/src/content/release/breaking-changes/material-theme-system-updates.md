@@ -56,8 +56,8 @@ API 文件：
 
 * [將 cardTheme、dialogTheme 和 tabBarTheme 的型別變更為 xxxThemeData][Change cardTheme, dialogTheme, and tabBarTheme type to xxxThemeData]
 
-[Change cardTheme, dialogTheme, and tabBarTheme type to xxxThemeData]: {{site.github}}/flutter/flutter/pull/157292
-[`ThemeData`]: {{site.api}}/flutter/material/ThemeData-class.html
-[`CardTheme`]: {{site.api}}/flutter/material/CardTheme-class.html
-[`DialogTheme`]: {{site.api}}/flutter/material/DialogTheme-class.html
-[`TabBarTheme`]: {{site.api}}/flutter/material/TabBarTheme-class.html
+[Change cardTheme, dialogTheme, and tabBarTheme type to xxxThemeData]: {{site.repo.flutter}}/pull/157292
+[`ThemeData`]: {{site.material_ui}}/ThemeData-class.html
+[`CardTheme`]: {{site.material_ui}}/CardTheme-class.html
+[`DialogTheme`]: {{site.material_ui}}/DialogTheme-class.html
+[`TabBarTheme`]: {{site.material_ui}}/TabBarTheme-class.html

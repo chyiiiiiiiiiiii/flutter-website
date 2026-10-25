@@ -69,6 +69,18 @@ description: >-
 
 {: .steps .chromeos-only}
 
+<div class="macos-only">
+
+:::warning
+**Intel Mac 注意事項：**
+Flutter 即將停止支援以 Intel 為基礎的 Mac (x64)。
+未來的 Flutter 版本將需要 Apple Silicon。
+詳細資訊請參閱
+[macOS Intel deprecation strategy](https://docs.google.com/document/d/1ty3js_Eg2sNIbDuyYS_aV7h4jYdx1hEpX_mV135gO4s/edit?tab=t.0#heading=h.cx7d8y57ce6p)。
+:::
+
+</div>
+
  1. <h3>安裝 Xcode 命令列工具</h3>
 
     下載 Xcode 命令列工具，以取得 Flutter 依賴的命令列工具，包括 Git。

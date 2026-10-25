@@ -28,8 +28,8 @@ next:
 
 | 元件        | 溝通規則                                                                                                                                                                                                                                               |
 |-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| View        | <ol><li>View 只知道唯一一個 ViewModel，且永遠不會知道其他層或元件的存在。建立時，Flutter 會將 ViewModel 作為參數傳遞給 View，讓 View 可以存取 ViewModel 的資料與命令回呼。</li></ul> |
-| ViewModel   | <ol><li>一個 ViewModel 僅屬於唯一一個 View，View 可以看到 ViewModel 的資料，但 ViewModel 不需要知道 View 的存在。</li><li>ViewModel 可以知道一個或多個 Repository，這些 Repository 會在 ViewModel 的建構子中傳入。</li></ul>           |
+| View        | <ol><li>View 只知道唯一一個 ViewModel，且永遠不會知道其他層或元件的存在。建立時，Flutter 會將 ViewModel 作為參數傳遞給 View，讓 View 可以存取 ViewModel 的資料與命令回呼。</li></ol> |
+| ViewModel   | <ol><li>一個 ViewModel 僅屬於唯一一個 View，View 可以看到 ViewModel 的資料，但 ViewModel 不需要知道 View 的存在。</li><li>ViewModel 可以知道一個或多個 Repository，這些 Repository 會在 ViewModel 的建構子中傳入。</li></ol>           |
 | Repository  | <ol><li>Repository 可以知道多個 Service，這些 Service 會作為參數傳入 Repository 的建構子。</li><li>Repository 可以被多個 ViewModel 使用，但它不需要知道這些 ViewModel 的存在。</li></ol>                                        |
 | Service     | <ol><li>Service 可以被多個 Repository 使用，但它不需要知道 Repository（或其他任何物件）的存在。</li></ol>                                                                                                                               |
 

@@ -9,7 +9,12 @@ showToc: false
 
 ## 設計系統
 
-Flutter SDK 內建兩套設計系統。
+風格中立的 [`widgets`][] 函式庫隨 Flutter SDK 一併提供。
+另有兩個 UI 設計套件（[`material_ui`][] 與 [`cupertino_ui`][]）建構於 `widgets` 之上，可在 Dart 與 Flutter 的套件 (package) 儲存庫 [pub.dev]({{site.pub}}) 取得。
+
+[`cupertino_ui`]: {{site.pub}}/packages/cupertino_ui
+[`material_ui`]: {{site.pub}}/packages/material_ui
+[`widgets`]: {{site.api}}/flutter/widgets/
 
 <div class="card-grid">
   <Card title="Cupertino" link="/ui/widgets/cupertino" outlined="true" filled="false">
@@ -20,7 +25,7 @@ Flutter SDK 內建兩套設計系統。
   </Card>
 </div>
 
-您可以在 Dart 與 Flutter 的套件 (package) 儲存庫 [pub.dev]({{site.pub}}) 上，找到更多由 Flutter 社群建立的設計系統。例如受 Windows 風格啟發的 [fluent_ui][]、受 macOS 風格啟發的 [macos_ui][]，以及受 Ubuntu 風格啟發的 [yaru][] 元件。
+您可以在 pub.dev 上找到更多由 Flutter 社群建立的設計系統。例如受 Windows 風格啟發的 [fluent_ui][]、受 macOS 風格啟發的 [macos_ui][]，以及受 Ubuntu 風格啟發的 [yaru][] 元件。
 
 [fluent_ui]: {{site.pub-pkg}}/fluent_ui
 [macos_ui]: {{site.pub-pkg}}/macos_ui

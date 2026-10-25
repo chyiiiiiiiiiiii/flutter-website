@@ -93,7 +93,8 @@ Widget build(BuildContext context) {
 實作 factory 與 platform view。
 `FLNativeViewFactory` 會建立 platform view，
 而 platform view 則會提供 `UIView` 的參考。
-例如，`FLNativeView.swift`：
+
+例如，實作 factory 類別：
 
 ```swift
 import Flutter
@@ -124,7 +125,17 @@ class FLNativeViewFactory: NSObject, FlutterPlatformViewFactory {
           return FlutterStandardMessageCodec.sharedInstance()
     }
 }
+```
 
+視你使用的 UI 框架而定，
+請為 `FLNativeView` 選擇以下其中一種實作方式：
+
+<Tabs key="swift-ui-framework">
+<Tab name="UIKit">
+
+若使用 UIKit，請實作 `FLNativeView` 類別：
+
+```swift
 class FLNativeView: NSObject, FlutterPlatformView {
     private var _view: UIView
 
@@ -156,8 +167,69 @@ class FLNativeView: NSObject, FlutterPlatformView {
 }
 ```
 
+</Tab>
+<Tab name="SwiftUI">
+
+若要在 iOS 的 platform view 中顯示 SwiftUI 視圖，
+請將 SwiftUI 視圖包在 `UIHostingController` 內。
+由於 `UIHostingController` 是一個 view controller，
+你可以透過 `view` 屬性取得它的視圖，
+並從 platform view 的 `view()` 方法回傳。
+
+為避免過早被釋放 (deallocation)，請將 `UIHostingController`
+實例儲存為 `FLNativeView` 的屬性。
+請使用傳入初始化方法的 `frame`
+來設定 hosting controller 視圖的 frame，
+讓 Flutter 能正確調整其大小。
+
+若使用 SwiftUI，請實作 `FLNativeView` 類別及其 SwiftUI 視圖：
+
+```swift
+import SwiftUI
+
+class FLNativeView: NSObject, FlutterPlatformView {
+    private let hostingController: UIHostingController<MySwiftUIView>
+
+    init(
+        frame: CGRect,
+        viewIdentifier viewId: Int64,
+        arguments args: Any?,
+        binaryMessenger messenger: FlutterBinaryMessenger?
+    ) {
+        hostingController = UIHostingController(rootView: MySwiftUIView())
+        super.init()
+        hostingController.view.frame = frame
+    }
+
+    func view() -> UIView {
+        return hostingController.view
+    }
+}
+
+struct MySwiftUIView: View {
+    var body: some View {
+        Text("Native text from iOS (SwiftUI)")
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.blue)
+            .foregroundColor(.white)
+    }
+}
+```
+
+</Tab>
+</Tabs>
+
 最後，註冊 platform view（平台視圖）。
 這可以在應用程式（app）或插件（plugin）中完成。
+
+:::version-note
+在 Flutter 3.41 及更新版本中，
+iOS 應用程式預設使用 `UIScene` 生命週期。
+對於使用 `UIScene` 的應用程式，
+你必須實作 `FlutterImplicitEngineDelegate`，
+並在 `didInitializeImplicitFlutterEngine(_:)` 內註冊你的 platform view。
+詳細資訊請參閱 [UISceneDelegate adoption guide][]。
+:::
 
 若要在應用程式中註冊，
 請修改 App 的 `AppDelegate.swift`：
@@ -281,6 +353,15 @@ class FLPlugin: NSObject, FlutterPlugin {
 最後，註冊 platform view（平台視圖）。
 這可以在應用程式（app）或插件（plugin）中完成。
 
+:::version-note
+在 Flutter 3.41 及更新版本中，
+iOS 應用程式預設使用 `UIScene` 生命週期。
+對於使用 `UIScene` 的應用程式，
+你必須實作 `FlutterImplicitEngineDelegate`，
+並在 `didInitializeImplicitFlutterEngine:` 內註冊你的 platform view。
+詳細資訊請參閱 [UISceneDelegate adoption guide][]。
+:::
+
 若要在應用程式中註冊，
 請修改 App 的 `AppDelegate.m`：
 
@@ -288,6 +369,9 @@ class FLPlugin: NSObject, FlutterPlugin {
 #import "AppDelegate.h"
 #import "FLNativeView.h"
 #import "GeneratedPluginRegistrant.h"
+
+@interface AppDelegate () <FlutterImplicitEngineDelegate>
+@end
 
 @implementation AppDelegate
 
@@ -392,3 +476,4 @@ Widget build(BuildContext context) {
 [`BackdropFilter`]: {{site.api}}/flutter/foundation/BackdropFilter.html
 [`defaultTargetPlatform`]: {{site.api}}/flutter/foundation/defaultTargetPlatform.html
 [design-doc]: {{site.main-url}}/go/ios-platformview-backdrop-filter-blur
+[UISceneDelegate adoption guide]: /release/breaking-changes/uiscenedelegate#migrate-appdelegate

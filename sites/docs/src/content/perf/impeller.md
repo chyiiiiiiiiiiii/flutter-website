@@ -70,30 +70,68 @@ Impeller **在 Android API 29+ 預設啟用且可用**。
 
 ### Web
 
-Flutter 在 Web 上提供了[兩種渲染器][two renderers] ——
-`canvaskit` 和 `skwasm`——目前這兩種渲染器皆使用 Skia。
-未來它們有可能會改用 Impeller。
-
-[two renderers]: /platform-integration/web/renderers#renderers
+Flutter 在 Web 上目前使用 Skia 進行渲染。
+未來可能會改用 Impeller。
 
 ### macOS
 
-你可以在 macOS 上透過啟用旗標（flag）來試用 Impeller。
+Impeller **自 Flutter 3.47 起已可使用，且預設啟用**。
 在未來的版本中，將會移除選擇不使用 Impeller 的能力。
 
-若要在 macOS 除錯時啟用 Impeller，
-請在 `flutter run` 指令中加入 `--enable-impeller` 參數。
+若要在 macOS 除錯時停用 Impeller，
+請在 `flutter run` 指令中加入 `--no-enable-impeller` 參數：
 
 ```console
-flutter run --enable-impeller
+flutter run --no-enable-impeller
 ```
 
-若要在 macOS 部署應用程式時啟用 Impeller，
-請在應用程式的 `Info.plist` 檔案中，於最上層的 `<dict>` 標籤下新增以下標籤。
+若要在 macOS 部署應用程式時停用 Impeller，
+請在應用程式的 `Info.plist` 檔案中，
+於最上層的 `<dict>` 標籤下新增以下標籤：
 
 ```xml
   <key>FLTEnableImpeller</key>
-  <true />
+  <false />
+```
+
+### Linux
+
+Impeller **自 Flutter 3.47 起已可使用，且預設啟用**。
+在未來的版本中，將會移除選擇不使用 Impeller 的能力。
+
+若要在 Linux 除錯時停用 Impeller，
+請在 `flutter run` 指令中加入 `--no-enable-impeller` 參數：
+
+```console
+flutter run --no-enable-impeller
+```
+
+若要在 Linux 部署應用程式時停用 Impeller，
+請在專案的 `linux/runner/my_application.cc` 中加入以下設定：
+
+```c diff
+  g_autoptr(FlDartProject) project = fl_dart_project_new();
++ fl_dart_project_set_enable_impeller(project, FALSE);
+```
+
+### Windows
+
+Impeller **自 Flutter 3.47 起已可使用，且預設啟用**。
+在未來的版本中，將會移除選擇不使用 Impeller 的能力。
+
+若要在 Windows 除錯時停用 Impeller，
+請在 `flutter run` 指令中加入 `--no-enable-impeller` 參數。
+
+```console
+flutter run --no-enable-impeller
+```
+
+若要在 Windows 部署應用程式時停用 Impeller，
+請在專案的 `windows\runner\main.cpp` 中加入以下設定：
+
+```cpp diff
+  flutter::DartProject project(L"data");
++ project.set_impeller_switch(flutter::ImpellerSwitch::Disabled);
 ```
 
 ### 錯誤與問題回報
@@ -112,8 +150,8 @@ flutter run --enable-impeller
   請將檔案壓縮後，附加於 GitHub 問題中。
 
 [export of the performance trace]:/tools/devtools/performance#import-and-export
-[file-issue]: {{site.github}}/flutter/flutter/issues/new/choose
-[Impeller project board]: {{site.github}}/orgs/flutter/projects/21
+[file-issue]: {{site.repo.flutter}}/issues/new/choose
+[Impeller project board]: https://github.com/orgs/flutter/projects/21
 
 ## 架構
 
@@ -124,6 +162,7 @@ flutter run --enable-impeller
 
 ## 其他資訊
 
+* [Impeller 反鋸齒][impeller-antialiasing]
 * [常見問題集][impeller-faq]
 * [Impeller 的座標系統][impeller-coords]
 * [如何設定 Xcode 以配合 metal 進行 GPU 幀擷取][impeller-xcode-capture]
@@ -133,6 +172,7 @@ flutter run --enable-impeller
 * [撰寫高效著色器的指引][impeller-shader-optimization]
 * [Impeller 中的顏色混合運作方式][impeller-blending]
 
+[impeller-antialiasing]: /perf/antialiasing
 [impeller-faq]: {{site.repo.flutter}}/blob/main/docs/engine/impeller/docs/faq.md
 [impeller-coords]: {{site.repo.flutter}}/blob/main/docs/engine/impeller/docs/coordinate_system.md
 [impeller-xcode-capture]: {{site.repo.flutter}}/blob/main/docs/engine/impeller/docs/xcode_frame_capture.md

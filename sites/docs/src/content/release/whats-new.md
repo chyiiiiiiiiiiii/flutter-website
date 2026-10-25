@@ -16,10 +16,62 @@ Flutter SDK [發行說明][release notes]。
 Dart 方面，您可以加入 [Dart Announce][] Google 群組，
 並查閱 [Dart 變更記錄][Dart changelog]。
 
-[Dart Announce]: {{site.groups}}/a/dartlang.org/g/announce
-[Dart changelog]: {{site.github}}/dart-lang/sdk/blob/main/CHANGELOG.md
-[flutter-announce]: {{site.groups}}/forum/#!forum/flutter-announce
+[Dart Announce]: {{site.groups.dart-announce}}
+[Dart changelog]: {{site.repo.dart-sdk}}/blob/main/CHANGELOG.md
+[flutter-announce]: {{site.groups.flutter-announce}}
 [release notes]: /release/release-notes
+
+## 2026 年 8 月 12 日：發行 3.47
+
+Flutter 3.47 正式上線！詳情請參閱
+[Flutter 3.47 部落格文章][3.47-blog-post]。
+
+**自 3.44 發行後更新或新增的文件**
+
+* Flutter [元件預覽工具 (Widget Previews)][widget-previewer]已升級為穩定版，
+  新增本機建置快取以加快啟動速度，
+  並支援即時預覽搜尋與篩選。
+
+* AI 文件已重新編排以改善導覽，
+  協助您透過 [Antigravity CLI][antigravity-cli]、
+  IDE 整合及其他程式開發助理，
+  快速上手 agent-plugins（先前稱為 skills）。
+  同時也新增了實驗性的 [AI 評估 (AI Evaluations)][ai-evals]主題頁面。
+
+* 新增的[相依套件管理 (Dependency management)][dependency-mgmt]指南說明
+  如何設定、管理及升級套件相依性。
+
+* iOS 與 macOS 的 [Swift Package Manager][swiftpm] 指南已擴充，
+  [Add-to-app][add-to-app] 文件現在也包含
+  SwiftPM 整合說明。
+
+* 網頁文件現在包含
+  [Wasm 編譯錯誤][wasm]的疑難排解指引，
+  以及在網頁建置時使用
+  `--source-maps` 旗標的說明。
+
+* 資源（assets）指南現在說明如何在 `pubspec.yaml` 中打包
+  [特定平台的資源][platform-assets]。
+
+* 新的遷移指南協助您將插件與應用程式遷移至
+  [內建 Kotlin][kotlin-migration] Gradle 插件。
+
+一如往常，請查閱本次發行的[破壞性變更][bc-3-47]頁面，
+其中包含遷移指南的連結及其他重要資訊。
+
+[3.47-blog-post]: /blog/whats-new-in-flutter-3-47
+[widget-previewer]: /tools/widget-previewer
+[antigravity-cli]: /ai/antigravity-cli
+[ai-evals]: /ai/evals
+[dependency-mgmt]: /packages-and-plugins/dependency-management
+[swiftpm]: /packages-and-plugins/swift-package-manager
+[add-to-app]: /add-to-app
+[wasm]: /platform-integration/web/wasm
+[platform-assets]: /ui/assets/assets-and-images
+[kotlin-migration]: /release/breaking-changes/migrate-to-built-in-kotlin
+[bc-3-47]: /release/breaking-changes#released-in-flutter-3-47
+
+---
 
 ## 2026 年 5 月 18 日：Google I/O 發行 3.44
 
@@ -71,7 +123,7 @@ Flutter 3.41 正式上線！詳情請參閱
 [Flutter API docs]: {{site.api}}
 [few]: {{site.flutter-blog}}/announcing-our-new-dart-and-flutter-getting-started-experience-b8c4b2be0984
 [learning pathway]: /learn
-[navaronbracke]: {{site.github}}/navaronbracke
+[navaronbracke]: https://github.com/navaronbracke
 [official glossary]: /resources/glossary
 [onReorder]: /release/breaking-changes/separated-builder-find-child-index-callback
 
@@ -144,7 +196,7 @@ docs.flutter.dev 網站已重新以 [Jaspr][]（一個 Dart 網頁框架）實�
 [3.38 release notes and changelog]: /release/release-notes/release-notes-3.38.0
 [accessibility docs]: /ui/accessibility
 [bc-3.38]: /release/breaking-changes#released-in-flutter-3-38
-[Dart 3.10 release]: https://blog.dart.dev/announcing-dart-3-10-ea8b952b6088
+[Dart 3.10 release]: {{site.dart-blog}}/announcing-dart-3-10
 [Dart dot shorthands]: {{site.dart-site}}/language/dot-shorthands
 [DevTools 2.51.1 release notes]: /tools/devtools/release-notes/release-notes-2.51.1
 [Flutter on latest iOS]: /platform-integration/ios/ios-latest
@@ -153,49 +205,6 @@ docs.flutter.dev 網站已重新以 [Jaspr][]（一個 Dart 網頁框架）實�
 [Widget Previewer tool page]: /tools/widget-previewer
 [web-config-file]: /platform-integration/web/web-dev-config-file
 
---- 
-
-## 2025 年 8 月 13 日：發行 3.35
-
-Flutter 3.35 正式上線！詳情請參閱
-[Flutter 3.35 技術部落格文章][3.35-tech]。
-您也可以查閱 [Dart 3.9 發行][Dart 3.9 release]部落格文章。
-
-[3.35-tech]: {{site.flutter-blog}}/whats-new-in-flutter-3-35-c58ef72e3766
-[Dart 3.9 release]: {{site.medium}}/dartlang/announcing-dart-3-9-ba49e8f38298
-
-**自 3.32 發行後更新或新增的文件**
-
-* 熱重載現已在網頁平台上可用，不再
-  需要實驗性旗標。詳情請查閱
-  [熱重載][hot reload]。
-
-* 新增了[使用 AI 建立][Create with AI]指南，涵蓋
-  如何善用 Gemini Code Assist、
-  GeminiCLI 及 Dart 和 Flutter MCP Server 等 AI 工具，
-  為您的 Flutter 應用程式建置 AI 驅動的功能。
-
-* 您現在可以使用 [Flutter 元件 (Widget) 預覽工具][Flutter Widget Previewer]指南，
-  在 Chrome 中預覽您的 Flutter 元件。
-
-* 每次穩定版（stable）發行都會影響
-  Flutter 支援的已部署平台版本。
-  詳情請造訪更新後的
-  [支援的平台][supported platforms]頁面。
-
-* 在 Android 上，您現在可以在分享螢幕時
-  保護敏感內容，例如客戶資訊。
-  請造訪[保護應用程式的敏感內容][Protect your app's sensitive content]以了解更多。
-
-* 另外，別忘了查閱本次發行的[破壞性變更][bc-3.35]
-  頁面，那裡同樣有實用的遷移資訊。
-
-[Flutter Widget Previewer]: /tools/widget-previewer
-[Create with AI]: /ai/create-with-ai
-[bc-3.35]: /release/breaking-changes#released-in-flutter-3-35
-[hot reload]: /tools/hot-reload
-[Protect your app's sensitive content]: /platform-integration/android/sensitive-content
-[supported platforms]: /reference/supported-platforms
 
 ---
 

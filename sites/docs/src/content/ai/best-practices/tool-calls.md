@@ -1,6 +1,5 @@
 ---
 title: 工具呼叫（又稱函式呼叫）
-sidenav: ai
 shortTitle: 工具呼叫
 description: >
   了解如何使用 Firebase AI Logic SDK 實作工具呼叫、管理代理迴圈，以及整合人工介入互動。

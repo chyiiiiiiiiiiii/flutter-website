@@ -40,7 +40,7 @@ iOS 實體裝置或 iOS 模擬器上執行 Flutter 應用程式。
     $ sudo sh -c 'xcode-select -s /Applications/Xcode.app/Contents/Developer && xcodebuild -runFirstLaunch'
     ```
 
-    如果你是在其他地方下載 Xcode，或需要使用不同版本，請將 `/Applications/Xcode.app` 替換為該路徑。
+    如果你是在其他地方下載 Xcode，或需要使用不同版本，請將 `/Applications/Xcode.app` 替換為你的 Xcode 安裝路徑。
 
  1. <h3>同意 Xcode 授權條款</h3>
 
@@ -89,14 +89,19 @@ iOS 實體裝置或 iOS 模擬器上執行 Flutter 應用程式。
 
 ## 設定 iOS 裝置 {: #set-up-devices}
 
-我們建議你先從 iOS 模擬器（Simulator）開始，
-因為它比實體 iOS 裝置更容易設定。
-不過，你也應該在實際的實體裝置上測試你的應用程式。
+最簡單的方式是先設定模擬器，
+但請務必也在實體裝置上測試你的應用程式。
 
 <Tabs key="ios-simulator-or-physical-device">
 <Tab name="Simulator">
 
-請使用以下指令啟動 iOS 模擬器（Simulator）：
+請啟動模擬器（在 Xcode 27 中已更名為 Device Hub）：
+
+```console
+$ open -a DeviceHub
+```
+
+若使用 Xcode 26 或更早版本，請啟動 Simulator 應用程式：
 
 ```console
 $ open -a Simulator
@@ -109,8 +114,6 @@ $ open -a Simulator
 
 </Tab>
 <Tab name="Physical device">
-
-[Flutter on latest iOS]: /platform-integration/ios/ios-latest
 
 請為每一台你想要測試的 iOS 裝置進行設定。
 
@@ -125,9 +128,17 @@ $ open -a Simulator
 
        ![信任 Mac](/assets/images/docs/setup/trust-computer.png)
 
- 1. <h3>設定你的實體 iOS 裝置</h3>
+ 1. <h3>啟用開發者模式</h3>
 
     為了防止惡意軟體，Apple 要求你在裝置上啟用 **[開發者模式（Developer Mode）][Developer Mode]**。
+
+    :::note
+    如果在 **設定（Settings）** > **隱私權與安全性（Privacy & Security）** 下
+    看不到 **開發者模式（Developer Mode）** 選項，
+    請將裝置連接到 Mac、解鎖裝置並信任這台電腦。
+    開啟 Xcode（或執行 `flutter run`）以啟動裝置設定程序，
+    選項便會出現。
+    :::
 
     1. 點選 **設定（Settings）** <span aria-label="and then">></span>
        **隱私權與安全性（Privacy & Security）** <span aria-label="and then">></span>
@@ -157,7 +168,7 @@ $ open -a Simulator
 
     :::note Apple Developer program
     如果你想要將應用程式_發佈_到 App Store，
-    就需要將個人 Apple Developer 帳號升級為
+    必須將個人 Apple Developer 帳號升級為
     專業帳號。
     :::
 

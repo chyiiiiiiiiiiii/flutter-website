@@ -28,6 +28,8 @@ showBreadcrumbs: true
 
 ### `format-dart`
 
+### `optimize-images`
+
 ### `refresh-excerpts`
 
 ### `serve`

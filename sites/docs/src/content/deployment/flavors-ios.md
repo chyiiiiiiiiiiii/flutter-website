@@ -15,32 +15,12 @@ Flutter flavor 基本上是一組設定，用來定義應用程式的特定版�
 
 下表展示了兩個 Flutter flavors（staging、production）作為 Xcode schemes，並分別指派了自訂的 Xcode 設定：
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Scheme</th>
-      <th>Configurations for the scheme</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>staging</td>
-      <td>
-        Debug-staging</br>
-        Profile-staging</br>
-        Release-staging</br>
-      </td>
-    </tr>
-    <tr>
-      <td>production</td>
-      <td>
-        Debug-production</br>
-        Profile-production</br>
-        Release-production</br>
-      </td>
-    </tr>
-  </tbody>
-</table>
+| Scheme | Configurations for the scheme|
+| --- | --- |
+| staging | Debug-staging<br>Profile-staging<br>Release-staging |
+| production | Debug-production<br>Profile-production<br>Releae-production |
+
+{:.table .table-striped}
 
 ## 設定 Xcode schemes
 
@@ -48,13 +28,13 @@ Flutter flavor 基本上是一組設定，用來定義應用程式的特定版�
 
 為了讓流程更順暢，我們以一個名為 `flavors_example` 的全新 Flutter 專案作為起點，但你也可以從現有專案開始。
 
-1.  建立一個名為 `flavors_example` 的全新 Flutter 專案。
+1.  建立一個名為 `flavors_example` 的全新 Flutter 專案：
 
     ```console title="console"
     $ flutter create flavors_example
     ```
 
-1.  開啟 `flavors_example` 專案的 iOS 版本預設 Xcode workspace。
+1.  開啟 `flavors_example` 專案的 iOS 版本預設 Xcode workspace：
 
     ```console title="console"
     $ cd flavors_example && open ios/Runner.xcworkspace
@@ -94,7 +74,7 @@ Flutter flavor 基本上是一組設定，用來定義應用程式的特定版�
 
     * 若尚未開啟，請切換至 **Info** 分頁。
 
-    * 前往 **Configurations** 區段，並新增新的 `Debug` 組態。
+    * 前往 **Configurations** 區段，並新增新的 `Debug` 組態。附加的 flavor 名稱（例如 `staging` 或 `production`）一律使用小寫，Flutter CLI 才能辨識：
 
       * 點擊 **+**，選擇 **Duplicate "Debug" configuration**，並將新組態命名為 `Debug-staging`。
       * 點擊 **+**，選擇 **Duplicate "Debug" configuration**，並將新組態命名為 `Debug-production`。
@@ -105,13 +85,7 @@ Flutter flavor 基本上是一組設定，用來定義應用程式的特定版�
 
       ![Scheme configurations for Flutter flavors](/assets/images/docs/flavors/flavors-ios-scheme-configurations.png){:width="100%"}
 
-    :::note
-    若要搭配 Flutter CLI 指令使用，組態名稱後方所附加的 scheme 名稱（例如：`staging`）必須為小寫。
-    :::
-
-    :::note
-    你的組態應以 `Debug.xcconfig`、`Profile.xcconfig` 和 `Release.xcconfig` 檔案為基礎，而非 `Pods-Runner.xcconfig` 檔案。你可以在 Xcode 中展開組態名稱來確認這一點。
-    :::
+      你的組態應以 `Debug.xcconfig` 和 `Release.xcconfig` 為基礎（而非 `Pods-Runner.xcconfig`）。預設情況下，Profile 與 Release 組態都使用 `Release.xcconfig`。你可以在 Xcode 中展開組態名稱來確認這一點。
 
 1.  在 Xcode 中將組態（configurations）指派給 schemes：
 
@@ -133,9 +107,9 @@ Flutter flavor 基本上是一組設定，用來定義應用程式的特定版�
 
     * 對 `production` scheme 重複上述步驟。
 
-1.  如果你正在處理一個已存在且至少有一個 Podfile 的 Flutter 專案，請更新該 Podfile。更多資訊請參閱 [Update Podfiles][]。
+1.  如果你正在處理一個已存在且至少有一個 Podfile 的 Flutter 專案，請更新該 Podfile。詳情請參閱 [Update Podfiles][]。
 
-1.  為了確保你已正確完成所有設定，請在 Xcode 中於新 schemes 上執行你的應用程式。你不會看到任何差異，因為組態設定尚未變更，但你需要確認應用程式可以正常執行。
+1.  為了確保你已正確完成所有設定，請在 Xcode 中於新 schemes 上執行你的應用程式。應用程式目前不會有任何視覺上的差異，因為組態設定尚未變更，但你應該確認它能夠無錯誤地執行。
 
     * 選取 `staging` scheme
       （**Product > Schemes > staging**）。
@@ -148,8 +122,8 @@ Flutter flavor 基本上是一組設定，用來定義應用程式的特定版�
 
     * 對 `production` scheme 重複上述步驟。
 
-1.  如果一切運作正常，你就可以開始自訂你的組態。更多資訊請參閱
-    [Customize configurations][]。
+1.  如果一切運作正常，你就可以開始自訂你的組態。
+    詳情請參閱 [Customize configurations][]。
 
 [Update Podfiles]: #update-podfiles
 [Customize configurations]: #customize-configurations
@@ -181,14 +155,16 @@ Flutter flavor 基本上是一組設定，用來定義應用程式的特定版�
 
 ### 取得目前的 flavor
 
-1.  **匯入 services 函式庫：**
-    若要存取 `appFlavor` 常數，請在你的 Dart 檔案中新增以下匯入：
+1.  **匯入 services 函式庫。**
+    若要存取 `appFlavor` 常數，
+    請在你的 Dart 檔案中新增以下匯入：
     ```dart
     import 'package:flutter/services.dart';
     ```
 
-1.  **檢查 flavor 值：**
-    在你的應用程式邏輯中（通常在 `main()` 裡），使用 `appFlavor` 常數來處理特定 flavor 的設定：
+1.  **檢查 flavor 值。**
+    在你的應用程式邏輯中
+    （通常在 `main()` 裡），使用 `appFlavor` 常數來處理特定 flavor 的設定：
 
     ```dart
     void main() {
@@ -273,7 +249,7 @@ Flutter flavor 基本上是一組設定，用來定義應用程式的特定版�
       * **Key**：`CFBundleDisplayName`
       * **Value**：`$(APP_DISPLAY_NAME)`
 
-1.  針對每個 scheme（`staging`、`production`）啟動 App，並確認每個 App 的顯示名稱是否已正確變更。如何啟動 scheme，請參考[啟動 Xcode scheme][Launch an Xcode scheme] 中的步驟。
+1.  針對每個 scheme（`staging`、`production`）啟動 App，並確認每個 App 的顯示名稱是否已正確變更。若要了解如何啟動 scheme，請參閱[啟動 Xcode scheme][Launch an Xcode scheme]。
 
 [Launch an Xcode scheme]: #launch-an-xcode-scheme
 
@@ -337,7 +313,7 @@ Flutter flavor 基本上是一組設定，用來定義應用程式的特定版�
       * **Profile-production**：`AppIcon-production`
       * **Release-production**：`AppIcon-production`
 
-1.  針對每個 scheme（`staging`、`production`）啟動 App，並確認每個 App 的圖示是否已正確變更。如何啟動 scheme，請參考[啟動 Xcode scheme][Launch an Xcode scheme] 中的步驟。
+1.  針對每個 scheme（`staging`、`production`）啟動 App，並確認每個 App 的圖示是否已正確變更。若要了解如何啟動 scheme，請參閱[啟動 Xcode scheme][Launch an Xcode scheme]。
 
 [Launch an Xcode scheme]: #launch-an-xcode-scheme
 [App Icon Generator]: https://www.appicon.co/
@@ -358,7 +334,7 @@ Bundle Identifier 是 Apple 平台上應用程式的唯一識別碼。如果你�
 
 1.  前往 **Packaging** 區段。
 
-1.  展開 **Product Bundle Identifier** 設定，以檢視不同的建置組態。
+1.  展開 **Product Bundle Identifier** 設定，以查看不同的建置組態。
 
 1.  針對每個 scheme 的建置組態，設定所需的 bundle identifier。例如：
 
@@ -377,7 +353,7 @@ Bundle Identifier 是 Apple 平台上應用程式的唯一識別碼。如果你�
 
 ### 資源（Assets）打包
 
-如果你的應用程式中有僅特定 flavor 會用到的資源，可以設定僅在啟動該 flavor 時才將這些資源打包進 App，避免未使用的資源讓 App bundle 檔案變大。若要為每個 flavor 打包資源，請在專案的 pubspec 中，於 `assets` 欄位下新增 `flavors` 子欄位。欲了解更多資訊，請參閱 [`assets` 欄位][`assets` field] 以及 [Flutter pubspec options][]。
+如果你的應用程式中有僅特定 flavor 會用到的資源，可以設定僅在啟動該 flavor 時才將這些資源打包進 App，避免未使用的資源讓 App bundle 檔案變大。若要為每個 flavor 打包資源，請在專案的 pubspec 中，於 `assets` 欄位下新增 `flavors` 子欄位。詳情請參閱 [`assets` 欄位][`assets` field] 以及 [Flutter pubspec options][]。
 
 [`assets` field]: /tools/pubspec#assets
 [Flutter pubspec options]: /tools/pubspec
@@ -389,7 +365,7 @@ Bundle Identifier 是 Apple 平台上應用程式的唯一識別碼。如果你�
 以下步驟說明如何將名為 `staging` 和 `production` 的兩個新 Xcode scheme，納入名為 `flavors_example` 的 Flutter 專案的 iOS Podfile。若為 macOS 專案，也可參考這些步驟，僅需將所有 `iOS` 的參照替換為 `macOS`。
 
 1. 在你的 IDE 中，開啟 `ios/Podfile` 檔案。
-1. 進行下列更新並儲存你的變更。
+1. 進行下列更新並儲存你的變更：
 
     ```ruby title="flavors_example/ios/Podfile"
     project 'Runner', {
@@ -408,7 +384,7 @@ Bundle Identifier 是 Apple 平台上應用程式的唯一識別碼。如果你�
 
 ### 新增唯一的建置設定
 
-你可以使用 [build settings][build settings] 來管理你的 iOS 建置流程，從編譯、連結到除錯與發佈。你可以將建置設定（build settings）與 Flutter flavors 搭配使用的一種方式，是將這些建置設定指派給 Xcode 的建置組態（build configurations）。例如，你可能會想要為 `Debug-staging` 和 `Debug-production` 指派不同的 API URL。例如：
+你可以使用 [build settings][build settings] 來管理你的 iOS 建置流程，從編譯、連結到除錯與發佈。你可以將建置設定（build settings）與 Flutter flavors 搭配使用的一種方式，是將這些建置設定指派給 Xcode 的建置組態（build configurations）。例如，你可能會想要為 `Debug-staging` 和 `Debug-production` 指派不同的 API URL。下列組態展示了建置設定的範例：
 
 ```plaintext title="debug-staging-settings.xcconfig"
 # Debug-staging build settings
@@ -420,7 +396,7 @@ API_BASE_URL = staging.flavors.com/api
 API_BASE_URL = flavors.com/api
 ```
 
-如果你想要為特定的建置組態（build configuration）新增額外的建置設定，請參考 Apple 的
+若要了解如何為特定的建置組態（build configuration）新增額外的建置設定，請參考 Apple 的
 [將建置組態檔案新增至你的專案][Adding a build configuration file to your project]。
 
 [build settings]: {{site.apple-dev}}/documentation/xcode/build-settings-reference/
@@ -429,17 +405,23 @@ API_BASE_URL = flavors.com/api
 ### 新增其他自訂設定
 
 本文件僅包含幾個常見的 Xcode scheme 組態，但實際上你可以套用更多不同的設定。
-如需進一步了解，請參閱
+如需進一步了解，請參考
 [自訂專案的建置 scheme][Customizing the build schemes for a project]。
 
 [Customizing the build schemes for a project]: {{site.apple-dev}}/documentation/xcode/customizing-the-build-schemes-for-a-project
 
 ## 更多資訊
 
-如需更多關於建立與使用 flavor 的資訊，請參考以下資源：
+若要了解如何建立與使用 flavor，請參考以下資源：
 
+* [為 Android 設定 Flutter flavors][Set up Flutter flavors for Android]
+* [為 Linux 設定 Flutter flavors][Set up Flutter flavors for Linux]
+* [為 Windows 設定 Flutter flavors][Set up Flutter flavors for Windows]
 * [如何使用 FlutterFire CLI 設定 Flutter & Firebase 多重 flavor][flutterfire-cli]
 * [在 Flutter（Android 與 iOS）中為不同 flavor 配置不同 Firebase 專案，Flutter Ready to Go][flavors-firebase]
 
+[Set up Flutter flavors for Android]: /deployment/flavors
+[Set up Flutter flavors for Linux]:   /deployment/flavors-linux
+[Set up Flutter flavors for Windows]: /deployment/flavors-windows
 [flutterfire-cli]: https://codewithandrea.com/articles/flutter-firebase-multiple-flavors-flutterfire-cli/
-[flavors-firebase]: {{site.medium}}/@animeshjain/build-flavors-in-flutter-android-and-ios-with-different-firebase-projects-per-flavor-27c5c5dac10b
+[flavors-firebase]: https://medium.com/@animeshjain/build-flavors-in-flutter-android-and-ios-with-different-firebase-projects-per-flavor-27c5c5dac10b

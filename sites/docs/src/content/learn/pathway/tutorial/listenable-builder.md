@@ -39,7 +39,7 @@ View 層是你的 UI，在 Flutter 中，這指的是應用程式的元件 (Widg
 
 <?code-excerpt "fwe/wikipedia_reader/lib/step4a_main.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ArticleView extends StatefulWidget {
   const ArticleView({super.key});

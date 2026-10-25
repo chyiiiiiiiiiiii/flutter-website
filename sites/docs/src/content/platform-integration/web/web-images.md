@@ -11,7 +11,7 @@ Web 支援標準的 [`Image`][] 元件（Widget）以及更進階的 [`dart:ui/I
 [`dart:ui/Image`]: {{site.api}}/flutter/dart-ui/Image-class.html
 
 :::note
-若需瞭解如何最佳化網頁載入速度，請參考 Medium 上的免費文章：[Best practices for optimizing Flutter web loading speed][article]。
+若需瞭解如何最佳化網頁載入速度，請閱讀 Flutter 部落格文章 [Best practices for optimizing Flutter web loading speed][article]。
 
 [article]: {{site.flutter-blog}}/best-practices-for-optimizing-flutter-web-loading-speed-7cc0df14ce5c
 :::
@@ -38,16 +38,11 @@ Web 提供了多種顯示圖片的方法：
 [CORS][]（Cross-Origin Resource Sharing，跨來源資源共享）是瀏覽器用來控制一個網站如何存取另一個網站資源的機制。其設計目的是預設情況下，一個網站不能透過 [XHR][] 或 [`fetch`][] 向另一個網站發送 HTTP 請求。
 這可防止其他網站上的腳本在未經授權的情況下，代表使用者操作或存取另一網站的資源。
 
-在 Web 上，Flutter 會使用 CanvasKit 或 skwasm（當使用 Wasm 時）作為渲染器。這兩者都依賴於 WebGL。WebGL 需要存取原始圖片資料（位元組），才能渲染圖片。因此，圖片必須來自已針對服務你應用程式網域設定好 CORS 政策的伺服器。
-
-:::note
-如需更多有關網頁渲染器的資訊，請參閱 [Web renderers][]。
-:::
+在 Web 上，Flutter 使用 WebGL 或 WebGPU 渲染圖形。WebGL 需要存取原始圖片位元組，才能將圖片繪製到畫布上，這要求伺服器必須設定 CORS 標頭。若圖片伺服器未啟用 CORS，Flutter 會自動改用 HTML `<img>` 元素來渲染跨來源圖片。
 
 [CORS]: https://developer.mozilla.org/docs/Web/HTTP/CORS
 [XHR]: https://developer.mozilla.org/docs/Web/API/XMLHttpRequest
 [`fetch`]: https://developer.mozilla.org/docs/Web/API/Fetch_API/Using_Fetch
-[Web renderers]: /platform-integration/web/renderers
 
 ## 解決方案
 
@@ -81,12 +76,4 @@ Web 提供了多種顯示圖片的方法：
 * 使用 [Firebase Functions][]。
 
 [CloudFlare Workers]: https://developers.cloudflare.com/workers/examples/cors-header-proxy
-[Firebase Functions]: {{site.github}}/7kfpun/cors-proxy
-
-<a id="use-a-html-platform-view" aria-hidden="true"></a>
-
-### 使用 HTML 平台檢視（platform view）
-
-如果上述方法都無法滿足你的應用需求，Flutter 支援在應用程式中嵌入原始 HTML，方法是使用 [`HtmlElementView`][]。你可以利用它建立 `<img>` 元素，從其他網域渲染圖片。
-
-[`HtmlElementView`]: {{site.api}}/flutter/widgets/HtmlElementView-class.html
+[Firebase Functions]: https://github.com/7kfpun/cors-proxy

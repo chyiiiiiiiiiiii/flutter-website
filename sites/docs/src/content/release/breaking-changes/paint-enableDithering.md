@@ -76,10 +76,7 @@ $ flutter test --update-goldens
 
 由於計畫要_永久_移除 `enableDithering` 屬性，如果你有因效能或閃退等需求，必須停用抖動（dithering），請在 [Issue 112498][] 提供你的使用案例與回饋。
 
-如果你有特殊需求，_必須_繪製無抖動的漸層（gradient），你將需要自行撰寫自訂著色器（custom shader）。本遷移指南不涵蓋相關說明，但你可以參考以下資源與範例：
-
-- [撰寫與使用片段著色器 (fragment shaders)][Writing and using fragment shaders]
-- [`hsl_linear_gradient.frag`][]
+如果你必須繪製無抖動的漸層（gradient），可以自行撰寫自訂片段著色器（fragment shader）。本遷移指南不涵蓋如何撰寫著色器，更多資訊請參閱[撰寫與使用片段著色器 (fragment shaders)](/ui/design/graphics/fragment-shaders)。
 
 **注意**：Flutter Web 不支援抖動（dithering）：[Issue 134250][]。
 
@@ -123,5 +120,3 @@ API 文件：
 [Issue 112498]: {{site.repo.flutter}}/issues/112498
 [Issue 118073]: {{site.repo.flutter}}/issues/118073
 [Issue 134250]: {{site.repo.flutter}}/issues/134250
-[Writing and using fragment shaders]: /ui/design/graphics/fragment-shaders
-[`hsl_linear_gradient.frag`]: https://github.com/jonahwilliams/awesome_gradients/blob/a4e09c47ef1760bd7073beb60f49dad8ede5bb2e/shaders/hsl_linear_gradient.frag

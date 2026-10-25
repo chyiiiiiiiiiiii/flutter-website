@@ -75,7 +75,7 @@ Flutter 針對這個問題提供了解決方案，
 [`RestorationMixin`]: {{site.api}}/flutter/widgets/RestorationMixin-mixin.html
 [`RestorationScope`]: {{site.api}}/flutter/widgets/RestorationScope-class.html
 [`restoreState`]: {{site.api}}/flutter/widgets/RestorationMixin/restoreState.html
-[VeggieSeasons]: https://github.com/flutter/demos/tree/main/veggieseasons
+[VeggieSeasons]: {{site.repo.demos}}/tree/main/veggieseasons
 
 ## 還原導覽狀態
 
@@ -113,8 +113,6 @@ Flutter 針對這個問題提供了解決方案，
   請參閱 [Differentiate between ephemeral state
   and app state][state]。
 
-* 您也可以在 pub.dev 上尋找支援狀態還原的套件，例如 [`statePersistence`][]。
-
 * 若需更多有關導覽與 [`go_router`][] 套件的資訊，
   請參考 [Navigation and routing][]
   以及 pub.dev 上的 [State restoration][] 主題。
@@ -125,5 +123,4 @@ Flutter 針對這個問題提供了解決方案，
 [`RestorableProperty`]: {{site.api}}/flutter/widgets/RestorableProperty-class.html
 [`restorablePush`]: {{site.api}}/flutter/widgets/Navigator/restorablePush.html
 [`ScrollView`]: {{site.api}}/flutter/widgets/ScrollView/restorationId.html
-[`statePersistence`]: {{site.pub-pkg}}/state_persistence
-[`TextField`]: {{site.api}}/flutter/material/TextField/restorationId.html
+[`TextField`]: {{site.material_ui}}/TextField/restorationId.html

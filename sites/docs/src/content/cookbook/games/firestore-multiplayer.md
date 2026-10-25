@@ -74,8 +74,8 @@ git clone https://github.com/flutter/games.git
 請在適當的位置調整相關程式碼。
 :::
 
-[`card`]: {{site.github}}/flutter/games/tree/main/templates/card#readme
-[`flutter/games` repository]: {{site.github}}/flutter/games
+[`card`]: {{site.repo.games}}/tree/main/templates/card#readme
+[`flutter/games` repository]: {{site.repo.games}}
 
 ## 2. 安裝 Firestore
 
@@ -376,6 +376,7 @@ class FirebaseControllerException implements Exception {
     <?code-excerpt "lib/play_session/play_session_screen.dart (imports)"?>
     ```dart
     import 'package:cloud_firestore/cloud_firestore.dart';
+    
     import '../multiplayer/firestore_controller.dart';
     ```
 

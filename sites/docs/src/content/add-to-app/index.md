@@ -73,7 +73,7 @@ Flutter 可加入任何現有的 HTML DOM 為基礎的 Web 應用，無論是任
 [Ruby on Rails]: https://rubyonrails.org/
 [Apache Struts]: https://struts.apache.org/
 [VanillaJS]: http://vanilla-js.com/
-[embedding instructions]: {{site.docs}}/platform-integration/web/embedding-flutter-web#embedded-mode
+[embedding instructions]: /platform-integration/web/embedding-flutter-web#embedded-mode
 
 ## 開始使用
 
@@ -157,7 +157,7 @@ Web 限制：
 [`FlutterActivity`]: {{site.api}}/javadoc/io/flutter/embedding/android/FlutterActivity.html
 [java-engine]: {{site.api}}/javadoc/io/flutter/embedding/engine/FlutterEngine.html
 [ios-engine]: {{site.api}}/ios-embedder/interface_flutter_engine.html
-[FlutterFire]: {{site.github}}/firebase/flutterfire/tree/main/packages
+[FlutterFire]: {{site.repo.flutterfire}}/tree/main/packages
 [`FlutterFragment`]: {{site.api}}/javadoc/io/flutter/embedding/android/FlutterFragment.html
 [`FlutterPlugin`]: {{site.api}}/javadoc/io/flutter/embedding/engine/plugins/FlutterPlugin.html
 [`FlutterViewController`]: {{site.api}}/ios-embedder/interface_flutter_view_controller.html

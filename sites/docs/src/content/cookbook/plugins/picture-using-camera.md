@@ -18,7 +18,7 @@ description: 如何在行動裝置上使用相機外掛程式。
 
 [`camera_android_camerax`]: {{site.pub-pkg}}/camera_android_camerax
 [CameraX]: https://developer.android.com/training/camerax
-[camerax-video]: {{site.youtube-site}}/watch?v=d1sRCa5k2Sg&t=1s
+[camerax-video]: {{site.yt.watch}}?v=d1sRCa5k2Sg&t=1s
 
 本教學將示範如何使用 `camera` 外掛程式來顯示預覽畫面、拍照並顯示照片，步驟如下：
 
@@ -49,15 +49,14 @@ $ flutter pub add camera path_provider path
 ```
 
 :::tip
-- 對於 Android，您必須將 `minSdkVersion` 更新為 21（或更高）。
-- 在 iOS 上，必須在 `ios/Runner/Info.plist` 內加入以下幾行，以存取相機與麥克風。
+在 iOS 上，必須在 `ios/Runner/Info.plist` 內加入以下幾行，以存取相機與麥克風：
 
-  ```xml
-  <key>NSCameraUsageDescription</key>
-  <string>Explanation on why the camera access is needed.</string>
-  <key>NSMicrophoneUsageDescription</key>
-  <string>Explanation on why the microphone access is needed.</string>
-  ```
+```xml
+<key>NSCameraUsageDescription</key>
+<string>Explanation on why the camera access is needed.</string>
+<key>NSMicrophoneUsageDescription</key>
+<string>Explanation on why the microphone access is needed.</string>
+```
 :::
 
 ## 2. 取得可用相機的清單
@@ -227,7 +226,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 Future<void> main() async {
   // Ensure that plugin services are initialized so that `availableCameras()`

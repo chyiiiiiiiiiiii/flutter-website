@@ -23,9 +23,9 @@ description: 如何為你的 Flutter 應用程式進行國際化。
 
 你可以在 [`gen_l10n_example`][] 找到這個範例的原始碼。
 
-[`gen_l10n_example`]: {{site.repo.this}}/tree/{{site.branch}}/examples/internationalization/gen_l10n_example
+[`gen_l10n_example`]: {{site.repo.this}}/tree/main/examples/internationalization/gen_l10n_example
 
-### 設定國際化應用程式：Flutter<wbr>_localizations 套件 {:#setting-up}
+### 使用 `flutter_localizations` 設定國際化應用程式 {:#setting-up}
 
 預設情況下，Flutter 只提供美式英語（US English）的國際化內容。若要新增對其他語言的支援，應用程式必須指定額外的 `MaterialApp`（或 `CupertinoApp`）屬性，並且引入名為 `flutter_localizations` 的套件。
 
@@ -35,17 +35,22 @@ description: 如何為你的 Flutter 應用程式進行國際化。
 $ flutter create <name_of_flutter_app>
 ```
 
-要使用 `flutter_localizations`，請將該套件新增為 `pubspec.yaml` 檔案的相依套件，同時也要加入 `intl` 套件：
+Flutter 專案即將建議改用 `material_ui` 與 `cupertino_ui` 套件，但 `flutter create` 指令尚未更新為預設採用。你可以提前執行下列指令來進行遷移：
 
 ```console
-$ flutter pub add flutter_localizations --sdk=flutter
-$ flutter pub add intl:any
+$ dart fix --apply --code=migrate_design_widgets
 ```
 
-這會建立一個 `pubspec.yml` 檔案，內容包含以下項目：
+要使用 `flutter_localizations`，請將它與 `intl` 套件新增為相依套件：
+
+```console
+$ flutter pub add flutter_localizations:"{sdk: flutter}" intl:any
+```
+
+這會更新你的 `pubspec.yaml` 檔案，加入以下項目：
 
 <?code-excerpt "gen_l10n_example/pubspec.yaml (flutter-localizations)"?>
-```yaml
+```yaml title="pubspec.yaml" highlightLines=4-6
 dependencies:
   flutter:
     sdk: flutter
@@ -54,22 +59,20 @@ dependencies:
   intl: any
 ```
 
-然後匯入 `flutter_localizations` 函式庫，並為你的 `MaterialApp` 或 `CupertinoApp` 指定 `localizationsDelegates` 和 `supportedLocales`：
+使用 `flutter_localizations` 前綴匯入該套件：
 
-<?code-excerpt "gen_l10n_example/lib/main.dart (localization-delegates-import)"?>
 ```dart
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart'
+    as flutter_localizations;
 ```
 
-<?code-excerpt "gen_l10n_example/lib/main.dart (material-app)" remove="AppLocalizations.delegate"?>
-```dart
+然後為你的 `MaterialApp`、`CupertinoApp` 或 `WidgetsApp` 指定 `localizationsDelegates` 和 `supportedLocales`：
+
+<?code-excerpt "gen_l10n_example/lib/no_app_localizations.dart (material-app)"?>
+```dart highlightLines=3-7
 return const MaterialApp(
   title: 'Localizations Sample App',
-  localizationsDelegates: [
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-  ],
+  localizationsDelegates: GlobalMaterialLocalizations.delegates,
   supportedLocales: [
     Locale('en'), // English
     Locale('es'), // Spanish
@@ -78,23 +81,28 @@ return const MaterialApp(
 );
 ```
 
-在引入 `flutter_localizations` 套件並加入前述程式碼後，`Material` 與 `Cupertino` 套件現在應該能正確地根據支援的語系進行在地化。元件（Widget）應該會根據在地化訊息自動調整，同時呈現正確的由左至右或由右至左版面配置。
+:::note
+如果你的應用程式是以 `CupertinoApp` 而非 `MaterialApp` 為基礎，請使用 `GlobalCupertinoLocalizations.delegates`。
+
+如果你的應用程式是以 `WidgetsApp` 而非 `MaterialApp` 為基礎，請使用 `flutter_localizations.GlobalWidgetsLocalizations.delegate`。
+:::
+
+在相依於 `flutter_localizations` 並加入前述程式碼後，Flutter 會根據所選的支援語系，將 Material 與 Cupertino 函式庫在地化。元件（Widget）應該會根據在地化訊息自動調整，並使用適當的由左至右或由右至左版面配置。
 
 請嘗試將目標平台的語系切換為西班牙語（`es`），訊息就會自動在地化。
-
-基於 `WidgetsApp` 的應用程式也類似，只是 `GlobalMaterialLocalizations.delegate` 並非必要。
 
 建議使用完整的 `Locale.fromSubtags` 建構函式，因為它支援 [`scriptCode`][]，但 `Locale` 的預設建構函式依然完全有效。
 
 [`scriptCode`]: {{site.api}}/flutter/package-intl_locale/Locale/scriptCode.html
 
-`localizationsDelegates` 清單中的元素是用來產生在地化值集合的工廠。`GlobalMaterialLocalizations.delegate` 提供 Material Components 函式庫所需的在地化字串及其他值。`GlobalWidgetsLocalizations.delegate` 則定義元件（Widget）函式庫的預設文字方向，無論是由左至右還是由右至左。
+`localizationsDelegates` 清單中的元素是用來產生在地化值集合的工廠。`GlobalMaterialLocalizations.delegate` 提供 Material Components 函式庫所需的在地化字串及其他值。`flutter_localizations.GlobalWidgetsLocalizations.delegate` 則定義 `widgets.dart` 函式庫的預設文字方向，無論是由左至右還是由右至左。
 
 關於這些應用程式屬性、它們所依賴的型別，以及 Flutter 應用程式在國際化時的典型結構，會在本頁進一步說明。
 
 [language-count]: {{site.api}}/flutter/flutter_localizations/GlobalMaterialLocalizations-class.html
 
 <a id="overriding-locale"></a>
+<a id="overriding-the-locale"></a>
 ### 覆寫語系
 
 `Localizations.override` 是 `Localizations` 元件的工廠建構函式，適用於（通常較少見的）應用程式某一區塊需要使用與裝置設定語系不同的語系時。
@@ -139,29 +147,42 @@ Widget build(BuildContext context) {
 熱重載（Hot reload）應用程式後，`CalendarDatePicker` 元件（Widget）應該會以西班牙文重新渲染。
 
 <a id="adding-localized-messages"></a>
+<a id="adding-your-own-localized-messages"></a>
 ### 新增自訂在地化訊息
 
-在加入 `flutter_localizations` 套件後，你可以開始設定在地化功能。若要將在地化文字加入你的應用程式，請依照以下步驟操作：
+若要將在地化文字加入你的應用程式，請依照以下步驟操作：
 
-1. 將 `intl` 套件加入為相依套件，並使用由 `flutter_localizations` 所指定的版本：
+1. 將 `flutter_localizations` 與 `intl` 套件新增為相依套件：
 
    ```console
-   $ flutter pub add intl:any
+   $ flutter pub add flutter_localizations:"{sdk: flutter}" intl:any
+   ```
+
+   這會在 `pubspec.yaml` 檔案中加入以下項目：
+
+   <?code-excerpt "gen_l10n_example/pubspec.yaml (flutter-localizations)"?>
+   ```yaml title="pubspec.yaml" highlightLines=4-6
+   dependencies:
+     flutter:
+       sdk: flutter
+     flutter_localizations:
+       sdk: flutter
+     intl: any
    ```
 
 2. 開啟 `pubspec.yaml` 檔案並啟用 `generate` 旗標。此旗標位於 pubspec 檔案的 `flutter` 區段中。
 
    <?code-excerpt "gen_l10n_example/pubspec.yaml (generate)"?>
-   ```yaml
+   ```yaml title="pubspec.yaml" highlightLines=3
    # The following section is specific to Flutter.
    flutter:
      generate: true # Add this line
    ```
 
-3. 在 Flutter 專案的根目錄新增一個 yaml 檔案。將此檔案命名為 `l10n.yaml`，並包含以下內容：
+3. 在 Flutter 專案的根目錄新增一個 YAML 檔案。將此檔案命名為 `l10n.yaml`，並包含以下內容：
 
    <?code-excerpt "gen_l10n_example/l10n.yaml"?>
-   ```yaml
+   ```yaml title="l10n.yaml"
    arb-dir: lib/l10n
    template-arb-file: app_en.arb
    output-localization-file: app_localizations.dart
@@ -176,7 +197,7 @@ Widget build(BuildContext context) {
 4. 在 `${FLUTTER_PROJECT}/lib/l10n` 中，加入 `app_en.arb` 範本檔案。例如：
 
    <?code-excerpt "gen_l10n_example/lib/l10n/app_en.arb" take="5" replace="/},/}\n}/g"?>
-   ```json
+   ```json title="app_en.arb"
    {
      "helloWorld": "Hello World!",
      "@helloWorld": {
@@ -188,15 +209,15 @@ Widget build(BuildContext context) {
 5. 在相同目錄下新增另一個 bundle 檔案，名稱為 `app_es.arb`。在這個檔案中，加入相同訊息的西班牙文翻譯。
 
    <?code-excerpt "gen_l10n_example/lib/l10n/app_es.arb"?>
-   ```json
+   ```json title="app_es.arb"
    {
        "helloWorld": "¡Hola Mundo!"
    }
    ```
 
-6. 現在，執行 `flutter pub get` 或 `flutter run`，codegen（程式碼產生）會自動進行。你應該可以在你透過 `arb-dir` 或 `output-dir` 選項所指定的目錄中找到產生出來的檔案。或者，你也可以執行 `flutter gen-l10n`，以在不啟動應用程式的情況下產生相同的檔案。
+6. 現在，執行 `flutter pub get` 或 `flutter run`，程式碼產生（code generation）會自動進行。你應該可以在你透過 `arb-dir` 或 `output-dir` 選項所指定的目錄中找到產生出來的檔案。或者，你也可以執行 `flutter gen-l10n`，以在不啟動應用程式的情況下產生相同的檔案。
 
-7. 在 `app_localizations.dart` 和 `AppLocalizations.delegate` 呼叫 `MaterialApp` 的建構函式時，加入 import 陳述式：
+7. 匯入 `app_localizations.dart`，然後在 `MaterialApp` 建構函式中，將 `AppLocalizations.delegate` 加入 `localizationsDelegates` 清單：
 
    <?code-excerpt "gen_l10n_example/lib/main.dart (app-localizations-import)"?>
    ```dart
@@ -204,14 +225,12 @@ Widget build(BuildContext context) {
    ```
 
    <?code-excerpt "gen_l10n_example/lib/main.dart (material-app)"?>
-   ```dart
+   ```dart highlightLines=4
    return const MaterialApp(
      title: 'Localizations Sample App',
      localizationsDelegates: [
        AppLocalizations.delegate, // Add this line
-       GlobalMaterialLocalizations.delegate,
-       GlobalWidgetsLocalizations.delegate,
-       GlobalCupertinoLocalizations.delegate,
+       ...GlobalMaterialLocalizations.delegates,
      ],
      supportedLocales: [
        Locale('en'), // English
@@ -221,13 +240,16 @@ Widget build(BuildContext context) {
    );
    ```
 
-   `AppLocalizations` 類別同時也會自動產生 `localizationsDelegates` 和 `supportedLocales` 清單。你可以直接使用這些清單，而不需要手動提供。
+   `AppLocalizations` 類別同時也會自動產生 `supportedLocales` 清單。你可以直接使用該清單，而不需要手動提供語系。
 
    <?code-excerpt "gen_l10n_example/lib/examples.dart (material-app)"?>
-   ```dart
+   ```dart highlightLines=7
    const MaterialApp(
      title: 'Localizations Sample App',
-     localizationsDelegates: AppLocalizations.localizationsDelegates,
+     localizationsDelegates: [
+       AppLocalizations.delegate,
+       ...GlobalMaterialLocalizations.delegates,
+     ],
      supportedLocales: AppLocalizations.supportedLocales,
    );
    ```
@@ -245,9 +267,9 @@ Widget build(BuildContext context) {
    ),
    ```
 
-:::note
-必須實際啟動 Material 應用程式，才能初始化 `AppLocalizations`。如果應用程式尚未啟動，`AppLocalizations.of(context)!.helloWorld` 會導致 null 例外。
-:::
+   :::note
+   必須實際啟動 Material 應用程式，才能初始化 `AppLocalizations`。如果應用程式尚未啟動，`AppLocalizations.of(context)!.helloWorld` 會導致 null 例外。
+   :::
 
    此程式碼會產生一個 `Text` 元件（Widget），當目標裝置的地區設定為英文時，顯示 "Hello World!"，若地區設定為西班牙文，則顯示 "¡Hola Mundo!"。在 `arb` 檔案中，每個項目的 key 會作為 getter 的方法名稱，而該項目的 value 則包含在地化訊息。
 
@@ -261,9 +283,9 @@ return MaterialApp(
   onGenerateTitle: (context) => DemoLocalizations.of(context).title,
 ```
 
-[App Resource Bundle]: {{site.github}}/google/app-resource-bundle
-[`gen_l10n_example`]: {{site.repo.this}}/tree/{{site.branch}}/examples/internationalization/gen_l10n_example
-[`MaterialApp.onGenerateTitle`]: {{site.api}}/flutter/material/MaterialApp/onGenerateTitle.html
+[App Resource Bundle]: https://github.com/google/app-resource-bundle
+[`gen_l10n_example`]: {{site.repo.this}}/tree/main/examples/internationalization/gen_l10n_example
+[`MaterialApp.onGenerateTitle`]: {{site.material_ui}}/MaterialApp/onGenerateTitle.html
 
 ### 占位符、複數與選擇
 
@@ -597,7 +619,7 @@ MaterialApp(
 
 [`languageCode`]: {{site.api}}/flutter/dart-ui/Locale/languageCode.html
 [`localeResolutionCallback`]: {{site.api}}/flutter/widgets/LocaleResolutionCallback.html
-[`supportedLocales`]: {{site.api}}/flutter/material/MaterialApp/supportedLocales.html
+[`supportedLocales`]: {{site.material_ui}}/MaterialApp/supportedLocales.html
 
 ### 設定 l10n.yaml 檔案
 
@@ -671,8 +693,8 @@ tooltip: MaterialLocalizations.of(context).backButtonTooltip,
 [`load()`]: {{site.api}}/flutter/widgets/LocalizationsDelegate/load.html
 [`LocalizationsDelegate`]: {{site.api}}/flutter/widgets/LocalizationsDelegate-class.html
 [`Localizations.of(context,type)`]: {{site.api}}/flutter/widgets/Localizations/of.html
-[`MaterialApp`]: {{site.api}}/flutter/material/MaterialApp-class.html
-[`MaterialLocalizations`]: {{site.api}}/flutter/material/MaterialLocalizations-class.html
+[`MaterialApp`]: {{site.material_ui}}/MaterialApp-class.html
+[`MaterialLocalizations`]: {{site.material_ui}}/MaterialLocalizations-class.html
 
 <a id="defining-class"></a>
 ### 為應用程式的在地化資源定義類別
@@ -721,7 +743,7 @@ class DemoLocalizations {
 
 一個基於 `intl` 套件的類別會匯入一個產生的訊息目錄（message catalog），該目錄提供 `initializeMessages()` 函式以及每個語系（locale）對應的 `Intl.message()` 後端儲存區（backing store）。這個訊息目錄是由 [`intl` 工具](#dart-tools) 產生，該工具會分析包含 `Intl.message()` 呼叫的類別原始碼。在這個例子中，只有 `DemoLocalizations` 類別會被分析。
 
-[an example]: {{site.repo.this}}/tree/{{site.branch}}/examples/internationalization/minimal
+[an example]: {{site.repo.this}}/tree/main/examples/internationalization/minimal
 [`intl`]: {{site.pub-pkg}}/intl
 [`Intl.message()`]: {{site.pub-api}}/intl/latest/intl/Intl/message.html
 
@@ -806,7 +828,7 @@ class _NnMaterialLocalizationsDelegate
   bool isSupported(Locale locale) => locale.languageCode == 'nn';
 
   @override
-  Future<MaterialLocalizations> load(Locale locale) async {
+  Future<MaterialLocalizations> load(Locale locale) {
     final String localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
     // The locale (in this case `nn`) needs to be initialized into the custom
@@ -865,7 +887,7 @@ const MaterialApp(
 ),
 ```
 
-[`add_language`]: {{site.repo.this}}/tree/{{site.branch}}/examples/internationalization/add_language/lib/main.dart
+[`add_language`]: {{site.repo.this}}/tree/main/examples/internationalization/add_language/lib/main.dart
 
 [flutter_localizations README]: {{site.repo.flutter}}/blob/main/packages/flutter_localizations/lib/src/l10n/README.md
 [`GlobalMaterialLocalizations`]: {{site.api}}/flutter/flutter_localizations/GlobalMaterialLocalizations-class.html
@@ -982,5 +1004,5 @@ class DemoLocalizationsDelegate
 
 如果你對 Dart 的 `intl` 套件還不熟悉，請參考[使用 Dart intl 工具](#dart-tools)。
 
-[`intl_example`]: {{site.repo.this}}/tree/{{site.branch}}/examples/internationalization/intl_example
-[`minimal`]: {{site.repo.this}}/tree/{{site.branch}}/examples/internationalization/minimal
+[`intl_example`]: {{site.repo.this}}/tree/main/examples/internationalization/intl_example
+[`minimal`]: {{site.repo.this}}/tree/main/examples/internationalization/minimal

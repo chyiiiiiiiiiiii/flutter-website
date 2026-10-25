@@ -60,7 +60,7 @@ surfaceProducer.setCallback(
       }
 
       @Override
-      public void onSurfaceDestroyed() {
+      public void onSurfaceCleanup() {
          // Do surface cleanup here, and stop drawing frames.
       }
    }
@@ -69,8 +69,15 @@ surfaceProducer.setCallback(
 
 可以在 [PR 6989][] 中找到一個完整使用此新 API 的範例，該範例針對 `video_player_android` 插件。
 
-:::note
-在此 API 的早期版本中，回呼（callback）函式名稱為 `onSurfaceCreated`，且即使原始 surface 未被銷毀也會被呼叫。這個問題已在最新（即將於 3.27 版本釋出）API 中修正。
+:::version-note
+如果你使用的是 Flutter 3.26 或更早版本，
+請覆寫 `onSurfaceCreated`，而不是 `onSurfaceAvailable`。
+不過請注意，即使原始 surface 沒有被銷毀，Flutter 也會呼叫 `onSurfaceCreated`。
+
+如果你使用的是 Flutter 3.28 或更早版本，
+請覆寫 `onSurfaceDestroyed`，而不是 `onSurfaceCleanup`。
+不過請注意，Flutter 會在 surface 被銷毀並失效之後才呼叫 `onSurfaceDestroyed`，
+因此無法在此之前提供停止渲染的時間。
 :::
 
 ## 關於相機預覽的注意事項
@@ -97,15 +104,20 @@ rotation = (sensorOrientationDegrees - deviceOrientationDegrees * sign + 360) % 
 
 ## 時程
 
-導入版本：3.22
-
-:::note
-此功能在 _前一個_ SDK 版本中已導入，但尚未能正常運作；遷移至此 API 的插件應將 `3.24` 設為最低版本限制。
-:::
-
+導入版本：3.22<br>
 穩定版：3.24
 
-在即將推出的穩定版 3.27 中，`onSurfaceCreated` 將被棄用，並新增 `onSurfaceAvailable` 與 `handlesCropAndRotation`。
+:::note
+此功能在 Flutter 3.22 中導入，但尚未能正常運作。
+遷移至此 API 的插件應將 `3.24` 設為最低版本限制。
+:::
+
+在 Flutter 3.27 中，
+`onSurfaceCreated` 已被棄用，改用 `onSurfaceAvailable`，
+並新增了 `SurfaceProducer.handlesCropAndRotation`。
+
+在 Flutter 3.29 中，
+`onSurfaceDestroyed` 已被棄用，改用 `onSurfaceCleanup`。
 
 ## 參考資料
 
@@ -122,10 +134,11 @@ API 文件：
 
 相關 PR：
 
-- [PR 51061][]，在這裡我們於 engine 測試中測試了新 API。
-- [PR 6456][]，在這裡我們將 `video_player` 插件遷移至新 API。
-- [PR 6461][]，在這裡我們將 `camera_android` 插件遷移至新 API。
-- [PR 6989][]，在這裡我們於 `video_player_android` 插件中新增了完整的新 API 使用範例。
+- [PR 51061][]，於 engine 測試中測試新 API。
+- [PR 6456][]，將 `video_player` 插件遷移至新 API。
+- [PR 6461][]，將 `camera_android` 插件遷移至新 API。
+- [PR 6989][]，於 `video_player_android` 插件中新增完整的新 API 使用範例。
+- [PR 160937][]，新增 `onSurfaceCleanup` 並棄用 `onSurfaceDestroyed`。
 
 [Impeller]: /perf/impeller
 [OpenGLES]: https://www.khronos.org/opengles/
@@ -149,3 +162,4 @@ API 文件：
 [PR 6456]: {{site.repo.packages}}/pull/6456
 [PR 6461]: {{site.repo.packages}}/pull/6461
 [PR 6989]: {{site.repo.packages}}/pull/6989
+[PR 160937]: {{site.repo.flutter}}/pull/160937

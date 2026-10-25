@@ -1,6 +1,5 @@
 ---
 title: Flutter AI Toolkit
-sidenav: ai
 shortTitle: AI Toolkit
 description: >
   了解如何將 AI Toolkit 聊天機器人
@@ -38,7 +37,7 @@ AI Toolkit 是一組 AI 聊天相關的元件 (Widget)，可讓您輕鬆地在 F
 
 此示範的[原始碼][src-code]已在 GitHub 的 repo 中公開。
 
-[src-code]: {{site.github}}/flutter/ai/blob/main/example/lib/demo/demo.dart
+[src-code]: https://github.com/flutter/ai/blob/main/example/lib/demo/demo.dart
 
 ## 開始使用
 
@@ -57,7 +56,7 @@ dependencies:
 
 <li><b>設定</b>
 
-AI Toolkit 同時支援 Gemini 端點（用於原型開發）和 Vertex 端點（用於正式環境）。兩者都需要一個 Firebase 專案，並如 [使用 Firebase AI Logic SDK 開始使用 Gemini API][firebase_ai] 文件所述初始化 `firebase_core` 套件。
+AI Toolkit 同時支援 Gemini Developer API（用於原型開發）和 Firebase AI Logic 正式環境端點。兩者都需要一個 Firebase 專案，並如 [使用 Firebase AI Logic SDK 開始使用 Gemini API][firebase_ai] 文件所述初始化 `firebase_core` 套件。
 
 [firebase_ai]:
     https://firebase.google.com/docs/ai-logic/get-started?platform=flutter
@@ -115,7 +114,7 @@ class ChatPage extends StatelessWidget {
 
 `FirebaseProvider` 類別將 Firebase AI Logic SDK 暴露給 `LlmChatView`。請注意，您提供的是模型名稱（您有[多個選項][options]可供選擇），而無需提供 API 金鑰，這些都由 Firebase 專案統一處理。
 
-若要用於正式環境的工作負載，可以輕鬆切換至 Firebase AI Logic 端點：
+若要用於正式環境的工作負載，可以輕鬆切換至 Firebase AI Logic 正式環境端點：
 
 ```dart
 class ChatPage extends StatelessWidget {
@@ -126,7 +125,7 @@ class ChatPage extends StatelessWidget {
         appBar: AppBar(title: const Text(App.title)),
         body: LlmChatView(
           provider: FirebaseProvider(
-            // 使用 Vertex AI 端點
+            // 使用正式環境端點
             model: FirebaseAI.vertexAI().generativeModel(
               model: 'gemini-2.5-flash',
             ),
@@ -140,11 +139,11 @@ class ChatPage extends StatelessWidget {
 如需完整範例，請參閱 [gemini.dart] 和 [vertex.dart][] 範例。
 
 [options]:
-    https://firebase.google.com/docs/vertex-ai/gemini-models#available-model-names
+    https://firebase.google.com/docs/ai-logic/models
 [gemini.dart]:
-    {{site.github}}/flutter/ai/blob/main/example/lib/gemini/gemini.dart
+    https://github.com/flutter/ai/blob/main/example/lib/gemini/gemini.dart
 [vertex.dart]:
-    {{site.github}}/flutter/ai/blob/main/example/lib/vertex/vertex.dart
+    https://github.com/flutter/ai/blob/main/example/lib/vertex/vertex.dart
 </li>
 
 <li><b>設定裝置權限</b>
@@ -188,11 +187,11 @@ class ChatPage extends StatelessWidget {
 
 **firebase_options.dart**
 
-若要使用 [Vertex AI 範例應用程式][vertex-ex]，請將您的 Firebase 設定詳細資訊放入 `example/lib/firebase_options.dart` 檔案中。您可以在 **`example` 目錄內**，使用 `flutterfire CLI` 工具完成此操作，如 [將 Firebase 加入您的 Flutter 應用程式][add-fb] 文件所述。
+若要使用 [Firebase AI Logic 範例應用程式][vertex-ex]，請將您的 Firebase 設定詳細資訊放入 `example/lib/firebase_options.dart` 檔案中。您可以在 **`example` 目錄內**，使用 `flutterfire CLI` 工具完成此操作，如 [將 Firebase 加入您的 Flutter 應用程式][add-fb] 文件所述。
 
 :::note `firebase_options.dart` 的安全性考量
 
-如果您的 Flutter 應用程式直接從用戶端呼叫 Gemini 或 Vertex AI，請勿將 `firebase_options.dart` 提交至公開儲存庫。任何人都可以重複使用您的應用程式設定，向您的 AI 端點發送請求，進而消耗配額並可能產生費用。
+如果您的 Flutter 應用程式直接從用戶端呼叫 Gemini API，請勿將 `firebase_options.dart` 提交至公開儲存庫。任何人都可以重複使用您的應用程式設定，向您的 AI 端點發送請求，進而消耗配額並可能產生費用。
 
 雖然本指南為了簡便起見展示了直接用戶端呼叫的方式，但對於正式環境的應用程式，您應將 AI 請求透過後端服務進行路由（例如 [Cloud Functions for Firebase](https://firebase.google.com/docs/functions)、[Cloud Run](https://cloud.google.com/run) 或您自己的伺服器）。在這種設定下，由後端而非用戶端控制存取，將 `firebase_options.dart` 包含在儲存庫中也是安全的。
 
@@ -204,7 +203,7 @@ class ChatPage extends StatelessWidget {
 在您使用此套件的過程中，請[記錄問題和功能請求][file-issues]，並提交您希望[貢獻的程式碼][submit]。我們希望獲得您的意見回饋與貢獻，以確保 AI Toolkit 能為您的實際應用程式提供盡可能強健且實用的功能。
 
 [add-fb]: https://firebase.google.com/docs/flutter/setup
-[example apps]: {{site.github}}/flutter/ai/tree/main/example/lib
-[file-issues]: {{site.github}}/flutter/ai/issues
-[submit]: {{site.github}}/flutter/ai/pulls
-[vertex-ex]: {{site.github}}/flutter/ai/blob/main/example/lib/vertex/vertex.dart
+[example apps]: https://github.com/flutter/ai/tree/main/example/lib
+[file-issues]: https://github.com/flutter/ai/issues
+[submit]: https://github.com/flutter/ai/pulls
+[vertex-ex]: https://github.com/flutter/ai/blob/main/example/lib/vertex/vertex.dart

@@ -71,7 +71,6 @@ PathUrlStrategy 會使用 [History API][History API]，這需要對網頁伺服�
 [`HashUrlStrategy`]: {{site.api}}/flutter/flutter_web_plugins/HashUrlStrategy-class.html
 [`PathUrlStrategy`]: {{site.api}}/flutter/flutter_web_plugins/PathUrlStrategy-class.html
 [`setUrlStrategy`]: {{site.api}}/flutter/flutter_web_plugins/setUrlStrategy.html
-[`url_strategy`]: {{site.pub-pkg}}/url_strategy
 [usePathUrlStrategy]: {{site.api}}/flutter/flutter_web_plugins/usePathUrlStrategy.html
 [flutter_web_plugins]: {{site.api}}/flutter/flutter_web_plugins/flutter_web_plugins-library.html
 [History API]: https://developer.mozilla.org/en-US/docs/Web/API/History_API

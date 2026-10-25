@@ -253,7 +253,6 @@ class _SelectionButtonState extends State<SelectionButton> {
       ..removeCurrentSnackBar()
       ..showSnackBar(SnackBar(content: Text('$result')));
   }
-
 }
 
 class SelectionScreen extends StatelessWidget {

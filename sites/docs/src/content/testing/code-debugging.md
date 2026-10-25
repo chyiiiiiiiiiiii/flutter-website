@@ -131,7 +131,7 @@ Flutter 框架的每一層都提供了一個函式，可以透過 `debugPrint` �
 
 <?code-excerpt "lib/dump_app.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const MaterialApp(home: AppHome()));
@@ -210,7 +210,7 @@ class AppHome extends StatelessWidget {
 
 <?code-excerpt "lib/dump_render_tree.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const MaterialApp(home: AppHome()));
@@ -295,7 +295,7 @@ class AppHome extends StatelessWidget {
 
 <?code-excerpt "lib/dump_layer_tree.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const MaterialApp(home: AppHome()));
@@ -383,7 +383,7 @@ class AppHome extends StatelessWidget {
 
 <?code-excerpt "lib/dump_focus_tree.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const MaterialApp(home: AppHome()));
@@ -430,8 +430,8 @@ class AppHome extends StatelessWidget {
 <?code-excerpt "lib/dump_semantic_tree.dart"?>
 ```dart
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const MaterialApp(home: AppHome()));
@@ -503,6 +503,7 @@ I/flutter : ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀�
 ```dart
 // Add import to the Flutter rendering library.
 import 'package:flutter/rendering.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   debugPaintSizeEnabled = true;
@@ -658,7 +659,7 @@ Flutter 提供多種頂層屬性與函式，
 
 <?code-excerpt "lib/performance_overlay.dart (show-overlay)"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -688,10 +689,10 @@ class MyApp extends StatelessWidget {
 
 若要在非 Material 應用程式中新增疊加層，請加入一個 [`GridPaper`][] 元件（Widget）。
 
-[`_InkFeatures`]: {{site.api}}/flutter/material/InkFeature-class.html
+[`_InkFeatures`]: {{site.material_ui}}/InkFeature-class.html
 [`BoxConstraints`]: {{site.api}}/flutter/rendering/BoxConstraints-class.html
 [`Center`]: {{site.api}}/flutter/widgets/Center-class.html
-[`CupertinoApp`]: {{site.api}}/flutter/cupertino/CupertinoApp-class.html
+[`CupertinoApp`]: {{site.cupertino_ui}}/CupertinoApp-class.html
 [`debugDumpApp()`]: {{site.api}}/flutter/widgets/debugDumpApp.html
 [`debugDumpFocusTree()`]: {{site.api}}/flutter/widgets/debugDumpFocusTree.html
 [`debugDumpLayerTree()`]: {{site.api}}/flutter/rendering/debugDumpLayerTree.html
@@ -713,16 +714,16 @@ class MyApp extends StatelessWidget {
 [`Focus`]: {{site.api}}/flutter/widgets/Focus-class.html
 [`GridPaper`]: {{site.api}}/flutter/widgets/GridPaper-class.html
 [`log()`]: {{site.api}}/flutter/dart-developer/log.html
-[`Material`]: {{site.api}}/flutter/material/Material-class.html
-[`MaterialApp` constructor]: {{site.api}}/flutter/material/MaterialApp/MaterialApp.html
-[`MaterialApp`]: {{site.api}}/flutter/material/MaterialApp/MaterialApp.html
+[`Material`]: {{site.material_ui}}/Material-class.html
+[`MaterialApp` constructor]: {{site.material_ui}}/MaterialApp/MaterialApp.html
+[`MaterialApp`]: {{site.material_ui}}/MaterialApp/MaterialApp.html
 [`PerformanceOverlay.allEnabled()`]: {{site.api}}/flutter/widgets/PerformanceOverlay/PerformanceOverlay.allEnabled.html
 [`print()`]: {{site.api}}/flutter/dart-core/print.html
 [`RenderParagraph`]: {{site.api}}/flutter/rendering/RenderParagraph-class.html
 [`RenderPositionedBox`]: {{site.api}}/flutter/rendering/RenderPositionedBox-class.html
 [`setState()`]: {{site.api}}/flutter/widgets/State/setState.html
 [`stderr.method_to_invoke()`]: {{site.api}}/flutter/dart-io/stderr.html
-[`TextButton`]: {{site.api}}/flutter/material/TextButton-class.html
+[`TextButton`]: {{site.material_ui}}/TextButton-class.html
 [`timeDilation`]: {{site.api}}/flutter/scheduler/timeDilation.html
 [`WidgetsApp`]: {{site.api}}/flutter/widgets/WidgetsApp-class.html
 [debug mode]: /testing/build-modes#debug
@@ -730,7 +731,7 @@ class MyApp extends StatelessWidget {
 [Debugging]: /testing/debugging
 [DevTools]: /tools/devtools
 [DiagnosticsProperty]: {{site.api}}/flutter/foundation/DiagnosticsProperty-class.html
-[file an issue]: {{site.github}}/flutter/devtools/issues
+[file an issue]: https://github.com/flutter/devtools/issues
 [Flutter inspector]: /tools/devtools/inspector
 [frame callback]: {{site.api}}/flutter/scheduler/SchedulerBinding/addPersistentFrameCallback.html
 [Inspector view]: /tools/devtools/inspector

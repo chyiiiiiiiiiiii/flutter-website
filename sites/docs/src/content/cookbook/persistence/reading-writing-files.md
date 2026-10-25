@@ -56,6 +56,7 @@ description: 如何在磁碟上讀取與寫入檔案。
 <?code-excerpt "lib/main.dart (localPath)"?>
 ```dart
 import 'package:path_provider/path_provider.dart';
+
   // ···
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
@@ -90,7 +91,7 @@ Future<File> get _localFile async {
 Future<File> writeCounter(int counter) async {
   final file = await _localFile;
 
-  // Write the file
+  // Write the counter as a string to the file.
   return file.writeAsString('$counter');
 }
 ```
@@ -106,12 +107,12 @@ Future<int> readCounter() async {
   try {
     final file = await _localFile;
 
-    // Read the file
+    // Read the contents of the local file.
     final contents = await file.readAsString();
 
     return int.parse(contents);
-  } catch (e) {
-    // If encountering an error, return 0
+  } catch (_) {
+    // If an error was encountered, return 0.
     return 0;
   }
 }
@@ -124,13 +125,13 @@ Future<int> readCounter() async {
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(
     MaterialApp(
-      title: 'Reading and Writing Files',
+      title: 'Reading and writing files',
       home: FlutterDemo(storage: CounterStorage()),
     ),
   );
@@ -152,12 +153,12 @@ class CounterStorage {
     try {
       final file = await _localFile;
 
-      // Read the file
+      // Read the contents of the local file.
       final contents = await file.readAsString();
 
       return int.parse(contents);
-    } catch (e) {
-      // If encountering an error, return 0
+    } catch (_) {
+      // If an error was encountered, return 0.
       return 0;
     }
   }
@@ -165,10 +166,9 @@ class CounterStorage {
   Future<File> writeCounter(int counter) async {
     final file = await _localFile;
 
-    // Write the file
+    // Write the counter as a string to the file.
     return file.writeAsString('$counter');
   }
-
 }
 
 class FlutterDemo extends StatefulWidget {
@@ -205,7 +205,7 @@ class _FlutterDemoState extends State<FlutterDemo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Reading and Writing Files')),
+      appBar: AppBar(title: const Text('Reading and writing files')),
       body: Center(
         child: Text('Button tapped $_counter time${_counter == 1 ? '' : 's'}.'),
       ),

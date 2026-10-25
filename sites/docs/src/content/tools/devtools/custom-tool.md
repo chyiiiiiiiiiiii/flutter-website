@@ -194,8 +194,8 @@ requiresConnection: true  # optional field - defaults to true
 有關 `config.yaml` 規格的最新文件，
 請造訪 [extension_config_spec.md][]。
 
-[extension_config_spec.md]: {{site.github}}/flutter/devtools/blob/master/packages/devtools_extensions/extension_config_spec.md
-[`material/icons.dart`]: {{site.github}}/flutter/flutter/blob/master/packages/flutter/lib/src/material/icons.dart
+[extension_config_spec.md]: https://github.com/flutter/devtools/blob/master/packages/devtools_extensions/extension_config_spec.md
+[`material/icons.dart`]: {{site.repo.flutter}}/blob/master/packages/flutter/lib/src/material/icons.dart
 
 ## 建置你的擴充套件 {:#build-your-extension}
 
@@ -231,7 +231,7 @@ flutter pub add devtools_app_shared
 ```
 
 [`package:devtools_app_shared`]: {{site.pub-pkg}}/devtools_app_shared
-[`devtools_app_shared/example`]: {{site.github}}/flutter/devtools/tree/master/packages/devtools_app_shared/example
+[`devtools_app_shared/example`]: https://github.com/flutter/devtools/tree/master/packages/devtools_app_shared/example
 
 ### 新增 `DevToolsExtension` 元件 (Widget) {:#add-the-devtoolsextension-widget}
 
@@ -239,7 +239,7 @@ flutter pub add devtools_app_shared
 
 ```dart
 import 'package:devtools_extensions/devtools_extensions.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const FooDevToolsExtension());
@@ -402,8 +402,8 @@ DevTools 應用程式列中應出現你的擴充套件的索引標籤。
 
 ![DevTools 擴充套件選單](/assets/images/docs/tools/devtools/devtools-extensions-menu.png)
 
-[CONTRIBUTING.md]: {{site.github}}/flutter/devtools/tree/master/packages/devtools_extensions
-[instructions]: {{site.github}}/flutter/devtools/blob/master/CONTRIBUTING.md#development-devtools-server--devtools-flutter-web-app
+[CONTRIBUTING.md]: https://github.com/flutter/devtools/tree/master/packages/devtools_extensions
+[instructions]: https://github.com/flutter/devtools/blob/master/CONTRIBUTING.md#development-devtools-server--devtools-flutter-web-app
 
 ## 發佈含有 DevTools 擴充套件的套件 {:#publish-your-package-with-a-devtools-extension}
 
@@ -466,7 +466,7 @@ flutter pub publish
   請查看 [#devtools-extension-authors][extensions-discord] Discord 頻道
   （你需要先加入 [Flutter Discord 伺服器][Flutter Discord server]）。
 
-[DevTools Extensions README]: {{site.github}}/flutter/devtools/blob/master/packages/devtools_extensions/README.md
+[DevTools Extensions README]: https://github.com/flutter/devtools/blob/master/packages/devtools_extensions/README.md
 [extensions-discord]: https://discord.com/channels/608014603317936148/1159561514072690739
-[file an issue]: {{site.github}}/flutter/devtools/issues
-[Flutter Discord server]: {{site.github}}/flutter/flutter/wiki/Chat
+[file an issue]: https://github.com/flutter/devtools/issues
+[Flutter Discord server]: {{site.repo.flutter}}/wiki/Chat

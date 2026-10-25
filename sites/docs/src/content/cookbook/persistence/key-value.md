@@ -11,6 +11,10 @@ description: >-
 一般來說，你需要針對每個平台撰寫原生平台的整合程式來儲存資料。
 幸運的是，[`shared_preferences`][] 插件可以用來
 在 Flutter 支援的每個平台上，將鍵值資料持久化到磁碟。
+若想比較 `shared_preferences` 與其他本機及雲端資料庫選項，
+請參閱 [Choose a database for your Flutter app][]。
+
+[Choose a database for your Flutter app]: /data-and-backend/persistence/choose-a-database
 
 本教學將依照以下步驟進行：
 
@@ -103,7 +107,7 @@ SharedPreferences.setMockInitialValues(<String, Object>{'counter': 2});
 
 <?code-excerpt "lib/main.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(const MyApp());

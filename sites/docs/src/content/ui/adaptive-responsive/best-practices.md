@@ -92,7 +92,7 @@ shortTitle: 最佳實踐
 
 這不僅對 UI 程式碼有幫助。想了解如何將裝置能力抽象化，有助於你的業務邏輯程式碼，請參考 2022 年 Google I/O 的演講：[Flutter lessons for federated plugin development][Flutter lessons for federated plugin development]。
 
-[Flutter lessons for federated plugin development]: {{site.youtube-site}}/watch?v=GAnSNplNpCA
+[Flutter lessons for federated plugin development]: {{site.yt.watch}}?v=GAnSNplNpCA
 
 ### 支援多種輸入裝置
 
@@ -112,9 +112,9 @@ Material 函式庫提供了對觸控、滑鼠與鍵盤互動的優異預設行�
 
 如果 `List` 元件 (Widget) 在裝置方向改變時會改變版面配置，你可能需要做一些運算（[範例][example]）來在螢幕旋轉時調整捲動位置。
 
-[example]: {{site.github}}/gskinnerTeam/flutter-wonderous-app/blob/34e49a08084fbbe69ed67be948ab00ef23819313/lib/ui/screens/collection/widgets/_collection_list.dart#L39
+[example]: {{site.repo.wonderous}}/blob/34e49a08084fbbe69ed67be948ab00ef23819313/lib/ui/screens/collection/widgets/_collection_list.dart#L39
 [`PageStorageKey`]: {{site.api}}/flutter/widgets/PageStorageKey-class.html
-[Wonderous app]: {{site.github}}/gskinnerTeam/flutter-wonderous-app/blob/8a29d6709668980340b1b59c3d3588f123edd4d8/lib/ui/screens/wonder_events/widgets/_events_list.dart#L64
+[Wonderous app]: {{site.repo.wonderous}}/blob/8a29d6709668980340b1b59c3d3588f123edd4d8/lib/ui/screens/wonder_events/widgets/_events_list.dart#L64
 
 ## 儲存應用程式狀態
 
@@ -123,7 +123,7 @@ Material 函式庫提供了對觸控、滑鼠與鍵盤互動的優異預設行�
 
 如果你的應用程式在裝置設定變更時遺失狀態，請確認你所使用的插件與原生擴充元件支援該裝置類型，例如大型螢幕。有些原生擴充元件在裝置位置變更時可能會遺失狀態。
 
-想了解實際案例，請參考 Medium 免費文章 [Developing Flutter apps for Large screens][article] 中的
+想了解實際案例，請參考 Flutter 部落格文章 [Developing Flutter apps for Large screens][article] 中的
 [Problem: Folding/unfolding causes state loss][state-loss]。
 
 [app state]: {{site.android-dev}}/jetpack/compose/state#store-state

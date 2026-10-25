@@ -84,9 +84,9 @@ Flutter 內建的 [`CupertinoNavigationBar`][]
   <DashImage figure image="platform-adaptations/navigation-ios-nav-bar.webp" img-style="border-radius: 22px;" caption="iOS 導覽列" alt="An animation of the nav bar transitions during a page transition on iOS" />
 </div>
 
-[`ZoomPageTransitionsBuilder`]: {{site.api}}/flutter/material/ZoomPageTransitionsBuilder-class.html
-[`CupertinoNavigationBar`]: {{site.api}}/flutter/cupertino/CupertinoNavigationBar-class.html
-[`CupertinoSliverNavigationBar`]: {{site.api}}/flutter/cupertino/CupertinoSliverNavigationBar-class.html
+[`ZoomPageTransitionsBuilder`]: {{site.material_ui}}/ZoomPageTransitionsBuilder-class.html
+[`CupertinoNavigationBar`]: {{site.cupertino_ui}}/CupertinoNavigationBar-class.html
+[`CupertinoSliverNavigationBar`]: {{site.cupertino_ui}}/CupertinoSliverNavigationBar-class.html
 
 ### 返回導覽
 
@@ -218,7 +218,7 @@ San Francisco 字型授權僅限於
 Material 函式庫也透過 [`Icons.adaptive`][]
 提供一組平台適應性圖示。
 
-[`Icons.adaptive`]: {{site.api}}/flutter/material/PlatformAdaptiveIcons-class.html
+[`Icons.adaptive`]: {{site.material_ui}}/PlatformAdaptiveIcons-class.html
 
 ## 觸覺回饋（Haptic feedback）
 
@@ -358,13 +358,13 @@ iOS 上收合狀態的文字選取不會有可拖曳的控制柄。
 |<img src="/assets/images/docs/platform-adaptations/m3-radio.png" alt="Radio in Material 3" /> <br/>`Radio`|<img src="/assets/images/docs/platform-adaptations/hig-radio.png" alt="Radio in HIG" /><br/>`CupertinoRadio`|[`Radio.adaptive()`][]|
 |<img src="/assets/images/docs/platform-adaptations/m3-alert.png" alt="AlertDialog in Material 3" /> <br/>`AlertDialog`|<img src="/assets/images/docs/platform-adaptations/cupertino-alert.png" alt="AlertDialog in HIG" /><br/>`CupertinoAlertDialog`|[`AlertDialog.adaptive()`][]|
 
-[`AlertDialog.adaptive()`]: {{site.api}}/flutter/material/AlertDialog/AlertDialog.adaptive.html
-[`Checkbox.adaptive()`]: {{site.api}}/flutter/material/Checkbox/Checkbox.adaptive.html
-[`Radio.adaptive()`]: {{site.api}}/flutter/material/Radio/Radio.adaptive.html
-[`Switch.adaptive()`]: {{site.api}}/flutter/material/Switch/Switch.adaptive.html
-[`Slider.adaptive()`]: {{site.api}}/flutter/material/Slider/Slider.adaptive.html
-[`CircularProgressIndicator.adaptive()`]: {{site.api}}/flutter/material/CircularProgressIndicator/CircularProgressIndicator.adaptive.html
-[`RefreshIndicator.adaptive()`]: {{site.api}}/flutter/material/RefreshIndicator/RefreshIndicator.adaptive.html
+[`AlertDialog.adaptive()`]: {{site.material_ui}}/AlertDialog/AlertDialog.adaptive.html
+[`Checkbox.adaptive()`]: {{site.material_ui}}/Checkbox/Checkbox.adaptive.html
+[`Radio.adaptive()`]: {{site.material_ui}}/Radio/Radio.adaptive.html
+[`Switch.adaptive()`]: {{site.material_ui}}/Switch/Switch.adaptive.html
+[`Slider.adaptive()`]: {{site.material_ui}}/Slider/Slider.adaptive.html
+[`CircularProgressIndicator.adaptive()`]: {{site.material_ui}}/CircularProgressIndicator/CircularProgressIndicator.adaptive.html
+[`RefreshIndicator.adaptive()`]: {{site.material_ui}}/RefreshIndicator/RefreshIndicator.adaptive.html
 
 ### 頂部應用程式列與導覽列
 

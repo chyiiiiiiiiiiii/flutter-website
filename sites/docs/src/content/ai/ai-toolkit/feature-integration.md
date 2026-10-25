@@ -1,6 +1,5 @@
 ---
 title: 功能整合
-sidenav: ai
 description: >
   如何與其他 Flutter 功能進行整合。
 prev:
@@ -64,7 +63,7 @@ class ChatPage extends StatelessWidget {
 若要查看設定歡迎訊息的完整範例，請參考 [welcome example][]。
 
 [welcome example]:
-    {{site.github}}/flutter/ai/blob/main/example/lib/welcome/welcome.dart
+    https://github.com/flutter/ai/blob/main/example/lib/welcome/welcome.dart
 
 ## 建議提示語
 
@@ -101,7 +100,7 @@ class ChatPage extends StatelessWidget {
 若要查看為使用者設定建議（suggestions）的完整範例，請參考 [suggestions example][]。
 
 [suggestions example]:
-    {{site.github}}/flutter/ai/blob/main/example/lib/suggestions/suggestions.dart
+    https://github.com/flutter/ai/blob/main/example/lib/suggestions/suggestions.dart
 
 ## 大型語言模型 (LLM) 指令
 
@@ -165,7 +164,7 @@ class _HomePageState extends State<HomePage> {
 若要使用函式呼叫，您需要定義工具並將其傳遞給 `FirebaseProvider`。詳情請參考 [function calling example][]。
 
 [function calling example]:
-    {{site.github}}/flutter/ai/blob/main/example/lib/function_calls/function_calls.dart
+    https://github.com/flutter/ai/blob/main/example/lib/function_calls/function_calls.dart
 
 ## 停用附件與語音輸入
 
@@ -209,7 +208,7 @@ LlmChatView(
 詳情請參考 [custom STT example][]。
 
 [custom STT example]:
-    {{site.github}}/flutter/ai/tree/main/example/lib/custom_stt
+    https://github.com/flutter/ai/tree/main/example/lib/custom_stt
 
 ## 管理取消或錯誤行為
 
@@ -319,8 +318,8 @@ class _HomePageState extends State<HomePage> {
 請參考 [recipes example app][] 以及 [history example app][]。
 
 [history example app]:
-    {{site.github}}/flutter/ai/blob/main/example/lib/history/history.dart
-[recipes example app]: {{site.github}}/flutter/ai/tree/main/example/lib/recipes
+    https://github.com/flutter/ai/blob/main/example/lib/history/history.dart
+[recipes example app]: https://github.com/flutter/ai/tree/main/example/lib/recipes
 
 ## 聊天序列化／反序列化
 
@@ -379,7 +378,7 @@ Future<void> _loadHistory() async {
 若想實際了解這個做法，請參考 [history example app][]。
 
 [history example app]:
-    {{site.github}}/flutter/ai/blob/main/example/lib/history/history.dart
+    https://github.com/flutter/ai/blob/main/example/lib/history/history.dart
 
 ## 自訂回應元件 (Custom response widgets)
 
@@ -553,11 +552,11 @@ LlmChatView(
 若想實際了解自訂樣式的運作方式，除了可以參考 [custom styles example][custom-ex] 以及 [styles example][styles-ex] 之外，也建議查看 [dark mode example][] 以及 [demo app][]。
 
 [custom-ex]:
-    {{site.github}}/flutter/ai/blob/main/example/lib/custom_styles/custom_styles.dart
-[styles-ex]: {{site.github}}/flutter/ai/blob/main/example/lib/styles/styles.dart
+    https://github.com/flutter/ai/blob/main/example/lib/custom_styles/custom_styles.dart
+[styles-ex]: https://github.com/flutter/ai/blob/main/example/lib/styles/styles.dart
 [dark mode example]:
-    {{site.github}}/flutter/ai/blob/main/example/lib/dark_mode/dark_mode.dart
-[demo app]: {{site.github}}/flutter/ai#online-demo
+    https://github.com/flutter/ai/blob/main/example/lib/dark_mode/dark_mode.dart
+[demo app]: https://github.com/flutter/ai#online-demo
 [reference documentation]:
     {{site.pub-api}}/flutter_ai_toolkit/latest/flutter_ai_toolkit/LlmChatViewStyle-class.html
 
@@ -641,7 +640,7 @@ class _EditRecipePageState extends State<EditRecipePage> {
 想要實際了解這個流程，可以參考 recipes 範例的 [Edit Recipe page][]。
 
 [Edit Recipe page]:
-    {{site.github}}/flutter/ai/blob/main/example/lib/recipes/pages/edit_recipe_page.dart
+    https://github.com/flutter/ai/blob/main/example/lib/recipes/pages/edit_recipe_page.dart
 
 ## 重新導向提示（Rerouting prompts）
 
@@ -693,4 +692,4 @@ class ChatPage extends StatelessWidget {
 想要實際體驗，請參考 [logging example app][]。
 
 [logging example app]:
-    {{site.github}}/flutter/ai/blob/main/example/lib/logging/logging.dart
+    https://github.com/flutter/ai/blob/main/example/lib/logging/logging.dart

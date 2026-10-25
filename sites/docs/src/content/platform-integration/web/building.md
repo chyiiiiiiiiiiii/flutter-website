@@ -72,39 +72,8 @@ Web 平台預設啟用熱重載（hot reload）。
 $ flutter run -d chrome --wasm
 ```
 
-Flutter Web 提供多種建置模式與渲染器。
-如需更多資訊，請參閱 [Web renderers][Web renderers]。
-
-### 在 VS Code 中停用 hot reload
-
-若要暫時停用 VS Code 的 hot reload 支援，
-請在你的 [`launch.json` file][`launch.json` file] 檔案中加入
-旗標 `--no-web-experimental-hot-reload`。
-
-```plaintext
-"configurations": [
-    ...
-    {
-      "name": "Flutter for web (hot reload disabled)",
-      "type": "dart",
-      "request": "launch",
-      "program": "lib/main.dart",
-      "args": [
-        "-d",
-        "chrome",
-        "--no-web-experimental-hot-reload",
-      ]
-    }
-  ]
-```
-
-### 從命令列暫時停用熱重載
-
-如果你從命令列使用 `flutter run`，可以透過以下指令暫時停用網頁端的熱重載（hot reload）：
-
-```console
-flutter run -d chrome --no-web-experimental-hot-reload
-```
+如需瞭解 WebAssembly 編譯與伺服器需求，
+請參閱 [Support for WebAssembly (Wasm)][Wasm support]。
 
 ### 在 DartPad 中使用熱重載（hot reload）
 
@@ -114,9 +83,8 @@ DartPad 現已支援熱重載功能，並新增了「Reload」按鈕。
 
 [Hot restart]: /tools/hot-reload
 [How to switch channels]: /install/upgrade#switching-flutter-channels
-[`launch.json` file]: https://code.visualstudio.com/docs/debugtest/debugging-configuration
-[Web Hot Reload issue template]: {{site.github}}/dart-lang/sdk/issues/new?template=5_web_hot_reload.yml
-[GitHub project]: {{site.github}}/orgs/dart-lang/projects/107/views/1
+[Web Hot Reload issue template]: {{site.repo.dart-sdk}}/issues/new?template=5_web_hot_reload.yml
+[GitHub project]: https://github.com/orgs/dart-lang/projects/107/views/1
 
 ## 建置你的應用程式
 
@@ -145,6 +113,9 @@ $ flutter build web --wasm
 如需瞭解如何將這些資源部署到網頁，請參閱
 [建置與發布網頁應用程式][Build and release a web app]。
 其他常見問題的解答，請參閱 [Web FAQ][Web FAQ]。
+
+如果使用 Wasm 編譯應用程式時遇到錯誤，請參閱
+[診斷 Wasm 編譯錯誤](/platform-integration/web/wasm#diagnosing-wasm-compilation-errors)。
 
 ## 除錯（Debugging）
 
@@ -176,7 +147,7 @@ $ flutter build web --wasm
 [Integration testing]: /testing/integration-tests#test-in-a-web-browser
 [Logging]: /tools/devtools/logging
 [Running Flutter inspector]: /tools/devtools/inspector
-[Setup-web]: {{site.url}}/platform-integration/web/setup
+[Setup-web]: /platform-integration/web/setup
 [Web FAQ]: /platform-integration/web/faq
-[Web renderers]: /platform-integration/web/renderers
+[Wasm support]: /platform-integration/web/wasm
 [Widget tests]: /testing/overview#widget-tests

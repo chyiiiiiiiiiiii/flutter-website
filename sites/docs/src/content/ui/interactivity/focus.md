@@ -78,7 +78,7 @@ Flutter 內建一套焦點系統，能將鍵盤輸入導向應用程式中的特
 
 <?code-excerpt "ui/focus/lib/custom_control_example.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() => runApp(const MyApp());
 

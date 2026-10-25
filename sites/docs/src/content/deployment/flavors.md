@@ -15,33 +15,12 @@ description: >
 
 以下範例說明當一個 Android 應用程式擁有兩個 product flavors（`staging`、`production`）以及兩個 build types（`debug`、`release`）時，所產生的 Android [_build variants_]：
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Product flavors</th>
-      <th>Build types</th>
-      <th>Resulting build variants</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>staging</td>
-      <td>debug</td>
-      <td>
-        stagingDebug</br>
-        stagingRelease</br>
-      </td>
-    </tr>
-    <tr>
-      <td>production</td>
-      <td>release</td>
-      <td>
-        productionDebug</br>
-        productionRelease</br>
-      </td>
-    </tr>
-  </tbody>
-</table>
+| Product flavors | Build types | Resulting build variants |
+| --- | --- | --- |
+| staging | debug | stagingDebug<br>stagingRelease |
+| production | release | productionDebug<br>productionRelease |
+
+{:.table .table-striped}
 
 [_product flavor_]: https://developer.android.com/build/build-variants#product-flavors
 [_build variants_]: https://developer.android.com/build/build-variants
@@ -60,14 +39,17 @@ description: >
 
     * 在 `flavors_example` 專案中，前往 `android/app/` 目錄並開啟 `build.gradle.kts`。
 
-    * 在 `android {} block` 內新增 `flavorsDimension` 屬性以及 `productFlavors` 屬性。請確保 `android {}` 區塊同時包含預設的 `debug` 和 `release` build types：
+    * 在 `android {}` 區塊內新增 `flavorDimensions` 屬性以及 `productFlavors` 屬性。預設範本明確定義了 `release` build type，而 `debug` build type 則是隱含的：
 
       ```kotlin title="build.gradle.kts"
       android {
           ...
           buildTypes {
-            getByName("debug") {...}
-            getByName("release") {...}
+              release {
+                  // TODO: Add your own signing config for the release build.
+                  // Signing with the debug keys for now, so `flutter run --release` works.
+                  signingConfig = signingConfigs.getByName("debug")
+              }
           }
           ...
           flavorDimensions += "default"
@@ -136,13 +118,16 @@ Flutter 框架提供了 `appFlavor` 常數，可將目前 flavor 的名稱以 `S
 ### 取得目前的 flavor
 
 1.  **匯入 services 函式庫：**
-    若要存取 `appFlavor` 常數，請在你的 Dart 檔案中加入以下匯入：
+    若要存取 `appFlavor` 常數，
+    請在你的 Dart 檔案中加入以下匯入：
+
     ```dart
     import 'package:flutter/services.dart';
     ```
 
 1.  **檢查 flavor 的值：**
-    在應用程式邏輯中（通常是 `main()`）使用 `appFlavor` 常數來處理各 flavor 專屬的組態：
+    在應用程式邏輯中
+    （通常是 `main()`）使用 `appFlavor` 常數來處理各 flavor 專屬的組態：
 
     ```dart
     void main() {
@@ -175,35 +160,35 @@ Flutter 框架提供了 `appFlavor` 常數，可將目前 flavor 的名稱以 `S
 
 以下步驟說明如何為一個名為 `flavors_example` 的專案中的兩個 product flavors `staging` 和 `production`，分別加入獨特的應用程式顯示名稱。
 
-1.  在你的 IDE 中更新 `build.gradle.kts`：
+1.  建立 flavor 專屬的資源目錄：
 
-    * 在 `flavors_example` 專案中，前往 `android/app/` 目錄並開啟 `build.gradle.kts`。
+    * 前往 `android/app/src` 目錄。
 
-    * 在 `flavorsDimension` 區塊中，於 `staging` 和 `production` 這兩個 flavor 下，新增一個名為 `app_name` 的 `resValue()` 屬性：
+    * 建立一個名為 `staging/res/values` 的目錄。
 
-      ```kotlin title="build.gradle.kts"
-      android {
-          ...
-          flavorDimensions += "default"
-          productFlavors {
-              create("staging") {
-                  dimension = "default"
-                  resValue(
-                      type = "string",
-                      name = "app_name",
-                      value = "Flavors staging")
-                  applicationIdSuffix = ".staging"
-              }
-              create("production") {
-                  dimension = "default"
-                  resValue(
-                      type = "string",
-                      name = "app_name",
-                      value = "Flavors production")
-                  applicationIdSuffix = ".production"
-              }
-          }
+    * 前往 `staging/res/values` 目錄。
+
+    * 建立下列 `strings.xml` 檔案：
+
+      ```xml title="strings.xml"
+      <?xml version="1.0" encoding="utf-8"?>
+      <resources>
+          <string name="app_name">Flavors staging</string>
+      </resources>
       ```
+
+      :::note
+      如果你的專案在 `build.gradle.kts` 中以 `resValue()` 設定 `app_name`，
+      使用 Android Gradle Plugin (AGP) 9.0 或更新版本建置時，預設會失敗，
+      並出現類似
+      `Product Flavor <flavor_name> contains custom resource values, but the feature is disabled.`
+      的錯誤。
+      若要修正，請移除這些 `resValue()` 呼叫，
+      並如本步驟所示，在 `strings.xml` 檔案中定義 `app_name`。
+      :::
+
+    * 針對 `production` flavor 重複前述步驟，
+      並將 `app_name` 的值設為 `Flavors production`。
 
 1.  在你的 IDE 中更新 `AndroidManifest.xml`：
 
@@ -298,13 +283,13 @@ Flutter 框架提供了 `appFlavor` 常數，可將目前 flavor 的名稱以 `S
 
 你可以讓應用程式在未指定 flavor 時，預設使用特定 flavor。為此，請在專案的 pubspec 中新增 `default-flavor` 欄位。欲了解更多資訊，請參閱 [Flutter pubspec options][Flutter pubspec options] 中的 [`default-flavor` 欄位][`default-flavor` field]。
 
-[`default-flavor` field]: /tools/pubspec#default-flavor-field
+[`default-flavor` field]: /tools/pubspec#default-flavor
 
 ### 新增專屬建置設定
 
 如果你想為特定 Android product flavor 設定額外的建置選項，請參閱 Android 的[設定建置變體][Configure build variants]。
 
-雖然可以在 product flavors 中設定 `abiFilters`，但不建議這麼做。建議改為在 build types 中設定 `abiFilters`。若要在 product flavors 中設定 `abiFilters`，必須在執行 `flutter build` 或 `flutter run` 時加上 `-Pdisable-abi-filtering` 旗標。
+雖然可以在 product flavors 中設定 `abiFilters`，但不建議這麼做。建議盡可能改為在 `defaultConfig` 中設定 `abiFilters`。若要在 product flavors 中設定 `abiFilters`，請在執行 `flutter build` 或 `flutter run` 時傳入 `-Pdisable-abi-filtering=true`。
 
 [Configure build variants]: https://developer.android.com/build/build-variants
 
@@ -312,8 +297,14 @@ Flutter 框架提供了 `appFlavor` 常數，可將目前 flavor 的名稱以 `S
 
 如需建立與使用 flavor 的更多資訊，請參考以下資源：
 
+* [為 iOS 和 macOS 設定 Flutter flavors][Set up Flutter flavors for iOS and macOS]
+* [為 Linux 設定 Flutter flavors][Set up Flutter flavors for Linux]
+* [為 Windows 設定 Flutter flavors][Set up Flutter flavors for Windows]
 * [在 Flutter（Android 和 iOS）中使用 Firebase 建立 Build flavors][Build flavors in Flutter (Android and iOS) with Firebase]
 * [如何使用 FlutterFire CLI 設定 Flutter & Firebase 多個 Flavors][flutterfireCLI]
 
-[Build flavors in Flutter (Android and iOS) with Firebase]: {{site.medium}}/@animeshjain/build-flavors-in-flutter-android-and-ios-with-different-firebase-projects-per-flavor-27c5c5dac10b
+[Set up Flutter flavors for iOS and macOS]: /deployment/flavors-ios
+[Set up Flutter flavors for Linux]:   /deployment/flavors-linux
+[Set up Flutter flavors for Windows]: /deployment/flavors-windows
+[Build flavors in Flutter (Android and iOS) with Firebase]: https://medium.com/@animeshjain/build-flavors-in-flutter-android-and-ios-with-different-firebase-projects-per-flavor-27c5c5dac10b
 [flutterfireCLI]: https://codewithandrea.com/articles/flutter-firebase-multiple-flavors-flutterfire-cli/

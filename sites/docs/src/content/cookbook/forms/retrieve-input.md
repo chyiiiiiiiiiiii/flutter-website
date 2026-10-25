@@ -9,9 +9,9 @@ description: 如何從文字欄位取得文字。
 你將學習如何透過以下步驟，
 取得使用者在文字欄位 (text field) 中輸入的文字：
 
-  1. 建立 `TextEditingController`。
-  2. 將 `TextEditingController` 提供給 `TextField`。
-  3. 顯示目前文字欄位的值。
+1.  建立 `TextEditingController`。
+1.  將 `TextEditingController` 提供給 `TextField`。
+1.  顯示目前文字欄位的值。
 
 ## 1. 建立 `TextEditingController`
 
@@ -20,7 +20,7 @@ description: 如何從文字欄位取得文字。
 並將其提供給 `TextField` 或 `TextFormField`。
 
 :::important
-當你不再需要 `TextEditingController` 時，請呼叫其 `dispose`。
+當你不再需要 `TextEditingController` 時，請呼叫其 `dispose()`。
 這可確保釋放該物件所使用的資源。
 :::
 
@@ -67,8 +67,9 @@ return TextField(controller: myController);
 ## 3. 顯示文字欄位的目前值
 
 在將 `TextEditingController` 提供給文字欄位之後，
-即可開始讀取其值。使用 `TextEditingController` 所提供的 [`text`][]
-屬性來取得使用者在文字欄位中輸入的字串 (String)。
+即可開始讀取其值。
+使用 `TextEditingController` 所提供的 [`text`][] 屬性，
+來取得使用者在文字欄位中輸入的 `String`。
 
 以下程式碼會在使用者點擊浮動操作按鈕（floating action button）時，
 以警示對話框顯示文字欄位目前的值。
@@ -79,12 +80,12 @@ FloatingActionButton(
   // When the user presses the button, show an alert dialog containing
   // the text that the user has entered into the text field.
   onPressed: () {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          // Retrieve the text that the user has entered by using the
-          // TextEditingController.
+          // Retrieve the text that the user has entered by
+          // using the TextEditingController.
           content: Text(myController.text),
         );
       },
@@ -149,11 +150,11 @@ class _MyCustomFormState extends State<MyCustomForm> {
         // When the user presses the button, show an alert dialog containing
         // the text that the user has entered into the text field.
         onPressed: () {
-          showDialog(
+          showDialog<void>(
             context: context,
             builder: (context) {
               return AlertDialog(
-                // Retrieve the text the that user has entered by using the
+                // Retrieve the text that user has entered by using the
                 // TextEditingController.
                 content: Text(myController.text),
               );
@@ -169,7 +170,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/retrieve-input.webp" alt="取得文字輸入示範" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/retrieve-input.png" alt="取得文字輸入示範" />
 </noscript>
 
 

@@ -28,20 +28,38 @@ Platform Views（平台視圖）允許你在 Flutter 應用程式中嵌入原生
 Android 上的 Platform Views 有多種實作方式。
 這些方式在效能與呈現精確度方面各有取捨。
 
-## Hybrid composition  {: #hybrid-composition }
+### 選擇實作方式
 
-Platform Views 會以原生方式進行渲染。
-Flutter 內容會被渲染到一個 texture 上。
-SurfaceFlinger 負責合成 Flutter 內容與平台視圖。
+下表摘要說明各種實作方式及其取捨：
 
-* `+` Android 視圖的效能與呈現精確度最佳。
-* `-` Flutter 效能會受到影響。
-* `-` 應用程式的 FPS 會降低。
-* `-` 某些可套用於 Flutter 元件 (Widget) 的變換效果，套用到平台視圖時將無法運作。
+| Mode | Benefits | Considerations | Enabler |
+| :--- | :--- | :--- | :--- |
+| **Texture layer** | • Good Flutter performance<br>• Full widget transforms work | • Janky during quick scrolling<br>• SurfaceViews lose accessibility and text magnifier breaks<br>• Platform View -> Renders to texture -> Uploads to Impeller -> Impeller composites Flutter content and Platform View content | Default behavior or standard `AndroidView` |
+| **Hybrid composition** | • Full native fidelity<br>• Correct accessibility and SurfaceView support | • Causes thread merging of raster & platform, which degrades Flutter FPS<br>• Platform View -> Renders into the Android view hierarchy as usual, Flutter content renders into `ImageReader`-backed `FlutterImageView`s (a background layer, plus an overlay layer for content drawn above a platform view), the Android view hierarchy composites them together |• `PlatformViewLink` with `AndroidViewSurface`<br>• [`AndroidViewController` builds either a TLHC or an HC Platform View][AC] |
+| **HCPP** (Experimental) | • Full fidelity and performance<br>• Solves original sync overhead | • Requires Android API 34+, Vulkan support, and use of the Impeller rendering engine<br>• Platform View -> Renders to native Android Surface, Impeller renders to native Android Surface, SurfaceFlinger composites the two together | • `<meta-data>` in `AndroidManifest.xml`<br>• `--enable-hcpp` local flag<br> •[`AndroidViewController` builds either a TLHC or an HC Platform View][AC] |
 
-## Hybrid Composition++ (HCPP)  {: #hcpp }
+{:.table .table-striped}
 
-:::note
+[AC]: {{site.repo.flutter}}/blob/main/dev/integration_tests/hybrid_android_views/lib/android_platform_view.dart
+
+## Hybrid composition {: #hybrid-composition }
+
+Platform Views 會以原生方式進行渲染，
+直接位於 Android 視圖階層中。
+Flutter 內容會被渲染到 `ImageReader` 中，
+並由與平台視圖位於同一個視窗的 `FlutterImageView` 繪製，
+因此由 Android 視圖階層將它們合成在一起。
+
+Flutter 使用兩種這類圖層。
+一旦加入平台視圖，Flutter 主要的渲染 surface
+就會被換成背景的 `FlutterImageView`。
+繪製在平台視圖上方的 Flutter 內容
+則會放入額外的覆蓋層 `FlutterImageView`，
+這些覆蓋層從資源池中配置，並在各個影格之間回收再利用。
+
+## Hybrid composition++ (HCPP) {: #hcpp }
+
+:::version-note
 此功能為實驗性質，從 Flutter 3.44 開始提供。
 :::
 
@@ -52,7 +70,10 @@ HCPP 是最新的混合組合 (hybrid composition) 策略，
 ### 需求條件
 
 * **Android API 34 或更新版本**：原生交易同步功能所必需。
-* **Vulkan 渲染**：裝置必須支援以 Vulkan 進行渲染。
+* **使用 Vulkan 後端的 Impeller**：裝置必須支援以 Vulkan 進行渲染。
+  Impeller 也有 OpenGLES 後端，
+  在沒有可用 Vulkan 支援的裝置上會回退至該後端。
+  在這種配置下無法使用 HCPP。
 
 若終端使用者的裝置不符合這些需求，
 Flutter 將自動回退至應用程式已配置的現有平台視圖策略。
@@ -65,54 +86,60 @@ Flutter 將自動回退至應用程式已配置的現有平台視圖策略。
 
 你可以使用下列其中一種方法啟用 HCPP：
 
-1. **命令列旗標（執行/測試）**：
-   在 `flutter run` 或 `flutter test` 指令中傳入 `--enable-hcpp` 旗標：
+1.  **命令列旗標（執行/測試）**：
+    在 `flutter run` 或 `flutter test` 指令中
+    傳入 `--enable-hcpp` 旗標：
 
-   ```bash
-   flutter run --enable-hcpp
-   ```
+    ```console
+    $ flutter run --enable-hcpp
+    ```
 
-:::note
-   此旗標適用於本機執行與測試。
-   **無法**傳入 `flutter build` 指令。
-   對於正式版建置，請使用下一步驟中所示的 manifest 配置方式。
-:::
+    :::note
+    此旗標適用於本機執行與測試。
+    **它無法傳入 `flutter build` 指令。**
+    對於正式版建置，請使用下一步驟中所示的 manifest 配置方式。
+    :::
 
-2. **AndroidManifest.xml**：
-   在 `AndroidManifest.xml` 的 `<application>` 區塊內加入 `<meta-data>` 標籤：
+2.  **AndroidManifest.xml**：
+    在 `AndroidManifest.xml` 的
+    `<application>` 區塊內加入 `<meta-data>` 標籤：
 
-   ```xml
-   <meta-data
-       android:name="io.flutter.embedding.android.EnableHcpp"
-       android:value="true" />
-   ```
+    ```xml
+    <meta-data
+        android:name="io.flutter.embedding.android.EnableHcpp"
+        android:value="true" />
+    ```
 
 ### 限制與已知問題
 
 * **複雜的疊加層堆疊**：
   當版面配置堆疊結構為：
-  Flutter canvas -> Platform View -> Overlay -> Transparent Platform View，
+  **Flutter canvas -> Platform View -> Overlay -> Transparent Platform View**，
   且這四個層全部相交時，透明的平台視圖將無法正確顯示。
 
-要在 Android 上建立平台視圖，請依照以下步驟進行。
-
-## Texture layer { #texturelayerhybridcomposition }
+## Texture layer {: #texture-layer }
 
 Platform Views 會被渲染到一個 texture 上。
 Flutter 會（透過該 texture）繪製平台視圖。
 Flutter 內容則直接渲染到 Surface 上。
 
-* `+` Android 視圖有良好的效能
-* `+` Flutter 渲染效能最佳。
-* `+` 所有變換效果皆能正確運作。
-* `-` 快速捲動（例如 web view）會出現卡頓
-* `-` SurfaceViews 在此模式下會有問題，並會被移到虛擬顯示器（導致無障礙功能失效）
-* `-` 除非 Flutter 被渲染到 TextureView，否則文字放大鏡功能會失效。
+此方式提供：
+
+* Android 視圖有良好的效能
+* Flutter 渲染有良好的效能
+* 所有變換效果皆能正確運作
+
+然而，此方式可能導致：
+
+* 快速捲動（例如 web view）時出現卡頓
+* `SurfaceView` 的無障礙功能失效
+* 除非 Flutter 被渲染到 `TextureView`，否則文字放大功能會失效
 
 ## Dart 端
 
-在 Dart 端，建立一個 `Widget`
-並加入下列其中一種 build 實作方式。
+要在 Android 上建立平台視圖，請依照以下步驟進行。
+首先，在 Dart 端建立一個 `Widget`，
+並依據你所選擇的策略，加入下列其中一種 build 實作方式。
 
 ### Hybrid composition
 
@@ -126,12 +153,12 @@ Flutter 內容則直接渲染到 Surface 上。
    ```dart
    import 'package:flutter/foundation.dart';
    import 'package:flutter/gestures.dart';
-   import 'package:flutter/material.dart';
    import 'package:flutter/rendering.dart';
    import 'package:flutter/services.dart';
+   import 'package:material_ui/material_ui.dart';
    ```
 
-2. 實作 `build()` 方法：
+2. 實作 `build` 方法：
 
    <?code-excerpt "lib/native_view_example_1.dart (hybrid-composition)"?>
    ```dart
@@ -188,11 +215,11 @@ Flutter 內容則直接渲染到 Surface 上。
 
    <?code-excerpt "lib/native_view_example_2.dart (import)"?>
    ```dart
-   import 'package:flutter/material.dart';
    import 'package:flutter/services.dart';
+   import 'package:material_ui/material_ui.dart';
    ```
 
-2. 實作 `build()` 方法：
+2. 實作 `build` 方法：
 
    <?code-excerpt "lib/native_view_example_2.dart (virtual-display)"?>
    ```dart
@@ -211,9 +238,7 @@ Flutter 內容則直接渲染到 Surface 上。
    }
    ```
 
-如需更多資訊，請參閱 API 文件：
-
-* [`AndroidView`][]
+如需更多資訊，請參閱 [`AndroidView`][] API 頁面。
 
 [`AndroidView`]: {{site.api}}/flutter/widgets/AndroidView-class.html
 
@@ -458,32 +483,75 @@ public class PlatformViewPlugin implements FlutterPlugin {
 [`PlatformViewFactory`]: {{site.api}}/javadoc/io/flutter/plugin/platform/PlatformViewFactory.html
 [`PlatformViewRegistry`]: {{site.api}}/javadoc/io/flutter/plugin/platform/PlatformViewRegistry.html
 
-最後，請修改你的 `build.gradle` 檔案，
-以要求其中一個最低限度的 Android SDK 版本：
-
-```kotlin
-android {
-    defaultConfig {
-        minSdk = 19 // if using hybrid composition
-        minSdk = 20 // if using virtual display.
-    }
-}
-```
-
 ### 手動 View 無效化（Manual view invalidation）
 
 某些 Android View 在其內容變更時不會自動進行無效化（invalidate）。
-例如 `SurfaceView` 和 `SurfaceTexture` 等 View。
-當你的 Platform View（平台視圖）中包含這些 View 時，你必須在它們被繪製之後
-（更精確地說：在 swap chain 被翻轉之後），手動將該 View 設為無效化。
-手動無效化 View 的方式是呼叫該 View 或其父 View 的 `invalidate` 方法。
+例如 `SurfaceView` 和 `SurfaceTexture`。
+當你的 Platform View（平台視圖）中包含這些 View 時，
+你必須在它被繪製之後
+（更精確地說：在 swap chain 被翻轉之後），手動將其無效化。
+呼叫該 View 或其父 View 的 `invalidate` 方法即可無效化。
 
 [`AndroidViewSurface`]: {{site.api}}/flutter/widgets/AndroidViewSurface-class.html
 
 ### 問題
 
-[現有的 Platform View 問題][Existing Platform View issues]
+請查看 GitHub 上[現有的 Platform View 問題][existing Platform View issues]。
 
-{% render "docs/platform-view-perf.md", site: site %}
+[existing Platform View issues]: {{site.repo.flutter}}/issues?q=is%3Aopen+is%3Aissue+label%3A%22a%3A+platform-views
 
-[Existing Platform View issues]: {{site.github}}/flutter/flutter/issues?q=is%3Aopen+is%3Aissue+label%3A%22a%3A+platform-views
+## 效能
+
+Flutter 中的 Platform Views 需要在效能上做出取捨。
+
+在一般的 Flutter 應用程式中，
+Flutter 在專屬的 raster 執行緒上對影格進行光柵化，
+而平台程式碼（例如插件與 Android 視圖）
+則在平台執行緒（即 Android 主執行緒）上執行。
+這種分離讓 Flutter 的渲染保持快速流暢，
+因為平台執行緒不會被光柵化工作阻塞。
+
+然而，當在 Android 上使用
+hybrid composition 渲染平台視圖時，
+Flutter 會將 raster 執行緒合併到平台執行緒中，
+以確保原生 Android 視圖與 Flutter canvas 之間能正確同步。
+由於這種執行緒合併，
+在平台視圖旁光柵化複雜的 Flutter 元件，
+會與平台執行緒上的其他工作（例如 OS 訊息與插件互動）競爭，
+可能導致應用程式 FPS 降低與掉幀。
+
+此外，在 Android 10 之前，hybrid composition 會將每個 Flutter 影格
+從圖形記憶體複製到主記憶體，
+再複製回 GPU texture。由於每個影格都會發生這種複製，
+整個 Flutter UI 的效能都可能受到影響。
+在 Android 10 或更新版本中，圖形記憶體只會被複製一次。
+
+Hybrid Composition++ (HCPP) 在支援的裝置上（Android API 34+ 搭配 Vulkan），
+透過原生交易同步將這種開銷降到最低，
+讓你獲得更佳的效能，而不必承擔原始 hybrid composition 的沉重成本。
+
+另一方面，Virtual display 會讓原生視圖的每個像素
+都流經額外的中間圖形緩衝區，
+這會消耗圖形記憶體並影響繪製效能。
+這可能在快速捲動等高頻率更新時造成卡頓。
+
+對於複雜的情況，
+有一些技巧可以用來減輕這些問題。
+
+例如，你可以在 Dart 中進行動畫時
+使用佔位用的 texture。
+換句話說，如果在渲染平台視圖時動畫很緩慢，
+可以考慮對原生視圖截圖，
+再將其作為 texture 渲染。
+
+如需更多資訊，請參閱以下 API 頁面：
+
+* [`TextureLayer`][]
+* [`TextureRegistry`][]
+* [`FlutterTextureRegistry`][]
+* [`FlutterImageView`][]
+
+[`FlutterImageView`]: {{site.api}}/javadoc/io/flutter/embedding/android/FlutterImageView.html
+[`FlutterTextureRegistry`]: {{site.api}}/ios-embedder/protocol_flutter_texture_registry-p.html
+[`TextureLayer`]: {{site.api}}/flutter/rendering/TextureLayer-class.html
+[`TextureRegistry`]: {{site.api}}/javadoc/io/flutter/view/TextureRegistry.html

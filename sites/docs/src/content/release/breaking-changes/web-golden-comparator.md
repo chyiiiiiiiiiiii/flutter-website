@@ -80,8 +80,8 @@ class MyGenericGoldenComparator extends GoldenFileComparator {
 
 - [PR 161196][]，在此 PR 中 `WebGoldenComparator` 被棄用，且 `flutter` 命令列介面 (CLI) 開始使用 `goldenFileComparator`。
 
-[Issue 145954]: {{site.github}}/flutter/flutter/issues/145954
-[Issue 160261]: {{site.github}}/flutter/flutter/issues/160261
+[Issue 145954]: {{site.repo.flutter}}/issues/145954
+[Issue 160261]: {{site.repo.flutter}}/issues/160261
 [PR 161196]: https://github.com/flutter/flutter/pull/161196
 [class-WebGoldenComparator]: {{site.api}}/flutter/flutter_test/WebGoldenComparator-class.html
 [`webGoldenComparator`]: {{site.api}}/flutter/flutter_test/webGoldenComparator.html

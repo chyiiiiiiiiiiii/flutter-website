@@ -16,7 +16,7 @@ description: 如何為 Flutter 撰寫套件與插件。
 : `lib` 目錄包含套件中的公開程式碼，最少需有一個 `<package-name>.dart` 檔案。
 
 :::note
-想了解撰寫高效插件時的注意事項，請參考 Mehmet Fidanboylu 的 Medium 文章
+想了解撰寫高效插件時的注意事項，請參考 Mehmet Fidanboylu 的 Flutter 部落格文章
 [Writing a good plugin][]。
 :::
 
@@ -36,7 +36,7 @@ description: 如何為 Flutter 撰寫套件與插件。
 
   一個具體範例是 [`url_launcher`][] 插件套件。
   若想了解如何使用 `url_launcher` 套件，以及它如何擴充支援 Web，
-  請參考 Harry Terkelsen 的 Medium 文章
+  請參考 Harry Terkelsen 的 Flutter 部落格文章
   [How to Write a Flutter Web Plugin, Part 1][]。
 
 **FFI 套件（FFI packages）**
@@ -106,6 +106,21 @@ $ flutter create --template=package hello
 
 API 會透過[平台通道 (platform channel)][platform channel]連接到平台專屬的實作。
 
+### 支援多個 Flutter 實例
+
+所有 Flutter 平台都允許應用程式建立
+[多個 Flutter 引擎][multiple Flutter engines]。
+每個引擎都會為每個已註冊的插件建立各自的實例，
+而這些插件實例可以有各自獨立的生命週期。
+請不要假設插件類別只會有一個實例。
+請將與引擎相關的狀態保存在插件實例上，而不是
+全域或靜態變數中，並在插件與其引擎分離時清理這些狀態。
+
+如果多個插件實例共用同一個原生單例或其他全域資源，
+請協調各實例之間的存取，例如使用
+參考計數（reference counting）。
+只有在每個插件實例都停止使用該資源之後，才釋放它。
+
 ### 聯邦式插件（Federated plugins）
 
 **聯邦式插件**是一種將插件 API 拆分為平台介面、該介面的各平台獨立實作，以及使用目前執行平台已註冊實作的面向應用程式介面的方式。
@@ -148,7 +163,7 @@ dependencies:
 
 這種方法同樣適用於覆寫已經被認可（endorsed）的 `foobar` 插件實作。
 
-如需進一步了解聯邦式插件、其用途，以及如何實作，請參考 Harry Terkelsen 在 Medium 上的文章：[How To Write a Flutter Web Plugin, Part 2][]。
+如需進一步了解聯邦式插件、其用途，以及如何實作，請參考 Harry Terkelsen 的 Flutter 部落格文章：[How To Write a Flutter Web Plugin, Part 2][]。
 
 ### 指定插件支援的平台 {:#plugin-platforms}
 
@@ -352,9 +367,14 @@ cd hello/example; flutter build apk --config-only
    `hello/example/ios/Runner.xcworkspace` 檔案。
 
 你的插件的 iOS 平台程式碼位於
+`hello/ios/hello/Sources/hello`
+（如果使用 `sharedDarwinSource`，則位於 `hello/darwin/hello/Sources/hello`）。
+在 Project Navigator 中，它位於 **Runner** > **Flutter** > **hello**。
+
+如果你的插件使用舊版 CocoaPods 結構，
+其平台程式碼位於
 `Pods/Development Pods/hello/../../example/ios/.symlinks/plugins/hello/ios/Classes`
-的 Project Navigator 中。（如果你使用的是 `sharedDarwinSource`，
-路徑最後會是 `Flutter/hello/Sources/hello`。）
+的 Project Navigator 中。
 
 你可以按下執行（&#9654;）按鈕來執行範例應用程式。
 
@@ -409,12 +429,30 @@ s.source = {
 
 如果你的插件需要隱私權聲明檔（privacy manifest），例如，
 如果它使用了任何**必要理由 API（required reason APIs）**，
-請更新 `PrivacyInfo.xcprivacy` 檔案以
-描述你的插件對隱私的影響，
-並在 podspec 檔案的底部新增以下內容：
+請更新 `hello/ios/hello/Sources/hello/PrivacyInfo.xcprivacy` 檔案以
+描述你的插件對隱私的影響。
+然後在插件的 `Package.swift` 檔案中，
+取消註解 `PrivacyInfo.xcprivacy` 資源：
 
-```ruby
-s.resource_bundles = {'your_plugin_privacy' => ['your_plugin/Sources/your_plugin/Resources/PrivacyInfo.xcprivacy']}
+```swift title="Package.swift" highlightLines=8
+targets: [
+  .target(
+    name: "hello",
+    dependencies: [
+      .product(name: "FlutterFramework", package: "FlutterFramework")
+    ],
+    resources: [
+      .process("PrivacyInfo.xcprivacy"),
+    ]
+  )
+]
+```
+
+若要在插件搭配 CocoaPods 使用時也包含隱私權聲明檔，
+請取消註解 `hello.podspec` 檔案中的下列這行：
+
+```ruby title="hello.podspec"
+s.resource_bundles = {'hello_privacy' => ['hello/Sources/hello/PrivacyInfo.xcprivacy']}
 ```
 
 如需更多資訊，請參閱 Apple 開發者網站上的 [Privacy manifest files][]。
@@ -783,7 +821,35 @@ android {
 
 ### iOS
 
-以下範例會在 `hello/ios/hello.podspec` 中為 `url_launcher` 設定相依性：
+以下範例會在 `hello/ios/hello/Package.swift` 中為 `url_launcher` 設定相依性：
+
+```swift
+let package = Package(
+  // lines skipped
+  dependencies: [
+    .package(path: "../url_launcher"),
+  ],
+  targets: [
+    .target(
+      name: "hello",
+      dependencies: [
+        .product(name: "url_launcher", package: "url_launcher"),
+      ],
+    ),
+  ],
+)
+```
+
+你現在可以 `import url_launcher`，並在
+`hello/ios/hello/Sources` 存取原始碼。
+
+如需關於 Swift package 描述檔的更多細節，請參閱
+[Apple's PackageDescription documentation][]。
+
+#### CocoaPods（舊版）
+
+如果你的插件為了向下相容而支援 CocoaPods，
+請在 `hello/ios/hello.podspec` 中設定相依性：
 
 ```ruby
 Pod::Spec.new do |s|
@@ -800,6 +866,7 @@ Pod::Spec.new do |s|
 
 所有 Web 相關的相依套件都由 `pubspec.yaml` 檔案管理，這與其他 Dart 套件相同。
 
+[Apple's PackageDescription documentation]: {{site.apple-dev}}/documentation/packagedescription
 [bind-native]: /platform-integration/bind-native-code
 [CocoaPods Documentation]: https://guides.cocoapods.org/syntax/podspec.html
 [Dart library package]: {{site.dart-site}}/guides/libraries/create-library-packages
@@ -816,6 +883,7 @@ Pod::Spec.new do |s|
 [How to Write a Flutter Web Plugin, Part 1]: {{site.flutter-blog}}/how-to-write-a-flutter-web-plugin-5e26c689ea1
 [How To Write a Flutter Web Plugin, Part 2]: {{site.flutter-blog}}/how-to-write-a-flutter-web-plugin-part-2-afdddb69ece6
 [issue #33302]: {{site.repo.flutter}}/issues/33302
+[multiple Flutter engines]: /add-to-app/multiple-flutters
 [`LICENSE`]: #在-license-檔案中新增授權條款
 [`path`]: {{site.pub}}/packages/path
 [`package:ffigen`]: {{site.pub}}/packages/ffigen
@@ -827,4 +895,22 @@ Pod::Spec.new do |s|
 [test your plugin]: #testing-your-plugin
 [unit tests]: /testing/overview#unit-tests
 [`url_launcher`]: {{site.pub}}/packages/url_launcher
+## 隨套件附帶 AI 技能 (Bundle AI package skills)
+
+你可以將自訂指示與範例直接放在儲存庫中，
+協助 AI 程式輔助工具有效地使用你的套件。
+
+若要隨套件發佈技能（skills）：
+
+1. 在套件儲存庫的根目錄建立 `skills/` 目錄。
+2. 在 `skills/` 內建立一個以套件名稱命名的子目錄
+   （例如 `skills/<package_name>/`）。
+3. 新增一個 `SKILL.md` 檔案，內含準則與慣用的程式碼範例。
+4. 將你的套件發佈到 `pub.dev`。
+
+當開發者將你的套件加入相依套件時，他們的輔助工具就能
+自動找到你的指示。若想進一步了解撰寫
+準則與最佳實務，請參閱
+[Ship skills with packages](https://dart.dev/tools/pub/package-skills)。
+
 [Writing a good plugin]: {{site.flutter-blog}}/writing-a-good-flutter-plugin-1a561b986c9c

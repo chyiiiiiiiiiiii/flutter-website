@@ -114,12 +114,16 @@
            // If the plugin name contains "_", replace with "-" for the library name
            .library(name: [!"plugin-name"!], targets: [[!"plugin_name"!]])
        ],
-       dependencies: [],
+       dependencies: [
+           .package(name: "FlutterFramework", path: "../FlutterFramework")
+       ],
        targets: [
            .target(
                // TODO: Update your target name.
                name: [!"plugin_name"!],
-               dependencies: [],
+               dependencies: [
+                   .product(name: "FlutterFramework", package: "FlutterFramework")
+               ],
                resources: [
                    // TODO: If your plugin requires a privacy manifest
                    // (e.g. if it uses any required reason APIs), update the PrivacyInfo.xcprivacy file
@@ -166,11 +170,9 @@
    更多操作說明請參考
    [使用 Swift 套件捆綁資源][Bundling resources with a Swift package]。
 
-[Bundling resources with a Swift package]: {{site.apple-dev}}/documentation/xcode/bundling-resources-with-a-swift-package
-
 1. 將 `ios/Classes` 中的所有檔案移至 `ios/plugin_name/Sources/plugin_name`。
 
-1. 將 `FlutterFramework` 新增為相依套件，並更新 Dart 和 Flutter 版本。
+1. 將 `FlutterFramework` 新增為相依套件。
 
    更新 `Package.swift` 以包含 `FlutterFramework`：
 
@@ -185,16 +187,10 @@
            dependencies: [
                [!.product(name: "FlutterFramework", package: "FlutterFramework")!]
            ],
+      )
+   ]
    ```
-
-   在 `pubspec.yaml` 中，將版本更新為：
-
-   ```yaml title="pubspec.yaml"
-   environment:
-     sdk: ^3.11.0
-     flutter: ">=3.41.0"
-   ```
-
+   
 1. `ios/Assets`、`ios/Resources` 和 `ios/Classes` 目錄現在應該是空的，可以刪除。
 
 1. 若您的插件使用 [Pigeon][]，請更新 Pigeon 輸入檔案。
@@ -241,8 +237,6 @@
       若您在 `Package.swift` 中新增目標，請使用唯一名稱，
       以避免與其他套件的目標產生衝突。
       :::
-
-[`PackageDescription`]: {{site.apple-dev}}/documentation/packagedescription
 
 1. 更新 `ios/plugin_name.podspec` 以指向新路徑。
 
@@ -370,3 +364,5 @@
 [removeSPM]: /packages-and-plugins/swift-package-manager/for-app-developers#how-to-remove-swift-package-manager-integration
 [update unit tests in the plugin's example app]: /packages-and-plugins/swift-package-manager/for-plugin-authors/#how-to-update-unit-tests-in-a-plugins-example-app
 [testing plugins]: /testing/testing-plugins
+[Bundling resources with a Swift package]: {{site.apple-dev}}/documentation/xcode/bundling-resources-with-a-swift-package
+[`PackageDescription`]: {{site.apple-dev}}/documentation/packagedescription

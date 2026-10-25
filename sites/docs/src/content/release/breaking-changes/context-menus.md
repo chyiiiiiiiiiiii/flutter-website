@@ -56,8 +56,8 @@ TextField(
 ## 遷移指南
 
 一般來說，所有先前已被棄用的右鍵選單（context menu）相關變更，現在都需要在相關的文字編輯或文字選取元件（Widget）上，使用 `contextMenuBuilder` 參數（
-例如[在 `TextField` 上]({{site.api}}/flutter/material/TextField/contextMenuBuilder.html)）。若要使用 Flutter 內建的右鍵選單，請回傳像
-[`AdaptiveTextSelectionToolbar`]({{site.api}}/flutter/material/AdaptiveTextSelectionToolbar-class.html)
+例如[在 `TextField` 上]({{site.material_ui}}/TextField/contextMenuBuilder.html)）。若要使用 Flutter 內建的右鍵選單，請回傳像
+[`AdaptiveTextSelectionToolbar`]({{site.material_ui}}/AdaptiveTextSelectionToolbar-class.html)
 這樣的內建右鍵選單元件；若需要完全自訂，則可回傳你自訂的元件。
 
 為了遷移至 `contextMenuBuilder`，下列參數與類別已被棄用。
@@ -280,8 +280,8 @@ class _MyTextField extends StatelessWidget {
 
 API 文件：
 
-* [`TextField.contextMenuBuilder`]({{site.api}}/flutter/material/TextField/contextMenuBuilder.html)
-* [`AdaptiveTextSelectionToolbar`]({{site.api}}/flutter/material/AdaptiveTextSelectionToolbar-class.html)
+* [`TextField.contextMenuBuilder`]({{site.material_ui}}/TextField/contextMenuBuilder.html)
+* [`AdaptiveTextSelectionToolbar`]({{site.material_ui}}/AdaptiveTextSelectionToolbar-class.html)
 
 相關議題（issues）：
 

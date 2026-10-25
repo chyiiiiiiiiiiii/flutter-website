@@ -31,9 +31,11 @@ description: >-
   * 請勿使用縮寫 `i.e.` 或 `e.g.`。
     請改用「例如」或「像是」等類似表達。
   * 連結請盡可能使用巨集。
-    請參考本範本結尾的範例，
-    但勿在 URL 中直接使用 "github.com"、"api.flutter.dev" 或
-    "pub.dev"。請使用 {{site.github}}、{{site.api}} 或 {{site.pub}} 巨集。
+    請參考本範本結尾的範例。
+    GitHub 連結請在有對應儲存庫巨集時使用該巨集；
+    否則請使用原始的 `https://github.com` URL。
+    請勿在 URL 中使用 "api.flutter.dev" 或 "pub.dev"。
+    請使用 {{site.api}} 或 {{site.pub}} 巨集。
   * 請盡量避免使用 "will"，也就是說，
     儘量以現在式描述。例如：
     不佳：「遇到 xxx 值時，程式碼將會拋出例外。」

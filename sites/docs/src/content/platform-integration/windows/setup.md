@@ -144,6 +144,9 @@ description: >-
           <a class="text-button" href="/deployment/windows">部署到 Windows</a>
         </li>
         <li>
+          <a class="text-button" href="/deployment/flavors-windows">設定應用程式 flavor</a>
+        </li>
+        <li>
           <a class="text-button" href="/platform-integration/platform-channels">撰寫 Windows 專屬程式碼</a>
         </li>
         <li>

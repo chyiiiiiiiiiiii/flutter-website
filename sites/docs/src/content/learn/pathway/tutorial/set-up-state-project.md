@@ -64,14 +64,16 @@ $ flutter create wikipedia_reader --empty
 
 ### 新增必要的相依套件
 
-您的應用程式需要 [`http` 套件][`http` package] 來發出 HTTP 請求。
-將其加入您的專案：
+您的應用程式需要 [`http` 套件][`http` package] 來發出 HTTP 請求，
+以及 [`material_ui` 套件][`material_ui` package] 來提供部分 UI 元件。
+將它們加入您的專案：
 
 ```console
-$ cd wikipedia_reader && flutter pub add http
+$ cd wikipedia_reader && flutter pub add http material_ui && flutter pub get
 ```
 
 [`http` package]: {{site.pub}}/packages/http
+[`material_ui` package]: {{site.pub}}/packages/material_ui
 
 ### 檢視起始程式碼
 
@@ -334,8 +336,8 @@ const acceptableImageFormats = ['png', 'jpg', 'jpeg'];
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'summary.dart';
 

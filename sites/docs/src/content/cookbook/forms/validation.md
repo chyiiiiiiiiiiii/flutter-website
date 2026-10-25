@@ -14,9 +14,9 @@ description: 如何建立一個能驗證輸入的表單。
 
 在本範例中，你將學習如何透過以下步驟，為只有一個文字欄位的表單新增驗證功能：
 
-  1. 建立一個 `Form` 並搭配 `GlobalKey`。
-  2. 新增帶有驗證邏輯的 `TextFormField`。
-  3. 建立一個按鈕來驗證並提交表單。
+1.  建立一個 `Form` 並搭配 `GlobalKey`。
+1.  新增帶有驗證邏輯的 `TextFormField`。
+1.  建立一個按鈕來驗證並提交表單。
 
 ## 1. 建立 `Form` 並搭配 `GlobalKey`
 
@@ -31,7 +31,7 @@ description: 如何建立一個能驗證輸入的表單。
 這樣你就能只建立一次獨特的 `GlobalKey<FormState>()`，
 並將其儲存為變數，方便在不同地方存取。
 
-如果你將這個設為 `StatelessWidget`，你就必須*在某處*儲存這個 key。
+如果你將這個設為 `StatelessWidget`，你就必須_在某處_儲存這個 key。
 由於這樣做資源消耗較大，你不會希望每次執行 `build` 方法時都產生新的 `GlobalKey`。
 
 <?code-excerpt "lib/form.dart"?>
@@ -43,19 +43,17 @@ class MyCustomForm extends StatefulWidget {
   const MyCustomForm({super.key});
 
   @override
-  MyCustomFormState createState() {
-    return MyCustomFormState();
-  }
+  State<MyCustomForm> createState() => _MyCustomFormState();
 }
 
 // Define a corresponding State class.
 // This class holds data related to the form.
-class MyCustomFormState extends State<MyCustomForm> {
+class _MyCustomFormState extends State<MyCustomForm> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   //
   // Note: This is a `GlobalKey<FormState>`,
-  // not a GlobalKey<MyCustomFormState>.
+  // not a GlobalKey<_MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -64,7 +62,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     return Form(
       key: _formKey,
       child: const Column(
-        children: <Widget>[
+        children: [
           // Add TextFormFields and ElevatedButton here.
         ],
       ),
@@ -91,7 +89,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 你可以透過為 `TextFormField` 提供 `validator()` 函式來驗證輸入內容。
 如果使用者的輸入不符合規範，
 `validator` 函式會回傳一個包含錯誤訊息的 `String`。
-如果沒有錯誤，驗證器必須回傳 null。
+如果沒有錯誤，驗證器必須回傳 `null`。
 
 在這個範例中，請建立一個 `validator`，確保
 `TextFormField` 不為空。如果為空，
@@ -109,6 +107,13 @@ TextFormField(
   },
 ),
 ```
+
+:::tip
+若要在使用者與欄位互動時，或欄位失去焦點時自動驗證，
+請在 `Form` 或 `TextFormField` 上使用 [`AutovalidateMode`][] 設定
+[`autovalidateMode`][] 屬性
+（例如 `AutovalidateMode.onUserInteraction` 或 `AutovalidateMode.onUnfocus`）。
+:::
 
 ## 3. 建立一個按鈕來驗證並提交表單
 
@@ -175,19 +180,17 @@ class MyCustomForm extends StatefulWidget {
   const MyCustomForm({super.key});
 
   @override
-  MyCustomFormState createState() {
-    return MyCustomFormState();
-  }
+  State<MyCustomForm> createState() => _MyCustomFormState();
 }
 
 // Create a corresponding State class.
 // This class holds data related to the form.
-class MyCustomFormState extends State<MyCustomForm> {
+class _MyCustomFormState extends State<MyCustomForm> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   //
   // Note: This is a GlobalKey<FormState>,
-  // not a GlobalKey<MyCustomFormState>.
+  // not a GlobalKey<_MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -231,16 +234,18 @@ class MyCustomFormState extends State<MyCustomForm> {
 ```
 
 <noscript>
-  <img src="/assets/images/docs/cookbook/form-validation.webp" alt="表單驗證示範" class="site-mobile-screenshot" />
+  <img src="/assets/images/docs/cookbook/form-validation.png" alt="表單驗證示範" />
 </noscript>
 
-若想了解如何取得這些值，請參考
+若想了解如何取得這些值，請參閱
 [取得文字欄位 (text field) 的值][Retrieve the value of a text field] 教學。
 
 
+[`AutovalidateMode`]: {{site.api}}/flutter/widgets/AutovalidateMode.html
+[`autovalidateMode`]: {{site.api}}/flutter/widgets/Form/autovalidateMode.html
 [Retrieve the value of a text field]: /cookbook/forms/retrieve-input
 [`Form`]: {{site.api}}/flutter/widgets/Form-class.html
 [`Form.of()`]: {{site.api}}/flutter/widgets/Form/of.html
 [`FormState`]: {{site.api}}/flutter/widgets/FormState-class.html
 [`GlobalKey`]: {{site.api}}/flutter/widgets/GlobalKey-class.html
-[`TextFormField`]: {{site.api}}/flutter/material/TextFormField-class.html
+[`TextFormField`]: {{site.material_ui}}/TextFormField-class.html

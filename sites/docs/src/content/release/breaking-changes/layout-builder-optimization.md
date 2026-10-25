@@ -48,7 +48,7 @@ description: >
 遷移前的程式碼（請注意 `onPressed` 回呼（callback）中缺少 `setState`）：
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(MyApp());
@@ -145,7 +145,7 @@ class _ResizingBoxState extends State<_ResizingBox>
 遷移後的程式碼（`setState` 已新增至 `onPressed`）：
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(MyApp());

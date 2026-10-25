@@ -70,8 +70,14 @@ $ flutter build <build-target> -h
       檔案應該放置的目錄。例如，
       `out/android`。
 
+   :::note
+   在 Windows x64 上，建置會產生 PDB 檔案
+   （`app.windows-x64.pdb`），而非 SYMBOLS 檔案。
+   :::
+
 1. 當你完成二進位檔混淆後，**請備份
-   SYMBOLS 檔案**。如果你遺失了原始的 SYMBOLS 檔案，
+   SYMBOLS 檔案**（在 Windows x64 上則為 PDB 檔案）。
+   如果你遺失了原始的 SYMBOLS 檔案（或 PDB 檔案），
    並且想要還原（de-obfuscate）堆疊追蹤（stack trace），
    這個檔案可能會用得上。
 
@@ -79,6 +85,14 @@ $ flutter build <build-target> -h
 
 若要除錯由混淆後應用程式產生的堆疊追蹤，
 請依照下列步驟將其轉換為可讀格式：
+
+:::note
+在 Windows x64 上，`--split-debug-info` 會產生 PDB 檔案，
+而非 SYMBOLS 檔案，
+且 `flutter symbolize` 指令不支援 PDB 檔案。
+若要讀取已混淆的 Windows x64 建置所產生的堆疊追蹤，
+請在 Windows 除錯器（例如 WinDbg）中載入 PDB 檔案。
+:::
 
 1. 找到對應的 SYMBOLS 檔案。
    例如，來自 Android arm64

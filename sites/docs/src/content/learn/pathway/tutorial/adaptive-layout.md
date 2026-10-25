@@ -41,7 +41,7 @@ items:
 
 <?code-excerpt "fwe/rolodex/lib/step2_adaptive_layout/screens/contact_groups.dart"?>
 ```dart
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 class ContactGroupsPage extends StatelessWidget {
   const ContactGroupsPage({super.key});
@@ -63,7 +63,7 @@ class ContactGroupsPage extends StatelessWidget {
 
 <?code-excerpt "fwe/rolodex/lib/step2_adaptive_layout/screens/contacts.dart"?>
 ```dart
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 class ContactListsPage extends StatelessWidget {
   const ContactListsPage({super.key, required this.listId});
@@ -80,7 +80,7 @@ class ContactListsPage extends StatelessWidget {
 }
 ```
 
-`ContaactsListPage` 元件與 `ContactGroupsPage` 元件是
+`ContactListsPage` 元件與 `ContactGroupsPage` 元件是
 實作自適應版面配置元件所需的佔位頁面，
 你接下來將進行這項實作。
 
@@ -91,7 +91,7 @@ class ContactListsPage extends StatelessWidget {
 
 <?code-excerpt "fwe/rolodex/lib/step2_adaptive_layout/screens/adaptive_layout_v1.dart"?>
 ```dart
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 import 'contact_groups.dart';
 
@@ -117,7 +117,7 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
 
 <?code-excerpt "fwe/rolodex/lib/step2_adaptive_layout/screens/adaptive_layout_v2.dart"?>
 ```dart
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 import 'contact_groups.dart';
 
@@ -164,7 +164,7 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
 
 <?code-excerpt "fwe/rolodex/lib/step2_adaptive_layout/main.dart"?>
 ```dart
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 import 'data/contact_group.dart';
 import 'screens/adaptive_layout.dart';
@@ -205,7 +205,7 @@ class RolodexApp extends StatelessWidget {
 <?code-excerpt "fwe/rolodex/lib/step2_adaptive_layout/screens/adaptive_layout_v3.dart"?>
 ```dart
 
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 import 'contact_groups.dart';
 
@@ -255,7 +255,7 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
 <?code-excerpt "fwe/rolodex/lib/step2_adaptive_layout/screens/adaptive_layout_v4.dart"?>
 ```dart
 
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 import 'contact_groups.dart';
 

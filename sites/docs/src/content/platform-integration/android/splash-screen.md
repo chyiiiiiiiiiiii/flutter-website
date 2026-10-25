@@ -17,7 +17,7 @@ description: 學習如何為你的 Android 應用程式新增啟動畫面。
 2. 你也可以像 [splash screen sample app][splash screen sample app] 範例中那樣手動實作。本頁後續將以手動實作為前提進行說明。
 
 [pub.dev]: {{site.pub}}/packages?q=splash+screen
-[splash screen sample app]: {{site.github}}/flutter/samples/tree/main/android_splash_screen
+[splash screen sample app]: {{site.repo.samples}}/tree/main/android_splash_screen
 
 ## 初始化應用程式
 

@@ -360,6 +360,6 @@ Flutter Casual Games Toolkit 包含以下範本：
 * [endless runner][endless runner]：入門型無盡奔跑遊戲（使用 Flame），
   玩家將不斷奔跑，避開陷阱並獲得獎勵
 
-[basic]: {{site.github}}/flutter/games/tree/main/templates/basic#readme
-[card]: {{site.github}}/flutter/games/tree/main/templates/card#readme
-[endless runner]: {{site.github}}/flutter/games/tree/main/templates/endless_runner#readme
+[basic]: {{site.repo.games}}/tree/main/templates/basic#readme
+[card]: {{site.repo.games}}/tree/main/templates/card#readme
+[endless runner]: {{site.repo.games}}/tree/main/templates/endless_runner#readme

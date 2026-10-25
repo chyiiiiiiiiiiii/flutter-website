@@ -122,10 +122,10 @@ Flutter 的手勢系統分為兩個層次。
 如果您沒有使用這些元件，但希望在點擊時有「墨水波紋」效果，可以使用 [`InkWell`][]。
 
 [`GestureDetector`]: {{site.api}}/flutter/widgets/GestureDetector-class.html
-[`IconButton`]: {{site.api}}/flutter/material/IconButton-class.html
-[`InkWell`]: {{site.api}}/flutter/material/InkWell-class.html
+[`IconButton`]: {{site.material_ui}}/IconButton-class.html
+[`InkWell`]: {{site.material_ui}}/InkWell-class.html
 [`ListView`]: {{site.api}}/flutter/widgets/ListView-class.html
-[`TextButton`]: {{site.api}}/flutter/material/TextButton-class.html
+[`TextButton`]: {{site.material_ui}}/TextButton-class.html
 
 ### 手勢消歧（Gesture disambiguation）
 

@@ -8,9 +8,65 @@ description: Flutter 使用者介面開發簡介。
 
 Flutter 元件 (Widget) 是利用現代化框架所建構，其靈感來自 [React][]。核心理念是你可以利用元件 (Widget) 來組建你的 UI。元件會根據其目前的設定與狀態，描述它們應該呈現的視圖樣貌。當元件的狀態發生變化時，該元件會重新建立其描述，框架則會將新的描述與先前的描述進行差異比較，以決定底層渲染樹（render tree）中所需的最小變更，以便從一個狀態平滑過渡到下一個狀態。
 
-:::note
-如果你想透過實作程式碼來更深入了解 Flutter，歡迎參考[建立版面配置][building layouts]，以及[為你的 Flutter 應用程式加入互動功能][adding interactivity to your Flutter app]。
-:::
+Flutter 將其 UI 層分為兩個層級：與風格無關的核心 `widgets` 函式庫（由 Flutter SDK 直接提供），以及可在 pub.dev 取得的設計系統套件 `material_ui` 和 `cupertino_ui`。
+
+了解兩者的差異，有助於你決定應用程式或套件該匯入哪個套件。
+
+## `widgets` 套件
+
+`widgets` 函式庫（`package:flutter/widgets.dart`）提供 Flutter 框架中基礎且與風格無關的建構區塊。它包含版面配置基本元件（`Row,` `Column,` `Stack)`）、互動模型（`GestureDetector`）、動畫控制器，以及基礎呈現元件（`CustomPaint`、`Image`、`RichText`）。
+
+### 何時使用 `widgets`
+
+* **建立自訂設計系統：**
+  如果你的應用程式採用自訂的視覺語言，並未嚴格遵循 Material Design 或 Apple Human Interface Guidelines，
+  請直接以 widgets 為基礎進行建構，而不是去覆寫帶有既定立場的設計系統預設值。
+* **建立與設計無關的套件：**
+  如果你在 pub.dev 上發布可重複使用的元件或工具套件，
+  匯入 `package:flutter/widgets.dart` 可確保你的套件能同時用於 Material 和 Cupertino 應用程式，
+  而不會引入不必要的相依性。
+* **嵌入式與非標準裝置：**
+  適用於車用、自助服務機（kiosk）或嵌入式顯示器等不適用平台慣例、且對套件體積要求極為嚴格的情境。
+
+## `material_ui` 套件
+
+`material_ui` 套件（`package:material_ui/material_ui.dart`）實作了 Google 的 Material 3 設計系統。它在基礎元件之上加入視覺樣式、動態色彩、陰影層級（elevation）、字體排版，以及互動回饋（例如水波紋效果）。
+
+### 何時使用 `material_ui`
+
+* **建立 Android 或跨平台應用程式：**
+  當你希望在 Android、網頁與桌面平台上擁有現代且一致的外觀，並具備開箱即用的無障礙功能、轉場動畫與主題設定時。
+* **快速原型設計與功能開發：**
+  Material 3 提供預先組合好的畫面骨架
+  （`Scaffold`、`AppBar`、`NavigationBar`）以及互動控制項
+  （`ElevatedButton,` `FloatingActionButton,` `TextField,` `Dialog)`），
+  讓你不必從頭組裝。
+* **善用 Material 主題：**
+  當你想使用 `ColorScheme.fromSeed`、淺色與深色模式切換，以及 Android 上的動態色彩擷取時。
+
+## `cupertino_ui` 套件
+
+`cupertino_ui` 套件（`package:cupertino_ui/cupertino_ui.dart`）實作了 Apple 的 Human Interface Guidelines。它重現了 iOS 專屬的視覺樣式、半透明模糊效果、觸覺回饋，以及導覽手勢。
+
+### 何時使用 `cupertino_ui`
+
+* **以 iOS 和 macOS 原生美學為目標：**
+  當你的應用程式主要目標是以熟悉的 iOS 控制項（`CupertinoNavigationBar`、
+  `CupertinoButton`、`CupertinoTabBar`、`CupertinoActionSheet`）無縫融入 Apple 生態系時。
+* **平台自適應應用程式：**
+  當你要打造自適應體驗，讓程式碼在 Android 上渲染 `material_ui` 元件，在 iOS 上渲染 `cupertino_ui` 元件時。
+
+下表整理了這些套件之間的差異：
+
+| 特性 | `widgets` | `material_ui` | `cupertino_ui` |
+| --- | --- | --- | --- |
+| 來源 | Flutter SDK (`flutter`) | pub.dev | pub.dev |
+| 設計系統 | 無（與風格無關） | Material 3 | Apple HIG (iOS) 3 |
+| 應用程式根元件 | `WidgetsApp` | `MaterialApp` | `CupertinoApp` |
+| 骨架與版面配置 | 原始版面配置 (`Stack`, `Column`) | `Scaffold`, `AppBar` | `CupertinoPageScaffold` |
+| 主要使用情境 | 自訂設計系統、可重複使用的套件 | Android 與跨平台應用程式 | iOS 優先與自適應應用程式 |
+
+{:.table .table-striped}
 
 ## Hello world
 
@@ -203,13 +259,6 @@ class TutorialHome extends StatelessWidget {
 這種設計模式在整個框架中反覆出現，當你設計自己的元件時，也可以考慮採用這種方式。
 
 如需更多資訊，請參閱 [Material Components widgets][]。
-
-:::note
-Material 是 Flutter 內建的兩種設計風格之一。
-若要建立以 iOS 為主的設計，請參考 [Cupertino components][] 套件，
-該套件有自己的 [`CupertinoApp`][] 和 [`CupertinoNavigationBar`][] 版本。
-:::
-
 
 ## 處理手勢
 
@@ -726,9 +775,9 @@ key 在建立多個相同型別元件的情境中特別有用。
 
 如需更多資訊，請參閱 [`GlobalKey`][] API。
 
-[`actions`]: {{site.api}}/flutter/material/AppBar-class.html#actions
+[`actions`]: {{site.material_ui}}/AppBar-class.html#actions
 [adding interactivity to your Flutter app]: /ui/interactivity
-[`AppBar`]: {{site.api}}/flutter/material/AppBar-class.html
+[`AppBar`]: {{site.material_ui}}/AppBar-class.html
 [`BoxDecoration`]: {{site.api}}/flutter/painting/BoxDecoration-class.html
 [`build()`]: {{site.api}}/flutter/widgets/StatelessWidget/build.html
 [building layouts]: /ui/layout
@@ -737,43 +786,43 @@ key 在建立多個相同型別元件的情境中特別有用。
 [`Container`]: {{site.api}}/flutter/widgets/Container-class.html
 [`createState()`]: {{site.api}}/flutter/widgets/StatefulWidget-class.html#createState
 [Cupertino components]: /ui/widgets/cupertino
-[`CupertinoApp`]: {{site.api}}/flutter/cupertino/CupertinoApp-class.html
-[`CupertinoNavigationBar`]: {{site.api}}/flutter/cupertino/CupertinoNavigationBar-class.html
+[`CupertinoApp`]: {{site.cupertino_ui}}/CupertinoApp-class.html
+[`CupertinoNavigationBar`]: {{site.cupertino_ui}}/CupertinoNavigationBar-class.html
 [`didUpdateWidget()`]: {{site.api}}/flutter/widgets/State-class.html#didUpdateWidget
 [`dispose()`]: {{site.api}}/flutter/widgets/State-class.html#dispose
 [`Expanded`]: {{site.api}}/flutter/widgets/Expanded-class.html
 [`final`]: {{site.dart-site}}/language/variables#final-and-const
 [`flex`]: {{site.api}}/flutter/widgets/Expanded-class.html#flex
-[`FloatingActionButton`]: {{site.api}}/flutter/material/FloatingActionButton-class.html
+[`FloatingActionButton`]: {{site.material_ui}}/FloatingActionButton-class.html
 [Gestures in Flutter]: /ui/interactivity/gestures
 [`GestureDetector`]: {{site.api}}/flutter/widgets/GestureDetector-class.html
 [`GlobalKey`]: {{site.api}}/flutter/widgets/GlobalKey-class.html
-[`IconButton`]: {{site.api}}/flutter/material/IconButton-class.html
+[`IconButton`]: {{site.material_ui}}/IconButton-class.html
 [`initState()`]: {{site.api}}/flutter/widgets/State-class.html#initState
 [`key`]: {{site.api}}/flutter/widgets/Widget-class.html#key
 [`Key`]: {{site.api}}/flutter/foundation/Key-class.html
 [Layouts]: /ui/widgets/layout
-[`leading`]: {{site.api}}/flutter/material/AppBar-class.html#leading
+[`leading`]: {{site.material_ui}}/AppBar-class.html#leading
 [Material Components widgets]: /ui/widgets/material
 [Material icons]: https://design.google.com/icons/
-[`MaterialApp`]: {{site.api}}/flutter/material/MaterialApp-class.html
+[`MaterialApp`]: {{site.material_ui}}/MaterialApp-class.html
 [`Navigator`]: {{site.api}}/flutter/widgets/Navigator-class.html
-[`onPressed()`]: {{site.api}}/flutter/material/ElevatedButton-class.html#onPressed
+[`onPressed()`]: {{site.material_ui}}/ElevatedButton-class.html#onPressed
 [`onTap()`]: {{site.api}}/flutter/widgets/GestureDetector-class.html#onTap
 [`Positioned`]: {{site.api}}/flutter/widgets/Positioned-class.html
-[`ElevatedButton`]: {{site.api}}/flutter/material/ElevatedButton-class.html
+[`ElevatedButton`]: {{site.material_ui}}/ElevatedButton-class.html
 [React]: https://react.dev
 [`RenderObject`]: {{site.api}}/flutter/rendering/RenderObject-class.html
 [`Row`]: {{site.api}}/flutter/widgets/Row-class.html
 [`runApp()`]: {{site.api}}/flutter/widgets/runApp.html
 [`runtimeType`]: {{site.api}}/flutter/widgets/Widget-class.html#runtimeType
-[`Scaffold`]: {{site.api}}/flutter/material/Scaffold-class.html
+[`Scaffold`]: {{site.material_ui}}/Scaffold-class.html
 [`setState()`]: {{site.api}}/flutter/widgets/State/setState.html
 [`Stack`]: {{site.api}}/flutter/widgets/Stack-class.html
 [`State`]: {{site.api}}/flutter/widgets/State-class.html
 [`StatefulWidget`]: {{site.api}}/flutter/widgets/StatefulWidget-class.html
 [`StatelessWidget`]: {{site.api}}/flutter/widgets/StatelessWidget-class.html
 [`Text`]: {{site.api}}/flutter/widgets/Text-class.html
-[`title`]: {{site.api}}/flutter/material/AppBar-class.html#title
+[`title`]: {{site.material_ui}}/AppBar-class.html#title
 [`widget`]: {{site.api}}/flutter/widgets/State-class.html#widget
 [`Widget`]: {{site.api}}/flutter/widgets/Widget-class.html

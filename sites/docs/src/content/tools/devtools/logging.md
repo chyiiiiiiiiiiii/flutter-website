@@ -41,4 +41,4 @@ logging 檢視畫面會顯示來自 Dart 執行階段（runtime）、應用程�
 來更快分析和除錯 Flutter 應用程式，請參考導覽式的
 [Logging View tutorial][logging-tutorial]。
 
-[logging-tutorial]: {{site.medium}}/@fluttergems/mastering-dart-flutter-devtools-logging-view-part-5-of-8-b634f3a3af26
+[logging-tutorial]: https://medium.com/@fluttergems/mastering-dart-flutter-devtools-logging-view-part-5-of-8-b634f3a3af26

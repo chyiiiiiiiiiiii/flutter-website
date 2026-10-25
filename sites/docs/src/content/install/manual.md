@@ -169,22 +169,46 @@ description: >-
     將你下載的 SDK 安裝包
     解壓縮到你想儲存 Flutter SDK 的目錄中。
 
-    1. 複製以下指令。
-    1. 將 `<sdk_zip_path>` 替換為你下載的安裝包路徑。
-    1. 將 `<destination_directory_path>` 替換為你希望解壓縮後 SDK 所在的資料夾路徑。
-    1. 在你偏好的終端機中執行已編輯的指令。
+    <Tabs key="windows-terminal">
+    <Tab name="PowerShell">
 
-    ```console
-    $ Expand-Archive –Path <sdk_zip_path> -Destination <destination_directory_path>
+    1.  複製以下指令。
+    1.  將 `<sdk_zip_path>` 替換為你下載的安裝包路徑。
+    1.  將 `<destination_directory_path>` 替換為你希望解壓縮後 SDK 所在的資料夾路徑。
+    1.  在 PowerShell 中執行已編輯的指令：
+
+        ```powershell
+        Expand-Archive -Path <sdk_zip_path> -DestinationPath <destination_directory_path>
+        ```
+
+    例如，如果你已將 Flutter 3.47.5 的安裝包下載到 `$env:USERPROFILE\Downloads` 目錄，並希望將解壓縮後的 SDK 儲存到 `$env:USERPROFILE\develop` 目錄：
+
+    ```powershell
+    Expand-Archive `
+      -Path "$env:USERPROFILE\Downloads\flutter_windows_3.47.5-stable.zip" `
+      -DestinationPath "$env:USERPROFILE\develop"
     ```
 
-    例如，如果你已將 Flutter 3.29.3 的安裝包下載到 `%USERPROFILE%\Downloads` 目錄，並希望將解壓縮後的 SDK 儲存到 `%USERPROFILE%\develop` 目錄：
+    </Tab>
+    <Tab name="Command prompt">
 
-    ```console
-    $ Expand-Archive `
-      -Path $env:USERPROFILE\Downloads\flutter_windows_3.29.3-stable.zip `
-      -Destination $env:USERPROFILE\develop\
+    1.  複製以下指令。
+    1.  將 `<sdk_zip_path>` 替換為你下載的安裝包路徑。
+    1.  將 `<destination_directory_path>` 替換為你希望解壓縮後 SDK 所在的資料夾路徑。
+    1.  在命令提示字元 (Command prompt) 中執行已編輯的指令：
+
+        ```bat
+        tar -xf <sdk_zip_path> -C <destination_directory_path>
+        ```
+
+    例如，如果你已將 Flutter 3.47.5 的安裝包下載到 `%USERPROFILE%\Downloads` 目錄，並希望將解壓縮後的 SDK 儲存到 `%USERPROFILE%\develop` 目錄：
+
+    ```bat
+    tar -xf "%USERPROFILE%\Downloads\flutter_windows_3.47.5-stable.zip" -C "%USERPROFILE%\develop"
     ```
+
+    </Tab>
+    </Tabs>
 
     :::note
     如果解壓縮後 `bin` 目錄中缺少 `flutter.bat` 檔案，
@@ -195,13 +219,30 @@ description: >-
 
 {: .steps .windows-only}
 
+<div class="macos-only">
+
+:::warning
+**Intel Mac 注意事項：**
+Flutter 即將停止支援以 Intel 為基礎的 Mac (x64)。
+未來的 Flutter 版本將需要 Apple Silicon。
+詳情請參閱
+[macOS Intel deprecation strategy](https://docs.google.com/document/d/1ty3js_Eg2sNIbDuyYS_aV7h4jYdx1hEpX_mV135gO4s/edit?tab=t.0#heading=h.cx7d8y57ce6p)。
+:::
+
+</div>
+
  1. <h3>下載 Flutter SDK 安裝包</h3>
+
+    要選擇正確的安裝包，
+    你需要知道你的 Mac 使用哪種處理器。
+    *（若要確認，請前往 **Apple 選單 () > 關於這台 Mac**，
+    並查看**處理器**或**晶片**欄位。）*
 
     根據你的 macOS 裝置 CPU 架構，請下載下列其中一個安裝包，以取得最新穩定版的 Flutter SDK。
 
-    | Apple Silicon (ARM64)                            | Intel                                          |
-    |--------------------------------------------------|------------------------------------------------|
-    | <DownloadLatestButton os="macos" arch="arm64" /> | <DownloadLatestButton os="macos" arch="x64" /> |
+    | Apple Silicon (ARM64)                                                 | Intel                                                               |
+    |-----------------------------------------------------------------------|---------------------------------------------------------------------|
+    | <DownloadLatestButton os="macos" arch="arm64"></DownloadLatestButton> | <DownloadLatestButton os="macos" arch="x64"></DownloadLatestButton> |
 
  1. <h3>建立儲存 SDK 的資料夾</h3>
 
@@ -220,10 +261,10 @@ description: >-
     $ unzip <sdk_zip_path> -d <destination_directory_path>
     ```
 
-    例如，假設你已將 Flutter 3.29.3 的安裝包下載到 `~/Downloads` 目錄，並希望將解壓縮後的 SDK 儲存在 `~/develop` 目錄：
+    例如，假設你已將 Flutter 3.47.5 的安裝包下載到 `~/Downloads` 目錄，並希望將解壓縮後的 SDK 儲存在 `~/develop` 目錄：
 
     ```console
-    $ unzip ~/Downloads/flutter_macos_3.29.3-stable.zip -d ~/develop/
+    $ unzip ~/Downloads/flutter_macos_3.47.5-stable.zip -d ~/develop/
     ```
 
 {: .steps .macos-only}
@@ -252,10 +293,10 @@ description: >-
     $ tar -xf <sdk_zip_path> -C <destination_directory_path>
     ```
 
-    例如，假設你已將 Flutter 3.29.3 的安裝包下載到 `~/Downloads` 目錄，並希望將解壓縮後的 SDK 儲存到 `~/develop` 目錄：
+    例如，假設你已將 Flutter 3.47.5 的安裝包下載到 `~/Downloads` 目錄，並希望將解壓縮後的 SDK 儲存到 `~/develop` 目錄：
 
     ```console
-    $ tar -xf ~/Downloads/flutter_linux_3.29.3-stable.tar.xz -C ~/develop/
+    $ tar -xf ~/Downloads/flutter_linux_3.47.5-stable.tar.xz -C ~/develop/
     ```
 
 {: .steps .linux-only .chromeos-only}

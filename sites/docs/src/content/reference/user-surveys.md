@@ -24,7 +24,7 @@ showBreadcrumbs: false
 Flutter 與 Dart。這些資訊會獨立於
 透過分析傳送給 Google 的資訊儲存。
 若想了解我們如何利用過去的調查來改進 Flutter 與 Dart，
-請參閱我們在 [Medium][] 上的部落格。
+請參閱 [Flutter 部落格][Flutter blog] 上的調查文章。
 
 ## 如何停用？
 
@@ -36,4 +36,4 @@ Flutter 與 Dart。這些資訊會獨立於
 分析回報](/reference/crash-reporting#disabling-analytics-reporting)
   的步驟選擇退出分析與崩潰回報。
 
-[Medium]: {{site.flutter-blog}}/search?q=survey
+[Flutter blog]: {{site.flutter-blog}}/search?q=survey

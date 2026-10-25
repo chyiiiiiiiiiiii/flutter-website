@@ -34,7 +34,7 @@ description: >-
 遷移前的程式碼：
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final MaterialPage<void> page1 = MaterialPage<void>(child: Placeholder());
 final MaterialPage<void> page2 = MaterialPage<void>(child: Placeholder());
@@ -65,7 +65,7 @@ void main() {
 遷移後的程式碼：
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final MaterialPage<void> page1 = MaterialPage<void>(child: Placeholder());
 final MaterialPage<void> page2 = MaterialPage<void>(canPop: false, child: Placeholder());

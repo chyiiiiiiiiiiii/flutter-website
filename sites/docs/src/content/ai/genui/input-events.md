@@ -1,6 +1,5 @@
 ---
 title: 輸入與事件
-sidenav: ai
 description: 如何在 GenUI 應用程式中處理輸入與事件。
 prev:
   title: Get started with the GenUI SDK for Flutter

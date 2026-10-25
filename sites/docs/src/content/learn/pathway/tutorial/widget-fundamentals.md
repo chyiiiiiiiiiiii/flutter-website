@@ -34,24 +34,18 @@ items:
     請在 `lib/main.dart` 檔案中加入對其的 import：
 
     ```dart title="main.dart" highlightLines=3
-    import 'package:flutter/material.dart';
+    import 'package:material_ui/material_ui.dart';
 
     import 'game.dart';
     ```
 
 :::note 遊戲邏輯備註
 
-你可能會注意到 `legalGuesses` 和 `legalWords` 列表只包含少數幾個單字。
-完整列表合計超過 10,000 個單字，為求簡潔而省略。
-你不需要完整列表就能繼續本教學。
-在測試應用程式時，請確保使用這些列表中的單字。
-
-或者，你也可以在[此 GitHub 儲存庫][full-words]中找到完整列表，
-以及將其匯入專案的說明。
-
+`lib/game.dart` 中的 `legalGuesses` 和 `legalWords` 列表，
+為求簡潔，只包含少量五個字母的單字樣本（例如 `aback`、`abase` 和 `abate`）。
+在本教學後續測試應用程式時，
+只有 `lib/game.dart` 中定義的單字會被接受為有效的猜測。
 :::
-
-[full-words]: https://github.com/ericwindmill/legal_wordle_words
 
 ### 無狀態元件的結構
 
@@ -96,7 +90,8 @@ class Tile extends StatelessWidget {
 
 #### Build 方法
 
-最後是至關重要的 `build` 方法，每個元件都必須定義此方法，
+最後是至關重要的 `build` 方法，
+每個元件都必須定義此方法，
 且它永遠會回傳另一個元件。
 
 <?code-excerpt "fwe/birdle/lib/step2b_main.dart (Tile)"?>
@@ -118,8 +113,10 @@ class Tile extends StatelessWidget {
 ### 使用自訂元件
 
 應用程式完成後，畫面上會有 25 個此元件的實例。
-但現在先只顯示一個，以便在修改時看到更新效果。
-在 `MainApp.build` 方法中，將 `Text` 元件替換為以下內容：
+但現在先只在畫面中央顯示一個方格，
+以便在調整樣式時看到更新效果。
+在 `MainApp.build` 方法中，
+將 `Text` 元件替換為你的 `Tile` 元件：
 
 <?code-excerpt "fwe/birdle/lib/step2_main.dart (MainApp)"?>
 ```dart
@@ -139,9 +136,9 @@ class MainApp extends StatelessWidget {
 }
 ```
 
-目前應用程式會顯示為空白，
+目前應用程式看起來是空白的，
 因為 `Tile` 元件回傳的是空的 `Container`，
-而 `Container` 預設不顯示任何內容。
+而 `Container` 預設不會渲染任何內容。
 
 ### `Container` 元件
 
@@ -212,7 +209,7 @@ class Tile extends StatelessWidget {
 `BoxDecoration` 是一個物件，可以為元件加入各種裝飾，
 從背景色到邊框再到陰影等。
 在本例中，你加入了一個邊框。
-熱重載後，白色方塊周圍應該出現一條淺色邊框。
+熱重載後，方格周圍會出現一條淺色邊框。
 
 遊戲完成後，方格的顏色將取決於使用者的猜測結果。
 當使用者猜測完全正確時，方格呈綠色；
@@ -299,8 +296,9 @@ class Tile extends StatelessWidget {
 }
 ```
 
-熱重載後會出現一個綠色方塊。若要切換顏色，
-請更新傳入 `Tile` 的 `HitType` 並熱重載：
+熱重載後，應用程式中央會出現一個包含字母 **A** 的綠色方格。
+若要測試不同的顏色，
+請試著將 MainApp 中的 Tile 元件替換為以下其中一個範例，然後熱重載：
 
 <?code-excerpt "fwe/birdle/lib/step2_main.dart (TileUsage)"?>
 ```dart
@@ -313,8 +311,9 @@ Tile('A', HitType.miss);
 Tile('A', HitType.partial);
 ```
 
-不久之後，這個小方塊將成為畫面上眾多元件之一。在下一節課中，
-你將開始建置遊戲格線本身。
+不久之後，這個小方塊將成為畫面上眾多元件之一。
+在下一節課中，
+你將建置遊戲板的完整 5x5 方格網格。
 
 ### 回顧
 

@@ -11,10 +11,62 @@ description: 進一步了解如何在 Flutter 中使用隱式動畫的相關資�
 或稱 _隱式動畫元件_（implicitly animated widgets），
 名稱源自它們所實作的
 [`ImplicitlyAnimatedWidget`][] 類別。
+
+使用隱式動畫時，你不需要
+管理 `AnimationController` 或 `Ticker`。
+只要將 `duration` 和選用的 `curve`
+傳給隱式動畫元件，例如 `AnimatedOpacity`。
+當你以新的目標值更新該元件時，
+例如在呼叫 `setState()` 之後，
+元件就會自動以動畫過渡到該值：
+
+<?code-excerpt "animation/implicit/lib/main.dart (fade-box-demo)"?>
+```dart
+import 'package:material_ui/material_ui.dart';
+
+class FadeBoxDemo extends StatefulWidget {
+  const FadeBoxDemo({super.key});
+
+  @override
+  State<FadeBoxDemo> createState() => _FadeBoxDemoState();
+}
+
+class _FadeBoxDemoState extends State<FadeBoxDemo> {
+  bool _visible = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        AnimatedOpacity(
+          opacity: _visible ? 1 : 0,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+          child: const FlutterLogo(size: 100),
+        ),
+        const SizedBox(height: 16),
+        ElevatedButton(
+          onPressed: () => setState(() => _visible = !_visible),
+          child: const Text('Toggle opacity'),
+        ),
+      ],
+    );
+  }
+}
+```
+
+**應用程式原始碼：**[隱式動畫範例][implicit animation example]
+
+當內建的隱式動畫元件都無法涵蓋
+你想要製作動畫的屬性時，
+可以使用 [`TweenAnimationBuilder`][] 建立自訂的隱式動畫。
+
 以下資源將提供多種方式，協助你學習
 如何在 Flutter 中使用隱式動畫。
 
 [animation library]: {{site.api}}/flutter/animation/animation-library.html
+[implicit animation example]: {{site.repo.this}}/tree/main/examples/animation/implicit
 
 ## 文件 {:#documentation}
 
@@ -27,13 +79,23 @@ description: 進一步了解如何在 Flutter 中使用隱式動畫的相關資�
 : 一個逐步說明如何使用
   [`AnimatedContainer`][] 隱式動畫元件的食譜。
 
+[使用 AnimatedOpacity 淡入淡出元件][Fade a widget in and out]
+: 一份 cookbook 食譜，示範如何使用 [`AnimatedOpacity`][] 讓元件淡入淡出。
+
+[`TweenAnimationBuilder`][] API 文件
+: 使用 `Tween` 和 `builder` 回呼（callback），
+  為任何屬性建立自訂的隱式動畫。
+
 [`ImplicitlyAnimatedWidget`][] API 文件
 : 所有隱式動畫元件皆繼承自 `ImplicitlyAnimatedWidget` 類別。
 
 [Animations in Flutter codelab]: {{site.codelabs}}/advanced-flutter-animations
 [`AnimatedContainer` sample]: /cookbook/animation/animated-container
 [`AnimatedContainer`]: {{site.api}}/flutter/widgets/AnimatedContainer-class.html
+[`AnimatedOpacity`]: {{site.api}}/flutter/widgets/AnimatedOpacity-class.html
+[Fade a widget in and out]: /cookbook/animation/opacity-animation
 [`ImplicitlyAnimatedWidget`]: {{site.api}}/flutter/widgets/ImplicitlyAnimatedWidget-class.html
+[`TweenAnimationBuilder`]: {{site.api}}/flutter/widgets/TweenAnimationBuilder-class.html
 
 ## Flutter in Focus 影片 {:#flutter-in-focus-videos}
 

@@ -123,6 +123,9 @@ $ sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev libstd
           <a class="text-button" href="/deployment/linux">發佈 Linux 應用程式</a>
         </li>
         <li>
+          <a class="text-button" href="/deployment/flavors-linux">設定應用程式 flavor</a>
+        </li>
+        <li>
           <a class="text-button" href="/platform-integration/platform-channels">撰寫 Linux 專屬程式碼</a>
         </li>
         <li>

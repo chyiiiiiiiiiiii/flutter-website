@@ -21,7 +21,12 @@ showToc: false
 
 ## 穩定版本
 
+* 3.47.0
+  * [3.47.0 公告][3.47.0 announcement]
+  * [3.47.0 發行說明與變更記錄][3.47.0 release notes & change log]
+  * [3.47.0 重大變更與遷移指引][3.47.0 breaking changes & migrations]
 * 3.44.0
+  * [3.44.0 公告][3.44.0 announcement]
   * [3.44.0 發行說明與變更記錄][3.44.0 release notes & change log]
   * [3.44.0 重大變更與遷移指引][3.44.0 breaking changes & migrations]
 * 3.41.0
@@ -121,6 +126,10 @@ showToc: false
 * 更早版本
   * [已封存發行說明][Archived release notes]
 
+[3.47.0 announcement]: {{site.main-url}}/blog/whats-new-in-flutter-3-47
+[3.47.0 release notes & change log]: /release/release-notes/release-notes-3.47.0
+[3.47.0 breaking changes & migrations]: /release/breaking-changes#released-in-flutter-3-47
+[3.44.0 announcement]: {{site.flutter-blog}}/whats-new-in-flutter-3-44-b0cc1ad3c527
 [3.44.0 release notes & change log]: /release/release-notes/release-notes-3.44.0
 [3.44.0 breaking changes & migrations]: /release/breaking-changes#released-in-flutter-3-44
 [3.41.0 announcement]: {{site.flutter-blog}}/whats-new-in-flutter-3-41-302ec140e632

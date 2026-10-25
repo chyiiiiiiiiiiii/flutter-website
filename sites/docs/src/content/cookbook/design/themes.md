@@ -76,8 +76,8 @@ MaterialApp(
 1. [`colorScheme`][] 定義顏色。
 1. [`textTheme`][] 定義文字樣式。
 
-[`colorScheme`]: {{site.api}}/flutter/material/ThemeData/colorScheme.html
-[`textTheme`]: {{site.api}}/flutter/material/ThemeData/textTheme.html
+[`colorScheme`]: {{site.material_ui}}/ThemeData/colorScheme.html
+[`textTheme`]: {{site.material_ui}}/ThemeData/textTheme.html
 
 若想了解可以定義哪些顏色、字型及其他屬性，
 請參閱 [`ThemeData`][] 文件。
@@ -103,9 +103,8 @@ Container(
   child: Text(
     'Text with a background color',
     // ···
-    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-      color: Theme.of(context).colorScheme.onPrimary,
-    ),
+    style: Theme.of(context).textTheme.bodyMedium!
+        .copyWith(color: Theme.of(context).colorScheme.onPrimary),
   ),
 ),
 ```
@@ -145,9 +144,8 @@ Theme(
 Theme(
   // Find and extend the parent theme using `copyWith`.
   // To learn more, check out the section on `Theme.of`.
-  data: Theme.of(
-    context,
-  ).copyWith(colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink)),
+  data: Theme.of(context)
+      .copyWith(colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink)),
   child: const FloatingActionButton(onPressed: null, child: Icon(Icons.add)),
 );
 ```
@@ -225,9 +223,8 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           title,
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            color: Theme.of(context).colorScheme.onSecondary,
-          ),
+          style: Theme.of(context).textTheme.titleLarge!
+              .copyWith(color: Theme.of(context).colorScheme.onSecondary),
         ),
         backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
@@ -240,9 +237,8 @@ class MyHomePage extends StatelessWidget {
             // TRY THIS: Change the Text value
             //           or change the Theme.of(context).textTheme
             //           to "displayLarge" or "displaySmall".
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: Theme.of(context).colorScheme.onPrimary,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium!
+                .copyWith(color: Theme.of(context).colorScheme.onPrimary),
           ),
         ),
       ),
@@ -269,5 +265,5 @@ class MyHomePage extends StatelessWidget {
   <img src="/assets/images/docs/cookbook/themes.png" alt="主題示範" class="site-mobile-screenshot" />
 </noscript>
 
-[`copyWith()`]: {{site.api}}/flutter/material/ThemeData/copyWith.html
-[`ThemeData`]: {{site.api}}/flutter/material/ThemeData-class.html
+[`copyWith()`]: {{site.material_ui}}/ThemeData/copyWith.html
+[`ThemeData`]: {{site.material_ui}}/ThemeData-class.html

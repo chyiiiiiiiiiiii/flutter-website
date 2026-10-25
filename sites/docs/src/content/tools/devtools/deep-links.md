@@ -12,7 +12,7 @@ description: 瞭解如何在您的應用程式中驗證深層連結 (deep links)
 [No more broken links: Deep linking success in Flutter][]。
 :::
 
-[No more broken links: Deep linking success in Flutter]: {{site.youtube-site}}/watch?v=d7sZL6h1Elw
+[No more broken links: Deep linking success in Flutter]: {{site.yt.watch}}?v=d7sZL6h1Elw
 
 深層連結檢視會驗證您應用程式中
 所定義的所有深層連結 (deep links)。

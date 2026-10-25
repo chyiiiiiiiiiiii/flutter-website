@@ -1,6 +1,5 @@
 ---
 title: 互動模式
-sidenav: ai
 description: >
   學習如何平衡 LLM 能力與傳統程式碼，並實作防護機制來管理 AI 的非確定性行為。
 prev:

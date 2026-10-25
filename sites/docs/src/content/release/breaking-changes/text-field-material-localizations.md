@@ -45,7 +45,7 @@ The specific widget that could not find a MaterialLocalizations ancestor was:
 遷移前的程式碼：
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() => runApp(Foo());
 
@@ -68,7 +68,7 @@ class Foo extends StatelessWidget {
 遷移後的程式碼（使用 `MaterialApp` 來提供在地化）：
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() => runApp(Foo());
 
@@ -87,7 +87,7 @@ class Foo extends StatelessWidget {
 遷移後的程式碼（透過 `Localizations` 元件（Widget）提供在地化）：
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() => runApp(Foo());
 
@@ -134,10 +134,10 @@ API 文件：
 
 * [PR 58831: Assert debugCheckHasMaterialLocalizations on TextField][]
 
-[`TextField`]: {{site.api}}/flutter/material/TextField-class.html
+[`TextField`]: {{site.material_ui}}/TextField-class.html
 [`Localizations`]: {{site.api}}/flutter/widgets/Localizations-class.html
-[`MaterialLocalizations`]: {{site.api}}/flutter/material/MaterialLocalizations-class.html
-[`DefaultMaterialLocalizations`]: {{site.api}}/flutter/material/DefaultMaterialLocalizations-class.html
-[`MaterialApp`]: {{site.api}}/flutter/material/MaterialApp-class.html
+[`MaterialLocalizations`]: {{site.material_ui}}/MaterialLocalizations-class.html
+[`DefaultMaterialLocalizations`]: {{site.material_ui}}/DefaultMaterialLocalizations-class.html
+[`MaterialApp`]: {{site.material_ui}}/MaterialApp-class.html
 [Internationalizing Flutter apps]: /ui/internationalization
 [PR 58831: Assert debugCheckHasMaterialLocalizations on TextField]: {{site.repo.flutter}}/pull/58831

@@ -1,6 +1,5 @@
 ---
 title: 適用於 Flutter 的 GenUI SDK
-sidenav: ai
 shortTitle: GenUI SDK
 description: >-
   了解如何使用適用於 Flutter 的 GenUI SDK，為應用程式與聊天機器人打造更豐富的互動體驗。

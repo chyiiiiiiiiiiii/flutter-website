@@ -24,7 +24,7 @@ Android 一直在推出一項名為預測性返回 (predictive back) 的功能�
 在不使用預測性返回手勢的一般頁面轉場期間，使用者將看到新的 [`FadeForwardsPageTransitionsBuilder`][] 作為預設的頁面轉場效果。使用預測性返回手勢時，頁面會隨著手勢動畫，並允許取消或確認返回導航。
 
 在以下範例中，未明確指定任何頁面轉場效果，因此主題中的 Android
-[預設值]({{site.github}}/flutter/flutter/blob/e983e4bd81f29b17215057fa5c9f46f96cbaf183/packages/flutter/lib/src/material/page_transitions_theme.dart#L806-L813)
+[預設值]({{site.repo.flutter}}/blob/e983e4bd81f29b17215057fa5c9f46f96cbaf183/packages/flutter/lib/src/material/page_transitions_theme.dart#L806-L813)
 會設定為 [`PredictiveBackPageTransitionsBuilder`][]。
 
 ```dart
@@ -189,11 +189,11 @@ API 文件：
 
 * [Predictive back route transitions by default][]
 
-[`FadeForwardsPageTransitionsBuilder`]: {{site.api}}/flutter/material/FadeForwardsPageTransitionsBuilder-class.html
+[`FadeForwardsPageTransitionsBuilder`]: {{site.material_ui}}/FadeForwardsPageTransitionsBuilder-class.html
 [`PopScope`]: {{site.api}}/flutter/widgets/PopScope-class.html
-[`PredictiveBackPageTransitionsBuilder`]: {{site.api}}/flutter/material/PredictiveBackPageTransitionsBuilder-class.html
+[`PredictiveBackPageTransitionsBuilder`]: {{site.material_ui}}/PredictiveBackPageTransitionsBuilder-class.html
 [`TransitionDurationObserver`]: {{site.api}}/flutter/flutter_test/TransitionDurationObserver-class.html
-[`ZoomPageTransitionsBuilder`]: {{site.api}}/flutter/material/ZoomPageTransitionsBuilder-class.html
+[`ZoomPageTransitionsBuilder`]: {{site.material_ui}}/ZoomPageTransitionsBuilder-class.html
 
-[Android predictive back route transitions]: {{site.github.com}}/flutter/flutter/issues/131961
-[Predictive back route transitions by default]: {{site.github}}/flutter/flutter/pull/165832
+[Android predictive back route transitions]: {{site.repo.flutter}}/issues/131961
+[Predictive back route transitions by default]: {{site.repo.flutter}}/pull/165832

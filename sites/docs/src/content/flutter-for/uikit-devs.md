@@ -299,7 +299,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
 
 <?code-excerpt "lib/animation.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class SampleApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -378,7 +378,7 @@ class _MyFadeTest extends State<MyFadeTest>
 
 <?code-excerpt "lib/canvas.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() => runApp(const MaterialApp(home: DemoApp()));
 
@@ -482,13 +482,15 @@ Widget build(BuildContext context) {
 
 ### 管理相依套件
 
-在 iOS 中，你可以透過 CocoaPods，將相依套件加入你的 `Podfile`。
-Flutter 則是使用 Dart 的建置系統與 Pub 套件管理工具來處理相依套件。
-這些工具會將原生 Android 與 iOS 包裝應用程式的建置工作，委託給各自的平台建置系統。
+在 iOS 中，你通常會在 Xcode 中使用 Swift Package Manager 來管理相依套件（較舊的專案則使用 CocoaPods）。
+Flutter 則是使用 Dart 的建置系統與 `pub` 套件管理工具來處理相依套件。
+Flutter 預設會使用 [Swift Package Manager][] 自動整合插件的原生 iOS 相依套件，
+並在插件尚未支援時退回使用 CocoaPods。
 
-雖然你的 Flutter 專案的 iOS 資料夾中有一個 Podfile，但只有在你需要加入每個平台整合所需的原生相依套件時才需要使用它。
-一般來說，請使用 `pubspec.yaml` 來宣告 Flutter 的外部相依套件。
-尋找優質 Flutter 套件的好地方是 [pub.dev][]。
+一般來說，請在 `pubspec.yaml` 中宣告外部相依套件。
+若要尋找 Flutter 的套件與插件，請前往 [pub.dev][]。
+若想了解 Flutter 如何管理原生 Apple 相依套件，
+請參閱 [Swift Package Manager for app developers][]。
 
 ## 導覽（Navigation）
 
@@ -608,8 +610,9 @@ dependencies:
 
 <?code-excerpt "lib/localizations_example.dart"?>
 ```dart
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart'
+    hide GlobalMaterialLocalizations;
+import 'package:material_ui/material_ui.dart';
 
 class MyWidget extends StatelessWidget {
   const MyWidget({super.key});
@@ -680,7 +683,7 @@ class MyWidget extends StatelessWidget {
 
 <?code-excerpt "lib/listview.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -732,7 +735,8 @@ class _SampleAppPageState extends State<SampleAppPage> {
 <?code-excerpt "lib/list_item_tapped.dart"?>
 ```dart
 import 'dart:developer' as developer;
-import 'package:flutter/material.dart';
+
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -801,7 +805,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
 ```dart
 import 'dart:developer' as developer;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -865,7 +869,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
 ```dart
 import 'dart:developer' as developer;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -1124,7 +1128,7 @@ Flutter 預設即內建了美觀的 Material Design 實作，這涵蓋了許多�
 
 <?code-excerpt "lib/theme.dart (theme)"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class SampleApp extends StatelessWidget {
   const SampleApp({super.key});
@@ -1214,6 +1218,7 @@ assets:
 <?code-excerpt "lib/asset_bundle.dart"?>
 ```dart
 import 'dart:async' show Future;
+
 import 'package:flutter/services.dart' show rootBundle;
 
 Future<String> loadAsset() async {
@@ -1301,7 +1306,7 @@ class _MyFormState extends State<MyForm> {
         // When the user presses the button, show an alert dialog with the
         // text the user has typed into our text field.
         onPressed: () {
-          showDialog(
+          showDialog<void>(
             context: context,
             builder: (context) {
               return AlertDialog(
@@ -1344,7 +1349,7 @@ Center(
 
 <?code-excerpt "lib/validation_errors.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -1441,8 +1446,8 @@ Future<void> loadData() async {
 ```dart
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -1586,8 +1591,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:isolate';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -1742,8 +1747,8 @@ Future<void> loadData() async {
 ```dart
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   runApp(const SampleApp());
@@ -1830,10 +1835,10 @@ class _SampleAppPageState extends State<SampleAppPage> {
 [Animations tutorial]: /ui/animations/tutorial
 [Apple's iOS design language]: {{site.apple-dev}}/design/resources
 [`AppLifecycleState` documentation]: {{site.api}}/flutter/dart-ui/AppLifecycleState.html
-[arb]: {{site.github}}/googlei18n/app-resource-bundle
+[arb]: https://github.com/googlei18n/app-resource-bundle
 [`AssetBundle`]: {{site.api}}/flutter/services/AssetBundle-class.html
 [composing]: /resources/architectural-overview#composition
-[Cupertino library]: {{site.api}}/flutter/cupertino/cupertino-library.html
+[Cupertino library]: {{site.cupertino_ui}}
 [Cupertino widgets]: /ui/widgets/cupertino
 [`devicePixelRatio`]: {{site.api}}/flutter/dart-ui/FlutterView/devicePixelRatio.html
 [existing plugin]: {{site.pub}}/flutter
@@ -1859,3 +1864,5 @@ class _SampleAppPageState extends State<SampleAppPage> {
 [widget catalog]: /ui/widgets/layout
 [`Window.locale`]: {{site.api}}/flutter/dart-ui/Window/locale.html
 [Learning Dart as a Swift Developer]: {{site.dart-site}}/guides/language/coming-from/swift-to-dart
+[Swift Package Manager]: https://www.swift.org/documentation/package-manager/
+[Swift Package Manager for app developers]: /packages-and-plugins/swift-package-manager/for-app-developers

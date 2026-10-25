@@ -1,6 +1,5 @@
 ---
 title: 提示詞
-sidenav: ai
 description: >
   學習如何在 Flutter 中使用系統指令、動態參數與版本控管技術來建置並最佳化生成式 AI 提示詞。
 prev:
@@ -153,9 +152,9 @@ Text: {{text}}
 
 
 
-[crossword-readme]: {{site.github}}/flutter/demos/tree/main/crossword_companion
+[crossword-readme]: {{site.repo.demos}}/tree/main/crossword_companion
 [gemini-app]: https://gemini.google.com/app
 [ai-toolkit]: /ai-toolkit
-[crossword-demo]: {{site.github}}/flutter/demos/raw/refs/heads/main/crossword_companion/readme/screen-recording.mov
+[crossword-demo]: {{site.repo.demos}}/raw/refs/heads/main/crossword_companion/readme/screen-recording.mov
 [dotprompt]: https://google.github.io/dotprompt/getting-started/
 [dotprompt-dart]: {{site.pub-pkg}}/dotprompt_dart

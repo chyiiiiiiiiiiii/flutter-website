@@ -12,8 +12,8 @@ description: >
 如果你的專案是使用較舊版本的 Flutter 產生，建議你將建置腳本升級至最新格式。更多資訊請參閱 [Issue 10380][] 及 [Issue 135392]。
 :::
 
-[Issue 10380]:  {{site.github}}/flutter/website/issues/10380
-[Issue 135392]: {{site.github}}/flutter/flutter/issues/135392
+[Issue 10380]:  {{site.repo.this}}/issues/10380
+[Issue 135392]: {{site.repo.flutter}}/issues/135392
 
 ## 摘要
 

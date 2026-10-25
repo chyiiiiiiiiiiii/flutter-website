@@ -183,7 +183,7 @@ FFI 函式庫只能繫結至 C 符號，
 如 CocoaPods 範例所示。
 :::
 
-[CocoaPods example]: {{site.github}}/CocoaPods/CocoaPods/blob/master/examples/Vendored%20Framework%20Example/Example%20Pods/VendoredFrameworkExample.podspec
+[CocoaPods example]: https://github.com/CocoaPods/CocoaPods/blob/master/examples/Vendored%20Framework%20Example/Example%20Pods/VendoredFrameworkExample.podspec
 
 #### 移除符號 {:#ios-stripping-symbols}
 

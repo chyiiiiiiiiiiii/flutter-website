@@ -20,7 +20,7 @@ sliver 是可捲動區域的一部分，你可以自訂其特殊的行為。
 如需更多在 Flutter 中實現華麗捲動效果的資訊，請參考以下資源：
 
 **[Slivers, Demystified][]**
-: 一篇 Medium 免費文章，說明如何利用 sliver 類別
+: 一篇 Flutter 部落格文章，說明如何利用 sliver 類別
   實作自訂捲動效果。
 
 **[SliverAppBar][sliver-app-bar-video]**
@@ -53,7 +53,7 @@ sliver 是可捲動區域的一部分，你可以自訂其特殊的行為。
 
 [`CustomScrollView`]: {{site.api}}/flutter/widgets/CustomScrollView-class.html
 [sliver-app-bar-video]: {{site.yt.watch}}?v=R9C5KMJKluE
-[`SliverAppBar`]: {{site.api}}/flutter/material/SliverAppBar-class.html
+[`SliverAppBar`]: {{site.material_ui}}/SliverAppBar-class.html
 [`SliverGrid`]: {{site.api}}/flutter/widgets/SliverGrid-class.html
 [SliverList and SliverGrid]: {{site.yt.watch}}?v=ORiTTaVY6mM
 [`SliverList`]: {{site.api}}/flutter/widgets/SliverList-class.html

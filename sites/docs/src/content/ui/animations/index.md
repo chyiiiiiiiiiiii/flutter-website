@@ -17,11 +17,11 @@ description: 如何在 Flutter 中實現動畫。
 
 如影片所示，下方的決策樹能協助你決定在實作 Flutter 動畫時該採用哪種方式：
 
-<img src='/assets/images/docs/ui/animations/animation-decision-tree.png' alt="The animation decision tree">
+![The animation decision tree](/assets/images/docs/ui/animations/animation-decision-tree.png)
 
 ## 動畫深入解析
 
-若想更深入了解 Flutter 動畫的運作原理，請觀看 [Animation deep dive][]。
+若想了解 Flutter 動畫的運作方式，請觀看 [Animation deep dive][]。
 （同時也有 [_配套文章_][article6]。）
 
 <YouTubeEmbed id="PbcILiN8rbo" title="Take a deep dive into Flutter animation"></YouTubeEmbed>
@@ -44,7 +44,7 @@ description: 如何在 Flutter 中實現動畫。
 
 ### 內建顯式動畫
 
-若要建立顯式動畫（由你控制動畫，而非讓框架自動控制），你可以考慮使用內建的顯式動畫類別。更多資訊請觀看
+若要建立顯式動畫（由你控制動畫，而非讓框架自動控制），請考慮使用內建的顯式動畫類別。若想了解更多，請觀看
 [Making your first directional animations with
 built-in explicit animations][]。
 （同時也有 [_配套文章_][article4]。）
@@ -70,7 +70,7 @@ Tween 是 _in-betweening_ 的簡稱。在 Tween 動畫中，你會定義起點�
 
 * 請參考 [動畫教學][Animations tutorial]，其中範例使用了 Tween。
 
-* 也請參閱 [`Tween`][]、[`CurveTween`][] 和
+* 請查閱 [`Tween`][]、[`CurveTween`][] 和
   [`TweenSequence`][] 的 API 文件。
 
 ### 物理模擬動畫
@@ -80,7 +80,7 @@ Tween 是 _in-betweening_ 的簡稱。在 Tween 動畫中，你會定義起點�
 * [使用物理模擬為元件加上動畫][Animate a widget using a physics simulation]<br>
   這是 Flutter cookbook 動畫章節中的一個範例。
 
-* 也請參閱
+* 請查閱
   [`AnimationController.animateWith`][] 和
   [`SpringSimulation`][] 的 API 文件。
 
@@ -97,14 +97,14 @@ Tween 是 _in-betweening_ 的簡稱。在 Tween 動畫中，你會定義起點�
 
 ### 共用元素轉場
 
-在這種模式中，使用者會從頁面選取一個元素（通常是圖片），UI 會將該元素以動畫方式轉場到另一個包含更多細節的新頁面。在 Flutter 中，你可以使用 `Hero` 元件輕鬆實現路由（頁面）間的共用元素轉場。
+在這種模式中，使用者會從頁面選取一個元素（通常是圖片），UI 會將該元素以動畫方式轉場到另一個包含更多細節的新頁面。在 Flutter 中，你可以使用 `Hero` 元件實現路由（頁面）間的共用元素轉場。
 
-* [Hero 動畫][Hero animations]
+* [Hero 動畫][Hero animations]<br>
   如何建立兩種 Hero 動畫風格：
   * Hero 從一個頁面飛到另一個頁面，並同時改變位置與大小。
   * Hero 的邊界形狀會從圓形變為方形，並在飛行過程中完成頁面轉換。
 
-* 也請參閱
+* 請查閱
   [`Hero`][]、[`Navigator`][] 和 [`PageRoute`][] 類別的 API 文件。
 
 ### 交錯動畫（Staggered animation）
@@ -123,15 +123,15 @@ Flutter 的動畫系統是以型別化的 [`Animation`][] 物件為基礎。元�
 
 ### Animation<wbr>\<double>
 
-在 Flutter 中，`Animation` 物件本身不關心畫面上顯示的內容。`Animation` 是一個抽象類別，能夠理解自己的當前值與狀態（已完成或已消失）。其中一種常用的動畫型別是 `Animation<double>`。
+在 Flutter 中，`Animation` 物件與畫面上渲染的內容無關。`Animation` 是一個抽象類別，會公開自己的當前值與狀態（status）：dismissed、forward、reverse 或 completed。其中一種常用的動畫型別是 `Animation<double>`。
 
 `Animation` 物件會在一段期間內，依序產生兩個值之間的插值數字。`Animation` 物件的輸出可以是線性的、曲線的、階梯函數，或你能建立的任何其他對應方式。根據 `Animation` 物件的控制方式，它可以反向運行，甚至在中途切換方向。
 
 動畫也可以插值 double 以外的型別，例如 `Animation<Color>` 或 `Animation<Size>`。
 
-`Animation` 物件具有狀態。其當前值可隨時透過 `.value` 成員取得。
+`Animation` 物件具有狀態。其當前值可隨時透過 `.value` getter 取得。
 
-`Animation` 物件不涉及渲染（rendering）或 `build()` 函式。
+`Animation` 物件不處理渲染（rendering）或 `build()` 函式。
 
 ### CurvedAnimation
 
@@ -144,7 +144,7 @@ animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
 
 `CurvedAnimation` 和 `AnimationController`（在接下來的章節中會說明）都是 `Animation<double>` 類型，因此你可以互換傳遞它們。`CurvedAnimation` 會包裝它所修改的物件——你不需要透過繼承 `AnimationController` 來實作曲線（curve）。
 
-你可以將 [`Curves`][] 與 `CurvedAnimation` 一起使用。`Curves` 類別定義了許多常用的曲線（curve），你也可以自行建立。例如：
+你可以將 [`Curves`][] 與 `CurvedAnimation` 一起使用。`Curves` 類別定義了許多常用的曲線（curve），你也可以透過覆寫 `transformInternal()` 自行建立。例如：
 
 <?code-excerpt "animation/animate5/lib/main.dart (ShakeCurve)" plaster="none"?>
 ```dart
@@ -152,12 +152,12 @@ import 'dart:math';
 
 class ShakeCurve extends Curve {
   @override
-  double transform(double t) => sin(t * pi * 2);
+  double transformInternal(double t) => t + sin(t * pi * 4) * 0.2;
 }
 ```
 
-如果你想將動畫曲線（animation curve）應用到 `Tween`，可以考慮使用
-[`CurveTween`][]。
+如果你想將動畫曲線（animation curve）應用到 `Tween`，
+可以考慮使用 [`CurveTween`][]。
 
 ### AnimationController
 
@@ -175,32 +175,21 @@ controller = AnimationController(
 );
 ```
 
-`AnimationController` 是從 `Animation<double>` 衍生而來，因此可以在需要 `Animation` 物件的地方使用。不過，`AnimationController` 還有額外的方法可用來控制動畫。例如，你可以透過 `.forward()` 方法來啟動動畫。數值的產生與螢幕刷新率綁定，因此通常每秒會產生 60 個數值。每當產生一個數值時，每個 `Animation` 物件都會呼叫其附加的 `Listener` 物件。若要為每個子項建立自訂的顯示清單，請參考 [`RepaintBoundary`][]。
+`AnimationController` 是從 `Animation<double>` 衍生而來，因此可以在需要 `Animation` 物件的地方使用。不過，`AnimationController` 還有額外的方法可用來控制動畫。例如，你可以透過 `.forward()` 方法來啟動動畫。數值的產生與螢幕刷新率綁定（通常為每秒 60 到 120 個畫格）。每當產生一個數值時，每個 `Animation` 物件都會呼叫其附加的監聽器回呼（callback）。若要為每個子項建立自訂的顯示清單，請參考 [`RepaintBoundary`][]。
 
 建立 `AnimationController` 時，你需要傳入一個 `vsync` 參數。
 `vsync` 的存在可防止螢幕外的動畫（offscreen animation）消耗不必要的資源。
 你可以將你的 stateful 物件作為 vsync，只需在類別定義中加入
 `SingleTickerProviderStateMixin` 即可。
-你可以在 GitHub 上的 [animate1][] 範例中看到這個做法。
-
-{% comment %}
-The `vsync` object ties the ticking of the animation controller to
-the visibility of the widget, so that when the animating widget goes
-off-screen, the ticking stops, and when the widget is restored, it
-starts again (without stopping the clock, so it's as if it had
-been ticking the whole time, but without using the CPU.)
-To use your custom State object as the `vsync`, include the
-`TickerProviderStateMixin` when defining the custom State class.
-{% endcomment %}
+你可以在 GitHub 上的 [animate1][] 範例中找到這個做法。
 
 :::note
-在某些情況下，位置值可能會超出 `AnimationController` 的 0.0-1.0 範圍。例如，`fling()` 函數
-允許你提供速度、力量與位置
-（使用 Force 物件）。位置值可以是任意數值，
-因此可能會超出 0.0 到 1.0 的範圍。
+控制器的數值會維持在其
+`lowerBound` 與 `upperBound`（預設為 0.0 與 1.0）之間，
+即使是由 `fling()` 驅動也一樣。
 
-`CurvedAnimation` 也可能超出 0.0 到 1.0 的範圍，
-即使 `AnimationController` 沒有超出。
+不過，`CurvedAnimation` 可能超出 0.0 到 1.0 的範圍，
+即使其父層 `AnimationController` 沒有超出。
 根據所選的曲線，`CurvedAnimation` 的輸出範圍可能會比輸入更廣。
 例如，像 `Curves.elasticIn` 這類的彈性曲線（elastic curves）
 會大幅超出或低於預設範圍。
@@ -218,9 +207,8 @@ To use your custom State object as the `vsync`, include the
 tween = Tween<double>(begin: -200, end: 0);
 ```
 
-`Tween` 是一個無狀態物件，只接收 `begin` 和 `end`。
-`Tween` 的唯一工作是定義從輸入範圍到輸出範圍的對應關係。輸入範圍通常是
-0.0 到 1.0，但這並非必要條件。
+`Tween` 定義了從輸入範圍到輸出範圍的對應關係。
+輸入範圍通常是 0.0 到 1.0，但這並非必要條件。
 
 `Tween` 是從 `Animatable<T>` 繼承，而不是從 `Animation<T>` 繼承。
 `Animatable`，就像 `Animation` 一樣，輸出的不一定是 double。
@@ -231,13 +219,15 @@ tween = Tween<double>(begin: -200, end: 0);
 colorTween = ColorTween(begin: Colors.transparent, end: Colors.black54);
 ```
 
-`Tween` 物件本身不會儲存任何狀態。相反地，它提供了
-[`evaluate(Animation<double> animation)`][] 方法，該方法會使用
-`transform` 函式，將動畫當前的值（介於 0.0 到 1.0 之間），對應到實際的動畫值。
+`Tween` 會儲存可變的 `begin` 和 `end` 值，
+但不會追蹤動畫的進度。
+相反地，它提供了 [`evaluate(Animation<double> animation)`][]
+方法，該方法會使用 `transform` 函式，
+將動畫當前的值（介於 0.0 到 1.0 之間）對應到實際的動畫值。
 
 `Animation` 物件的當前值可以透過
-`.value` 方法取得。evaluate 函式同時也會進行一些管理工作，
-例如確保當動畫值分別為 0.0 和 1.0 時，會正確回傳 begin 與 end。
+`.value` getter 取得。
+當動畫值分別為 0.0 和 1.0 時，Tween 會回傳 `begin` 與 `end`。
 
 #### Tween.animate
 
@@ -247,11 +237,14 @@ colorTween = ColorTween(begin: Colors.transparent, end: Colors.black54);
 
 <?code-excerpt "animation/animate5/lib/main.dart (IntTween)"?>
 ```dart
-AnimationController controller = AnimationController(
+final AnimationController controller = AnimationController(
   duration: const Duration(milliseconds: 500),
   vsync: this,
 );
-Animation<int> alpha = IntTween(begin: 0, end: 255).animate(controller);
+final Animation<int> alpha = IntTween(
+  begin: 0,
+  end: 255,
+).animate(controller);
 ```
 
 :::note
@@ -263,7 +256,7 @@ Animation<int> alpha = IntTween(begin: 0, end: 255).animate(controller);
 
 <?code-excerpt "animation/animate5/lib/main.dart (IntTween-curve)"?>
 ```dart
-AnimationController controller = AnimationController(
+final AnimationController controller = AnimationController(
   duration: const Duration(milliseconds: 500),
   vsync: this,
 );
@@ -271,16 +264,17 @@ final Animation<double> curve = CurvedAnimation(
   parent: controller,
   curve: Curves.easeOut,
 );
-Animation<int> alpha = IntTween(begin: 0, end: 255).animate(curve);
+final Animation<int> alpha = IntTween(begin: 0, end: 255).animate(curve);
 ```
 
 ### 動畫通知
 
-一個 [`Animation`][] 物件可以擁有 `Listener` 和 `StatusListener`，
-分別透過 `addListener()` 和 `addStatusListener()` 來定義。
-每當動畫的值發生變化時，`Listener` 會被呼叫。
-`Listener` 最常見的行為是呼叫 `setState()`
-以觸發重新建構（rebuild）。當動畫開始、結束、向前移動或反向移動時，會根據 `AnimationStatus` 呼叫 `StatusListener`。
+一個 [`Animation`][] 物件可以擁有監聽器（listener）和狀態監聽器（status listener），
+分別透過 `addListener()` 和 `addStatusListener()` 來註冊。
+每當動畫的值發生變化時，監聽器會被呼叫。
+監聽器最常見的行為是呼叫 `setState()`
+以觸發重新建構（rebuild）。
+當動畫開始、結束、向前移動或反向移動時，會根據 `AnimationStatus` 呼叫狀態監聽器。
 
 ## Codelabs、教學與文章
 
@@ -296,7 +290,7 @@ Animation<int> alpha = IntTween(begin: 0, end: 255).animate(curve);
   此教學也會展示如何建立自訂的顯式動畫。
 
 * [Zero to One with Flutter, part 1][] 及 [part 2][]<br>
-  Medium 文章，展示如何透過 Tweening 製作動畫圖表。
+  Flutter 部落格文章，展示如何透過 Tweening 製作動畫圖表。
 
 * [Casual games toolkit][]<br>
   一套包含遊戲範本的工具包，內含如何使用 Flutter 動畫的範例。
@@ -327,7 +321,7 @@ Animation<int> alpha = IntTween(begin: 0, end: 255).animate(curve);
 [animate1]: {{site.repo.this}}/tree/main/examples/animation/animate1
 [Animate a widget using a physics simulation]: /cookbook/animation/physics-simulation
 [`Animatable`]: {{site.api}}/flutter/animation/Animatable-class.html
-[`AnimatedList` example]: {{site.github}}/flutter/samples/blob/main/animations
+[`AnimatedList` example]: {{site.repo.samples}}/blob/main/animations
 [`Animation`]: {{site.api}}/flutter/animation/Animation-class.html
 [Animation and motion widgets]: /ui/widgets/animation
 [Animation basics with implicit animations]: {{site.yt.watch}}?v=IVTjpW3W33s&list=PLjxrf2q8roU2v6UqYlt_KPaXlnjbYySua&index=1
@@ -354,7 +348,7 @@ Animation<int> alpha = IntTween(begin: 0, end: 255).animate(curve);
 [`Curves`]: {{site.api}}/flutter/animation/Curves-class.html
 [`CurvedAnimation`]: {{site.api}}/flutter/animation/CurvedAnimation-class.html
 [`CurveTween`]: {{site.api}}/flutter/animation/CurveTween-class.html
-[`evaluate(Animation<double> animation)`]: {{site.api}}/flutter/animation/Animation/value.html
+[`evaluate(Animation<double> animation)`]: {{site.api}}/flutter/animation/Animatable/evaluate.html
 [Flutter API documentation]: {{site.api}}
 [`Hero`]: {{site.api}}/flutter/widgets/Hero-class.html
 [Hero animations]: /ui/animations/hero-animations
@@ -364,11 +358,11 @@ Animation<int> alpha = IntTween(begin: 0, end: 255).animate(curve);
 [Material widgets]: /ui/widgets/material
 [`Navigator`]: {{site.api}}/flutter/widgets/Navigator-class.html
 [`PageRoute`]: {{site.api}}/flutter/widgets/PageRoute-class.html
-[part 2]: {{site.medium}}/dartlang/zero-to-one-with-flutter-part-two-5aa2f06655cb
+[part 2]: https://flutter.dev/blog/zero-to-one-with-flutter-part-two
 [`RepaintBoundary`]: {{site.api}}/flutter/widgets/RepaintBoundary-class.html
-[Sample app catalog]: {{site.github}}/flutter/samples
+[Sample app catalog]: {{site.repo.samples}}
 [`SpringSimulation`]: {{site.api}}/flutter/physics/SpringSimulation-class.html
 [Staggered Animations]: /ui/animations/staggered-animations
 [`Tween`]: {{site.api}}/flutter/animation/Tween-class.html
 [`TweenSequence`]: {{site.api}}/flutter/animation/TweenSequence-class.html
-[Zero to One with Flutter, part 1]: {{site.medium}}/dartlang/zero-to-one-with-flutter-43b13fd7b354
+[Zero to One with Flutter, part 1]: https://flutter.dev/blog/zero-to-one-with-flutter

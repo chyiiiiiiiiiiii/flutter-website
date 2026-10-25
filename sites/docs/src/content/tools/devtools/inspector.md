@@ -20,12 +20,11 @@ Flutter 元件 (Widget) 檢查器是一個強大的工具，可用來視覺化�
 
 ![Flutter 檢查器視窗截圖](/assets/images/docs/tools/devtools/inspector_screenshot.png){:width="100%"}
 
-## 全新 Flutter 檢查器 {:#new}
+## Flutter 檢查器 {:#new}
 
-自 Flutter 3.29 起，新的 Flutter 檢查器預設啟用。不過，你可以在 [檢查器設定對話框][inspector settings dialog] 中將其停用。
+Flutter 檢查器預設啟用。你可以在 [檢查器設定對話框][inspector settings dialog] 中進行設定。
 
 [inspector settings dialog]: #檢查工具設定
-[legacy inspector]: /tools/devtools/legacy-inspector
 [filing a bug]: https://github.com/flutter/devtools/issues/new
 
 ### 視覺化除錯版面配置問題
@@ -380,6 +379,7 @@ class AreaRepaintsPage extends StatelessWidget {
 <?code-excerpt "lib/highlight_repaints.dart (toggle)"?>
 ```dart
 import 'package:flutter/rendering.dart';
+import 'package:material_ui/material_ui.dart';
 
 void highlightRepaints() {
   debugRepaintRainbowEnabled = true;
@@ -475,17 +475,6 @@ Flutter 檢查工具（inspector）的部分功能是透過對應用程式程式
 
 啟用後，元件樹會在熱重載（hot-reload）或導覽事件後自動刷新。
 
-### 使用舊版檢查工具
-
-啟用後，會使用 [舊版檢查工具][legacy inspector]，而非新版檢查工具。
-
-:::note
-[舊版檢查工具][legacy inspector] 將在未來的版本中移除。
-如果有任何問題導致你無法使用新版檢查工具，請[提交錯誤回報][filing a bug]告訴我們。
-:::
-
-[legacy inspector]: /tools/devtools/legacy-inspector
-
 ### 套件目錄（Package directories）
 
 預設情況下，DevTools 只會在元件樹中顯示專案根目錄下建立的元件（Widgets）。若要查看所有元件，包括那些在專案根目錄以外建立的元件，請切換啟用 [顯示實作元件（Show implementation widgets）][Show implementation widgets]。
@@ -533,4 +522,4 @@ project_foo
 [`Row`]: {{site.api}}/flutter/widgets/Row-class.html
 [`textDirection`]: {{site.api}}/flutter/widgets/Flex/textDirection.html
 [Understanding constraints]: /ui/layout/constraints
-[inspector-tutorial]: {{site.medium}}/@fluttergems/mastering-dart-flutter-devtools-flutter-inspector-part-2-of-8-bbff40692fc7
+[inspector-tutorial]: https://medium.com/@fluttergems/mastering-dart-flutter-devtools-flutter-inspector-part-2-of-8-bbff40692fc7

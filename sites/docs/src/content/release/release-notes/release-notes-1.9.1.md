@@ -19,7 +19,7 @@ skipTemplateRendering: true
 
 ## 迴歸問題
 
-在本版本中，我們修正了一個迴歸問題（[37955](https://github.com/flutter/flutter/pull/37955) Update shader warm-up for recent Skia changes），但也引入了另一個（[38167](https://github.com/dart-lang/sdk/issues/38167) Incremental compiler re-issuing of errors from constant evaluator）。新引入的迴歸問題已在 1.9.1 穩定版（stable）通道發行後修正（[00d14e7](https://github.com/dart-lang/sdk/commit/00d14e7) [CFE] Always start constant evaluation error where we are asked to evaluate），若您遇到此問題，可選擇更新的建置版本以套用至您的 Flutter 應用程式。
+在本版本中，我們修正了一個迴歸問題（[37955](https://github.com/flutter/flutter/pull/37955) Update shader warm-up for recent Skia changes），但也引入了另一個（[38167]({{site.repo.dart-sdk}}/issues/38167) Incremental compiler re-issuing of errors from constant evaluator）。新引入的迴歸問題已在 1.9.1 穩定版（stable）通道發行後修正（[00d14e7]({{site.repo.dart-sdk}}/commit/00d14e7) [CFE] Always start constant evaluation error where we are asked to evaluate），若您遇到此問題，可選擇更新的建置版本以套用至您的 Flutter 應用程式。
 
 
 ## 破壞性 API 變更
@@ -113,7 +113,7 @@ skipTemplateRendering: true
 
 [38325](https://github.com/flutter/flutter/pull/38325) refactor flutter upgrade to be 2 part, with the second part re-entrant
 
-[cd70b](https://github.com/dart-lang/sdk/commit/ec2d06d4b9f4f0accad2b4aa841499e8e93cd70b) Use MAP_JIT when doing an mmap for executable pages (needed for macOS Catalina).
+[cd70b]({{site.repo.dart-sdk}}/commit/ec2d06d4b9f4f0accad2b4aa841499e8e93cd70b) Use MAP_JIT when doing an mmap for executable pages (needed for macOS Catalina).
 
 [38662](https://github.com/flutter/flutter/pull/38662) Change from using defaults to plutil for Plist parsing
 
@@ -516,7 +516,7 @@ Flutter 核心框架在本版本中新增了數項重要功能，包括額外支
 
 [35143](https://github.com/flutter/flutter/pull/35143) More HttpClientResponse Uint8List fixes
 
-[35149](https://github.com/flutter/flutter/pull/35149) More HttpClientResponse implements Stream<Uint8List> fixes
+[35149](https://github.com/flutter/flutter/pull/35149) More `HttpClientResponse implements Stream<Uint8List>` fixes
 
 [35232](https://github.com/flutter/flutter/pull/35232) New benchmark: Gesture semantics
 

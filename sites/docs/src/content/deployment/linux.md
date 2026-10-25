@@ -348,6 +348,6 @@ Snap Store 會對你的 snap 進行多項自動化檢查。
 [Snapcraft extensions]: https://snapcraft.io/docs/snapcraft-extensions
 [Supported plugins]: https://snapcraft.io/docs/supported-plugins
 [Ubuntu]: https://ubuntu.com/download/desktop
-[fastforge]: {{site.github}}/fastforgedev/fastforge
-[flatpak-flutter]: {{site.github}}/TheAppgineer/flatpak-flutter
+[fastforge]: https://github.com/fastforgedev/fastforge
+[flatpak-flutter]: https://github.com/TheAppgineer/flatpak-flutter
 [Flathub]: https://flathub.org

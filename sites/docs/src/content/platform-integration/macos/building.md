@@ -17,6 +17,15 @@ shortTitle: macOS 開發
 
 ## 建置 macOS 應用程式
 
+:::warning macOS Intel (x64) 淘汰
+隨著 Apple 逐步淘汰搭載 Intel 處理器的 Mac，
+Flutter 也正逐步停止支援 Intel (x64) 硬體。
+關於時程與影響的詳細資訊，
+請參閱 [macOS Intel 淘汰策略][macOS Intel deprecation strategy]。
+
+[macOS Intel deprecation strategy]: {{site.main-url}}/go/macos-intel-deprecation
+:::
+
 你可以選擇[透過 macOS App Store 發佈你的應用程式][distribute it through the macOS App Store]，或直接分發 `.app`（例如從你自己的網站）。如果你要在 macOS App Store 以外分發應用程式，必須先對 macOS 應用程式進行公證（notarize）。
 
 上述兩種流程的第一步，都是在 Xcode 中操作你的應用程式。若要能在 Xcode 內編譯你的應用程式，首先需要使用 `flutter build` 指令將應用程式建置為發行版本，然後開啟 Flutter 的 macOS Runner 應用程式。
@@ -76,7 +85,7 @@ macOS 專案預設會進行簽章，
 
 如果你保留啟用 App Sandbox（若你計劃將應用程式發佈到 [App Store][App Store] 則為必要），
 當你新增某些套件（plugin）或其他原生功能時，就需要為你的應用程式管理權限。
-例如，使用 [`file_chooser`][`file_chooser`] 套件
+例如，使用 [`file_selector`][`file_selector`] 套件
 時，必須新增
 `com.apple.security.files.user-selected.read-only` 或
 `com.apple.security.files.user-selected.read-write` 權限。
@@ -102,7 +111,7 @@ address = example.com, port = 443
 [App Sandbox]: {{site.apple-dev}}/documentation/security/app_sandbox
 [App Store]: {{site.apple-dev}}/app-store/submissions/
 [Entitlements]: {{site.apple-dev}}/documentation/bundleresources/entitlements
-[`file_chooser`]: {{site.github}}/google/flutter-desktop-embedding/tree/master/plugins/file_chooser
+[`file_selector`]: {{site.pub-pkg}}/file_selector
 
 ## 強化執行環境（Hardened Runtime）
 

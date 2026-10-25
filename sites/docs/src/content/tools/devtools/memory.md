@@ -41,7 +41,7 @@ Dart VM 會在物件建立時分配記憶體，
 並在物件不再使用時釋放（或解除分配）記憶體
 （請參閱 [Dart garbage collection][Dart garbage collection]）。
 
-[Dart garbage collection]: {{site.medium}}/flutter/flutter-dont-fear-the-garbage-collector-d69b3ff1ca30
+[Dart garbage collection]: https://flutter.dev/blog/flutter-dont-fear-the-garbage-collector
 
 ### 物件類型
 
@@ -351,5 +351,5 @@ bottom-up 檢視則會顯示配置這些實例的不同呼叫堆疊清單。
 * 若想學習如何使用 DevTools 監控應用程式記憶體使用狀況並偵測記憶體洩漏，請參考導引式 [Memory View tutorial][memory-tutorial]。
 * 若想了解 Android 的記憶體結構，請參考 [Android: Memory allocation among processes][Android: Memory allocation among processes]。
 
-[memory-tutorial]: {{site.medium}}/@fluttergems/mastering-dart-flutter-devtools-memory-view-part-7-of-8-e7f5aaf07e15
+[memory-tutorial]: https://medium.com/@fluttergems/mastering-dart-flutter-devtools-memory-view-part-7-of-8-e7f5aaf07e15
 [Android: Memory allocation among processes]: {{site.android-dev}}/topic/performance/memory-management

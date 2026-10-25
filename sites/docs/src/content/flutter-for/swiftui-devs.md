@@ -31,7 +31,6 @@ Flutter 在 iOS 與 macOS 執行時，也針對應用行為做了多項調整。
 
 本文件可作為食譜式指南，讓你依需求跳閱、查找最相關的問題。
 本指南內嵌了範例程式碼。
-只要在滑鼠懸停或聚焦時點擊「Open in DartPad」按鈕，即可在 DartPad 上開啟並執行部分範例。
 
 ## 概覽
 
@@ -64,7 +63,7 @@ SwiftUI 以 View 修飾器（View modifier）的方式來表示 UI 元件屬性�
 Padding(                         // <-- This is a Widget
   padding: EdgeInsets.all(10.0), // <-- So is this
   child: Text("Hello, World!"),  // <-- This, too
-)));
+)
 ```
 
 在進行版面配置（layout）時，SwiftUI 與 Flutter 都是透過將 UI 元件（SwiftUI 稱為 Views，Flutter 稱為 Widgets）彼此巢狀嵌套來組合畫面。
@@ -724,9 +723,8 @@ NavigationStack(path: $path) {
             // tapped, push the detailsPageRouteName route
             // to the Navigator and pass the person's instance
             // to the route.
-            Navigator.of(
-              context,
-            ).pushNamed(detailsPageRouteName, arguments: person);
+            Navigator.of(context)
+                .pushNamed(detailsPageRouteName, arguments: person);
           },
         );
       },
@@ -991,9 +989,9 @@ Text(
 [widget catalog]: /ui/widgets/layout
 [Understanding constraints]: /ui/layout/constraints
 [`WidgetApp`]: {{site.api}}/flutter/widgets/WidgetsApp-class.html
-[`CupertinoApp`]: {{site.api}}/flutter/cupertino/CupertinoApp-class.html
+[`CupertinoApp`]: {{site.cupertino_ui}}/CupertinoApp-class.html
 [`Center`]: {{site.api}}/flutter/widgets/Center-class.html
-[`CupertinoButton`]: {{site.api}}/flutter/cupertino/CupertinoButton-class.html
+[`CupertinoButton`]: {{site.cupertino_ui}}/CupertinoButton-class.html
 [`Row`]: {{site.api}}/flutter/widgets/Row-class.html
 [`Column`]: {{site.api}}/flutter/widgets/Column-class.html
 [Learning Dart as a Swift Developer]: {{site.dart-site}}/guides/language/coming-from/swift-to-dart

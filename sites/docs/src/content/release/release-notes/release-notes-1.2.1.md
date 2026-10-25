@@ -50,7 +50,7 @@ skipTemplateRendering: true
 
 [#24830](https://github.com/flutter/flutter/pull/24830) 為滑鼠指標實作 hover 支援
 
-元件 (Widget) 是 Flutter 與使用者互動的核心方式，本次版本持續為 Flutter 元件集新增功能與修正，特別針對 [SliverAppBar](https://api.flutter.dev/flutter/material/SliverAppBar-class.html)：
+元件 (Widget) 是 Flutter 與使用者互動的核心方式，本次版本持續為 Flutter 元件集新增功能與修正，特別針對 [SliverAppBar](https://pub.dev/documentation/material_ui/latest/material_ui/SliverAppBar-class.html)：
 
 [#26021](https://github.com/flutter/flutter/pull/26021) 修正 SliverAppBar 標題透明度，並測試所有情境
 
@@ -128,7 +128,7 @@ webview_flutter 插件新增了 Dart 與 JavaScript 之間的通訊通道：
 
 [#37](https://github.com/dart-lang/language/issues/37) Set 字面值
 
-[#33274](https://github.com/dart-lang/sdk/issues/33274) 支援 "naked" 指令：全域物件池、PC 相對靜態呼叫、更快的間接呼叫、潛在的程式碼共用
+[#33274]({{site.repo.dart-sdk}}/issues/33274) 支援 "naked" 指令：全域物件池、PC 相對靜態呼叫、更快的間接呼叫、潛在的程式碼共用
 
 
 ## Tool

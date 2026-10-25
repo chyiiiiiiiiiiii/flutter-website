@@ -45,7 +45,7 @@ Flutter 團隊維護 `go_router` 套件，
     請在 `main.dart` 檔案中建立 `GoRouter` 物件：
 
     ```dart title="main.dart"
-    import 'package:flutter/material.dart';
+    import 'package:material_ui/material_ui.dart';
     import 'package:go_router/go_router.dart';
 
     void main() => runApp(MaterialApp.router(routerConfig: router));
@@ -214,7 +214,7 @@ adb shell 'am start -a android.intent.action.VIEW \
 
 原始碼：[deeplink_cookbook][]
 
-[deeplink_cookbook]: {{site.github}}/flutter/codelabs/tree/main/deeplink_cookbook
+[deeplink_cookbook]: https://github.com/flutter/codelabs/tree/main/deeplink_cookbook
 [Firebase Hosting]: {{site.firebase}}/docs/hosting
 [go_router]: {{site.pub}}/packages/go_router
 [GitHub Pages]: https://pages.github.com

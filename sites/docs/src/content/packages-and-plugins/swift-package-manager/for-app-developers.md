@@ -37,8 +37,90 @@ Flutter 會回退至 CocoaPods。
 若你先前已停用 SwiftPM，可能需要執行
 `flutter config --enable-swift-package-manager` 來重新啟用。
 
-若自動遷移可正常運作，設定便已完成！
-你可以離開此頁面了。
+若自動遷移可正常運作，且你所有的相依套件
+都支援 Swift Package Manager，
+你可以[移除 CocoaPods 整合][removeCocoaPods]。
+
+## 如何移除 CocoaPods 整合
+
+**只要專案中有任何相依套件不支援 Swift Package Manager，
+Flutter 就會回退至 CocoaPods。**
+在移除 CocoaPods 之前，請確認專案中的所有插件都支援 Swift Package Manager。
+
+:::note
+如果你曾手動編輯 `Podfile`，
+加入 Flutter 插件以外的 CocoaPods 相依套件或邏輯，
+則必須手動移除這些變更。
+:::
+
+<Tabs key="darwin-platform">
+<Tab name="iOS project">
+
+若要從專案中移除 CocoaPods，請依照以下步驟操作。
+
+1. 若要從 Xcode 專案中解除 CocoaPods 整合 (de-integrate)，請執行：
+
+    ```sh
+    cd ios
+    pod deintegrate
+    cd ..
+    ```
+
+2. 刪除與 CocoaPods 相關的檔案和目錄：
+
+    刪除 `ios/Podfile`、`ios/Podfile.lock`、
+    `ios/Pods/` 目錄，以及
+    `ios/.symlinks/` 目錄（若存在）。
+
+3. 檢查你的設定檔：
+
+    在 `ios/Flutter/Debug.xcconfig`
+    和 `ios/Flutter/Release.xcconfig` 中，
+    若仍有任何參照 `Pods/Target Support Files`
+    或 CocoaPods `.xcconfig` 檔案的 `#include` 行，請將其移除。
+
+4. 清理並建置專案以驗證遷移結果：
+
+    ```sh
+    flutter clean
+    flutter pub get
+    flutter run
+    ```
+
+</Tab>
+<Tab name="macOS project">
+
+若要從專案中移除 CocoaPods，請依照以下步驟操作。
+
+1. 若要從 Xcode 專案中解除 CocoaPods 整合 (de-integrate)，請執行：
+
+    ```sh
+    cd macos
+    pod deintegrate
+    cd ..
+    ```
+
+2. 刪除與 CocoaPods 相關的檔案和目錄：
+
+    刪除 `macos/Podfile`、`macos/Pods/` 目錄，
+    以及 `macos/.symlinks/` 目錄（若存在）。
+
+3. 檢查你的設定檔：
+
+    在 `macos/Flutter/Flutter-Debug.xcconfig` 和 `macos/Flutter/Flutter-Release.xcconfig` 中，
+    若仍有任何參照 `Pods/Target Support Files`
+    或 CocoaPods `.xcconfig` 檔案的 `#include` 行，請將其移除。
+
+4. 清理並建置專案以驗證遷移結果：
+
+    ```sh
+    flutter clean
+    flutter pub get
+    flutter run
+    ```
+
+</Tab>
+</Tabs>
 
 ## 如何手動新增 Swift Package Manager 整合
 
@@ -69,7 +151,7 @@ Flutter 會回退至 CocoaPods。
 </Tab>
 </Tabs>
 
-[file an issue]: {{site.github}}/flutter/flutter/issues/new?template=02_bug.yml
+[file an issue]: {{site.repo.flutter}}/issues/new?template=02_bug.yml
 
 ### 新增至現有應用程式 (add-to-app)
 
@@ -216,4 +298,5 @@ flutter config --no-enable-swift-package-manager
 若某個專案與 Swift Package Manager 不相容，
 所有貢獻者都需要執行此指令。
 
+[removeCocoaPods]: #how-to-remove-cocoapods-integration
 [removeSPM]: #how-to-remove-swift-package-manager-integration

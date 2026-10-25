@@ -190,9 +190,8 @@ Action<SelectAllIntent>? selectAll = Actions.maybeFind<SelectAllIntent>(
 ```dart
 Object? result;
 if (selectAll != null) {
-  result = Actions.of(
-    context,
-  ).invokeAction(selectAll, const SelectAllIntent());
+  result = Actions.of(context)
+      .invokeAction(selectAll, const SelectAllIntent());
 }
 ```
 
@@ -231,7 +230,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-`Actions` 元件只有在 `isEnabled(Intent intent)` 回傳 true 時才會觸發動作，這讓動作本身可以決定 dispatcher 是否應該考慮執行它。如果該動作未啟用，則 `Actions` 元件會讓元件階層中更高處（如果存在）的另一個已啟用動作有機會被執行。
+`Actions` 元件只有在 `isEnabled(Intent intent)` 回傳 true 時才會觸發動作，這讓動作本身可以決定 dispatcher 是否應該考慮執行它。如果該動作未啟用，則不會觸發該動作，且框架會在此處停止搜尋相符的動作。
 
 前一個範例之所以使用 `Builder`，是因為 `Actions.handler` 和 `Actions.invoke`（例如）只會在所提供的 `context` 中尋找動作。如果範例將傳遞給 `build` 的 `context` 作為參數，框架就會開始從目前元件之上的階層尋找動作。使用 `Builder` 可以讓框架找到在同一個 `build` 函式中定義的動作。
 

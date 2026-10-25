@@ -42,7 +42,7 @@ description: >-
 
 <?code-excerpt "lib/launch_compose_activity_example_1.dart"?>
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 // SECTION 1: START COPYING HERE

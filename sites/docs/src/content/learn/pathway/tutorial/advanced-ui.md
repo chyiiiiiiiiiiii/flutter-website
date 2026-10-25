@@ -66,14 +66,14 @@ $ cd rolodex
 
 [Flutter CLI tool]: /reference/flutter-cli
 
-### 新增 Cupertino Icons 相依套件
+### 新增 Cupertino 相依套件
 
-此專案會使用 [`cupertino_icons` 套件][`cupertino_icons` package]，
-這是一個官方的 Flutter 套件。
-請透過執行下列指令，將其加入為相依套件：
+此專案會使用 [`cupertino_ui` 套件][`cupertino_ui` package] 來提供 Cupertino 元件，
+並使用 [`cupertino_icons` 套件][`cupertino_icons` package] 來提供 Cupertino 圖示資源。
+請透過執行下列指令，將這兩個官方 Flutter 套件加入為相依套件：
 
 ```console
-$ flutter pub add cupertino_icons
+$ flutter pub add cupertino_ui cupertino_icons
 ```
 
 ### 建立專案結構
@@ -95,7 +95,7 @@ $ mkdir lib/data lib/screens lib/theme
 
 <?code-excerpt "fwe/rolodex/lib/step1_advanced_ui/main_starter.dart"?>
 ```dart
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 void main() {
   runApp(const RolodexApp());
@@ -350,7 +350,7 @@ final Set<Contact> allContacts = {
 ```dart
 import 'dart:collection';
 
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 import 'contact.dart';
 
@@ -497,7 +497,7 @@ class ContactGroupsModel {
 
 <?code-excerpt "fwe/rolodex/lib/step1_advanced_ui/main.dart"?>
 ```dart
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 import 'data/contact_group.dart';
 
@@ -529,6 +529,7 @@ class RolodexApp extends StatelessWidget {
 現在所有多餘的程式碼都已經清除，在下一課中，
 你將正式開始建置這個應用程式。
 
+[`cupertino_ui` package]: {{site.pub-pkg}}/cupertino_ui
 [`cupertino_icons` package]: {{site.pub-pkg}}/cupertino_icons
 
 ### 回顧

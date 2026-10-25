@@ -35,6 +35,9 @@ Flutter Gradle Plugin 現在會在非 debuggable 建置時，
 
 由於這項自動設定會在處理你的 `build.gradle` 檔案之前執行，
 因此可能會影響依賴於該設定為空的自訂 `abiFilters` 設定。
+Flutter 可以保留你在 `defaultConfig` 中設定的 `abiFilters`，
+但以目前的 Android Gradle Plugin API，
+無法安全地保留所有 `buildTypes` 或 `productFlavors` 中的 ABI 過濾器自訂設定。
 
 ## 遷移指南
 
@@ -53,27 +56,29 @@ flutter build apk --splits-per-abi
 
 這會為每個架構建立獨立的 APK，並自動停用自動的 `abiFilters` 設定。
 
-### 選項 2：清除並重新設定 abiFilters
+### 選項 2：在 defaultConfig 中設定 abiFilters
 
-如果你必須使用單一 APK 並自訂架構過濾器，請先清除自動設定的過濾器，然後在你的 `build.gradle` 中自行設定。例如：
+如果你必須使用單一 APK 並自訂架構過濾器，請先清除自動設定的過濾器，然後在 `defaultConfig` 中自行設定。例如：
 
 ```kotlin
 android {
-    buildTypes {
-        release {
+    defaultConfig {
+        ndk {
             // Clear the automatically set filters.
-            ndk.abiFilters.clear()
+            abiFilters.clear()
             // Set your custom filters.
-            ndk.abiFilters.addAll(listOf("arm64-v8a"))
+            abiFilters.addAll(listOf("arm64-v8a"))
         }
     }
 }
 ```
 
-### 停用 abiFilters ###
+### 選項 3：停用 Flutter 預設的 ABI 過濾
 
-雖然可行但不建議停用此 ABI 過濾功能。可在執行 `flutter build`
-或 `flutter run` 時傳入 `-Pdisable-abi-filtering` 旗標。
+如果你的應用程式在 `buildTypes` 或 `productFlavors` 中設定 ABI 過濾器，
+請在執行 `flutter build` 或 `flutter run` 時傳入 `-Pdisable-abi-filtering=true`。
+這會避免 Flutter 套用其預設的 ABI 過濾器，
+讓你的建置類型或產品風味（product flavor）設定決定要納入哪些架構。
 
 ## 時程
 

@@ -17,8 +17,8 @@ description: >-
 
 過去，Flutter 使用布林值的 `header` 語意屬性
 來在各平台實作中表示標題：
-* 在 Android 上，`header` 值為 `true` 會對應至
-  `View.setHeading(true)`。
+
+* 在 Android 上，`header` 值為 `true` 會對應至 `View.setHeading(true)`。
 * 在 iOS 上，`header` 值為 `true` 會對應至
   `UIAccessibilityTraitHeader` 無障礙特性。
 
@@ -30,12 +30,13 @@ description: >-
 造成平台 API 與 Flutter 屬性之間的混淆與不一致。
 
 透過此變更：
+
 * `header` 語意屬性在 iOS 和 Android 上的行為變為無操作 (no-op)。
   它仍保留在 API 中，若日後提供類似 API，可繼續使用。
 * `headingLevel` 屬性已更新，設定大於 `0` 的值時，
   在 Android 上會直接對應至 `View.setHeading(true)`，
   在 iOS 上則對應至 `UIAccessibilityTraitHeader`。
-  在 iOS 13+ 上，它也會對應至 `accessibilityHeadingLevel`。
+  在 iOS 13 或更新版本上，它也會對應至 `accessibilityHeadingLevel`。
 
 ## 遷移指南
 
@@ -46,13 +47,13 @@ description: >-
 
 請注意，雖然將 `headingLevel` 設定為任何大於 `0` 的值
 在 Android 和 iOS 上均可宣告標題，但其他平台（例如網頁）
-對特定標題層級數字的處理方式有所不同。例如，
-在網頁上，值 `1` 至 `6` 分別對應至
+對特定標題層級數字的處理方式有所不同。
+例如，在網頁上，值 `1` 至 `6` 分別對應至
 `<h1>` 至 `<h6>` HTML 元素。
 
 遷移前的程式碼：
 
-```dart
+```dart highlightLines=2
 Semantics(
   header: true,
   child: Text('Section Title'),
@@ -61,7 +62,7 @@ Semantics(
 
 遷移後的程式碼：
 
-```dart
+```dart highlightLines=2
 Semantics(
   headingLevel: 1,
   child: Text('Section Title'),
@@ -72,7 +73,7 @@ Semantics(
 
 遷移前的程式碼：
 
-```dart
+```dart highlightLines=2
 SemanticsProperties(
   header: true,
 )
@@ -80,7 +81,7 @@ SemanticsProperties(
 
 遷移後的程式碼：
 
-```dart
+```dart highlightLines=2
 SemanticsProperties(
   headingLevel: 1,
 )
@@ -89,7 +90,7 @@ SemanticsProperties(
 ## 時間表
 
 落地版本：3.45.0-0.1.pre<br>
-穩定版發布：待定
+穩定版發布：3.47
 
 ## 參考資料
 

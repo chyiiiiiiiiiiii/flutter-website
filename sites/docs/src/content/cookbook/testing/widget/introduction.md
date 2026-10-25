@@ -188,8 +188,8 @@ void main() {
 
 <?code-excerpt "test/main_test.dart"?>
 ```dart
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   // Define a test. The TestWidgets function also provides a WidgetTester
@@ -230,55 +230,20 @@ class MyWidget extends StatelessWidget {
 ```
 
 
-(https://docs.flutter.dev/testing)
 [`find()`]: {{site.api}}/flutter/flutter_test/find-constant.html
-# Widget 測試簡介
-
 [`find.text()`]: {{site.api}}/flutter/flutter_test/CommonFinders/text.html
-在開發 Flutter 應用程式時，撰寫測試可以幫助你確保元件（Widget）如預期般運作，並且在未來修改程式碼時，能夠快速發現潛在問題。
-
 [`findsNothing`]: {{site.api}}/flutter/flutter_test/findsNothing-constant.html
-Flutter 提供了多種測試類型，包括單元測試、元件（Widget）測試，以及整合測試。本章將重點介紹元件（Widget）測試，這類測試可以驗證單一元件或多個元件之間的互動。
-
 [`findsOneWidget`]: {{site.api}}/flutter/flutter_test/findsOneWidget-constant.html
-元件（Widget）測試（有時也稱為元件測試）介於單元測試和整合測試之間。它們比單元測試更全面，因為可以驗證多個元件之間的互動；但又比整合測試更輕量，因為它們只會測試應用程式中的一小部分。
-
 [`findsNWidgets`]: {{site.api}}/flutter/flutter_test/findsNWidgets.html
-在元件（Widget）測試中，你可以模擬使用者與元件互動，例如點擊按鈕、輸入文字，並檢查畫面上的變化是否正確。
-
 [`findsWidgets`]: {{site.api}}/flutter/flutter_test/findsWidgets-constant.html
-這些測試會在虛擬環境（不需實際裝置或模擬器）中執行，因此速度非常快，適合在開發過程中頻繁執行。
-
 [`matchesGoldenFile`]: {{site.api}}/flutter/flutter_test/matchesGoldenFile.html
-要撰寫元件（Widget）測試，請使用 Flutter 的 `flutter_test` 套件。該套件提供了許多工具和 API，協助你建立和驗證元件（Widget）。
-
 [`Finder`]: {{site.api}}/flutter/flutter_test/Finder-class.html
-以下章節將介紹如何建立基本的元件（Widget）測試，包括：
-
 [Finding widgets in a widget test]: /cookbook/testing/widget/finders
-- 建立測試檔案
-- 使用 `WidgetTester` 操作元件（Widget）
-- 驗證元件（Widget）的狀態與外觀
-
 [`flutter_test`]: {{site.api}}/flutter/flutter_test/flutter_test-library.html
-你將學會如何：
-
 [introduction to unit testing]: /cookbook/testing/unit/introduction
-- 測試元件（Widget）是否正確顯示
-- 模擬使用者互動
-- 驗證狀態變化
-
 [`Matcher`]: {{site.api}}/flutter/package-matcher_matcher/Matcher-class.html
-這些技巧將幫助你撰寫更可靠且可維護的 Flutter 應用程式。
-
 [`pumpWidget()`]: {{site.api}}/flutter/flutter_test/WidgetTester/pumpWidget.html
-> 提示：除了元件（Widget）測試外，請考慮也撰寫單元測試與整合測試，以全面覆蓋你的應用程式。
-
 [`tester.pump(Duration duration)`]: {{site.api}}/flutter/flutter_test/TestWidgetsFlutterBinding/pump.html
-更多元件（Widget）測試的詳細資訊，請參考 [Flutter 官方文件](https://docs.flutter.dev/testing)。
-
 [`tester.pumpAndSettle()`]: {{site.api}}/flutter/flutter_test/WidgetTester/pumpAndSettle.html
-接下來，讓我們開始撰寫第一個元件（Widget）測試。
-
 [`testWidgets()`]: {{site.api}}/flutter/flutter_test/testWidgets.html
 [`WidgetTester`]: {{site.api}}/flutter/flutter_test/WidgetTester-class.html

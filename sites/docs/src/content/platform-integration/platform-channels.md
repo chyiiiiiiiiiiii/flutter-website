@@ -256,8 +256,9 @@ Windows（C++）、Linux（C）。
 <?code-excerpt "platform_channels/lib/platform_channels.dart (import)"?>
 ```dart
 import 'dart:async';
-import 'package:flutter/material.dart';
+
 import 'package:flutter/services.dart';
+import 'package:material_ui/material_ui.dart';
 ```
 
 <?code-excerpt "platform_channels/lib/platform_channels.dart (my-home-page-state)"?>
@@ -565,7 +566,7 @@ import android.os.Bundle;
 
 1. 在專案導覽器的 **Runner > Runner** 下，開啟檔案 `AppDelegate.swift`。
 
-覆寫 `application:didFinishLaunchingWithOptions:` 函式，並建立一個與頻道名稱
+實作 `didInitializeImplicitFlutterEngine(_:)` 方法，並建立一個與頻道名稱
 `samples.flutter.dev/battery` 綁定的 `FlutterMethodChannel`：
 
 :::note
@@ -648,8 +649,8 @@ batteryChannel.setMethodCallHandler({
 
 1. 在 Project navigator 中，開啟位於 **Runner > Runner** 下的 `AppDelegate.m` 檔案。
 
-在 `application
-didFinishLaunchingWithOptions:` 方法內建立一個 `FlutterMethodChannel`，並加入一個 handler。
+在
+`didInitializeImplicitFlutterEngine:` 方法內建立一個 `FlutterMethodChannel`，並加入一個 handler。
 請確保使用與 Flutter 客戶端端相同的 channel 名稱。
 
 :::note
@@ -660,8 +661,12 @@ didFinishLaunchingWithOptions:` 方法內建立一個 `FlutterMethodChannel`，�
 :::
 
 ```objc title="AppDelegate.m"
+#import "AppDelegate.h"
 #import <Flutter/Flutter.h>
 #import "GeneratedPluginRegistrant.h"
+
+@interface AppDelegate () <FlutterImplicitEngineDelegate>
+@end
 
 @implementation AppDelegate
 
@@ -1354,7 +1359,7 @@ DispatchQueue.main.async {
 [`BasicMessageChannel`]: {{site.api}}/flutter/services/BasicMessageChannel-class.html
 [`BinaryCodec`]: {{site.api}}/flutter/services/BinaryCodec-class.html
 [block]: {{site.apple-dev}}/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithBlocks/WorkingwithBlocks.html
-[`FirestoreMessageCodec`]: {{site.github}}/firebase/flutterfire/blob/master/packages/cloud_firestore/cloud_firestore_platform_interface/lib/src/method_channel/utils/firestore_message_codec.dart
+[`FirestoreMessageCodec`]: {{site.repo.flutterfire}}/blob/master/packages/cloud_firestore/cloud_firestore_platform_interface/lib/src/method_channel/utils/firestore_message_codec.dart
 [developing packages]: /packages-and-plugins/developing-packages
 [Engine Embedder APIs]: {{site.dart.api}}/index.html#more-documentation
 [`Pigeon`]: {{site.pub-pkg}}/pigeon

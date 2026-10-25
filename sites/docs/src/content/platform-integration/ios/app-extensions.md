@@ -334,6 +334,27 @@ Flutter 應用程式名稱為 `Example App With Extension`：
 
         ![Xcode configurations](/assets/images/docs/development/platform-integration/app-extensions/xcode-configurations.png)
 
+1.  在 Xcode 中，將 Flutter framework 連結至
+    `ShareExtension` 目標。
+
+    *   開啟 **project navigator**
+        （**View** > **Navigators** > **Project**）。
+
+    *   在主視窗的 **TARGETS** 下，選取
+        **ShareExtension**。
+
+    *   開啟 **General** 分頁。
+
+    *   在 **Frameworks, Libraries, and Embedded Content** 下，點選 **+**。
+
+    *   加入 Flutter framework：
+
+        *   若使用 Swift Package Manager（預設），請選取
+            **FlutterGeneratedPluginSwiftPackage**（或
+            **FlutterFramework**）。
+        *   若使用 CocoaPods（舊版），請選取
+            **Flutter.xcframework**，並將 **Embed** 設為
+            **Do Not Embed**。
 
 1.  （選用）如有需要，在 Xcode 中以 extension 類別取代任何 storyboard 檔案。
 
@@ -438,7 +459,7 @@ class ShareViewController: UIViewController {
 
 </Tabs>
 
-8.  [使用模擬器測試你的應用程式][Test your app with the simulator]。
+9.  [使用模擬器測試你的應用程式][Test your app with the simulator]。
 
 [Add an extension to your Flutter app]: #add-extension
 [Share]: {{site.apple-dev}}/library/archive/documentation/General/Conceptual/ExtensibilityPG/Share.html
@@ -449,6 +470,57 @@ class ShareViewController: UIViewController {
 請依照以下步驟，為應用程式擴充（app extension）註冊插件（plugin）。在此範例中，應用程式擴充方案名稱為 `ShareExtension`，Flutter 應用程式方案名稱為 `Runner`，Flutter 應用程式名稱為 `Example App With Extension`：
 
 1.  若尚未完成，請[將擴充功能新增至你的 Flutter 應用程式][Add an extension to your Flutter app]。
+
+1.  在 Xcode 中，將 Flutter 插件連結至你的應用程式擴充目標。
+
+    <Tabs key="plugin-dependency-manager" wrapped="true">
+
+    <Tab name="Swift Package Manager (default)">
+
+    *   開啟 **project navigator**
+        （**View** > **Navigators** > **Project**）。
+
+    *   在主視窗的 **TARGETS** 下，選取
+        **ShareExtension**。
+
+    *   開啟 **General** 分頁。
+
+    *   在 **Frameworks, Libraries, and Embedded Content** 下，
+        點選 **+**。
+
+    *   選取 `FlutterGeneratedPluginSwiftPackage` 並點選 **Add**。
+        如果清單中沒有出現，
+        請點選 **Add Other... > Add Package Dependency...**，
+        點選 **Add Local...**，前往
+        `ios/Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage`，
+        並將它加入你的應用程式擴充目標。
+
+    </Tab>
+
+    <Tab name="CocoaPods (legacy)">
+
+    如果你的專案使用 CocoaPods，請開啟 `ios/Podfile`，並確認
+    你的擴充目標繼承了 `Runner` 的搜尋路徑：
+
+    ```ruby title="ios/Podfile" highlightLines=8-10
+    target 'Runner' do
+      use_frameworks!
+
+      flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+      target 'RunnerTests' do
+        inherit! :search_paths
+      end
+      target 'ShareExtension' do
+        inherit! :search_paths
+      end
+    end
+    ```
+
+    接著在 `ios` 目錄中執行 `pod install`。
+
+    </Tab>
+
+    </Tabs>
 
 1.  在 Xcode 中，將 `GeneratedPluginRegistrant.m` 加入至應用程式擴充目標（app extension target）。
 
@@ -524,7 +596,7 @@ GeneratedPluginRegistrant.register(with: flutterEngine)
 
 </Tabs>
 
-5.  （Xcode）[使用模擬器測試你的應用程式][Test your app with the simulator]。
+6.  （Xcode）[使用模擬器測試你的應用程式][Test your app with the simulator]。
 
 [Add an extension to your Flutter app]: #add-extension
 [Share]: {{site.apple-dev}}/library/archive/documentation/General/Conceptual/ExtensibilityPG/Share.html

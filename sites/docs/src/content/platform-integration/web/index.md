@@ -23,7 +23,7 @@ Dart 與 Flutter 可以編譯為 WebAssembly，
 
 ## 運作原理
 
-為 Flutter 增加 Web 支援，涉及將 Flutter 的核心繪圖層實作於標準瀏覽器 API 之上，並將 Dart 編譯為 JavaScript，而非行動應用程式所用的 ARM 機器碼。透過結合 DOM、Canvas 及 WebAssembly，Flutter 能在現代瀏覽器中提供可攜、高品質且高效能的使用者體驗。我們以 Dart 完整實作了核心繪圖層，並利用 Dart 最佳化的 JavaScript 編譯器，將 Flutter 核心、框架及您的應用程式一同編譯為單一、經過壓縮的原始檔，可部署至任何 Web 伺服器。
+Flutter 在 Web 上會將您的 Dart 應用程式與 Flutter 框架編譯為 JavaScript（開發時使用 `dartdevc`，正式版使用 `dart2js`）或 [WebAssembly][]（使用 `--wasm` 建置時採用 `dart2wasm`），而非行動與桌面平台所用的 ARM 或 x64 機器碼。Flutter 透過其 CanvasKit 與 Skwasm 繪製器，使用硬體加速的瀏覽器圖形 API（WebGL 與 WebGPU）來渲染您的 UI，在現代瀏覽器中提供可攜、一致且高效能的使用者體驗。
 
 <img src="/assets/images/docs/arch-overview/web-framework-diagram.png"
   alt="Flutter architecture for web" >
@@ -55,8 +55,6 @@ Dart 與 Flutter 可以編譯為 WebAssembly，
 * 若要為現有應用程式新增 Web 支援，或建立包含 Web 支援的新應用程式，請參閱
   [使用 Flutter 建立 Web 應用程式][Building a web application with Flutter]。
 * 若要在集中式檔案中設定 Web 開發伺服器設定，請參閱 [設定 Web 開發組態檔][Set up a web development configuration file]。
-* 若要了解 Flutter 不同的 Web 繪製器（CanvasKit 與 Skwasm），請參閱
-  [Web 繪製器][Web renderers]。
 * 若要學習如何建立響應式 Flutter
   應用程式，請參閱 [建立響應式應用程式][Creating responsive apps]。
 * 若要查看常見問題與解答，請參閱
@@ -79,4 +77,4 @@ Dart 與 Flutter 可以編譯為 WebAssembly，
 [Progressive Web Application]: https://web.dev/progressive-web-apps/
 [web FAQ]: /platform-integration/web/faq
 [web samples for Flutter]: https://github.com/flutter/samples/#?platform=web
-[Web renderers]: /platform-integration/web/renderers
+[WebAssembly]: /platform-integration/web/wasm

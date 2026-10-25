@@ -15,7 +15,7 @@ skipTemplateRendering: true
 *   [AndroidX support](https://github.com/flutter/flutter/pull/31028)
     for new projects via the --androidx flag of 'flutter create'
 *   A new widget: the
-    [RangeSlider](https://api.flutter.dev/flutter/material/RangeSlider-class.html)
+    [RangeSlider](https://pub.dev/documentation/material_ui/latest/material_ui/RangeSlider-class.html)
 
 如我們的[開發藍圖](https://github.com/flutter/flutter/blob/master/docs/roadmap/Roadmap.md)所述，
 我們也持續在 Flutter 引擎與框架中推進支援啟用 Web 與桌面目標的工作；
@@ -120,7 +120,7 @@ skipTemplateRendering: true
 
 ## Material
 
-此版本包含對現有 Material 元件的多項改進，包括 DatePicker、SnackBar 與 TimePicker，以及一個新元件：[RangeSlider](https://api.flutter.dev/flutter/material/RangeSlider-class.html)。
+此版本包含對現有 Material 元件的多項改進，包括 DatePicker、SnackBar 與 TimePicker，以及一個新元件：[RangeSlider](https://pub.dev/documentation/material_ui/latest/material_ui/RangeSlider-class.html)。
 
 
 
@@ -152,7 +152,7 @@ skipTemplateRendering: true
 ## Web
 
 Web 功能的工作持續推進，flutter_web 儲存庫的程式碼已合併進主要 flutter 儲存庫，為這項預覽技術提供更簡單的開發體驗。我們已
-[將許多現有的 Flutter 範例編譯為 Web 版本]({{site.github}}/flutter/samples/)。
+[將許多現有的 Flutter 範例編譯為 Web 版本]({{site.repo.samples}}/)。
 歡迎體驗！
 
 

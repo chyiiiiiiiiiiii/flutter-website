@@ -82,6 +82,6 @@ DevTools 隨 Flutter SDK 一同發佈。若要取得最新的 DevTools 功能，
 [Android Studio/IntelliJ]: /tools/devtools/android-studio
 [VS Code]: /tools/devtools/vscode
 [command line]: /tools/devtools/cli
-[DevTools issue tracker]: {{site.github}}/flutter/devtools/issues
+[DevTools issue tracker]: https://github.com/flutter/devtools/issues
 [Debugging]: /testing/debugging
 [Other resources]: /testing/debugging#other-resources

@@ -172,7 +172,7 @@ error: unable to create file ...: Filename too long
    此指令需要系統管理員權限。
 
 [Flutter SDK archive]: /install/archive
-[flutter-announce]: {{site.groups}}/forum/#!forum/flutter-announce
+[flutter-announce]: {{site.groups.flutter-announce}}
 [pubspec.yaml]: {{site.dart-site}}/tools/pub/pubspec
 [test registry]: {{site.repo.organization}}/tests
 [contribute to Flutter]: {{site.repo.flutter}}/blob/main/CONTRIBUTING.md

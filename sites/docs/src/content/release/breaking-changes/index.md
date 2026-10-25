@@ -24,10 +24,10 @@ description: >-
 建議您將測試提交至框架的 [test registry][]。
 
 [breaking change policy]: /release/compatibility-policy
-[Flutter announce]: {{site.groups}}/forum/#!forum/flutter-announce
-[Dart announce]: {{site.groups}}/a/dartlang.org/g/announce
+[Flutter announce]: {{site.groups.flutter-announce}}
+[Dart announce]: {{site.groups.dart-announce}}
 [`dart fix`]: /tools/flutter-fix
-[test registry]: {{site.github}}/flutter/tests
+[test registry]: https://github.com/flutter/tests
 
 ## 各版本重大變更
 
@@ -37,12 +37,29 @@ description: >-
 ### 尚未釋出至穩定版
 
 * [為 DropdownButton 新增 enabled 屬性並讓 onChanged 成為選填](/release/breaking-changes/dropdownbutton-enabled-property)
-* [在 Android 17 上忽略大螢幕方向與可調整大小限制](/release/breaking-changes/android-large-screens-restrictions-ignored)
-* [更新 iOS 與 Android 上的 semantics 標題與 headingLevel 行為](/release/breaking-changes/semantics-header-heading-level)
+* [遷移至獨立的 `material_ui` 與 `cupertino_ui` 套件](/release/breaking-changes/material-ui-and-cupertino-ui)
+* [在 release 模式下限制 Android 引擎旗標](/release/breaking-changes/restrict-android-engine-flags-release-mode)
+* [更嚴格的 Android `Intent` 應用程式進入點驗證](/release/breaking-changes/stricter-android-entrypoint-intent-verification)
+* [Web 的 `viewport-fit=cover` `SafeArea` 支援](/release/breaking-changes/viewport-fit-cover-safe-area)
+* [由右至左文字中的 WidgetSpan 順序](/release/breaking-changes/widgetspan-rtl-bidi-order)
 
 [Added enabled property and made onChanged optional for DropdownButton]: /release/breaking-changes/dropdownbutton-enabled-property
-[Large screen orientation and resizability restrictions ignored on Android 17]: /release/breaking-changes/android-large-screens-restrictions-ignored
+[Migrate to standalone `material_ui` and `cupertino_ui` packages]: /release/breaking-changes/material-ui-and-cupertino-ui
+[Restrict Android engine flags in release mode]: /release/breaking-changes/restrict-android-engine-flags-release-mode
+[Stricter Android `Intent` verification for app entrypoints]: /release/breaking-changes/stricter-android-entrypoint-intent-verification
+[Web `viewport-fit=cover` `SafeArea` support]: /release/breaking-changes/viewport-fit-cover-safe-area
+[WidgetSpan order in right-to-left text]: /release/breaking-changes/widgetspan-rtl-bidi-order
+
+<a id="released-in-flutter-347" aria-hidden="true"></a>
+### Flutter 3.47 釋出
+
+* [OpenGL ES render-to-texture 內容改為由上而下儲存](/release/breaking-changes/opengles-render-to-texture-top-down)
+* [更新 iOS 與 Android 上的 semantics 標題與 headingLevel 行為](/release/breaking-changes/semantics-header-heading-level)
+* [移除 `describeEnum`](/release/breaking-changes/remove-describeEnum)
+
+[OpenGL ES render-to-texture content is stored top-down]: /release/breaking-changes/opengles-render-to-texture-top-down
 [Update semantics header and headingLevel behavior on iOS and Android]: /release/breaking-changes/semantics-header-heading-level
+[Removal of `describeEnum`]: /release/breaking-changes/remove-describeEnum
 
 <a id="released-in-flutter-344" aria-hidden="true"></a>
 ### Flutter 3.44 釋出
@@ -52,6 +69,7 @@ description: >-
 * [棄用 `TextInputConnection.setStyle`](/release/breaking-changes/deprecate-text-input-connection-set-style)
 * [棄用 `cacheExtent` 與 `cacheExtentStyle`](/release/breaking-changes/scroll-cache-extent)
 * [`IconData` 類別標記為 `final`](/release/breaking-changes/icondata-class-marked-final)
+* [在 Android 17 上忽略大螢幕方向與可調整大小限制](/release/breaking-changes/android-large-screens-restrictions-ignored)
 * [ListTile 在除錯模式下被有顏色的元件包裹時會回報錯誤](/release/breaking-changes/list-tile-color-warning)
 * [將 Flutter Android 專案遷移至內建 Kotlin](/release/breaking-changes/migrate-to-built-in-kotlin)
 * [頁面轉場建構器重組](/release/breaking-changes/decouple-page-transition-builders)
@@ -61,6 +79,7 @@ description: >-
 [Deprecated `cacheExtent` and `cacheExtentStyle`]: /release/breaking-changes/scroll-cache-extent
 [Deprecate `TextInputConnection.setStyle`]: /release/breaking-changes/deprecate-text-input-connection-set-style
 [`IconData` class marked as `final`]: /release/breaking-changes/icondata-class-marked-final
+[Large screen orientation and resizability restrictions ignored on Android 17]: /release/breaking-changes/android-large-screens-restrictions-ignored
 [ListTile reports an error in debug when wrapped in a colored widget]: /release/breaking-changes/list-tile-color-warning
 [Migrating Flutter Android projects to built-in Kotlin]: /release/breaking-changes/migrate-to-built-in-kotlin
 [Page transition builders reorganization]: /release/breaking-changes/decouple-page-transition-builders

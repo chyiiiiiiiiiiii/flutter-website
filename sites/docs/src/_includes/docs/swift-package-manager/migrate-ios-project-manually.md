@@ -57,4 +57,4 @@
 1. 確認應用程式可透過命令列以 `flutter run` 正常執行。
 
 [turn on Swift Package Manager]: /packages-and-plugins/swift-package-manager/for-app-developers/#how-to-turn-on-swift-package-manager
-[file an issue]: {{site.github}}/flutter/flutter/issues/new?template=2_bug.yml
+[file an issue]: {{site.repo.flutter}}/issues/new?template=2_bug.yml

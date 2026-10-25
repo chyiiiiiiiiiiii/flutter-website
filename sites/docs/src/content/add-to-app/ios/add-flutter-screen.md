@@ -40,7 +40,7 @@ description: 學習如何在現有的 iOS 應用程式中加入單一 Flutter �
 <Tabs key="darwin-framework">
 <Tab name="SwiftUI">
 
-在此範例中，我們在 SwiftUI 的 [`Observable`][]
+以下範例在 SwiftUI 的 [`Observable`][]
 物件中建立一個 `FlutterEngine` 物件，命名為 `FlutterDependencies`。
 透過呼叫 `run()` 來預先啟動 engine，然後使用 `environment()` view 修飾器
 將此物件注入到 `ContentView` 中。
@@ -78,7 +78,7 @@ struct MyApp: App {
 </Tab>
 <Tab name="UIKit-Swift">
 
-舉例來說，我們將示範如何在應用程式啟動時，於 app delegate 中建立一個 `FlutterEngine`，並將其作為屬性公開。
+以下範例示範如何在應用程式啟動時，於 app delegate 中建立一個 `FlutterEngine`，並將其作為屬性公開。
 
 ```swift title="AppDelegate.swift"
 import UIKit
@@ -87,7 +87,7 @@ import Flutter
 import FlutterPluginRegistrant
 
 @UIApplicationMain
-class AppDelegate: FlutterAppDelegate { // More on the FlutterAppDelegate.
+class AppDelegate: FlutterAppDelegate { // More on FlutterAppDelegate and FlutterSceneDelegate below.
   lazy var flutterEngine = FlutterEngine(name: "my flutter engine")
 
   override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -109,7 +109,7 @@ class AppDelegate: FlutterAppDelegate { // More on the FlutterAppDelegate.
 @import UIKit;
 @import Flutter;
 
-@interface AppDelegate : FlutterAppDelegate // More on the FlutterAppDelegate below.
+@interface AppDelegate : FlutterAppDelegate // More on FlutterAppDelegate and FlutterSceneDelegate below.
 @property (nonatomic,strong) FlutterEngine *flutterEngine;
 @end
 ```
@@ -338,18 +338,46 @@ func showFlutter() {
 
 請參閱 [Loading sequence and performance][]，以深入探討延遲與記憶體使用情形。
 
-## 使用 FlutterAppDelegate
+<a id="using-the-flutterappdelegate" aria-hidden="true"></a>
 
-建議（但非必須）讓你的應用程式的 `UIApplicationDelegate` 子類別繼承 `FlutterAppDelegate`。
+## 使用 FlutterAppDelegate 與 FlutterSceneDelegate
 
-`FlutterAppDelegate` 負責執行以下功能：
+從 Flutter 3.41 開始，`UIScene` 支援已成為 iOS 應用程式的預設，
+而且 Apple 要求以較新 iOS SDK 建置的 UIKit 應用程式
+必須使用 `UIScene` 生命週期。
 
-* 將應用程式回呼（callback）（如 [`openURL`][]）轉發給像 [local_auth][] 這樣的插件。
-* 在偵錯模式下，當手機螢幕鎖定時，保持 Flutter 連線開啟。
+在此架構下，職責分由兩個 delegate 負責：
 
-### 建立 FlutterAppDelegate 子類別
+* `FlutterAppDelegate`:
+  處理程序（process）事件與整體應用程式生命週期
+  （例如遠端通知與背景執行），
+  並在裝置鎖定時保持 Flutter 偵錯連線開啟。
+* `FlutterSceneDelegate`:
+  處理 UI 與 scene 生命週期事件，
+  並將 [`scene(_:openURLContexts:)`][]
+  與 [`scene(_:continue:)`][] 等回呼（callback）轉發給
+  [`local_auth`][] 等插件。
+
+為確保 Flutter 插件能收到所有必要的生命週期事件，
+請同時採用 `FlutterAppDelegate`（或 `FlutterAppLifeCycleProvider`）
+與 `FlutterSceneDelegate`（或 `FlutterSceneLifeCycleProvider`）。
+
+如需更多關於 `UIScene` 生命週期遷移的細節，
+請參閱 [UIScene migration guide][]。
+
+### 使用 FlutterAppDelegate
+
+建議（但非必須）讓你的 `UIApplicationDelegate`
+繼承 `FlutterAppDelegate`。
+
+#### 建立 FlutterAppDelegate 子類別
+
 在 UIKit 應用程式中建立 `FlutterAppDelegate` 的子類別，已於[啟動 FlutterEngine 與 FlutterViewController 章節][Start a FlutterEngine and FlutterViewController section]中說明。
-在 SwiftUI 應用程式中，你可以建立 `FlutterAppDelegate` 的子類別，並使用 [`Observable()`][] 巨集進行標記，如下所示：
+
+在 SwiftUI 應用程式中，你可以建立 `FlutterAppDelegate` 的子類別，
+實作 `application(_:configurationForConnecting:options:)`
+以指定 `FlutterSceneDelegate`，
+並使用 [`Observable()`][] 巨集標記該類別：
 
 ```swift title="MyApp.swift"
 import SwiftUI
@@ -362,30 +390,45 @@ class AppDelegate: FlutterAppDelegate {
 
   override func application(
     _ application: UIApplication,
-    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-      // Runs the default Dart entrypoint with a default Flutter route.
-      flutterEngine.run();
-      // Used to connect plugins (only if you have plugins with iOS platform code).
-      GeneratedPluginRegistrant.register(with: self.flutterEngine);
-      return true;
-    }
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+  ) -> Bool {
+    // Runs the default Dart entrypoint with a default Flutter route.
+    flutterEngine.run()
+    // Used to connect plugins (only if you have plugins with iOS platform code).
+    GeneratedPluginRegistrant.register(with: self.flutterEngine)
+    return true
+  }
+
+  override func application(
+    _ application: UIApplication,
+    configurationForConnecting connectingSceneSession: UISceneSession,
+    options: UIScene.ConnectionOptions
+  ) -> UISceneConfiguration {
+    let configuration = UISceneConfiguration(
+      name: nil,
+      sessionRole: connectingSceneSession.role
+    )
+    configuration.delegateClass = FlutterSceneDelegate.self
+    return configuration
+  }
 }
 
 @main
 struct MyApp: App {
   // Use this property wrapper to tell SwiftUI
-  // it should use the AppDelegate class for the application delegate
+  // it should use the AppDelegate class for the application delegate.
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
   var body: some Scene {
-      WindowGroup {
-        ContentView()
-      }
+    WindowGroup {
+      ContentView()
+    }
   }
 }
 ```
 
-然後，在你的視圖中，可以透過視圖環境存取 `AppDelegate`。
+然後，在你的視圖中，
+可以透過視圖環境存取 `AppDelegate`。
 
 ```swift title="ContentView.swift"
 import SwiftUI
@@ -399,7 +442,8 @@ struct FlutterViewControllerRepresentable: UIViewControllerRepresentable {
     return FlutterViewController(
       engine: appDelegate.flutterEngine,
       nibName: nil,
-      bundle: nil)
+      bundle: nil
+    )
   }
 
   func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
@@ -416,11 +460,12 @@ struct ContentView: View {
 }
 ```
 
-### 如果你無法直接讓 FlutterAppDelegate 成為子類別
+#### 如果你無法繼承 FlutterAppDelegate
 
-如果你的 app delegate 無法直接讓 `FlutterAppDelegate` 成為子類別，請讓你的 app delegate 實作 `FlutterAppLifeCycleProvider` protocol，以確保你的插件（plugins）能夠收到必要的回呼（callback）。否則，依賴這些事件的插件可能會出現未定義的行為。
-
-例如：
+如果你的 app delegate 無法繼承 `FlutterAppDelegate`，
+請遵循 `FlutterAppLifeCycleProvider` protocol，
+並使用 `FlutterPluginAppLifeCycleDelegate`，以確保
+插件能收到應用程式層級的回呼（callback）。
 
 <Tabs key="darwin-language">
 <Tab name="Swift">
@@ -436,24 +481,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate, FlutterAppLifeCycleProvid
 
   let flutterEngine = FlutterEngine(name: "my flutter engine")
 
-  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+  func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+  ) -> Bool {
     flutterEngine.run()
-    return lifecycleDelegate.application(application, didFinishLaunchingWithOptions: launchOptions ?? [:])
+    return lifecycleDelegate.application(
+      application,
+      didFinishLaunchingWithOptions: launchOptions ?? [:]
+    )
   }
 
-  func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-    lifecycleDelegate.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+  func application(
+    _ application: UIApplication,
+    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+  ) {
+    lifecycleDelegate.application(
+      application,
+      didRegisterForRemoteNotificationsWithDeviceToken: deviceToken
+    )
   }
 
-  func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-    lifecycleDelegate.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
+  func application(
+    _ application: UIApplication,
+    didFailToRegisterForRemoteNotificationsWithError error: Error
+  ) {
+    lifecycleDelegate.application(
+      application,
+      didFailToRegisterForRemoteNotificationsWithError: error
+    )
   }
 
-  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-    lifecycleDelegate.application(application, didReceiveRemoteNotification: userInfo, fetchCompletionHandler: completionHandler)
+  func application(
+    _ application: UIApplication,
+    didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+  ) {
+    lifecycleDelegate.application(
+      application,
+      didReceiveRemoteNotification: userInfo,
+      fetchCompletionHandler: completionHandler
+    )
   }
 
-  func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+  func application(
+    _ app: UIApplication,
+    open url: URL,
+    options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+  ) -> Bool {
     return lifecycleDelegate.application(app, open: url, options: options)
   }
 
@@ -461,20 +536,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate, FlutterAppLifeCycleProvid
     return lifecycleDelegate.application(application, handleOpen: url)
   }
 
-  func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-    return lifecycleDelegate.application(application, open: url, sourceApplication: sourceApplication ?? "", annotation: annotation)
+  func application(
+    _ application: UIApplication,
+    open url: URL,
+    sourceApplication: String?,
+    annotation: Any
+  ) -> Bool {
+    return lifecycleDelegate.application(
+      application,
+      open: url,
+      sourceApplication: sourceApplication ?? "",
+      annotation: annotation
+    )
   }
 
-  func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
-    lifecycleDelegate.application(application, performActionFor: shortcutItem, completionHandler: completionHandler)
+  func application(
+    _ application: UIApplication,
+    performActionFor shortcutItem: UIApplicationShortcutItem,
+    completionHandler: @escaping (Bool) -> Void
+  ) {
+    lifecycleDelegate.application(
+      application,
+      performActionFor: shortcutItem,
+      completionHandler: completionHandler
+    )
   }
 
-  func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
-    lifecycleDelegate.application(application, handleEventsForBackgroundURLSession: identifier, completionHandler: completionHandler)
+  func application(
+    _ application: UIApplication,
+    handleEventsForBackgroundURLSession identifier: String,
+    completionHandler: @escaping () -> Void
+  ) {
+    lifecycleDelegate.application(
+      application,
+      handleEventsForBackgroundURLSession: identifier,
+      completionHandler: completionHandler
+    )
   }
 
-  func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-    lifecycleDelegate.application(application, performFetchWithCompletionHandler: completionHandler)
+  func application(
+    _ application: UIApplication,
+    performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+  ) {
+    lifecycleDelegate.application(
+      application,
+      performFetchWithCompletionHandler: completionHandler
+    )
   }
 
   func add(_ delegate: FlutterApplicationLifeCycleDelegate) {
@@ -493,110 +600,312 @@ class AppDelegate: UIResponder, UIApplicationDelegate, FlutterAppLifeCycleProvid
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, FlutterAppLifeCycleProvider>
 @property (strong, nonatomic) UIWindow *window;
-@property (nonatomic,strong) FlutterEngine *flutterEngine;
+@property (nonatomic, strong) FlutterEngine *flutterEngine;
 @end
 ```
 
-實作時應主要委派給
-`FlutterPluginAppLifeCycleDelegate`：
-
 ```objc title="AppDelegate.m"
+#import "AppDelegate.h"
+
 @interface AppDelegate ()
-@property (nonatomic, strong) FlutterPluginAppLifeCycleDelegate* lifeCycleDelegate;
+@property (nonatomic, strong) FlutterPluginAppLifeCycleDelegate *lifeCycleDelegate;
 @end
 
 @implementation AppDelegate
 
 - (instancetype)init {
-    if (self = [super init]) {
-        _lifeCycleDelegate = [[FlutterPluginAppLifeCycleDelegate alloc] init];
-    }
-    return self;
+  if (self = [super init]) {
+    _lifeCycleDelegate = [[FlutterPluginAppLifeCycleDelegate alloc] init];
+  }
+  return self;
 }
 
-- (BOOL)application:(UIApplication*)application
-didFinishLaunchingWithOptions:(NSDictionary<UIApplicationLaunchOptionsKey, id>*))launchOptions {
-    self.flutterEngine = [[FlutterEngine alloc] initWithName:@"io.flutter" project:nil];
-    [self.flutterEngine runWithEntrypoint:nil];
-    [GeneratedPluginRegistrant registerWithRegistry:self.flutterEngine];
-    return [_lifeCycleDelegate application:application didFinishLaunchingWithOptions:launchOptions];
+- (BOOL)application:(UIApplication *)application
+    didFinishLaunchingWithOptions:(NSDictionary<UIApplicationLaunchOptionsKey, id> *)launchOptions {
+  self.flutterEngine = [[FlutterEngine alloc] initWithName:@"io.flutter" project:nil];
+  [self.flutterEngine runWithEntrypoint:nil];
+  [GeneratedPluginRegistrant registerWithRegistry:self.flutterEngine];
+  return [_lifeCycleDelegate application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
 // Returns the key window's rootViewController, if it's a FlutterViewController.
 // Otherwise, returns nil.
-- (FlutterViewController*)rootFlutterViewController {
-    UIViewController* viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
-    if ([viewController isKindOfClass:[FlutterViewController class]]) {
-        return (FlutterViewController*)viewController;
-    }
-    return nil;
+- (FlutterViewController *)rootFlutterViewController {
+  UIViewController *viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+  if ([viewController isKindOfClass:[FlutterViewController class]]) {
+    return (FlutterViewController *)viewController;
+  }
+  return nil;
 }
 
-- (void)application:(UIApplication*)application
-didRegisterUserNotificationSettings:(UIUserNotificationSettings*)notificationSettings {
-    [_lifeCycleDelegate application:application
-didRegisterUserNotificationSettings:notificationSettings];
+- (void)application:(UIApplication *)application
+    didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+  [_lifeCycleDelegate application:application
+      didRegisterUserNotificationSettings:notificationSettings];
 }
 
-- (void)application:(UIApplication*)application
-didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken {
-    [_lifeCycleDelegate application:application
-didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+- (void)application:(UIApplication *)application
+    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  [_lifeCycleDelegate application:application
+      didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
-- (void)application:(UIApplication*)application
-didReceiveRemoteNotification:(NSDictionary*)userInfo
-fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
-    [_lifeCycleDelegate application:application
-       didReceiveRemoteNotification:userInfo
-             fetchCompletionHandler:completionHandler];
+- (void)application:(UIApplication *)application
+    didReceiveRemoteNotification:(NSDictionary *)userInfo
+          fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
+  [_lifeCycleDelegate application:application
+     didReceiveRemoteNotification:userInfo
+           fetchCompletionHandler:completionHandler];
 }
 
-- (BOOL)application:(UIApplication*)application
-            openURL:(NSURL*)url
-            options:(NSDictionary<UIApplicationOpenURLOptionsKey, id>*)options {
-    return [_lifeCycleDelegate application:application openURL:url options:options];
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+  return [_lifeCycleDelegate application:application openURL:url options:options];
 }
 
-- (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL*)url {
-    return [_lifeCycleDelegate application:application handleOpenURL:url];
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+  return [_lifeCycleDelegate application:application handleOpenURL:url];
 }
 
-- (BOOL)application:(UIApplication*)application
-            openURL:(NSURL*)url
-  sourceApplication:(NSString*)sourceApplication
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
-    return [_lifeCycleDelegate application:application
-                                   openURL:url
-                         sourceApplication:sourceApplication
-                                annotation:annotation];
+  return [_lifeCycleDelegate application:application
+                                 openURL:url
+                       sourceApplication:sourceApplication
+                              annotation:annotation];
 }
 
-- (void)application:(UIApplication*)application
-performActionForShortcutItem:(UIApplicationShortcutItem*)shortcutItem
-  completionHandler:(void (^)(BOOL succeeded))completionHandler {
-    [_lifeCycleDelegate application:application
-       performActionForShortcutItem:shortcutItem
-                  completionHandler:completionHandler];
+- (void)application:(UIApplication *)application
+    performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem
+               completionHandler:(void (^)(BOOL succeeded))completionHandler {
+  [_lifeCycleDelegate application:application
+     performActionForShortcutItem:shortcutItem
+                completionHandler:completionHandler];
 }
 
-- (void)application:(UIApplication*)application
-handleEventsForBackgroundURLSession:(nonnull NSString*)identifier
-  completionHandler:(nonnull void (^)(void))completionHandler {
-    [_lifeCycleDelegate application:application
-handleEventsForBackgroundURLSession:identifier
-                  completionHandler:completionHandler];
+- (void)application:(UIApplication *)application
+    handleEventsForBackgroundURLSession:(nonnull NSString *)identifier
+                      completionHandler:(nonnull void (^)(void))completionHandler {
+  [_lifeCycleDelegate application:application
+      handleEventsForBackgroundURLSession:identifier
+                        completionHandler:completionHandler];
 }
 
-- (void)application:(UIApplication*)application
-performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
-    [_lifeCycleDelegate application:application performFetchWithCompletionHandler:completionHandler];
+- (void)application:(UIApplication *)application
+    performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
+  [_lifeCycleDelegate application:application performFetchWithCompletionHandler:completionHandler];
 }
 
-- (void)addApplicationLifeCycleDelegate:(NSObject<FlutterPlugin>*)delegate {
-    [_lifeCycleDelegate addDelegate:delegate];
+- (void)addApplicationLifeCycleDelegate:(NSObject<FlutterPlugin> *)delegate {
+  [_lifeCycleDelegate addDelegate:delegate];
 }
 @end
+```
+
+</Tab>
+</Tabs>
+
+### 使用 FlutterSceneDelegate
+
+與 `FlutterAppDelegate` 類似，
+建議（但非必須）繼承 `FlutterSceneDelegate`。
+`FlutterSceneDelegate` 會將 [`scene(_:openURLContexts:)`][]
+與 [`scene(_:continue:)`][] 等 scene 回呼（callback）
+轉發給 [`local_auth`][] 等插件。
+
+#### 建立或更新 SceneDelegate
+
+在 UIKit 應用程式中，請將你的 `SceneDelegate` 改為繼承
+`FlutterSceneDelegate`：
+
+<Tabs key="ios-framework-switcher">
+<Tab name="UIKit-Swift">
+
+```swift title="SceneDelegate.swift" diff
+  import UIKit
++ import Flutter
+
+- class SceneDelegate: UIResponder, UIWindowSceneDelegate {
++ class SceneDelegate: FlutterSceneDelegate {
+```
+
+</Tab>
+<Tab name="UIKit-ObjC">
+
+```objc title="SceneDelegate.h" diff
+  #import <UIKit/UIKit.h>
++ #import <Flutter/Flutter.h>
+
+- @interface SceneDelegate : UIResponder <UIWindowSceneDelegate>
++ @interface SceneDelegate : FlutterSceneDelegate
+```
+
+</Tab>
+<Tab name="SwiftUI">
+
+在 SwiftUI 應用程式中，請在
+`application(_:configurationForConnecting:options:)` 中設定 scene delegate 類別，
+如 [FlutterAppDelegate SwiftUI 範例][FlutterAppDelegate SwiftUI example]所示。
+
+如果你的應用程式不支援多個 scene，
+請在 target 的 `Info.plist` 中，於 **Application Scene Manifest** 底下
+將 **Enable Multiple Scenes**（`UIApplicationSupportsMultipleScenes`）設為 **NO**。
+
+</Tab>
+</Tabs>
+
+#### 如果你無法繼承 FlutterSceneDelegate
+
+如果你的 `SceneDelegate` 無法繼承 `FlutterSceneDelegate`，
+請採用 `FlutterSceneLifeCycleProvider` protocol，並使用
+`FlutterPluginSceneLifeCycleDelegate` 物件，將
+scene 生命週期事件轉發給 Flutter：
+
+<Tabs key="ios-language-switcher">
+<Tab name="Swift">
+
+```swift title="SceneDelegate.swift" diff
+  import UIKit
++ import Flutter
+
+- class SceneDelegate: UIResponder, UIWindowSceneDelegate {
++ class SceneDelegate: UIResponder, UIWindowSceneDelegate, FlutterSceneLifeCycleProvider {
++   var sceneLifeCycleDelegate = FlutterPluginSceneLifeCycleDelegate()
+
+    var window: UIWindow?
+
+    func scene(
+      _ scene: UIScene,
+      willConnectTo session: UISceneSession,
+      options connectionOptions: UIScene.ConnectionOptions
+    ) {
++     sceneLifeCycleDelegate.scene(
++       scene,
++       willConnectTo: session,
++       options: connectionOptions
++     )
+    }
+
+    func sceneDidDisconnect(_ scene: UIScene) {
++     sceneLifeCycleDelegate.sceneDidDisconnect(scene)
+    }
+
+    func sceneWillEnterForeground(_ scene: UIScene) {
++     sceneLifeCycleDelegate.sceneWillEnterForeground(scene)
+    }
+
+    func sceneDidBecomeActive(_ scene: UIScene) {
++     sceneLifeCycleDelegate.sceneDidBecomeActive(scene)
+    }
+
+    func sceneWillResignActive(_ scene: UIScene) {
++     sceneLifeCycleDelegate.sceneWillResignActive(scene)
+    }
+
+    func sceneDidEnterBackground(_ scene: UIScene) {
++     sceneLifeCycleDelegate.sceneDidEnterBackground(scene)
+    }
+
+    func scene(
+      _ scene: UIScene,
+      openURLContexts URLContexts: Set<UIOpenURLContext>
+    ) {
++     sceneLifeCycleDelegate.scene(scene, openURLContexts: URLContexts)
+    }
+
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
++     sceneLifeCycleDelegate.scene(scene, continue: userActivity)
+    }
+
+    func windowScene(
+      _ windowScene: UIWindowScene,
+      performActionFor shortcutItem: UIApplicationShortcutItem,
+      completionHandler: @escaping (Bool) -> Void
+    ) {
++     sceneLifeCycleDelegate.windowScene(
++       windowScene,
++       performActionFor: shortcutItem,
++       completionHandler: completionHandler
++     )
+    }
+  }
+```
+
+</Tab>
+<Tab name="Objective-C">
+
+```objc title="SceneDelegate.h" diff
+  #import <UIKit/UIKit.h>
++ #import <Flutter/Flutter.h>
+
+- @interface SceneDelegate : UIResponder <UIWindowSceneDelegate>
++ @interface SceneDelegate : UIResponder <UIWindowSceneDelegate, FlutterSceneLifeCycleProvider>
+
+  @property (strong, nonatomic) UIWindow *window;
+
++ @property (nonatomic, strong) FlutterPluginSceneLifeCycleDelegate *sceneLifeCycleDelegate;
+
+  @end
+```
+
+```objc title="SceneDelegate.m" diff
+  #import "SceneDelegate.h"
+
+  @implementation SceneDelegate
+
+  - (instancetype)init {
+    if (self = [super init]) {
++     _sceneLifeCycleDelegate = [[FlutterPluginSceneLifeCycleDelegate alloc] init];
+    }
+    return self;
+  }
+
+  - (void)scene:(UIScene *)scene
+      willConnectToSession:(UISceneSession *)session
+                   options:(UISceneConnectionOptions *)connectionOptions {
++   [self.sceneLifeCycleDelegate scene:scene willConnectToSession:session options:connectionOptions];
+  }
+
+  - (void)sceneDidDisconnect:(UIScene *)scene {
++   [self.sceneLifeCycleDelegate sceneDidDisconnect:scene];
+  }
+
+  - (void)sceneDidBecomeActive:(UIScene *)scene {
++   [self.sceneLifeCycleDelegate sceneDidBecomeActive:scene];
+  }
+
+  - (void)sceneWillResignActive:(UIScene *)scene {
++   [self.sceneLifeCycleDelegate sceneWillResignActive:scene];
+  }
+
+  - (void)sceneWillEnterForeground:(UIScene *)scene {
++   [self.sceneLifeCycleDelegate sceneWillEnterForeground:scene];
+  }
+
+  - (void)sceneDidEnterBackground:(UIScene *)scene {
++   [self.sceneLifeCycleDelegate sceneDidEnterBackground:scene];
+  }
+
+  - (void)scene:(UIScene *)scene openURLContexts:(NSSet<UIOpenURLContext *> *)URLContexts {
++   [self.sceneLifeCycleDelegate scene:scene openURLContexts:URLContexts];
+  }
+
+  - (void)scene:(UIScene *)scene continueUserActivity:(NSUserActivity *)userActivity {
++   [self.sceneLifeCycleDelegate scene:scene continueUserActivity:userActivity];
+  }
+
+  - (void)windowScene:(UIWindowScene *)windowScene
+      performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem
+                 completionHandler:(void (^)(BOOL))completionHandler {
++   [self.sceneLifeCycleDelegate windowScene:windowScene
++               performActionForShortcutItem:shortcutItem
++                          completionHandler:completionHandler];
+  }
+
+  @end
 ```
 
 </Tab>
@@ -753,7 +1062,7 @@ _flutterViewController.autoResizable = YES;
 如有疑問，你可以使用 `UnconstrainedBox` 來測試某個元件是否適用於依內容調整大小的視圖，如以下範例所示：
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() => runApp(MyApp());
 
@@ -781,24 +1090,40 @@ class MyPage extends StatelessWidget {
 如需可運行的範例，請參閱此[範例專案][sample project]。
 
 [`FlutterEngine`]: {{site.api}}/ios-embedder/interface_flutter_engine.html
-[`FlutterViewController`]: {{site.api}}/ios-embedder/interface_flutter_view_controller.html
+[`FlutterViewController`]:
+{{site.api}}/ios-embedder/interface_flutter_view_controller.html
 [Loading sequence and performance]: /add-to-app/performance
 [local_auth]: {{site.pub}}/packages/local_auth
 [Navigation and routing]: /ui/navigation
 [Navigator]: {{site.api}}/flutter/widgets/Navigator-class.html
 [`NavigatorState`]: {{site.api}}/flutter/widgets/NavigatorState-class.html
-[`openURL`]: {{site.apple-dev}}/documentation/uikit/uiapplicationdelegate/1623112-application
+[`openURL`]:
+{{site.apple-dev}}/documentation/uikit/uiapplicationdelegate/1623112-application
 [platform channels]: /platform-integration/platform-channels
-[`popRoute()`]: {{site.api}}/ios-embedder/interface_flutter_view_controller.html#ac89c8010fbf7a39f7aaab64f68c013d2
-[`pushRoute()`]: {{site.api}}/ios-embedder/interface_flutter_view_controller.html#ac7cffbf03f9c8c0b28d1f0dafddece4e
+[`popRoute()`]:
+{{site.api}}/ios-embedder/interface_flutter_view_controller.html#ac89c8010fbf7a39f7aaab64f68c013d2
+[`pushRoute()`]:
+{{site.api}}/ios-embedder/interface_flutter_view_controller.html#ac7cffbf03f9c8c0b28d1f0dafddece4e
 [`runApp`]: {{site.api}}/flutter/widgets/runApp.html
-[`runWithEntrypoint`]: {{site.api}}/ios-embedder/interface_flutter_engine.html#a019d6b3037eff6cfd584fb2eb8e9035e
-[`SystemNavigator.pop()`]: {{site.api}}/flutter/services/SystemNavigator/pop.html
+[`runWithEntrypoint`]:
+{{site.api}}/ios-embedder/interface_flutter_engine.html#a019d6b3037eff6cfd584fb2eb8e9035e
+[`SystemNavigator.pop()`]:
+{{site.api}}/flutter/services/SystemNavigator/pop.html
+[`scene(_:openURLContexts:)`]:
+{{site.apple-dev}}/documentation/uikit/uiscenedelegate/scene(_:openurlcontexts:)
+[`scene(_:continue:)`]:
+{{site.apple-dev}}/documentation/uikit/uiscenedelegate/scene(_:continue:)
+[UIScene migration guide]:
+/release/breaking-changes/uiscenedelegate#migration-guide-for-adding-flutter-to-existing-app-add-to-app
+[FlutterAppDelegate SwiftUI example]: #create-a-flutterappdelegate-subclass
+[`local_auth`]: {{site.pub}}/packages/local_auth
 [tree-shaken]: https://en.wikipedia.org/wiki/Tree_shaking
 [`WidgetsApp`]: {{site.api}}/flutter/widgets/WidgetsApp-class.html
-[`PlatformDispatcher.defaultRouteName`]: {{site.api}}/flutter/dart-ui/PlatformDispatcher/defaultRouteName.html
-[Start a FlutterEngine and FlutterViewController section]:/add-to-app/ios/add-flutter-screen/#start-a-flutterengine-and-flutterviewcontroller
+[`PlatformDispatcher.defaultRouteName`]:
+{{site.api}}/flutter/dart-ui/PlatformDispatcher/defaultRouteName.html
+[Start a FlutterEngine and FlutterViewController section]: /add-to-app/ios/add-flutter-screen#start-a-flutterengine-and-flutterviewcontroller
 [`Observable`]: {{site.apple-dev}}/documentation/observation/observable
 [`NavigationLink`]: {{site.apple-dev}}/documentation/swiftui/navigationlink
 [`Observable()`]: {{site.apple-dev}}/documentation/observation/observable()
-[sample project]: {{site.repo.samples}}/tree/main/add_to_app/ios_content_resizing
+[sample project]:
+{{site.repo.samples}}/tree/main/add_to_app/ios_content_resizing

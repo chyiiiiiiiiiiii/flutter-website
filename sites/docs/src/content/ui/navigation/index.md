@@ -79,8 +79,12 @@ onPressed: () => context.go('/second'),
 當一個**以頁面為基礎**的 `Route` 從 `Navigator` 移除時，之後所有**無頁面**的路由也會一併被移除。例如，若深層連結導致 Navigator 移除一個**以頁面為基礎**的路由，則該路由之後（直到下一個**以頁面為基礎**路由為止）的所有**無頁面**路由也會被移除。
 
 :::note
-你無法使用 `WillPopScope` 來阻止從以頁面為基礎的螢幕進行導覽。請改為參考你所用路由套件的 API 文件。
+你無法使用 `PopScope` 或已棄用的 `WillPopScope` 來阻止從以頁面為基礎的螢幕進行導覽。請改為參考你所用路由套件的 API 文件。
+
+關於遷移至 `PopScope` 的指引，請參閱 [Android predictive back migration guide][]。
 :::
+
+[Android predictive back migration guide]: /release/breaking-changes/android-predictive-back
 
 ## 網頁支援
 
@@ -93,20 +97,20 @@ onPressed: () => context.go('/second'),
 * Flutter cookbook 包含多個[導覽教學範例][navigation recipes]，說明如何使用 `Navigator`。
 * [`Navigator`][] 與 [`Router`][] API 文件，詳細介紹如何在不使用路由套件的情況下設定宣告式導覽。
 * [Understanding navigation][]（Material Design 文件頁面）說明設計應用程式導覽時的概念，包括前進、向上與時間順序導覽等解釋。
-* [Learning Flutter's new navigation and routing system][]（Medium 文章），介紹如何直接使用 `Router` 元件（Widget），而不需路由套件。
+* [Learning Flutter's new navigation and routing system][]（Flutter 部落格文章），介紹如何直接使用 `Router` 元件（Widget），而不需路由套件。
 * [Router design document][] 詳細說明 `Router` API 的設計動機與架構。
 
 [`Navigator`]: {{site.api}}/flutter/widgets/Navigator-class.html
 [`Router`]: {{site.api}}/flutter/widgets/Router-class.html
 [Deep linking]: /ui/navigation/deep-linking
 [navigation recipes]: /cookbook/navigation
-[`MaterialApp.routes`]: {{site.api}}/flutter/material/MaterialApp/routes.html
+[`MaterialApp.routes`]: {{site.material_ui}}/MaterialApp/routes.html
 [Navigate with named routes]: /cookbook/navigation/named-routes
 [go_router]: {{site.pub}}/packages/go_router
 [`Page`]: {{site.api}}/flutter/widgets/Page-class.html
 [`pages`]: {{site.api}}/flutter/widgets/Navigator/pages.html
 [reverse chronological navigation]: https://material.io/design/navigation/understanding-navigation.html#reverse-navigation
 [Understanding navigation]: https://material.io/design/navigation/understanding-navigation.html
-[Learning Flutter's new navigation and routing system]: {{site.medium}}/flutter/learning-flutters-new-navigation-and-routing-system-7c9068155ade
+[Learning Flutter's new navigation and routing system]: https://flutter.dev/blog/learning-flutters-new-navigation-and-routing-system
 [Router design document]: {{site.main-url}}/go/navigator-with-router
-[`MaterialPageRoute`]: {{site.api}}/flutter/material/MaterialPageRoute-class.html
+[`MaterialPageRoute`]: {{site.material_ui}}/MaterialPageRoute-class.html

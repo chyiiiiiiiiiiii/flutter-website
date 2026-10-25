@@ -10,8 +10,8 @@ description: 如何偵測文字欄位 (text field) 的變更。
 要如何在每次文字變更時執行回呼（callback）函式呢？
 在 Flutter 中，你有兩種選擇：
 
-  1. 為 `TextField` 或 `TextFormField` 提供一個 `onChanged()` callback。
-  2. 使用 `TextEditingController`。
+1.  為 `TextField` 或 `TextFormField` 提供一個 `onChanged()` callback。
+1.  使用 `TextEditingController`。
 
 ## 1. 為 `TextField` 或 `TextFormField` 提供一個 `onChanged()` callback
 
@@ -20,7 +20,7 @@ description: 如何偵測文字欄位 (text field) 的變更。
 
 在這個範例中，每次文字變更時，會將目前的值與文字欄位 (text field) 的長度輸出到主控台。
 
-在處理使用者輸入時，建議使用 [characters][]，因為文字可能包含複雜字元。
+在處理使用者輸入時，建議使用 [`characters`][characters]，因為文字可能包含複雜字元。
 這能確保每個字元都能正確地按照使用者所見被計算。
 
 <?code-excerpt "lib/main.dart (TextField1)"?>
@@ -32,16 +32,20 @@ TextField(
 ),
 ```
 
+<noscript>
+  <img src="/assets/images/docs/cookbook/text-field-changes.png" alt="Handle Text Field Changes Demo" />
+</noscript>
+
 ## 2. 使用 `TextEditingController`
 
 一種更強大但也更繁複的方法，是將 [`TextEditingController`][] 作為 `TextField` 或 `TextFormField` 的 [`controller`][] 屬性提供。
 
 若要在文字變更時收到通知，可以按照以下步驟，使用 [`addListener()`][] 方法來監聽 controller：
 
-  1. 建立 `TextEditingController`。
-  2. 將 `TextEditingController` 連接到文字欄位 (text field)。
-  3. 建立一個函式來列印最新的值。
-  4. 監聽 controller 的變化。
+1.  建立 `TextEditingController`。
+1.  將 `TextEditingController` 連接到文字欄位 (text field)。
+1.  建立一個函式來列印最新的值。
+1.  監聽 controller 的變化。
 
 ### 建立 `TextEditingController`
 
@@ -150,7 +154,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'Retrieve Text Input',
+      title: 'Handle Text Field Changes',
       home: MyCustomForm(),
     );
   }
@@ -195,7 +199,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Retrieve Text Input')),
+      appBar: AppBar(title: const Text('Handle Text Field Changes')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -215,9 +219,9 @@ class _MyCustomFormState extends State<MyCustomForm> {
 ```
 
 [`addListener()`]: {{site.api}}/flutter/foundation/ChangeNotifier/addListener.html
-[`controller`]: {{site.api}}/flutter/material/TextField/controller.html
-[`onChanged()`]: {{site.api}}/flutter/material/TextField/onChanged.html
-[`TextField`]: {{site.api}}/flutter/material/TextField-class.html
+[`controller`]: {{site.material_ui}}/TextField/controller.html
+[`onChanged()`]: {{site.material_ui}}/TextField/onChanged.html
+[`TextField`]: {{site.material_ui}}/TextField-class.html
 [`TextEditingController`]: {{site.api}}/flutter/widgets/TextEditingController-class.html
-[`TextFormField`]: {{site.api}}/flutter/material/TextFormField-class.html
+[`TextFormField`]: {{site.material_ui}}/TextFormField-class.html
 [characters]: {{site.pub}}/packages/characters

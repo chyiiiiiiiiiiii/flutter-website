@@ -156,4 +156,4 @@ VM 的樣本緩衝區填滿速度也較慢，因此你可以看到更長時間�
 請參考導引式 [CPU Profiler View 教學][profiler-tutorial]。
 同時，也可學習當應用程式使用 isolates 進行平行運算時，如何分析 CPU 使用情況。
 
-[profiler-tutorial]: {{site.medium}}/@fluttergems/mastering-dart-flutter-devtools-cpu-profiler-view-part-6-of-8-31e24eae6bf8
+[profiler-tutorial]: https://medium.com/@fluttergems/mastering-dart-flutter-devtools-cpu-profiler-view-part-6-of-8-31e24eae6bf8
