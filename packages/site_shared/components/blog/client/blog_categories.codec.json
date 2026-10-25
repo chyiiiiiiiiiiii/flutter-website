@@ -1,0 +1,1 @@
+{"elements":[{"name":"BlogCategory","decoder":"fromMap","encoder":"toMap","rawType":"Map<String, Object?>","import":"package:site_shared/components/blog/client/blog_categories.dart"}]}

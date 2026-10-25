@@ -1,0 +1,1 @@
+{"name":"ShareButton","id":["site_shared","lib/components/blog/client/share_button.dart"],"import":"package:site_shared/components/blog/client/share_button.dart","params":[{"name":"url","isNamed":true,"decoder":"p['url'] as String","encoder":"c.url"},{"name":"title","isNamed":true,"decoder":"p['title'] as String","encoder":"c.title"}]}

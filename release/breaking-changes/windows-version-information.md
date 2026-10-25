@@ -1,0 +1,53 @@
+# 將 Windows 專案遷移以設定版本資訊
+
+> 如何更新 Windows 專案以設定版本資訊
+
+
+
+
+:::important
+這些重大變更文件在其發布的版本時是準確的。隨著時間推移，這裡描述的
+因應措施可能會變得不準確。一般而言，我們不會在每個版本發布時同步更新這些重大變更文件。
+
+[重大變更索引檔案](/release/breaking-changes)列出了每個版本所建立的文件。
+:::
+
+
+Flutter 3.3 新增了從 `pubspec.yaml` 檔案，或透過 `--build-name` 和 `--build-number`
+建置參數來設定 Windows 應用程式版本的支援。更多資訊請參考
+[建置與發佈 Windows 應用程式][Build and release a Windows app] 文件。
+
+在 Flutter 3.3 之前建立的專案需要進行遷移，以支援版本管理。
+
+## 遷移步驟
+
+您可以依照以下步驟更新您的專案：
+
+1. 使用 `flutter --version` 確認您目前使用的是 Flutter 3.3 或更新版本
+2. 如有需要，請使用 `flutter upgrade` 將 Flutter SDK（Flutter 軟體開發套件）更新至最新版
+3. 備份您的專案，建議使用 git 或其他版本控制系統
+4. 刪除 `windows/runner/CMakeLists.txt` 和 `windows/runner/Runner.rc`
+檔案
+5. 執行 `flutter create --platforms=windows .`
+6. 檢查您專案中的 `windows/runner/CMakeLists.txt` 與
+`windows/runner/Runner.rc` 檔案的變更
+7. 使用 `flutter build windows` 驗證您的應用程式是否能成功建置
+
+:::note
+如果建置時出現以下錯誤訊息，請參考 [run loop 遷移指南][run loop migration guide] 進行處理：
+
+```console
+flutter_window.obj : error LNK2019: unresolved external symbol "public: void __cdecl RunLoop::RegisterFlutterInstance(class flutter::FlutterEngine *)" (?RegisterFlutterInstance@RunLoop@@QEAAXPEAVFlutterEngine@flutter@@@Z) referenced in function "protected: virtual bool __cdecl FlutterWindow::OnCreate(void)" (?OnCreate@FlutterWindow@@MEAA_NXZ)
+```
+:::
+
+## 範例
+
+[PR 721][] 展示了
+[Flutter Gallery][] 應用程式的遷移作業。
+
+[Build and release a Windows app]: /deployment/windows#updating-the-apps-version-number
+[run loop migration guide]: /release/breaking-changes/windows-run-loop
+[PR 721]: https://github.com/flutter/gallery/pull/721/files
+[Flutter Gallery]: https://flutter-gallery-archive.web.app
+

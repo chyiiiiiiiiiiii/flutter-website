@@ -1,0 +1,1 @@
+{"name":"ArchiveTable","id":["docs_flutter_dev_site","lib/src/components/pages/archive_table.dart"],"import":"package:docs_flutter_dev_site/src/components/pages/archive_table.dart","params":[{"name":"os","isNamed":true,"decoder":"p['os'] as String","encoder":"c.os"},{"name":"channel","isNamed":true,"decoder":"p['channel'] as String","encoder":"c.channel"}]}

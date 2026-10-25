@@ -1,0 +1,1 @@
+{"elements":[{"name":"ComponentRef","decoder":"fromId","encoder":"toId","rawType":"String","import":"package:site_shared/components/utils/component_ref.dart"}]}

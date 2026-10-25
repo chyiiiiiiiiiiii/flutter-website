@@ -1,0 +1,1 @@
+{"name":"FeedbackComponent","id":["site_shared","lib/components/common/client/feedback.dart"],"import":"package:site_shared/components/common/client/feedback.dart","params":[{"name":"issueUrl","isNamed":true,"decoder":"p['issueUrl'] as String","encoder":"c.issueUrl"}]}

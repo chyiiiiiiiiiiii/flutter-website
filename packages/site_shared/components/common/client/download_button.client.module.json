@@ -1,0 +1,1 @@
+{"name":"DownloadButton","id":["site_shared","lib/components/common/client/download_button.dart"],"import":"package:site_shared/components/common/client/download_button.dart","params":[{"name":"name","isNamed":true,"decoder":"p['name'] as String","encoder":"c.name"}]}
